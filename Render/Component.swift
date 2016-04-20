@@ -28,10 +28,10 @@ public protocol ComponentType: class {
     /// Render the component
     func render(bounds: CGSize)
     
-    // Internal
-    
+    /// Resets the node
     func reset()
     
+    /// Force the component to construct the view
     func buildView()
 }
 
@@ -53,8 +53,16 @@ public class Component<ViewType: UIView>: ComponentType {
     /// This is crucial for ensuring proper view reuse
     public let reuseIdentifier: String
     
+    /// If this is set to 'true', 'prepareForComponentReuse' is going to be called on
+    /// the view associated to this component before being re-configured
+    public let prepareForReuse: Bool
+    
     /// The current children for this component
-    public var children = [ComponentType]()
+    public var children = [ComponentType]() {
+        didSet {
+            self.children = children.filter({ return !($0 is NilComponent) })
+        }
+    }
     
     /// The view initialisation closure
     private let viewInitClosure: ((Void) -> ViewType)
@@ -63,7 +71,8 @@ public class Component<ViewType: UIView>: ComponentType {
     private var viewConfigureClosure: (ViewType) -> Void
     
     /// Creates a new component with the given view's initialization closure
-    public init(reuseIdentifier: String = String(ViewType), initClosure: ((Void) -> ViewType) = { return ViewType(frame: CGRect.zero) }) {
+    public init(reuseIdentifier: String = String(ViewType), prepareForReuse: Bool = false, initClosure: ((Void) -> ViewType) = { return ViewType(frame: CGRect.zero) }) {
+        self.prepareForReuse = prepareForReuse
         self.reuseIdentifier = reuseIdentifier
         self.viewInitClosure = initClosure
         self.viewConfigureClosure = { (_) in }
@@ -91,9 +100,14 @@ public class Component<ViewType: UIView>: ComponentType {
         self.reset()
     }
     
+    /// Write an extension for this method to specialize the prepare for reuse for
+    /// this view
     public func reset() {
         self.renderedView?.internalStore.configureClosure = { [weak self] in
             self!.viewConfigureClosure(self!.view!)
+        }
+        if self.prepareForReuse && self.reuseIdentifier == String(ViewType) {
+            self.renderedView?.prepareForComponentReuse()
         }
     }
 }
@@ -103,6 +117,7 @@ extension ComponentType {
     /// Sets the children of this component
     public func children(children: [ComponentType]) -> Self {
         for c in children {
+            if c is NilComponent { continue }
             self.children.append(c)
         }
         return self
@@ -110,23 +125,33 @@ extension ComponentType {
     
     /// Adds a child to this component
     public func addChild(child: ComponentType) -> Self {
+        if child is NilComponent { return self }
         self.children.append(child)
         return self
     }
     
-    /// Runs the closure only if the condition is satisfied
-    public func when(condition: Bool, closure: (Self) -> (Void)) -> Self {
-        if condition {
-            closure(self)
-        }
-        return self
-    }
-    
     /// Runs the closure 'count' times
-    public func each(count: Int, closure: (Self, Int) -> Void) -> Self {
+    public func addChildren(count: Int, closure: (Int) -> ComponentType) -> Self {
         for i in 0..<count {
-            closure(self, i)
+            self.addChild(closure(i))
         }
         return self
     }
 }
+
+/// Internally used to represent a nil component
+private class NilComponent: ComponentType {
+    private var renderedView: UIView? = nil
+    private var reuseIdentifier: String = ""
+    private var children: [ComponentType] = [NilComponent]()
+    private var mounted: Bool = false
+    private var index: Int = 0
+    private func render(bounds: CGSize) { }
+    private func reset() { }
+    private func buildView() { }
+}
+
+public func when(@autoclosure condition: () -> Bool, _ component: ComponentType) -> ComponentType {
+    return condition() ? component: NilComponent()
+}
+ 

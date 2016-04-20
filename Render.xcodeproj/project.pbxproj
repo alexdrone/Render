@@ -14,7 +14,7 @@
 		16097B711CB3B1D100551EBE /* Layout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16097B6C1CB3B1D100551EBE /* Layout.swift */; };
 		16097B721CB3B1D100551EBE /* ViewType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16097B6D1CB3B1D100551EBE /* ViewType.swift */; };
 		16097B761CB3B5B600551EBE /* Component.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16097B751CB3B5B600551EBE /* Component.swift */; };
-		1693B9761CBD734D00A44B24 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1693B9751CBD734D00A44B24 /* Extensions.swift */; };
+		1693B9761CBD734D00A44B24 /* Reset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1693B9751CBD734D00A44B24 /* Reset.swift */; };
 		16C2D7BB1CBD15C8005194A0 /* ComponentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16C2D7BA1CBD15C8005194A0 /* ComponentView.swift */; };
 /* End PBXBuildFile section */
 
@@ -28,7 +28,7 @@
 		16097B6C1CB3B1D100551EBE /* Layout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Layout.swift; sourceTree = "<group>"; };
 		16097B6D1CB3B1D100551EBE /* ViewType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewType.swift; sourceTree = "<group>"; };
 		16097B751CB3B5B600551EBE /* Component.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Component.swift; sourceTree = "<group>"; };
-		1693B9751CBD734D00A44B24 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		1693B9751CBD734D00A44B24 /* Reset.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reset.swift; sourceTree = "<group>"; };
 		16C2D7BA1CBD15C8005194A0 /* ComponentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComponentView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -69,7 +69,7 @@
 				16097B6C1CB3B1D100551EBE /* Layout.swift */,
 				16097B6D1CB3B1D100551EBE /* ViewType.swift */,
 				16097B691CB3B1D100551EBE /* Geometry.swift */,
-				1693B9751CBD734D00A44B24 /* Extensions.swift */,
+				1693B9751CBD734D00A44B24 /* Reset.swift */,
 				16097B751CB3B5B600551EBE /* Component.swift */,
 				16C2D7BA1CBD15C8005194A0 /* ComponentView.swift */,
 			);
@@ -161,7 +161,7 @@
 				16097B6F1CB3B1D100551EBE /* Layout.c in Sources */,
 				16097B721CB3B1D100551EBE /* ViewType.swift in Sources */,
 				16097B711CB3B1D100551EBE /* Layout.swift in Sources */,
-				1693B9761CBD734D00A44B24 /* Extensions.swift in Sources */,
+				1693B9761CBD734D00A44B24 /* Reset.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

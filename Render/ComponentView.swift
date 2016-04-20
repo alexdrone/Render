@@ -31,6 +31,7 @@ public class ComponentView: UIView {
     public func render(size: CGSize = CGSize.undefined, state: ComponentStateType? = nil) {
     
         self.state = state
+        self.componentsTree?.render(size)
         
         let startTime = CFAbsoluteTimeGetCurrent()
 
@@ -84,6 +85,7 @@ public class ComponentView: UIView {
         
         if let frame = self.componentsTree?.renderedView?.frame {
             self.frame.size = frame.size
+            self.componentsTree?.renderedView?.center = self.center
         }
     }
     
@@ -112,6 +114,7 @@ public class ComponentView: UIView {
         func prune(view: UIView) {
             if !viewSet.contains(view) {
                 view.removeFromSuperview() //todo: put in a global reusable pool?
+                            
             } else {
                 for subview in view.subviews.filter({ return $0.hasFlexNode }) {
                     prune(subview)
@@ -138,6 +141,10 @@ public class ComponentView: UIView {
         
         self.addSubview(tree.renderedView!)
         tree.render(size)
+    }
+    
+    public override func layoutSubviews() {
+        super.layoutSubviews()
     }
     
     /// Asks the view to calculate and return the size that best fits the specified size
