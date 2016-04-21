@@ -10,28 +10,44 @@ import UIKit
 
 public protocol ComponentStateType { }
 
+/// This class define a view fragment as a composition of 'ComponentType' objects.
 public class ComponentView: UIView {
     
-    /// The state of this component
+    /// The state of this component.
     public var state: ComponentStateType?
     
-    /// The tree of components owned by this component view
-    public var componentsTree: ComponentType?
+    private var stateFetchClosure: ((Void) -> ComponentStateType)?
     
-    /// Constructs the component tree
-    /// - Note: Must be overriden by subclasses
+    /// If this closure is configured, 'stateFetchClosure' is going to be executed
+    /// everytime render is called for this component.
+    public func withState(stateFetchClosure: (Void) -> ComponentStateType) -> Self {
+        self.stateFetchClosure = stateFetchClosure
+        self.state = stateFetchClosure()
+        return self
+    }
+    
+    /// The tree of components owned by this component view.
+    /// - Note: USe this when you wish to use this component inside another component tree.
+    public var root: ComponentType?
+    
+    /// Constructs the component tree.
+    /// - Note: Must be overriden by subclasses.
     public func construct() -> ComponentType {
         return Component<UIView>()
     }
     
-    /// Render the component
+    /// Render the component.
     /// - parameter size: The bounding box for this component. The default will determine the intrinsic content
-    /// size for this component
-    /// - parameter state: The (optional) state for this component
+    /// size for this component.
+    /// - parameter state: The (optional) state for this component.
     public func render(size: CGSize = CGSize.undefined, state: ComponentStateType? = nil) {
     
         self.state = state
-        self.componentsTree?.render(size)
+        if let closure = self.stateFetchClosure where self.state == nil {
+            self.state = closure()
+        }
+        
+        self.root?.render(size)
         
         let startTime = CFAbsoluteTimeGetCurrent()
 
@@ -48,8 +64,8 @@ public class ComponentView: UIView {
         }
         
         // the view never rendered
-        guard let old = self.componentsTree where old.renderedView != nil else {
-            self.componentsTree = self.construct()
+        guard let old = self.root where old.renderedView != nil else {
+            self.root = self.construct()
             return
         }
     
@@ -81,18 +97,23 @@ public class ComponentView: UIView {
         }
         
         /// The resulting tree
-        self.componentsTree = diff(old, new: new)
+        self.root = diff(old, new: new)
         
-        if let frame = self.componentsTree?.renderedView?.frame {
+        if let frame = self.root?.renderedView?.frame {
             self.frame.size = frame.size
-            self.componentsTree?.renderedView?.center = self.center
+            self.root?.renderedView?.center = self.center
         }
     }
     
-    /// Updates the view hierarchy in order to reflect the new component structures
+    /// Updates the view hierarchy in order to reflect the new component structures.
+    /// The views that are no longer related to a component are pruned from the tree.
+    /// The components that don't have an associated rendered view will build their views and 
+    /// add it to the hierarchy.
+    /// - Note: The pruned views could be inserted in a reuse pool.
+    /// - parameter size: The bounding size for this render phase.
     private func updateViewHierarchy(size: CGSize = CGSize.undefined) {
         
-        guard let tree = self.componentsTree else { return }
+        guard let tree = self.root else { return }
         var viewSet = Set<UIView>()
 
         // visits the component tree and flags the useful existing views
@@ -110,7 +131,7 @@ public class ComponentView: UIView {
             }
         }
         
-        // remove the views that are not necessary anymore from the hiearchy
+        // remove the views that are not necessary anymore from the hiearchy.
         func prune(view: UIView) {
             if !viewSet.contains(view) {
                 view.removeFromSuperview() //todo: put in a global reusable pool?
@@ -122,7 +143,7 @@ public class ComponentView: UIView {
             }
         }
         
-        // recursively adds the views that are not in the hierarchy to the hierarchy
+        // recursively adds the views that are not in the hierarchy to the hierarchy.
         func mount(component: ComponentType, parent: UIView) {
             component.buildView()
             if !component.mounted {
@@ -143,17 +164,21 @@ public class ComponentView: UIView {
         tree.render(size)
     }
     
+    /// Lays out subviews.
     public override func layoutSubviews() {
         super.layoutSubviews()
     }
     
-    /// Asks the view to calculate and return the size that best fits the specified size
+    /// Asks the view to calculate and return the size that best fits the specified size.
+    /// - parameter size: The size for which the view should calculate its best-fitting size.
+    /// - returns: A new size that fits the receiver’s subviews.
     public override func sizeThatFits(size: CGSize) -> CGSize {
         self.render(size)
         return self.bounds.size ?? CGSize.undefined
     }
     
     /// Returns the natural size for the receiving view, considering only properties of the view itself.
+    /// - returns: A size indicating the natural size for the receiving view based on its intrinsic properties.
     public override func intrinsicContentSize() -> CGSize {
         self.render(CGSize.undefined)
         return self.bounds.size ?? CGSize.undefined
