@@ -28,9 +28,9 @@ public protocol ComponentType: class {
     /// Render the component.
     func render(bounds: CGSize)
     
-    /// Resets the node.
-    func reset()
-    
+    func prepareForMount()
+    func prepareForUnmount()
+
     /// Force the component to construct the view.
     func buildView()
 }
@@ -110,17 +110,21 @@ public class Component<ViewType: UIView>: ComponentType {
         self.view = self.viewInitClosure()
         self.view?.reuseIdentifier = self.reuseIdentifier
         self.view?.style.maxDimensions = (Undefined, Undefined)
-        self.reset()
+        self.prepareForMount()
     }
     
     /// Write an extension for this method to specialize the prepare for reuse for this view.
-    public func reset() {
+    public func prepareForMount() {
         self.renderedView?.internalStore.configureClosure = { [weak self] in
             self!.viewConfigureClosure(self!.view!)
         }
-        if self.prepareForReuse && self.reuseIdentifier == String(ViewType) {
+        if self.prepareForReuse {
             self.renderedView?.prepareForComponentReuse()
         }
+    }
+
+    public func prepareForUnmount() {
+        _Reset.resetTargets(self.renderedView)
     }
 
 }
@@ -187,7 +191,8 @@ private class NilComponent: ComponentType {
     private var mounted: Bool = false
     private var index: Int = 0
     private func render(bounds: CGSize) { }
-    private func reset() { }
+    private func prepareForUnmount() { }
+    private func prepareForMount() { }
     private func buildView() { }
 }
 

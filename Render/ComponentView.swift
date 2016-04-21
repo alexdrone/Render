@@ -28,7 +28,23 @@ public class ComponentView: UIView {
     
     /// The tree of components owned by this component view.
     /// - Note: USe this when you wish to use this component inside another component tree.
-    public var root: ComponentType?
+    private var _root: ComponentType?
+    public var root: ComponentType! {
+        if _root != nil { return _root! }
+        _root = construct()
+        return _root!
+    }
+    
+    private let fragment: Bool
+    public init(fragment: Bool = false) {
+        self.fragment = fragment
+        super.init(frame: CGRect.zero)
+    }
+    
+    required public init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     
     /// Constructs the component tree.
     /// - Note: Must be overriden by subclasses.
@@ -40,14 +56,19 @@ public class ComponentView: UIView {
     /// - parameter size: The bounding box for this component. The default will determine the intrinsic content
     /// size for this component.
     /// - parameter state: The (optional) state for this component.
-    public func render(size: CGSize = CGSize.undefined, state: ComponentStateType? = nil) {
+    public func renderTree(size: CGSize = CGSize.undefined, state: ComponentStateType? = nil) {
+        
+        if self.fragment {
+            print("Render should be called on the root node.")
+            return
+        }
     
         self.state = state
         if let closure = self.stateFetchClosure where self.state == nil {
             self.state = closure()
         }
         
-        self.root?.render(size)
+        self._root?.render(size)
         
         let startTime = CFAbsoluteTimeGetCurrent()
 
@@ -64,8 +85,8 @@ public class ComponentView: UIView {
         }
         
         // the view never rendered
-        guard let old = self.root where old.renderedView != nil else {
-            self.root = self.construct()
+        guard let old = self._root where old.renderedView != nil else {
+            self._root = self.construct()
             return
         }
     
@@ -73,6 +94,8 @@ public class ComponentView: UIView {
         
         //diff between new and old
         func diff(old: ComponentType, new: ComponentType) -> ComponentType {
+            
+            old.prepareForUnmount()
             
             if old.reuseIdentifier != new.reuseIdentifier {
                 return new
@@ -92,16 +115,16 @@ public class ComponentView: UIView {
             
             new.children = children
             new.renderedView = old.renderedView
-            new.reset()
+            new.prepareForMount()
             return new
         }
         
         /// The resulting tree
-        self.root = diff(old, new: new)
+        self._root = diff(old, new: new)
         
-        if let frame = self.root?.renderedView?.frame {
+        if let frame = self._root?.renderedView?.frame {
             self.frame.size = frame.size
-            self.root?.renderedView?.center = self.center
+            self._root?.renderedView?.center = self.center
         }
     }
     
@@ -113,7 +136,7 @@ public class ComponentView: UIView {
     /// - parameter size: The bounding size for this render phase.
     private func updateViewHierarchy(size: CGSize = CGSize.undefined) {
         
-        guard let tree = self.root else { return }
+        guard let tree = self._root else { return }
         var viewSet = Set<UIView>()
 
         // visits the component tree and flags the useful existing views

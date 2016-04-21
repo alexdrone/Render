@@ -8,7 +8,7 @@
 
 import UIKit
 
-private struct _Reset {
+struct _Reset {
     
     private static let View = UIView()
     private static func resetView(view: UIView, proto: UIView = _Reset.View) {
@@ -31,6 +31,7 @@ private struct _Reset {
         view.layer.shadowOpacity = proto.layer.shadowOpacity
         view.layer.cornerRadius = proto.layer.cornerRadius
         view.layer.masksToBounds = proto.layer.masksToBounds
+        _Reset.resetTargets(view)
     }
     
     private static let Label = UILabel()
@@ -54,6 +55,7 @@ private struct _Reset {
         label.baselineAdjustment = _Reset.Label.baselineAdjustment
         label.minimumScaleFactor = _Reset.Label.minimumScaleFactor
         label.allowsDefaultTighteningForTruncation = _Reset.Label.allowsDefaultTighteningForTruncation
+        _Reset.resetTargets(label)
     }
     
     private static let TextField = UITextField()
@@ -88,6 +90,7 @@ private struct _Reset {
         textField.inputAccessoryView = _Reset.TextField.inputAccessoryView
         textField.clearsOnInsertion = _Reset.TextField.clearsOnInsertion
         textField.delegate = nil
+        _Reset.resetTargets(textField)
     }
     
     private static let TextView = UITextView()
@@ -111,6 +114,7 @@ private struct _Reset {
         textView.allowsEditingTextAttributes = _Reset.TextView.allowsEditingTextAttributes
         textView.scrollEnabled = _Reset.TextView.scrollEnabled
         textView.delegate = nil
+        _Reset.resetTargets(textView)
     }
     
     private static let Button = UIButton()
@@ -161,6 +165,7 @@ private struct _Reset {
         button.setAttributedTitle(_Reset.Button.attributedTitleForState(.Normal), forState: .Normal)
         button.setAttributedTitle(_Reset.Button.attributedTitleForState(.Reserved), forState: .Reserved)
         button.setAttributedTitle(_Reset.Button.attributedTitleForState(.Selected), forState: .Selected)
+        _Reset.resetTargets(button)
     }
     
     private static let ImageView = UIImageView()
@@ -175,6 +180,25 @@ private struct _Reset {
         imageView.animationDuration = _Reset.ImageView.animationDuration
         imageView.animationRepeatCount = _Reset.ImageView.animationRepeatCount
         imageView.tintColor = _Reset.ImageView.tintColor
+        _Reset.resetTargets(imageView)
+    }
+    
+    static func resetTargets(view: UIView?) {
+        guard let view = view else { return }
+        if let control = view as? UIControl {
+            for target in control.allTargets() {
+                control.removeTarget(target, action: nil, forControlEvents: .AllEvents)
+            }
+        }
+        if let gestureRecognizer = view as? UIGestureRecognizer {
+            gestureRecognizer.removeTarget(nil, action: nil)
+        }
+        if let textView = view as? UITextView {
+            TextView.delegate = nil
+        }
+        if let textField = view as? UITextField {
+            textField.delegate = nil
+        }
     }
 }
 
