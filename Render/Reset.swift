@@ -54,7 +54,11 @@ struct _Reset {
         label.adjustsFontSizeToFitWidth = _Reset.Label.adjustsFontSizeToFitWidth
         label.baselineAdjustment = _Reset.Label.baselineAdjustment
         label.minimumScaleFactor = _Reset.Label.minimumScaleFactor
-        label.allowsDefaultTighteningForTruncation = _Reset.Label.allowsDefaultTighteningForTruncation
+        if #available(iOS 9.0, *) {
+            label.allowsDefaultTighteningForTruncation = _Reset.Label.allowsDefaultTighteningForTruncation
+        } else {
+            // Fallback on earlier versions
+        }
         _Reset.resetTargets(label)
     }
     
@@ -125,42 +129,66 @@ struct _Reset {
         
         button.backgroundColor = _Reset.TextView.backgroundColor
         button.setTitle(_Reset.Button.titleForState(.Disabled), forState: .Disabled)
-        button.setTitle(_Reset.Button.titleForState(.Focused), forState: .Focused)
+        if #available(iOS 9.0, *) {
+            button.setTitle(_Reset.Button.titleForState(.Focused), forState: .Focused)
+        } else {
+            // Fallback on earlier versions
+        }
         button.setTitle(_Reset.Button.titleForState(.Highlighted), forState: .Highlighted)
         button.setTitle(_Reset.Button.titleForState(.Normal), forState: .Normal)
         button.setTitle(_Reset.Button.titleForState(.Reserved), forState: .Reserved)
         button.setTitle(_Reset.Button.titleForState(.Selected), forState: .Selected)
         
         button.setTitleColor(_Reset.Button.titleColorForState(.Disabled), forState: .Disabled)
-        button.setTitleColor(_Reset.Button.titleColorForState(.Focused), forState: .Focused)
+        if #available(iOS 9.0, *) {
+            button.setTitleColor(_Reset.Button.titleColorForState(.Focused), forState: .Focused)
+        } else {
+            // Fallback on earlier versions
+        }
         button.setTitleColor(_Reset.Button.titleColorForState(.Highlighted), forState: .Highlighted)
         button.setTitleColor(_Reset.Button.titleColorForState(.Normal), forState: .Normal)
         button.setTitleColor(_Reset.Button.titleColorForState(.Reserved), forState: .Reserved)
         button.setTitleColor(_Reset.Button.titleColorForState(.Selected), forState: .Selected)
         
         button.setTitleShadowColor(_Reset.Button.titleShadowColorForState(.Disabled), forState: .Disabled)
-        button.setTitleShadowColor(_Reset.Button.titleShadowColorForState(.Focused), forState: .Focused)
+        if #available(iOS 9.0, *) {
+            button.setTitleShadowColor(_Reset.Button.titleShadowColorForState(.Focused), forState: .Focused)
+        } else {
+            // Fallback on earlier versions
+        }
         button.setTitleShadowColor(_Reset.Button.titleShadowColorForState(.Highlighted), forState: .Highlighted)
         button.setTitleShadowColor(_Reset.Button.titleShadowColorForState(.Normal), forState: .Normal)
         button.setTitleShadowColor(_Reset.Button.titleShadowColorForState(.Reserved), forState: .Reserved)
         button.setTitleShadowColor(_Reset.Button.titleShadowColorForState(.Selected), forState: .Selected)
         
         button.setImage(_Reset.Button.imageForState(.Disabled), forState: .Disabled)
-        button.setImage(_Reset.Button.imageForState(.Focused), forState: .Focused)
+        if #available(iOS 9.0, *) {
+            button.setImage(_Reset.Button.imageForState(.Focused), forState: .Focused)
+        } else {
+            // Fallback on earlier versions
+        }
         button.setImage(_Reset.Button.imageForState(.Highlighted), forState: .Highlighted)
         button.setImage(_Reset.Button.imageForState(.Normal), forState: .Normal)
         button.setImage(_Reset.Button.imageForState(.Reserved), forState: .Reserved)
         button.setImage(_Reset.Button.imageForState(.Selected), forState: .Selected)
         
         button.setBackgroundImage(_Reset.Button.backgroundImageForState(.Disabled), forState: .Disabled)
-        button.setBackgroundImage(_Reset.Button.backgroundImageForState(.Focused), forState: .Focused)
+        if #available(iOS 9.0, *) {
+            button.setBackgroundImage(_Reset.Button.backgroundImageForState(.Focused), forState: .Focused)
+        } else {
+            // Fallback on earlier versions
+        }
         button.setBackgroundImage(_Reset.Button.backgroundImageForState(.Highlighted), forState: .Highlighted)
         button.setBackgroundImage(_Reset.Button.backgroundImageForState(.Normal), forState: .Normal)
         button.setBackgroundImage(_Reset.Button.backgroundImageForState(.Reserved), forState: .Reserved)
         button.setBackgroundImage(_Reset.Button.backgroundImageForState(.Selected), forState: .Selected)
         
         button.setAttributedTitle(_Reset.Button.attributedTitleForState(.Disabled), forState: .Disabled)
-        button.setAttributedTitle(_Reset.Button.attributedTitleForState(.Focused), forState: .Focused)
+        if #available(iOS 9.0, *) {
+            button.setAttributedTitle(_Reset.Button.attributedTitleForState(.Focused), forState: .Focused)
+        } else {
+            // Fallback on earlier versions
+        }
         button.setAttributedTitle(_Reset.Button.attributedTitleForState(.Highlighted), forState: .Highlighted)
         button.setAttributedTitle(_Reset.Button.attributedTitleForState(.Normal), forState: .Normal)
         button.setAttributedTitle(_Reset.Button.attributedTitleForState(.Reserved), forState: .Reserved)
