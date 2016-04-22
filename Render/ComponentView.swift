@@ -15,7 +15,6 @@ public class ComponentView: UIView {
     
     /// The state of this component.
     public var state: ComponentStateType?
-    
     private var stateFetchClosure: ((Void) -> ComponentStateType)?
     
     /// If this closure is configured, 'stateFetchClosure' is going to be executed
@@ -36,6 +35,9 @@ public class ComponentView: UIView {
     }
     
     private let fragment: Bool
+    
+    /// Initialise a new component view.
+    /// - parameter fragment: Set it to 'true' if this component is going to be used inside another component tree.
     public init(fragment: Bool = false) {
         self.fragment = fragment
         super.init(frame: CGRect.zero)
@@ -56,14 +58,13 @@ public class ComponentView: UIView {
     /// - parameter size: The bounding box for this component. The default will determine the intrinsic content
     /// size for this component.
     /// - parameter state: The (optional) state for this component.
-    public func renderTree(size: CGSize = CGSize.undefined, state: ComponentStateType? = nil) {
+    public func renderComponent(size: CGSize = CGSize.undefined) {
         
         if self.fragment {
             print("Render should be called on the root node.")
             return
         }
     
-        self.state = state
         if let closure = self.stateFetchClosure where self.state == nil {
             self.state = closure()
         }
@@ -94,6 +95,10 @@ public class ComponentView: UIView {
         
         //diff between new and old
         func diff(old: ComponentType, new: ComponentType) -> ComponentType {
+            
+            if old.immutable {
+                return old
+            }
             
             old.prepareForUnmount()
             
@@ -183,7 +188,10 @@ public class ComponentView: UIView {
         prune(tree.renderedView!)
         mount(tree, parent: self)
         
-        self.addSubview(tree.renderedView!)
+        if !self.fragment {
+            self.addSubview(tree.renderedView!)
+        }
+        
         tree.render(size)
     }
     
