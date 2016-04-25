@@ -1,37 +1,19 @@
 //
-//  ComponentView.swift
+//  ImmutableComponentView.swift
 //  Render
 //
-//  Created by Alex Usbergo on 12/04/16.
+//  Created by Alex Usbergo on 25/04/16.
 //  Copyright © 2016 Alex Usbergo. All rights reserved.
 //
 
 import UIKit
 
-public protocol ComponentViewType: class {
-    
-    /// The state of this component.
-    var state: ComponentStateType? { get set }
-    
-    /// If this closure is configured, 'stateFetchClosure' is going to be executed
-    /// everytime render is called for this component.
-    func withState(stateFetchClosure: (Void) -> ComponentStateType) -> Self
-    
-    /// The tree of components owned by this component view.
-    /// - Note: USe this when you wish to use this component inside another component tree.
-    var root: ComponentType! { get }
-    
-    /// Render the component.
-    /// - parameter size: The bounding box for this component. The default will determine the intrinsic content
-    /// size for this component.
-    /// - parameter state: The (optional) state for this component.
-    func renderComponent(size: CGSize)
-}
-
-public protocol ComponentStateType { }
-
 /// This class define a view fragment as a composition of 'ComponentType' objects.
-public class ComponentView: UIView, ComponentViewType {
+/// - Note: 'StaticComponentView', opposed to 'ComponentView', calls construct() just at init time.
+/// This component class has a more performant 'renderComponent' method since it doesn't update the 
+/// view hierarchy - hence it is reccomended for components whose view hierarchy is static (but the 
+/// view configuration/view layout is not).
+public class StaticComponentView: UIView, ComponentViewType {
     
     /// The state of this component.
     public var state: ComponentStateType?
@@ -46,7 +28,7 @@ public class ComponentView: UIView, ComponentViewType {
     }
     
     /// The tree of components owned by this component view.
-    /// - Note: USe this when you wish to use this component inside another component tree.
+    /// - Note: Use this when you wish to use this component inside another component tree.
     private var _root: ComponentType?
     public var root: ComponentType! {
         if _root != nil { return _root! }
@@ -61,12 +43,25 @@ public class ComponentView: UIView, ComponentViewType {
     public init(fragment: Bool = false) {
         self.fragment = fragment
         super.init(frame: CGRect.zero)
+        
+        // construct the component view
+        self._root = self.construct()
+        self.updateViewHierarchy()
+        
+        if let frame = self._root?.renderedView?.frame {
+            self.frame.size = frame.size
+            self._root?.renderedView?.center = self.center
+        }
+        
+        // adds the component as subview
+        if !self.fragment {
+            self.addSubview(self.root.renderedView!)
+        }
     }
     
     required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
     
     /// Constructs the component tree.
     /// - Note: Must be overriden by subclasses.
@@ -84,106 +79,31 @@ public class ComponentView: UIView, ComponentViewType {
             print("Render should be called on the root node.")
             return
         }
-    
+        
         if let closure = self.stateFetchClosure where self.state == nil {
             self.state = closure()
         }
         
         self._root?.render(size)
-        
-        let startTime = CFAbsoluteTimeGetCurrent()
-
-        defer {
-            self.updateViewHierarchy(size)
-            
-            let timeElapsed = (CFAbsoluteTimeGetCurrent() - startTime)*1000
-
-            // - Note: 60fps means you need to render a frame every ~16ms to not drop any frames.
-            // This is even more important when used inside a cell.
-            if timeElapsed > 16 {
-                print(String(format: "- warning: render (%2f) ms.", arguments: [timeElapsed]))
-            }
-        }
-        
-        // the view never rendered
-        guard let old = self._root where old.renderedView != nil else {
-            self._root = self.construct()
-            return
-        }
-    
-        var new = self.construct()
-        
-        //diff between new and old
-        func diff(old: ComponentType, new: ComponentType) -> ComponentType {
-            
-            old.prepareForUnmount()
-            
-            if old.reuseIdentifier != new.reuseIdentifier {
-                return new
-            }
-        
-            var children = [ComponentType]()
-            for (o,n) in Zip2Sequence(old.children, new.children) {
-                children.append(diff(o, new: n))
-            }
-            
-            //adds the new one
-            if new.children.count > old.children.count {
-                for i in old.children.count..<new.children.count {
-                    children.append(new.children[i])
-                }
-            }
-            
-            new.children = children
-            new.renderedView = old.renderedView
-            new.prepareForMount()
-            return new
-        }
-        
-        /// The resulting tree
-        self._root = diff(old, new: new)
-        
-        if let frame = self._root?.renderedView?.frame {
-            self.frame.size = frame.size
-            self._root?.renderedView?.center = self.center
-        }
     }
     
     /// Updates the view hierarchy in order to reflect the new component structures.
     /// The views that are no longer related to a component are pruned from the tree.
-    /// The components that don't have an associated rendered view will build their views and 
+    /// The components that don't have an associated rendered view will build their views and
     /// add it to the hierarchy.
     /// - Note: The pruned views could be inserted in a reuse pool.
     /// - parameter size: The bounding size for this render phase.
     private func updateViewHierarchy(size: CGSize = CGSize.undefined) {
         
         guard let tree = self._root else { return }
-        var viewSet = Set<UIView>()
-
+        
         // visits the component tree and flags the useful existing views
         func visit(component: ComponentType, index: Int, parent: ComponentType?) {
-            
             component.index = index
-            
-            if let view = component.renderedView {
-                viewSet.insert(view)
-            }
             var idx = 0
             for child in component.children {
                 visit(child, index: idx, parent: component)
                 idx += 1
-            }
-        }
-        
-        // remove the views that are not necessary anymore from the hiearchy.
-        func prune(view: UIView) {
-            if !viewSet.contains(view) {
-                view.removeFromSuperview() //todo: put in a global reusable pool?
-                            
-            } else {
-                for subview in view.subviews.filter({ return $0.hasFlexNode }) {
-                    prune(subview)
-                }
             }
         }
         
@@ -201,16 +121,14 @@ public class ComponentView: UIView, ComponentViewType {
         
         tree.buildView()
         visit(tree, index: 0, parent: nil)
-        prune(tree.renderedView!)
         mount(tree, parent: self)
         
         if !self.fragment {
             self.addSubview(tree.renderedView!)
         }
-        
         tree.render(size)
     }
-    
+
     /// Lays out subviews.
     public override func layoutSubviews() {
         super.layoutSubviews()

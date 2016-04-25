@@ -24,10 +24,6 @@ public protocol ComponentType: class {
     
     /// This component is the n-th children.
     var index: Int { get set }
-    
-    ///If set to 'true' that means that the view hierarchy for this tree is going to be immutable.
-    /// Hsving a subtree marked as immuble can improve the render performance.
-    var immutable: Bool { get }
 
     /// Render the component.
     func render(bounds: CGSize)
@@ -55,10 +51,6 @@ public class Component<ViewType: UIView>: ComponentType {
     
     /// The view index in the view hierarchy.
     public var index: Int = 0
-    
-    ///If set to 'true' that means that the view hierarchy for this tree is going to be immutable.
-    /// Hsving a subtree marked as immuble can improve the render performance.
-    public let immutable: Bool
 
     /// This is crucial for ensuring proper view reuse
     /// When the reuse identifier is not explicitely set, it will be automatically set to the 'ViewType'
@@ -91,11 +83,13 @@ public class Component<ViewType: UIView>: ComponentType {
     /// Hsving a subtree marked as immuble can improve the render performance.
     /// - parameter initClosure: Pass this closure if you have a custom init method (or factory method) you wish to call 
     /// to initialise this view. The default is 'ViewType(frame: CGRect.zero)'
-    public init(reuseIdentifier: String = String(ViewType), prepareForReuse: Bool = false, immutable: Bool = false, initClosure: ((Void) -> ViewType) = { return ViewType(frame: CGRect.zero) }) {
+    public init(reuseIdentifier: String = String(ViewType),
+                prepareForReuse: Bool = false,
+                initClosure: ((Void) -> ViewType) = { return ViewType(frame: CGRect.zero) }) {
+        
         self.prepareForReuse = prepareForReuse
         self.reuseIdentifier = reuseIdentifier
         self.viewInitClosure = initClosure
-        self.immutable = immutable
         self.viewConfigureClosure = { (_) in }
     }
     

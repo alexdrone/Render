@@ -56,7 +56,7 @@ extension FlexboxView where Self: UIView {
     /// Re-configure the view and re-compute the flexbox layout
     public func render(bounds: CGSize = CGSize.undefined) {
             
-        if self is ComponentView { return }
+        if self is ComponentViewType { return }
         
         func postRender(view: UIView) {
             view.postRender()
