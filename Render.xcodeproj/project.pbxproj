@@ -67,19 +67,12 @@
 			isa = PBXGroup;
 			children = (
 				16329AB81CC8EA6500927B1B /* Layout */,
-				16329AB71CC8EA5800927B1B /* Extensions */,
 				16329AB61CC8EA4300927B1B /* Core */,
+				16329AB71CC8EA5800927B1B /* Extensions */,
 				16097B611CB3B1A700551EBE /* Render.h */,
 				16097B631CB3B1A700551EBE /* Info.plist */,
 			);
 			path = Render;
-			sourceTree = "<group>";
-		};
-		1613FFB91CCA5D1900616B19 /* TableView */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = TableView;
 			sourceTree = "<group>";
 		};
 		16329AB61CC8EA4300927B1B /* Core */ = {
@@ -97,7 +90,6 @@
 		16329AB71CC8EA5800927B1B /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				1613FFB91CCA5D1900616B19 /* TableView */,
 				16097B691CB3B1D100551EBE /* Geometry.swift */,
 				1693B9751CBD734D00A44B24 /* Reset.swift */,
 			);

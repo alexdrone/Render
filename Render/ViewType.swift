@@ -234,3 +234,26 @@ extension UIView {
 private var __internalStoreHandle: UInt8 = 0
 private var __flexNodeHandle: UInt8 = 0
 
+extension Node {
+    
+    /// Recursively apply the layout to the given view hierarchy.
+    /// - parameter view: The root of the view hierarchy
+    internal func apply(view: UIView) {
+        
+        let x = layout.position.left.isNormal ? CGFloat(layout.position.left) : 0
+        let y = layout.position.top.isNormal ? CGFloat(layout.position.top) : 0
+        let w = layout.dimension.width.isNormal ? CGFloat(layout.dimension.width) : 0
+        let h = layout.dimension.height.isNormal ? CGFloat(layout.dimension.height) : 0
+        
+        let frame = CGRect(x: x, y: y, width: w, height: h)
+        view.applyFrame(CGRectIntegral(frame))
+        
+        if let children = self.children {
+            for (s, node) in Zip2Sequence(view.subviews, children ?? [Node]()) {
+                let subview = s as UIView
+                node.apply(subview)
+            }
+        }
+    }
+}
+
