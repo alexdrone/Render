@@ -8,12 +8,12 @@
 
 import UIKit
 
-private extension UIView {
+internal extension UIView {
     
     /// Set the view frame to the one passed as argument.
     /// - Note: If the view is marked as notAnimatable (likely to be a newly inserted view in the hierarchy)
     /// any animation for this view will be suppressed.
-    private func applyFrame(frame: CGRect) {
+    internal func applyFrame(frame: CGRect) {
         
         // There's an ongoing animation
         if self.internalStore.notAnimatable && self.layer.animationKeys()?.count > 0 {

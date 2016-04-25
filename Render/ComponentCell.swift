@@ -53,6 +53,8 @@ public class ComponentCell: UITableViewCell {
     /// - parameter size: The size for which the view should calculate its best-fitting size.
     /// - returns: A new size that fits the receiver’s subviews.
     public override func sizeThatFits(size: CGSize) -> CGSize {
+        
+        print("self \(self) state \(state)")
         if let view = self.component as? UIView {
             let size = view.sizeThatFits(size)
             return size
@@ -74,13 +76,7 @@ extension UITableView {
     
     /// Refreshes the component at the given index path.
     /// - parameter indexPath: The indexpath for the targeted component.
-    /// - parameter state: (optional) replace the state of the component with the one passed as argument.
-    public func renderComponentAtIndexPath(indexPath: NSIndexPath, state: ComponentStateType? = nil) {
-        
-        if let cell = self.cellForRowAtIndexPath(indexPath) as? ComponentCell where state != nil {
-            cell.state = state
-        }
-        
+    public func renderComponentAtIndexPath(indexPath: NSIndexPath) {
         self.beginUpdates()
         self.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
         self.endUpdates()
