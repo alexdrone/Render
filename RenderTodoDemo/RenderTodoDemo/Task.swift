@@ -9,7 +9,11 @@
 import Render
 
 class Task: ComponentStateType {
-    var title = ""
-    var done = false
-    var date = NSDate()
+    var title: String? = ""
+    var done: Bool = false
+    var date: NSDate = NSDate()
+    
+    init(title: String? = nil) {
+        self.title = title
+    }
 }

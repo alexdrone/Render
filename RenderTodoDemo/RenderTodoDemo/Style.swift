@@ -23,15 +23,15 @@ struct Style {
     }
     
     struct Typography {
-        static let SmallBold = UIFont.systemFontOfSize(12.0, weight: UIFontWeightBold)
-        static let SmallRegular = UIFont.systemFontOfSize(12.0, weight: UIFontWeightRegular)
-        static let MediumBold = UIFont.systemFontOfSize(14.0, weight: UIFontWeightBold)
-        static let MediumSemibold = UIFont.systemFontOfSize(14.0, weight: UIFontWeightSemibold)
-        static let MediumRegular = UIFont.systemFontOfSize(14.0, weight: UIFontWeightRegular)
+        static let SmallBold = UIFont.systemFontOfSize(14.0, weight: UIFontWeightBold)
+        static let SmallRegular = UIFont.systemFontOfSize(14.0, weight: UIFontWeightRegular)
+        static let MediumBold = UIFont.systemFontOfSize(16.0, weight: UIFontWeightBold)
+        static let MediumSemibold = UIFont.systemFontOfSize(16.0, weight: UIFontWeightSemibold)
+        static let MediumRegular = UIFont.systemFontOfSize(16.0, weight: UIFontWeightRegular)
     }
     
     struct Metrics {
-        static let DefaultMargin: Inset = (8,8,8,8,8,8)
+        static let DefaultMargin: Inset = (8, 8, 8, 8, 8, 8)
     }
     
 }

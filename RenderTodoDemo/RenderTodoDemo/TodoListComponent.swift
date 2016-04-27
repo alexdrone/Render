@@ -11,6 +11,13 @@ import Render
 
 class TodoListComponent: StaticComponentView {
     
+    //MARK - Props
+    
+    weak var tableViewDataSource: UITableViewDataSource?
+    weak var inputDelegate: InputComponentDelegate?
+
+    //MARK: - Internal
+    
     private struct Identifiers {
         private static let TableView = "tableView"
     }
@@ -23,16 +30,19 @@ class TodoListComponent: StaticComponentView {
     /// Constructs the component tree.
     /// - Note: Must be overriden by subclasses.
     override func construct() -> ComponentType {
-        
-        self.backgroundColor = UIColor.grayColor()
-        
+                
         return ComponentNode<UIView>().children([
             
-            ComponentNode<InputComponent>(),
+            ComponentNode<InputComponent>().configure({ [weak self] component in
+                component.delegate = self?.inputDelegate
+            }),
             
-            ComponentNode<UITableView>(reuseIdentifier: Identifiers.TableView).configure({ tableView in
+            ComponentNode<UITableView>(reuseIdentifier: Identifiers.TableView).configure({ [weak self] tableView in
                 tableView.estimatedRowHeight = 100
+                tableView.backgroundColor = Style.Color.LightPrimary
                 tableView.rowHeight = UITableViewAutomaticDimension
+                tableView.dataSource = self?.tableViewDataSource
+                tableView.separatorStyle = .None
                 tableView.flexStyle.flex = 0.5
             })
         ])

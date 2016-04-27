@@ -19,6 +19,7 @@
 		169F69831CCE3F6E00240315 /* InputComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 169F69821CCE3F6E00240315 /* InputComponent.swift */; };
 		169F69861CCE4BFF00240315 /* Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = 169F69851CCE4BFF00240315 /* Task.swift */; };
 		169F69881CCE50F600240315 /* TodoListComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 169F69871CCE50F600240315 /* TodoListComponent.swift */; };
+		16AD71B51CD0D42500441CD0 /* TaskItemComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16AD71B41CD0D42500441CD0 /* TaskItemComponent.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -68,6 +69,7 @@
 		169F69821CCE3F6E00240315 /* InputComponent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InputComponent.swift; sourceTree = "<group>"; };
 		169F69851CCE4BFF00240315 /* Task.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Task.swift; sourceTree = "<group>"; };
 		169F69871CCE50F600240315 /* TodoListComponent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TodoListComponent.swift; sourceTree = "<group>"; };
+		16AD71B41CD0D42500441CD0 /* TaskItemComponent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TaskItemComponent.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -131,6 +133,7 @@
 			children = (
 				169F69821CCE3F6E00240315 /* InputComponent.swift */,
 				169F69871CCE50F600240315 /* TodoListComponent.swift */,
+				16AD71B41CD0D42500441CD0 /* TaskItemComponent.swift */,
 			);
 			name = Components;
 			sourceTree = "<group>";
@@ -239,6 +242,7 @@
 				169F697E1CCE3C1700240315 /* Style.swift in Sources */,
 				169F69611CCE3BA000240315 /* AppDelegate.swift in Sources */,
 				169F69801CCE3C2200240315 /* Extensions.swift in Sources */,
+				16AD71B51CD0D42500441CD0 /* TaskItemComponent.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -14,6 +14,12 @@ protocol InputComponentDelegate: class {
 }
 
 class InputComponent: StaticComponentView {
+
+    //MARK - Props
+    
+    weak var delegate: InputComponentDelegate?
+
+    //MARK: - Internal
     
     private struct Identifiers {
         private static let InputField = "inputField"
@@ -23,8 +29,6 @@ class InputComponent: StaticComponentView {
         return self.root.viewWithIdentifier(Identifiers.InputField)
     }
     
-    weak var delegate: InputComponentDelegate?
- 
     /// Constructs the component tree.
     /// - Note: Must be overriden by subclasses.
     override func construct() -> ComponentType {
@@ -40,9 +44,10 @@ class InputComponent: StaticComponentView {
         
             ComponentNode<UITextField>(reuseIdentifier: Identifiers.InputField).configure({ field in
                 field.placeholder = "Task title"
-                field.backgroundColor = Style.Color.Divider
+                field.backgroundColor = Style.Color.LightPrimary
                 field.textColor = Style.Color.PrimaryText
                 field.textAlignment = .Center
+                field.font = Style.Typography.MediumRegular
                 field.style.dimensions.height = 48
                 field.style.flex = Flex
                 field.style.margin = Style.Metrics.DefaultMargin
@@ -54,6 +59,7 @@ class InputComponent: StaticComponentView {
                 button.setTitle("Add", forState: .Normal)
                 button.setTitleColor(Style.Color.Text, forState: .Normal)
                 button.backgroundColor = Style.Color.Accent
+                button.titleLabel!.font = Style.Typography.MediumBold
                 button.style.dimensions.height = 48
                 button.style.dimensions.width = 96
                 button.style.margin = Style.Metrics.DefaultMargin
