@@ -55,7 +55,7 @@ extension FlexboxView where Self: UIView {
     
     /// Re-configure the view and re-compute the flexbox layout
     public func render(bounds: CGSize = CGSize.undefined) {
-            
+        
         if self is ComponentViewType { return }
         
         func postRender(view: UIView) {
@@ -69,23 +69,15 @@ extension FlexboxView where Self: UIView {
         self.layout(bounds)
         postRender(self)
 
-        
-        let timeElapsed = (CFAbsoluteTimeGetCurrent() - startTime)*1000
-
-        // - Note: 60fps means you need to render a frame every ~16ms to not drop any frames.
-        // This is even more important when used inside a cell.
-        if timeElapsed > 16 {
-            print(String(format: "- warning: render (%2f) ms.", arguments: [timeElapsed]))
-        }
+        debugRenderTime("\(self.dynamicType).render", startTime: startTime)
     }
 }
 
 extension UIView: FlexboxView {
     
     /// The style for this flexbox node
-    public var style: Style {
-        return self.flexNode.style
-    }
+    public var style: Style { return self.flexNode.style }
+    public var flexStyle: Style { return self.flexNode.style }
     
     /// The associated reuse-identifier
     public var reuseIdentifier: String {
@@ -254,6 +246,17 @@ extension Node {
                 node.apply(subview)
             }
         }
+    }
+}
+
+func debugRenderTime(label: String, startTime: CFAbsoluteTime) {
+    
+    let timeElapsed = (CFAbsoluteTimeGetCurrent() - startTime)*1000
+    
+    // - Note: 60fps means you need to render a frame every ~16ms to not drop any frames.
+    // This is even more important when used inside a cell.
+    if timeElapsed > 16 || true {
+        print(String(format: "- warning: \(label) (%2f) ms.", arguments: [timeElapsed]))
     }
 }
 
