@@ -29,7 +29,7 @@ class TodoListComponent: StaticComponentView {
     
     /// Constructs the component tree.
     /// - Note: Must be overriden by subclasses.
-    override func construct() -> ComponentType {
+    override func construct() -> ComponentNodeType {
                 
         return ComponentNode<UIView>().children([
             

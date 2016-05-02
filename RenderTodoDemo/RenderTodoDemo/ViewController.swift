@@ -18,7 +18,8 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.todoComponent.configure({ component in
+        self.todoComponent.configure({
+            guard let component = $0 as? TodoListComponent else { return }
             component.tableViewDataSource = self
             component.inputDelegate = self
         })

@@ -74,13 +74,13 @@ public class ComponentTableViewCell: UITableViewCell {
 public class ComponentCollectionViewCell: UICollectionViewCell {
     
     /// The internal component
-    public let component: ComponentViewType
+    public var component: ComponentViewType?
     
     /// The state of this component.
     /// - Note: This is propagated to the associted
     public var state: ComponentStateType? {
         didSet {
-            self.component.state = state
+            self.component?.state = state
         }
     }
     
@@ -99,13 +99,28 @@ public class ComponentCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    public func hasMountedComponent() -> Bool {
+        return self.component != nil
+    }
+    
+    public func mountComponentIfNecessary(component: ComponentViewType) {
+        if self.component != nil {
+            return
+        }
+        self.component = component
+        if let view = self.component as? UIView {
+            self.contentView.addSubview(view)
+            self.clipsToBounds = true
+        }
+    }
+    
     /// Render the component.
     /// - parameter size: The bounding box for this component. The default will determine the intrinsic content
     /// size for this component.
     /// - parameter state: The (optional) state for this component.
     public func renderComponent(size: CGSize? = nil) {
-        self.component.renderComponent(size ?? self.superview?.bounds.size ?? CGSize.undefined)
-        self.component.renderComponent(size ?? self.superview?.bounds.size ?? CGSize.undefined)
+        self.component?.renderComponent(size ?? self.superview?.bounds.size ?? CGSize.undefined)
+        self.component?.renderComponent(size ?? self.superview?.bounds.size ?? CGSize.undefined)
         
         if let view = self.component as? UIView {
             self.contentView.frame = view.bounds
@@ -151,6 +166,3 @@ extension UITableView {
         }
     }
 }
-
-
-

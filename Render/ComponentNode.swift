@@ -8,7 +8,7 @@
 
 import UIKit
 
-public protocol ComponentType: class {
+public protocol ComponentNodeType: class {
     
     /// The underlying view rendered from the component.
     var renderedView: UIView? { get set }
@@ -17,7 +17,7 @@ public protocol ComponentType: class {
     var reuseIdentifier: String { get set }
 
     /// The subnodes of this node.
-    var children: [ComponentType] { get set }
+    var children: [ComponentNodeType] { get set }
 
     /// Wether the component is part of the view hierarchy or not.
     var mounted: Bool { get }
@@ -35,7 +35,7 @@ public protocol ComponentType: class {
     func buildView()
 }
 
-public class ComponentNode<ViewType: UIView>: ComponentType {
+public class ComponentNode<ViewType: UIView>: ComponentNodeType {
 
     /// The underlying view rendered from the component.
     public var view: ViewType?
@@ -62,7 +62,7 @@ public class ComponentNode<ViewType: UIView>: ComponentType {
     public let prepareForReuse: Bool
     
     /// The current children for this component.
-    public var children = [ComponentType]() {
+    public var children = [ComponentNodeType]() {
         didSet {
             self.children = children.filter({ return !($0 is NilComponent) })
         }
@@ -133,10 +133,10 @@ public class ComponentNode<ViewType: UIView>: ComponentType {
     }
 }
 
-extension ComponentType {
+extension ComponentNodeType {
     
     /// Sets the children of this component.
-    public func children(children: [ComponentType]) -> Self {
+    public func children(children: [ComponentNodeType]) -> Self {
         for c in children {
             if c is NilComponent { continue }
             self.children.append(c)
@@ -145,7 +145,7 @@ extension ComponentType {
     }
     
     /// Adds a child to this component.
-    public func addChild(child: ComponentType) -> Self {
+    public func addChild(child: ComponentNodeType) -> Self {
         if child is NilComponent { return self }
         self.children.append(child)
         return self
@@ -154,7 +154,7 @@ extension ComponentType {
     /// Runs the closure 'count' times.
     /// - parameter count: How many times the closure is going to be executed.
     /// - parameter closure: the index is passed as argument.
-    public func addChildren(count: Int, closure: (Int) -> ComponentType) -> Self {
+    public func addChildren(count: Int, closure: (Int) -> ComponentNodeType) -> Self {
         for i in 0..<count {
             self.addChild(closure(i))
         }
@@ -163,8 +163,8 @@ extension ComponentType {
     
     /// Returns the components with the associated reuse identifier.
     /// - parameter identifier: The identifier passed as argument in the component's constructor
-    public func componenstWithIdentifier(identifier: String) -> [ComponentType] {
-        var result = [ComponentType]()
+    public func componenstWithIdentifier(identifier: String) -> [ComponentNodeType] {
+        var result = [ComponentNodeType]()
         if self.reuseIdentifier == identifier {
             result.append(self)
         }
@@ -176,7 +176,7 @@ extension ComponentType {
     
     /// Returns the first component with the associated reuse identifier.
     /// - parameter identifier: The identifier passed as argument in the component's constructor
-    public func componentWithIdentifier(identifier: String) -> ComponentType? {
+    public func componentWithIdentifier(identifier: String) -> ComponentNodeType? {
         return self.componenstWithIdentifier(identifier).first
     }
     
@@ -188,20 +188,20 @@ extension ComponentType {
 }
 
 /// Internally used to represent a nil component.
-private class NilComponent: ComponentType {
-    private var renderedView: UIView? = nil
-    private var reuseIdentifier: String = ""
-    private var children: [ComponentType] = [NilComponent]()
-    private var mounted: Bool = false
-    private var index: Int = 0
-    private var immutable: Bool = true
-    private func render(bounds: CGSize) { }
-    private func prepareForUnmount() { }
-    private func prepareForMount() { }
-    private func buildView() { }
+internal class NilComponent: ComponentNodeType {
+    var renderedView: UIView? = nil
+    var reuseIdentifier: String = ""
+    var children: [ComponentNodeType] = [NilComponent]()
+    var mounted: Bool = false
+    var index: Int = 0
+    var immutable: Bool = true
+    func render(bounds: CGSize) { }
+    func prepareForUnmount() { }
+    func prepareForMount() { }
+    func buildView() { }
 }
 
-public func when(@autoclosure condition: () -> Bool, _ component: ComponentType) -> ComponentType {
+public func when(@autoclosure condition: () -> Bool, _ component: ComponentNodeType) -> ComponentNodeType {
     return condition() ? component: NilComponent()
 }
  

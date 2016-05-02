@@ -17,7 +17,7 @@ class TaskItem: StaticComponentView {
     
     /// Constructs the component tree.
     /// - Note: Must be overriden by subclasses.
-    override func construct() -> ComponentType {
+    override func construct() -> ComponentNodeType {
         
         return ComponentNode<UIView>().configure({ (view) in
             view.backgroundColor = Style.Color.LightPrimary
@@ -38,7 +38,8 @@ class TaskItem: StaticComponentView {
             
             ComponentNode<UIView>().configure({ separator in
                 separator.backgroundColor = Style.Color.DarkPrimary
-                separator.style.dimensions = (~((separator.superview!.bounds.size.width - 96) ?? 0), 1)
+                separator.style.dimensions.width = ~self.parentSize.width - 96
+                separator.style.dimensions.height = 1
                 separator.style.alignSelf = .Center
             })
         ])
