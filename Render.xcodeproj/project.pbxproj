@@ -54,7 +54,7 @@
 		16097B541CB3B1A700551EBE = {
 			isa = PBXGroup;
 			children = (
-				16097B601CB3B1A700551EBE /* src */,
+				16097B601CB3B1A700551EBE /* Src */,
 				16097B5F1CB3B1A700551EBE /* Products */,
 			);
 			sourceTree = "<group>";
@@ -67,58 +67,58 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		16097B601CB3B1A700551EBE /* src */ = {
+		16097B601CB3B1A700551EBE /* Src */ = {
 			isa = PBXGroup;
 			children = (
 				161E87321CD775A2002C1BE1 /* ComponentViewType.swift */,
-				16329AB81CC8EA6500927B1B /* layout */,
-				16329AB61CC8EA4300927B1B /* core */,
-				16AD71B81CD0DF4A00441CD0 /* collections */,
-				16329AB71CC8EA5800927B1B /* extensions */,
+				16329AB81CC8EA6500927B1B /* Layout */,
+				16329AB61CC8EA4300927B1B /* Core */,
+				16AD71B81CD0DF4A00441CD0 /* List */,
+				16329AB71CC8EA5800927B1B /* Extensions */,
 				16097B611CB3B1A700551EBE /* Render.h */,
 				16097B631CB3B1A700551EBE /* Info.plist */,
 			);
-			name = src;
+			name = Src;
 			path = Render;
 			sourceTree = "<group>";
 		};
-		16329AB61CC8EA4300927B1B /* core */ = {
+		16329AB61CC8EA4300927B1B /* Core */ = {
 			isa = PBXGroup;
 			children = (
 				16097B6D1CB3B1D100551EBE /* ViewType.swift */,
 				16097B751CB3B5B600551EBE /* ComponentNode.swift */,
 				16AD71B91CD0EF4700441CD0 /* BaseComponentView.swift */,
 			);
-			name = core;
+			name = Core;
 			sourceTree = "<group>";
 		};
-		16329AB71CC8EA5800927B1B /* extensions */ = {
+		16329AB71CC8EA5800927B1B /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
 				16097B691CB3B1D100551EBE /* Geometry.swift */,
 				1693B9751CBD734D00A44B24 /* Reset.swift */,
 			);
-			name = extensions;
+			name = Extensions;
 			sourceTree = "<group>";
 		};
-		16329AB81CC8EA6500927B1B /* layout */ = {
+		16329AB81CC8EA6500927B1B /* Layout */ = {
 			isa = PBXGroup;
 			children = (
 				16097B6A1CB3B1D100551EBE /* Layout.c */,
 				16097B6B1CB3B1D100551EBE /* Layout.h */,
 				16097B6C1CB3B1D100551EBE /* Layout.swift */,
 			);
-			name = layout;
+			name = Layout;
 			sourceTree = "<group>";
 		};
-		16AD71B81CD0DF4A00441CD0 /* collections */ = {
+		16AD71B81CD0DF4A00441CD0 /* List */ = {
 			isa = PBXGroup;
 			children = (
 				161E87351CD777EF002C1BE1 /* ListItemType.swift */,
 				16AD71B61CD0DF2C00441CD0 /* ListComponentView.swift */,
 				16329ABB1CC9266D00927B1B /* ComponentCell.swift */,
 			);
-			name = collections;
+			name = List;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

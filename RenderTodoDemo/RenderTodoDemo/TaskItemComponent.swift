@@ -9,8 +9,8 @@
 import UIKit
 import Render
 
-class TaskItem: StaticComponentView {
-    
+class TaskItemComponent: StaticComponentView {
+
     private var task: Task! {
         return (self.state as? Task) ?? Task()
     }
@@ -24,6 +24,7 @@ class TaskItem: StaticComponentView {
             view.style.minDimensions.height = 62
             view.style.flexDirection = .Column
             view.style.justifyContent = .SpaceBetween
+            view.style.margin = Style.Metrics.DefaultMargin
             
         }).children([
             
@@ -36,14 +37,6 @@ class TaskItem: StaticComponentView {
                 label.style.flex = Flex
             }),
             
-            ComponentNode<UIView>().configure({ separator in
-                separator.backgroundColor = Style.Color.DarkPrimary
-                separator.style.dimensions.width = ~self.parentSize.width - 96
-                separator.style.dimensions.height = 1
-                separator.style.alignSelf = .Center
-            })
         ])
     }
-
-    
 }

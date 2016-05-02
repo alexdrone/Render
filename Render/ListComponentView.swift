@@ -8,37 +8,10 @@
 
 import UIKit
 
-public class ListComponentItem<C: ComponentViewType, S: ComponentStateType>: ListComponentItemType {
-
-    /// The reuse identifier for the component passed as argument.
-    public var reuseIdentifier: String
-    
-    /// The component state.
-    public var itemState: ComponentStateType
-    public var state: S {
-        return self.itemState as! S
-    }
-    
-    /// Additional configuration closure for the component
-    public var configuration: ((ComponentViewType) -> Void)?
-    
-    /// Initialise a new component with
-    public init(reuseIdentifier: String = String(C), state: S, configuration: ((ComponentViewType) -> Void)? = nil) {
-        self.reuseIdentifier = reuseIdentifier
-        self.itemState = state
-        self.configuration = configuration
-    }
-
-    /// Creates a new instance for the associated component
-    public func newComponentIstance() -> ComponentViewType {
-        return C() as ComponentViewType
-    }
-}
-
 public class ListComponentView: UICollectionView {
 
     /// The data associated with this list.
-    public var data = [ListComponentItemType]() {
+    public var items = [ListComponentItemType]() {
         didSet {
             self.renderComponent()
         }
@@ -47,7 +20,7 @@ public class ListComponentView: UICollectionView {
     /// Initializes and returns a newly allocated collection view object with the specified frame and layout.
     /// - returns: An initialized collection view object or nil if the object could not be created.
     override init(frame: CGRect, collectionViewLayout layout: UICollectionViewLayout = UICollectionViewFlowLayout()) {
-        super.init(frame: frame, collectionViewLayout: layout)
+        super.init(frame: frame, collectionViewLayout: layout ?? UICollectionViewFlowLayout())
         self.dataSource = self
         self.delegate = self
         
@@ -70,14 +43,14 @@ extension ListComponentView: UICollectionViewDataSource, UICollectionViewDelegat
     
     /// Asks your data source object for the cell that corresponds to the specified item in the collection view.
     public func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return self.data.count
+        return self.items.count
     }
     
     /// Asks your data source object for the cell that corresponds to the specified item in the collection view.
     public func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
     
-        let state = self.data[indexPath.row]
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(self.data[indexPath.row].reuseIdentifier, forIndexPath: indexPath) as! ComponentCollectionViewCell
+        let state = self.items[indexPath.row]
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(self.items[indexPath.row].reuseIdentifier, forIndexPath: indexPath) as! ComponentCollectionViewCell
 
         if !cell.hasMountedComponent() {
             let component = state.newComponentIstance()
@@ -95,7 +68,7 @@ extension ListComponentView: UICollectionViewDataSource, UICollectionViewDelegat
     /// Asks the delegate for the size of the specified item’s cell.
     public func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
         
-        let state = self.data[indexPath.row]
+        let state = self.items[indexPath.row]
         guard let component = prototypes[state.reuseIdentifier] else {
             fatalError("Unregistered component with reuse identifier \(state.reuseIdentifier).")
         }

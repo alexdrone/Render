@@ -10,9 +10,13 @@ import UIKit
 import Render
 
 class ViewController: UIViewController {
+    
+    override class func initialize() {
+        ListComponentView.registerPrototype(String(TaskItemComponent.self), component: TaskItemComponent())
+    }
 
     /// the main TODO component
-    var tasks = [Task]()
+    var tasks: [ListComponentItemType] = [ListComponentItem<TaskItemComponent, Task>]()
     var todoComponent = TodoListComponent()
     
     override func viewDidLoad() {
@@ -20,36 +24,26 @@ class ViewController: UIViewController {
         
         self.todoComponent.configure({
             guard let component = $0 as? TodoListComponent else { return }
-            component.tableViewDataSource = self
             component.inputDelegate = self
+            component.tasks = self.tasks
         })
+        
                 
         self.view.addSubview(self.todoComponent)
     }
     
     override func viewDidLayoutSubviews() {
-        self.todoComponent.renderComponent(self.view.bounds.size)
+        self.render()
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-}
-
-extension ViewController: UITableViewDataSource, UITableViewDelegate {
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.tasks.count
-    }
+    func render() {
+        self.todoComponent.renderComponent(self.view.bounds.size)
 
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let id = "task"
-        let cell = (tableView.dequeueReusableCellWithIdentifier(id) ?? ComponentTableViewCell(reuseIdentifier: id, component: TaskItem())) as! ComponentTableViewCell
-        cell.state = self.tasks[indexPath.row]
-        cell.renderComponent(CGSize(tableView.bounds.size.width))
-        
-        return cell
     }
 }
 
@@ -57,8 +51,10 @@ extension ViewController: InputComponentDelegate {
     
     func inputComponentDidAddTaskWithTitle(title: String?) {
         guard let title = title where !title.isEmpty else { return }
-        self.tasks.append(Task(title: title))
-        self.todoComponent.tableView.reloadData()
+        
+        let item = ListComponentItem<TaskItemComponent, Task>(state: Task(title: title))
+        self.tasks.append(item)
+        self.render()
     }
     
 }

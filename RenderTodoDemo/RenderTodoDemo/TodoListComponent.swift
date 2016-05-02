@@ -13,7 +13,7 @@ class TodoListComponent: StaticComponentView {
     
     //MARK - Props
     
-    weak var tableViewDataSource: UITableViewDataSource?
+    var tasks = [ListComponentItemType]()
     weak var inputDelegate: InputComponentDelegate?
 
     //MARK: - Internal
@@ -37,14 +37,12 @@ class TodoListComponent: StaticComponentView {
                 component.delegate = self?.inputDelegate
             }),
             
-            ComponentNode<UITableView>(reuseIdentifier: Identifiers.TableView).configure({ [weak self] tableView in
-                tableView.estimatedRowHeight = 100
-                tableView.backgroundColor = Style.Color.LightPrimary
-                tableView.rowHeight = UITableViewAutomaticDimension
-                tableView.dataSource = self?.tableViewDataSource
-                tableView.separatorStyle = .None
-                tableView.flexStyle.flex = 0.5
+            ComponentNode<ListComponentView>().configure({ component in
+                component.backgroundColor = Style.Color.Text
+                component.flexStyle.flex = 0.5
+                component.items = self.tasks
             })
+
         ])
     }
     
