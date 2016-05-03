@@ -70,7 +70,6 @@
 		16097B601CB3B1A700551EBE /* Src */ = {
 			isa = PBXGroup;
 			children = (
-				161E87321CD775A2002C1BE1 /* ComponentViewType.swift */,
 				16329AB81CC8EA6500927B1B /* Layout */,
 				16329AB61CC8EA4300927B1B /* Core */,
 				16AD71B81CD0DF4A00441CD0 /* List */,
@@ -85,6 +84,7 @@
 		16329AB61CC8EA4300927B1B /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				161E87321CD775A2002C1BE1 /* ComponentViewType.swift */,
 				16097B6D1CB3B1D100551EBE /* ViewType.swift */,
 				16097B751CB3B5B600551EBE /* ComponentNode.swift */,
 				16AD71B91CD0EF4700441CD0 /* BaseComponentView.swift */,

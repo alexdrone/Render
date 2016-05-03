@@ -12,48 +12,44 @@ import Render
 class ViewController: UIViewController {
     
     override class func initialize() {
-        ListComponentView.registerPrototype(String(TaskItemComponent.self), component: TaskItemComponent())
+        ListComponentView.registerPrototype(component: AlbumComponentView())
     }
-
-    /// the main TODO component
-    var tasks: [ListComponentItemType] = [ListComponentItem<TaskItemComponent, Task>]()
-    var todoComponent = TodoListComponent()
+    
+    var albums: [ListComponentItemType] = [ListComponentItem<AlbumComponentView, Album>]()
+    var listView = ListComponentView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.todoComponent.configure({
-            guard let component = $0 as? TodoListComponent else { return }
-            component.inputDelegate = self
-            component.tasks = self.tasks
-        })
+        //creates some dummy models
+        for idx in 0..<100 {
+            let item = ListComponentItem<AlbumComponentView, Album>(state: Album(featured: idx < 4))
+            item.delegate = self
+            self.albums.append(item)
+        }
         
-        self.view.addSubview(self.todoComponent)
+        self.listView.items = self.albums
+        self.listView.backgroundColor = S.Color.black
+        
+        self.view.addSubview(self.listView)
     }
     
     override func viewDidLayoutSubviews() {
+        self.listView.frame = self.view.bounds
         self.render()
     }
     
     func render() {
-        self.todoComponent.renderComponent(self.view.bounds.size)
+        self.listView.renderComponent(self.view.bounds.size)
     }
 }
 
-extension ViewController: InputComponentDelegate, ListComponentItemDelegate {
-    
-    func inputComponentDidAddTaskWithTitle(title: String?) {
-        guard let title = title where !title.isEmpty else { return }
-        let item = ListComponentItem<TaskItemComponent, Task>(state: Task(title: title))
-        item.delegate = self
-        self.tasks.append(item)
-        self.render()
-    }
+extension ViewController: ListComponentItemDelegate {
     
     func didSelectItem(item: ListComponentItemType, indexPath: NSIndexPath, listComponent: ListComponentView) {
-        let selectedItem = item as!  ListComponentItem<TaskItemComponent, Task>
-        self.tasks = self.tasks.map({ $0 as! ListComponentItem<TaskItemComponent, Task> }).filter({ $0.state.title != selectedItem.state.title }).map({ $0 as ListComponentItemType })
+
+        let item = item as! ListComponentItem<AlbumComponentView, Album>
+        item.state.featured = !item.state.featured
         self.render()
     }
-    
 }

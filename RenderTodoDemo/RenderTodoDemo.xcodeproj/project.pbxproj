@@ -15,11 +15,8 @@
 		169F69781CCE3BB600240315 /* Render.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 169F69771CCE3BA400240315 /* Render.framework */; };
 		169F69791CCE3BB600240315 /* Render.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 169F69771CCE3BA400240315 /* Render.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		169F697E1CCE3C1700240315 /* Style.swift in Sources */ = {isa = PBXBuildFile; fileRef = 169F697D1CCE3C1700240315 /* Style.swift */; };
-		169F69801CCE3C2200240315 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 169F697F1CCE3C2200240315 /* Extensions.swift */; };
-		169F69831CCE3F6E00240315 /* InputComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 169F69821CCE3F6E00240315 /* InputComponent.swift */; };
-		169F69861CCE4BFF00240315 /* Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = 169F69851CCE4BFF00240315 /* Task.swift */; };
-		169F69881CCE50F600240315 /* TodoListComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 169F69871CCE50F600240315 /* TodoListComponent.swift */; };
-		16AD71B51CD0D42500441CD0 /* TaskItemComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16AD71B41CD0D42500441CD0 /* TaskItemComponent.swift */; };
+		16B5F80B1CD8C6AA001726E4 /* Album.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16B5F80A1CD8C6AA001726E4 /* Album.swift */; };
+		16B5F80D1CD8CF35001726E4 /* AlbumComponentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16B5F80C1CD8CF35001726E4 /* AlbumComponentView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -65,11 +62,8 @@
 		169F696C1CCE3BA000240315 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		169F69721CCE3BA400240315 /* Render.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Render.xcodeproj; path = ../Render.xcodeproj; sourceTree = "<group>"; };
 		169F697D1CCE3C1700240315 /* Style.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Style.swift; sourceTree = "<group>"; };
-		169F697F1CCE3C2200240315 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
-		169F69821CCE3F6E00240315 /* InputComponent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InputComponent.swift; sourceTree = "<group>"; };
-		169F69851CCE4BFF00240315 /* Task.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Task.swift; sourceTree = "<group>"; };
-		169F69871CCE50F600240315 /* TodoListComponent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TodoListComponent.swift; sourceTree = "<group>"; };
-		16AD71B41CD0D42500441CD0 /* TaskItemComponent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TaskItemComponent.swift; sourceTree = "<group>"; };
+		16B5F80A1CD8C6AA001726E4 /* Album.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Album.swift; sourceTree = "<group>"; };
+		16B5F80C1CD8CF35001726E4 /* AlbumComponentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlbumComponentView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -104,12 +98,11 @@
 		169F695F1CCE3BA000240315 /* RenderTodoDemo */ = {
 			isa = PBXGroup;
 			children = (
-				169F69841CCE4BF500240315 /* Models */,
-				169F69811CCE3F5F00240315 /* Components */,
+				16B5F80E1CD8CF3A001726E4 /* Components */,
+				16B5F8091CD8C699001726E4 /* Models */,
 				169F69601CCE3BA000240315 /* AppDelegate.swift */,
 				169F69621CCE3BA000240315 /* ViewController.swift */,
 				169F697D1CCE3C1700240315 /* Style.swift */,
-				169F697F1CCE3C2200240315 /* Extensions.swift */,
 				169F69641CCE3BA000240315 /* Main.storyboard */,
 				169F69671CCE3BA000240315 /* Assets.xcassets */,
 				169F69691CCE3BA000240315 /* LaunchScreen.storyboard */,
@@ -128,22 +121,20 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		169F69811CCE3F5F00240315 /* Components */ = {
+		16B5F8091CD8C699001726E4 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				169F69821CCE3F6E00240315 /* InputComponent.swift */,
-				169F69871CCE50F600240315 /* TodoListComponent.swift */,
-				16AD71B41CD0D42500441CD0 /* TaskItemComponent.swift */,
-			);
-			name = Components;
-			sourceTree = "<group>";
-		};
-		169F69841CCE4BF500240315 /* Models */ = {
-			isa = PBXGroup;
-			children = (
-				169F69851CCE4BFF00240315 /* Task.swift */,
+				16B5F80A1CD8C6AA001726E4 /* Album.swift */,
 			);
 			name = Models;
+			sourceTree = "<group>";
+		};
+		16B5F80E1CD8CF3A001726E4 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				16B5F80C1CD8CF35001726E4 /* AlbumComponentView.swift */,
+			);
+			name = Components;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -235,14 +226,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				169F69831CCE3F6E00240315 /* InputComponent.swift in Sources */,
-				169F69881CCE50F600240315 /* TodoListComponent.swift in Sources */,
-				169F69861CCE4BFF00240315 /* Task.swift in Sources */,
 				169F69631CCE3BA000240315 /* ViewController.swift in Sources */,
 				169F697E1CCE3C1700240315 /* Style.swift in Sources */,
+				16B5F80D1CD8CF35001726E4 /* AlbumComponentView.swift in Sources */,
 				169F69611CCE3BA000240315 /* AppDelegate.swift in Sources */,
-				169F69801CCE3C2200240315 /* Extensions.swift in Sources */,
-				16AD71B51CD0D42500441CD0 /* TaskItemComponent.swift in Sources */,
+				16B5F80B1CD8C6AA001726E4 /* Album.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
