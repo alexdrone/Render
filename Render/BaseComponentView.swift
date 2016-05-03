@@ -91,12 +91,10 @@ extension ComponentViewType where Self: BaseComponentView {
     /// Updates the frame and the bounds of this (container) view
     internal func updateViewFrame() {
         
-        if !self.isRootInitialize || self.root.renderedView == nil {
-            return
-        }
+        if !self.isRootInitialize || self.root.renderedView == nil { return }
         
+        // update the frame of this component
         self.frame.size = self.root.renderedView!.bounds.size
-
         let style = self.root.renderedView!.style
         self.frame.size.width += CGFloat(style.margin.left) + CGFloat(style.margin.right)
         self.frame.size.height += CGFloat(style.margin.top) + CGFloat(style.margin.bottom)

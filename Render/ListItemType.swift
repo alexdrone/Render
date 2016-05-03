@@ -8,6 +8,15 @@
 
 import UIKit
 
+public protocol ListComponentItemDelegate: class {
+
+    /// The item has been selected.
+    /// - parameter item: The selected item.
+    /// - parameter indexPath: The indexpath for the current item.
+    /// - parameter listComponent: The list component view that owns the list item
+    func didSelectItem(item: ListComponentItemType, indexPath: NSIndexPath, listComponent: ListComponentView)
+}
+
 public protocol ListComponentItemType {
     
     /// The reuse identifier for the component passed as argument.
@@ -16,10 +25,13 @@ public protocol ListComponentItemType {
     /// The component state.
     var itemState: ComponentStateType { get  set }
     
-    /// Additional configuration closure for the component
+    /// Additional configuration closure for the component.
     var configuration: ((ComponentViewType) -> Void)? { get }
     
-    /// Creates a new instance for the associated component
+    /// The list item delegate.
+    weak var delegate: ListComponentItemDelegate? { get set }
+    
+    /// Creates a new instance for the associated component.
     func newComponentIstance() -> ComponentViewType
 }
 
@@ -34,8 +46,11 @@ public class ListComponentItem<C: ComponentViewType, S: ComponentStateType>: Lis
         return self.itemState as! S
     }
     
-    /// Additional configuration closure for the component
+    /// Additional configuration closure for the component.
     public var configuration: ((ComponentViewType) -> Void)?
+    
+    /// The list item delegate.
+    public weak var delegate: ListComponentItemDelegate? = nil
     
     /// Initialise a new component with
     public init(reuseIdentifier: String = String(C), state: S, configuration: ((ComponentViewType) -> Void)? = nil) {
@@ -49,3 +64,11 @@ public class ListComponentItem<C: ComponentViewType, S: ComponentStateType>: Lis
         return C() as ComponentViewType
     }
 }
+
+public struct ListComponentState: ComponentStateType {
+    
+    /// Simply wraps the items inside 
+    public let items: [ListComponentItemType]
+}
+
+

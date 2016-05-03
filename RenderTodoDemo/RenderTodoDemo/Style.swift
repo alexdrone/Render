@@ -25,7 +25,7 @@ struct Style {
     struct Typography {
         static let SmallBold = UIFont.systemFontOfSize(14.0, weight: UIFontWeightBold)
         static let SmallRegular = UIFont.systemFontOfSize(14.0, weight: UIFontWeightRegular)
-        static let MediumBold = UIFont.systemFontOfSize(16.0, weight: UIFontWeightBold)
+        static let MediumBold = UIFont.systemFontOfSize(24.0, weight: UIFontWeightBold)
         static let MediumSemibold = UIFont.systemFontOfSize(16.0, weight: UIFontWeightSemibold)
         static let MediumRegular = UIFont.systemFontOfSize(16.0, weight: UIFontWeightRegular)
     }

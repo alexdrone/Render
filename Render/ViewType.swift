@@ -77,7 +77,6 @@ extension UIView: FlexboxView {
     
     /// The style for this flexbox node
     public var style: Style { return self.flexNode.style }
-    public var flexStyle: Style { return self.flexNode.style }
     
     /// The associated reuse-identifier
     public var reuseIdentifier: String {
@@ -255,7 +254,7 @@ func debugRenderTime(label: String, startTime: CFAbsoluteTime) {
     
     // - Note: 60fps means you need to render a frame every ~16ms to not drop any frames.
     // This is even more important when used inside a cell.
-    if timeElapsed > 16 || true {
+    if timeElapsed > 16  {
         print(String(format: "- warning: \(label) (%2f) ms.", arguments: [timeElapsed]))
     }
 }

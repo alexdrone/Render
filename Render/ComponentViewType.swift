@@ -25,7 +25,7 @@ public protocol ComponentViewType: class {
     /// The parent for this component.
     /// - Note: Although it is usually the superview, do not assume that is the same thing.
     /// Use this as reference for size calculation.
-    var parentView: UIView? { get set }
+    weak var parentView: UIView? { get set }
 
     /// Render the component.
     /// - parameter size: The bounding box for this component. The default will determine the intrinsic content

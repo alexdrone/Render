@@ -28,32 +28,31 @@ class ViewController: UIViewController {
             component.tasks = self.tasks
         })
         
-                
         self.view.addSubview(self.todoComponent)
     }
     
     override func viewDidLayoutSubviews() {
         self.render()
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
     
     func render() {
         self.todoComponent.renderComponent(self.view.bounds.size)
-
     }
 }
 
-extension ViewController: InputComponentDelegate {
+extension ViewController: InputComponentDelegate, ListComponentItemDelegate {
     
     func inputComponentDidAddTaskWithTitle(title: String?) {
         guard let title = title where !title.isEmpty else { return }
-        
         let item = ListComponentItem<TaskItemComponent, Task>(state: Task(title: title))
+        item.delegate = self
         self.tasks.append(item)
+        self.render()
+    }
+    
+    func didSelectItem(item: ListComponentItemType, indexPath: NSIndexPath, listComponent: ListComponentView) {
+        let selectedItem = item as!  ListComponentItem<TaskItemComponent, Task>
+        self.tasks = self.tasks.map({ $0 as! ListComponentItem<TaskItemComponent, Task> }).filter({ $0.state.title != selectedItem.state.title }).map({ $0 as ListComponentItemType })
         self.render()
     }
     

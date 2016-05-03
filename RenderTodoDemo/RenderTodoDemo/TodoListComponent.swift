@@ -39,7 +39,7 @@ class TodoListComponent: StaticComponentView {
             
             ComponentNode<ListComponentView>().configure({ component in
                 component.backgroundColor = Style.Color.Text
-                component.flexStyle.flex = 0.5
+                component.style.flex = 0.5
                 component.items = self.tasks
             })
 

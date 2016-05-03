@@ -124,7 +124,6 @@ public class ComponentCollectionViewCell: UICollectionViewCell {
     /// - parameter state: The (optional) state for this component.
     public func renderComponent(size: CGSize? = nil) {
         self.component?.renderComponent(size ?? self.superview?.bounds.size ?? CGSize.undefined)
-        self.component?.renderComponent(size ?? self.superview?.bounds.size ?? CGSize.undefined)
         
         if let view = self.component as? UIView {
             self.contentView.frame = view.bounds
@@ -135,6 +134,7 @@ public class ComponentCollectionViewCell: UICollectionViewCell {
     /// - parameter size: The size for which the view should calculate its best-fitting size.
     /// - returns: A new size that fits the receiver’s subviews.
     public override func sizeThatFits(size: CGSize) -> CGSize {
+        self.renderComponent(size)
         if let view = self.component as? UIView {
             let size = view.sizeThatFits(size)
             return size
