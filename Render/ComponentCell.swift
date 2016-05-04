@@ -70,7 +70,6 @@ public class ComponentTableViewCell: UITableViewCell {
     }
 }
 
-
 public class ComponentCollectionViewCell: UICollectionViewCell {
     
     /// The internal component
@@ -167,6 +166,25 @@ extension UITableView {
     public func renderVisibleComponents() {
         for cell in self.visibleCells {
             if let c = cell as? ComponentTableViewCell { c.renderComponent(CGSize(self.bounds.width)) }
+        }
+    }
+}
+
+extension UICollectionView {
+    
+    /// Refreshes the component at the given index path.
+    /// - parameter indexPath: The indexpath for the targeted component.
+    public func renderComponentAtIndexPath(indexPath: NSIndexPath) {
+        self.performBatchUpdates({ 
+            self.reloadItemsAtIndexPaths([indexPath])
+        }, completion: nil)
+    }
+    
+    /// Re-renders all the compoents currently visible on screen.
+    /// - Note: Call this method whenever the collection view changes its bounds/size.
+    public func renderVisibleComponents() {
+        for cell in self.visibleCells() {
+            if let c = cell as? ComponentCollectionViewCell { c.renderComponent(CGSize(self.bounds.width)) }
         }
     }
 }
