@@ -10,14 +10,9 @@ import UIKit
 
 extension ComponentViewType {
     
-    /// - Note: USe this when you wish to use this component inside another component tree.
-    var root: ComponentNodeType! {
+    /// The root node for this component.
+    var root: ComponentNodeType? {
         return NilComponent()
-    }
-    
-    /// 'true' is the root node has been constructed already, 'false' otherwise
-    var isRootInitialize: Bool {
-        return false
     }
     
     /// The dimension of the parent
@@ -28,7 +23,7 @@ extension ComponentViewType {
 
 extension ComponentViewType where Self: BaseComponentView {
     
-    /// Updates the view hierarchy in order to reflect the new component structures.
+    /// Updates the view hierarchy in order to reflect the new component structure.
     /// The views that are no longer related to a component are pruned from the tree.
     /// The components that don't have an associated rendered view will build their views and
     /// add it to the hierarchy.
@@ -36,15 +31,13 @@ extension ComponentViewType where Self: BaseComponentView {
     /// - parameter size: The bounding size for this render phase.
     internal func updateViewHierarchy(size: CGSize = CGSize.undefined) {
         
-        if !self.isRootInitialize { return }
+        if !self.isRootInitialized { return }
         
         var viewSet = Set<UIView>()
         
         // visits the component tree and flags the useful existing views
         func visit(component: ComponentNodeType, index: Int, parent: ComponentNodeType?) {
-            
             component.index = index
-            
             if let view = component.renderedView {
                 viewSet.insert(view)
             }
@@ -59,7 +52,6 @@ extension ComponentViewType where Self: BaseComponentView {
         func prune(view: UIView) {
             if !viewSet.contains(view) {
                 view.removeFromSuperview() //todo: put in a global reusable pool?
-                
             } else {
                 for subview in view.subviews.filter({ return $0.hasFlexNode }) {
                     prune(subview)
@@ -91,7 +83,7 @@ extension ComponentViewType where Self: BaseComponentView {
     /// Updates the frame and the bounds of this (container) view
     internal func updateViewFrame() {
         
-        if !self.isRootInitialize || self.root.renderedView == nil { return }
+        if !self.isRootInitialized || self.root.renderedView == nil { return }
         
         // update the frame of this component
         self.frame.size = self.root.renderedView!.bounds.size
@@ -136,7 +128,7 @@ public class BaseComponentView: UIView, ComponentViewType {
     }
     
     /// 'true' is the root node has been constructed already, 'false' otherwise
-    public var isRootInitialize: Bool {
+    public var isRootInitialized: Bool {
         guard let _ = self._root else { return false}
         return true
     }
@@ -182,7 +174,6 @@ public class BaseComponentView: UIView, ComponentViewType {
     }
 }
 
-
 /// This class define a view fragment as a composition of 'ComponentType' objects.
 public class ComponentView: BaseComponentView {
     
@@ -206,7 +197,6 @@ public class ComponentView: BaseComponentView {
         
         // runs its own configuration
         self.internalStore.configureClosure?()
-        
         self._root?.render(size)
         
         let startTime = CFAbsoluteTimeGetCurrent()
@@ -220,7 +210,7 @@ public class ComponentView: BaseComponentView {
             self._root = self.construct()
             return
         }
-        
+
         var new = self.construct()
         
         //diff between new and old
@@ -266,20 +256,19 @@ public class StaticComponentView: BaseComponentView {
     
     public required init() {
         super.init()
-        self.commonInit()
+        self.initalizeComponent()
     }
     
     public override init(frame: CGRect) {
         super.init(frame: frame)
-        self.commonInit()
+        self.initalizeComponent()
     }
     
     required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func commonInit() {
-        // construct the component view
+    private func initalizeComponent() {
         self._root = self.construct()
         self.updateViewHierarchy()
     }
@@ -289,15 +278,11 @@ public class StaticComponentView: BaseComponentView {
     /// size for this component.
     /// - parameter state: The (optional) state for this component.
     public override func renderComponent(size: CGSize = CGSize.undefined) {
-        
-        // runs its own configuration
         self.internalStore.configureClosure?()
-        
         let startTime = CFAbsoluteTimeGetCurrent()
         defer {
             debugRenderTime("\(self.dynamicType).renderComponent", startTime: startTime)
         }
-        
         self._root?.render(size)
         self.updateViewFrame()
     }

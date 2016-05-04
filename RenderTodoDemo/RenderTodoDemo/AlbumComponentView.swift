@@ -19,7 +19,6 @@ extension S.AlbumAppearanceProxy {
     }
 }
 
-
 extension Album: ComponentStateType {
     
 }

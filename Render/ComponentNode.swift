@@ -35,6 +35,7 @@ public protocol ComponentNodeType: class {
     func buildView()
 }
 
+/// Used to wrap any view as a node for the view description.
 public class ComponentNode<ViewType: UIView>: ComponentNodeType {
 
     /// The underlying view rendered from the component.
@@ -188,7 +189,8 @@ extension ComponentNodeType {
 }
 
 /// Internally used to represent a nil component.
-internal class NilComponent: ComponentNodeType {
+/// It is always discarded when added.
+class NilComponent: ComponentNodeType {
     var renderedView: UIView? = nil
     var reuseIdentifier: String = ""
     var children: [ComponentNodeType] = [NilComponent]()

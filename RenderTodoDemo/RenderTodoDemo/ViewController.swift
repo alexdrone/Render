@@ -50,6 +50,6 @@ extension ViewController: ListComponentItemDelegate {
 
         let item = item as! ListComponentItem<AlbumComponentView, Album>
         item.state.featured = !item.state.featured
-        self.render()
+        self.listView.renderComponentAtIndexPath(indexPath)
     }
 }

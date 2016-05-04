@@ -136,7 +136,6 @@ extension ListComponentView: UICollectionViewDataSource, UICollectionViewDelegat
         let state = self.items[indexPath.row]
         state.delegate?.didSelectItem(state, indexPath: indexPath, listComponent: self)
     }
-    
 }
 
 /// The collection of registered prototypes

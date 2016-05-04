@@ -16,7 +16,7 @@
 		16097B761CB3B5B600551EBE /* ComponentNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16097B751CB3B5B600551EBE /* ComponentNode.swift */; };
 		161E87331CD775A2002C1BE1 /* ComponentViewType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 161E87321CD775A2002C1BE1 /* ComponentViewType.swift */; };
 		161E87361CD777EF002C1BE1 /* ListItemType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 161E87351CD777EF002C1BE1 /* ListItemType.swift */; };
-		16329ABC1CC9266D00927B1B /* Cell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16329ABB1CC9266D00927B1B /* Cell.swift */; };
+		16329ABC1CC9266D00927B1B /* ComponentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16329ABB1CC9266D00927B1B /* ComponentCell.swift */; };
 		1693B9761CBD734D00A44B24 /* Reset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1693B9751CBD734D00A44B24 /* Reset.swift */; };
 		16AD71B71CD0DF2C00441CD0 /* ListComponentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16AD71B61CD0DF2C00441CD0 /* ListComponentView.swift */; };
 		16AD71BA1CD0EF4700441CD0 /* BaseComponentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16AD71B91CD0EF4700441CD0 /* BaseComponentView.swift */; };
@@ -34,7 +34,7 @@
 		16097B751CB3B5B600551EBE /* ComponentNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComponentNode.swift; sourceTree = "<group>"; };
 		161E87321CD775A2002C1BE1 /* ComponentViewType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComponentViewType.swift; sourceTree = "<group>"; };
 		161E87351CD777EF002C1BE1 /* ListItemType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListItemType.swift; sourceTree = "<group>"; };
-		16329ABB1CC9266D00927B1B /* Cell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cell.swift; sourceTree = "<group>"; };
+		16329ABB1CC9266D00927B1B /* ComponentCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComponentCell.swift; sourceTree = "<group>"; };
 		1693B9751CBD734D00A44B24 /* Reset.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reset.swift; sourceTree = "<group>"; };
 		16AD71B61CD0DF2C00441CD0 /* ListComponentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListComponentView.swift; sourceTree = "<group>"; };
 		16AD71B91CD0EF4700441CD0 /* BaseComponentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseComponentView.swift; sourceTree = "<group>"; };
@@ -71,7 +71,7 @@
 			isa = PBXGroup;
 			children = (
 				16329AB81CC8EA6500927B1B /* Layout */,
-				16329AB61CC8EA4300927B1B /* Core */,
+				16329AB61CC8EA4300927B1B /* Component */,
 				16AD71B81CD0DF4A00441CD0 /* List */,
 				16329AB71CC8EA5800927B1B /* Extensions */,
 				16097B611CB3B1A700551EBE /* Render.h */,
@@ -81,21 +81,19 @@
 			path = Render;
 			sourceTree = "<group>";
 		};
-		16329AB61CC8EA4300927B1B /* Core */ = {
+		16329AB61CC8EA4300927B1B /* Component */ = {
 			isa = PBXGroup;
 			children = (
 				161E87321CD775A2002C1BE1 /* ComponentViewType.swift */,
-				16097B6D1CB3B1D100551EBE /* ViewType.swift */,
 				16097B751CB3B5B600551EBE /* ComponentNode.swift */,
 				16AD71B91CD0EF4700441CD0 /* BaseComponentView.swift */,
 			);
-			name = Core;
+			name = Component;
 			sourceTree = "<group>";
 		};
 		16329AB71CC8EA5800927B1B /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				16097B691CB3B1D100551EBE /* Geometry.swift */,
 				1693B9751CBD734D00A44B24 /* Reset.swift */,
 			);
 			name = Extensions;
@@ -107,6 +105,8 @@
 				16097B6A1CB3B1D100551EBE /* Layout.c */,
 				16097B6B1CB3B1D100551EBE /* Layout.h */,
 				16097B6C1CB3B1D100551EBE /* Layout.swift */,
+				16097B6D1CB3B1D100551EBE /* ViewType.swift */,
+				16097B691CB3B1D100551EBE /* Geometry.swift */,
 			);
 			name = Layout;
 			sourceTree = "<group>";
@@ -116,7 +116,7 @@
 			children = (
 				161E87351CD777EF002C1BE1 /* ListItemType.swift */,
 				16AD71B61CD0DF2C00441CD0 /* ListComponentView.swift */,
-				16329ABB1CC9266D00927B1B /* Cell.swift */,
+				16329ABB1CC9266D00927B1B /* ComponentCell.swift */,
 			);
 			name = List;
 			sourceTree = "<group>";
@@ -204,7 +204,7 @@
 				161E87331CD775A2002C1BE1 /* ComponentViewType.swift in Sources */,
 				16AD71BA1CD0EF4700441CD0 /* BaseComponentView.swift in Sources */,
 				16097B761CB3B5B600551EBE /* ComponentNode.swift in Sources */,
-				16329ABC1CC9266D00927B1B /* Cell.swift in Sources */,
+				16329ABC1CC9266D00927B1B /* ComponentCell.swift in Sources */,
 				16097B6E1CB3B1D100551EBE /* Geometry.swift in Sources */,
 				16AD71B71CD0DF2C00441CD0 /* ListComponentView.swift in Sources */,
 				16097B6F1CB3B1D100551EBE /* Layout.c in Sources */,

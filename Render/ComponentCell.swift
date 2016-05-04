@@ -8,6 +8,7 @@
 
 import UIKit
 
+/// Wraps a component inside a UITableViewCell.
 public class ComponentTableViewCell: UITableViewCell {
     
     /// The internal component
@@ -70,6 +71,7 @@ public class ComponentTableViewCell: UITableViewCell {
     }
 }
 
+/// Wraps a component inside a UICollectionViewCell.
 public class ComponentCollectionViewCell: UICollectionViewCell {
     
     /// The internal component
@@ -102,11 +104,11 @@ public class ComponentCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    public func hasMountedComponent() -> Bool {
+    func hasMountedComponent() -> Bool {
         return self.component != nil
     }
     
-    public func mountComponentIfNecessary(component: ComponentViewType) {
+    func mountComponentIfNecessary(component: ComponentViewType) {
         if self.component != nil {
             return
         }

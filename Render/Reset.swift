@@ -218,12 +218,6 @@ struct _Reset {
                 control.removeTarget(target, action: nil, forControlEvents: .AllEvents)
             }
         }
-        if let gestureRecognizer = view as? UIGestureRecognizer {
-            gestureRecognizer.removeTarget(nil, action: nil)
-        }
-        if let textView = view as? UITextView {
-            TextView.delegate = nil
-        }
         if let textField = view as? UITextField {
             textField.delegate = nil
         }
@@ -294,8 +288,3 @@ extension UIScrollView {
         self.scrollEnabled = true
     }
 }
-
-
-
-
-

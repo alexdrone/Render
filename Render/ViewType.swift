@@ -85,12 +85,12 @@ extension UIView: FlexboxView {
     }
     
     ///Wether this view has or not a flexbox node associated
-    internal var hasFlexNode: Bool {
+    var hasFlexNode: Bool {
         return (objc_getAssociatedObject(self, &__flexNodeHandle) != nil) 
     }
     
     /// Returns the associated node for this view.
-    internal var flexNode: Node {
+    var flexNode: Node {
         get {
             guard let node = objc_getAssociatedObject(self, &__flexNodeHandle) as? Node else {
                 
@@ -134,15 +134,12 @@ extension UIView: FlexboxView {
                     if !w.isDefined && node.style.maxDimensions.width.isDefined {
                         w = node.style.maxDimensions.width
                     }
-                    
                     if !h.isDefined && node.style.maxDimensions.height.isDefined {
                         h = node.style.maxDimensions.height
                     }
-                    
                     if !w.isDefined && node.style.minDimensions.width.isDefined {
                         w = node.style.minDimensions.width
                     }
-                    
                     if !h.isDefined && node.style.minDimensions.height.isDefined {
                         h = node.style.minDimensions.height
                     }
@@ -178,7 +175,6 @@ extension UIView: FlexboxView {
             self.flexNode.layout(~bounds.width, maxHeight: ~bounds.height, parentDirection: .Inherit)
             self.flexNode.apply(self)
         }
-        
         compute()
     }
     
@@ -198,17 +194,17 @@ extension UIView: FlexboxView {
     }
 }
 
-/// Support structure for the view
-internal class InternalViewStore {
-    internal var configureClosure: ((Void) -> (Void))?
-    internal var reuseIdentifier: String!
-    internal var notAnimatable: Bool = false
+// Support structure for the view
+class InternalViewStore {
+    var configureClosure: ((Void) -> (Void))?
+    var reuseIdentifier: String!
+    var notAnimatable: Bool = false
 }
 
 extension UIView {
     
     /// Internal store for this view
-    internal var internalStore: InternalViewStore {
+    var internalStore: InternalViewStore {
         get {
             guard let store = objc_getAssociatedObject(self, &__internalStoreHandle) as? InternalViewStore else {
                 
@@ -218,32 +214,6 @@ extension UIView {
                 return store
             }
             return store
-        }
-    }
-}
-
-private var __internalStoreHandle: UInt8 = 0
-private var __flexNodeHandle: UInt8 = 0
-
-extension Node {
-    
-    /// Recursively apply the layout to the given view hierarchy.
-    /// - parameter view: The root of the view hierarchy
-    internal func apply(view: UIView) {
-        
-        let x = layout.position.left.isNormal ? CGFloat(layout.position.left) : 0
-        let y = layout.position.top.isNormal ? CGFloat(layout.position.top) : 0
-        let w = layout.dimension.width.isNormal ? CGFloat(layout.dimension.width) : 0
-        let h = layout.dimension.height.isNormal ? CGFloat(layout.dimension.height) : 0
-        
-        let frame = CGRect(x: x, y: y, width: w, height: h)
-        view.applyFrame(CGRectIntegral(frame))
-        
-        if let children = self.children {
-            for (s, node) in Zip2Sequence(view.subviews, children ?? [Node]()) {
-                let subview = s as UIView
-                node.apply(subview)
-            }
         }
     }
 }
@@ -259,3 +229,5 @@ func debugRenderTime(label: String, startTime: CFAbsoluteTime) {
     }
 }
 
+private var __internalStoreHandle: UInt8 = 0
+private var __flexNodeHandle: UInt8 = 0
