@@ -9,15 +9,27 @@
 import UIKit
 
 public class ListComponentView: UICollectionView {
-
+    
     /// The data associated with this list.
     public var items = [ListComponentItemType]() {
         didSet {
-            self.reloadData()
-            self.renderComponent(CGSize.undefined)
+            if self.updateWithDiff {
+                self.diffCalculator.rows = self.items.map({ return EquatableWrapper(item: $0) })
+            } else {
+                self.reloadData()
+                self.renderComponent(CGSize.undefined)
+            }
         }
     }
-
+    
+    /// Whether to use or not a diff algorithm when the items are set.
+    /// Default is true.
+    public var updateWithDiff: Bool = true
+    lazy private var diffCalculator: CollectionViewDiffCalculator<EquatableWrapper> = {
+        return CollectionViewDiffCalculator(collectionView: self, initialRows: self.items.map({ return EquatableWrapper(item: $0) }))
+    }()
+    
+    /// The component configuration.
     private var configuration: ((ComponentViewType) -> Void)?
     
     /// Initializes and returns a newly allocated collection view object with the specified frame and layout.
@@ -79,7 +91,6 @@ extension ListComponentView: ComponentViewType {
     public func renderComponent(size: CGSize) {
         self.collectionViewLayout.invalidateLayout()
     }
-    
 }
 
 extension ListComponentView: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
@@ -132,6 +143,9 @@ extension ListComponentView: UICollectionViewDataSource, UICollectionViewDelegat
         }
     }
 
+    /// Tells the delegate that the item at the specified index path was selected.
+    /// The collection view calls this method when the user successfully selects an item in the collection view.
+    /// It does not call this method when you programmatically set the selection.
     public func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         let state = self.items[indexPath.row]
         state.delegate?.didSelectItem(state, indexPath: indexPath, listComponent: self)

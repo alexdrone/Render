@@ -28,8 +28,13 @@ let artits = ["Baauer",
               "Ben Watt",
               "Aucan" ]
 
-class Album {
+func ==(lhs: Album, rhs: Album) -> Bool {
+    return lhs.id == rhs.id
+}
+
+class Album: Equatable {
     
+    private let id = NSUUID().UUIDString
     let title: String
     let artist: String
     let cover: UIImage

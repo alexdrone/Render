@@ -71,4 +71,38 @@ public struct ListComponentState: ComponentStateType {
     public let items: [ListComponentItemType]
 }
 
+//MARK: Equatable workaround
 
+extension ListComponentItemType {
+    
+    /// Wheter this list item can be compared with others.
+    var isEquatable: Bool { return self.isEqual(self) }
+    
+    /// Always 'false' by default.
+    public func isEqual(other: ListComponentItemType) -> Bool {
+        return false
+    }
+}
+
+extension ListComponentItem where S: Equatable {
+    
+    /// Wheter this list item can be compared with others.
+    var isEquatable: Bool { return true }
+    
+    /// Default implementation when the state is equatable.
+    private func isEqual(other: ListComponentItemType) -> Bool {
+        if let otherState = other.itemState as? S where other.reuseIdentifier == self.reuseIdentifier {
+            return self.state == otherState
+        }
+        return false
+    }
+}
+
+/// Used by the LCS algorithm for calculating the list diff.
+struct EquatableWrapper: Equatable {
+    let item: ListComponentItemType
+}
+
+func ==(lhs: EquatableWrapper, rhs: EquatableWrapper) -> Bool {
+    return lhs.item.isEqual(rhs.item)
+}

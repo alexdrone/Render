@@ -39,6 +39,11 @@ class ViewController: UIViewController {
         self.render()
     }
     
+    func removeItem(item: ListComponentItem<AlbumComponentView, Album>) {
+        self.albums = albums.map({ $0 as! ListComponentItem<AlbumComponentView, Album> }).filter({ $0.state != item.state }).map({ $0 as ListComponentItemType })
+        self.listView.items = self.albums
+    }
+    
     func render() {
         self.listView.renderComponent(self.view.bounds.size)
     }
@@ -49,7 +54,11 @@ extension ViewController: ListComponentItemDelegate {
     func didSelectItem(item: ListComponentItemType, indexPath: NSIndexPath, listComponent: ListComponentView) {
 
         let item = item as! ListComponentItem<AlbumComponentView, Album>
-        item.state.featured = !item.state.featured
-        self.listView.renderComponentAtIndexPath(indexPath)
+
+        self.albums = albums.map({ $0 as! ListComponentItem<AlbumComponentView, Album> }).filter({ $0.state != item.state }).map({ $0 as ListComponentItemType })
+        self.listView.items = albums
+        
+        //item.state.featured = !item.state.featured
+        //self.listView.renderComponentAtIndexPath(indexPath)
     }
 }
