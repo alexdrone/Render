@@ -48,9 +48,9 @@ class AlbumComponentView: ComponentView {
     override func construct() -> ComponentNodeType {
             
         return ComponentNode<UIView>().configure({ view in
-            view.style.flexDirection = .Column
-            view.style.dimensions.width = ~self.parentSize.width
-            view.backgroundColor = UIColor.blackColor()
+        		view.style.flexDirection = .Column
+           	view.style.dimensions.width = ~self.parentSize.width
+            	view.backgroundColor = UIColor.blackColor()
 
         }).children([
             
