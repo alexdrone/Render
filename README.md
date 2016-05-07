@@ -22,7 +22,7 @@ Right now we write UIs by poking at them, manually mutating their properties whe
 
 ### Carthage
 
-**Render** layout engine is based on [flexbox](www.github.com/alexdrone/FlexboxLayout).
+
 
 To install Carthage, run (using Homebrew):
 
@@ -37,12 +37,15 @@ Then add the following line to your `Cartfile`:
 github "alexdrone/Render" "master"    
 ```
 
-#What's it like?
+#TL;DR
+
+Render's building blocks are *Components* (described in the protocol `ComponentViewType`).
+Despite virtually any `UIView` object can be a component as long as it conforms to the above-cited protocol,
+Render's core functionalities are exposed by the two main Component base classes: `ComponentView` and `StaticComponentView` (optimised for components that have a static view hierarchy).
+
+Render layout engine is based on [FlexboxLayout](https://github.com/alexdrone/FlexboxLayout).
 
 This is what a component (and its state) would look like:
-
-<p align="center">
-<img src="Doc/render.jpg" width="192">
 
 
 ```swift
@@ -53,6 +56,7 @@ struct Album: ComponentStateType {
 	let cover: UIImage  
 }
 
+// COMPONENT
 class AlbumComponentView: ComponentView {
     
     // the component state.
@@ -98,3 +102,15 @@ class AlbumComponentView: ComponentView {
 }
 
 ```
+
+The component above would render to:
+
+<p align="center">
+<img src="Doc/render.jpg" width="192">
+
+```swift
+
+let albumComponent = AlbumComponentView()
+albumComponentView.renderComponent()
+```
+
