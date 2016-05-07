@@ -1,3 +1,4 @@
+<p align="center">
 ![Render Logo](Doc/logo.png)
 
 
@@ -36,15 +37,28 @@ github "alexdrone/Render" "master"
 
 #What's it like?
 
+This is what a component (and its state) would look like:
+
+<p align="center">
+![Render Logo](Doc/render.jpg)
+
+
 ```swift
+
+struct Album: ComponentStateType {
+	let title: String
+	let artist: String
+	let cover: UIImage  
+}
 
 class AlbumComponentView: ComponentView {
     
-    /// the component state
+    // the component state.
     var album: Album? {
         return self.state as? Album
     }
     
+    // View as function of the state.
     override func construct() -> ComponentNodeType {
             
         return ComponentNode<UIView>().configure({ view in
@@ -55,8 +69,8 @@ class AlbumComponentView: ComponentView {
         }).children([
             
             ComponentNode<UIImageView>().configure({ view in
-                view.image = self.album?.cover
-           	   view.style.dimensions.width = (self.parentSize.width, self.parentSize.width)
+				view.image = self.album?.cover
+				view.style.dimensions.width = (self.parentSize.width, self.parentSize.width)
             }),
             
             ComponentNode<UIView>().configure({ view in
