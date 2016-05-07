@@ -1,6 +1,12 @@
 ![Render Logo](Doc/logo.png)
 
-React-inspired library for writing UIKit UIs which are functions of their state.
+
+[![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
+[![Build](https://img.shields.io/badge/build-passing-green.svg?style=flat)](#)
+[![Platform](https://img.shields.io/badge/platform-ios-lightgrey.svg?style=flat)](#)
+[![Build](https://img.shields.io/badge/license-MIT-blue.svg?style=flat)](https://opensource.org/licenses/MIT)
+
+*React-inspired library for writing UIKit UIs which are functions of their state.*
 
 #Why
 
