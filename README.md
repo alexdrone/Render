@@ -57,7 +57,7 @@ struct Album: ComponentStateType {
 }
 
 // COMPONENT
-class AlbumComponentView: ComponentView {
+class AlbumComponentView: StaticComponentView {
     
     // the component state.
     var album: Album? {
@@ -104,8 +104,8 @@ class AlbumComponentView: ComponentView {
 ```
 
 The view description is defined by the `construct()` method.
-`ComponentNode<T>` is an abstaction around views of any sort, that knows how to build, configure and layout the view when necessary.
-Every time `renderComponent()` is called, a new tree is constructed and compared to the existing tree - and only the required changes to the actual view hierarchy are performed. Also the configure closure passed as argument is re-applied to every view defined in the `construct()` method and the layout is re-computed based on the nodes' flexbox attributes. 
+`ComponentNode<T>` is an abstaction around views of any sort that knows how to build, configure and layout the view when necessary.
+Every time `renderComponent()` is called, a new tree is constructed, compared to the existing tree and only the required changes to the actual view hierarchy are performed - *if you have a static view hierarchy (like in this example), you might want to inherit from `StaticComponentView` to skip this part of the rendering* . Also the `configure` closure passed as argument is re-applied to every view defined in the `construct()` method and the layout is re-computed based on the nodes' flexbox attributes. 
 
 The component above would render to:
 
