@@ -40,7 +40,7 @@ github "alexdrone/Render" "master"
 #TL;DR
 
 Render's building blocks are *Components* (described in the protocol `ComponentViewType`).
-Despite virtually any `UIView` object can be a component as long as it conforms to the above-cited protocol,
+Despite virtually any `UIView` object can be a component (as long as it conforms to the above-cited protocol),
 Render's core functionalities are exposed by the two main Component base classes: `ComponentView` and `StaticComponentView` (optimised for components that have a static view hierarchy).
 
 Render layout engine is based on [FlexboxLayout](https://github.com/alexdrone/FlexboxLayout).
@@ -102,6 +102,10 @@ class AlbumComponentView: ComponentView {
 }
 
 ```
+
+The view description is defined by the `construct()` method.
+`ComponentNode<T>` is an abstaction around views of any sort, that knows how to build, configure and layout the view when necessary.
+Every time `renderComponent()` is called, a new tree is constructed and compared to the existing tree - and only the required changes to the actual view hierarchy are performed. Also the configure closure passed as argument is re-applied to every view defined in the `construct()` method and the layout is re-computed based on the nodes' flexbox attributes. 
 
 The component above would render to:
 
