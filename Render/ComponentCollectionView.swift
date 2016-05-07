@@ -1,5 +1,5 @@
 //
-//  ListComponent.swift
+//  ComponentCollectionView.swift
 //  Render
 //
 //  Created by Alex Usbergo on 27/04/16.
@@ -8,26 +8,43 @@
 
 import UIKit
 
-public class ListComponentView: UICollectionView {
+public class ComponentCollectionView: UICollectionView {
     
     /// The data associated with this list.
     public var items = [ListComponentItemType]() {
         didSet {
+            let startTime = CFAbsoluteTimeGetCurrent()
             if self.updateWithDiff {
                 self.diffCalculator.rows = self.items.map({ return EquatableWrapper(item: $0) })
             } else {
                 self.reloadData()
-                self.renderComponent(CGSize.undefined)
+            }
+            defer {
+                debugRenderTime("\(self.dynamicType).diff for items", startTime: startTime)
             }
         }
     }
     
+    /// The state of this component.
+    public var state: ComponentStateType?
+    
     /// Whether to use or not a diff algorithm when the items are set.
     /// Default is true.
     public var updateWithDiff: Bool = true
-    lazy private var diffCalculator: CollectionViewDiffCalculator<EquatableWrapper> = {
-        return CollectionViewDiffCalculator(collectionView: self, initialRows: self.items.map({ return EquatableWrapper(item: $0) }))
-    }()
+    private var diffCalculator: CollectionViewDiffCalculator<EquatableWrapper>!
+    
+    /// The estimated size of cells in the collection view.
+    /// Providing an estimated cell size can improve the performance of the collection view when the cells adjust their size dynamically. 
+    /// Specifying an estimate value lets the collection view defer some of the calculations needed to determine the actual size of its content.
+    /// Specifically, cells that are not onscreen are assumed to be the estimated height.
+    public var estimatedItemSize: CGSize {
+        get {
+            return (self.collectionViewLayout as? UICollectionViewFlowLayout)?.estimatedItemSize ?? CGSize.zero
+        }
+        set {
+            (self.collectionViewLayout as? UICollectionViewFlowLayout)?.estimatedItemSize = newValue
+        }
+    }
     
     /// The component configuration.
     private var configuration: ((ComponentViewType) -> Void)?
@@ -41,6 +58,9 @@ public class ListComponentView: UICollectionView {
         flow.minimumLineSpacing = 0;
         
         super.init(frame: frame, collectionViewLayout: layout ?? flow)
+        
+        self.diffCalculator = CollectionViewDiffCalculator(collectionView: self, initialRows: self.items.map({ return EquatableWrapper(item: $0) }))
+
         self.dataSource = self
         self.delegate = self
         self.layoutMargins = UIEdgeInsets()
@@ -55,7 +75,7 @@ public class ListComponentView: UICollectionView {
     }
 }
 
-extension ListComponentView: ComponentViewType {
+extension ComponentCollectionView: ComponentViewType {
 
     /// Applies the component configuration (as per ViewType extension)
     /// - Note: If your view is a custom 'ComponentViewType' class (Not inheriting from BaseComponentView)
@@ -63,17 +83,7 @@ extension ListComponentView: ComponentViewType {
     public func configure(closure: ((ComponentViewType) -> Void)) {
         self.configuration = closure
     }
-    
-    /// The state of this component.
-    public var state: ComponentStateType? {
-        get {
-            return ListComponentState(items: items)
-        }
-        set {
-            self.items = (newValue as? ListComponentView)?.items ?? [ListComponentItemType]()
-        }
-    }
-    
+
     /// The parent for this component.
     public var parentView: UIView? {
         get {
@@ -89,11 +99,14 @@ extension ListComponentView: ComponentViewType {
     /// size for this component.
     /// - parameter state: The (optional) state for this component.
     public func renderComponent(size: CGSize) {
-        self.collectionViewLayout.invalidateLayout()
+        self.configuration?(self)
+        if size != self.parentSize {
+            self.collectionViewLayout.invalidateLayout()
+        }
     }
 }
 
-extension ListComponentView: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+extension ComponentCollectionView: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     /// Asks your data source object for the cell that corresponds to the specified item in the collection view.
     public func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -125,22 +138,7 @@ extension ListComponentView: UICollectionViewDataSource, UICollectionViewDelegat
     
     /// Asks the delegate for the size of the specified item’s cell.
     public func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
-        
-        let state = self.items[indexPath.row]
-        guard let component = prototypes[state.reuseIdentifier] else {
-            fatalError("Unregistered component with reuse identifier \(state.reuseIdentifier).")
-        }
-
-        // render the component.
-        component.state = state.itemState
-        component.parentView = self
-        component.renderComponent(CGSize(self.bounds.size.width))
-        
-        if let view = component as? UIView {
-            return view.bounds.size
-        } else {
-            return CGSize.zero
-        }
+        return prototypeSize(self, state: self.items[indexPath.row])
     }
 
     /// Tells the delegate that the item at the specified index path was selected.
@@ -152,16 +150,5 @@ extension ListComponentView: UICollectionViewDataSource, UICollectionViewDelegat
     }
 }
 
-/// The collection of registered prototypes
-private var prototypes = [String: ComponentViewType]()
 
-extension ListComponentView {
-    
-    /// Register the component as a reusable component in the list component.
-    /// - parameter reuseIdentifier: The identifier for this component. The default is the component class name.
-    /// - parameter component: An instance of the component.
-    public static func registerPrototype<C:ComponentViewType>(reuseIdentifier: String = String(C), component: C) {
-        prototypes[reuseIdentifier] = component
-    }
-}
 

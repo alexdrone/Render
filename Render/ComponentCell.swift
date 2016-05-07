@@ -153,6 +153,8 @@ public class ComponentCollectionViewCell: UICollectionViewCell {
     }
 }
 
+//MARK: Extensions
+
 extension UITableView {
     
     /// Refreshes the component at the given index path.
@@ -188,5 +190,36 @@ extension UICollectionView {
         for cell in self.visibleCells() {
             if let c = cell as? ComponentCollectionViewCell { c.renderComponent(CGSize(self.bounds.width)) }
         }
+    }
+}
+
+//MARK: Prototypes
+
+/// The collection of registered prototypes
+var prototypes = [String: ComponentViewType]()
+
+/// Register the component as a reusable component in the list component.
+/// - parameter reuseIdentifier: The identifier for this component. The default is the component class name.
+/// - parameter component: An instance of the component.
+public func registerPrototype<C:ComponentViewType>(reuseIdentifier: String = String(C), component: C) {
+    prototypes[reuseIdentifier] = component
+}
+
+/// Returns the size of the prototype wrapped in the view (CollectionView or TableView) passed as argument
+public func prototypeSize(parentView: UIView, state: ListComponentItemType) -> CGSize {
+
+    guard let component = prototypes[state.reuseIdentifier] else {
+        fatalError("Unregistered component with reuse identifier \(state.reuseIdentifier).")
+    }
+    
+    // render the component.
+    component.state = state.itemState
+    component.parentView = parentView
+    component.renderComponent(CGSize(parentView.bounds.size.width))
+    
+    if let view = component as? UIView {
+        return view.bounds.size
+    } else {
+        return CGSize.zero
     }
 }

@@ -138,6 +138,7 @@ public extension Array where Element: Equatable {
 }
 
 internal struct MemoizedSequenceComparison<T: Equatable> {
+    
     static func buildTable(x: [T], _ y: [T], _ n: Int, _ m: Int) -> [[Int]] {
         var table = Array(count: n + 1, repeatedValue: Array(count: m + 1, repeatedValue: 0))
         for i in 0...n {
@@ -165,11 +166,13 @@ public class TableViewDiffCalculator<T: Equatable> {
         self.rows = initialRows
     }
     
-    /// Right now this only works on a single section of a tableView. If your tableView has multiple sections, though, you can just use multiple TableViewDiffCalculators, one per section, and set this value appropriately on each one.
+    /// Right now this only works on a single section of a tableView.
+    /// If your tableView has multiple sections, though, you can just use multiple 
+    /// TableViewDiffCalculators, one per section, and set this value appropriately on each one.
     public var sectionIndex: Int = 0
     
     /// You can change insertion/deletion animations like this! Fade works well. So does Top/Bottom. Left/Right/Middle are a little weird, but hey, do your thing.
-    public var insertionAnimation = UITableViewRowAnimation.Automatic, deletionAnimation = UITableViewRowAnimation.Automatic
+    public var insertionAnimation = UITableViewRowAnimation.Fade, deletionAnimation = UITableViewRowAnimation.Fade
     
     /// Change this value to trigger animations on the table view.
     public var rows : [T] {
@@ -203,7 +206,9 @@ public class CollectionViewDiffCalculator<T: Equatable> {
         self.rows = initialRows
     }
     
-    /// Right now this only works on a single section of a collectionView. If your collectionView has multiple sections, though, you can just use multiple CollectionViewDiffCalculators, one per section, and set this value appropriately on each one.
+    /// Right now this only works on a single section of a collectionView. 
+    /// If your collectionView has multiple sections, though, you can just use multiple 
+    /// CollectionViewDiffCalculators, one per section, and set this value appropriately on each one.
     public var sectionIndex: Int = 0
     
     /// Change this value to trigger animations on the collection view.
@@ -212,6 +217,12 @@ public class CollectionViewDiffCalculator<T: Equatable> {
             
             let oldRows = oldValue
             let newRows = self.rows
+            
+            if newRows.count > 100 {
+                self.collectionView?.reloadData()
+                return
+            }
+            
             let diff = oldRows.diff(newRows)
             if (diff.results.count > 0) {
                 let insertionIndexPaths = diff.insertions.map({ NSIndexPath(forItem: $0.idx, inSection: self.sectionIndex) })

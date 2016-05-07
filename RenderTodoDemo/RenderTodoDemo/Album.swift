@@ -46,9 +46,7 @@ class Album: Equatable {
         self.artist = artits[idx]
         self.cover = covers[idx]!
         self.featured = featured
-    }
-    
-    
+    }    
 }
 
 func randomInt(min: Int, max:Int) -> Int {

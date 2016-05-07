@@ -14,7 +14,7 @@ public protocol ListComponentItemDelegate: class {
     /// - parameter item: The selected item.
     /// - parameter indexPath: The indexpath for the current item.
     /// - parameter listComponent: The list component view that owns the list item
-    func didSelectItem(item: ListComponentItemType, indexPath: NSIndexPath, listComponent: ListComponentView)
+    func didSelectItem(item: ListComponentItemType, indexPath: NSIndexPath, listComponent: ComponentViewType)
 }
 
 public protocol ListComponentItemType {
@@ -52,7 +52,6 @@ public class ListComponentItem<C: ComponentViewType, S: ComponentStateType>: Lis
     /// The list item delegate.
     public weak var delegate: ListComponentItemDelegate? = nil
     
-    /// Initialise a new component with
     public init(reuseIdentifier: String = String(C), state: S, configuration: ((ComponentViewType) -> Void)? = nil) {
         self.reuseIdentifier = reuseIdentifier
         self.itemState = state
@@ -63,12 +62,6 @@ public class ListComponentItem<C: ComponentViewType, S: ComponentStateType>: Lis
     public func newComponentIstance() -> ComponentViewType {
         return C() as ComponentViewType
     }
-}
-
-public struct ListComponentState: ComponentStateType {
-    
-    /// Simply wraps the items inside 
-    public let items: [ListComponentItemType]
 }
 
 //MARK: Equatable workaround
