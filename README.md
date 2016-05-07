@@ -63,14 +63,13 @@ class AlbumComponentView: ComponentView {
             
         return ComponentNode<UIView>().configure({ view in
         		view.style.flexDirection = .Column
-           	view.style.dimensions.width = ~self.parentSize.width
             	view.backgroundColor = UIColor.blackColor()
 
         }).children([
             
             ComponentNode<UIImageView>().configure({ view in
 				view.image = self.album?.cover
-				view.style.dimensions.width = (self.parentSize.width, self.parentSize.width)
+				view.style.dimensions = (self.parentSize.width, self.parentSize.width)
             }),
             
             ComponentNode<UIView>().configure({ view in
