@@ -38,7 +38,7 @@ github "alexdrone/Render" "master"
 
 ```swift
 
-class AlbumComponentView: StaticComponentView {
+class AlbumComponentView: ComponentView {
     
     /// the component state
     var album: Album? {
@@ -66,14 +66,12 @@ class AlbumComponentView: StaticComponentView {
             }).children([
                 
                 ComponentNode<UILabel>().configure({ view in
-                    view.style.margin = (8.0, 8.0, 8.0, 8.0, 0.0, 0.0)
                     view.text = self.album?.title ?? "None"
                     view.font = UIFont.systemFontOfSize(18.0, weight: UIFontWeightBold)
                     view.textColor = UIColor.whiteColor()
                 }),
                 
                 ComponentNode<UILabel>().configure({ view in
-                    view.style.margin = (8.0, 8.0, 8.0, 8.0, 0.0, 0.0)
                     view.text = self.album?.artist ?? "Uknown Artist"
                     view.font = UIFont.systemFontOfSize(12.0, weight: UIFontWeightLight)
                     view.textColor = UIColor.whiteColor()
