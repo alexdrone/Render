@@ -31,7 +31,9 @@ public class ComponentCollectionView: UICollectionView {
     /// Whether to use or not a diff algorithm when the items are set.
     /// Default is true.
     public var updateWithDiff: Bool = true
-    private var diffCalculator: CollectionViewDiffCalculator<EquatableWrapper>!
+    lazy private var diffCalculator: CollectionViewDiffCalculator<EquatableWrapper> = {
+        return CollectionViewDiffCalculator(collectionView: self, initialRows: self.items.map({ return EquatableWrapper(item: $0) }))
+    }()
     
     /// The estimated size of cells in the collection view.
     /// Providing an estimated cell size can improve the performance of the collection view when the cells adjust their size dynamically. 
@@ -59,8 +61,6 @@ public class ComponentCollectionView: UICollectionView {
         
         super.init(frame: frame, collectionViewLayout: layout ?? flow)
         
-        self.diffCalculator = CollectionViewDiffCalculator(collectionView: self, initialRows: self.items.map({ return EquatableWrapper(item: $0) }))
-
         self.dataSource = self
         self.delegate = self
         self.layoutMargins = UIEdgeInsets()

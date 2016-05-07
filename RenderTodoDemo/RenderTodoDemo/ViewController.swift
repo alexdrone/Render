@@ -23,7 +23,7 @@ class ViewController: UIViewController {
     }
 
     /// The collection view component.
-    let listComponentView = ComponentTableView()
+    let listComponentView = ComponentCollectionView()
 
     /// Called after the controller's view is loaded into memory.
     override func viewDidLoad() {
@@ -34,11 +34,10 @@ class ViewController: UIViewController {
         
         // configure the list component.
         self.listComponentView.configure() {
-            guard let view = $0 as? ComponentTableView else { return }
+            guard let view = $0 as? ComponentCollectionView else { return }
             view.frame.size = view.parentSize
             view.backgroundColor = S.Color.black
             view.items = self.albums
-            view.separatorStyle = .None
         }
         
         self.view.addSubview(self.listComponentView)
