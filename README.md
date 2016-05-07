@@ -22,6 +22,8 @@ Right now we write UIs by poking at them, manually mutating their properties whe
 
 ### Carthage
 
+**Render** layout engine is based on [flexbox](www.github.com/alexdrone/FlexboxLayout).
+
 To install Carthage, run (using Homebrew):
 
 ```bash
