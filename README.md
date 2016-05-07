@@ -40,7 +40,7 @@ github "alexdrone/Render" "master"
 This is what a component (and its state) would look like:
 
 <p align="center">
-![Render Logo](Doc/render.jpg)
+<img src="Doc/render.jpg" width="192">
 
 
 ```swift
