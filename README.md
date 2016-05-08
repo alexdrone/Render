@@ -95,12 +95,14 @@ class AlbumComponentView: ComponentView {
                 ComponentNode<UILabel>().configure({ view in
                 		$0.text = self.album?.artist ?? "Uknown Artist"
                 		$0.font = UIFont.systemFontOfSize(12.0, weight: UIFontWeightLight)
-                		$0.textColor = UIColor.whiteColor()
+                		$0.textColor = UIColor.whiteColor()                		
                 })
             ]),
          
-            //This node will be part of the tree only when featured == false.
-            when(!self.state?.featured, ComponentNode<UILabel>().configure({ view in
+            // This node will be part of the tree only when featured == false.
+            // - Note: This can also be accomplished with a StaticComponentView by setting 
+            // the 'hidden' property in the configuration closure. 
+            when(!self.album?.featured, ComponentNode<UILabel>().configure({ view in
                 $0.style.justifyContent = .FlexEnd
                 $0.text = "2016"
                 $0.textColor = S.Color.white
