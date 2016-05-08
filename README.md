@@ -103,7 +103,7 @@ class AlbumComponentView: ComponentView {
             when(!self.album?.featured, ComponentNode<UILabel>().configure({ view in
                 $0.style.justifyContent = .FlexEnd
                 $0.text = "2016"
-                $0.textColor = S.Color.white
+                $0.textColor = UIColor.whiteColor()
             }))
 
         ])
