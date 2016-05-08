@@ -99,9 +99,7 @@ class AlbumComponentView: ComponentView {
                 })
             ]),
          
-            // This node will be part of the tree only when featured == false.
-            // - Note: This can also be accomplished with a StaticComponentView by setting 
-            // the 'hidden' property in the configuration closure. 
+            // This node will be part of the tree only when featured == false. *
             when(!self.album?.featured, ComponentNode<UILabel>().configure({ view in
                 $0.style.justifyContent = .FlexEnd
                 $0.text = "2016"
@@ -114,6 +112,8 @@ class AlbumComponentView: ComponentView {
 }
 
 ```
+<sup> * This can also be accomplished with a `StaticComponentView` by setting the `hidden` property in the configuration closure. </sup>
+
 
 The view description is defined by the `construct()` method.
 `ComponentNode<T>` is an abstaction around views of any sort that knows how to build, configure and layout the view when necessary.
