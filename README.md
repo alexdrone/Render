@@ -1,4 +1,3 @@
-<p align="center">
 ![Render Logo](Doc/logo.png)
 
 
