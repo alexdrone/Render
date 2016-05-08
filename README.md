@@ -85,15 +85,15 @@ class AlbumComponentView: StaticComponentView {
             }).children([
                 
                 ComponentNode<UILabel>().configure({ 
-                    $0.text = self.album?.title ?? "None"
-                    $0.font = UIFont.systemFontOfSize(18.0, weight: UIFontWeightBold)
-                    $0.textColor = UIColor.whiteColor()
+                		$0.text = self.album?.title ?? "None"
+                		$0.font = UIFont.systemFontOfSize(18.0, weight: UIFontWeightBold)
+                		$0.textColor = UIColor.whiteColor()
                 }),
                 
                 ComponentNode<UILabel>().configure({ view in
-                    $0.text = self.album?.artist ?? "Uknown Artist"
-                    $0.font = UIFont.systemFontOfSize(12.0, weight: UIFontWeightLight)
-                    $0.textColor = UIColor.whiteColor()
+                		$0.text = self.album?.artist ?? "Uknown Artist"
+                		$0.font = UIFont.systemFontOfSize(12.0, weight: UIFontWeightLight)
+                		$0.textColor = UIColor.whiteColor()
                 })
             ])
         ])
