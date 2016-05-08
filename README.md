@@ -54,6 +54,7 @@ struct Album: ComponentStateType {
 	let title: String
 	let artist: String
 	let cover: UIImage  
+	let featured: Bool
 }
 
 // COMPONENT
@@ -68,14 +69,15 @@ class AlbumComponentView: StaticComponentView {
     override func construct() -> ComponentNodeType {
             
         return ComponentNode<UIView>().configure({
-        		$0.style.flexDirection = .Column
+        		$0.style.flexDirection = self.album.featured ? .Row : .Column
             	$0.backgroundColor = UIColor.blackColor()
 
         }).children([
             
             ComponentNode<UIImageView>().configure({
 				$0.image = self.album?.cover
-				$0.style.dimensions = (self.parentSize.width, self.parentSize.width)
+				let size = self.album.featured ? self.parentSize.width : 48.0
+				$0.style.dimensions = (size, size)
             }),
             
             ComponentNode<UIView>().configure({ 
