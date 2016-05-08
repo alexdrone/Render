@@ -67,33 +67,33 @@ class AlbumComponentView: StaticComponentView {
     // View as function of the state.
     override func construct() -> ComponentNodeType {
             
-        return ComponentNode<UIView>().configure({ view in
-        		view.style.flexDirection = .Column
-            	view.backgroundColor = UIColor.blackColor()
+        return ComponentNode<UIView>().configure({
+        		$0.style.flexDirection = .Column
+            	$0.backgroundColor = UIColor.blackColor()
 
         }).children([
             
-            ComponentNode<UIImageView>().configure({ view in
-				view.image = self.album?.cover
-				view.style.dimensions = (self.parentSize.width, self.parentSize.width)
+            ComponentNode<UIImageView>().configure({
+				$0.image = self.album?.cover
+				$0.style.dimensions = (self.parentSize.width, self.parentSize.width)
             }),
             
-            ComponentNode<UIView>().configure({ view in
-                view.style.flexDirection = .Column
-                view.style.margin = (8.0, 8.0, 8.0, 8.0, 0.0, 0.0)
+            ComponentNode<UIView>().configure({ 
+            		$0.style.flexDirection = .Column
+            		$0.style.margin = (8.0, 8.0, 8.0, 8.0, 0.0, 0.0)
                 
             }).children([
                 
-                ComponentNode<UILabel>().configure({ view in
-                    view.text = self.album?.title ?? "None"
-                    view.font = UIFont.systemFontOfSize(18.0, weight: UIFontWeightBold)
-                    view.textColor = UIColor.whiteColor()
+                ComponentNode<UILabel>().configure({ 
+                    $0.text = self.album?.title ?? "None"
+                    $0.font = UIFont.systemFontOfSize(18.0, weight: UIFontWeightBold)
+                    $0.textColor = UIColor.whiteColor()
                 }),
                 
                 ComponentNode<UILabel>().configure({ view in
-                    view.text = self.album?.artist ?? "Uknown Artist"
-                    view.font = UIFont.systemFontOfSize(12.0, weight: UIFontWeightLight)
-                    view.textColor = UIColor.whiteColor()
+                    $0.text = self.album?.artist ?? "Uknown Artist"
+                    $0.font = UIFont.systemFontOfSize(12.0, weight: UIFontWeightLight)
+                    $0.textColor = UIColor.whiteColor()
                 })
             ])
         ])
