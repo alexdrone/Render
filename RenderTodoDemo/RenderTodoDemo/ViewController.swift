@@ -65,7 +65,7 @@ extension ViewController {
     
     //creates some dummy models.
     func prepareDummyData() {
-        for idx in 0..<100 {
+        for idx in 0..<10 {
             let item = ListComponentItem<AlbumComponentView, Album>(state: Album(featured: idx < 4))
             item.delegate = self
             self.albums.append(item)
