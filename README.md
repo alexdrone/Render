@@ -260,7 +260,7 @@ extension ViewController: ListComponentItemDelegate {
     func didSelectItem(item: ListComponentItemType, indexPath: NSIndexPath, listComponent: ComponentViewType) {
     
     		// if the item is expanded we collapse it
-    		if let item = item as? ListComponentItem<AlbumComponentView, Album> where item.state.expanded == true {
+    		if let item = item as? ListComponentItem<AlbumComponentView, Album> where item.state.expanded {
     			item.state.expanded = false
     			self.listComponentView.renderComponentAtIndexPath(indexPath)
     
