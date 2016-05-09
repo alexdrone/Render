@@ -10,12 +10,14 @@
 
 #Why
 
-**Render** lets us write our UIs as a pure function of their state.
+From [Why React matters](http://joshaber.github.io/2015/01/30/why-react-native-matters/):
+
+[The framework] lets us write our UIs as a pure function of their state.
 
 
 Right now we write UIs by poking at them, manually mutating their properties when something changes, adding and removing views, etc. This is fragile and error-prone. Some tools exist to lessen the pain, but they can only go so far. UIs are big, messy, mutable, stateful bags of sadness.
 
-**Render** let us describe our entire UI for a given state, and then it does the hard work of figuring out what needs to change. It abstracts all the fragile, error-prone code out away from us. 
+[The framework] let us describe our entire UI for a given state, and then it does the hard work of figuring out what needs to change. It abstracts all the fragile, error-prone code out away from us. 
 
 ## Installation
 
@@ -128,6 +130,26 @@ The component above would render to:
 let albumComponent = AlbumComponentView()
 albumComponentView.renderComponent()
 ```
+
+#Lightweight
+
+###Integration with UIKit
+
+*Components* are plain UIViews, so they can be used inside a vanilla view hierarchy with *autolayout* or *layoutSubviews*.
+Similiarly plain vanilla UIViews (UIKit components or custom ones) can be wrapped in a `ComponentNode` (so they can be part of a `ComponentView` or a `StaticComponentView`).
+
+The framework doesn't force you to use the Component abstraction. You can use normal UIViews with autolayout inside a component or vice versa. This is probably one of the biggest difference from Facebook's `ComponentKit`.
+
+###Threading
+
+Render's `renderComponent()` function is performed on the main thread. Diff+Layout+Configuration runs usually under 16ms, which makes it suitable for cells implementation (still keeping a smooth scrolling).
+
+
+###Backend-driven UIs
+
+Given the descriptive nature of Render's components, components can be defined in JSON or XML files and downloaded on-demand.
+*The ComponentDeserializer is being worked on as we speak*.
+
 
 
 #Credits
