@@ -93,7 +93,7 @@ class MyComponentView: ComponentView {
                 		$0.textColor = UIColor.whiteColor()
                 }),
                 
-                ComponentNode<UILabel>().configure({ view in
+                ComponentNode<UILabel>().configure({
                 		$0.text = self.componentState?.subtitle ?? "Subtitle"
                 		$0.font = UIFont.systemFontOfSize(12.0, weight: UIFontWeightLight)
                 		$0.textColor = UIColor.whiteColor()                		
@@ -101,7 +101,7 @@ class MyComponentView: ComponentView {
             ]),
          
             // This node will be part of the tree only when expanded == false. *
-            when(!self.componentState?.expanded, ComponentNode<UILabel>().configure({ view in
+            when(!self.componentState?.expanded, ComponentNode<UILabel>().configure({
                 $0.style.justifyContent = .FlexEnd
                 $0.text = "2016"
                 $0.textColor = UIColor.whiteColor()
@@ -158,7 +158,7 @@ You can wrap your components in `ComponentTableViewCell` or `ComponentCollection
 
 ```swift
 class ViewControllerWithTableView: UIViewController, UITableViewDataSource, UITableViewDelegate {  
-    var tableView: UITableView!
+    var tableView: UITableView = ...
     var posts: [Post] = ... 
   
     override func viewDidLoad() {
