@@ -28,7 +28,7 @@ public class ComponentTableView: UITableView {
                 self.reloadData()
             }
             defer {
-                debugRenderTime("\(self.dynamicType).diff for items", startTime: startTime)
+                debugRenderTime("\(self.dynamicType).diff for items", startTime: startTime, threshold: 500)
             }
         }
     }

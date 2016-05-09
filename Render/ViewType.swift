@@ -218,13 +218,13 @@ extension UIView {
     }
 }
 
-func debugRenderTime(label: String, startTime: CFAbsoluteTime) {
+func debugRenderTime(label: String, startTime: CFAbsoluteTime, threshold: CFAbsoluteTime = 16) {
     
     let timeElapsed = (CFAbsoluteTimeGetCurrent() - startTime)*1000
     
     // - Note: 60fps means you need to render a frame every ~16ms to not drop any frames.
     // This is even more important when used inside a cell.
-    if timeElapsed > 16  {
+    if timeElapsed > threshold  {
         print(String(format: "- warning: \(label) (%2f) ms.", arguments: [timeElapsed]))
     }
 }

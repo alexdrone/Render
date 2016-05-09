@@ -142,7 +142,7 @@ The framework doesn't force you to use the Component abstraction. You can use no
 
 ###Thread model
 
-Render's `renderComponent()` function is performed on the main thread. Diff+Layout+Configuration runs usually under 16ms, which makes it suitable for cells implementation (still keeping a smooth scrolling).
+Render's `renderComponent()` function is performed on the main thread. Diff+Layout+Configuration runs usually under 16ms on a iPhone 4S, which makes it suitable for cells implementation (with a smooth scrolling).
 
 
 ###Backend-driven UIs

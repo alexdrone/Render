@@ -23,7 +23,7 @@ extension Album: ComponentStateType {
     
 }
 
-class AlbumComponentView: StaticComponentView {
+class AlbumComponentView: ComponentView {
     
     /// the component state
     var album: Album? {
