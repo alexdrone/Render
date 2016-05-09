@@ -205,6 +205,61 @@ class ViewControllerWithTableView: UIViewController, UITableViewDataSource, UITa
 }
 ```
 
+#ComponentTableView and ComponentCollectionView
+
+Although the approach shown above works perfectly, it does clashes with React-like component pattern.
+`ComponentTableView` and `ComponentCollectionView` expose the same interface and work with a simple array of `ListComponentItemType` (see also `ListComponentItem<C: ComponentViewType, S: ComponentStateType>: ListComponentItemType`)
+
+```swift
+class ViewController: UIViewController {
+    
+    override class func initialize() {
+        registerPrototype(component: AlbumComponentView())
+    }
+    
+    // The item list.
+    var albums: [ListComponentItemType] = [ListComponentItem<AlbumComponentView, Album>]() {
+        didSet {
+            self.render()
+        }
+    }
+
+    let listComponentView = ComponentCollectionView()
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        // generate some fake data
+        self.prepareDummyData()
+        
+        // configure the list component.
+        self.listComponentView.configure() {
+            guard let view = $0 as? ComponentCollectionView else { return }
+            view.frame.size = view.parentSize
+            view.items = self.albums
+        }
+        
+        self.view.addSubview(self.listComponentView)
+    }
+    
+    func prepareDummyData() {
+        for idx in 0..<10 {
+            let item = ListComponentItem<AlbumComponentView, Album>(state: Album(featured: idx < 4))
+            item.delegate = self
+            self.albums.append(item)
+        }
+    }
+}
+
+extension ViewController: ListComponentItemDelegate {
+    
+    func didSelectItem(item: ListComponentItemType, indexPath: NSIndexPath, listComponent: ComponentViewType) {
+        let item = item as! ListComponentItem<AlbumComponentView, Album>
+        self.albums = albums.map({ $0 as! ListComponentItem<AlbumComponentView, Album> }).filter({ $0.state != item.state }).map({ $0 as ListComponentItemType })
+    }
+}
+```
+
 
 #Credits
 
