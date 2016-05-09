@@ -51,33 +51,33 @@ This is what a component (and its state) would look like:
 
 ```swift
 
-struct Album: ComponentStateType {
+struct MyComponentState: ComponentStateType {
 	let title: String
-	let artist: String
-	let cover: UIImage  
-	let featured: Bool
+	let subtitle: String
+	let image: UIImage  
+	let expanded: Bool
 }
 
 // COMPONENT
-class AlbumComponentView: ComponentView {
+class MyComponentView: ComponentView {
     
     // the component state.
-    var album: Album? {
-        return self.state as? Album
+    var componentState: MyComponentState? {
+        return self.state as? MyComponentState
     }
     
     // View as function of the state.
     override func construct() -> ComponentNodeType {
             
         return ComponentNode<UIView>().configure({
-        		$0.style.flexDirection = self.album.featured ? .Row : .Column
+        		$0.style.flexDirection = self.componentState.expanded ? .Row : .Column
             	$0.backgroundColor = UIColor.blackColor()
 
         }).children([
             
             ComponentNode<UIImageView>().configure({
-				$0.image = self.album?.cover
-				let size = self.album.featured ? self.parentSize.width : 48.0
+				$0.image = self.componentState?.image
+				let size = self.componentState.expanded ? self.parentSize.width : 48.0
 				$0.style.dimensions = (size, size)
             }),
             
@@ -88,20 +88,20 @@ class AlbumComponentView: ComponentView {
             }).children([
                 
                 ComponentNode<UILabel>().configure({ 
-                		$0.text = self.album?.title ?? "None"
+                		$0.text = self.componentState?.title ?? "None"
                 		$0.font = UIFont.systemFontOfSize(18.0, weight: UIFontWeightBold)
                 		$0.textColor = UIColor.whiteColor()
                 }),
                 
                 ComponentNode<UILabel>().configure({ view in
-                		$0.text = self.album?.artist ?? "Uknown Artist"
+                		$0.text = self.componentState?.subtitle ?? "Subtitle"
                 		$0.font = UIFont.systemFontOfSize(12.0, weight: UIFontWeightLight)
                 		$0.textColor = UIColor.whiteColor()                		
                 })
             ]),
          
-            // This node will be part of the tree only when featured == false. *
-            when(!self.album?.featured, ComponentNode<UILabel>().configure({ view in
+            // This node will be part of the tree only when expanded == false. *
+            when(!self.componentState?.expanded, ComponentNode<UILabel>().configure({ view in
                 $0.style.justifyContent = .FlexEnd
                 $0.text = "2016"
                 $0.textColor = UIColor.whiteColor()
@@ -212,15 +212,12 @@ Although the approach shown above works perfectly, it does clashes with React-li
 
 ```swift
 class ViewController: UIViewController {
-    
-    override class func initialize() {
-        registerPrototype(component: AlbumComponentView())
-    }
-    
+
     // The item list.
-    var albums: [ListComponentItemType] = [ListComponentItem<AlbumComponentView, Album>]() {
+    var items: [ListComponentItemType] = [ListComponentItem<MyComponentView, MyComponentState>]() {
         didSet {
-            self.render()
+        		// render the list when the items change
+             self.listComponentView.renderComponent()
         }
     }
 
@@ -243,10 +240,13 @@ class ViewController: UIViewController {
     }
     
     func prepareDummyData() {
-        for idx in 0..<10 {
-            let item = ListComponentItem<AlbumComponentView, Album>(state: Album(featured: idx < 4))
-            item.delegate = self
-            self.albums.append(item)
+        for _ in 0..<10 {
+        
+        		// ListComponentItem<COMPONENT,STATE> informs the list what component is used for the 
+        		// given state.
+           	let item = ListComponentItem<MyComponentView, MyComponentState>()
+           	item.delegate = self
+           	self.items.append(item)
         }
     }
 }
@@ -254,11 +254,21 @@ class ViewController: UIViewController {
 extension ViewController: ListComponentItemDelegate {
     
     func didSelectItem(item: ListComponentItemType, indexPath: NSIndexPath, listComponent: ComponentViewType) {
-        let item = item as! ListComponentItem<AlbumComponentView, Album>
-        self.albums = albums.map({ $0 as! ListComponentItem<AlbumComponentView, Album> }).filter({ $0.state != item.state }).map({ $0 as ListComponentItemType })
+    
+    		// if the item is expanded we collapse it
+    		if let item = item as? ListComponentItem<AlbumComponentView, Album> where item.state.expanded == true {
+    			item.state.expanded = false
+    			self.listComponentView.renderComponentAtIndexPath(indexPath)
+    
+    		// otherwise we remove the item from the list
+    		} else {
+    	        self.items = self.items.filter({ $0.state != item.state })
+		}
     }
 }
 ```
+<p align="center">
+<img src="Doc/list.gif">
 
 
 #Credits

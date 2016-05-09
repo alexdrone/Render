@@ -57,7 +57,14 @@ extension ViewController: ListComponentItemDelegate {
     
     func didSelectItem(item: ListComponentItemType, indexPath: NSIndexPath, listComponent: ComponentViewType) {
         let item = item as! ListComponentItem<AlbumComponentView, Album>
-        self.albums = albums.map({ $0 as! ListComponentItem<AlbumComponentView, Album> }).filter({ $0.state != item.state }).map({ $0 as ListComponentItemType })
+        
+        if item.state.featured {
+            item.state.featured = false
+            listComponentView.renderComponentAtIndexPath(indexPath)
+            
+        } else {
+            self.albums = albums.map({ $0 as! ListComponentItem<AlbumComponentView, Album> }).filter({ $0.state != item.state }).map({ $0 as ListComponentItemType })
+        }
     }
 }
 
