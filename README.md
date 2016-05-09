@@ -208,7 +208,7 @@ class ViewControllerWithTableView: UIViewController, UITableViewDataSource, UITa
 #ComponentTableView/CollectionView
 
 Although the approach shown above works perfectly, it does clashes with the React-like component pattern.
-`ComponentTableView` and `ComponentCollectionView` expose the same interface and work with a simple array of `ListComponentItemType` (see also `ListComponentItem<C: ComponentViewType, S: ComponentStateType>: ListComponentItemType`).
+`ComponentTableView` and `ComponentCollectionView` expose the same interface and work with a simple array of `ListComponentItemType` (see also `ListComponentItem<ComponentViewType, ComponentStateType>: ListComponentItemType`).
 ComponentTableView/CollectionView takes care of cell reuse for you and apply a diff algorithm when the `items` property is set (so that proper insertions/deletions are performed rather than reloadData()).
 
 
@@ -271,6 +271,8 @@ extension ViewController: ListComponentItemDelegate {
     }
 }
 ```
+<sup> Check the demo project! </sup>
+
 <p align="center">
 <img src="Doc/list.gif">
 
