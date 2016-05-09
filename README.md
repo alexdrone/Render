@@ -140,7 +140,7 @@ Similiarly plain vanilla UIViews (UIKit components or custom ones) can be wrappe
 
 The framework doesn't force you to use the Component abstraction. You can use normal UIViews with autolayout inside a component or vice versa. This is probably one of the biggest difference from Facebook's `ComponentKit`.
 
-###Threading
+###Thread model
 
 Render's `renderComponent()` function is performed on the main thread. Diff+Layout+Configuration runs usually under 16ms, which makes it suitable for cells implementation (still keeping a smooth scrolling).
 
@@ -150,6 +150,59 @@ Render's `renderComponent()` function is performed on the main thread. Diff+Layo
 Given the descriptive nature of Render's components, components can be defined in JSON or XML files and downloaded on-demand.
 *The ComponentDeserializer is being worked on as we speak*.
 
+
+#Cells 
+
+You can wrap your components in `ComponentTableViewCell` or `ComponentCollectionViewCell` and use the classic dataSource/delegate pattern for you view controller.
+
+
+```swift
+class ViewControllerWithTableView: UIViewController, UITableViewDataSource, UITableViewDelegate {  
+    var tableView: UITableView!
+    var posts: [Post] = ... 
+  
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        self.tableView = UITableView(frame: self.view.bounds)
+        self.tableView.estimatedRowHeight = //..Setting this will dramatically improve reloadData() perf
+
+        //ComponentTableViewCell works with 'UITableViewAutomaticDimension'
+        self.tableView.rowHeight = UITableViewAutomaticDimension
+        
+        self.tableView.dataSource = self
+        self.tableView.delegate = self
+        self.view.addSubview(self.tableView )
+    }
+
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return self.posts.count
+    }
+    
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        self.posts[indexPath.row]... //do something on the state
+
+        //render the component for the cell at the given index
+        self.tableView.renderComponentAtIndexPath(indexPath)
+        self.tableView.reloadData()
+    }
+    
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+      let reuseIdentifier = "PostComponentCell"
+      let cell: ComponentCell! =  
+            //dequeue the cell with the given identifier (remember to use different identifiers for different component classes)
+            tableView.dequeueReusableCellWithIdentifier(reuseIdentifier) as? ComponentCell ??
+        
+            //or create a new Cell wrapping the component
+            ComponentCell(reuseIdentifier: reuseIdentifier, component: PostComponent())
+                  
+      cell.state = self.posts[indexPath.row]
+      cell.renderComponent(CGSize(tableView.bounds.size.width))
+        
+      return cell
+    }
+}
+```
 
 
 #Credits
