@@ -234,8 +234,7 @@ class ViewController: UIViewController {
         self.createDummyData()
         
         // configure the list component.
-        self.listComponentView.configure() {
-            guard let view = $0 as? ComponentCollectionView else { return }
+        self.listComponentView.configure() { view in
             view.frame.size = view.parentSize
             view.items = self.albums
         }
