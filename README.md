@@ -231,7 +231,7 @@ class ViewController: UIViewController {
         super.viewDidLoad()
 
         // generate some fake data
-        self.prepareDummyData()
+        self.createDummyData()
         
         // configure the list component.
         self.listComponentView.configure() {
@@ -243,7 +243,7 @@ class ViewController: UIViewController {
         self.view.addSubview(self.listComponentView)
     }
     
-    func prepareDummyData() {
+    func createDummyData() {
         for _ in 0..<10 {
         
         		// ListComponentItem<COMPONENT,STATE> informs the list what component is used for the 
