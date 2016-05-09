@@ -129,3 +129,13 @@ let albumComponent = AlbumComponentView()
 albumComponentView.renderComponent()
 ```
 
+
+#Credits
+
+- [React](https://github.com/facebook/react): The React github page
+- [Few.swift](https://github.com/joshaber/Few.swift): Another React port for Swift. Check it out!
+- [css-layout](https://github.com/facebook/css-layout): This project used the C src code for the flexbox layout engine.
+- [Dwifft](https://github.com/jflinter/Dwifft): A swift array diff algorithm implmentation.
+- [Backend-driven native UIs](https://www.facebook.com/atscaleevents/videos/1708052886134475/) from [JohnSundell](https://github.com/JohnSundell): A inspiring video about component-driven UIs (the demo project is also inspired from Spotify's UI).
+
+
