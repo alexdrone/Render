@@ -163,16 +163,14 @@ class ViewControllerWithTableView: UIViewController, UITableViewDataSource, UITa
   
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        self.tableView = UITableView(frame: self.view.bounds)
-        self.tableView.estimatedRowHeight = //..Setting this will dramatically improve reloadData() perf
-
+  
         //ComponentTableViewCell works with 'UITableViewAutomaticDimension'
         self.tableView.rowHeight = UITableViewAutomaticDimension
-        
+        self.tableView.estimatedRowHeight = //..Setting this will dramatically improve reloadData() perf
+
         self.tableView.dataSource = self
         self.tableView.delegate = self
-        self.view.addSubview(self.tableView )
+        self.view.addSubview(self.tableView)
     }
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -180,23 +178,26 @@ class ViewControllerWithTableView: UIViewController, UITableViewDataSource, UITa
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        self.posts[indexPath.row]... //do something on the state
+        self.posts[indexPath.row]... //change the state for the selected index path
 
         //render the component for the cell at the given index
         self.tableView.renderComponentAtIndexPath(indexPath)
-        self.tableView.reloadData()
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
       let reuseIdentifier = "PostComponentCell"
       let cell: ComponentCell! =  
-            //dequeue the cell with the given identifier (remember to use different identifiers for different component classes)
+            //dequeue a cell with the given identifier 
+            //(remember to use different identifiers for different component classes)
             tableView.dequeueReusableCellWithIdentifier(reuseIdentifier) as? ComponentCell ??
         
             //or create a new Cell wrapping the component
             ComponentCell(reuseIdentifier: reuseIdentifier, component: PostComponent())
                   
+      //set the state for the cell
       cell.state = self.posts[indexPath.row]
+      
+      //and render the component
       cell.renderComponent(CGSize(tableView.bounds.size.width))
         
       return cell
