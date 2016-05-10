@@ -9,26 +9,24 @@
 import UIKit
 import Render
 
-extension S.AlbumAppearanceProxy {
-    var defaultInsets: Inset {
-        get {
-            let margin = ~S.Album.marginInBetweenElements
-            return (0.0, margin, 0.0, margin, margin, margin)
-        }
-    }
-}
 
-extension Album: ComponentStateType {
-    
-}
+// the model is marked as component state.
+extension Album: ComponentStateType { }
 
 class AlbumComponentView: ComponentView {
     
-    /// the component state
+    // If the component is used as list item it should be registered
+    // as prototype for the infra.
+    override class func initialize() {
+        registerPrototype(component: AlbumComponentView())
+    }
+    
+    /// The component state.
     var album: Album? {
         return self.state as? Album
     }
     
+    /// Constructs the component tree.
     override func construct() -> ComponentNodeType {
         
         return ComponentNode<UIView>().configure({ view in
