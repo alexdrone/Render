@@ -130,16 +130,14 @@ The component above would render to:
 <img src="Doc/render.jpg" width="900">
 
 
-#Lightweight
-
-###Integration with UIKit
+###Lightweight Integration with UIKit
 
 *Components* are plain UIViews, so they can be used inside a vanilla view hierarchy with *autolayout* or *layoutSubviews*.
 Similarly plain vanilla UIViews (UIKit components or custom ones) can be wrapped in a `ComponentNode` (so they can be part of a `ComponentView` or a `StaticComponentView`).
 
 The framework doesn't force you to use the Component abstraction. You can use normal UIViews with autolayout inside a component or vice versa. This is probably one of the biggest difference from Facebook's `ComponentKit`.
 
-###Thread model
+###Performance & Thread Model
 
 **Render**'s `renderComponent()` function is performed on the main thread. Diff+Layout+Configuration runs usually under 16ms on a iPhone 4S, which makes it suitable for cells implementation (with a smooth scrolling).
 
@@ -157,7 +155,6 @@ class MyComponentView: ComponentView {
 }
 
 ```
-
 
 ###Backend-driven UIs
 
