@@ -15,7 +15,7 @@ from [Why React matters](http://joshaber.github.io/2015/01/30/why-react-native-m
 [The framework] lets us write our UIs as a pure function of their state.
 
 
-Right now we write UIs by poking at them, manually mutating their properties when something changes, adding and removing views, etc. This is fragile and error-prone. Some tools exist to lessen the pain, but they can only go so far. UIs are big, messy, mutable, stateful bags of sadness.
+Right now we write UIs by poking at them, manually mutating their properties when something changes, adding and removing views, etc. This is fragile and error-prone. [...]
 
 [The framework] let us describe our entire UI for a given state, and then it does the hard work of figuring out what needs to change. It abstracts all the fragile, error-prone code out away from us. 
 
@@ -61,7 +61,7 @@ struct MyComponentState: ComponentStateType {
 // COMPONENT
 class MyComponentView: ComponentView {
     
-    // the component state.
+    // The component state.
     var componentState: MyComponentState? {
         return self.state as? MyComponentState
     }
@@ -137,10 +137,10 @@ The framework doesn't force you to use the Component abstraction. You can use no
 
 ###Thread model
 
-*Render*'s `renderComponent()` function is performed on the main thread. Diff+Layout+Configuration runs usually under 16ms on a iPhone 4S, which makes it suitable for cells implementation (with a smooth scrolling).
+**Render**'s `renderComponent()` function is performed on the main thread. Diff+Layout+Configuration runs usually under 16ms on a iPhone 4S, which makes it suitable for cells implementation (with a smooth scrolling).
 
 ###Live Refresh
-You can use **Render** with [Injection](https://github.com/johnno1962/injectionforxcode) in oreder to have live refresh of your components.
+You can use **Render** with [Injection](https://github.com/johnno1962/injectionforxcode) in order to have live refresh of your components.
 Install the injection plugin, patch your project for injection and add this code inside your component class (or in your viewcontroller):
 
 ```swift
@@ -157,7 +157,7 @@ class MyComponentView: ComponentView {
 
 ###Backend-driven UIs
 
-Given the descriptive nature of *Render*'s components, components can be defined in JSON or XML files and downloaded on-demand.
+Given the descriptive nature of **Render**'s components, components can be defined in JSON or XML files and downloaded on-demand.
 *The ComponentDeserializer is being worked on as we speak*.
 
 
@@ -286,7 +286,7 @@ extension ViewController: ListComponentItemDelegate {
 <img src="Doc/list.gif">
 
 #TODO:
-	- Proper documentation and getting started guide
+	- Proper documentation and getting started guide.
 	- Deserialize Components and ListComponentItems from JSON/XML.
 
 
