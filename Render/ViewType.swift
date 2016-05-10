@@ -113,16 +113,14 @@ extension UIView: FlexboxView {
         get {
             guard let node = objc_getAssociatedObject(self, &__flexNodeHandle) as? Node else {
                 
-                //lazily creates the node
                 let newNode = Node()
-                
+
                 newNode.measure = { (node, width, height) -> Dimension in
                     
                     if self.hidden ||  self.alpha < CGFloat(FLT_EPSILON) {
                         return (0,0) //no size for an hidden element
                     }
                     
-                    //get the intrinsic size of the element if applicable
                     self.frame = CGRect.zero
                     var size = CGSize.zero
 
@@ -150,19 +148,23 @@ extension UIView: FlexboxView {
                         h = h > upper ? upper : h
                     }
                     
-                    if !w.isDefined && node.style.maxDimensions.width.isDefined {
-                        w = node.style.maxDimensions.width
-                    }
-                    if !h.isDefined && node.style.maxDimensions.height.isDefined {
-                        h = node.style.maxDimensions.height
-                    }
-                    if !w.isDefined && node.style.minDimensions.width.isDefined {
-                        w = node.style.minDimensions.width
-                    }
-                    if !h.isDefined && node.style.minDimensions.height.isDefined {
-                        h = node.style.minDimensions.height
+                    if !w.isDefined {
+                        if node.style.maxDimensions.width.isDefined {
+                            w = node.style.maxDimensions.width
+                        }
+                        if node.style.minDimensions.width.isDefined {
+                            w = node.style.minDimensions.width
+                        }
                     }
                     
+                    if !h.isDefined {
+                        if node.style.maxDimensions.height.isDefined {
+                            h = node.style.maxDimensions.height
+                        }
+                        if node.style.minDimensions.height.isDefined {
+                            h = node.style.minDimensions.height
+                        }
+                    }
                     return (w, h)
                 }
                 
@@ -180,7 +182,7 @@ extension UIView: FlexboxView {
     
     /// Recursively computes the layout of this view
     private func layout(bounds: CGSize = CGSize.undefined) {
-        
+
         func prepare(view: UIView) {
             for subview in view.subviews.filter({ return $0.hasFlexNode }) {
                 prepare(subview)
@@ -194,6 +196,7 @@ extension UIView: FlexboxView {
             self.flexNode.layout(~bounds.width, maxHeight: ~bounds.height, parentDirection: .Inherit)
             self.flexNode.apply(self)
         }
+        
         compute()
     }
     
@@ -213,10 +216,12 @@ extension UIView: FlexboxView {
     }
 }
 
-// Support structure for the view
 class InternalViewStore {
+    
     var configureClosure: ((Void) -> (Void))?
+    
     var reuseIdentifier: String!
+    
     var notAnimatable: Bool = false
 }
 

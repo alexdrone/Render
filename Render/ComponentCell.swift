@@ -3,26 +3,7 @@
 //  Render
 //
 //  Created by Alex Usbergo on 21/04/16.
-//
-//  Copyright (c) 2016 Alex Usbergo.
-//
-//  Permission is hereby granted, free of charge, to any person obtaining a copy
-//  of this software and associated documentation files (the "Software"), to deal
-//  in the Software without restriction, including without limitation the rights
-//  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-//  copies of the Software, and to permit persons to whom the Software is
-//  furnished to do so, subject to the following conditions:
-//
-//  The above copyright notice and this permission notice shall be included in
-//  all copies or substantial portions of the Software.
-//
-//  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-//  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-//  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-//  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-//  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-//  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-//  THE SOFTWARE.
+//  Copyright © 2016 Alex Usbergo. All rights reserved.
 //
 
 import UIKit
@@ -187,8 +168,8 @@ extension UITableView {
     /// Re-renders all the compoents currently visible on screen.
     /// - Note: Call this method whenever the table view changes its bounds/size.
     public func renderVisibleComponents() {
-        for cell in self.visibleCells {
-            if let c = cell as? ComponentTableViewCell { c.renderComponent(CGSize(self.bounds.width)) }
+        for cell in self.visibleCells where cell is ComponentTableViewCell {
+            (cell as! ComponentTableViewCell).renderComponent(CGSize.sizeConstraintToWidth(self.bounds.width))
         }
     }
 }
@@ -206,8 +187,8 @@ extension UICollectionView {
     /// Re-renders all the compoents currently visible on screen.
     /// - Note: Call this method whenever the collection view changes its bounds/size.
     public func renderVisibleComponents() {
-        for cell in self.visibleCells() {
-            if let c = cell as? ComponentCollectionViewCell { c.renderComponent(CGSize(self.bounds.width)) }
+        for cell in self.visibleCells() where cell is ComponentCollectionViewCell {
+            (cell as! ComponentCollectionViewCell).renderComponent(CGSize.sizeConstraintToWidth(self.bounds.width))
         }
     }
 }
@@ -234,7 +215,7 @@ public func prototypeSize(parentView: UIView, state: ListComponentItemType) -> C
     // render the component.
     component.state = state.itemState
     component.parentView = parentView
-    component.renderComponent(CGSize(parentView.bounds.size.width))
+    component.renderComponent(CGSize.sizeConstraintToWidth(parentView.bounds.size.width))
     
     if let view = component as? UIView {
         return view.bounds.size

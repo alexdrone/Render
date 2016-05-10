@@ -32,9 +32,12 @@ public extension CGSize {
     /// Undefined size.
     public static let undefined = CGSize(width: CGFloat(Undefined), height: CGFloat(Undefined))
     
-    /// Convenience constructor.
-    public init(_ width: CGFloat,_ height: CGFloat = CGFloat(Undefined)) {
-        self.init(width: width, height: height)
+    public static func sizeConstraintToHeight(height: CGFloat) -> CGSize {
+        return CGSize(width: CGFloat(Undefined), height: height)
+    }
+    
+    public static func sizeConstraintToWidth(width: CGFloat) -> CGSize {
+        return CGSize(width: width, height: CGFloat(Undefined))
     }
     
     /// Returns true is this value is less than .19209290E-07F

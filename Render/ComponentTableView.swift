@@ -5,7 +5,6 @@
 //  Created by Alex Usbergo on 07/05/16.
 //  Copyright © 2016 Alex Usbergo. All rights reserved.
 //
-
 //
 //  ComponentCollectionView.swift
 //  Render
@@ -123,10 +122,12 @@ extension ComponentTableView: ComponentViewType {
 
 extension ComponentTableView: UITableViewDataSource, UITableViewDelegate {
     
+    /// Tells the data source to return the number of rows in a given section of a table view.
     public func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.items.count
     }
     
+    /// Asks the data source for a cell to insert in a particular location of the table view.
     public func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
         let item = self.items[indexPath.row]
@@ -135,14 +136,16 @@ extension ComponentTableView: UITableViewDataSource, UITableViewDelegate {
                                              ComponentTableViewCell(reuseIdentifier: item.reuseIdentifier, component: item.newComponentIstance())
         
         cell.state = item.itemState
-        cell.renderComponent(CGSize(tableView.bounds.size.width))
+        cell.renderComponent(CGSize.sizeConstraintToWidth(tableView.bounds.size.width))
         return cell
     }
     
+    /// Tells the data source to return the number of rows in a given section of a table view.
     public func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         return prototypeSize(self, state: self.items[indexPath.row]).height
     }
     
+    ///Tells the data source to return the number of rows in a given section of a table view.
     public func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let state = self.items[indexPath.row]
         state.delegate?.didSelectItem(state, indexPath: indexPath, listComponent: self)

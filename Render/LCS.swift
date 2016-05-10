@@ -9,15 +9,19 @@
 
 import UIKit
 
-public struct Diff<T> {
-    public let results: [DiffStep<T>]
-    public var insertions: [DiffStep<T>] {
+private struct Diff<T> {
+    
+    private let results: [DiffStep<T>]
+    
+    private var insertions: [DiffStep<T>] {
         return results.filter({ $0.isInsertion }).sort { $0.idx < $1.idx }
     }
-    public var deletions: [DiffStep<T>] {
+    
+    private var deletions: [DiffStep<T>] {
         return results.filter({ !$0.isInsertion }).sort { $0.idx > $1.idx }
     }
-    public func reversed() -> Diff<T> {
+    
+    private func reversed() -> Diff<T> {
         let reversedResults = self.results.reverse().map { (result: DiffStep<T>) -> DiffStep<T> in
             switch result {
             case .Insert(let i, let j):
@@ -30,14 +34,17 @@ public struct Diff<T> {
     }
 }
 
-public func +<T> (left: Diff<T>, right: DiffStep<T>) -> Diff<T> {
+private func +<T> (left: Diff<T>, right: DiffStep<T>) -> Diff<T> {
     return Diff<T>(results: left.results + [right])
 }
 
 /// These get returned from calls to Array.diff(). They represent insertions or deletions that need to happen to transform array a into array b.
-public enum DiffStep<T> : CustomDebugStringConvertible {
+private enum DiffStep<T>  {
+    
     case Insert(Int, T)
+    
     case Delete(Int, T)
+    
     var isInsertion: Bool {
         switch(self) {
         case .Insert:
@@ -46,15 +53,8 @@ public enum DiffStep<T> : CustomDebugStringConvertible {
             return false
         }
     }
-    public var debugDescription: String {
-        switch(self) {
-        case .Insert(let i, let j):
-            return "+\(j)@\(i)"
-        case .Delete(let i, let j):
-            return "-\(j)@\(i)"
-        }
-    }
-    public var idx: Int {
+    
+    private var idx: Int {
         switch(self) {
         case .Insert(let i, _):
             return i
@@ -62,7 +62,8 @@ public enum DiffStep<T> : CustomDebugStringConvertible {
             return i
         }
     }
-    public var value: T {
+    
+    private var value: T {
         switch(self) {
         case .Insert(let j):
             return j.1
@@ -72,10 +73,10 @@ public enum DiffStep<T> : CustomDebugStringConvertible {
     }
 }
 
-public extension Array where Element: Equatable {
+private extension Array where Element: Equatable {
     
     /// Returns the sequence of ArrayDiffResults required to transform one array into another.
-    public func diff(other: [Element]) -> Diff<Element> {
+    private func diff(other: [Element]) -> Diff<Element> {
         let table = MemoizedSequenceComparison.buildTable(self, other, self.count, other.count)
         return Array.diffFromIndices(table, self, other, self.count, other.count)
     }
@@ -99,7 +100,7 @@ public extension Array where Element: Equatable {
     
     /// Applies a generated diff to an array. The following should always be true:
     /// Given x: [T], y: [T], x.apply(x.diff(y)) == y
-    public func apply(diff: Diff<Element>) -> Array<Element> {
+    private func apply(diff: Diff<Element>) -> Array<Element> {
         var copy = self
         for result in diff.deletions {
             copy.removeAtIndex(result.idx)
@@ -177,28 +178,23 @@ public class TableViewDiffCalculator<T: Equatable> {
     /// Change this value to trigger animations on the table view.
     public var rows : [T] {
         didSet {
-            
             let oldRows = oldValue
             let newRows = self.rows
             let diff = oldRows.diff(newRows)
             if (diff.results.count > 0) {
                 tableView?.beginUpdates()
-                
                 let insertionIndexPaths = diff.insertions.map({ NSIndexPath(forRow: $0.idx, inSection: self.sectionIndex) })
                 let deletionIndexPaths = diff.deletions.map({ NSIndexPath(forRow: $0.idx, inSection: self.sectionIndex) })
-                
                 tableView?.insertRowsAtIndexPaths(insertionIndexPaths, withRowAnimation: insertionAnimation)
                 tableView?.deleteRowsAtIndexPaths(deletionIndexPaths, withRowAnimation: deletionAnimation)
-                
                 tableView?.endUpdates()
             }
-
         }
     }
 }
     
 public class CollectionViewDiffCalculator<T: Equatable> {
-    
+
     public weak var collectionView: UICollectionView?
     
     public init(collectionView: UICollectionView, initialRows: [T] = []) {
@@ -214,26 +210,21 @@ public class CollectionViewDiffCalculator<T: Equatable> {
     /// Change this value to trigger animations on the collection view.
     public var rows : [T] {
         didSet {
-            
             let oldRows = oldValue
             let newRows = self.rows
-            
             if newRows.count > 100 {
                 self.collectionView?.reloadData()
                 return
             }
-            
             let diff = oldRows.diff(newRows)
             if (diff.results.count > 0) {
                 let insertionIndexPaths = diff.insertions.map({ NSIndexPath(forItem: $0.idx, inSection: self.sectionIndex) })
                 let deletionIndexPaths = diff.deletions.map({ NSIndexPath(forItem: $0.idx, inSection: self.sectionIndex) })
-                
                 collectionView?.performBatchUpdates({ () -> Void in
                     self.collectionView?.insertItemsAtIndexPaths(insertionIndexPaths)
                     self.collectionView?.deleteItemsAtIndexPaths(deletionIndexPaths)
                 }, completion: nil)
             }
-            
         }
     }
 }

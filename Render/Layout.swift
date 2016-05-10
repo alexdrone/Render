@@ -343,7 +343,11 @@ public typealias Inset = (left: Float, top: Float, right: Float, bottom: Float, 
 public typealias Position = (left: Float, top: Float, right: Float, bottom: Float)
 
 public let Undefined = Float(CSS_NAN())
-public let MaxFlex: Float = 0.99
+
+struct Flex {
+    static let Max = 0.99
+    static let Min = 0.01
+}
 
 //MARK: Layout
 public class Layout {
