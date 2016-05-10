@@ -285,6 +285,10 @@ extension ViewController: ListComponentItemDelegate {
 <p align="center">
 <img src="Doc/list.gif">
 
+#TODO:
+	- Proper documentation and getting started guide
+	- Deserialize Components and ListComponentItems from JSON/XML.
+
 
 #Credits
 
