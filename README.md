@@ -6,13 +6,13 @@
 [![Platform](https://img.shields.io/badge/platform-ios-lightgrey.svg?style=flat)](#)
 [![Build](https://img.shields.io/badge/license-MIT-blue.svg?style=flat)](https://opensource.org/licenses/MIT)
 
-*React-inspired swift library for writing UIKit UIs which are functions of their state.*
+*React-inspired swift library for writing UIKit UIs.*
 
 #Why
 
 from [Why React matters](http://joshaber.github.io/2015/01/30/why-react-native-matters/):
 
-[The framework] lets us write our UIs.
+[The framework] lets us write our UIs as pure function of their states.
 
 
 Right now we write UIs by poking at them, manually mutating their properties when something changes, adding and removing views, etc. This is fragile and error-prone. [...]
