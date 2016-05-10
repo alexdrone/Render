@@ -12,7 +12,7 @@
 
 from [Why React matters](http://joshaber.github.io/2015/01/30/why-react-native-matters/):
 
-[The framework] lets us write our UIs as a pure function of their state.
+[The framework] lets us write our UIs.
 
 
 Right now we write UIs by poking at them, manually mutating their properties when something changes, adding and removing views, etc. This is fragile and error-prone. [...]
