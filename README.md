@@ -125,15 +125,6 @@ The component above would render to:
 <p align="center">
 <img src="Doc/render.jpg" width="900">
 
-```swift
-
-component.state = MyComponentState(title: "EARS"... expanded: true)
-component.renderComponent()
-
-component.state = MyComponentState(title: "EARS"... expanded: false)
-component.renderComponent()
-
-```
 
 #Lightweight
 
