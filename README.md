@@ -40,11 +40,13 @@ github "alexdrone/Render" "master"
 
 #TL;DR
 
-*Render*'s building blocks are *Components* (described in the protocol `ComponentViewType`).
-Despite virtually any `UIView` object can be a component (as long as it conforms to the above-cited protocol),
-*Render*'s core functionalities are exposed by the two main Component base classes: `ComponentView` and `StaticComponentView` (optimised for components that have a static view hierarchy).
+**Render**'s building blocks are *Components* (described in the protocol `ComponentViewType`).
 
-*Render* layout engine is based on [FlexboxLayout](https://github.com/alexdrone/FlexboxLayout).
+
+Despite virtually any `UIView` object can be a component (as long as it conforms to the above-cited protocol),
+**Render**'s core functionalities are exposed by the two main Component base classes: `ComponentView` and `StaticComponentView` (optimised for components that have a static view hierarchy).
+
+**Render** layout engine is based on [FlexboxLayout](https://github.com/alexdrone/FlexboxLayout).
 
 This is what a component (and its state) would look like:
 
@@ -117,7 +119,9 @@ class MyComponentView: ComponentView {
 
 
 The view description is defined by the `construct()` method.
-`ComponentNode<T>` is an abstaction around views of any sort that knows how to build, configure and layout the view when necessary.
+
+`ComponentNode<T>` is an abstraction around views of any sort that knows how to build, configure and layout the view when necessary.
+
 Every time `renderComponent()` is called, a new tree is constructed, compared to the existing tree and only the required changes to the actual view hierarchy are performed - *if you have a static view hierarchy, you might want to inherit from `StaticComponentView` to skip this part of the rendering* . Also the `configure` closure passed as argument is re-applied to every view defined in the `construct()` method and the layout is re-computed based on the nodes' flexbox attributes. 
 
 The component above would render to:
@@ -131,7 +135,7 @@ The component above would render to:
 ###Integration with UIKit
 
 *Components* are plain UIViews, so they can be used inside a vanilla view hierarchy with *autolayout* or *layoutSubviews*.
-Similiarly plain vanilla UIViews (UIKit components or custom ones) can be wrapped in a `ComponentNode` (so they can be part of a `ComponentView` or a `StaticComponentView`).
+Similarly plain vanilla UIViews (UIKit components or custom ones) can be wrapped in a `ComponentNode` (so they can be part of a `ComponentView` or a `StaticComponentView`).
 
 The framework doesn't force you to use the Component abstraction. You can use normal UIViews with autolayout inside a component or vice versa. This is probably one of the biggest difference from Facebook's `ComponentKit`.
 
@@ -295,7 +299,7 @@ extension ViewController: ListComponentItemDelegate {
 - [React](https://github.com/facebook/react): The React github page
 - [Few.swift](https://github.com/joshaber/Few.swift): Another React port for Swift. Check it out!
 - [css-layout](https://github.com/facebook/css-layout): This project used the C src code for the flexbox layout engine.
-- [Dwifft](https://github.com/jflinter/Dwifft): A swift array diff algorithm implmentation.
+- [Dwifft](https://github.com/jflinter/Dwifft): A swift array diff algorithm implementation.
 - [Backend-driven native UIs](https://www.facebook.com/atscaleevents/videos/1708052886134475/) from [JohnSundell](https://github.com/JohnSundell): A inspiring video about component-driven UIs (the demo project is also inspired from Spotify's UI).
 
 
