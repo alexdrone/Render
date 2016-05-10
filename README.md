@@ -10,7 +10,7 @@
 
 #Why
 
-From [Why React matters](http://joshaber.github.io/2015/01/30/why-react-native-matters/):
+from [Why React matters](http://joshaber.github.io/2015/01/30/why-react-native-matters/):
 
 [The framework] lets us write our UIs as a pure function of their state.
 
