@@ -10,17 +10,19 @@ import UIKit
 import Render
 
 class ViewController: UIViewController {
-        
+    
     // The item list.
     var albums: [ListComponentItemType] = [ListComponentItem<AlbumComponentView, Album>]() {
         didSet {
-            self.render()
+            self.listComponentView.renderComponent(self.view.bounds.size)
         }
     }
-
+    
     /// The collection view component.
-    let listComponentView = ComponentCollectionView()
-
+    lazy var listComponentView: ComponentCollectionView = {
+        return ComponentCollectionView()
+    }()
+    
     /// Called after the controller's view is loaded into memory.
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,16 +37,11 @@ class ViewController: UIViewController {
             view.backgroundColor = S.Color.black
             view.items = self.albums
         }
-        
         self.view.addSubview(self.listComponentView)
     }
 
     /// Called to notify the view controller that its view has just laid out its subviews.
     override func viewDidLayoutSubviews() {
-        self.render()
-    }
-    
-    func render() {
         self.listComponentView.renderComponent(self.view.bounds.size)
     }
 }

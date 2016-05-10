@@ -98,10 +98,10 @@
 		169F695F1CCE3BA000240315 /* RenderTodoDemo */ = {
 			isa = PBXGroup;
 			children = (
+				16D2A43B1CE21DA600502583 /* ViewControllers */,
 				16B5F80E1CD8CF3A001726E4 /* Components */,
 				16B5F8091CD8C699001726E4 /* Models */,
 				169F69601CCE3BA000240315 /* AppDelegate.swift */,
-				169F69621CCE3BA000240315 /* ViewController.swift */,
 				169F697D1CCE3C1700240315 /* Style.swift */,
 				169F69641CCE3BA000240315 /* Main.storyboard */,
 				169F69671CCE3BA000240315 /* Assets.xcassets */,
@@ -135,6 +135,14 @@
 				16B5F80C1CD8CF35001726E4 /* AlbumComponentView.swift */,
 			);
 			name = Components;
+			sourceTree = "<group>";
+		};
+		16D2A43B1CE21DA600502583 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				169F69621CCE3BA000240315 /* ViewController.swift */,
+			);
+			name = ViewControllers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
