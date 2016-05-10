@@ -40,11 +40,11 @@ github "alexdrone/Render" "master"
 
 #TL;DR
 
-Render's building blocks are *Components* (described in the protocol `ComponentViewType`).
+*Render*'s building blocks are *Components* (described in the protocol `ComponentViewType`).
 Despite virtually any `UIView` object can be a component (as long as it conforms to the above-cited protocol),
-Render's core functionalities are exposed by the two main Component base classes: `ComponentView` and `StaticComponentView` (optimised for components that have a static view hierarchy).
+*Render*'s core functionalities are exposed by the two main Component base classes: `ComponentView` and `StaticComponentView` (optimised for components that have a static view hierarchy).
 
-Render layout engine is based on [FlexboxLayout](https://github.com/alexdrone/FlexboxLayout).
+*Render* layout engine is based on [FlexboxLayout](https://github.com/alexdrone/FlexboxLayout).
 
 This is what a component (and its state) would look like:
 
@@ -137,7 +137,7 @@ The framework doesn't force you to use the Component abstraction. You can use no
 
 ###Thread model
 
-Render's `renderComponent()` function is performed on the main thread. Diff+Layout+Configuration runs usually under 16ms on a iPhone 4S, which makes it suitable for cells implementation (with a smooth scrolling).
+*Render*'s `renderComponent()` function is performed on the main thread. Diff+Layout+Configuration runs usually under 16ms on a iPhone 4S, which makes it suitable for cells implementation (with a smooth scrolling).
 
 ###Live Refresh
 You can use **Render** with [Injection](https://github.com/johnno1962/injectionforxcode) in oreder to have live refresh of your components.
@@ -157,7 +157,7 @@ class MyComponentView: ComponentView {
 
 ###Backend-driven UIs
 
-Given the descriptive nature of Render's components, components can be defined in JSON or XML files and downloaded on-demand.
+Given the descriptive nature of *Render*'s components, components can be defined in JSON or XML files and downloaded on-demand.
 *The ComponentDeserializer is being worked on as we speak*.
 
 
