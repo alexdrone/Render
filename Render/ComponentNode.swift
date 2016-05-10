@@ -149,7 +149,7 @@ public class ComponentNode<ViewType: UIView>: ComponentNodeType {
     }
 
     public func prepareForUnmount() {
-        _Reset.resetTargets(self.renderedView)
+        Reset.resetTargets(self.renderedView)
     }
 }
 

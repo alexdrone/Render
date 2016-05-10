@@ -10,7 +10,6 @@ import UIKit
 import Render
 
 extension S.AlbumAppearanceProxy {
-    
     var defaultInsets: Inset {
         get {
             let margin = ~S.Album.marginInBetweenElements

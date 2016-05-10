@@ -127,8 +127,12 @@ The component above would render to:
 
 ```swift
 
-let albumComponent = AlbumComponentView()
-albumComponentView.renderComponent()
+component.state = MyComponentState(title: "EARS"... expanded: true)
+component.renderComponent()
+
+component.state = MyComponentState(title: "EARS"... expanded: false)
+component.renderComponent()
+
 ```
 
 #Lightweight
@@ -143,6 +147,21 @@ The framework doesn't force you to use the Component abstraction. You can use no
 ###Thread model
 
 Render's `renderComponent()` function is performed on the main thread. Diff+Layout+Configuration runs usually under 16ms on a iPhone 4S, which makes it suitable for cells implementation (with a smooth scrolling).
+
+###Live Refresh
+You can use **Render** with [Injection](https://github.com/johnno1962/injectionforxcode) in oreder to have live refresh of your components.
+Install the injection plugin, patch your project for injection and add this code inside your component class (or in your viewcontroller):
+
+```swift
+
+class MyComponentView: ComponentView {
+	...
+	func injected() {
+		self.renderComponent()
+	}
+}
+
+```
 
 
 ###Backend-driven UIs
