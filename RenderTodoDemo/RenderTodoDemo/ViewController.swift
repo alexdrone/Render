@@ -81,7 +81,7 @@ extension ViewController {
     func prepareDummyData() {
         
         var albums = [ListComponentItemType]()
-        for idx in 0..<25 {
+        for idx in 0..<100 {
             
             if !randomChance() {
                 //album

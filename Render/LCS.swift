@@ -212,10 +212,6 @@ public class CollectionViewDiffCalculator<T: Equatable> {
         didSet {
             let oldRows = oldValue
             let newRows = self.rows
-            if newRows.count > 100 {
-                self.collectionView?.reloadData()
-                return
-            }
             let diff = oldRows.diff(newRows)
             if (diff.results.count > 0) {
                 let insertionIndexPaths = diff.insertions.map({ NSIndexPath(forItem: $0.idx, inSection: self.sectionIndex) })

@@ -87,26 +87,9 @@ public class ListComponentItem<C: ComponentViewType, S: ComponentStateType>: Lis
 
 public extension ListComponentItemType {
     
-    /// Wheter this list item can be compared with others.
-    var isEquatable: Bool { return self.isEqual(self) }
-    
     /// Always 'false' by default.
-    public func isEqual(other: ListComponentItemType) -> Bool {
-        return false
-    }
-}
-
-public extension ListComponentItem where S: Equatable {
-    
-    /// Wheter this list item can be compared with others.
-    var isEquatable: Bool { return true }
-    
-    /// Default implementation when the state is equatable.
-    private func isEqual(other: ListComponentItemType) -> Bool {
-        if let otherState = other.itemState as? S where other.reuseIdentifier == self.reuseIdentifier {
-            return self.state == otherState
-        }
-        return false
+    func isEqual(other: ListComponentItemType) -> Bool {
+        return self.itemState === other.itemState
     }
 }
 
