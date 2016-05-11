@@ -344,9 +344,9 @@ public typealias Position = (left: Float, top: Float, right: Float, bottom: Floa
 
 public let Undefined = Float(CSS_NAN())
 
-struct Flex {
-    static let Max = 0.99
-    static let Min = 0.01
+public struct Flex {
+    public static let Max: Float = 0.99
+    public static let Min: Float = 0.01
 }
 
 //MARK: Layout

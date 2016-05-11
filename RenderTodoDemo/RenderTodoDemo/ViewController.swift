@@ -49,16 +49,28 @@ class ViewController: UIViewController {
 extension ViewController: ListComponentItemDelegate {
     
     func didSelectItem(item: ListComponentItemType, indexPath: NSIndexPath, listComponent: ComponentViewType) {
-        let item = item as! ListComponentItem<AlbumComponentView, Album>
         
         // collapse the item if expanded
-        if item.state.featured {
-            item.state.featured = false
+        if let albumItem = item as? ListComponentItem<AlbumComponentView, Album> where albumItem.state.featured {
+            albumItem.state.featured = false
             listComponentView.renderComponentAtIndexPath(indexPath)
+            return
+        }
+        
+        //we want to remove an album
+        if let albumItem = item as? ListComponentItem<AlbumComponentView, Album> {
+            self.albums = self.albums.filter({
+                guard let otherAlbum = $0 as? ListComponentItem<AlbumComponentView, Album> else { return true }
+                return otherAlbum.state != albumItem.state
+            })
             
-        // remove the item if it's already collapsed
-        } else {
-            self.albums = albums.map({ $0 as! ListComponentItem<AlbumComponentView, Album> }).filter({ $0.state != item.state }).map({ $0 as ListComponentItemType })
+        //we want to remove a video
+        } else if let videoItem = item as? ListComponentItem<VideoComponentView, Video> {
+        
+            self.albums = self.albums.filter({
+                guard let otherVideo = $0 as? ListComponentItem<VideoComponentView, Video> else { return true }
+                return otherVideo.state != videoItem.state
+            })
         }
     }
 }
@@ -67,11 +79,25 @@ extension ViewController {
     
     //creates some dummy models.
     func prepareDummyData() {
-        for idx in 0..<10 {
-            let item = ListComponentItem<AlbumComponentView, Album>(state: Album(featured: idx < 4))
-            item.delegate = self
-            self.albums.append(item)
+        
+        var albums = [ListComponentItemType]()
+        for idx in 0..<25 {
+            
+            if !randomChance() {
+                //album
+                let item = ListComponentItem<AlbumComponentView, Album>(state: Album(featured: idx < 4))
+                item.delegate = self
+                albums.append(item)
+                
+            } else {
+                //video
+                let item = ListComponentItem<VideoComponentView, Video>(state: Video())
+                item.delegate = self
+                albums.append(item)
+            }
         }
+        
+        self.albums = albums
     }
     
 }

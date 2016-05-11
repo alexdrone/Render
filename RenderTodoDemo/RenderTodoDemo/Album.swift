@@ -8,20 +8,20 @@
 
 import Foundation
 
-let covers = [UIImage(data: NSData(contentsOfURL: NSURL(string: "http://www.spotifynewmusic.com/covers/13302.jpg")!)!),
+private let covers = [UIImage(data: NSData(contentsOfURL: NSURL(string: "http://www.spotifynewmusic.com/covers/13302.jpg")!)!),
               UIImage(data: NSData(contentsOfURL: NSURL(string: "http://www.spotifynewmusic.com/covers/13487.jpg")!)!),
               UIImage(data: NSData(contentsOfURL: NSURL(string: "http://www.spotifynewmusic.com/covers/13562.jpg")!)!),
               UIImage(data: NSData(contentsOfURL: NSURL(string: "http://www.spotifynewmusic.com/covers/13561.jpg")!)!),
               UIImage(data: NSData(contentsOfURL: NSURL(string: "http://www.spotifynewmusic.com/covers/13102.jpg")!)!) ]
 
-let titles = ["Aa",
+private let titles = ["Aa",
               "EARS",
               "The Ship",
               "Waltzed in from the Rumbling",
               "Fever Dream",
               " Stelle Fisse" ]
 
-let artits = ["Baauer",
+private let artits = ["Baauer",
               "Kaitlyn Aurelia Smith",
               "Brian Eno",
               "Plants and Animals",
@@ -47,8 +47,4 @@ class Album: Equatable {
         self.cover = covers[idx]!
         self.featured = featured
     }    
-}
-
-func randomInt(min: Int, max:Int) -> Int {
-    return min + Int(arc4random_uniform(UInt32(max - min + 1)))
 }

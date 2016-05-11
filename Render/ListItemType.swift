@@ -85,7 +85,7 @@ public class ListComponentItem<C: ComponentViewType, S: ComponentStateType>: Lis
 
 //MARK: Equatable workaround
 
-extension ListComponentItemType {
+public extension ListComponentItemType {
     
     /// Wheter this list item can be compared with others.
     var isEquatable: Bool { return self.isEqual(self) }
@@ -96,7 +96,7 @@ extension ListComponentItemType {
     }
 }
 
-extension ListComponentItem where S: Equatable {
+public extension ListComponentItem where S: Equatable {
     
     /// Wheter this list item can be compared with others.
     var isEquatable: Bool { return true }

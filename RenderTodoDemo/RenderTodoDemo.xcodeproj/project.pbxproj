@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1638C4EB1CE3354500A0E283 /* VideoComponentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1638C4EA1CE3354500A0E283 /* VideoComponentView.swift */; };
+		1638C4ED1CE3359B00A0E283 /* Video.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1638C4EC1CE3359B00A0E283 /* Video.swift */; };
 		169F69611CCE3BA000240315 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 169F69601CCE3BA000240315 /* AppDelegate.swift */; };
 		169F69631CCE3BA000240315 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 169F69621CCE3BA000240315 /* ViewController.swift */; };
 		169F69661CCE3BA000240315 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 169F69641CCE3BA000240315 /* Main.storyboard */; };
@@ -51,6 +53,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		1638C4EA1CE3354500A0E283 /* VideoComponentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoComponentView.swift; sourceTree = "<group>"; };
+		1638C4EC1CE3359B00A0E283 /* Video.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Video.swift; sourceTree = "<group>"; };
 		166071DF1CCFB20B008589A9 /* RenderTodoDemo-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "RenderTodoDemo-Bridging-Header.h"; sourceTree = "<group>"; };
 		166071E01CCFB20B008589A9 /* DebugObjc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DebugObjc.h; sourceTree = "<group>"; };
 		169F695D1CCE3BA000240315 /* RenderTodoDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RenderTodoDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -125,6 +129,7 @@
 			isa = PBXGroup;
 			children = (
 				16B5F80A1CD8C6AA001726E4 /* Album.swift */,
+				1638C4EC1CE3359B00A0E283 /* Video.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -133,6 +138,7 @@
 			isa = PBXGroup;
 			children = (
 				16B5F80C1CD8CF35001726E4 /* AlbumComponentView.swift */,
+				1638C4EA1CE3354500A0E283 /* VideoComponentView.swift */,
 			);
 			name = Components;
 			sourceTree = "<group>";
@@ -239,6 +245,8 @@
 				169F697E1CCE3C1700240315 /* Style.swift in Sources */,
 				16B5F80D1CD8CF35001726E4 /* AlbumComponentView.swift in Sources */,
 				169F69611CCE3BA000240315 /* AppDelegate.swift in Sources */,
+				1638C4EB1CE3354500A0E283 /* VideoComponentView.swift in Sources */,
+				1638C4ED1CE3359B00A0E283 /* Video.swift in Sources */,
 				16B5F80B1CD8C6AA001726E4 /* Album.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
