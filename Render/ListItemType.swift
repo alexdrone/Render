@@ -27,6 +27,14 @@
 
 import UIKit
 
+/// If a state represents a unique entity then it should conform to this protocol.
+/// - Note: This will just improve the performance in list diffs.
+public protocol ComponentStateTypeUniquing {
+    
+    /// The unique identifier associated to this state (if applicable)
+    var stateUniqueIdentifier: String { get }
+}
+
 public protocol ListComponentItemDelegate: class {
 
     /// The item has been selected.
@@ -85,14 +93,6 @@ public class ListComponentItem<C: ComponentViewType, S: ComponentStateType>: Lis
 
 //MARK: Equatable workaround
 
-public extension ListComponentItemType {
-    
-    /// Always 'false' by default.
-    func isEqual(other: ListComponentItemType) -> Bool {
-        return self.itemState === other.itemState
-    }
-}
-
 /// Used by the LCS algorithm for calculating the list diff.
 struct EquatableWrapper: Equatable {
     let item: ListComponentItemType
@@ -100,4 +100,18 @@ struct EquatableWrapper: Equatable {
 
 func ==(lhs: EquatableWrapper, rhs: EquatableWrapper) -> Bool {
     return lhs.item.isEqual(rhs.item)
+}
+
+extension ListComponentItemType {
+    
+    /// Equatable workaround
+    func isEqual(other: ListComponentItemType) -> Bool {
+        if self.reuseIdentifier != other.reuseIdentifier {
+            return false
+        }
+        if  let ulhs = self.itemState as? ComponentStateTypeUniquing, let urhs = other.itemState as? ComponentStateTypeUniquing {
+            return ulhs.stateUniqueIdentifier == urhs.stateUniqueIdentifier
+        }
+        return self.itemState === other.itemState
+    }
 }

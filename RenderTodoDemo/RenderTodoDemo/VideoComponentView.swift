@@ -12,6 +12,13 @@ import Render
 // the model is marked as component state.
 extension Video: ComponentStateType { }
 
+// This will just improve the performance in list diffs.
+extension Video: ComponentStateTypeUniquing {
+    var stateUniqueIdentifier: String {
+        return self.id
+    }
+}
+
 class VideoComponentView: ComponentView {
     
     // If the component is used as list item it should be registered

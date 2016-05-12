@@ -34,7 +34,7 @@ func ==(lhs: Album, rhs: Album) -> Bool {
 
 class Album: Equatable {
     
-    private let id = NSUUID().UUIDString
+    let id = NSUUID().UUIDString
     let title: String
     let artist: String
     let cover: UIImage

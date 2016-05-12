@@ -9,9 +9,15 @@
 import UIKit
 import Render
 
-
-// the model is marked as component state.
+// The model is marked as component state.
 extension Album: ComponentStateType { }
+
+// This will just improve the performance in list diffs.
+extension Album: ComponentStateTypeUniquing {
+    var stateUniqueIdentifier: String {
+        return self.id
+    }
+}
 
 class AlbumComponentView: ComponentView {
     

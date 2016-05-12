@@ -20,7 +20,7 @@ func ==(lhs: Video, rhs: Video) -> Bool {
 
 class Video: Equatable {
     
-    private let id = NSUUID().UUIDString
+    let id = NSUUID().UUIDString
     let title: String
     let cover: UIImage
     

@@ -119,9 +119,7 @@ extension ComponentCollectionView: ComponentViewType {
     /// - parameter state: The (optional) state for this component.
     public func renderComponent(size: CGSize) {
         self.configuration?(self)
-        if size != self.parentSize {
-            self.collectionViewLayout.invalidateLayout()
-        }
+        self.collectionViewLayout.invalidateLayout()
     }
 }
 

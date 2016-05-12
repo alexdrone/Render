@@ -305,6 +305,6 @@ public class StaticComponentView: BaseComponentView {
         self._root?.render(size)
         self.updateViewFrame()
     }
-    
 }
+
 
