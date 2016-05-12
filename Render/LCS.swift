@@ -138,9 +138,9 @@ public extension Array where Element: Equatable {
     }
 }
 
-internal struct MemoizedSequenceComparison<T: Equatable> {
+private struct MemoizedSequenceComparison<T: Equatable> {
     
-    static func buildTable(x: [T], _ y: [T], _ n: Int, _ m: Int) -> [[Int]] {
+    private static func buildTable(x: [T], _ y: [T], _ n: Int, _ m: Int) -> [[Int]] {
         var table = Array(count: n + 1, repeatedValue: Array(count: m + 1, repeatedValue: 0))
         for i in 0...n {
             for j in 0...m {

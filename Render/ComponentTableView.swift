@@ -3,13 +3,6 @@
 //  Render
 //
 //  Created by Alex Usbergo on 07/05/16.
-//  Copyright © 2016 Alex Usbergo. All rights reserved.
-//
-//
-//  ComponentCollectionView.swift
-//  Render
-//
-//  Created by Alex Usbergo on 27/04/16.
 //
 //  Copyright (c) 2016 Alex Usbergo.
 //

@@ -66,7 +66,6 @@ extension ViewController: ListComponentItemDelegate {
             
         //we want to remove a video
         } else if let videoItem = item as? ListComponentItem<VideoComponentView, Video> {
-        
             self.albums = self.albums.filter({
                 guard let otherVideo = $0 as? ListComponentItem<VideoComponentView, Video> else { return true }
                 return otherVideo.state != videoItem.state

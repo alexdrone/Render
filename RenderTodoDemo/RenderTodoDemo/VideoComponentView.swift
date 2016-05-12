@@ -19,7 +19,7 @@ extension Video: ComponentStateTypeUniquing {
     }
 }
 
-class VideoComponentView: ComponentView {
+class VideoComponentView: StaticComponentView {
     
     // If the component is used as list item it should be registered
     // as prototype for the infra.

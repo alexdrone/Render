@@ -216,6 +216,10 @@ public class ComponentView: BaseComponentView {
         
         // runs its own configuration
         self.internalStore.configureClosure?()
+        
+        // This shouldn't be necessary since render is performed on the 
+        // root after the new view hiearchy is installed.
+        // This could lead to a 50% perf. improvement for render.
         self._root?.render(size)
         
         let startTime = CFAbsoluteTimeGetCurrent()
@@ -224,7 +228,7 @@ public class ComponentView: BaseComponentView {
             debugRenderTime("\(self.dynamicType).renderComponent", startTime: startTime)
         }
         
-        // the view never rendered
+        // The view never rendered
         guard let old = self._root where old.renderedView != nil else {
             self._root = self.construct()
             return
@@ -232,7 +236,7 @@ public class ComponentView: BaseComponentView {
 
         var new = self.construct()
         
-        //diff between new and old
+        // Diff between new and old
         func diff(old: ComponentNodeType, new: ComponentNodeType) -> ComponentNodeType {
             
             old.prepareForUnmount()
@@ -246,7 +250,7 @@ public class ComponentView: BaseComponentView {
                 children.append(diff(o, new: n))
             }
             
-            //adds the new one
+            // Adds the new one
             if new.children.count > old.children.count {
                 for i in old.children.count..<new.children.count {
                     children.append(new.children[i])
