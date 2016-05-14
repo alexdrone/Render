@@ -9,7 +9,7 @@
 import Foundation
 import Render
 
-class SingleViewController: UIViewController {
+class SingleDemoViewController: UIViewController {
 
     // The item list.
     var album = Album(featured: true)

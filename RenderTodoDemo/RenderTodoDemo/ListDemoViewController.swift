@@ -9,7 +9,7 @@
 import UIKit
 import Render
 
-class ViewController: UIViewController {
+class ListDemoViewController: UIViewController {
     
     // The item list.
     var albums: [ListComponentItemType] = [ListComponentItem<AlbumComponentView, Album>]() {
@@ -46,7 +46,7 @@ class ViewController: UIViewController {
     }
 }
 
-extension ViewController: ListComponentItemDelegate {
+extension ListDemoViewController: ListComponentItemDelegate {
     
     func didSelectItem(item: ListComponentItemType, indexPath: NSIndexPath, listComponent: ComponentViewType) {
         
@@ -74,13 +74,13 @@ extension ViewController: ListComponentItemDelegate {
     }
 }
 
-extension ViewController {
+extension ListDemoViewController {
     
     //creates some dummy models.
     func prepareDummyData() {
         
         var albums = [ListComponentItemType]()
-        for idx in 0..<100 {
+        for idx in 0..<25 {
             
             if !randomChance() {
                 //album
