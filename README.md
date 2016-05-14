@@ -171,32 +171,14 @@ You can wrap your components in `ComponentTableViewCell` or `ComponentCollection
 class ViewControllerWithTableView: UIViewController, UITableViewDataSource, UITableViewDelegate {  
     var tableView: UITableView = ...
     var posts: [Post] = ... 
-  
     override func viewDidLoad() {
-        super.viewDidLoad()
-  
-        //ComponentTableViewCell works with 'UITableViewAutomaticDimension'
+		...  
         self.tableView.rowHeight = UITableViewAutomaticDimension
-        self.tableView.estimatedRowHeight = //..Setting this will dramatically improve reloadData() perf
-
-        self.tableView.dataSource = self
-        self.tableView.delegate = self
-        self.view.addSubview(self.tableView)
+		...
     }
-
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.posts.count
-    }
-    
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        self.posts[indexPath.row]... //change the state for the selected index path
-
-        //render the component for the cell at the given index
-        self.tableView.renderComponentAtIndexPath(indexPath)
-    }
-    
+	...
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-      let reuseIdentifier = "PostComponentCell"
+      let reuseIdentifier = String(PostComponent.self)
       let cell: ComponentCell! =  
             //dequeue a cell with the given identifier 
             //(remember to use different identifiers for different component classes)
@@ -249,7 +231,6 @@ class ViewController: UIViewController {
             view.frame.size = view.parentSize
             view.items = self.albums
         }
-        
         self.view.addSubview(self.listComponentView)
     }
     
@@ -262,22 +243,6 @@ class ViewController: UIViewController {
            	item.delegate = self
            	self.items.append(item)
         }
-    }
-}
-
-extension ViewController: ListComponentItemDelegate {
-    
-    func didSelectItem(item: ListComponentItemType, indexPath: NSIndexPath, listComponent: ComponentViewType) {
-    
-    		// if the item is expanded we collapse it
-    		if let item = item as? ListComponentItem<AlbumComponentView, Album> where item.state.expanded {
-    			item.state.expanded = false
-    			self.listComponentView.renderComponentAtIndexPath(indexPath)
-    
-    		// otherwise we remove the item from the list
-    		} else {
-    	        self.items = self.items.filter({ $0.state != item.state })
-		}
     }
 }
 ```
