@@ -162,7 +162,7 @@ Given the descriptive nature of **Render**'s components, components can be defin
 *The ComponentDeserializer is being worked on as we speak*.
 
 
-#Embedded 
+#Components embedded in cells
 
 You can wrap your components in `ComponentTableViewCell` or `ComponentCollectionViewCell` and use the classic dataSource/delegate pattern for you view controller.
 
