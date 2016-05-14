@@ -392,7 +392,7 @@
                   moduleName = "RenderTodoDemo"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/alexusbergo/Desktop/swift/Render/RenderTodoDemo/RenderTodoDemo/ViewController.swift"
-                  timestampString = "484739316.262712"
+                  timestampString = "484912798.046747"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "69"
@@ -407,7 +407,7 @@
                   moduleName = "RenderTodoDemo"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/alexusbergo/Desktop/swift/Render/RenderTodoDemo/RenderTodoDemo/ViewController.swift"
-                  timestampString = "484739316.262928"
+                  timestampString = "484912798.046948"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "70"
@@ -447,6 +447,70 @@
             endingLineNumber = "70"
             landmarkName = "didSelectItem(_:indexPath:listComponent:)"
             landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "RenderTodoDemo/SingleViewController.swift"
+            timestampString = "484912796.968586"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "55"
+            endingLineNumber = "55"
+            landmarkName = "toggleFeatured()"
+            landmarkType = "5">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "RenderTodoDemo.SingleViewController.toggleFeatured () -&gt; ()"
+                  moduleName = "RenderTodoDemo"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/alexusbergo/Desktop/swift/Render/RenderTodoDemo/RenderTodoDemo/SingleViewController.swift"
+                  timestampString = "484912573.948052"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "47"
+                  endingLineNumber = "47"
+                  offsetFromSymbolStart = "78">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "RenderTodoDemo.SingleViewController.(toggleFeatured () -&gt; ()).(closure #1)"
+                  moduleName = "RenderTodoDemo"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/alexusbergo/Desktop/swift/Render/RenderTodoDemo/RenderTodoDemo/SingleViewController.swift"
+                  timestampString = "484912573.948262"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "47"
+                  endingLineNumber = "47"
+                  offsetFromSymbolStart = "264">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "RenderTodoDemo/SingleViewController.swift"
+            timestampString = "484912846.713932"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "31"
+            endingLineNumber = "31"
+            landmarkName = "SingleViewController"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

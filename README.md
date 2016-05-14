@@ -286,6 +286,23 @@ extension ViewController: ListComponentItemDelegate {
 <p align="center">
 <img src="Doc/list.gif">
 
+
+#Animations
+
+Run `renderComponent()` inside of an animation block to to witness the magic.
+
+```swift
+self.myComponentState.expanded = !self.myComponentState.expanded 
+self.component.state = self.myComponentState
+UIView.animateWithDuration(0.3) {
+    self.component.renderComponent()
+}
+```
+
+<p align="center">
+<img src="Doc/animation.gif" width="320">
+
+
 #TODO:
 	- Proper documentation and getting started guide.
 	- Deserialize Components and ListComponentItems from JSON/XML.

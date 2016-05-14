@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		160B2C451CE72C33006327D0 /* SingleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160B2C441CE72C33006327D0 /* SingleViewController.swift */; };
 		1638C4EB1CE3354500A0E283 /* VideoComponentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1638C4EA1CE3354500A0E283 /* VideoComponentView.swift */; };
 		1638C4ED1CE3359B00A0E283 /* Video.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1638C4EC1CE3359B00A0E283 /* Video.swift */; };
 		169F69611CCE3BA000240315 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 169F69601CCE3BA000240315 /* AppDelegate.swift */; };
@@ -53,6 +54,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		160B2C441CE72C33006327D0 /* SingleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SingleViewController.swift; sourceTree = "<group>"; };
 		1638C4EA1CE3354500A0E283 /* VideoComponentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoComponentView.swift; sourceTree = "<group>"; };
 		1638C4EC1CE3359B00A0E283 /* Video.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Video.swift; sourceTree = "<group>"; };
 		166071DF1CCFB20B008589A9 /* RenderTodoDemo-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "RenderTodoDemo-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -147,6 +149,7 @@
 			isa = PBXGroup;
 			children = (
 				169F69621CCE3BA000240315 /* ViewController.swift */,
+				160B2C441CE72C33006327D0 /* SingleViewController.swift */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -247,6 +250,7 @@
 				169F69611CCE3BA000240315 /* AppDelegate.swift in Sources */,
 				1638C4EB1CE3354500A0E283 /* VideoComponentView.swift in Sources */,
 				1638C4ED1CE3359B00A0E283 /* Video.swift in Sources */,
+				160B2C451CE72C33006327D0 /* SingleViewController.swift in Sources */,
 				16B5F80B1CD8C6AA001726E4 /* Album.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

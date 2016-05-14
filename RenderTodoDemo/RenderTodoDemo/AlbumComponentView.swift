@@ -62,7 +62,6 @@ class AlbumComponentView: StaticComponentView {
                 
                 ComponentNode<UILabel>().configure({ view in
                     view.style.margin = S.Album.defaultInsets
-                    view.backgroundColor = S.Color.black
                     view.text = self.album?.title ?? "None"
                     view.font = S.Typography.mediumBold
                     view.textColor = S.Color.white
@@ -70,7 +69,6 @@ class AlbumComponentView: StaticComponentView {
                 
                 ComponentNode<UILabel>().configure({ view in
                     view.style.margin = S.Album.defaultInsets
-                    view.backgroundColor = S.Color.black
                     view.text = self.album?.artist ?? "Uknown Artist"
                     view.font = S.Typography.extraSmallLight
                     view.textColor = S.Color.white
