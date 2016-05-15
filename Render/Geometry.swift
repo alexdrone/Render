@@ -46,6 +46,19 @@ public extension CGSize {
     }
 }
 
+public extension Float {
+    public var isDefined: Bool {
+        return self > 0 && self < 4096
+    }
+}
+
+public extension CGFloat {
+    public var isDefined: Bool {
+        return Float(self).isDefined
+    }
+}
+
+
 prefix operator ~ {}
 
 /// A shorthand to convert 'CGFloat' into 'Float' for flexbox.
@@ -113,12 +126,6 @@ extension UIView {
         } else {
             self.frame = frame
         }
-    }
-}
-
-extension Float {
-    var isDefined: Bool {
-        return self > 0 && self < 4096
     }
 }
 

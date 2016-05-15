@@ -20,6 +20,7 @@
 		169F697E1CCE3C1700240315 /* Style.swift in Sources */ = {isa = PBXBuildFile; fileRef = 169F697D1CCE3C1700240315 /* Style.swift */; };
 		16B5F80B1CD8C6AA001726E4 /* Album.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16B5F80A1CD8C6AA001726E4 /* Album.swift */; };
 		16B5F80D1CD8CF35001726E4 /* AlbumComponentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16B5F80C1CD8CF35001726E4 /* AlbumComponentView.swift */; };
+		16F19C971CE88BD000EE8661 /* VanillaComponentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F19C961CE88BD000EE8661 /* VanillaComponentView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -70,6 +71,7 @@
 		169F697D1CCE3C1700240315 /* Style.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Style.swift; sourceTree = "<group>"; };
 		16B5F80A1CD8C6AA001726E4 /* Album.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Album.swift; sourceTree = "<group>"; };
 		16B5F80C1CD8CF35001726E4 /* AlbumComponentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlbumComponentView.swift; sourceTree = "<group>"; };
+		16F19C961CE88BD000EE8661 /* VanillaComponentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VanillaComponentView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -141,6 +143,7 @@
 			children = (
 				16B5F80C1CD8CF35001726E4 /* AlbumComponentView.swift */,
 				1638C4EA1CE3354500A0E283 /* VideoComponentView.swift */,
+				16F19C961CE88BD000EE8661 /* VanillaComponentView.swift */,
 			);
 			name = Components;
 			sourceTree = "<group>";
@@ -247,6 +250,7 @@
 				169F69631CCE3BA000240315 /* ListDemoViewController.swift in Sources */,
 				169F697E1CCE3C1700240315 /* Style.swift in Sources */,
 				16B5F80D1CD8CF35001726E4 /* AlbumComponentView.swift in Sources */,
+				16F19C971CE88BD000EE8661 /* VanillaComponentView.swift in Sources */,
 				169F69611CCE3BA000240315 /* AppDelegate.swift in Sources */,
 				1638C4EB1CE3354500A0E283 /* VideoComponentView.swift in Sources */,
 				1638C4ED1CE3359B00A0E283 /* Video.swift in Sources */,

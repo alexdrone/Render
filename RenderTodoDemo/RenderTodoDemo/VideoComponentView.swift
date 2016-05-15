@@ -68,6 +68,5 @@ class VideoComponentView: StaticComponentView {
             
         ])
     }
-    
-    
 }
+
