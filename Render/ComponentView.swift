@@ -40,7 +40,7 @@ extension ComponentViewType {
     }
 }
 
-extension ComponentViewType where Self: TreeComponentView {
+extension ComponentViewType where Self: FlexboxComponentView {
     
     /// Updates the view hierarchy in order to reflect the new component structure.
     /// The views that are no longer related to a component are pruned from the tree.
@@ -112,7 +112,7 @@ extension ComponentViewType where Self: TreeComponentView {
     }
 }
 
-public class TreeComponentView: BaseComponentView {
+public class FlexboxComponentView: BaseComponentView {
 
     /// The tree of components owned by this component view.
     internal var _root: ComponentNodeType?
@@ -158,7 +158,7 @@ public class TreeComponentView: BaseComponentView {
 }
 
 /// This class define a view fragment as a composition of 'ComponentType' objects.
-public class ComponentView: TreeComponentView {
+public class ComponentView: FlexboxComponentView {
     
     public required init() {
         super.init()
@@ -239,7 +239,7 @@ public class ComponentView: TreeComponentView {
 /// This component class has a more performant 'renderComponent' method since it doesn't update the
 /// view hierarchy - hence it is reccomended for components whose view hierarchy is static (but the
 /// view configuration/view layout is not).
-public class StaticComponentView: TreeComponentView {
+public class StaticComponentView: FlexboxComponentView {
     
     public required init() {
         super.init()
