@@ -19,7 +19,7 @@ extension Album: ComponentStateTypeUniquing {
     }
 }
 
-class AlbumComponentView: ComponentView {
+class AlbumComponentView: StaticComponentView {
     
     // If the component is used as list item it should be registered
     // as prototype for the infra.

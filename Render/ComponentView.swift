@@ -160,18 +160,6 @@ public class FlexboxComponentView: BaseComponentView {
 /// This class define a view fragment as a composition of 'ComponentType' objects.
 public class ComponentView: FlexboxComponentView {
     
-    public required init() {
-        super.init()
-    }
-    
-    public override init(frame: CGRect) {
-        super.init(frame: frame)
-    }
-    
-    required public init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-    }
-    
     /// Render the component.
     /// - parameter size: The bounding box for this component. The default will determine the intrinsic content
     /// size for this component.
@@ -240,21 +228,6 @@ public class ComponentView: FlexboxComponentView {
 /// view hierarchy - hence it is reccomended for components whose view hierarchy is static (but the
 /// view configuration/view layout is not).
 public class StaticComponentView: FlexboxComponentView {
-    
-    public required init() {
-        super.init()
-        self.initalizeComponent()
-    }
-    
-    public override init(frame: CGRect) {
-        super.init(frame: frame)
-        self.initalizeComponent()
-    }
-    
-    required public init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-        self.initalizeComponent()
-    }
     
     public override func initalizeComponent() {
         super.initalizeComponent()
