@@ -265,7 +265,7 @@ UIView.animateWithDuration(0.3) {
 ```
 
 <p align="center">
-<img src="Doc/animation.gif" width="320">
+<img src="Doc/animation.gif">
 
 
 #TODO:
