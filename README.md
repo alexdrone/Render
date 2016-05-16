@@ -10,6 +10,8 @@
 
 #Why
 
+[![Join the chat at https://gitter.im/alexdrone/Render](https://badges.gitter.im/alexdrone/Render.svg)](https://gitter.im/alexdrone/Render?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 From [Why React matters](http://joshaber.github.io/2015/01/30/why-react-native-matters/):
 
 >  [The framework] lets us write our UIs as pure function of their states.
