@@ -46,7 +46,7 @@ public class BaseComponentView: UIView, ComponentViewType {
     internal weak var _parentView: UIView?
     public var parentView: UIView? {
         get {
-            if let p = self._parentView { return p }
+            if let parent = self._parentView { return parent }
             return self.superview
         }
         set {

@@ -52,21 +52,25 @@ class VideoComponentView: StaticComponentView {
                 
                 ComponentNode<UIView>().configure({ view in
                     view.style.flex = Flex.Max
-                }),
-                ComponentNode<UIButton>().configure({ view in
-                    view.style.dimensions = (64, 64)
-                    view.style.alignSelf = .Center
+                    view.style.alignSelf = .Stretch
                     view.style.justifyContent = .Center
-                    view.setTitle("REMOVE", forState: .Normal)
-                    view.setTitleColor(S.Color.white, forState: .Normal)
-                    view.titleLabel?.font = S.Typography.extraSmallLight
-                }),
-                ComponentNode<UIView>().configure({ view in
-                    view.style.flex = Flex.Max
-                })
+                    view.style.flexDirection = .Row
+                    
+                }).children([
+                    DefaultButton().configure({ view in
+                        view.setTitle("FOO", forState: .Normal)
+                    }),
+                    DefaultButton().configure({ view in
+                        view.setTitle("BAR", forState: .Normal)
+                    }),
+                    DefaultButton().configure({ view in
+                        view.setTitle("BAZ", forState: .Normal)
+                    })
+                ])
             ])
             
         ])
     }
 }
+
 

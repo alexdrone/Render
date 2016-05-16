@@ -19,7 +19,7 @@ extension Album: ComponentStateTypeUniquing {
     }
 }
 
-class AlbumComponentView: StaticComponentView {
+class AlbumComponentView: ComponentView {
     
     // If the component is used as list item it should be registered
     // as prototype for the infra.
@@ -53,7 +53,25 @@ class AlbumComponentView: StaticComponentView {
                 view.style.alignSelf = .Center
                 view.style.dimensions.width = self.featured ? ~self.parentSize.width/2 : 48
                 view.style.dimensions.height = self.featured ? view.style.dimensions.width : 48
-            }),
+            }).children([
+                
+                //play button shown only when the component is expanded
+                when(self.featured,
+                ComponentNode<UIView>().configure({ view in
+                    view.style.flex = Flex.Max
+                    view.style.alignSelf = .Stretch
+                    view.style.justifyContent = .Center
+                    
+                }).children([
+                    
+                    //This is just a pure function initializing a button with a style
+                    DefaultButton().configure({ view in
+                        view.setTitle("PLAY", forState: .Normal)
+                    }),
+                    
+                ]))
+                
+            ]),
             
             ComponentNode<UIView>().configure({ view in
                 view.style.flexDirection = .Column
@@ -69,16 +87,34 @@ class AlbumComponentView: StaticComponentView {
                     view.textColor = S.Color.white
                 }),
                 
+                //subtitle shown only in collapsed state
+                when(!self.featured,
                 ComponentNode<UILabel>().configure({ view in
                     view.style.margin = S.Album.defaultInsets
                     view.text = self.album?.artist ?? "Uknown Artist"
                     view.font = S.Typography.extraSmallLight
                     view.textColor = S.Color.white
-                })
+                }))
             ]),
-            
-            
         ])
     }
+}
+
+
+func DefaultButton() -> ComponentNode<UIButton> {
     
+    // when you construct a node with a custom initClosure setting a reuseIdentifier
+    // helps the infra recycling that view.
+    return ComponentNode<UIButton>(reuseIdentifier: "DefaultButton", initClosure: {
+        let view = UIButton()
+        view.style.dimensions = (64, 64)
+        view.style.alignSelf = .Center
+        view.style.justifyContent = .Center
+        view.style.margin = S.Album.defaultInsets
+        view.setTitleColor(S.Color.white, forState: .Normal)
+        view.backgroundColor = S.Color.black.colorWithAlphaComponent(0.8)
+        view.titleLabel?.font = S.Typography.superSmallBold
+        view.layer.cornerRadius = 32
+        return view
+    })
 }
