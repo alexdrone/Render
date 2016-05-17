@@ -112,6 +112,10 @@ extension ListComponentItemType {
         if  let ulhs = self.itemState as? ComponentStateTypeUniquing, let urhs = other.itemState as? ComponentStateTypeUniquing {
             return ulhs.stateUniqueIdentifier == urhs.stateUniqueIdentifier
         }
-        return self.itemState === other.itemState
+        if let ulhs = self.itemState as? AnyObject, let urhs = self.itemState as? AnyObject {
+            return ulhs === urhs
+        }
+        return false
+        
     }
 }

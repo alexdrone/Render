@@ -28,7 +28,7 @@
 import UIKit
 
 /// The state used as input for the render function of the component.
-public protocol ComponentStateType: class {
+public protocol ComponentStateType {
 
 }
 

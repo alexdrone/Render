@@ -1,0 +1,241 @@
+import UIKit
+import XCPlayground
+import Render
+
+/*:
+ ![logo](logo_small.png)
+ # Flexbox Components
+ 
+ Despite virtually any `UIView` object can be a component (as long as it conforms to the above-cited protocol),
+ **Render**'s core functionalities are exposed by the two main Component base classes: `ComponentView` and `StaticComponentView` 
+ (optimised for components that have a static view hierarchy).
+ 
+ **Render** layout engine is based on [FlexboxLayout](https://github.com/alexdrone/FlexboxLayout).
+ Every view have a `style` property that defines the flexbox properties for the associated node.
+ 
+ Learn more about [Flexbox](http://www.w3.org/TR/css-flexbox-1/).
+
+ # Partials
+
+ Before diving in a full-blown component let's define an helper function that returns a partial (or a node)
+ for a component.
+ 
+ The function below creates a `UIButton` node (`ComponentNode` can be instanciated with any view type, even custom ones).
+ When we want to have a custom initialisation for a node we just need to provide a `initClosure` to `ComponentNode`.
+ Additionaly we define a `reuseIdentifier` - This is not mandatory, but since we have a custom init closure, this will help 
+ Render's infra to reuse view of the same kind.
+ */
+func DefaultButton() -> ComponentNode<UIButton> {
+    
+    // when you construct a node with a custom initClosure setting a reuseIdentifier
+    // helps the infra recycling that view.
+    return ComponentNode<UIButton>(reuseIdentifier: "DefaultButton", initClosure: {
+        let view = UIButton()
+        view.style.minDimensions = (64, 64)
+        view.style.alignSelf = .Center
+        view.style.justifyContent = .Center
+        view.setTitleColor(UIColor.A, forState: .Normal)
+        view.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.2)
+        view.titleLabel?.font = UIFont.systemFontOfSize(14.0, weight: UIFontWeightLight)
+        view.layer.cornerRadius = 32
+        return view
+    })
+}
+/*: Let's see what our button looks like. */
+let button = DefaultButton().configure({ view in
+    view.setTitle("  HELLO WORLD  ", forState: .Normal)
+})
+button.render(CGSize.undefined)
+
+snapshot(button.renderedView!)
+
+/*:
+ # ComponentView
+ 
+ This is our super simple state for our component:
+*/
+struct FooState: ComponentStateType {
+    let text: String
+    let expanded: Bool
+}
+
+/*:
+ Below we implement our component as subclass of `ComponentView`.
+ 
+ The view description is defined by the `construct()` method.
+ 
+ `ComponentNode<T>` is an abstraction around views of any sort that knows how to build, 
+ configure and layout the view when necessary.
+ 
+ Every time `renderComponent()` is called, a new tree is constructed, compared to the existing 
+ tree and only the required changes to the actual view hierarchy are performed - *if you have a static 
+ view hierarchy, you might want to inherit from `StaticComponentView` to skip this part of the rendering* .
+ Also the `configure` closure passed as argument is re-applied to every view defined in the `construct()` 
+ method and the layout is re-computed based on the nodes' flexbox attributes.
+ */
+
+class FooComponentView: ComponentView {
+    
+    // we cast the state for convenience
+    var fooState: FooState = FooState(text: "", expanded: false)
+
+    override func construct() -> ComponentNodeType {
+        
+        let margin: Float = 4.0
+        let insets: Inset = (margin, margin, margin, margin, margin, margin)
+        
+        return ComponentNode<UIView>().configure({ view in
+            view.style.flexDirection = self.fooState.expanded ? .Column : .Row
+            view.style.margin = insets
+            view.backgroundColor = UIColor.A
+        }).children([
+            
+            ComponentNode<UIView>().configure({ view in
+                let size: Float = self.fooState.expanded ? 128 : 32
+                view.style.dimensions = (size, size)
+                view.style.margin = insets
+                view.backgroundColor = UIColor.D
+                view.layer.cornerRadius = CGFloat(size)/2
+            }).children([
+            
+                // this node is going to be part of the view hierarchy only when
+                // the condition 'self.fooState.expanded' is true.
+                when(self.fooState.expanded,
+                ComponentNode<UIView>().configure({ view in
+                    view.style.flex = Flex.Max
+                    view.style.alignSelf = .Stretch
+                    view.style.justifyContent = .Center
+                        
+                }).children([
+                    
+                    //This is just a pure function initializing a button with a style
+                    DefaultButton().configure({ view in
+                        view.setTitle(self.fooState.text, forState: .Normal)
+                    }),
+                ]))
+            ]),
+            
+            // simmetrically, this node is going to be part of the view hierarchy only when
+            // the condition 'self.fooState.expanded' is false.
+            when(!self.fooState.expanded,
+            ComponentNode<UILabel>().configure({ view in
+                view.style.margin = insets
+                view.style.alignSelf = .Center
+                view.style.minDimensions.width = 96
+                view.style.flex = Flex.Max
+                view.textAlignment = self.fooState.expanded ? .Center : .Left
+                view.text = self.fooState.text
+                if self.fooState.expanded {
+                    view.font = UIFont.systemFontOfSize(18.0, weight: UIFontWeightBold)
+                } else {
+                    view.font = UIFont.systemFontOfSize(12.0, weight: UIFontWeightLight)
+                }
+            }))
+        ])
+    }
+}
+/*:
+ So now we can instantiate a `FooComponentView`.
+ */
+let component = FooComponentView()
+component.fooState = FooState(text: "Foo", expanded: false)
+component.renderComponent()
+
+snapshot(component)
+
+component.fooState = FooState(text: "Foo", expanded: true)
+component.renderComponent()
+
+snapshot(component)
+
+/*:
+ # StaticComponentView
+ 
+ The first component we implemented before could have been implemented with a static view hierarchy
+ (by hiding/showing the views rather then removing/adding them from/to the view hierarchy).
+ 
+ `StaticComponentView` views have a more performant `renderComponent` method.
+  
+ This is what a static version of the previous component would look like
+ */
+class StaticFooComponentView: StaticComponentView {
+    
+    // we cast the state for convenience
+    var fooState: FooState = FooState(text: "", expanded: false)
+    
+    override func construct() -> ComponentNodeType {
+        
+        let margin: Float = 4.0
+        let insets: Inset = (margin, margin, margin, margin, margin, margin)
+        
+        return ComponentNode<UIView>().configure({ view in
+            view.style.flexDirection = self.fooState.expanded ? .Column : .Row
+            view.style.margin = insets
+            view.backgroundColor = UIColor.A
+        }).children([
+            
+            ComponentNode<UIView>().configure({ view in
+                let size: Float = self.fooState.expanded ? 128 : 32
+                view.style.dimensions = (size, size)
+                view.style.margin = insets
+                view.backgroundColor = UIColor.D
+                view.layer.cornerRadius = CGFloat(size)/2
+            }).children([
+                
+
+                ComponentNode<UIView>().configure({ view in
+                    
+                    // this node is going to be visible only when
+                    // the condition 'self.fooState.expanded' is true.
+                    view.hidden = !self.fooState.expanded
+                    
+                    view.style.flex = Flex.Max
+                    view.style.alignSelf = .Stretch
+                    view.style.justifyContent = .Center
+                
+                }).children([
+                        
+                        //This is just a pure function initializing a button with a style
+                        DefaultButton().configure({ view in
+                            view.setTitle(self.fooState.text, forState: .Normal)
+                        }),
+                ])
+            ]),
+            
+
+            ComponentNode<UILabel>().configure({ view in
+                
+                // simmetrically, this node is going to be visible only when
+                // the condition 'self.fooState.expanded' is false.
+                view.hidden = self.fooState.expanded
+
+                view.style.margin = insets
+                view.style.alignSelf = .Center
+                view.style.minDimensions.width = 96
+                view.style.flex = Flex.Max
+                view.textAlignment = self.fooState.expanded ? .Center : .Left
+                view.text = self.fooState.text
+                if self.fooState.expanded {
+                    view.font = UIFont.systemFontOfSize(18.0, weight: UIFontWeightBold)
+                } else {
+                    view.font = UIFont.systemFontOfSize(12.0, weight: UIFontWeightLight)
+                }
+            })
+        ])
+    }
+}
+
+/*: As you can see the result is exactly the same */
+
+let staticComponent = StaticFooComponentView()
+staticComponent.fooState = FooState(text: "Foo", expanded: false)
+staticComponent.renderComponent()
+
+snapshot(staticComponent)
+
+staticComponent.fooState = FooState(text: "Foo", expanded: true)
+staticComponent.renderComponent()
+
+snapshot(staticComponent)
+
+  

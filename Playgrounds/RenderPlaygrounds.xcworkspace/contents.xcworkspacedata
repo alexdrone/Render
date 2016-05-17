@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workspace
+   version = "1.0">
+   <FileRef
+      location = "group:../Render.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:/Users/alexusbergo/Desktop/swift/Render/Playgrounds/01 Vanilla Components.playground">
+   </FileRef>
+   <FileRef
+      location = "group:02 Flexbox Components.playground">
+   </FileRef>
+</Workspace>

@@ -151,23 +151,20 @@ extension UIView: FlexboxView {
                         h = h > upper ? upper : h
                     }
                     
-                    if !w.isDefined {
-                        if node.style.maxDimensions.width.isDefined {
-                            w = node.style.maxDimensions.width
-                        }
-                        if node.style.minDimensions.width.isDefined {
-                            w = node.style.minDimensions.width
-                        }
+                    
+                    if !w.isDefined && node.style.maxDimensions.width.isDefined {
+                        w = node.style.maxDimensions.width
+                    }
+                    if !h.isDefined && node.style.maxDimensions.height.isDefined {
+                        h = node.style.maxDimensions.height
+                    }
+                    if !w.isDefined && node.style.minDimensions.width.isDefined {
+                        w = node.style.minDimensions.width
+                    }
+                    if !h.isDefined && node.style.minDimensions.height.isDefined {
+                        h = node.style.minDimensions.height
                     }
                     
-                    if !h.isDefined {
-                        if node.style.maxDimensions.height.isDefined {
-                            h = node.style.maxDimensions.height
-                        }
-                        if node.style.minDimensions.height.isDefined {
-                            h = node.style.minDimensions.height
-                        }
-                    }
                     return (w, h)
                 }
                 
