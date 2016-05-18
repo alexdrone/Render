@@ -5,9 +5,12 @@
       location = "group:../Render.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:/Users/alexusbergo/Desktop/swift/Render/Playgrounds/01 Vanilla Components.playground">
+      location = "group:/Users/alexusbergo/Desktop/swift/Render/Playgrounds/01 Flexbox Components.playground">
    </FileRef>
    <FileRef
-      location = "group:02 Flexbox Components.playground">
+      location = "group:/Users/alexusbergo/Desktop/swift/Render/Playgrounds/02 Vanilla Components.playground">
+   </FileRef>
+   <FileRef
+      location = "group:03 Components embedded in Cells.playground">
    </FileRef>
 </Workspace>

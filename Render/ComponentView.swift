@@ -122,6 +122,7 @@ public class FlexboxComponentView: BaseComponentView {
         return _root!
     }
     
+    
     /// 'true' is the root node has been constructed already, 'false' otherwise
     public var isRootInitialized: Bool {
         guard let _ = self._root else { return false}
