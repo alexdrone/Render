@@ -11,7 +11,7 @@ import Render
  */
 
 class FooState: ComponentStateBase {
-    let text: String = randomString(randomInt(0, max: 500))
+    let text: String = randomString(randomInt(0, max: 100))
 }
 
 class FooComponentView: ComponentView {
@@ -110,7 +110,3 @@ tableView.dataSource = dataSource
 tableView.reloadData()
 
 tableView
-
-
-
-  

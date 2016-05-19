@@ -11,6 +11,9 @@
       location = "group:/Users/alexusbergo/Desktop/swift/Render/Playgrounds/02 Vanilla Components.playground">
    </FileRef>
    <FileRef
-      location = "group:03 Components embedded in Cells.playground">
+      location = "group:03 Component Styles.playground">
+   </FileRef>
+   <FileRef
+      location = "group:/Users/alexusbergo/Desktop/swift/Render/Playgrounds/04 Components embedded in Cells.playground">
    </FileRef>
 </Workspace>

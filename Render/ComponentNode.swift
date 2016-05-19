@@ -94,7 +94,7 @@ public class ComponentNode<ViewType: UIView>: ComponentNodeType {
     /// The view configuration closure.
     private var viewConfigureClosure: (ViewType) -> Void
     
-    /// Creates a new component with the given view's initialization closure
+    /// Creates a new component node with the given view's initialization closure
     /// - parameter reuseIdentifier: A reuse identifier for this node. If nothing is passed as argument the 
     /// reuse identifier will be the component 'ViewType'.
     /// - parameter prepareForReuse: When this argument is 'true' the underlying view is reset to the original default
@@ -110,6 +110,22 @@ public class ComponentNode<ViewType: UIView>: ComponentNodeType {
         self.prepareForReuse = prepareForReuse
         self.reuseIdentifier = reuseIdentifier
         self.viewInitClosure = initClosure
+        self.viewConfigureClosure = { (_) in }
+    }
+    
+    /// Creates a new component node with the given style.
+    /// - parameter reuseIdentifier: A reuse identifier for this node.
+    /// - parameter style: The style for this component.
+    /// - Note: The style is applied at initialization time and is not re-computed at every call of 'renderComponent'.
+    /// This is really meant to be used as a shorthand to initialize your node.
+    public init(reuseIdentifier: String, style: ComponentStyleType) {
+        self.prepareForReuse = false
+        self.reuseIdentifier = reuseIdentifier
+        self.viewInitClosure =  {
+            let view = ViewType(frame: CGRect.zero)
+            view.applyComponentStyle(style)
+            return view
+        }
         self.viewConfigureClosure = { (_) in }
     }
     
