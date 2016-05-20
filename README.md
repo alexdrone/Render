@@ -114,8 +114,6 @@ class MyComponentView: ComponentView {
 }
 
 ```
-<sup> * This can also be accomplished with a `StaticComponentView` by setting the `hidden` property in the configuration closure. </sup>
-
 
 The view description is defined by the `construct()` method.
 
@@ -127,6 +125,8 @@ The component above would render to:
 
 <p align="center">
 <img src="Doc/render.jpg" width="900">
+
+**Check the playgrounds for more examples**
 
 
 ###Lightweight Integration with UIKit
@@ -141,8 +141,9 @@ The framework doesn't force you to use the Component abstraction. You can use no
 **Render**'s `renderComponent()` function is performed on the main thread. Diff+Layout+Configuration runs usually under 16ms on a iPhone 4S, which makes it suitable for cells implementation (with a smooth scrolling).
 
 ###Live Refresh
+
 You can use **Render** with [Injection](https://github.com/johnno1962/injectionforxcode) in order to have live refresh of your components.
-Install the injection plugin, patch your project for injection and add this code inside your component class (or in your viewcontroller):
+Install the injection plugin, patch your project for injection and add this code inside your component class (or in your ViewController):
 
 ```swift
 
@@ -161,7 +162,7 @@ Given the descriptive nature of **Render**'s components, components can be defin
 *The ComponentDeserializer is being worked on as we speak*.
 
 
-#Components embedded in cells
+##Components embedded in cells
 
 You can wrap your components in `ComponentTableViewCell` or `ComponentCollectionViewCell` and use the classic dataSource/delegate pattern for you view controller.
 
@@ -172,7 +173,7 @@ class ViewControllerWithTableView: UIViewController, UITableViewDataSource, UITa
     var posts: [Post] = ... 
     override func viewDidLoad() {
 		...  
-        self.tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.rowHeight = UITableViewAutomaticDimension
 		...
     }
 	...
@@ -187,7 +188,7 @@ class ViewControllerWithTableView: UIViewController, UITableViewDataSource, UITa
             ComponentCell(reuseIdentifier: reuseIdentifier, component: PostComponent())
                   
       //set the state for the cell
-      cell.state = self.posts[indexPath.row]
+      cell.state = posts[indexPath.row]
       
       //and render the component
       cell.renderComponent(CGSize(tableView.bounds.size.width))
@@ -197,7 +198,7 @@ class ViewControllerWithTableView: UIViewController, UITableViewDataSource, UITa
 }
 ```
 
-#ComponentTableView/CollectionView
+##ComponentTableView/CollectionView
 
 Although the approach shown above works perfectly, it does clashes with the React-like component pattern.
 `ComponentTableView` and `ComponentCollectionView` expose the same interface and work with a simple array of `ListComponentItemType` (see also `ListComponentItem<ComponentViewType, ComponentStateType>: ListComponentItemType`).
@@ -209,67 +210,38 @@ The example below shows the use of ComponentCollectionView.
 ```swift
 class ViewController: UIViewController {
 
-    // The item list.
     var items: [ListComponentItemType] = [ListComponentItem<MyComponentView, MyComponentState>]() {
         didSet {
         		// render the list when the items change
-             self.listComponentView.renderComponent()
+             listComponentView.renderComponent()
         }
     }
-
     let listComponentView = ComponentCollectionView()
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // generate some fake data
-        self.createDummyData()
-        
-        // configure the list component.
-        self.listComponentView.configure() { view in
-            view.frame.size = view.parentSize
-            view.items = self.albums
-        }
-        self.view.addSubview(self.listComponentView)
-    }
-    
-    func createDummyData() {
         for _ in 0..<10 {
-        
-        		// ListComponentItem<COMPONENT,STATE> informs the list what component is used for the 
-        		// given state.
            	let item = ListComponentItem<MyComponentView, MyComponentState>()
            	item.delegate = self
-           	self.items.append(item)
+           	items.append(item)
         }
+        
+        // configure the list component.
+        listComponentView.configure() { view in
+            view.frame.size = view.parentSize
+            view.items = items
+        }
+        view.addSubview(self.listComponentView)
     }
 }
 ```
-<sup> Check the demo project! </sup>
+<sup> Check the demo project and the playgrounds for more example. </sup>
 
 <p align="center">
 <img src="Doc/list.gif">
 
-
-#Animations
-
-Run `renderComponent()` inside of an animation block to to witness the magic.
-
-```swift
-self.myComponentState.expanded = !self.myComponentState.expanded 
-self.component.state = self.myComponentState
-UIView.animateWithDuration(0.3) {
-    self.component.renderComponent()
-}
-```
-
-<p align="center">
-<img src="Doc/animation.gif">
-
-
-#TODO:
-	- Proper documentation and getting started guide.
-	- Deserialize Components and ListComponentItems from JSON/XML.
 
 
 #Credits
