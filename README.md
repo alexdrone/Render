@@ -162,7 +162,7 @@ Given the descriptive nature of **Render**'s components, components can be defin
 *The ComponentDeserializer is being worked on as we speak*.
 
 
-##Components embedded in cells
+###Components embedded in cells
 
 You can wrap your components in `ComponentTableViewCell` or `ComponentCollectionViewCell` and use the classic dataSource/delegate pattern for you view controller.
 
@@ -198,7 +198,7 @@ class ViewControllerWithTableView: UIViewController, UITableViewDataSource, UITa
 }
 ```
 
-##ComponentTableView/CollectionView
+###ComponentTableView/CollectionView
 
 Although the approach shown above works perfectly, it does clashes with the React-like component pattern.
 `ComponentTableView` and `ComponentCollectionView` expose the same interface and work with a simple array of `ListComponentItemType` (see also `ListComponentItem<ComponentViewType, ComponentStateType>: ListComponentItemType`).
