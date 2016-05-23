@@ -106,7 +106,7 @@ class MyComponentView: ComponentView {
 
 ```
 
-(Check playground)[Playgrounds/01%20Flexbox%20Components.playground]
+[Check playground](Playgrounds/01%20Flexbox%20Components.playground)
 
 
 The view description is defined by the `construct()` method.
