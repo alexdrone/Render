@@ -106,7 +106,7 @@ class MyComponentView: ComponentView {
 
 ```
 
-(Check the playground)[Playgrounds/01%20Flexbox%20Components.playground]
+(Check playground)[Playgrounds/01%20Flexbox%20Components.playground]
 
 
 The view description is defined by the `construct()` method.
@@ -160,7 +160,7 @@ Given the descriptive nature of **Render**'s components, components can be defin
 
 You can wrap your components in `ComponentTableViewCell` or `ComponentCollectionViewCell` and use the classic dataSource/delegate pattern for you view controller.
 
-[Check the playground](Playgrounds/04%20Components%20embedded%20in%20Cells.playground)
+[Check playground](Playgrounds/04%20Components%20embedded%20in%20Cells.playground)
 
 
 ###ComponentTableView/CollectionView
@@ -169,7 +169,7 @@ Although the approach shown above works perfectly, it does clashes with the Reac
 `ComponentTableView` and `ComponentCollectionView` expose the same interface and work with a simple array of `ListComponentItemType` (see also `ListComponentItem<ComponentViewType, ComponentStateType>: ListComponentItemType`).
 ComponentTableView/CollectionView takes care of cell reuse for you and apply a diff algorithm when the `items` property is set (so that proper insertions/deletions are performed rather than reloadData()).
 
-[Check the playground](Playgrounds/05%20List%20Component.playground)
+[Check playground](Playgrounds/05%20List%20Component.playground)
 
 
 #Credits
