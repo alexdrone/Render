@@ -59,7 +59,6 @@ struct MyComponentState: ComponentStateType {
 	let expanded: Bool
 }
 
-// COMPONENT
 class MyComponentView: ComponentView {
     
     // The component state.
@@ -69,35 +68,28 @@ class MyComponentView: ComponentView {
     
     // View as function of the state.
     override func construct() -> ComponentNodeType {
-            
         return ComponentNode<UIView>().configure({
         		$0.style.flexDirection = self.componentState.expanded ? .Row : .Column
             	$0.backgroundColor = UIColor.blackColor()
-
         }).children([
-            
             ComponentNode<UIImageView>().configure({
 				$0.image = self.componentState?.image
 				let size = self.componentState.expanded ? self.parentSize.width : 48.0
 				$0.style.dimensions = (size, size)
             }),
-            
             ComponentNode<UIView>().configure({ 
             		$0.style.flexDirection = .Column
             		$0.style.margin = (8.0, 8.0, 8.0, 8.0, 0.0, 0.0)
-                
             }).children([
-                
                 ComponentNode<UILabel>().configure({ 
                 		$0.text = self.componentState?.title ?? "None"
                 		$0.font = UIFont.systemFontOfSize(18.0, weight: UIFontWeightBold)
                 		$0.textColor = UIColor.whiteColor()
                 }),
-                
                 ComponentNode<UILabel>().configure({
                 		$0.text = self.componentState?.subtitle ?? "Subtitle"
                 		$0.font = UIFont.systemFontOfSize(12.0, weight: UIFontWeightLight)
-                		$0.textColor = UIColor.whiteColor()                		
+                		$0.textColor = UIColor.whiteColor()                
                 })
             ]),
          
@@ -107,13 +99,15 @@ class MyComponentView: ComponentView {
                 $0.text = "2016"
                 $0.textColor = UIColor.whiteColor()
             }))
-
         ])
     }
     
 }
 
 ```
+
+(Check the playground)[Playgrounds/01%20Flexbox%20Components.playground]
+
 
 The view description is defined by the `construct()` method.
 
@@ -166,37 +160,8 @@ Given the descriptive nature of **Render**'s components, components can be defin
 
 You can wrap your components in `ComponentTableViewCell` or `ComponentCollectionViewCell` and use the classic dataSource/delegate pattern for you view controller.
 
+[Check the playground](Playgrounds/04%20Components%20embedded%20in%20Cells.playground)
 
-```swift
-class ViewControllerWithTableView: UIViewController, UITableViewDataSource, UITableViewDelegate {  
-    var tableView: UITableView = ...
-    var posts: [Post] = ... 
-    override func viewDidLoad() {
-		...  
-        tableView.rowHeight = UITableViewAutomaticDimension
-		...
-    }
-	...
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-      let reuseIdentifier = String(PostComponent.self)
-      let cell: ComponentCell! =  
-            //dequeue a cell with the given identifier 
-            //(remember to use different identifiers for different component classes)
-            tableView.dequeueReusableCellWithIdentifier(reuseIdentifier) as? ComponentCell ??
-        
-            //or create a new Cell wrapping the component
-            ComponentCell(reuseIdentifier: reuseIdentifier, component: PostComponent())
-                  
-      //set the state for the cell
-      cell.state = posts[indexPath.row]
-      
-      //and render the component
-      cell.renderComponent(CGSize(tableView.bounds.size.width))
-        
-      return cell
-    }
-}
-```
 
 ###ComponentTableView/CollectionView
 
@@ -204,44 +169,7 @@ Although the approach shown above works perfectly, it does clashes with the Reac
 `ComponentTableView` and `ComponentCollectionView` expose the same interface and work with a simple array of `ListComponentItemType` (see also `ListComponentItem<ComponentViewType, ComponentStateType>: ListComponentItemType`).
 ComponentTableView/CollectionView takes care of cell reuse for you and apply a diff algorithm when the `items` property is set (so that proper insertions/deletions are performed rather than reloadData()).
 
-
-The example below shows the use of ComponentCollectionView.
-
-```swift
-class ViewController: UIViewController {
-
-    var items: [ListComponentItemType] = [ListComponentItem<MyComponentView, MyComponentState>]() {
-        didSet {
-        		// render the list when the items change
-             listComponentView.renderComponent()
-        }
-    }
-    let listComponentView = ComponentCollectionView()
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        // generate some fake data
-        for _ in 0..<10 {
-           	let item = ListComponentItem<MyComponentView, MyComponentState>()
-           	item.delegate = self
-           	items.append(item)
-        }
-        
-        // configure the list component.
-        listComponentView.configure() { view in
-            view.frame.size = view.parentSize
-            view.items = items
-        }
-        view.addSubview(self.listComponentView)
-    }
-}
-```
-<sup> Check the demo project and the playgrounds for more example. </sup>
-
-<p align="center">
-<img src="Doc/list.gif">
-
+[Check the playground](Playgrounds/05%20List%20Component.playground)
 
 
 #Credits
