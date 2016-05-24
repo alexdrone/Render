@@ -165,7 +165,7 @@ You can wrap your components in `ComponentTableViewCell` or `ComponentCollection
 
 ###ComponentTableView/CollectionView
 
-Although the approach shown above works perfectly, it does clashes with the React-like component pattern.
+Although the approach shown above works perfectly, it clashes with the React-like component pattern.
 `ComponentTableView` and `ComponentCollectionView` expose the same interface and work with a simple array of `ListComponentItemType` (see also `ListComponentItem<ComponentViewType, ComponentStateType>: ListComponentItemType`).
 ComponentTableView/CollectionView takes care of cell reuse for you and apply a diff algorithm when the `items` property is set (so that proper insertions/deletions are performed rather than reloadData()).
 
