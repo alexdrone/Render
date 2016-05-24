@@ -538,11 +538,11 @@ public class Node {
         set { pointer.memory = newValue }
     }
     
-    lazy public var style: Style = {
+    lazy public var style: Style = { [unowned self] in
         return Style(node: self)
     }()
     
-    lazy public var layout: Layout = {
+    lazy public var layout: Layout = { [unowned self] in
         return Layout(node: self)
     }()
     
