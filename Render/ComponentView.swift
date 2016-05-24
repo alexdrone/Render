@@ -72,7 +72,7 @@ extension ComponentViewType where Self: FlexboxComponentView {
             if !viewSet.contains(view) {
                 view.removeFromSuperview() //todo: put in a global reusable pool?
             } else {
-                for subview in view.subviews.filter({ return $0.hasFlexNode }) {
+                for subview in view.subviews where subview.hasFlexNode {
                     prune(subview)
                 }
             }

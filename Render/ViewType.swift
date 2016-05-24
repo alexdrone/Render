@@ -46,12 +46,8 @@ extension FlexboxView where Self: UIView {
         }
         
         //adds the children as subviews
-        if let children = children {
-            for child in children {
-                self.addSubview(child)
-            }
-        }
-        
+        children?.forEach(self.addSubview)
+
         return self
     }
     
@@ -63,9 +59,7 @@ extension FlexboxView where Self: UIView {
             view.internalStore.configureClosure?()
             
             //calls it recursively on the subviews
-            for subview in view.subviews {
-                configure(subview)
-            }
+            view.subviews.forEach(configure)
         }
         
         //the view is configured before the layout
@@ -82,7 +76,7 @@ extension FlexboxView where Self: UIView {
         
         func postRender(view: UIView) {
             view.postRender()
-            for subview in view.subviews { postRender(subview) }
+            view.subviews.forEach(postRender)
         }
         
         let startTime = CFAbsoluteTimeGetCurrent()
@@ -184,7 +178,7 @@ extension UIView: FlexboxView {
     private func layout(bounds: CGSize = CGSize.undefined) {
 
         func prepare(view: UIView) {
-            for subview in view.subviews.filter({ return $0.hasFlexNode }) {
+            for subview in view.subviews where subview.hasFlexNode {
                 prepare(subview)
             }
         }
@@ -204,13 +198,13 @@ extension UIView: FlexboxView {
         
         //adds the children at this level
         var children = [Node]()
-        for subview in self.subviews.filter({ return $0.hasFlexNode }) {
+        for subview in self.subviews where subview.hasFlexNode {
             children.append(subview.flexNode)
         }
         self.flexNode.children = children
         
         //adds the childrens in the subiews
-        for subview in self.subviews.filter({ return $0.hasFlexNode }) {
+        for subview in self.subviews where subview.hasFlexNode {
             subview.recursivelyAddChildren()
         }
     }
