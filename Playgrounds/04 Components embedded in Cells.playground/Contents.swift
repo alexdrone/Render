@@ -21,7 +21,7 @@ class FooComponentView: ComponentView {
         // if we intend to use this component inside of a cell
         // we have to register an instance as a prototype for the infra.
         // The 'initialize' function seems to be a convenient palce to do it.
-        registerPrototype(component: FooComponentView())
+        ComponentPrototypes.registerComponentPrototype(component: FooComponentView())
     }
     
     // we cast the state for convenience
@@ -77,21 +77,10 @@ class DataSource: NSObject, UITableViewDataSource {
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let reuseIdentifier = String(FooComponentView.self)
-        let cell: ComponentTableViewCell! =
-            //dequeue a cell with the given identifier
-            //(remember to use different identifiers for different component classes)
-            tableView.dequeueReusableCellWithIdentifier(reuseIdentifier) as? ComponentTableViewCell ??
-                
-            //or create a new Cell wrapping the component
-            ComponentTableViewCell(style: .Default, reuseIdentifier: reuseIdentifier)
         
-        if !cell.hasMountedComponent() {
-            cell.mountComponentIfNecessary(FooComponentView())
-        }
-        
-        //set the state for the cell
-        cell.state = items[indexPath.row]
+        let cell  = tableView.dequeueReusableCellWithIdentifier(String(ComponentTableViewCell<FooComponentView>.self), forIndexPath: indexPath) as! ComponentTableViewCell<FooComponentView>
+        cell.mountComponentIfNecessary(FooComponentView())
+        cell.component?.state = items[indexPath.row]
         
         //and render the component
         cell.renderComponent(CGSize.sizeConstraintToWidth(tableView.bounds.size.width))
@@ -102,6 +91,8 @@ class DataSource: NSObject, UITableViewDataSource {
 /*: And finally create a `UITableView`  */
 
 let tableView = UITableView(frame: CGRect(origin: CGPoint.zero, size: CGSize(width: 320, height: 320)))
+
+tableView.registerClass(ComponentTableViewCell<FooComponentView>.self, forCellReuseIdentifier: String(ComponentTableViewCell<FooComponentView>.self))
 
 //we want automatic dimensions for our cells
 tableView.rowHeight = UITableViewAutomaticDimension

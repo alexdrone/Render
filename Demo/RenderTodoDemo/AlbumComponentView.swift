@@ -18,7 +18,7 @@ class AlbumComponentView: ComponentView {
     // If the component is used as list item it should be registered
     // as prototype for the infra.
     override class func initialize() {
-        registerPrototype(component: AlbumComponentView())
+        ComponentPrototypes.registerComponentPrototype(component: AlbumComponentView())
     }
     
     /// The component state.

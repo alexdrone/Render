@@ -14,12 +14,7 @@ extension Video: ComponentStateType { }
 
 class VideoComponentView: StaticComponentView {
     
-    // If the component is used as list item it should be registered
-    // as prototype for the infra.
-    override class func initialize() {
-        registerPrototype(component: VideoComponentView())
-    }
-    
+
     /// The component state.
     var video: Video? {
         return self.state as? Video

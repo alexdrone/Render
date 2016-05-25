@@ -27,35 +27,36 @@
 
 import UIKit
 
+public protocol ComponentCellType {
+    
+    /// Render the component.
+    /// - parameter size: The bounding box for this component. The default will determine the intrinsic content
+    /// size for this component.
+    /// - parameter state: The (optional) state for this component.
+    func renderComponent(size: CGSize?)
+
+}
+
 /// Wraps a component inside a UITableViewCell.
-public class ComponentTableViewCell: UITableViewCell {
+public class ComponentTableViewCell<C: ComponentViewType>: UITableViewCell, ComponentCellType {
     
-    /// The internal component
-    public var component: ComponentViewType?
-    
-    /// The state of this component.
-    /// - Note: This is propagated to the associted
-    public var state: ComponentStateType? {
-        didSet {
-            self.component?.state = state
-        }
-    }
+    /// The internal component.
+    public var component: C?
     
     public func hasMountedComponent() -> Bool {
         return self.component != nil
     }
     
-    public func mountComponentIfNecessary(component: ComponentViewType) {
+    public func mountComponentIfNecessary(@autoclosure component: (Void) -> C) {
         if self.component != nil {
             return
         }
-        self.component = component
+        self.component = component()
         if let view = self.component as? UIView {
             self.contentView.addSubview(view)
             self.clipsToBounds = true
         }
     }
-    
     
     /// Render the component.
     /// - parameter size: The bounding box for this component. The default will determine the intrinsic content
@@ -64,7 +65,6 @@ public class ComponentTableViewCell: UITableViewCell {
     public func renderComponent(size: CGSize? = nil) {
         self.component?.renderComponent(size ?? self.superview?.bounds.size ?? CGSize.undefined)
         self.component?.renderComponent(size ?? self.superview?.bounds.size ?? CGSize.undefined)
-        
         if let view = self.component as? UIView {
             self.contentView.frame = view.bounds
         }
@@ -92,18 +92,11 @@ public class ComponentTableViewCell: UITableViewCell {
 }
 
 /// Wraps a component inside a UICollectionViewCell.
-public class ComponentCollectionViewCell: UICollectionViewCell {
+public class ComponentCollectionViewCell<C: ComponentViewType>: UICollectionViewCell, ComponentCellType {
     
     /// The internal component
-    public var component: ComponentViewType?
+    public var component: C?
     
-    /// The state of this component.
-    /// - Note: This is propagated to the associted
-    public var state: ComponentStateType? {
-        didSet {
-            self.component?.state = state
-        }
-    }
     public override init(frame: CGRect) {
         super.init(frame: CGRect.zero) 
     }
@@ -116,7 +109,7 @@ public class ComponentCollectionViewCell: UICollectionViewCell {
         return self.component != nil
     }
     
-    public func mountComponentIfNecessary(component: ComponentViewType) {
+    public func mountComponentIfNecessary(component: C) {
         if self.component != nil {
             return
         }
@@ -176,8 +169,8 @@ extension UITableView {
     /// Re-renders all the compoents currently visible on screen.
     /// - Note: Call this method whenever the table view changes its bounds/size.
     public func renderVisibleComponents() {
-        for cell in self.visibleCells where cell is ComponentTableViewCell {
-            (cell as! ComponentTableViewCell).renderComponent(CGSize.sizeConstraintToWidth(self.bounds.width))
+        for cell in self.visibleCells where cell is ComponentCellType {
+            (cell as! ComponentCellType).renderComponent(CGSize.sizeConstraintToWidth(self.bounds.width))
         }
     }
 }
@@ -195,39 +188,43 @@ extension UICollectionView {
     /// Re-renders all the compoents currently visible on screen.
     /// - Note: Call this method whenever the collection view changes its bounds/size.
     public func renderVisibleComponents() {
-        for cell in self.visibleCells() where cell is ComponentCollectionViewCell {
-            (cell as! ComponentCollectionViewCell).renderComponent(CGSize.sizeConstraintToWidth(self.bounds.width))
+        for cell in self.visibleCells() where cell is ComponentCellType {
+            (cell as! ComponentCellType).renderComponent(CGSize.sizeConstraintToWidth(self.bounds.width))
         }
     }
 }
 
 //MARK: Prototypes
 
-/// The collection of registered prototypes
-var prototypes = [String: ComponentViewType]()
-
-/// Register the component as a reusable component in the list component.
-/// - parameter reuseIdentifier: The identifier for this component. The default is the component class name.
-/// - parameter component: An instance of the component.
-public func registerPrototype<C:ComponentViewType>(reuseIdentifier: String = String(C), component: C) {
-    prototypes[reuseIdentifier] = component
-}
-
-/// Returns the size of the prototype wrapped in the view (CollectionView or TableView) passed as argument
-public func prototypeSize(referenceView: UIView, reuseIdentifier: String, state: ComponentStateType) -> CGSize {
-
-    guard let component = prototypes[reuseIdentifier] else {
-        fatalError("Unregistered component with reuse identifier \(reuseIdentifier).")
+public struct ComponentPrototypes {
+    
+    /// The collection of registered prototypes
+    private static var prototypes = [String: ComponentViewType]()
+    
+    /// Register the component as a reusable component in the list component.
+    /// - parameter reuseIdentifier: The identifier for this component. The default is the component class name.
+    /// - parameter component: An instance of the component.
+    public static func registerComponentPrototype<C:ComponentViewType>(reuseIdentifier: String = String(C), component: C) {
+        ComponentPrototypes.prototypes[reuseIdentifier] = component
     }
     
-    // render the component.
-    component.state = state
-    component.referenceView = referenceView
-    component.renderComponent(CGSize.sizeConstraintToWidth(referenceView.bounds.size.width))
-    
-    if let view = component as? UIView {
-        return view.bounds.size
-    } else {
-        return CGSize.zero
+    /// Returns the size of the prototype wrapped in the view (CollectionView or TableView) passed as argument
+    public static func prototypeComponentSize(referenceView: UIView, reuseIdentifier: String, state: ComponentStateType) -> CGSize {
+
+        guard let component = ComponentPrototypes.prototypes[reuseIdentifier] else {
+            fatalError("Unregistered component with reuse identifier \(reuseIdentifier).")
+        }
+        
+        // render the component.
+        component.state = state
+        component.referenceView = referenceView
+        component.renderComponent(CGSize.sizeConstraintToWidth(referenceView.bounds.size.width))
+        
+        if let view = component as? UIView {
+            return view.bounds.size
+        } else {
+            return CGSize.zero
+        }
     }
 }
+
