@@ -118,7 +118,7 @@ Every time `renderComponent()` is called, a new tree is constructed, compared to
 The component above would render to:
 
 <p align="center">
-<img src="Doc/render.jpg" width="900">
+<img src="Doc/render.jpg" width="454">
 
 **Check the playgrounds for more examples**
 
