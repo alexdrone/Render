@@ -163,21 +163,11 @@ You can wrap your components in `ComponentTableViewCell` or `ComponentCollection
 [Check playground](Playgrounds/04%20Components%20embedded%20in%20Cells.playground)
 
 
-###ComponentTableView/CollectionView
-
-Although the approach shown above works perfectly, it clashes with the React-like component pattern.
-`ComponentTableView` and `ComponentCollectionView` expose the same interface and work with a simple array of `ListComponentItemType` (see also `ListComponentItem<ComponentViewType, ComponentStateType>: ListComponentItemType`).
-ComponentTableView/CollectionView takes care of cell reuse for you and apply a diff algorithm when the `items` property is set (so that proper insertions/deletions are performed rather than reloadData()).
-
-[Check playground](Playgrounds/05%20List%20Component.playground)
-
-
 #Credits
 
 - [React](https://github.com/facebook/react): The React github page
 - [Few.swift](https://github.com/joshaber/Few.swift): Another React port for Swift. Check it out!
 - [css-layout](https://github.com/facebook/css-layout): This project used the C src code for the flexbox layout engine.
-- [Dwifft](https://github.com/jflinter/Dwifft): A swift array diff algorithm implementation.
 - [Backend-driven native UIs](https://www.facebook.com/atscaleevents/videos/1708052886134475/) from [JohnSundell](https://github.com/JohnSundell): A inspiring video about component-driven UIs (the demo project is also inspired from Spotify's UI).
 
 

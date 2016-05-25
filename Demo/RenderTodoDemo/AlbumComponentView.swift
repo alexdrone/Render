@@ -12,12 +12,6 @@ import Render
 // The model is marked as component state.
 extension Album: ComponentStateType { }
 
-// This will just improve the performance in list diffs.
-extension Album: ComponentStateTypeUniquing {
-    var stateUniqueIdentifier: String {
-        return self.id
-    }
-}
 
 class AlbumComponentView: ComponentView {
     
@@ -43,7 +37,7 @@ class AlbumComponentView: ComponentView {
             
             view.style.flexDirection = self.featured ? .Column : .Row
             view.backgroundColor = S.Color.black
-            view.style.dimensions.width = self.featured ? ~self.parentSize.width/2 : ~self.parentSize.width
+            view.style.dimensions.width = self.featured ? ~self.referenceSize.width/2 : ~self.referenceSize.width
             view.style.dimensions.height = self.featured ? Undefined : 64
 
         }).children([
@@ -51,7 +45,7 @@ class AlbumComponentView: ComponentView {
             ComponentNode<UIImageView>().configure({ view in
                 view.image = self.album?.cover
                 view.style.alignSelf = .Center
-                view.style.dimensions.width = self.featured ? ~self.parentSize.width/2 : 48
+                view.style.dimensions.width = self.featured ? ~self.referenceSize.width/2 : 48
                 view.style.dimensions.height = self.featured ? view.style.dimensions.width : 48
             }).children([
                 

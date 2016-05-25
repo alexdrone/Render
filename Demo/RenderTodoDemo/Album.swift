@@ -8,25 +8,11 @@
 
 import Foundation
 
-private let covers = [UIImage(data: NSData(contentsOfURL: NSURL(string: "http://www.spotifynewmusic.com/covers/13302.jpg")!)!),
-              UIImage(data: NSData(contentsOfURL: NSURL(string: "http://www.spotifynewmusic.com/covers/13487.jpg")!)!),
-              UIImage(data: NSData(contentsOfURL: NSURL(string: "http://www.spotifynewmusic.com/covers/13562.jpg")!)!),
-              UIImage(data: NSData(contentsOfURL: NSURL(string: "http://www.spotifynewmusic.com/covers/13561.jpg")!)!),
-              UIImage(data: NSData(contentsOfURL: NSURL(string: "http://www.spotifynewmusic.com/covers/13102.jpg")!)!) ]
+private let covers = [UIImage(named: "cover")!]
 
-private let titles = ["Aa",
-              "EARS",
-              "The Ship",
-              "Waltzed in from the Rumbling",
-              "Fever Dream",
-              " Stelle Fisse" ]
+private let titles = ["Aa"]
 
-private let artits = ["Baauer",
-              "Kaitlyn Aurelia Smith",
-              "Brian Eno",
-              "Plants and Animals",
-              "Ben Watt",
-              "Aucan" ]
+private let artits = ["Brian Eno"]
 
 func ==(lhs: Album, rhs: Album) -> Bool {
     return lhs.id == rhs.id
@@ -44,7 +30,7 @@ class Album: Equatable {
         let idx = randomInt(0, max: covers.count-1)
         self.title = titles[idx]
         self.artist = artits[idx]
-        self.cover = covers[idx]!
+        self.cover = covers[idx]
         self.featured = featured
     }    
 }

@@ -280,11 +280,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "RenderTodoDemo/AlbumComponentView.swift"
-            timestampString = "485002914.042126"
+            timestampString = "485879065.194748"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "47"
-            endingLineNumber = "47"
+            startingLineNumber = "41"
+            endingLineNumber = "41"
             landmarkName = "construct()"
             landmarkType = "5">
          </BreakpointContent>
@@ -502,11 +502,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "RenderTodoDemo/AlbumComponentView.swift"
-            timestampString = "485002212.894431"
+            timestampString = "485879065.194748"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "42"
-            endingLineNumber = "42"
+            startingLineNumber = "36"
+            endingLineNumber = "36"
             landmarkName = "construct()"
             landmarkType = "5">
          </BreakpointContent>
@@ -588,6 +588,22 @@
             startingLineNumber = "59"
             endingLineNumber = "59"
             landmarkName = "layoutSubviews()"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "RenderTodoDemo/SingleDemoViewController.swift"
+            timestampString = "485878410.422118"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "26"
+            endingLineNumber = "26"
+            landmarkName = "viewDidLoad()"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

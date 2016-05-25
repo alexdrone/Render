@@ -12,13 +12,6 @@ import Render
 // the model is marked as component state.
 extension Video: ComponentStateType { }
 
-// This will just improve the performance in list diffs.
-extension Video: ComponentStateTypeUniquing {
-    var stateUniqueIdentifier: String {
-        return self.id
-    }
-}
-
 class VideoComponentView: StaticComponentView {
     
     // If the component is used as list item it should be registered
@@ -38,15 +31,15 @@ class VideoComponentView: StaticComponentView {
         return ComponentNode<UIView>().configure({ view in
             view.style.flexDirection = .Column
             view.backgroundColor = S.Color.black
-            view.style.dimensions.width =  ~self.parentSize.width
+            view.style.dimensions.width =  ~self.referenceSize.width
             
         }).children([
             
             ComponentNode<UIImageView>().configure({ view in
                 view.image = self.video?.cover
                 view.style.alignItems = .Center
-                view.style.dimensions.width = ~self.parentSize.width
-                view.style.dimensions.height = (~self.parentSize.width * 9)/16
+                view.style.dimensions.width = ~self.referenceSize.width
+                view.style.dimensions.height = (~self.referenceSize.width * 9)/16
 
             }).children([
                 

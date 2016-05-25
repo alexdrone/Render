@@ -63,7 +63,7 @@ public class BaseComponentView: UIView, ComponentViewType {
     
     /// The parent for this component
     internal weak var _parentView: UIView?
-    public var parentView: UIView? {
+    public var referenceView: UIView? {
         get {
             return self._parentView ?? self.superview
         }
@@ -78,6 +78,5 @@ public class BaseComponentView: UIView, ComponentViewType {
     public func renderComponent(size: CGSize = CGSize.undefined) {
         self.internalStore.configureClosure?()
     }
-    
 }
 

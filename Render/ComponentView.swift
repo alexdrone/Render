@@ -35,8 +35,8 @@ extension ComponentViewType {
     }
     
     /// The dimension of the parent
-    public var parentSize: CGSize {
-        return self.parentView?.bounds.size ?? CGSize.zero
+    public var referenceSize: CGSize {
+        return self.referenceView?.bounds.size ?? CGSize.zero
     }
 }
 

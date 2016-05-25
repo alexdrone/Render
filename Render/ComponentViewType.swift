@@ -56,7 +56,7 @@ public protocol ComponentViewType: class {
     /// - Note: Although it is usually the superview, do not assume that is the same thing.
     /// (For example if the component is wrapped inside a cell, the parent view will be the CollectionView).
     /// Use this as reference for size calculation.
-    weak var parentView: UIView? { get set }
+    weak var referenceView: UIView? { get set }
 
     /// Render the component.
     /// - parameter size: The bounding box for this component. The default will determine the intrinsic content

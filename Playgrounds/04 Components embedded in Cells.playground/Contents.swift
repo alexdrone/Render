@@ -37,7 +37,7 @@ class FooComponentView: ComponentView {
             view.style.margin = insets
             
             // that's how we can define the size in relation to the size of the parent view.
-            let min = ~self.parentSize.width
+            let min = ~self.referenceSize.width
             view.style.minDimensions.width = max(min, 96)
             
             view.backgroundColor = UIColor.A
@@ -84,8 +84,12 @@ class DataSource: NSObject, UITableViewDataSource {
             tableView.dequeueReusableCellWithIdentifier(reuseIdentifier) as? ComponentTableViewCell ??
                 
             //or create a new Cell wrapping the component
-            ComponentTableViewCell(reuseIdentifier: reuseIdentifier, component: FooComponentView())
-                
+            ComponentTableViewCell(style: .Default, reuseIdentifier: reuseIdentifier)
+        
+        if !cell.hasMountedComponent() {
+            cell.mountComponentIfNecessary(FooComponentView())
+        }
+        
         //set the state for the cell
         cell.state = items[indexPath.row]
         
@@ -109,4 +113,5 @@ let dataSource = DataSource()
 tableView.dataSource = dataSource
 tableView.reloadData()
 
-tableView
+snapshot(tableView)
+
