@@ -5,15 +5,15 @@
       location = "group:../Render.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:/Users/alexusbergo/Desktop/swift/Render/Playgrounds/01 Flexbox Components.playground">
+      location = "group:01 Flexbox Components.playground">
    </FileRef>
    <FileRef
-      location = "group:/Users/alexusbergo/Desktop/swift/Render/Playgrounds/02 Vanilla Components.playground">
+      location = "group:02 Vanilla Components.playground">
    </FileRef>
    <FileRef
       location = "group:03 Component Styles.playground">
    </FileRef>
    <FileRef
-      location = "group:/Users/alexusbergo/Desktop/swift/Render/Playgrounds/04 Components embedded in Cells.playground">
+      location = "group:04 Components embedded in Cells.playground">
    </FileRef>
 </Workspace>
