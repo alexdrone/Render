@@ -74,7 +74,7 @@ class MyComponentView: ComponentView {
         }).children([
             ComponentNode<UIImageView>().configure({
 				$0.image = self.componentState?.image
-				let size = self.componentState.expanded ? self.parentSize.width : 48.0
+				let size = self.componentState.expanded ? self.referenceSize.width : 48.0
 				$0.style.dimensions = (size, size)
             }),
             ComponentNode<UIView>().configure({ 
@@ -160,6 +160,14 @@ Given the descriptive nature of **Render**'s components, components can be defin
 You can wrap your components in `ComponentTableViewCell` or `ComponentCollectionViewCell` and use the classic dataSource/delegate pattern for you view controller.
 
 [Check playground](Playgrounds/04%20Components%20embedded%20in%20Cells.playground)
+
+#TODOs/Help?
+There are a number of things that are still left to do.
+
+- Support for Cocoapods and Swift package manager. 
+- Improve performance (I think there's a lot of rooms for improvements!)
+- More examples and demos
+
 
 
 #Credits
