@@ -48,7 +48,7 @@ extension ComponentViewType where Self: FlexboxComponentView {
     /// add it to the hierarchy.
     /// - Note: The pruned views could be inserted in a reuse pool.
     /// - parameter size: The bounding size for this render phase.
-    internal func updateViewHierarchy(size: CGSize = CGSize.undefined) {
+    func updateViewHierarchy(size: CGSize = CGSize.undefined) {
         
         if !self.isRootInitialized { return }
         
@@ -100,7 +100,7 @@ extension ComponentViewType where Self: FlexboxComponentView {
     }
     
     /// Updates the frame and the bounds of this (container) view
-    internal func updateViewFrame() {
+    func updateViewFrame() {
         
         if !self.isRootInitialized || self.root.renderedView == nil { return }
         
@@ -115,14 +115,13 @@ extension ComponentViewType where Self: FlexboxComponentView {
 public class FlexboxComponentView: BaseComponentView {
 
     /// The tree of components owned by this component view.
-    internal var _root: ComponentNodeType?
+    var _root: ComponentNodeType?
     public var root: ComponentNodeType! {
         if _root != nil { return _root! }
         _root = construct()
         return _root!
     }
-    
-    
+        
     /// 'true' is the root node has been constructed already, 'false' otherwise
     public var isRootInitialized: Bool {
         guard let _ = self._root else { return false}
@@ -170,7 +169,7 @@ public class ComponentView: FlexboxComponentView {
         // runs its own configuration
         self.internalStore.configureClosure?()
         
-        // This shouldn't be necessary since render is performed on the 
+        // This shouldn't be necessary since render is performed on the
         // root after the new view hiearchy is installed.
         // This could lead to a 50% perf. improvement for render.
         self._root?.render(size)

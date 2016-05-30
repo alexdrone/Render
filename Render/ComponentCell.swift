@@ -34,7 +34,6 @@ public protocol ComponentCellType {
     /// size for this component.
     /// - parameter state: The (optional) state for this component.
     func renderComponent(size: CGSize?)
-
 }
 
 /// Wraps a component inside a UITableViewCell.
@@ -96,14 +95,6 @@ public class ComponentCollectionViewCell<C: ComponentViewType>: UICollectionView
     
     /// The internal component
     public var component: C?
-    
-    public override init(frame: CGRect) {
-        super.init(frame: CGRect.zero) 
-    }
-    
-    required public init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
     
     public func hasMountedComponent() -> Bool {
         return self.component != nil

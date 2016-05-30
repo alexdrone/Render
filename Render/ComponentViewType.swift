@@ -29,7 +29,6 @@ import UIKit
 
 /// The state used as input for the render function of the component.
 public protocol ComponentStateType {
-
 }
 
 /// The design pattern in Render is analogous to React.

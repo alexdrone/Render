@@ -12,7 +12,6 @@ import Render
 // The model is marked as component state.
 extension Album: ComponentStateType { }
 
-
 class AlbumComponentView: ComponentView {
     
     // If the component is used as list item it should be registered

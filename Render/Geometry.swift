@@ -117,9 +117,7 @@ extension UIView {
             self.alpha = 0;
             self.frame = frame
             
-            // TOFIX: workaround for views that are flagged as notAnimatable
-            // Set the alpha back to 1 in the next runloop
-            // - Note: Currently only volatile components are the one that are flagged as not animatable
+            // fades in the non-animatable views.
             UIView.animateWithDuration(duration, delay: duration, options: [], animations: { self.alpha = 1 }, completion: nil)
             
             // Not animated
