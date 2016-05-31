@@ -172,4 +172,7 @@ void layoutNode(css_node_t *node, float maxWidth, float maxHeight, css_direction
 // Reset the calculated layout values for a given node. You should call this before `layoutNode`.
 void resetNodeLayout(css_node_t *node);
 
+css_node_t* alloc_node();
+
+
 #endif
