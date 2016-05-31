@@ -1,10 +1,10 @@
 # <img src="https://raw.githubusercontent.com/alexdrone/Render/master/Doc/logo.png" width="444" alt="Render" />
 
-
+[![Swift](https://img.shields.io/badge/swift-2.2-orange.svg?style=flat)](#)
 [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 [![CocoaPods Compatible](https://img.shields.io/cocoapods/v/Render.svg)](https://img.shields.io/cocoapods/v/REnder)  
 [![Platform](https://img.shields.io/badge/platform-ios-lightgrey.svg?style=flat)](#)
-[![Build](https://img.shields.io/badge/license-MIT-blue.svg?style=flat)](https://opensource.org/licenses/MIT)
+[![License](https://img.shields.io/badge/license-MIT-blue.svg?style=flat)](https://opensource.org/licenses/MIT)
 [![Gitter](https://badges.gitter.im/alexdrone/Render.svg)](https://gitter.im/alexdrone/Render?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
 *React-inspired Swift library for writing UIKit UIs.*
@@ -181,7 +181,7 @@ You can wrap your components in `ComponentTableViewCell` or `ComponentCollection
 #TODO/Help?
 There are a number of things that are still left to do.
 
-- Support for Cocoapods and Swift package manager. 
+- Support Swift package manager. 
 - Improve performance (I think there's a lot of rooms for improvements!)
 - More examples and demos
 
