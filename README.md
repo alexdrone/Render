@@ -179,7 +179,7 @@ You can wrap your components in `ComponentTableViewCell` or `ComponentCollection
 
 [Check playground](Playgrounds/04%20Components%20embedded%20in%20Cells.playground)
 
-#TODOs/Help?
+#TODO/Help?
 There are a number of things that are still left to do.
 
 - Support for Cocoapods and Swift package manager. 
