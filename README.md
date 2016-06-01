@@ -47,6 +47,10 @@ use_frameworks!
 pod 'Render'
 ```
 
+#### Manually
+1. Download and drop ```/Render``` folder in your project.  
+2. Congratulations!
+
 To get the full benefits import `Render` wherever you import UIKit
 
 ``` swift
