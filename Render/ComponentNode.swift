@@ -51,7 +51,7 @@ public protocol ComponentNodeType: class {
     func prepareForUnmount()
 
     /// Force the component to construct the view.
-    func buildView()
+    func buildView(reusableView: UIView?)
 }
 
 /// Used to wrap any view as a node for the view description.
@@ -146,18 +146,23 @@ public class ComponentNode<ViewType: UIView>: ComponentNodeType {
     }
     
     /// Force the component to construct the view.
-    public func buildView() {        
+    public func buildView(reusableView: UIView? = nil) {
         if let _ = self.view { return }
-        self.view = self.viewInitClosure()
-        self.view?.reuseIdentifier = self.reuseIdentifier
-        self.view?.style.maxDimensions = (Undefined, Undefined)
+        
+        if let reusableView = reusableView as? ViewType {
+            self.view = reusableView
+        } else {
+            self.view = self.viewInitClosure()
+            self.view?.reuseIdentifier = self.reuseIdentifier
+            self.view?.style.maxDimensions = (Undefined, Undefined)
+        }
         self.prepareForMount()
     }
     
     /// Write an extension for this method to specialize the prepare for reuse for this view.
     public func prepareForMount() {
-        self.renderedView?.internalStore.configureClosure = { [weak self] in
-            self!.viewConfigureClosure(self!.view!)
+        self.renderedView?.internalStore.configureClosure = {
+            self.viewConfigureClosure(self.view!)
         }
         if self.prepareForReuse {
             self.renderedView?.prepareForComponentReuse()
@@ -234,7 +239,7 @@ class NilComponent: ComponentNodeType {
     func render(bounds: CGSize) { }
     func prepareForUnmount() { }
     func prepareForMount() { }
-    func buildView() { }
+    func buildView(reusableView: UIView? = nil) { }
 }
 
 public func when(@autoclosure condition: () -> Bool, _ component: ComponentNodeType) -> ComponentNodeType {

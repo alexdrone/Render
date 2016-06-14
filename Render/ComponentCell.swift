@@ -189,7 +189,7 @@ extension UICollectionView {
 
 public struct ComponentPrototypes {
     
-    /// The collection of registered prototypes
+    /// The collection of registered prototypes.
     private static var prototypes = [String: ComponentViewType]()
     
     /// Register the component as a reusable component in the list component.

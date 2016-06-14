@@ -27,7 +27,7 @@
 
 import UIKit
 
-public class BaseComponentView: UIView, ComponentViewType {
+public class BaseComponentView: UIView, ComponentViewWithReusePoolViewType {
     
     public required init() {
         super.init(frame: CGRect.zero)
@@ -43,6 +43,16 @@ public class BaseComponentView: UIView, ComponentViewType {
         super.init(coder: aDecoder)
         self.initalizeComponent()
     }
+    
+    /// The reusable pool associated to this component view.
+    let reusePool: ComponentViewReusePool? = {
+        if InfraConfiguration.UseReusePool {
+            return ComponentViewReusePool()
+        } else {
+            return nil
+        }
+    }()
+
     
     /// The component initialization.
     /// - Note: Always call the super implemention.
@@ -79,4 +89,5 @@ public class BaseComponentView: UIView, ComponentViewType {
         self.internalStore.configureClosure?()
     }
 }
+
 

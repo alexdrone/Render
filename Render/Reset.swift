@@ -237,9 +237,6 @@ struct Reset {
                 control.removeTarget(target, action: nil, forControlEvents: .AllEvents)
             }
         }
-        if let textField = view as? UITextField {
-            textField.delegate = nil
-        }
     }
 }
 

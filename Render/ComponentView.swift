@@ -53,6 +53,8 @@ extension ComponentViewType where Self: FlexboxComponentView {
         if !self.isRootInitialized { return }
         
         var viewSet = Set<UIView>()
+        var reusedViewSet = Set<UIView>()
+        let reusePool = self.reusePool
         
         // visits the component tree and flags the useful existing views
         func visit(component: ComponentNodeType, index: Int, parent: ComponentNodeType?) {
@@ -70,7 +72,12 @@ extension ComponentViewType where Self: FlexboxComponentView {
         // remove the views that are not necessary anymore from the hiearchy.
         func prune(view: UIView) {
             if !viewSet.contains(view) {
-                view.removeFromSuperview() //todo: put in a global reusable pool?
+                view.removeFromSuperview()
+                
+                if InfraConfiguration.UseReusePool {
+                    reusePool?.push(view.reuseIdentifier, view: view)
+                }
+                
             } else {
                 for subview in view.subviews where subview.hasFlexNode {
                     prune(subview)
@@ -78,9 +85,51 @@ extension ComponentViewType where Self: FlexboxComponentView {
             }
         }
         
+        // invoked from mount - attemps view reuse from a local shared pool.
+        // - Note: Skipped when the UseReusePool configuration flag is 'false'
+        func reuse(view: UIView?, component: ComponentNodeType) {
+            
+            guard let view = view where view.hasFlexNode else { return }
+            
+            if component.reuseIdentifier == view.reuseIdentifier {
+                component.buildView(view)
+                reusedViewSet.insert(view)
+                for (subview, subcomponent) in Zip2Sequence(view.subviews.filter({ $0.hasFlexNode }), component.children) {
+                    reuse(subview, component: subcomponent)
+                }
+            } else {
+                view.removeFromSuperview()
+            }
+        }
+        
+        // - Note: Skipped when .UseReusePool is 'false'
+        func reuseCleanUp(view: UIView?) {
+            
+            guard let view = view where view.hasFlexNode else { return }
+            
+            if !reusedViewSet.contains(view) {
+                view.removeFromSuperview()
+            }
+            for subview in view.subviews where subview.hasFlexNode {
+                reuseCleanUp(subview)
+            }
+        }
+        
         // recursively adds the views that are not in the hierarchy to the hierarchy.
         func mount(component: ComponentNodeType, parent: UIView) {
-            component.buildView()
+            
+            if InfraConfiguration.UseReusePool {
+
+                // attemps view reuse from a local shared pool.
+                if let reusableView = reusePool?.pop(component.reuseIdentifier) {
+                    reusedViewSet = Set<UIView>()
+                    reuse(reusableView, component: component)
+                    reuseCleanUp(reusableView)
+                }
+            }
+            
+            // mounts the view in the hierarchy.
+            component.buildView(nil)
             if !component.mounted {
                 component.renderedView!.internalStore.notAnimatable = true
                 parent.insertSubview(component.renderedView!, atIndex: component.index)
@@ -90,7 +139,7 @@ extension ComponentViewType where Self: FlexboxComponentView {
             }
         }
         
-        self.root.buildView()
+        self.root.buildView(nil)
         visit(self.root, index: 0, parent: nil)
         prune(self.root.renderedView!)
         mount(self.root, parent: self)

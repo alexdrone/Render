@@ -96,7 +96,7 @@ extension UIView: FlexboxView {
     
     /// The associated reuse-identifier
     public var reuseIdentifier: String {
-        get { return self.internalStore.reuseIdentifier}
+        get { return self.internalStore.reuseIdentifier ?? String(self.dynamicType) }
         set { self.internalStore.reuseIdentifier = newValue }
     }
     
