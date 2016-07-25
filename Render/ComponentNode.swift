@@ -232,7 +232,7 @@ public class NilComponent: ComponentNodeType {
     public var renderedView: UIView? = nil
     public var reuseIdentifier: String = ""
     public var children: [ComponentNodeType] = [NilComponent]()
-    public var mounted: Bool = false
+    public internal(set) var mounted: Bool = false
     public var index: Int = 0
     public var immutable: Bool = true
     public func init() { }
