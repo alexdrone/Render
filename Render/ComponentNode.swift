@@ -227,19 +227,18 @@ extension ComponentNodeType {
     }
 }
 
-/// Internally used to represent a nil component.
 /// It is always discarded when added.
-class NilComponent: ComponentNodeType {
-    var renderedView: UIView? = nil
-    var reuseIdentifier: String = ""
-    var children: [ComponentNodeType] = [NilComponent]()
-    var mounted: Bool = false
-    var index: Int = 0
-    var immutable: Bool = true
-    func render(bounds: CGSize) { }
-    func prepareForUnmount() { }
-    func prepareForMount() { }
-    func buildView(reusableView: UIView? = nil) { }
+public class NilComponent: ComponentNodeType {
+    public var renderedView: UIView? = nil
+    public var reuseIdentifier: String = ""
+    public var children: [ComponentNodeType] = [NilComponent]()
+    public var mounted: Bool = false
+    public var index: Int = 0
+    public var immutable: Bool = true
+    public func render(bounds: CGSize) { }
+    public func prepareForUnmount() { }
+    public func prepareForMount() { }
+    public func buildView(reusableView: UIView? = nil) { }
 }
 
 public func when(@autoclosure condition: () -> Bool, _ component: ComponentNodeType) -> ComponentNodeType {
