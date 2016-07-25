@@ -235,7 +235,7 @@ public final class NilComponent: ComponentNodeType {
     public internal(set) var mounted: Bool = false
     public var index: Int = 0
     public var immutable: Bool = true
-    public func init() { }
+    public init() { }
     public func render(bounds: CGSize) { }
     public func prepareForUnmount() { }
     public func prepareForMount() { }
