@@ -228,7 +228,7 @@ extension ComponentNodeType {
 }
 
 /// It is always discarded when added.
-public class NilComponent: ComponentNodeType {
+public final class NilComponent: ComponentNodeType {
     public var renderedView: UIView? = nil
     public var reuseIdentifier: String = ""
     public var children: [ComponentNodeType] = [NilComponent]()
