@@ -33,20 +33,20 @@ public protocol ComponentCellType {
   /// - parameter size: The bounding box for this component. The default will determine the
   /// intrinsic content size for this component.
   /// - parameter state: The (optional) state for this component.
-  func renderComponent(size: CGSize?)
+  func renderComponent(_ size: CGSize?)
 }
 
 /// Wraps a component inside a UITableViewCell.
-public class ComponentTableViewCell<C: ComponentViewType>: UITableViewCell, ComponentCellType {
+open class ComponentTableViewCell<C: ComponentViewType>: UITableViewCell, ComponentCellType {
 
   /// The internal component.
-  public var component: C?
+  open var component: C?
 
-  public func hasMountedComponent() -> Bool {
+  open func hasMountedComponent() -> Bool {
     return self.component != nil
   }
 
-  public func mountComponentIfNecessary(@autoclosure component: (Void) -> C) {
+  open func mountComponentIfNecessary(_ component: @autoclosure (Void) -> C) {
     if self.component != nil {
       return
     }
@@ -61,7 +61,7 @@ public class ComponentTableViewCell<C: ComponentViewType>: UITableViewCell, Comp
   /// - parameter size: The bounding box for this component. The default will determine the
   /// intrinsic content size for this component.
   /// - parameter state: The (optional) state for this component.
-  public func renderComponent(size: CGSize? = nil) {
+  open func renderComponent(_ size: CGSize? = nil) {
     self.component?.renderComponent(size ?? self.superview?.bounds.size ?? CGSize.undefined)
     self.component?.renderComponent(size ?? self.superview?.bounds.size ?? CGSize.undefined)
     if let view = self.component as? UIView {
@@ -72,7 +72,7 @@ public class ComponentTableViewCell<C: ComponentViewType>: UITableViewCell, Comp
   /// Asks the view to calculate and return the size that best fits the specified size.
   /// - parameter size: The size for which the view should calculate its best-fitting size.
   /// - returns: A new size that fits the receiver’s subviews.
-  public override func sizeThatFits(size: CGSize) -> CGSize {
+  open override func sizeThatFits(_ size: CGSize) -> CGSize {
     if let view = self.component as? UIView {
       let size = view.sizeThatFits(size)
       return size
@@ -83,26 +83,26 @@ public class ComponentTableViewCell<C: ComponentViewType>: UITableViewCell, Comp
   /// Returns the natural size for the receiving view, considering only properties of the view.
   /// - returns: A size indicating the natural size for the receiving view based on its 
   /// intrinsic properties.
-  public override func intrinsicContentSize() -> CGSize {
+  open override var intrinsicContentSize : CGSize {
     if let view = self.component as? UIView {
-      return view.intrinsicContentSize()
+      return view.intrinsicContentSize
     }
     return CGSize.zero
   }
 }
 
 /// Wraps a component inside a UICollectionViewCell.
-public class ComponentCollectionViewCell<C: ComponentViewType>: UICollectionViewCell,
+open class ComponentCollectionViewCell<C: ComponentViewType>: UICollectionViewCell,
                                                                 ComponentCellType {
 
   /// The internal component
-  public var component: C?
+  open var component: C?
 
-  public func hasMountedComponent() -> Bool {
+  open func hasMountedComponent() -> Bool {
     return self.component != nil
   }
 
-  public func mountComponentIfNecessary(component: C) {
+  open func mountComponentIfNecessary(_ component: C) {
     if self.component != nil {
       return
     }
@@ -117,7 +117,7 @@ public class ComponentCollectionViewCell<C: ComponentViewType>: UICollectionView
   /// - parameter size: The bounding box for this component. The default will determine the
   /// intrinsic content size for this component.
   /// - parameter state: The (optional) state for this component.
-  public func renderComponent(size: CGSize? = nil) {
+  open func renderComponent(_ size: CGSize? = nil) {
     self.component?.renderComponent(size ?? self.superview?.bounds.size ?? CGSize.undefined)
 
     if let view = self.component as? UIView {
@@ -128,7 +128,7 @@ public class ComponentCollectionViewCell<C: ComponentViewType>: UICollectionView
   /// Asks the view to calculate and return the size that best fits the specified size.
   /// - parameter size: The size for which the view should calculate its best-fitting size.
   /// - returns: A new size that fits the receiver’s subviews.
-  public override func sizeThatFits(size: CGSize) -> CGSize {
+  open override func sizeThatFits(_ size: CGSize) -> CGSize {
     self.renderComponent(size)
     if let view = self.component as? UIView {
       let size = view.sizeThatFits(size)
@@ -141,9 +141,9 @@ public class ComponentCollectionViewCell<C: ComponentViewType>: UICollectionView
   /// view itself.
   /// - returns: A size indicating the natural size for the receiving view based on its 
   /// intrinsic properties.
-  public override func intrinsicContentSize() -> CGSize {
+  open override var intrinsicContentSize : CGSize {
     if let view = self.component as? UIView {
-      return view.intrinsicContentSize()
+      return view.intrinsicContentSize
     }
     return CGSize.zero
   }
@@ -155,9 +155,9 @@ extension UITableView {
 
   /// Refreshes the component at the given index path.
   /// - parameter indexPath: The indexpath for the targeted component.
-  public func renderComponentAtIndexPath(indexPath: NSIndexPath) {
+  public func renderComponentAtIndexPath(_ indexPath: IndexPath) {
     self.beginUpdates()
-    self.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
+    self.reloadRows(at: [indexPath], with: .fade)
     self.endUpdates()
   }
 
@@ -174,16 +174,16 @@ extension UICollectionView {
 
   /// Refreshes the component at the given index path.
   /// - parameter indexPath: The indexpath for the targeted component.
-  public func renderComponentAtIndexPath(indexPath: NSIndexPath) {
+  public func renderComponentAtIndexPath(_ indexPath: IndexPath) {
     self.performBatchUpdates({
-      self.reloadItemsAtIndexPaths([indexPath])
+      self.reloadItems(at: [indexPath])
       }, completion: nil)
   }
 
   /// Re-renders all the compoents currently visible on screen.
   /// - Note: Call this method whenever the collection view changes its bounds/size.
   public func renderVisibleComponents() {
-    for cell in self.visibleCells() where cell is ComponentCellType {
+    for cell in self.visibleCells where cell is ComponentCellType {
       (cell as! ComponentCellType).renderComponent(CGSize.sizeConstraintToWidth(self.bounds.width))
     }
   }
@@ -194,21 +194,21 @@ extension UICollectionView {
 public struct ComponentPrototypes {
 
   /// The collection of registered prototypes.
-  private static var prototypes = [String: ComponentViewType]()
+  fileprivate static var prototypes = [String: ComponentViewType]()
 
   /// Register the component as a reusable component in the list component.
   /// - parameter reuseIdentifier: The identifier for this component. The default is the component 
   /// class name.
   /// - parameter component: An instance of the component.
   public static func registerComponentPrototype<C:ComponentViewType>(
-      reuseIdentifier: String = String(C), component: C) {
+      _ reuseIdentifier: String = String(describing: C.self), component: C) {
 
     ComponentPrototypes.prototypes[reuseIdentifier] = component
   }
 
   /// Returns the size of the prototype wrapped in the view (CollectionView or TableView) 
   /// passed as argument
-  public static func prototypeComponentSize(referenceView: UIView,
+  public static func prototypeComponentSize(_ referenceView: UIView,
                                             reuseIdentifier: String,
                                             state: ComponentStateType) -> CGSize {
 

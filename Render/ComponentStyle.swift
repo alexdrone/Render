@@ -31,7 +31,7 @@ public protocol ComponentStyleType {
 
   /// Applies the style to the view pased as argument.
   /// - parameter view: The target view.
-  func apply(view: UIView)
+  func apply(_ view: UIView)
 }
 
 public func +(lhs: ComponentStyleType, rhs: ComponentStyleType) -> ComponentStyleType {
@@ -43,13 +43,13 @@ public struct ComponentStyle<ViewType: UIView>: ComponentStyleType {
   // The associated cloure that applies the style to the target view.
   public let closure: (ViewType) -> Void
 
-  public init(closure: (ViewType) -> Void) {
+  public init(closure: @escaping (ViewType) -> Void) {
     self.closure = closure
   }
 
   /// Applies the style to the view pased as argument.
   /// - parameter view: The target view.
-  public func apply(view: UIView) {
+  public func apply(_ view: UIView) {
     if let view = view as? ViewType {
       self.closure(view)
     }
@@ -64,7 +64,7 @@ public struct CompoundComponentStyle: ComponentStyleType {
 
   /// Applies the style to the view pased as argument.
   /// - parameter view: The target view.
-  public func apply(view: UIView) {
+  public func apply(_ view: UIView) {
     for style in self.styles {
       style.apply(view)
     }
@@ -75,7 +75,7 @@ public extension UIView {
 
   /// Apply the component style passed as argument.
   /// - parameter style: A component style object.
-  public func applyComponentStyle(style: ComponentStyleType) {
+  public func applyComponentStyle(_ style: ComponentStyleType) {
     style.apply(self)
   }
 }

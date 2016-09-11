@@ -48,7 +48,7 @@ extension ComponentViewType where Self: FlexboxComponentView {
   /// add it to the hierarchy.
   /// - Note: The pruned views could be inserted in a reuse pool.
   /// - parameter size: The bounding size for this render phase.
-  func updateViewHierarchy(size: CGSize = CGSize.undefined) {
+  func updateViewHierarchy(_ size: CGSize = CGSize.undefined) {
 
     if !self.isRootInitialized { return }
 
@@ -57,7 +57,7 @@ extension ComponentViewType where Self: FlexboxComponentView {
     let reusePool = self.reusePool
 
     // visits the component tree and flags the useful existing views
-    func visit(component: ComponentNodeType, index: Int, parent: ComponentNodeType?) {
+    func visit(_ component: ComponentNodeType, index: Int, parent: ComponentNodeType?) {
       component.index = index
       if let view = component.renderedView {
         viewSet.insert(view)
@@ -70,7 +70,7 @@ extension ComponentViewType where Self: FlexboxComponentView {
     }
 
     // remove the views that are not necessary anymore from the hiearchy.
-    func prune(view: UIView) {
+    func prune(_ view: UIView) {
       if !viewSet.contains(view) {
         view.removeFromSuperview()
 
@@ -87,14 +87,14 @@ extension ComponentViewType where Self: FlexboxComponentView {
 
     // invoked from mount - attemps view reuse from a local shared pool.
     // - Note: Skipped when the UseReusePool configuration flag is 'false'
-    func reuse(view: UIView?, component: ComponentNodeType) {
+    func reuse(_ view: UIView?, component: ComponentNodeType) {
 
-      guard let view = view where view.hasFlexNode else { return }
+      guard let view = view , view.hasFlexNode else { return }
 
       if component.reuseIdentifier == view.reuseIdentifier {
         component.buildView(view)
         reusedViewSet.insert(view)
-        for (subview, subcomponent) in Zip2Sequence(view.subviews.filter({
+        for (subview, subcomponent) in zip(view.subviews.filter({
           $0.hasFlexNode
         }), component.children) {
           reuse(subview, component: subcomponent)
@@ -105,9 +105,9 @@ extension ComponentViewType where Self: FlexboxComponentView {
     }
 
     // - Note: Skipped when .UseReusePool is 'false'
-    func reuseCleanUp(view: UIView?) {
+    func reuseCleanUp(_ view: UIView?) {
 
-      guard let view = view where view.hasFlexNode else { return }
+      guard let view = view , view.hasFlexNode else { return }
 
       if !reusedViewSet.contains(view) {
         view.removeFromSuperview()
@@ -118,7 +118,7 @@ extension ComponentViewType where Self: FlexboxComponentView {
     }
 
     // recursively adds the views that are not in the hierarchy to the hierarchy.
-    func mount(component: ComponentNodeType, parent: UIView) {
+    func mount(_ component: ComponentNodeType, parent: UIView) {
 
       if InfraConfiguration.UseReusePool {
 
@@ -134,7 +134,7 @@ extension ComponentViewType where Self: FlexboxComponentView {
       component.buildView(nil)
       if !component.mounted {
         component.renderedView!.internalStore.notAnimatable = true
-        parent.insertSubview(component.renderedView!, atIndex: component.index)
+        parent.insertSubview(component.renderedView!, at: component.index)
       }
       for child in component.children {
         mount(child, parent: component.renderedView!)
@@ -163,25 +163,25 @@ extension ComponentViewType where Self: FlexboxComponentView {
   }
 }
 
-public class FlexboxComponentView: BaseComponentView {
+open class FlexboxComponentView: BaseComponentView {
 
   /// The tree of components owned by this component view.
   var _root: ComponentNodeType?
-  public var root: ComponentNodeType! {
+  open var root: ComponentNodeType! {
     if _root != nil { return _root! }
     _root = construct()
     return _root!
   }
 
   /// 'true' is the root node has been constructed already, 'false' otherwise
-  public var isRootInitialized: Bool {
+  open var isRootInitialized: Bool {
     guard let _ = self._root else { return false}
     return true
   }
 
   /// Constructs the component tree.
   /// - Note: Must be overriden by subclasses.
-  public func construct() -> ComponentNodeType {
+  open func construct() -> ComponentNodeType {
     fatalError("unable to call 'construct' on the internal abstract class '_ComponentView'.")
   }
 
@@ -189,34 +189,34 @@ public class FlexboxComponentView: BaseComponentView {
   /// - parameter size: The bounding box for this component. The default will determine the
   /// intrinsic content size for this component.
   /// - parameter state: The (optional) state for this component.
-  public override func renderComponent(size: CGSize = CGSize.undefined) {
+  open override func renderComponent(_ size: CGSize = CGSize.undefined) {
     fatalError("unable to call 'renderComponent' on the internal abstract class '_ComponentView'.")
   }
 
   /// Asks the view to calculate and return the size that best fits the specified size.
   /// - parameter size: The size for which the view should calculate its best-fitting size.
   /// - returns: A new size that fits the receiver’s subviews.
-  public override func sizeThatFits(size: CGSize) -> CGSize {
+  open override func sizeThatFits(_ size: CGSize) -> CGSize {
     self.renderComponent(size)
-    return self.bounds.size ?? CGSize.undefined
+    return self.bounds.size
   }
 
   /// Returns the natural size for the receiving view, considering only properties of the view.
   /// - returns: A size indicating the natural size for the receiving view based on its
   /// intrinsic properties.
-  public override func intrinsicContentSize() -> CGSize {
-    return self.bounds.size ?? CGSize.undefined
+  open override var intrinsicContentSize : CGSize {
+    return self.bounds.size
   }
 }
 
 /// This class define a view fragment as a composition of 'ComponentType' objects.
-public class ComponentView: FlexboxComponentView {
+open class ComponentView: FlexboxComponentView {
 
   /// Render the component.
   /// - parameter size: The bounding box for this component. The default will determine the
   /// intrinsic content size for this component.
   /// - parameter state: The (optional) state for this component.
-  public override func renderComponent(size: CGSize = CGSize.undefined) {
+  open override func renderComponent(_ size: CGSize = CGSize.undefined) {
 
     // runs its own configuration
     self.internalStore.configureClosure?()
@@ -229,11 +229,11 @@ public class ComponentView: FlexboxComponentView {
     let startTime = CFAbsoluteTimeGetCurrent()
     defer {
       self.updateViewHierarchy(size)
-      debugRenderTime("\(self.dynamicType).renderComponent", startTime: startTime)
+      debugRenderTime("\(type(of: self)).renderComponent", startTime: startTime)
     }
 
     // The view never rendered
-    guard let old = self._root where old.renderedView != nil else {
+    guard let old = self._root , old.renderedView != nil else {
       self._root = self.construct()
       return
     }
@@ -241,7 +241,7 @@ public class ComponentView: FlexboxComponentView {
     var new = self.construct()
 
     // Diff between new and old
-    func diff(old: ComponentNodeType, new: ComponentNodeType) -> ComponentNodeType {
+    func diff(_ old: ComponentNodeType, new: ComponentNodeType) -> ComponentNodeType {
 
       old.prepareForUnmount()
 
@@ -250,7 +250,7 @@ public class ComponentView: FlexboxComponentView {
       }
 
       var children = [ComponentNodeType]()
-      for (o,n) in Zip2Sequence(old.children, new.children) {
+      for (o,n) in zip(old.children, new.children) {
         children.append(diff(o, new: n))
       }
 
@@ -279,9 +279,9 @@ public class ComponentView: FlexboxComponentView {
 /// This component class has a more performant 'renderComponent' method since it doesn't update the
 /// view hierarchy - hence it is reccomended for components whose view hierarchy is static (but the
 /// view configuration/view layout is not).
-public class StaticComponentView: FlexboxComponentView {
+open class StaticComponentView: FlexboxComponentView {
 
-  public override func initalizeComponent() {
+  open override func initalizeComponent() {
     super.initalizeComponent()
     self._root = self.construct()
     self.updateViewHierarchy()
@@ -291,11 +291,11 @@ public class StaticComponentView: FlexboxComponentView {
   /// - parameter size: The bounding box for this component. The default will determine the
   /// intrinsic content size for this component.
   /// - parameter state: The (optional) state for this component.
-  public override func renderComponent(size: CGSize = CGSize.undefined) {
+  open override func renderComponent(_ size: CGSize = CGSize.undefined) {
     self.internalStore.configureClosure?()
     let startTime = CFAbsoluteTimeGetCurrent()
     defer {
-      debugRenderTime("\(self.dynamicType).renderComponent", startTime: startTime)
+      debugRenderTime("\(type(of: self)).renderComponent", startTime: startTime)
     }
     self._root?.render(size)
     self.updateViewFrame()

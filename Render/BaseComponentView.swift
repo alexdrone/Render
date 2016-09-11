@@ -27,7 +27,7 @@
 
 import UIKit
 
-public class BaseComponentView: UIView, ComponentViewWithReusePoolViewType {
+open class BaseComponentView: UIView, ComponentViewWithReusePoolViewType {
 
   public required init() {
     super.init(frame: CGRect.zero)
@@ -56,11 +56,11 @@ public class BaseComponentView: UIView, ComponentViewWithReusePoolViewType {
 
   /// The component initialization.
   /// - Note: Always call the super implemention.
-  public func initalizeComponent() {
+  open func initalizeComponent() {
   }
 
   /// Applies the component configuration (as per ViewType extension)
-  public func configure(closure: ((ComponentViewType) -> Void)) {
+  open func configure(_ closure: @escaping ((ComponentViewType) -> Void)) {
     self.internalStore.configureClosure = { [weak self] in
       if let _self = self {
         closure(_self)
@@ -69,11 +69,11 @@ public class BaseComponentView: UIView, ComponentViewWithReusePoolViewType {
   }
 
   /// The state of this component.
-  public var state: ComponentStateType?
+  open var state: ComponentStateType?
 
   /// The parent for this component
   internal weak var _parentView: UIView?
-  public var referenceView: UIView? {
+  open var referenceView: UIView? {
     get {
       return self._parentView ?? self.superview
     }
@@ -85,7 +85,7 @@ public class BaseComponentView: UIView, ComponentViewWithReusePoolViewType {
   /// This method should be overriden by the subclass and define the component
   /// configuration for the current state.
   /// - Note: Always call the super implemention.
-  public func renderComponent(size: CGSize = CGSize.undefined) {
+  open func renderComponent(_ size: CGSize = CGSize.undefined) {
     self.internalStore.configureClosure?()
   }
 }

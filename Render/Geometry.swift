@@ -26,17 +26,37 @@
 //
 
 import UIKit
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
+fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l > r
+  default:
+    return rhs < lhs
+  }
+}
+
 
 public extension CGSize {
 
   /// Undefined size.
   public static let undefined = CGSize(width: CGFloat(Undefined), height: CGFloat(Undefined))
 
-  public static func sizeConstraintToHeight(height: CGFloat) -> CGSize {
+  public static func sizeConstraintToHeight(_ height: CGFloat) -> CGSize {
     return CGSize(width: CGFloat(Undefined), height: height)
   }
 
-  public static func sizeConstraintToWidth(width: CGFloat) -> CGSize {
+  public static func sizeConstraintToWidth(_ width: CGFloat) -> CGSize {
     return CGSize(width: width, height: CGFloat(Undefined))
   }
 
@@ -59,7 +79,7 @@ public extension CGFloat {
 }
 
 
-prefix operator ~ {}
+prefix operator ~
 
 /// A shorthand to convert 'CGFloat' into 'Float' for flexbox.
 public prefix func ~(number: CGFloat) -> Float {
@@ -85,7 +105,7 @@ extension Node {
 
   /// Recursively apply the layout to the given view hierarchy.
   /// - parameter view: The root of the view hierarchy
-  func apply(view: UIView) {
+  func apply(_ view: UIView) {
 
     let x = layout.position.left.isNormal ? CGFloat(layout.position.left) : 0
     let y = layout.position.top.isNormal ? CGFloat(layout.position.top) : 0
@@ -93,10 +113,10 @@ extension Node {
     let h = layout.dimension.height.isNormal ? CGFloat(layout.dimension.height) : 0
 
     let frame = CGRect(x: x, y: y, width: w, height: h)
-    view.applyFrame(CGRectIntegral(frame))
+    view.applyFrame(frame.integral)
 
     if let children = self.children {
-      for (s, node) in Zip2Sequence(view.subviews, children ?? [Node]()) {
+      for (s, node) in zip(view.subviews, children) {
         let subview = s as UIView
         node.apply(subview)
       }
@@ -109,7 +129,7 @@ extension UIView {
   /// Set the view frame to the one passed as argument.
   /// - Note: If the view is marked as notAnimatable (likely to be a newly inserted view)
   /// any animation for this view will be suppressed.
-  func applyFrame(frame: CGRect) {
+  func applyFrame(_ frame: CGRect) {
 
     // There's an ongoing animation
     if self.internalStore.notAnimatable && self.layer.animationKeys()?.count > 0 {
@@ -118,8 +138,8 @@ extension UIView {
 
       // Get the duration of the ongoing animation
       let duration = self.layer.animationKeys()?.map({
-        return self.layer.animationForKey($0)?.duration
-      }).reduce(0.0, combine: {
+        return self.layer.animation(forKey: $0)?.duration
+      }).reduce(0.0, {
         return max($0, Double($1 ?? 0.0))
       }) ?? 0
 
@@ -127,7 +147,7 @@ extension UIView {
       self.frame = frame
 
       // fades in the non-animatable views.
-      UIView.animateWithDuration(duration,
+      UIView.animate(withDuration: duration,
                                  delay: duration,
                                  options: [],
                                  animations: { self.alpha = 1 },
@@ -139,26 +159,26 @@ extension UIView {
   }
 }
 
-func zeroIfNan(value: Float) -> CGFloat {
+func zeroIfNan(_ value: Float) -> CGFloat {
   return value.isDefined ? CGFloat(value) : 0
 }
 
-func zeroIfNan(value: CGFloat) -> CGFloat {
+func zeroIfNan(_ value: CGFloat) -> CGFloat {
   return Float(value).isDefined ? value : 0
 }
 
-func maxIfNaN(value: Float) -> CGFloat {
+func maxIfNaN(_ value: Float) -> CGFloat {
   return value.isDefined ? CGFloat(value) : CGFloat(FLT_MAX)
 }
 
-func sizeZeroIfNan(size: Dimension) -> CGSize {
+func sizeZeroIfNan(_ size: Dimension) -> CGSize {
   return CGSize(width: CGFloat(zeroIfNan(size.0)), height: CGFloat(zeroIfNan(size.1)))
 }
 
-func sizeZeroIfNan(size: CGSize) -> CGSize {
+func sizeZeroIfNan(_ size: CGSize) -> CGSize {
   return CGSize(width: CGFloat(zeroIfNan(size.width)), height: CGFloat(zeroIfNan(size.height)))
 }
 
-func sizeMaxIfNan(size: Dimension) -> CGSize {
+func sizeMaxIfNan(_ size: Dimension) -> CGSize {
   return CGSize(width: CGFloat(maxIfNaN(size.0)), height: CGFloat(maxIfNaN(size.1)))
 }

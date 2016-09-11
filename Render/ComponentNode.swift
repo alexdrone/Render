@@ -45,54 +45,54 @@ public protocol ComponentNodeType: class {
   var index: Int { get set }
 
   /// Render the component.
-  func render(bounds: CGSize)
+  func render(_ bounds: CGSize)
 
   func prepareForMount()
   func prepareForUnmount()
 
   /// Force the component to construct the view.
-  func buildView(reusableView: UIView?)
+  func buildView(_ reusableView: UIView?)
 }
 
 /// Used to wrap any view as a node for the view description.
-public class ComponentNode<ViewType: UIView>: ComponentNodeType {
+open class ComponentNode<ViewType: UIView>: ComponentNodeType {
 
   /// The underlying view rendered from the component.
-  public var view: ViewType?
-  public var renderedView: UIView? {
+  open var view: ViewType?
+  open var renderedView: UIView? {
     get { return self.view }
     set { self.view = newValue as? ViewType }
   }
 
   /// Wether the rendered view for this component is now part of the view hierarchy or not
-  public var mounted: Bool {
+  open var mounted: Bool {
     return self.view?.superview != nil
   }
 
   /// The view index in the view hierarchy.
-  public var index: Int = 0
+  open var index: Int = 0
 
   /// This is crucial for ensuring proper view reuse
   /// When the reuse identifier is not explicitely set, it will be automatically set to 
   /// the 'ViewType' for this component.
-  public var reuseIdentifier: String
+  open var reuseIdentifier: String
 
   /// If this is set to 'true', 'prepareForComponentReuse' is going to be called on
   /// the view associated to this component before being re-configured.
-  public let prepareForReuse: Bool
+  open let prepareForReuse: Bool
 
   /// The current children for this component.
-  public var children = [ComponentNodeType]() {
+  open var children = [ComponentNodeType]() {
     didSet {
       self.children = children.filter({ return !($0 is NilComponent) })
     }
   }
 
   /// The view initialisation closure.
-  private let viewInitClosure: ((Void) -> ViewType)
+  fileprivate let viewInitClosure: ((Void) -> ViewType)
 
   /// The view configuration closure.
-  private var viewConfigureClosure: (ViewType) -> Void
+  fileprivate var viewConfigureClosure: (ViewType) -> Void
 
   /// Creates a new component node with the given view's initialization closure
   /// - parameter reuseIdentifier: A reuse identifier for this node. If nothing is passed as 
@@ -106,9 +106,9 @@ public class ComponentNode<ViewType: UIView>: ComponentNodeType {
   /// - parameter initClosure: Pass this closure if you have a custom init method (or factory
   /// method) you wish to call
   /// to initialise this view. The default is 'ViewType(frame: CGRect.zero)'
-  public init(reuseIdentifier: String = String(ViewType),
+  public init(reuseIdentifier: String = String(describing: ViewType.self),
               prepareForReuse: Bool = false,
-              initClosure: ((Void) -> ViewType) = { return ViewType(frame: CGRect.zero) }) {
+              initClosure: @escaping ((Void) -> ViewType) = { return ViewType(frame: CGRect.zero) }) {
 
     self.prepareForReuse = prepareForReuse
     self.reuseIdentifier = reuseIdentifier
@@ -137,7 +137,7 @@ public class ComponentNode<ViewType: UIView>: ComponentNodeType {
   /// This is going to be executed every time the component's render function is called.
   /// - parameter configurationClosure: The configuration block that will be stored and executed 
   /// at every call of render.
-  public func configure(configurationClosure: (ViewType) -> Void) -> Self {
+  open func configure(_ configurationClosure: @escaping (ViewType) -> Void) -> Self {
     self.viewConfigureClosure = configurationClosure
     return self
   }
@@ -145,13 +145,13 @@ public class ComponentNode<ViewType: UIView>: ComponentNodeType {
   /// Render this component recursively.
   /// - parameter bounds: The bounding box for this component.
   /// Use 'CGSize.udefined' in order to use the component's intrinsic size.
-  public func render(bounds: CGSize) {
+  open func render(_ bounds: CGSize) {
     self.buildView()
     self.renderedView?.render(bounds)
   }
 
   /// Force the component to construct the view.
-  public func buildView(reusableView: UIView? = nil) {
+  open func buildView(_ reusableView: UIView? = nil) {
     if let _ = self.view { return }
 
     if let reusableView = reusableView as? ViewType {
@@ -165,7 +165,7 @@ public class ComponentNode<ViewType: UIView>: ComponentNodeType {
   }
 
   /// Write an extension for this method to specialize the prepare for reuse for this view.
-  public func prepareForMount() {
+  open func prepareForMount() {
     self.renderedView?.internalStore.configureClosure = {
       self.viewConfigureClosure(self.view!)
     }
@@ -174,7 +174,7 @@ public class ComponentNode<ViewType: UIView>: ComponentNodeType {
     }
   }
 
-  public func prepareForUnmount() {
+  open func prepareForUnmount() {
     Reset.resetTargets(self.renderedView)
   }
 }
@@ -182,7 +182,7 @@ public class ComponentNode<ViewType: UIView>: ComponentNodeType {
 extension ComponentNodeType {
 
   /// Sets the children of this component.
-  public func children(children: [ComponentNodeType]) -> Self {
+  public func children(_ children: [ComponentNodeType]) -> Self {
     for c in children where !(c is NilComponent) {
       self.children.append(c)
     }
@@ -190,7 +190,7 @@ extension ComponentNodeType {
   }
 
   /// Adds a child to this component.
-  public func addChild(child: ComponentNodeType) -> Self {
+  @discardableResult public func addChild(_ child: ComponentNodeType) -> Self {
     if child is NilComponent { return self }
     self.children.append(child)
     return self
@@ -199,7 +199,7 @@ extension ComponentNodeType {
   /// Runs the closure 'count' times.
   /// - parameter count: How many times the closure is going to be executed.
   /// - parameter closure: the index is passed as argument.
-  public func addChildren(count: Int, @noescape closure: (Int) -> ComponentNodeType) -> Self {
+  public func addChildren(_ count: Int, closure: (Int) -> ComponentNodeType) -> Self {
     for i in 0..<count {
       self.addChild(closure(i))
     }
@@ -208,26 +208,26 @@ extension ComponentNodeType {
 
   /// Returns the components with the associated reuse identifier.
   /// - parameter identifier: The identifier passed as argument in the component's constructor
-  public func componenstWithIdentifier(identifier: String) -> [ComponentNodeType] {
+  public func componenstWithIdentifier(_ identifier: String) -> [ComponentNodeType] {
     var result = [ComponentNodeType]()
     if self.reuseIdentifier == identifier {
       result.append(self)
     }
     for child in self.children {
-      result.appendContentsOf(child.componenstWithIdentifier(identifier))
+      result.append(contentsOf: child.componenstWithIdentifier(identifier))
     }
     return result
   }
 
   /// Returns the first component with the associated reuse identifier.
   /// - parameter identifier: The identifier passed as argument in the component's constructor
-  public func componentWithIdentifier(identifier: String) -> ComponentNodeType? {
+  public func componentWithIdentifier(_ identifier: String) -> ComponentNodeType? {
     return self.componenstWithIdentifier(identifier).first
   }
 
   /// Returns the view with the associated identifier.
   /// - parameter identifier: The identifier passed as argument in the component's constructor
-  public func viewWithIdentifier<T:UIView>(identifier: String) -> T? {
+  public func viewWithIdentifier<T:UIView>(_ identifier: String) -> T? {
     return self.componentWithIdentifier(identifier)?.renderedView as? T
   }
 }
@@ -241,13 +241,13 @@ public final class NilComponent: ComponentNodeType {
   public var index: Int = 0
   public var immutable: Bool = true
   public init() { }
-  public func render(bounds: CGSize) { }
+  public func render(_ bounds: CGSize) { }
   public func prepareForUnmount() { }
   public func prepareForMount() { }
-  public func buildView(reusableView: UIView? = nil) { }
+  public func buildView(_ reusableView: UIView? = nil) { }
 }
 
-public func when(@autoclosure condition: () -> Bool, _ component: ComponentNodeType)
+public func when(_ condition: @autoclosure () -> Bool, _ component: ComponentNodeType)
     -> ComponentNodeType {
   return condition() ? component: NilComponent()
 }

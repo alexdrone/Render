@@ -29,18 +29,18 @@ import UIKit
 
 struct Reset {
 
-  private static let View = UIView()
-  private static func resetView(view: UIView, proto: UIView = Reset.View) {
+  fileprivate static let View = UIView()
+  fileprivate static func resetView(_ view: UIView, proto: UIView = Reset.View) {
     view.backgroundColor = proto.backgroundColor
     view.tintColor = proto.backgroundColor
     view.accessibilityIdentifier = nil
     view.alpha = proto.alpha
-    view.hidden = proto.hidden
-    view.maskView = proto.maskView
+    view.isHidden = proto.isHidden
+    view.mask = proto.mask
     view.accessibilityHint = proto.accessibilityHint
     view.accessibilityLabel = proto.accessibilityLabel
     view.accessibilityTraits = proto.accessibilityTraits
-    view.userInteractionEnabled = proto.userInteractionEnabled
+    view.isUserInteractionEnabled = proto.isUserInteractionEnabled
     view.layer.borderWidth = proto.layer.borderWidth
     view.layer.borderColor = proto.layer.borderColor
     view.layer.shadowPath = proto.layer.shadowPath
@@ -53,8 +53,8 @@ struct Reset {
     Reset.resetTargets(view)
   }
 
-  private static let Label = UILabel()
-  private static func resetLabel(label: UILabel) {
+  fileprivate static let Label = UILabel()
+  fileprivate static func resetLabel(_ label: UILabel) {
     Reset.resetView(label, proto: Reset.Label)
     label.backgroundColor = Reset.Label.backgroundColor
     label.font = Reset.Label.font
@@ -67,9 +67,9 @@ struct Reset {
     label.shadowOffset = Reset.Label.shadowOffset
     label.lineBreakMode = Reset.Label.lineBreakMode
     label.highlightedTextColor = Reset.Label.highlightedTextColor
-    label.highlighted = Reset.Label.highlighted
-    label.userInteractionEnabled = Reset.Label.userInteractionEnabled
-    label.enabled = Reset.Label.enabled
+    label.isHighlighted = Reset.Label.isHighlighted
+    label.isUserInteractionEnabled = Reset.Label.isUserInteractionEnabled
+    label.isEnabled = Reset.Label.isEnabled
     label.adjustsFontSizeToFitWidth = Reset.Label.adjustsFontSizeToFitWidth
     label.baselineAdjustment = Reset.Label.baselineAdjustment
     label.minimumScaleFactor = Reset.Label.minimumScaleFactor
@@ -81,8 +81,8 @@ struct Reset {
     Reset.resetTargets(label)
   }
 
-  private static let TextField = UITextField()
-  private static func resetTextField(textField: UITextField) {
+  fileprivate static let TextField = UITextField()
+  fileprivate static func resetTextField(_ textField: UITextField) {
     Reset.resetView(textField, proto: Reset.TextField)
     textField.backgroundColor = Reset.TextField.backgroundColor
     textField.font = Reset.TextField.font
@@ -90,9 +90,9 @@ struct Reset {
     textField.textAlignment = Reset.TextField.textAlignment
     textField.text = Reset.TextField.text
     textField.attributedText = Reset.TextField.attributedText
-    textField.highlighted = Reset.Label.highlighted
-    textField.userInteractionEnabled = Reset.TextField.userInteractionEnabled
-    textField.enabled = Reset.TextField.enabled
+    textField.isHighlighted = Reset.Label.isHighlighted
+    textField.isUserInteractionEnabled = Reset.TextField.isUserInteractionEnabled
+    textField.isEnabled = Reset.TextField.isEnabled
     textField.adjustsFontSizeToFitWidth = Reset.TextField.adjustsFontSizeToFitWidth
     textField.borderStyle = Reset.TextField.borderStyle
     textField.defaultTextAttributes = Reset.TextField.defaultTextAttributes
@@ -116,8 +116,8 @@ struct Reset {
     Reset.resetTargets(textField)
   }
 
-  private static let TextView = UITextView()
-  private static func resetTextView(textView: UITextView) {
+  fileprivate static let TextView = UITextView()
+  fileprivate static func resetTextView(_ textView: UITextView) {
     Reset.resetView(textView, proto: Reset.TextView)
     textView.backgroundColor = Reset.TextView.backgroundColor
     textView.font = Reset.TextView.font
@@ -125,126 +125,126 @@ struct Reset {
     textView.textAlignment = Reset.TextView.textAlignment
     textView.text = Reset.TextView.text
     textView.attributedText = Reset.TextView.attributedText
-    textView.userInteractionEnabled = Reset.TextView.userInteractionEnabled
+    textView.isUserInteractionEnabled = Reset.TextView.isUserInteractionEnabled
     textView.allowsEditingTextAttributes = Reset.TextView.allowsEditingTextAttributes
     textView.inputView = Reset.TextView.inputView
     textView.inputAccessoryView = Reset.TextView.inputAccessoryView
     textView.clearsOnInsertion = Reset.TextView.clearsOnInsertion
-    textView.selectable = Reset.TextView.selectable
+    textView.isSelectable = Reset.TextView.isSelectable
     textView.selectedRange = Reset.TextView.selectedRange
-    textView.editable = Reset.TextView.editable
+    textView.isEditable = Reset.TextView.isEditable
     textView.dataDetectorTypes = Reset.TextView.dataDetectorTypes
     textView.allowsEditingTextAttributes = Reset.TextView.allowsEditingTextAttributes
-    textView.scrollEnabled = Reset.TextView.scrollEnabled
+    textView.isScrollEnabled = Reset.TextView.isScrollEnabled
     textView.delegate = nil
     Reset.resetTargets(textView)
   }
 
-  private static let Button = UIButton()
-  private static func resetButton(button: UIButton) {
+  fileprivate static let Button = UIButton()
+  fileprivate static func resetButton(_ button: UIButton) {
     Reset.resetView(button, proto: Button)
     if let title = button.titleLabel { Reset.resetLabel(title) }
     if let image = button.imageView { Reset.resetImageView(image) }
 
     button.backgroundColor = Reset.TextView.backgroundColor
-    button.setTitle(Reset.Button.titleForState(.Disabled), forState: .Disabled)
+    button.setTitle(Reset.Button.title(for: .disabled), for: .disabled)
     if #available(iOS 9.0, *) {
-      button.setTitle(Reset.Button.titleForState(.Focused), forState: .Focused)
+      button.setTitle(Reset.Button.title(for: .focused), for: .focused)
     } else {
       // Fallback on earlier versions
     }
-    button.setTitle(Reset.Button.titleForState(.Highlighted), forState: .Highlighted)
-    button.setTitle(Reset.Button.titleForState(.Normal), forState: .Normal)
-    button.setTitle(Reset.Button.titleForState(.Reserved), forState: .Reserved)
-    button.setTitle(Reset.Button.titleForState(.Selected), forState: .Selected)
+    button.setTitle(Reset.Button.title(for: .highlighted), for: .highlighted)
+    button.setTitle(Reset.Button.title(for: UIControlState()), for: UIControlState())
+    button.setTitle(Reset.Button.title(for: .reserved), for: .reserved)
+    button.setTitle(Reset.Button.title(for: .selected), for: .selected)
 
-    button.setTitleColor(Reset.Button.titleColorForState(.Disabled),
-                         forState: .Disabled)
+    button.setTitleColor(Reset.Button.titleColor(for: .disabled),
+                         for: .disabled)
     if #available(iOS 9.0, *) {
-      button.setTitleColor(Reset.Button.titleColorForState(.Focused),
-                           forState: .Focused)
+      button.setTitleColor(Reset.Button.titleColor(for: .focused),
+                           for: .focused)
     } else {
       // Fallback on earlier versions
     }
-    button.setTitleColor(Reset.Button.titleColorForState(.Highlighted),
-                         forState: .Highlighted)
-    button.setTitleColor(Reset.Button.titleColorForState(.Normal),
-                         forState: .Normal)
-    button.setTitleColor(Reset.Button.titleColorForState(.Reserved),
-                         forState: .Reserved)
-    button.setTitleColor(Reset.Button.titleColorForState(.Selected),
-                         forState: .Selected)
+    button.setTitleColor(Reset.Button.titleColor(for: .highlighted),
+                         for: .highlighted)
+    button.setTitleColor(Reset.Button.titleColor(for: UIControlState()),
+                         for: UIControlState())
+    button.setTitleColor(Reset.Button.titleColor(for: .reserved),
+                         for: .reserved)
+    button.setTitleColor(Reset.Button.titleColor(for: .selected),
+                         for: .selected)
 
-    button.setTitleShadowColor(Reset.Button.titleShadowColorForState(.Disabled),
-                               forState: .Disabled)
+    button.setTitleShadowColor(Reset.Button.titleShadowColor(for: .disabled),
+                               for: .disabled)
     if #available(iOS 9.0, *) {
-      button.setTitleShadowColor(Reset.Button.titleShadowColorForState(.Focused),
-                                 forState: .Focused)
+      button.setTitleShadowColor(Reset.Button.titleShadowColor(for: .focused),
+                                 for: .focused)
     } else {
       // Fallback on earlier versions
     }
-    button.setTitleShadowColor(Reset.Button.titleShadowColorForState(.Highlighted),
-                               forState: .Highlighted)
-    button.setTitleShadowColor(Reset.Button.titleShadowColorForState(.Normal),
-                               forState: .Normal)
-    button.setTitleShadowColor(Reset.Button.titleShadowColorForState(.Reserved),
-                               forState: .Reserved)
-    button.setTitleShadowColor(Reset.Button.titleShadowColorForState(.Selected),
-                               forState: .Selected)
+    button.setTitleShadowColor(Reset.Button.titleShadowColor(for: .highlighted),
+                               for: .highlighted)
+    button.setTitleShadowColor(Reset.Button.titleShadowColor(for: UIControlState()),
+                               for: UIControlState())
+    button.setTitleShadowColor(Reset.Button.titleShadowColor(for: .reserved),
+                               for: .reserved)
+    button.setTitleShadowColor(Reset.Button.titleShadowColor(for: .selected),
+                               for: .selected)
 
-    button.setImage(Reset.Button.imageForState(.Disabled), forState: .Disabled)
+    button.setImage(Reset.Button.image(for: .disabled), for: .disabled)
     if #available(iOS 9.0, *) {
-      button.setImage(Reset.Button.imageForState(.Focused), forState: .Focused)
+      button.setImage(Reset.Button.image(for: .focused), for: .focused)
     } else {
       // Fallback on earlier versions
     }
-    button.setImage(Reset.Button.imageForState(.Highlighted), forState: .Highlighted)
-    button.setImage(Reset.Button.imageForState(.Normal), forState: .Normal)
-    button.setImage(Reset.Button.imageForState(.Reserved), forState: .Reserved)
-    button.setImage(Reset.Button.imageForState(.Selected), forState: .Selected)
+    button.setImage(Reset.Button.image(for: .highlighted), for: .highlighted)
+    button.setImage(Reset.Button.image(for: UIControlState()), for: UIControlState())
+    button.setImage(Reset.Button.image(for: .reserved), for: .reserved)
+    button.setImage(Reset.Button.image(for: .selected), for: .selected)
 
-    button.setBackgroundImage(Reset.Button.backgroundImageForState(.Disabled),
-                              forState: .Disabled)
+    button.setBackgroundImage(Reset.Button.backgroundImage(for: .disabled),
+                              for: .disabled)
     if #available(iOS 9.0, *) {
-      button.setBackgroundImage(Reset.Button.backgroundImageForState(.Focused),
-                                forState: .Focused)
+      button.setBackgroundImage(Reset.Button.backgroundImage(for: .focused),
+                                for: .focused)
     } else {
       // Fallback on earlier versions
     }
-    button.setBackgroundImage(Reset.Button.backgroundImageForState(.Highlighted),
-                              forState: .Highlighted)
-    button.setBackgroundImage(Reset.Button.backgroundImageForState(.Normal),
-                              forState: .Normal)
-    button.setBackgroundImage(Reset.Button.backgroundImageForState(.Reserved),
-                              forState: .Reserved)
-    button.setBackgroundImage(Reset.Button.backgroundImageForState(.Selected),
-                              forState: .Selected)
+    button.setBackgroundImage(Reset.Button.backgroundImage(for: .highlighted),
+                              for: .highlighted)
+    button.setBackgroundImage(Reset.Button.backgroundImage(for: UIControlState()),
+                              for: UIControlState())
+    button.setBackgroundImage(Reset.Button.backgroundImage(for: .reserved),
+                              for: .reserved)
+    button.setBackgroundImage(Reset.Button.backgroundImage(for: .selected),
+                              for: .selected)
 
-    button.setAttributedTitle(Reset.Button.attributedTitleForState(.Disabled),
-                              forState: .Disabled)
+    button.setAttributedTitle(Reset.Button.attributedTitle(for: .disabled),
+                              for: .disabled)
     if #available(iOS 9.0, *) {
-      button.setAttributedTitle(Reset.Button.attributedTitleForState(.Focused),
-                                forState: .Focused)
+      button.setAttributedTitle(Reset.Button.attributedTitle(for: .focused),
+                                for: .focused)
     } else {
       // Fallback on earlier versions
     }
-    button.setAttributedTitle(Reset.Button.attributedTitleForState(.Highlighted),
-                              forState: .Highlighted)
-    button.setAttributedTitle(Reset.Button.attributedTitleForState(.Normal),
-                              forState: .Normal)
-    button.setAttributedTitle(Reset.Button.attributedTitleForState(.Reserved),
-                              forState: .Reserved)
-    button.setAttributedTitle(Reset.Button.attributedTitleForState(.Selected),
-                              forState: .Selected)
+    button.setAttributedTitle(Reset.Button.attributedTitle(for: .highlighted),
+                              for: .highlighted)
+    button.setAttributedTitle(Reset.Button.attributedTitle(for: UIControlState()),
+                              for: UIControlState())
+    button.setAttributedTitle(Reset.Button.attributedTitle(for: .reserved),
+                              for: .reserved)
+    button.setAttributedTitle(Reset.Button.attributedTitle(for: .selected),
+                              for: .selected)
     Reset.resetTargets(button)
   }
 
-  private static let ImageView = UIImageView()
-  private static func resetImageView(imageView: UIImageView) {
+  fileprivate static let ImageView = UIImageView()
+  fileprivate static func resetImageView(_ imageView: UIImageView) {
     Reset.resetView(imageView, proto: Reset.ImageView)
     imageView.backgroundColor = Reset.ImageView.backgroundColor
     imageView.image = Reset.ImageView.image
-    imageView.highlighted = Reset.ImageView.highlighted
+    imageView.isHighlighted = Reset.ImageView.isHighlighted
     imageView.highlightedImage = Reset.ImageView.highlightedImage
     imageView.animationImages = Reset.ImageView.animationImages
     imageView.highlightedAnimationImages = Reset.ImageView.highlightedAnimationImages
@@ -254,11 +254,11 @@ struct Reset {
     Reset.resetTargets(imageView)
   }
 
-  static func resetTargets(view: UIView?) {
+  static func resetTargets(_ view: UIView?) {
     guard let view = view else { return }
     if let control = view as? UIControl {
-      for target in control.allTargets() {
-        control.removeTarget(target, action: nil, forControlEvents: .AllEvents)
+      for target in control.allTargets {
+        control.removeTarget(target, action: nil, for: .allEvents)
       }
     }
   }
@@ -316,14 +316,14 @@ extension FlexboxView where Self: UIView {
 
 extension UIScrollView {
 
-  private func postRender() {
+  fileprivate func postRender() {
     var x: CGFloat = 0
     var y: CGFloat = 0
     for subview in self.subviews {
-      x = CGRectGetMaxX(subview.frame) > x ? CGRectGetMaxX(subview.frame) : x
-      y = CGRectGetMaxY(subview.frame) > y ? CGRectGetMaxY(subview.frame) : y
+      x = subview.frame.maxX > x ? subview.frame.maxX : x
+      y = subview.frame.maxY > y ? subview.frame.maxY : y
     }
     self.contentSize = CGSize(width: x, height: y)
-    self.scrollEnabled = true
+    self.isScrollEnabled = true
   }
 }

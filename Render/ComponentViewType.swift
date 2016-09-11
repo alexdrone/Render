@@ -48,7 +48,7 @@ public protocol ComponentViewType: class {
   /// - Note: If your view is a custom 'ComponentViewType' class (Not inheriting from 
   /// BaseComponentView)
   /// then you are expected to store this closure and run it when 'renderComponent' is called.
-  func configure(closure: ((ComponentViewType) -> Void))
+  func configure(_ closure: @escaping ((ComponentViewType) -> Void))
 
   /// The state of this component.
   var state: ComponentStateType? { get set }
@@ -64,9 +64,9 @@ public protocol ComponentViewType: class {
   /// - parameter size: The bounding box for this component. The default will determine the 
   /// intrinsic content size for this component.
   /// - parameter state: The (optional) state for this component.
-  func renderComponent(size: CGSize)
+  func renderComponent(_ size: CGSize)
 }
 
 /// Used mostyle as base class for internal tests.
-public class ComponentStateBase: NSObject, ComponentStateType {
+open class ComponentStateBase: NSObject, ComponentStateType {
 }

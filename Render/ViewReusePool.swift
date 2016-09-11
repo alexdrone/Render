@@ -37,11 +37,11 @@ protocol ComponentViewWithReusePoolViewType: ComponentViewType {
 class ComponentViewReusePool {
 
   /// The dictionary that stores the reusable views.
-  private var pool = [String: [UIView]]()
+  fileprivate var pool = [String: [UIView]]()
 
   /// Returns a view with the given reusable identifier (if available) and removes
   /// it from the pool.
-  func pop(identifier: String) -> UIView? {
+  func pop(_ identifier: String) -> UIView? {
     guard var array = self.pool[identifier] else { return nil }
     let view = array.popLast()
     self.pool[identifier] = array
@@ -49,8 +49,8 @@ class ComponentViewReusePool {
   }
 
   /// Adds a view to the reuse pool.
-  func push(identifier: String, view: UIView) {
-    if identifier == String(view.dynamicType) {
+  func push(_ identifier: String, view: UIView) {
+    if identifier == String(describing: type(of: view)) {
       return
     }
     Reset.resetTargets(view)

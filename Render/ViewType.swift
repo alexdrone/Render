@@ -35,7 +35,7 @@ extension FlexboxView where Self: UIView {
 
   /// Configure the view and its flexbox style.
   ///- Note: The configuration closure is stored away and called again in the render function
-  public func configure(closure: ((Self) -> Void), children: [UIView]? = nil) -> Self {
+  public func configure(_ closure: @escaping ((Self) -> Void), children: [UIView]? = nil) -> Self {
 
     //runs the configuration closure and stores it away
     closure(self)
@@ -52,8 +52,8 @@ extension FlexboxView where Self: UIView {
   }
 
   /// Recursively apply the configuration closure to this view tree
-  private func configure() {
-    func configure(view: UIView) {
+  fileprivate func configure() {
+    func configure(_ view: UIView) {
 
       //runs the configure closure
       view.internalStore.configureClosure?()
@@ -67,14 +67,14 @@ extension FlexboxView where Self: UIView {
   }
 
   /// Re-configure the view and re-compute the flexbox layout
-  public func render(bounds: CGSize = CGSize.undefined) {
+  public func render(_ bounds: CGSize = CGSize.undefined) {
 
     if self is ComponentViewType {
       print("Unable to call 'render' on a ComponentView. Please call 'renderComponent'.")
       return
     }
 
-    func postRender(view: UIView) {
+    func postRender(_ view: UIView) {
       view.postRender()
       view.subviews.forEach(postRender)
     }
@@ -85,7 +85,7 @@ extension FlexboxView where Self: UIView {
     self.layout(bounds)
     postRender(self)
 
-    debugRenderTime("\(self.dynamicType).render", startTime: startTime)
+    debugRenderTime("\(type(of: self)).render", startTime: startTime)
   }
 }
 
@@ -96,7 +96,7 @@ extension UIView: FlexboxView {
 
   /// The associated reuse-identifier
   public var reuseIdentifier: String {
-    get { return self.internalStore.reuseIdentifier ?? String(self.dynamicType) }
+    get { return self.internalStore.reuseIdentifier ?? String(describing: type(of: self)) }
     set { self.internalStore.reuseIdentifier = newValue }
   }
 
@@ -114,7 +114,7 @@ extension UIView: FlexboxView {
 
         newNode.measure = { (node, width, height) -> Dimension in
 
-          if self.hidden ||  self.alpha < CGFloat(FLT_EPSILON) {
+          if self.isHidden ||  self.alpha < CGFloat(FLT_EPSILON) {
             return (0,0) //no size for an hidden element
           }
 
@@ -123,7 +123,7 @@ extension UIView: FlexboxView {
 
           size = self.sizeThatFits(CGSize(width: CGFloat(width), height: CGFloat(height)))
           if size.isZero {
-            size = self.intrinsicContentSize()
+            size = self.intrinsicContentSize
           }
 
           var w: Float = width
@@ -181,9 +181,9 @@ extension UIView: FlexboxView {
   }
 
   /// Recursively computes the layout of this view
-  private func layout(bounds: CGSize = CGSize.undefined) {
+  fileprivate func layout(_ bounds: CGSize = CGSize.undefined) {
 
-    func prepare(view: UIView) {
+    func prepare(_ view: UIView) {
       for subview in view.subviews where subview.hasFlexNode {
         prepare(subview)
       }
@@ -193,14 +193,14 @@ extension UIView: FlexboxView {
 
     func compute() {
       self.recursivelyAddChildren()
-      self.flexNode.layout(~bounds.width, maxHeight: ~bounds.height, parentDirection: .Inherit)
+      self.flexNode.layout(~bounds.width, maxHeight: ~bounds.height, parentDirection: .inherit)
       self.flexNode.apply(self)
     }
 
     compute()
   }
 
-  private func recursivelyAddChildren() {
+  fileprivate func recursivelyAddChildren() {
 
     //adds the children at this level
     var children = [Node]()
@@ -246,7 +246,7 @@ extension UIView {
   }
 }
 
-func debugRenderTime(label: String, startTime: CFAbsoluteTime, threshold: CFAbsoluteTime = 16) {
+func debugRenderTime(_ label: String, startTime: CFAbsoluteTime, threshold: CFAbsoluteTime = 16) {
 
   let timeElapsed = (CFAbsoluteTimeGetCurrent() - startTime)*1000
 
