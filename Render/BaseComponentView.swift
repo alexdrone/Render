@@ -28,66 +28,66 @@
 import UIKit
 
 public class BaseComponentView: UIView, ComponentViewWithReusePoolViewType {
-    
-    public required init() {
-        super.init(frame: CGRect.zero)
-        self.initalizeComponent()
-    }
-    
-    public override init(frame: CGRect) {
-        super.init(frame: frame)
-        self.initalizeComponent()
-    }
-    
-    required public init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-        self.initalizeComponent()
-    }
-    
-    /// The reusable pool associated to this component view.
-    let reusePool: ComponentViewReusePool? = {
-        if InfraConfiguration.UseReusePool {
-            return ComponentViewReusePool()
-        } else {
-            return nil
-        }
-    }()
 
-    
-    /// The component initialization.
-    /// - Note: Always call the super implemention.
-    public func initalizeComponent() {
+  public required init() {
+    super.init(frame: CGRect.zero)
+    self.initalizeComponent()
+  }
+
+  public override init(frame: CGRect) {
+    super.init(frame: frame)
+    self.initalizeComponent()
+  }
+
+  required public init?(coder aDecoder: NSCoder) {
+    super.init(coder: aDecoder)
+    self.initalizeComponent()
+  }
+
+  /// The reusable pool associated to this component view.
+  let reusePool: ComponentViewReusePool? = {
+    if InfraConfiguration.UseReusePool {
+      return ComponentViewReusePool()
+    } else {
+      return nil
     }
-    
-    /// Applies the component configuration (as per ViewType extension)
-    public func configure(closure: ((ComponentViewType) -> Void)) {
-        self.internalStore.configureClosure = { [weak self] in
-            if let _self = self {
-                closure(_self)
-            }
-        }
+  }()
+
+
+  /// The component initialization.
+  /// - Note: Always call the super implemention.
+  public func initalizeComponent() {
+  }
+
+  /// Applies the component configuration (as per ViewType extension)
+  public func configure(closure: ((ComponentViewType) -> Void)) {
+    self.internalStore.configureClosure = { [weak self] in
+      if let _self = self {
+        closure(_self)
+      }
     }
-    
-    /// The state of this component.
-    public var state: ComponentStateType?
-    
-    /// The parent for this component
-    internal weak var _parentView: UIView?
-    public var referenceView: UIView? {
-        get {
-            return self._parentView ?? self.superview
-        }
-        set {
-            self._parentView = newValue
-        }
+  }
+
+  /// The state of this component.
+  public var state: ComponentStateType?
+
+  /// The parent for this component
+  internal weak var _parentView: UIView?
+  public var referenceView: UIView? {
+    get {
+      return self._parentView ?? self.superview
     }
-    
-    /// This method should be overriden by the subclass and define the component
-    /// configuration for the current state.
-    /// - Note: Always call the super implemention.
-    public func renderComponent(size: CGSize = CGSize.undefined) {
-        self.internalStore.configureClosure?()
+    set {
+      self._parentView = newValue
     }
+  }
+
+  /// This method should be overriden by the subclass and define the component
+  /// configuration for the current state.
+  /// - Note: Always call the super implemention.
+  public func renderComponent(size: CGSize = CGSize.undefined) {
+    self.internalStore.configureClosure?()
+  }
 }
 
 

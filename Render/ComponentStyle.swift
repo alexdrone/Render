@@ -28,55 +28,55 @@
 import UIKit
 
 public protocol ComponentStyleType {
-    
-    /// Applies the style to the view pased as argument.
-    /// - parameter view: The target view.
-    func apply(view: UIView)
+
+  /// Applies the style to the view pased as argument.
+  /// - parameter view: The target view.
+  func apply(view: UIView)
 }
 
 public func +(lhs: ComponentStyleType, rhs: ComponentStyleType) -> ComponentStyleType {
-    return CompoundComponentStyle(styles: [lhs, rhs])
+  return CompoundComponentStyle(styles: [lhs, rhs])
 }
 
 public struct ComponentStyle<ViewType: UIView>: ComponentStyleType {
-    
-    // The associated cloure that applies the style to the target view.
-    public let closure: (ViewType) -> Void
-    
-    public init(closure: (ViewType) -> Void) {
-        self.closure = closure
+
+  // The associated cloure that applies the style to the target view.
+  public let closure: (ViewType) -> Void
+
+  public init(closure: (ViewType) -> Void) {
+    self.closure = closure
+  }
+
+  /// Applies the style to the view pased as argument.
+  /// - parameter view: The target view.
+  public func apply(view: UIView) {
+    if let view = view as? ViewType {
+      self.closure(view)
     }
-    
-    /// Applies the style to the view pased as argument.
-    /// - parameter view: The target view.
-    public func apply(view: UIView) {
-        if let view = view as? ViewType {
-            self.closure(view)
-        }
-    }
+  }
 }
 
 public struct CompoundComponentStyle: ComponentStyleType {
-    
-    /// All the styles that form the compound.
-    /// - Note: The style are applied in order.
-    let styles: [ComponentStyleType]
-    
-    /// Applies the style to the view pased as argument.
-    /// - parameter view: The target view.
-    public func apply(view: UIView) {
-        for style in self.styles {
-            style.apply(view)
-        }
+
+  /// All the styles that form the compound.
+  /// - Note: The style are applied in order.
+  let styles: [ComponentStyleType]
+
+  /// Applies the style to the view pased as argument.
+  /// - parameter view: The target view.
+  public func apply(view: UIView) {
+    for style in self.styles {
+      style.apply(view)
     }
+  }
 }
 
 public extension UIView {
-    
-    /// Apply the component style passed as argument.
-    /// - parameter style: A component style object.
-    public func applyComponentStyle(style: ComponentStyleType) {
-        style.apply(self)
-    }
+
+  /// Apply the component style passed as argument.
+  /// - parameter style: A component style object.
+  public func applyComponentStyle(style: ComponentStyleType) {
+    style.apply(self)
+  }
 }
 

@@ -28,42 +28,40 @@
 import UIKit
 
 protocol ComponentViewWithReusePoolViewType: ComponentViewType {
-    
-    /// The reusable pool associated to this component view.
-    var reusePool: ComponentViewReusePool? { get }
-    
+
+  /// The reusable pool associated to this component view.
+  var reusePool: ComponentViewReusePool? { get }
+
 }
 
 class ComponentViewReusePool {
-    
-    /// The dictionary that stores the reusable views.
-    private var pool = [String: [UIView]]()
-    
-    /// Returns a view with the given reusable identifier (if available) and removes
-    /// it from the pool.
-    func pop(identifier: String) -> UIView? {
-        guard var array = self.pool[identifier] else { return nil }
-        let view = array.popLast()
-        self.pool[identifier] = array
-        return view
+
+  /// The dictionary that stores the reusable views.
+  private var pool = [String: [UIView]]()
+
+  /// Returns a view with the given reusable identifier (if available) and removes
+  /// it from the pool.
+  func pop(identifier: String) -> UIView? {
+    guard var array = self.pool[identifier] else { return nil }
+    let view = array.popLast()
+    self.pool[identifier] = array
+    return view
+  }
+
+  /// Adds a view to the reuse pool.
+  func push(identifier: String, view: UIView) {
+    if identifier == String(view.dynamicType) {
+      return
     }
-    
-    /// Adds a view to the reuse pool.
-    func push(identifier: String, view: UIView) {
-        
-        if identifier == String(view.dynamicType) {
-            return
-        }
-        
-        Reset.resetTargets(view)
-        var array = self.pool[identifier] ?? [UIView]()
-        array.append(view)
-        self.pool[identifier] = array
-    }
-    
-    /// Removes all the views from the reuse pool.
-    func drain() {
-        self.pool = [String: [UIView]]()
-    }
-    
+    Reset.resetTargets(view)
+    var array = self.pool[identifier] ?? [UIView]()
+    array.append(view)
+    self.pool[identifier] = array
+  }
+
+  /// Removes all the views from the reuse pool.
+  func drain() {
+    self.pool = [String: [UIView]]()
+  }
+
 }
