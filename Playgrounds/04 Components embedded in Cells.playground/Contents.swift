@@ -33,7 +33,7 @@ class FooComponentView: ComponentView {
         let margin: Float = 4.0
         let insets: Inset = (margin, margin, margin, margin, margin, margin)
         return ComponentNode<UIView>().configure({ view in
-            view.style.flexDirection = .Row
+            view.style.flexDirection = .row
             view.style.margin = insets
             
             // that's how we can define the size in relation to the size of the parent view.
@@ -50,11 +50,11 @@ class FooComponentView: ComponentView {
             }),
             ComponentNode<UILabel>().configure({ view in
                 view.style.margin = insets
-                view.style.alignSelf = .Center
+                view.style.alignSelf = .center
                 view.style.flex = Flex.Max
                 view.text = self.fooState.text
                 view.numberOfLines = 0
-                view.font = UIFont.systemFontOfSize(12.0, weight: UIFontWeightLight)
+                view.font = UIFont.systemFont(ofSize: 12.0, weight: UIFontWeightLight)
             })
         ])
     }
@@ -72,13 +72,13 @@ class DataSource: NSObject, UITableViewDataSource {
         return items
     }()
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return items.count
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell  = tableView.dequeueReusableCellWithIdentifier(String(ComponentTableViewCell<FooComponentView>.self), forIndexPath: indexPath) as! ComponentTableViewCell<FooComponentView>
+        let cell  = tableView.dequeueReusableCell(withIdentifier: String(describing: ComponentTableViewCell<FooComponentView>.self), for: indexPath) as! ComponentTableViewCell<FooComponentView>
         cell.mountComponentIfNecessary(FooComponentView())
         cell.component?.state = items[indexPath.row]
         
@@ -92,7 +92,7 @@ class DataSource: NSObject, UITableViewDataSource {
 
 let tableView = UITableView(frame: CGRect(origin: CGPoint.zero, size: CGSize(width: 320, height: 320)))
 
-tableView.registerClass(ComponentTableViewCell<FooComponentView>.self, forCellReuseIdentifier: String(ComponentTableViewCell<FooComponentView>.self))
+tableView.register(ComponentTableViewCell<FooComponentView>.self, forCellReuseIdentifier: String(describing: ComponentTableViewCell<FooComponentView>.self))
 
 //we want automatic dimensions for our cells
 tableView.rowHeight = UITableViewAutomaticDimension

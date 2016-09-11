@@ -28,8 +28,8 @@ class VanillaComponentView: BaseComponentView {
     var fooState: FooState = FooState(text: "")
     
     // subview
-    private let label = UILabel()
-    private let dot: UIView = {
+    fileprivate let label = UILabel()
+    fileprivate let dot: UIView = {
         let view = UIView(frame: CGRect(origin: CGPoint.zero, size: CGSize(width: 16, height: 16)))
         view.layer.cornerRadius = 8
         return view
@@ -44,7 +44,7 @@ class VanillaComponentView: BaseComponentView {
     }
     
     // Here we configure the view with the state passed as argument.
-    override func renderComponent(size: CGSize) {
+    override func renderComponent(_ size: CGSize) {
         super.renderComponent()
         label.text = self.fooState.text
         dot.backgroundColor = fooState.text == "Foo" ? UIColor.C : UIColor.B
@@ -56,7 +56,7 @@ class VanillaComponentView: BaseComponentView {
         super.layoutSubviews()
         dot.frame.origin = CGPoint(x: 12, y: 12)
         label.frame.size = label.sizeThatFits(CGSize.undefined)
-        label.frame.origin.x = CGRectGetMaxX(dot.frame) + 4
+        label.frame.origin.x = dot.frame.maxX + 4
         label.center.y = dot.center.y
         frame.size.width = 96
         frame.size.height = dot.frame.size.height + 24

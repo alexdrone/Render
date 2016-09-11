@@ -1,13 +1,13 @@
 
 import UIKit
 
-public func snapshot(view: UIView) -> UIImage {
+public func snapshot(_ view: UIView) -> UIImage {
     view.layoutSubviews()
     UIGraphicsBeginImageContext(view.frame.size)
-    view.layer.renderInContext(UIGraphicsGetCurrentContext()!)
+    view.layer.render(in: UIGraphicsGetCurrentContext()!)
     let image = UIGraphicsGetImageFromCurrentImageContext()
     UIGraphicsEndImageContext()
-    return image
+    return image!
 }
 
 extension UIColor {
@@ -34,18 +34,18 @@ extension UIColor {
     }
 }
 
-public func randomString(length: Int) -> String {
+public func randomString(_ length: Int) -> String {
     let allowedChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 "
     let allowedCharsCount = UInt32(allowedChars.characters.count)
     var randomString = ""
     for _ in (0..<length) {
         let randomNum = Int(arc4random_uniform(allowedCharsCount))
-        let newCharacter = allowedChars[allowedChars.startIndex.advancedBy(randomNum)]
+        let newCharacter = allowedChars[allowedChars.characters.index(allowedChars.startIndex, offsetBy: randomNum)]
         randomString += String(newCharacter)
     }
     return randomString
 }
 
-public func randomInt(min: Int, max:Int) -> Int {
+public func randomInt(_ min: Int, max:Int) -> Int {
     return min + Int(arc4random_uniform(UInt32(max - min + 1)))
 }

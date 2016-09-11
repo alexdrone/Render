@@ -1,13 +1,13 @@
 
 import UIKit
 
-public func snapshot(view: UIView) -> UIImage {
+public func snapshot(_ view: UIView) -> UIImage {
     view.layoutSubviews()
     UIGraphicsBeginImageContext(view.frame.size)
-    view.layer.renderInContext(UIGraphicsGetCurrentContext()!)
+    view.layer.render(in: UIGraphicsGetCurrentContext()!)
     let image = UIGraphicsGetImageFromCurrentImageContext()
     UIGraphicsEndImageContext()
-    return image
+    return image!
 }
 
 extension UIColor {

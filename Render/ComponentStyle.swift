@@ -62,6 +62,10 @@ public struct CompoundComponentStyle: ComponentStyleType {
   /// - Note: The style are applied in order.
   let styles: [ComponentStyleType]
 
+  public init(styles: [ComponentStyleType]) {
+    self.styles = styles
+  }
+
   /// Applies the style to the view pased as argument.
   /// - parameter view: The target view.
   public func apply(_ view: UIView) {

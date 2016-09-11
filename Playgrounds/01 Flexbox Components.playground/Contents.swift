@@ -32,18 +32,18 @@ func DefaultButton() -> ComponentNode<UIButton> {
     return ComponentNode<UIButton>(reuseIdentifier: "DefaultButton", initClosure: {
         let view = UIButton()
         view.style.minDimensions = (64, 64)
-        view.style.alignSelf = .Center
-        view.style.justifyContent = .Center
-        view.setTitleColor(UIColor.A, forState: .Normal)
-        view.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.2)
-        view.titleLabel?.font = UIFont.systemFontOfSize(14.0, weight: UIFontWeightLight)
+        view.style.alignSelf = .center
+        view.style.justifyContent = .center
+        view.setTitleColor(UIColor.A, for: .normal)
+        view.backgroundColor = UIColor.black.withAlphaComponent(0.2)
+        view.titleLabel?.font = UIFont.systemFont(ofSize: 14.0, weight: UIFontWeightLight)
         view.layer.cornerRadius = 32
         return view
     })
 }
 /*: Let's see what our button looks like. */
 let button = DefaultButton().configure({ view in
-    view.setTitle("  HELLO WORLD  ", forState: .Normal)
+    view.setTitle("  HELLO WORLD  ", for: .normal)
 })
 button.render(CGSize.undefined)
 
@@ -85,7 +85,7 @@ class FooComponentView: ComponentView {
         let insets: Inset = (margin, margin, margin, margin, margin, margin)
         
         return ComponentNode<UIView>().configure({ view in
-            view.style.flexDirection = self.fooState.expanded ? .Column : .Row
+            view.style.flexDirection = self.fooState.expanded ? .column : .row
             view.style.margin = insets
             view.backgroundColor = UIColor.A
         }).children([
@@ -103,14 +103,14 @@ class FooComponentView: ComponentView {
                 when(self.fooState.expanded,
                 ComponentNode<UIView>().configure({ view in
                     view.style.flex = Flex.Max
-                    view.style.alignSelf = .Stretch
-                    view.style.justifyContent = .Center
+                    view.style.alignSelf = .stretch
+                    view.style.justifyContent = .center
                         
                 }).children([
                     
                     //This is just a pure function initializing a button with a style
                     DefaultButton().configure({ view in
-                        view.setTitle(self.fooState.text, forState: .Normal)
+                        view.setTitle(self.fooState.text, for: .normal)
                     }),
                 ]))
             ]),
@@ -120,15 +120,15 @@ class FooComponentView: ComponentView {
             when(!self.fooState.expanded,
             ComponentNode<UILabel>().configure({ view in
                 view.style.margin = insets
-                view.style.alignSelf = .Center
+                view.style.alignSelf = .center
                 view.style.minDimensions.width = 96
                 view.style.flex = Flex.Max
-                view.textAlignment = self.fooState.expanded ? .Center : .Left
+                view.textAlignment = self.fooState.expanded ? .center : .left
                 view.text = self.fooState.text
                 if self.fooState.expanded {
-                    view.font = UIFont.systemFontOfSize(18.0, weight: UIFontWeightBold)
+                    view.font = UIFont.systemFont(ofSize: 18.0, weight: UIFontWeightBold)
                 } else {
-                    view.font = UIFont.systemFontOfSize(12.0, weight: UIFontWeightLight)
+                    view.font = UIFont.systemFont(ofSize: 12.0, weight: UIFontWeightLight)
                 }
             }))
         ])
@@ -169,7 +169,7 @@ class StaticFooComponentView: StaticComponentView {
         let insets: Inset = (margin, margin, margin, margin, margin, margin)
         
         return ComponentNode<UIView>().configure({ view in
-            view.style.flexDirection = self.fooState.expanded ? .Column : .Row
+            view.style.flexDirection = self.fooState.expanded ? .column : .row
             view.style.margin = insets
             view.backgroundColor = UIColor.A
         }).children([
@@ -187,17 +187,17 @@ class StaticFooComponentView: StaticComponentView {
                     
                     // this node is going to be visible only when
                     // the condition 'self.fooState.expanded' is true.
-                    view.hidden = !self.fooState.expanded
+                    view.isHidden = !self.fooState.expanded
                     
                     view.style.flex = Flex.Max
-                    view.style.alignSelf = .Stretch
-                    view.style.justifyContent = .Center
+                    view.style.alignSelf = .stretch
+                    view.style.justifyContent = .center
                 
                 }).children([
                         
                         //This is just a pure function initializing a button with a style
                         DefaultButton().configure({ view in
-                            view.setTitle(self.fooState.text, forState: .Normal)
+                            view.setTitle(self.fooState.text, for: .normal)
                         }),
                 ])
             ]),
@@ -207,18 +207,18 @@ class StaticFooComponentView: StaticComponentView {
                 
                 // simmetrically, this node is going to be visible only when
                 // the condition 'self.fooState.expanded' is false.
-                view.hidden = self.fooState.expanded
+                view.isHidden = self.fooState.expanded
 
                 view.style.margin = insets
-                view.style.alignSelf = .Center
+                view.style.alignSelf = .center
                 view.style.minDimensions.width = 96
                 view.style.flex = Flex.Max
-                view.textAlignment = self.fooState.expanded ? .Center : .Left
+                view.textAlignment = self.fooState.expanded ? .center : .left
                 view.text = self.fooState.text
                 if self.fooState.expanded {
-                    view.font = UIFont.systemFontOfSize(18.0, weight: UIFontWeightBold)
+                    view.font = UIFont.systemFont(ofSize: 18.0, weight: UIFontWeightBold)
                 } else {
-                    view.font = UIFont.systemFontOfSize(12.0, weight: UIFontWeightLight)
+                    view.font = UIFont.systemFont(ofSize: 12.0, weight: UIFontWeightLight)
                 }
             })
         ])
