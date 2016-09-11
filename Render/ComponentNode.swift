@@ -55,34 +55,34 @@ public protocol ComponentNodeType: class {
 }
 
 /// Used to wrap any view as a node for the view description.
-open class ComponentNode<ViewType: UIView>: ComponentNodeType {
+public class ComponentNode<ViewType: UIView>: ComponentNodeType {
 
   /// The underlying view rendered from the component.
-  open var view: ViewType?
-  open var renderedView: UIView? {
+  public var view: ViewType?
+  public var renderedView: UIView? {
     get { return self.view }
     set { self.view = newValue as? ViewType }
   }
 
   /// Wether the rendered view for this component is now part of the view hierarchy or not
-  open var mounted: Bool {
+  public var mounted: Bool {
     return self.view?.superview != nil
   }
 
   /// The view index in the view hierarchy.
-  open var index: Int = 0
+  public var index: Int = 0
 
   /// This is crucial for ensuring proper view reuse
   /// When the reuse identifier is not explicitely set, it will be automatically set to 
   /// the 'ViewType' for this component.
-  open var reuseIdentifier: String
+  public var reuseIdentifier: String
 
   /// If this is set to 'true', 'prepareForComponentReuse' is going to be called on
   /// the view associated to this component before being re-configured.
-  open let prepareForReuse: Bool
+  public let prepareForReuse: Bool
 
   /// The current children for this component.
-  open var children = [ComponentNodeType]() {
+  public var children = [ComponentNodeType]() {
     didSet {
       self.children = children.filter({ return !($0 is NilComponent) })
     }
@@ -137,7 +137,7 @@ open class ComponentNode<ViewType: UIView>: ComponentNodeType {
   /// This is going to be executed every time the component's render function is called.
   /// - parameter configurationClosure: The configuration block that will be stored and executed 
   /// at every call of render.
-  open func configure(_ configurationClosure: @escaping (ViewType) -> Void) -> Self {
+  public func configure(_ configurationClosure: @escaping (ViewType) -> Void) -> Self {
     self.viewConfigureClosure = configurationClosure
     return self
   }
@@ -145,13 +145,13 @@ open class ComponentNode<ViewType: UIView>: ComponentNodeType {
   /// Render this component recursively.
   /// - parameter bounds: The bounding box for this component.
   /// Use 'CGSize.udefined' in order to use the component's intrinsic size.
-  open func render(_ bounds: CGSize) {
+  public func render(_ bounds: CGSize) {
     self.build()
     self.renderedView?.render(bounds)
   }
 
   /// Force the component to construct the view.
-  open func build(reusableView: UIView? = nil) {
+  public func build(reusableView: UIView? = nil) {
     if let _ = self.view { return }
 
     if let reusableView = reusableView as? ViewType {
@@ -165,7 +165,7 @@ open class ComponentNode<ViewType: UIView>: ComponentNodeType {
   }
 
   /// Write an extension for this method to specialize the prepare for reuse for this view.
-  open func prepareForMount() {
+  public func prepareForMount() {
     self.renderedView?.internalStore.configureClosure = {
       self.viewConfigureClosure(self.view!)
     }
@@ -174,7 +174,7 @@ open class ComponentNode<ViewType: UIView>: ComponentNodeType {
     }
   }
 
-  open func prepareForUnmount() {
+  public func prepareForUnmount() {
     Reset.resetTargets(self.renderedView)
   }
 }

@@ -31,6 +31,8 @@ import UIKit
 public protocol ComponentStateType {
 }
 
+public typealias PropsType = [String: AnyObject?]
+
 /// The design pattern in Render is analogous to React.
 /// The component is a function that takes data (ComponentStateType) and returns an immutable
 /// description of views.
@@ -49,6 +51,10 @@ public protocol ComponentViewType: class {
   /// BaseComponentView)
   /// then you are expected to store this closure and run it when 'renderComponent' is called.
   func configure(_ closure: @escaping ((ComponentViewType) -> Void))
+
+  /// Define the props for this component.
+  /// - Note: Props is a dictionary of #keypath - value.
+  func props(_ props: PropsType) -> ComponentViewType
 
   /// The state of this component.
   var state: ComponentStateType? { get set }

@@ -218,11 +218,44 @@ extension UIView: FlexboxView {
 
 class InternalViewStore {
 
-  var configureClosure: ((Void) -> (Void))?
+  /// The associated view.
+  private weak var view: UIView?
 
+  init(view: UIView) {
+    self.view = view
+    self._closure = { [weak self] in
+      self?.applyProps()
+    }
+  }
+
+  /// The configuration closure for this view.
+  private var _closure: ((Void) -> (Void))?
+  var configureClosure: ((Void) -> (Void))? {
+    set {
+      _closure = { [weak self] in
+        self?.applyProps()
+        newValue?()
+      }
+    }
+    get {
+      return _closure
+    }
+  }
+
+  /// The reuse indentifier. (The default on is the class name).
   var reuseIdentifier: String!
 
+  /// Wheter this view can be animated or not when the diffs are applied.
   var notAnimatable: Bool = false
+
+  /// The props for this view.
+  var props: PropsType = [String: AnyObject?]()
+
+  private func applyProps() {
+    for (keyPath, value) in props {
+      self.view?.setValue(value, forKeyPath: keyPath)
+    }
+  }
 }
 
 extension UIView {
@@ -234,7 +267,7 @@ extension UIView {
       as? InternalViewStore else {
 
         //lazily creates the node
-        let store = InternalViewStore()
+        let store = InternalViewStore(view: self)
         objc_setAssociatedObject(self,
                                  &__internalStoreHandle,
                                  store,
@@ -254,6 +287,114 @@ func debugRenderTime(_ label: String, startTime: CFAbsoluteTime, threshold: CFAb
   // This is even more important when used inside a cell.
   if timeElapsed > threshold  {
     print(String(format: "- warning: \(label) (%2f) ms.", arguments: [timeElapsed]))
+  }
+}
+
+extension UIView {
+  public dynamic var flexDirection: Directive.FlexDirection {
+    get { return self.style.flexDirection }
+    set { self.style.flexDirection = newValue }
+  }
+
+  public dynamic var flexJustifyContent: Directive.Justify {
+    get { return self.style.justifyContent }
+    set { self.style.justifyContent = newValue }
+  }
+
+  public dynamic var flexAlignContent: Directive.Align {
+    get { return self.style.alignContent }
+    set { self.style.alignContent = newValue }
+  }
+
+  public dynamic var flexAlignItems: Directive.Align {
+    get { return self.style.alignItems }
+    set { self.style.alignItems = newValue }
+  }
+
+  public dynamic var flexAlignSelf: Directive.Align {
+    get { return self.style.alignSelf }
+    set { self.style.alignSelf = newValue }
+  }
+
+  public dynamic var flexPositionType: Directive.PositionType {
+    get { return self.style.positionType }
+    set { self.style.positionType = newValue }
+  }
+
+  public dynamic var flexWrap: Directive.WrapType {
+    get { return self.style.flexWrap }
+    set { self.style.flexWrap = newValue }
+  }
+
+  public dynamic var flexGrow: CGFloat {
+    get { return CGFloat(self.style.flex) }
+    set { self.style.flex = ~(newValue) }
+  }
+
+  public dynamic var flexMargin: UIEdgeInsets {
+    get { return UIEdgeInsets(withFlexInsets: self.style.margin) }
+    set { self.style.margin = newValue.toFlexInset(direction: self.style.flexDirection) }
+  }
+
+  public dynamic var flexPadding: UIEdgeInsets {
+    get { return UIEdgeInsets(withFlexInsets: self.style.padding) }
+    set { self.style.padding = newValue.toFlexInset(direction: self.style.flexDirection) }
+  }
+
+  public dynamic var flexBorder: UIEdgeInsets {
+    get { return UIEdgeInsets(withFlexInsets: self.style.border) }
+    set { self.style.border = newValue.toFlexInset(direction: self.style.flexDirection) }
+  }
+
+  public dynamic var flexDimensions: CGSize {
+    get {
+      return CGSize(width: CGFloat(self.style.dimensions.width),
+                    height: CGFloat(self.style.dimensions.height))
+    }
+    set {
+      self.style.dimensions = Dimension(~newValue.width, ~newValue.height)
+    }
+  }
+
+  public dynamic var flexMinDimensions: CGSize {
+    get {
+      return CGSize(width: CGFloat(self.style.minDimensions.width),
+                    height: CGFloat(self.style.minDimensions.height))
+    }
+    set {
+      self.style.minDimensions = Dimension(~newValue.width, ~newValue.height)
+    }
+  }
+
+  public dynamic var flexMaxDimensions: CGSize {
+    get {
+      return CGSize(width: CGFloat(self.style.maxDimensions.width),
+                    height: CGFloat(self.style.maxDimensions.height))
+    }
+    set {
+      self.style.maxDimensions = Dimension(~newValue.width, ~newValue.height)
+    }
+  }
+}
+
+extension UIEdgeInsets {
+
+  /// Construct an UIEdgeInset from a Layout.Inset.
+  init(withFlexInsets inset: Inset) {
+    self.init(top: CGFloat(inset.top),
+              left: CGFloat(inset.left),
+              bottom: CGFloat(inset.bottom),
+              right: CGFloat(inset.right))
+  }
+
+  /// Converts this UIEdgeInsets into Layout.Inset.
+  func toFlexInset(direction: Directive.FlexDirection) -> Inset {
+    return  Inset(left: ~self.left,
+                  top: ~self.top,
+                  right: ~self.right,
+                  bottom: ~self.bottom,
+                  start: direction == .row ? ~self.left : ~self.top,
+                  end: direction == .row ? ~self.right : ~self.bottom)
   }
 }
 

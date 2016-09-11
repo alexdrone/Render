@@ -29,7 +29,8 @@ import UIKit
 
 open class BaseComponentView: UIView, ComponentViewWithReusePoolViewType {
 
-  public required init() {
+  public
+  required init() {
     super.init(frame: CGRect.zero)
     self.initalizeComponent()
   }
@@ -53,14 +54,19 @@ open class BaseComponentView: UIView, ComponentViewWithReusePoolViewType {
     }
   }()
 
+  private var props: PropsType = [String: AnyObject?]() {
+    didSet {
+      self.internalStore.props = props
+    }
+  }
 
   /// The component initialization.
   /// - Note: Always call the super implemention.
-  open func initalizeComponent() {
+  open  func initalizeComponent() {
   }
 
   /// Applies the component configuration (as per ViewType extension)
-  open func configure(_ closure: @escaping ((ComponentViewType) -> Void)) {
+  open  func configure(_ closure: @escaping ((ComponentViewType) -> Void)) {
     self.internalStore.configureClosure = { [weak self] in
       if let _self = self {
         closure(_self)
@@ -68,12 +74,17 @@ open class BaseComponentView: UIView, ComponentViewWithReusePoolViewType {
     }
   }
 
+  open func props(_ props: PropsType) -> ComponentViewType {
+    self.props = props
+    return self
+  }
+
   /// The state of this component.
-  open var state: ComponentStateType?
+  open  var state: ComponentStateType?
 
   /// The parent for this component
   internal weak var _parentView: UIView?
-  open var referenceView: UIView? {
+  open  var referenceView: UIView? {
     get {
       return self._parentView ?? self.superview
     }
@@ -85,7 +96,7 @@ open class BaseComponentView: UIView, ComponentViewWithReusePoolViewType {
   /// This method should be overriden by the subclass and define the component
   /// configuration for the current state.
   /// - Note: Always call the super implemention.
-  open func renderComponent(withSize size: CGSize = CGSize.undefined) {
+  open  func renderComponent(withSize size: CGSize = CGSize.undefined) {
     self.internalStore.configureClosure?()
   }
 }

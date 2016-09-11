@@ -53,7 +53,7 @@ public struct Directive {
 
   /// Establishes the main-axis, thus defining the direction flex items are placed
   /// in the flex container.
-  public enum FlexDirection: Int {
+  @objc public enum FlexDirection: Int {
     case column
     case columnReverse
     case row
@@ -61,7 +61,7 @@ public struct Directive {
   }
 
   /// It defines the alignment along the main axis.
-  public enum Justify: Int {
+  @objc public enum Justify: Int {
     case flexStart
     case center
     case flexEnd
@@ -70,7 +70,7 @@ public struct Directive {
   }
 
   /// It makes possible to override the align-items value for specific flex items.
-  public enum Align: Int {
+  @objc public enum Align: Int {
     case auto
     case flexStart
     case center
@@ -79,21 +79,21 @@ public struct Directive {
   }
 
   /// Wether is this position with absolute or relative spacing
-  public enum PositionType: Int {
+  @objc public enum PositionType: Int {
     case relative
     case absolute
   }
 
   /// Specifies whether flex items are forced into a single line or can be wrapped onto
   /// multiple lines.
-  public enum WrapType: Int {
+  @objc public enum WrapType: Int {
     case noWrap
     case wrap
   }
 
   /// - Note: left and top are shared between position[2] and position[4], so
   /// they have to be before right and bottom.
-  public enum PositionIndex: Int {
+  @objc public enum PositionIndex: Int {
     case left
     case top
     case right
@@ -103,7 +103,7 @@ public struct Directive {
     case positionCount
   }
 
-  public enum DimensionIndex: Int {
+  @objc public enum DimensionIndex: Int {
     case width
     case height
   }
