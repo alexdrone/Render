@@ -46,7 +46,7 @@ open class BaseComponentView: UIView, ComponentViewWithReusePoolViewType {
 
   /// The reusable pool associated to this component view.
   let reusePool: ComponentViewReusePool? = {
-    if InfraConfiguration.UseReusePool {
+    if InfraConfiguration.useReusePool {
       return ComponentViewReusePool()
     } else {
       return nil
@@ -85,7 +85,7 @@ open class BaseComponentView: UIView, ComponentViewWithReusePoolViewType {
   /// This method should be overriden by the subclass and define the component
   /// configuration for the current state.
   /// - Note: Always call the super implemention.
-  open func renderComponent(_ size: CGSize = CGSize.undefined) {
+  open func renderComponent(withSize size: CGSize = CGSize.undefined) {
     self.internalStore.configureClosure?()
   }
 }

@@ -51,7 +51,7 @@ public protocol ComponentNodeType: class {
   func prepareForUnmount()
 
   /// Force the component to construct the view.
-  func buildView(_ reusableView: UIView?)
+  func build(reusableView: UIView?)
 }
 
 /// Used to wrap any view as a node for the view description.
@@ -127,7 +127,7 @@ open class ComponentNode<ViewType: UIView>: ComponentNodeType {
     self.reuseIdentifier = reuseIdentifier
     self.viewInitClosure =  {
       let view = ViewType(frame: CGRect.zero)
-      view.applyComponentStyle(style)
+      view.apply(style: style)
       return view
     }
     self.viewConfigureClosure = { (_) in }
@@ -146,12 +146,12 @@ open class ComponentNode<ViewType: UIView>: ComponentNodeType {
   /// - parameter bounds: The bounding box for this component.
   /// Use 'CGSize.udefined' in order to use the component's intrinsic size.
   open func render(_ bounds: CGSize) {
-    self.buildView()
+    self.build()
     self.renderedView?.render(bounds)
   }
 
   /// Force the component to construct the view.
-  open func buildView(_ reusableView: UIView? = nil) {
+  open func build(reusableView: UIView? = nil) {
     if let _ = self.view { return }
 
     if let reusableView = reusableView as? ViewType {
@@ -190,7 +190,7 @@ extension ComponentNodeType {
   }
 
   /// Adds a child to this component.
-  @discardableResult public func addChild(_ child: ComponentNodeType) -> Self {
+  @discardableResult public func add(child: ComponentNodeType) -> Self {
     if child is NilComponent { return self }
     self.children.append(child)
     return self
@@ -199,36 +199,36 @@ extension ComponentNodeType {
   /// Runs the closure 'count' times.
   /// - parameter count: How many times the closure is going to be executed.
   /// - parameter closure: the index is passed as argument.
-  public func addChildren(_ count: Int, closure: (Int) -> ComponentNodeType) -> Self {
+  public func add(childrenWithCount count: Int, closure: (Int) -> ComponentNodeType) -> Self {
     for i in 0..<count {
-      self.addChild(closure(i))
+      self.add(child: closure(i))
     }
     return self
   }
 
   /// Returns the components with the associated reuse identifier.
   /// - parameter identifier: The identifier passed as argument in the component's constructor
-  public func componenstWithIdentifier(_ identifier: String) -> [ComponentNodeType] {
+  public func components(withIdentifier identifier: String) -> [ComponentNodeType] {
     var result = [ComponentNodeType]()
     if self.reuseIdentifier == identifier {
       result.append(self)
     }
     for child in self.children {
-      result.append(contentsOf: child.componenstWithIdentifier(identifier))
+      result.append(contentsOf: child.components(withIdentifier: identifier))
     }
     return result
   }
 
   /// Returns the first component with the associated reuse identifier.
   /// - parameter identifier: The identifier passed as argument in the component's constructor
-  public func componentWithIdentifier(_ identifier: String) -> ComponentNodeType? {
-    return self.componenstWithIdentifier(identifier).first
+  public func component(withIdentifier identifier: String) -> ComponentNodeType? {
+    return self.components(withIdentifier: identifier).first
   }
 
   /// Returns the view with the associated identifier.
   /// - parameter identifier: The identifier passed as argument in the component's constructor
-  public func viewWithIdentifier<T:UIView>(_ identifier: String) -> T? {
-    return self.componentWithIdentifier(identifier)?.renderedView as? T
+  public func view<T:UIView>(withIdentifier identifier: String) -> T? {
+    return self.component(withIdentifier: identifier)?.renderedView as? T
   }
 }
 
@@ -244,7 +244,7 @@ public final class NilComponent: ComponentNodeType {
   public func render(_ bounds: CGSize) { }
   public func prepareForUnmount() { }
   public func prepareForMount() { }
-  public func buildView(_ reusableView: UIView? = nil) { }
+  public func build(reusableView: UIView? = nil) { }
 }
 
 public func when(_ condition: @autoclosure () -> Bool, _ component: ComponentNodeType)

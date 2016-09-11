@@ -44,7 +44,7 @@ class VanillaComponentView: BaseComponentView {
     }
     
     // Here we configure the view with the state passed as argument.
-    override func renderComponent(_ size: CGSize) {
+    override func renderComponent(withSize size: CGSize) {
         super.renderComponent()
         label.text = self.fooState.text
         dot.backgroundColor = fooState.text == "Foo" ? UIColor.C : UIColor.B
@@ -73,12 +73,12 @@ let vanillaComponent = VanillaComponentView()
  We set a state for the component and then we call `renderComponent`.
  */
 vanillaComponent.fooState = FooState(text: "Foo")
-vanillaComponent.renderComponent(CGSize.undefined)
+vanillaComponent.renderComponent(withSize: CGSize.undefined)
 
 snapshot(vanillaComponent)
 
 vanillaComponent.fooState = FooState(text: "Bar")
-vanillaComponent.renderComponent(CGSize.undefined)
+vanillaComponent.renderComponent(withSize: CGSize.undefined)
 
 snapshot(vanillaComponent)
 

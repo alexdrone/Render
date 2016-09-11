@@ -64,7 +64,7 @@ public protocol ComponentViewType: class {
   /// - parameter size: The bounding box for this component. The default will determine the 
   /// intrinsic content size for this component.
   /// - parameter state: The (optional) state for this component.
-  func renderComponent(_ size: CGSize)
+  func renderComponent(withSize: CGSize)
 }
 
 /// Used mostyle as base class for internal tests.

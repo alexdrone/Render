@@ -62,8 +62,11 @@ open class ComponentTableViewCell<C: ComponentViewType>: UITableViewCell, Compon
   /// intrinsic content size for this component.
   /// - parameter state: The (optional) state for this component.
   open func renderComponent(_ size: CGSize? = nil) {
-    self.component?.renderComponent(size ?? self.superview?.bounds.size ?? CGSize.undefined)
-    self.component?.renderComponent(size ?? self.superview?.bounds.size ?? CGSize.undefined)
+    self.component?.renderComponent(withSize:
+      size ?? self.superview?.bounds.size ?? CGSize.undefined)
+    self.component?.renderComponent(withSize:
+
+      size ?? self.superview?.bounds.size ?? CGSize.undefined)
     if let view = self.component as? UIView {
       self.contentView.frame = view.bounds
     }
@@ -118,8 +121,8 @@ open class ComponentCollectionViewCell<C: ComponentViewType>: UICollectionViewCe
   /// intrinsic content size for this component.
   /// - parameter state: The (optional) state for this component.
   open func renderComponent(_ size: CGSize? = nil) {
-    self.component?.renderComponent(size ?? self.superview?.bounds.size ?? CGSize.undefined)
-
+    self.component?.renderComponent(withSize:
+      size ?? self.superview?.bounds.size ?? CGSize.undefined)
     if let view = self.component as? UIView {
       self.contentView.frame = view.bounds
     }
@@ -155,7 +158,7 @@ extension UITableView {
 
   /// Refreshes the component at the given index path.
   /// - parameter indexPath: The indexpath for the targeted component.
-  public func renderComponentAtIndexPath(_ indexPath: IndexPath) {
+  public func renderComponent(atIndexPath indexPath: IndexPath) {
     self.beginUpdates()
     self.reloadRows(at: [indexPath], with: .fade)
     self.endUpdates()
@@ -174,7 +177,7 @@ extension UICollectionView {
 
   /// Refreshes the component at the given index path.
   /// - parameter indexPath: The indexpath for the targeted component.
-  public func renderComponentAtIndexPath(_ indexPath: IndexPath) {
+  public func renderComponent(atIndexPath indexPath: IndexPath) {
     self.performBatchUpdates({
       self.reloadItems(at: [indexPath])
       }, completion: nil)
@@ -219,7 +222,8 @@ public struct ComponentPrototypes {
     // render the component.
     component.state = state
     component.referenceView = referenceView
-    component.renderComponent(CGSize.sizeConstraintToWidth(referenceView.bounds.size.width))
+    component.renderComponent(withSize:
+      CGSize.sizeConstraintToWidth(referenceView.bounds.size.width))
 
     if let view = component as? UIView {
       return view.bounds.size

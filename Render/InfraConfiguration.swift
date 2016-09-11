@@ -31,5 +31,5 @@ public struct InfraConfiguration {
 
   /// When set to 'true' the pruned views goes inside a shared reuse pool.
   /// This improves the components' render time at the cost of an increased memory footprint.
-  public static var UseReusePool: Bool = false
+  public static var useReusePool: Bool = false
 }

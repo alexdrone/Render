@@ -57,14 +57,14 @@ class FooComponentView: ComponentView {
   override func construct() -> ComponentNodeType {
 
     return ComponentNode<UIView>().configure({ view in
-      view.applyComponentStyle(insets(4.0))
+      view.apply(style: insets(4.0))
       view.backgroundColor = UIColor.A
 
     }).children([
 
       ComponentNode<UIView>().configure({ view in
         let style = CompoundComponentStyle(styles: [insets(2.0), rounded(64), centered])
-        view.applyComponentStyle(style)
+        view.apply(style: style)
         view.backgroundColor = UIColor.B
       }),
 
@@ -79,7 +79,7 @@ class FooComponentView: ComponentView {
       ComponentNode<UILabel>(reuseIdentifier: "p", style: insets(1.0) + centered + paragraph).configure({ view in
         view.text = "Appleseed"
       })
-      ])
+    ])
   }
 }
 /*:
