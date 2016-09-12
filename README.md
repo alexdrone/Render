@@ -93,30 +93,30 @@ class MyComponentView: ComponentView {
   	  // You can configure your component node through the 'configure' closure:
 
 	  return ComponentNode<UIView>().configure({ view in
-	      view.style.flexDirection = self.componentState.expanded ? .row : .column
+	      view.flexDirection = self.componentState.expanded ? .row : .column
 	      view.backgroundColor = UIColor.black}).children([
 	
 	      // Image View.
 	      ComponentNode<UIImageView>().configure({  view in
 	        view.image = self.componentState?.image
 	        let size = self.componentState.expanded ? self.referenceSize.width : 48.0
-	        view.style.dimensions = (size, size)}),
+	        view.flexDimensions = CGSize(width: size, height: size) }),
 	
 	      // Text Wrapper.
 	      ComponentNode<UIView>().configure({ view in
 	        view.style.flexDirection = .column
-	        view.style.margin = (8.0, 8.0, 8.0, 8.0, 0.0, 0.0)}).children([
+	        view.flexMargins = UIEdgeInset(...) }).children([
 	
 	        // Title.
 	        ComponentNode<UILabel>().configure({ view in
 	          view.text = self.componentState?.title ?? "None"
-	          view.font = UIFont.systemFontOfSize(18.0, weight: UIFontWeightBold)
+	          view.font = UIFont.system(fontOfSize: 18.0, weight: UIFontWeightBold)
 	          view.textColor = UIColor.white}),
 	
 	        // Subtitle.
 	        ComponentNode<UILabel>().configure({ view in
 	          view.text = self.componentState?.subtitle ?? "Subtitle"
-	          view.font = UIFont.systemFontOfSize(12.0, weight: UIFontWeightLight)
+	          view.font = UIFont.system(fontOfSize: 12.0, weight: UIFontWeightLight)
 	          view.textColor = UIColor.white})
       	])
 	
