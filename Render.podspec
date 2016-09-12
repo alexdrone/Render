@@ -26,7 +26,7 @@ Pod::Spec.new do |s|
   s.license          = 'MIT'
   s.author           = { "Alex Usbergo" => "alexakadrone@gmail.com" }
   s.source           = { :git => "https://github.com/alexdrone/Render.git", :tag => s.version.to_s }
-  # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
+  s.social_media_url = 'https://twitter.com/alexdrone'
 
   s.ios.deployment_target = '8.0'
 
