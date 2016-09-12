@@ -87,41 +87,49 @@ class MyComponentView: ComponentView {
         return self.state as? MyComponentState
     }
     
-    // View as function of the state.
-    override func construct() -> ComponentNodeType {
-        return ComponentNode<UIView>().configure({
-        		$0.style.flexDirection = self.componentState.expanded ? .Row : .Column
-            	$0.backgroundColor = UIColor.blackColor()
-        }).children([
-            ComponentNode<UIImageView>().configure({
-				$0.image = self.componentState?.image
-				let size = self.componentState.expanded ? self.referenceSize.width : 48.0
-				$0.style.dimensions = (size, size)
-            }),
-            ComponentNode<UIView>().configure({ 
-            		$0.style.flexDirection = .Column
-            		$0.style.margin = (8.0, 8.0, 8.0, 8.0, 0.0, 0.0)
-            }).children([
-                ComponentNode<UILabel>().configure({ 
-                		$0.text = self.componentState?.title ?? "None"
-                		$0.font = UIFont.systemFontOfSize(18.0, weight: UIFontWeightBold)
-                		$0.textColor = UIColor.whiteColor()
-                }),
-                ComponentNode<UILabel>().configure({
-                		$0.text = self.componentState?.subtitle ?? "Subtitle"
-                		$0.font = UIFont.systemFontOfSize(12.0, weight: UIFontWeightLight)
-                		$0.textColor = UIColor.whiteColor()                
-                })
-            ]),
-         
-            // This node will be part of the tree only when expanded == false. *
-            when(!self.componentState?.expanded, ComponentNode<UILabel>().configure({
-                $0.style.justifyContent = .FlexEnd
-                $0.text = "2016"
-                $0.textColor = UIColor.whiteColor()
-            }))
-        ])
-    }
+    /// Constructs the component tree.
+  	override func construct() -> ComponentNodeType {
+
+	    let size = self.referenceSize
+	
+	    return ComponentNode<UIView>(props: [
+	      #keyPath(flexDirection): self.featured
+	                               ? Directive.FlexDirection.column.rawValue
+	                               : Directive.FlexDirection.row.rawValue,
+	      #keyPath(backgroundColor): UIColor.black,
+	      #keyPath(flexDimensions): self.featured
+	                                ? CGSize(width: size.width/2, height: CGFloat(Undefined))
+	                                : CGSize(width: size.width, height: 64)]).children([
+	
+	        // Image view.
+	        ComponentNode<UIImageView>(props: [
+	          #keyPath(image): self.album?.cover,
+	          #keyPath(flexAlignSelf): Directive.Align.center.rawValue,
+	          #keyPath(flexDimensions): self.featured
+	                                    ? CGSize(width: size.width/2, height: size.width/2)
+	                                    : CGSize(width: 48, height: 48)])	        ]),
+	
+	        // Text wrapper.
+	        ComponentNode<UIView>(props: [
+	          #keyPath(flexDirection): Directive.FlexDirection.column.rawValue,
+	          #keyPath(flexMargin): UIEdgeInsets(top: 4, left: 4, bottom: 4, right: 4),
+	          #keyPath(flexAlignSelf): Directive.Align.center.rawValue,]).children([
+	
+		          // Title.
+		          ComponentNode<UILabel>(props: [
+		            #keyPath(flexMargin): UIEdgeInsets(top: 4, left: 4, bottom: 4, right: 4),
+		            #keyPath(text): self.album?.title ?? "None",
+		            #keyPath(textColor): UIColor.white]),
+		
+		          // Subitle.
+		          ComponentNode<UILabel>(props: [
+		            #keyPath(flexMargin): UIEdgeInsets(top: 4, left: 4, bottom: 4, right: 4),
+		            #keyPath(text): self.album?.artist ?? "Unknown artist",
+		            #keyPath(textColor): UIColor.white]),
+	        ])
+	    ])
+
+  }
     
 }
 
