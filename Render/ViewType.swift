@@ -249,11 +249,19 @@ class InternalViewStore {
   var notAnimatable: Bool = false
 
   /// The props for this view.
-  var props: PropsType = [String: AnyObject?]()
+  var props: PropsType = PropsType()
 
   private func applyProps() {
     for (keyPath, value) in props {
-      self.view?.setValue(value, forKeyPath: keyPath)
+      var target = value
+
+      // Bridge to ObjC.
+      if let size = value as? CGSize { target = NSValue(cgSize: size) }
+      if let point = value as? CGPoint { target = NSValue(cgPoint: point) }
+      if let rect = value as? CGRect { target = NSValue(cgRect: rect) }
+      if let edge = value as? UIEdgeInsets { target = NSValue(uiEdgeInsets: edge) }
+
+      self.view?.setValue(target, forKeyPath: keyPath)
     }
   }
 }

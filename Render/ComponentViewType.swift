@@ -31,7 +31,8 @@ import UIKit
 public protocol ComponentStateType {
 }
 
-public typealias PropsType = [String: AnyObject?]
+
+public typealias PropsType = [String: Any?]
 
 /// The design pattern in Render is analogous to React.
 /// The component is a function that takes data (ComponentStateType) and returns an immutable

@@ -72,6 +72,9 @@ public class ComponentNode<ViewType: UIView>: ComponentNodeType {
   /// The view index in the view hierarchy.
   public var index: Int = 0
 
+  /// The component props.
+  public var props: PropsType = PropsType()
+
   /// This is crucial for ensuring proper view reuse
   /// When the reuse identifier is not explicitely set, it will be automatically set to 
   /// the 'ViewType' for this component.
@@ -108,10 +111,12 @@ public class ComponentNode<ViewType: UIView>: ComponentNodeType {
   /// to initialise this view. The default is 'ViewType(frame: CGRect.zero)'
   public init(reuseIdentifier: String = String(describing: ViewType.self),
               prepareForReuse: Bool = false,
+              props: PropsType = PropsType(),
               initClosure: @escaping ((Void) -> ViewType) = { return ViewType(frame: CGRect.zero) }) {
 
     self.prepareForReuse = prepareForReuse
     self.reuseIdentifier = reuseIdentifier
+    self.props = props
     self.viewInitClosure = initClosure
     self.viewConfigureClosure = { (_) in }
   }
@@ -122,9 +127,12 @@ public class ComponentNode<ViewType: UIView>: ComponentNodeType {
   /// - Note: The style is applied at initialization time and is not re-computed at every 
   /// call of 'renderComponent'.
   /// This is really meant to be used as a shorthand to initialize your node.
-  public init(reuseIdentifier: String, style: ComponentStyleType) {
+  public init(reuseIdentifier: String,
+              props: PropsType = PropsType(),
+              style: ComponentStyleType) {
     self.prepareForReuse = false
     self.reuseIdentifier = reuseIdentifier
+    self.props = props
     self.viewInitClosure =  {
       let view = ViewType(frame: CGRect.zero)
       view.apply(style: style)
@@ -166,6 +174,7 @@ public class ComponentNode<ViewType: UIView>: ComponentNodeType {
 
   /// Write an extension for this method to specialize the prepare for reuse for this view.
   public func prepareForMount() {
+    self.renderedView?.internalStore.props = self.props
     self.renderedView?.internalStore.configureClosure = {
       self.viewConfigureClosure(self.view!)
     }

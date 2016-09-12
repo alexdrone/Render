@@ -54,7 +54,7 @@ open class BaseComponentView: UIView, ComponentViewWithReusePoolViewType {
     }
   }()
 
-  private var props: PropsType = [String: AnyObject?]() {
+  private var props: PropsType = PropsType() {
     didSet {
       self.internalStore.props = props
     }
