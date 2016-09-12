@@ -31,9 +31,7 @@ class AlbumComponentView: ComponentView {
 
   /// Constructs the component tree.
   override func construct() -> ComponentNodeType {
-
     let size = self.referenceSize
-
     return ComponentNode<UIView>(props: [
       #keyPath(flexDirection): self.featured
                                ? Directive.FlexDirection.column.rawValue

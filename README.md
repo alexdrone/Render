@@ -89,13 +89,42 @@ class MyComponentView: ComponentView {
     
     /// Constructs the component tree.
   	override func construct() -> ComponentNodeType {
+  	
+  	  // You can configure your component node through the 'configure' closure:
 
-	    let size = self.referenceSize
+	  return ComponentNode<UIView>().configure({ view in
+	      view.style.flexDirection = self.componentState.expanded ? .row : .column
+	      view.backgroundColor = UIColor.black}).children([
+	
+	      // Image View.
+	      ComponentNode<UIImageView>().configure({  view in
+	        view.image = self.componentState?.image
+	        let size = self.componentState.expanded ? self.referenceSize.width : 48.0
+	        view.style.dimensions = (size, size)}),
+	
+	      // Text Wrapper.
+	      ComponentNode<UIView>().configure({ view in
+	        view.style.flexDirection = .column
+	        view.style.margin = (8.0, 8.0, 8.0, 8.0, 0.0, 0.0)}).children([
+	
+	        // Title.
+	        ComponentNode<UILabel>().configure({ view in
+	          view.text = self.componentState?.title ?? "None"
+	          view.font = UIFont.systemFontOfSize(18.0, weight: UIFontWeightBold)
+	          view.textColor = UIColor.white}),
+	
+	        // Subtitle.
+	        ComponentNode<UILabel>().configure({ view in
+	          view.text = self.componentState?.subtitle ?? "Subtitle"
+	          view.font = UIFont.systemFontOfSize(12.0, weight: UIFontWeightLight)
+	          view.textColor = UIColor.white})
+      	])
+	
+	
+		// or the new 'props' API for component initialisation using keypaths:
+	
 	
 	    return ComponentNode<UIView>(props: [
-	      #keyPath(flexDirection): self.featured
-	                               ? Directive.FlexDirection.column.rawValue
-	                               : Directive.FlexDirection.row.rawValue,
 	      #keyPath(backgroundColor): UIColor.black,
 	      #keyPath(flexDimensions): self.featured
 	                                ? CGSize(width: size.width/2, height: CGFloat(Undefined))
@@ -103,7 +132,7 @@ class MyComponentView: ComponentView {
 	
 	        // Image view.
 	        ComponentNode<UIImageView>(props: [
-	          #keyPath(image): self.album?.cover,
+	          #keyPath(image): self.componentState?.image,
 	          #keyPath(flexAlignSelf): Directive.Align.center.rawValue,
 	          #keyPath(flexDimensions): self.featured
 	                                    ? CGSize(width: size.width/2, height: size.width/2)
@@ -118,13 +147,13 @@ class MyComponentView: ComponentView {
 		          // Title.
 		          ComponentNode<UILabel>(props: [
 		            #keyPath(flexMargin): UIEdgeInsets(top: 4, left: 4, bottom: 4, right: 4),
-		            #keyPath(text): self.album?.title ?? "None",
+		            #keyPath(text): self.componentState?.title ?? "None",
 		            #keyPath(textColor): UIColor.white]),
 		
-		          // Subitle.
+		          // Subtitle.
 		          ComponentNode<UILabel>(props: [
 		            #keyPath(flexMargin): UIEdgeInsets(top: 4, left: 4, bottom: 4, right: 4),
-		            #keyPath(text): self.album?.artist ?? "Unknown artist",
+		            #keyPath(text): self.componentState?.artist ?? "Unknown artist",
 		            #keyPath(textColor): UIColor.white]),
 	        ])
 	    ])
