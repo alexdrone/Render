@@ -221,14 +221,6 @@ You can wrap your components in `ComponentTableViewCell` or `ComponentCollection
 
 [Check playground](Playgrounds/04%20Components%20embedded%20in%20Cells.playground)
 
-#TODO/Help?
-There are a number of things that are still left to do.
-
-- Support Swift package manager. 
-- Improve performance (I think there's a lot of rooms for improvements!)
-- More examples and demos
-
-
 
 #Credits
 
