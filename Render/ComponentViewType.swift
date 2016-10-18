@@ -74,6 +74,6 @@ public protocol ComponentViewType: class {
   func renderComponent(withSize: CGSize)
 }
 
-/// Used mostyle as base class for internal tests.
+/// Used mostly as base class for internal tests.
 open class ComponentStateBase: NSObject, ComponentStateType {
 }
