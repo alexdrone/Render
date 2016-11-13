@@ -31,10 +31,10 @@ class AlbumComponentView: ComponentView {
 
   /// Constructs the component tree.
   override func construct() -> ComponentNodeType {
-    let size = self.referenceSize
 
     // Wrapper view.
     return ComponentNode<UIView>().configure({ view in
+      let size = self.referenceSize
       view.backgroundColor = UIColor.black
       view.css_usesFlexbox = true
       view.css_flexDirection = self.featured ? CSSFlexDirectionColumn : CSSFlexDirectionRow
@@ -45,6 +45,7 @@ class AlbumComponentView: ComponentView {
 
       // Album cover.
       ComponentNode<UIImageView>().configure({ view in
+        let size = self.referenceSize
         view.image = self.album?.cover
         view.css_usesFlexbox = true
         view.css_alignSelf = CSSAlignCenter
