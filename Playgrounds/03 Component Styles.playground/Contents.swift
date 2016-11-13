@@ -15,9 +15,9 @@ import Render
  */
 
 let centered = ComponentStyle<UIView>() { view in
-  view.style.justifyContent = .center
-  view.style.alignSelf = .center
-  view.style.flex = Flex.Max
+  view.css_usesFlexbox = true
+  view.css_justifyCotent = CSSJustifyCenter
+  view.css_alignSelf = CSSAlignCenter
 }
 
 let h1 = ComponentStyle<UILabel>() { view in
@@ -35,15 +35,16 @@ let paragraph = ComponentStyle<UILabel>() { view in
  */
 
 func insets(_ margin: Float) -> ComponentStyle<UIView> {
-  let insets: Inset = (margin, margin, margin, margin, margin, margin)
-  return ComponentStyle<UIView>() { view in
-    view.style.margin = insets
-  }
+  view.css_setMargin(margin, for: CSSEdgeTop)
+  view.css_setMargin(margin, for: CSSEdgeLeft)
+  view.css_setMargin(margin, for: CSSEdgeBottom)
+  view.css_setMargin(margin, for: CSSEdgeRight)
 }
 
 func rounded(_ size: Float) -> ComponentStyle<UIView> {
   return ComponentStyle<UIView>() { view in
-    view.style.dimensions = (size, size)
+    view.css_width = size
+    view.css_height = size
     view.layer.cornerRadius = CGFloat(size)/2
   }
 }

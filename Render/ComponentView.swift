@@ -34,7 +34,7 @@ extension ComponentViewType {
     return NilComponent()
   }
 
-  /// The dimension of the parent
+  /// The dimension of the parent.
   public var referenceSize: CGSize {
     return self.referenceView?.bounds.size ?? CGSize.zero
   }
@@ -56,7 +56,7 @@ extension ComponentViewType where Self: FlexboxComponentView {
     var reusedViewSet = Set<UIView>()
     let reusePool = self.reusePool
 
-    // visits the component tree and flags the useful existing views
+    // visits the component tree and flags the useful existing views.
     func visit(_ component: ComponentNodeType, index: Int, parent: ComponentNodeType?) {
       component.index = index
       if let view = component.renderedView {
@@ -79,23 +79,23 @@ extension ComponentViewType where Self: FlexboxComponentView {
         }
 
       } else {
-        for subview in view.subviews where subview.hasFlexNode {
+        for subview in view.subviews where subview.hasNode {
           prune(subview)
         }
       }
     }
 
     // invoked from mount - attemps view reuse from a local shared pool.
-    // - Note: Skipped when the UseReusePool configuration flag is 'false'
+    // - Note: Skipped when the UseReusePool configuration flag is 'false'.
     func reuse(_ view: UIView?, component: ComponentNodeType) {
 
-      guard let view = view , view.hasFlexNode else { return }
+      guard let view = view, view.hasNode else { return }
 
       if component.reuseIdentifier == view.reuseIdentifier {
         component.build(reusableView: view)
         reusedViewSet.insert(view)
         for (subview, subcomponent) in zip(view.subviews.filter({
-          $0.hasFlexNode
+          $0.hasNode
         }), component.children) {
           reuse(subview, component: subcomponent)
         }
@@ -106,13 +106,11 @@ extension ComponentViewType where Self: FlexboxComponentView {
 
     // - Note: Skipped when .UseReusePool is 'false'
     func reuseCleanUp(_ view: UIView?) {
-
-      guard let view = view , view.hasFlexNode else { return }
-
+      guard let view = view, view.hasNode else { return }
       if !reusedViewSet.contains(view) {
         view.removeFromSuperview()
       }
-      for subview in view.subviews where subview.hasFlexNode {
+      for subview in view.subviews where subview.hasNode {
         reuseCleanUp(subview)
       }
     }
@@ -147,19 +145,7 @@ extension ComponentViewType where Self: FlexboxComponentView {
     mount(self.root, parent: self)
 
     self.root.render(size)
-    self.updateViewFrame()
-  }
-
-  /// Updates the frame and the bounds of this (container) view
-  func updateViewFrame() {
-
-    if !self.isRootInitialized || self.root.renderedView == nil { return }
-
-    // update the frame of this component
-    self.frame.size = self.root.renderedView!.bounds.size
-    let style = self.root.renderedView!.style
-    self.frame.size.width += CGFloat(style.margin.left) + CGFloat(style.margin.right)
-    self.frame.size.height += CGFloat(style.margin.top) + CGFloat(style.margin.bottom)
+    self.frame.size = self._root?.renderedView?.bounds.size ?? CGSize.zero
   }
 }
 
@@ -173,7 +159,11 @@ open class FlexboxComponentView: BaseComponentView {
     return _root!
   }
 
-  /// 'true' is the root node has been constructed already, 'false' otherwise
+  override open func initalizeComponent() {
+    super.initalizeComponent()
+  }
+
+  /// 'true' is the root node has been constructed already, 'false' otherwise.
   open var isRootInitialized: Bool {
     guard let _ = self._root else { return false}
     return true
@@ -198,14 +188,15 @@ open class FlexboxComponentView: BaseComponentView {
   /// - returns: A new size that fits the receiver’s subviews.
   open override func sizeThatFits(_ size: CGSize) -> CGSize {
     self.renderComponent(withSize: size)
-    return self.bounds.size
+    return self._root?.renderedView?.css_sizeThatFits(size) ?? CGSize.zero
   }
 
   /// Returns the natural size for the receiving view, considering only properties of the view.
   /// - returns: A size indicating the natural size for the receiving view based on its
   /// intrinsic properties.
   open override var intrinsicContentSize : CGSize {
-    return self.bounds.size
+    self.renderComponent(withSize: CGSize.undefined)
+    return self._root?.renderedView?.css_sizeThatFits(CGSize.undefined) ?? CGSize.zero
   }
 }
 
@@ -218,12 +209,8 @@ open class ComponentView: FlexboxComponentView {
   /// - parameter state: The (optional) state for this component.
   open override func renderComponent(withSize size: CGSize = CGSize.undefined) {
 
-    // runs its own configuration
+    // runs its own configuration.
     self.internalStore.configureClosure?()
-
-    // This shouldn't be necessary since render is performed on the
-    // root after the new view hiearchy is installed.
-    // This could lead to a 50% perf. improvement for render.
     self._root?.render(size)
 
     let startTime = CFAbsoluteTimeGetCurrent()
@@ -232,7 +219,7 @@ open class ComponentView: FlexboxComponentView {
       debugRenderTime("\(type(of: self)).renderComponent", startTime: startTime)
     }
 
-    // The view never rendered
+    // The view never rendered.
     guard let old = self._root , old.renderedView != nil else {
       self._root = self.construct()
       return
@@ -240,7 +227,7 @@ open class ComponentView: FlexboxComponentView {
 
     var new = self.construct()
 
-    // Diff between new and old
+    // Diff between new and old.
     func diff(_ old: ComponentNodeType, new: ComponentNodeType) -> ComponentNodeType {
 
       old.prepareForUnmount()
@@ -269,7 +256,8 @@ open class ComponentView: FlexboxComponentView {
 
     /// The resulting tree
     self._root = diff(old, new: new)
-    self.updateViewFrame()
+    self._root?.render(size)
+    self.frame.size = self._root?.renderedView?.bounds.size ?? CGSize.zero
   }
 
 }
@@ -298,8 +286,6 @@ open class StaticComponentView: FlexboxComponentView {
       debugRenderTime("\(type(of: self)).renderComponent", startTime: startTime)
     }
     self._root?.render(size)
-    self.updateViewFrame()
+    self.frame.size = self._root?.renderedView?.bounds.size ?? CGSize.zero
   }
 }
-
-

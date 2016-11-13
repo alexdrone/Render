@@ -161,13 +161,12 @@ public class ComponentNode<ViewType: UIView>: ComponentNodeType {
   /// Force the component to construct the view.
   public func build(reusableView: UIView? = nil) {
     if let _ = self.view { return }
-
     if let reusableView = reusableView as? ViewType {
       self.view = reusableView
     } else {
       self.view = self.viewInitClosure()
       self.view?.reuseIdentifier = self.reuseIdentifier
-      self.view?.style.maxDimensions = (Undefined, Undefined)
+      self.view?.hasNode = true
     }
     self.prepareForMount()
   }
@@ -260,4 +259,3 @@ public func when(_ condition: @autoclosure () -> Bool, _ component: ComponentNod
     -> ComponentNodeType {
   return condition() ? component: NilComponent()
 }
-

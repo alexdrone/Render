@@ -31,9 +31,11 @@ func DefaultButton() -> ComponentNode<UIButton> {
     // helps the infra recycling that view.
     return ComponentNode<UIButton>(reuseIdentifier: "DefaultButton", initClosure: {
         let view = UIButton()
-        view.style.minDimensions = (64, 64)
-        view.style.alignSelf = .center
-        view.style.justifyContent = .center
+        view.css_usesFlexbox = true
+        view.css_minWidth = 64
+        view.css_minHeight = 64
+        view.css_alignSelf = CSSAlignCenter
+        view.css_justifyContent = CSSJustifyCenter
         view.setTitleColor(UIColor.A, for: .normal)
         view.backgroundColor = UIColor.black.withAlphaComponent(0.2)
         view.titleLabel?.font = UIFont.systemFont(ofSize: 14.0, weight: UIFontWeightLight)
@@ -80,20 +82,19 @@ class FooComponentView: ComponentView {
     var fooState: FooState = FooState(text: "", expanded: false)
 
     override func construct() -> ComponentNodeType {
-        
-        let margin: Float = 4.0
-        let insets: Inset = (margin, margin, margin, margin, margin, margin)
+
         
         return ComponentNode<UIView>().configure({ view in
-            view.style.flexDirection = self.fooState.expanded ? .column : .row
-            view.style.margin = insets
+            view.css_usesFlexbox = true
+            view.style.css_flexDirection = self.fooState.expanded ? CSSFlexDirectionColumn : CSSFlexDirectionRow
             view.backgroundColor = UIColor.A
         }).children([
             
             ComponentNode<UIView>().configure({ view in
                 let size: Float = self.fooState.expanded ? 128 : 32
-                view.style.dimensions = (size, size)
-                view.style.margin = insets
+                view.css_usesFlexbox = true
+                view.css_width = size
+                view.css_height = size
                 view.backgroundColor = UIColor.D
                 view.layer.cornerRadius = CGFloat(size)/2
             }).children([
@@ -102,9 +103,10 @@ class FooComponentView: ComponentView {
                 // the condition 'self.fooState.expanded' is true.
                 when(self.fooState.expanded,
                 ComponentNode<UIView>().configure({ view in
-                    view.style.flex = Flex.Max
-                    view.style.alignSelf = .stretch
-                    view.style.justifyContent = .center
+                    view.css_usesFlexbox = true
+                    view.css_flexGrow = 1
+                    view.css_alignSelf = CSSAlignStretch
+                    view.css_justifyContent = CSSJustifyCenter
                         
                 }).children([
                     
@@ -119,10 +121,10 @@ class FooComponentView: ComponentView {
             // the condition 'self.fooState.expanded' is false.
             when(!self.fooState.expanded,
             ComponentNode<UILabel>().configure({ view in
-                view.style.margin = insets
-                view.style.alignSelf = .center
-                view.style.minDimensions.width = 96
-                view.style.flex = Flex.Max
+                view.css_usesFlexbox = true
+                view.css_alignSelf = CSSJustifyCenter
+                view.css_minWidfth = 96
+                view.css_flexGrow = 1
                 view.textAlignment = self.fooState.expanded ? .center : .left
                 view.text = self.fooState.text
                 if self.fooState.expanded {
@@ -164,20 +166,18 @@ class StaticFooComponentView: StaticComponentView {
     var fooState: FooState = FooState(text: "", expanded: false)
     
     override func construct() -> ComponentNodeType {
-        
-        let margin: Float = 4.0
-        let insets: Inset = (margin, margin, margin, margin, margin, margin)
-        
+
         return ComponentNode<UIView>().configure({ view in
-            view.style.flexDirection = self.fooState.expanded ? .column : .row
-            view.style.margin = insets
+            view.css_usesFlexbox = true
+            view.css_flexDirection = self.fooState.expanded ? CSSFlexDirectionColumn : CSSFlexDirectionRow
             view.backgroundColor = UIColor.A
         }).children([
             
             ComponentNode<UIView>().configure({ view in
                 let size: Float = self.fooState.expanded ? 128 : 32
-                view.style.dimensions = (size, size)
-                view.style.margin = insets
+                view.css_usesFlexbox = true
+                view.css_minWidth = size
+                view.css_minHeight = size
                 view.backgroundColor = UIColor.D
                 view.layer.cornerRadius = CGFloat(size)/2
             }).children([
@@ -188,10 +188,10 @@ class StaticFooComponentView: StaticComponentView {
                     // this node is going to be visible only when
                     // the condition 'self.fooState.expanded' is true.
                     view.isHidden = !self.fooState.expanded
-                    
-                    view.style.flex = Flex.Max
-                    view.style.alignSelf = .stretch
-                    view.style.justifyContent = .center
+                    view.css_usesFlexbox = true
+                    view.css_flexGrow = 1
+                    view.css_alignSelf = CSSAlignCenter
+                    view.css_justifyContent = CSSJustifyCenter
                 
                 }).children([
                         
@@ -209,10 +209,10 @@ class StaticFooComponentView: StaticComponentView {
                 // the condition 'self.fooState.expanded' is false.
                 view.isHidden = self.fooState.expanded
 
-                view.style.margin = insets
-                view.style.alignSelf = .center
-                view.style.minDimensions.width = 96
-                view.style.flex = Flex.Max
+                view.css_usesFlexbox = true
+                view.css_alignSelf = CSSAlignCenter
+                view.css_minWidth = 96
+                view.css_flexGrow = Flex.Max
                 view.textAlignment = self.fooState.expanded ? .center : .left
                 view.text = self.fooState.text
                 if self.fooState.expanded {

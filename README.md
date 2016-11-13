@@ -95,19 +95,22 @@ class MyComponentView: ComponentView {
   	  // You can configure your component node through the 'configure' closure:
 
 	  return ComponentNode<UIView>().configure({ view in
-	      view.flexDirection = self.componentState.expanded ? .row : .column
-	      view.backgroundColor = UIColor.black}).children([
+			view.css_usesFlexbox = true
+			view.css_flexDirection = self.componentState.expanded ? CSSFlexDirectionRow : CSSFlexDirectionColumn
+			view.backgroundColor = UIColor.black}).children([
 	
 	      // Image View.
 	      ComponentNode<UIImageView>().configure({  view in
-	        view.image = self.componentState?.image
-	        let size = self.componentState.expanded ? self.referenceSize.width : 48.0
-	        view.flexDimensions = CGSize(width: size, height: size) }),
+					view.image = self.componentState?.image
+					let size = self.componentState.expanded ? self.referenceSize.width : 48.0
+					view.css_usesFlexbox = true
+					view.css_width = size
+					view.css_height = size  }),
 	
 	      // Text Wrapper.
 	      ComponentNode<UIView>().configure({ view in
-	        view.style.flexDirection = .column
-	        view.flexMargins = UIEdgeInset(...) }).children([
+	        view.css_flexDirection = CSSFlexDirectionColum
+	        view.css_setMargin(4 for: CSSEdgeTop) ...  }).children([
 	
 	        // Title.
 	        ComponentNode<UILabel>().configure({ view in
@@ -123,43 +126,13 @@ class MyComponentView: ComponentView {
       	])
 	
 	
-		// or the new 'props' API for component initialisation using keypaths:
-	
-	
+
+			// components can be configured using the 'props' collection
 	    return ComponentNode<UIView>(props: [
 	      #keyPath(backgroundColor): UIColor.black,
 	      #keyPath(flexDimensions): self.featured
 	                                ? CGSize(width: size.width/2, height: CGFloat(Undefined))
-	                                : CGSize(width: size.width, height: 64)]).children([
-	
-	        // Image view.
-	        ComponentNode<UIImageView>(props: [
-	          #keyPath(image): self.componentState?.image,
-	          #keyPath(flexAlignSelf): Directive.Align.center.rawValue,
-	          #keyPath(flexDimensions): self.featured
-	                                    ? CGSize(width: size.width/2, height: size.width/2)
-	                                    : CGSize(width: 48, height: 48)])	        ]),
-	
-	        // Text wrapper.
-	        ComponentNode<UIView>(props: [
-	          #keyPath(flexDirection): Directive.FlexDirection.column.rawValue,
-	          #keyPath(flexMargin): UIEdgeInsets(top: 4, left: 4, bottom: 4, right: 4),
-	          #keyPath(flexAlignSelf): Directive.Align.center.rawValue,]).children([
-	
-		          // Title.
-		          ComponentNode<UILabel>(props: [
-		            #keyPath(flexMargin): UIEdgeInsets(top: 4, left: 4, bottom: 4, right: 4),
-		            #keyPath(text): self.componentState?.title ?? "None",
-		            #keyPath(textColor): UIColor.white]),
-		
-		          // Subtitle.
-		          ComponentNode<UILabel>(props: [
-		            #keyPath(flexMargin): UIEdgeInsets(top: 4, left: 4, bottom: 4, right: 4),
-		            #keyPath(text): self.componentState?.artist ?? "Unknown artist",
-		            #keyPath(textColor): UIColor.white]),
-	        ])
-	    ])
-
+	                                : CGSize(width: size.width, height: 64)]).children([ ....
   }
     
 }

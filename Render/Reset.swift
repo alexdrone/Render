@@ -1,6 +1,6 @@
 //
-//  Extensions.swift
-//  FlexboxLayout
+//  Reset.swift
+//  Render
 //
 //  Created by Alex Usbergo on 30/03/16.
 //
@@ -51,6 +51,29 @@ struct Reset {
     view.layer.cornerRadius = proto.layer.cornerRadius
     view.layer.masksToBounds = proto.layer.masksToBounds
     Reset.resetTargets(view)
+    Reset.resetCssView(view)
+  }
+
+  fileprivate static func resetCssView(_ view: UIView, proto: UIView = Reset.View) {
+    proto.css_usesFlexbox = true
+    view.css_usesFlexbox = true
+    view.css_direction = proto.css_direction
+    view.css_flexDirection = proto.css_flexDirection
+    view.css_justifyContent = proto.css_justifyContent
+    view.css_alignContent = proto.css_alignContent
+    view.css_alignSelf = proto.css_alignSelf
+    view.css_alignItems = proto.css_alignItems
+    view.css_positionType = proto.css_positionType
+    view.css_flexWrap = proto.css_flexWrap
+    view.css_flexGrow = proto.css_flexGrow
+    view.css_flexShrink = proto.css_flexShrink
+    view.css_flexBasis = proto.css_flexBasis
+    view.css_width = proto.css_width
+    view.css_height = proto.css_height
+    view.css_minHeight = proto.css_minHeight
+    view.css_minWidth = proto.css_minWidth
+    view.css_maxWidth = proto.css_maxWidth
+    view.css_maxHeight = proto.css_maxHeight
   }
 
   fileprivate static let Label = UILabel()
@@ -265,6 +288,11 @@ struct Reset {
 }
 
 extension UIView {
+
+  func css_reset() {
+    Reset.resetCssView(self)
+  }
+
   func prepareForComponentReuse() {
     Reset.resetView(self)
   }
@@ -302,9 +330,9 @@ extension UIImageView {
 
 extension FlexboxView where Self: UIView {
 
-  /// content-size calculation for the scrollview should be applied after the layout
+  /// content-size calculation for the scrollview should be applied after the layout.
   /// This is called after the scroll view is rendered.
-  /// TableViews and CollectionViews are excluded from this post-render pass
+  /// TableViews and CollectionViews are excluded from this post-render pass.
   func postRender() {
     if let scrollView = self as? UIScrollView {
       if let _ = self as? UITableView { return }
@@ -316,7 +344,7 @@ extension FlexboxView where Self: UIView {
 
 extension UIScrollView {
 
-  fileprivate func postRender() {
+  func postRender() {
     var x: CGFloat = 0
     var y: CGFloat = 0
     for subview in self.subviews {
@@ -325,5 +353,24 @@ extension UIScrollView {
     }
     self.contentSize = CGSize(width: x, height: y)
     self.isScrollEnabled = true
+  }
+}
+
+public extension CGSize {
+
+  /// Undefined size.
+  public static let undefined = CGSize(width: CGFloat(CSSNaN()), height: CGFloat(CSSNaN()))
+
+  public static func sizeConstraintToHeight(_ height: CGFloat) -> CGSize {
+    return CGSize(width: CGFloat(CSSNaN()), height: height)
+  }
+
+  public static func sizeConstraintToWidth(_ width: CGFloat) -> CGSize {
+    return CGSize(width: width, height: CGFloat(CSSNaN()))
+  }
+
+  /// Returns true is this value is less than .19209290E-07F
+  public var isZero: Bool {
+    return self.width < CGFloat(FLT_EPSILON) && self.height < CGFloat(FLT_EPSILON)
   }
 }

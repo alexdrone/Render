@@ -98,7 +98,7 @@ open class ComponentTableViewCell<C: ComponentViewType>: UITableViewCell, Compon
 open class ComponentCollectionViewCell<C: ComponentViewType>: UICollectionViewCell,
                                                                 ComponentCellType {
 
-  /// The internal component
+  /// The internal component.
   open var component: C?
 
   open func hasMountedComponent() -> Bool {

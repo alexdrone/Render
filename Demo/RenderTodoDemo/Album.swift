@@ -10,9 +10,9 @@ import Foundation
 
 private let covers = [UIImage(named: "cover")!]
 
-private let titles = ["Aa"]
+private let titles = ["Album"]
 
-private let artits = ["Brian Eno"]
+private let artits = ["Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."]
 
 func ==(lhs: Album, rhs: Album) -> Bool {
   return lhs.id == rhs.id

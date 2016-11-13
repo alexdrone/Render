@@ -100,5 +100,3 @@ open class BaseComponentView: UIView, ComponentViewWithReusePoolViewType {
     self.internalStore.configureClosure?()
   }
 }
-
-
