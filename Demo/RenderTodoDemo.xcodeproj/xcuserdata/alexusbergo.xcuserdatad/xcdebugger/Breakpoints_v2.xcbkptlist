@@ -494,11 +494,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../Render/ComponentView.swift"
-            timestampString = "500761186.183102"
+            timestampString = "500762273.70017"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "288"
-            endingLineNumber = "288"
+            startingLineNumber = "289"
+            endingLineNumber = "289"
             landmarkName = "renderComponent(withSize:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -516,6 +516,22 @@
             startingLineNumber = "40"
             endingLineNumber = "40"
             landmarkName = "construct()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../Render/BaseComponentView.swift"
+            timestampString = "500762356.982041"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "69"
+            endingLineNumber = "69"
+            landmarkName = "initalizeComponent()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

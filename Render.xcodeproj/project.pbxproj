@@ -18,6 +18,7 @@
 		16B9D1291DD8F3E900AD42AD /* Layout.h in Headers */ = {isa = PBXBuildFile; fileRef = 16B9D1251DD8F3E900AD42AD /* Layout.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		16B9D12A1DD8F3E900AD42AD /* UIView+Layout.h in Headers */ = {isa = PBXBuildFile; fileRef = 16B9D1261DD8F3E900AD42AD /* UIView+Layout.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		16B9D12B1DD8F3E900AD42AD /* UIView+Layout.m in Sources */ = {isa = PBXBuildFile; fileRef = 16B9D1271DD8F3E900AD42AD /* UIView+Layout.m */; };
+		16B9D12D1DD9040400AD42AD /* KeyCommands.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16B9D12C1DD9040400AD42AD /* KeyCommands.swift */; };
 		16CCDCC31CECA80300105446 /* ComponentStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16CCDCC21CECA80300105446 /* ComponentStyle.swift */; };
 		16F19C951CE888A300EE8661 /* BaseComponentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F19C941CE888A300EE8661 /* BaseComponentView.swift */; };
 		96E402761D100A81002509BC /* InfraConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96E402751D100A81002509BC /* InfraConfiguration.swift */; };
@@ -38,6 +39,7 @@
 		16B9D1251DD8F3E900AD42AD /* Layout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Layout.h; path = FlexboxLayout/Layout.h; sourceTree = "<group>"; };
 		16B9D1261DD8F3E900AD42AD /* UIView+Layout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIView+Layout.h"; path = "FlexboxLayout/UIView+Layout.h"; sourceTree = "<group>"; };
 		16B9D1271DD8F3E900AD42AD /* UIView+Layout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIView+Layout.m"; path = "FlexboxLayout/UIView+Layout.m"; sourceTree = "<group>"; };
+		16B9D12C1DD9040400AD42AD /* KeyCommands.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyCommands.swift; sourceTree = "<group>"; };
 		16CCDCC21CECA80300105446 /* ComponentStyle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComponentStyle.swift; sourceTree = "<group>"; };
 		16F19C941CE888A300EE8661 /* BaseComponentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseComponentView.swift; sourceTree = "<group>"; };
 		96E402751D100A81002509BC /* InfraConfiguration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InfraConfiguration.swift; sourceTree = "<group>"; };
@@ -103,6 +105,7 @@
 			isa = PBXGroup;
 			children = (
 				1693B9751CBD734D00A44B24 /* Reset.swift */,
+				16B9D12C1DD9040400AD42AD /* KeyCommands.swift */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -200,6 +203,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				16B9D12D1DD9040400AD42AD /* KeyCommands.swift in Sources */,
 				161E87331CD775A2002C1BE1 /* ComponentViewType.swift in Sources */,
 				16AD71BA1CD0EF4700441CD0 /* ComponentView.swift in Sources */,
 				16097B761CB3B5B600551EBE /* ComponentNode.swift in Sources */,
@@ -260,7 +264,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -307,7 +311,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				ONLY_ACTIVE_ARCH = NO;
 				SDKROOT = iphoneos;
@@ -328,7 +332,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = Render/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.s.Render;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -348,7 +352,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = Render/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.s.Render;
 				PRODUCT_NAME = "$(TARGET_NAME)";

@@ -60,9 +60,17 @@ open class BaseComponentView: UIView, ComponentViewWithReusePoolViewType {
     }
   }
 
+  var lastSize: CGSize?
+
   /// The component initialization.
   /// - Note: Always call the super implemention.
   open func initalizeComponent() {
+      //⌘+R
+      KeyCommands.register(input: "r", modifierFlags: .command) { [weak self] in
+        guard let _ = self?.superview else { return }
+        print("⌘+R: Reloading component.")
+        self?.renderComponent(withSize: self?.lastSize ?? CGSize.undefined)
+      }
   }
 
   /// Applies the component configuration (as per ViewType extension)
@@ -97,6 +105,7 @@ open class BaseComponentView: UIView, ComponentViewWithReusePoolViewType {
   /// configuration for the current state.
   /// - Note: Always call the super implemention.
   open func renderComponent(withSize size: CGSize = CGSize.undefined) {
+    self.lastSize = size
     self.internalStore.configureClosure?()
   }
 }

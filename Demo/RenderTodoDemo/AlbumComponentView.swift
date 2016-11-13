@@ -77,7 +77,7 @@ class AlbumComponentView: ComponentView {
 
         // Title.
         ComponentNode<UILabel>().configure({ view in
-          view.text = self.album?.title ?? "None"
+          view.text = (self.album?.title ?? "None") + "_random\(randomInt(0, max: 10))"
           view.font = S.Typography.mediumBold
           view.textColor =  S.Color.white
           view.css_usesFlexbox = true

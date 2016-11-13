@@ -208,7 +208,7 @@ open class ComponentView: FlexboxComponentView {
   /// intrinsic content size for this component.
   /// - parameter state: The (optional) state for this component.
   open override func renderComponent(withSize size: CGSize = CGSize.undefined) {
-
+    self.lastSize = size
     // runs its own configuration.
     self.internalStore.configureClosure?()
     self._root?.render(size)
@@ -280,6 +280,7 @@ open class StaticComponentView: FlexboxComponentView {
   /// intrinsic content size for this component.
   /// - parameter state: The (optional) state for this component.
   open override func renderComponent(withSize size: CGSize = CGSize.undefined) {
+    self.lastSize = size
     self.internalStore.configureClosure?()
     let startTime = CFAbsoluteTimeGetCurrent()
     defer {
