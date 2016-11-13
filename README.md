@@ -84,55 +84,50 @@ struct MyComponentState: ComponentStateType {
 
 class MyComponentView: ComponentView {
     
-    // The component state.
-    var componentState: MyComponentState? {
-        return self.state as? MyComponentState
-    }
+  // The component state.
+  var componentState: MyComponentState? { return self.state as? MyComponentState }
     
-    /// Constructs the component tree.
-  	override func construct() -> ComponentNodeType {
+  /// Constructs the component tree.
+  override func construct() -> ComponentNodeType {
   	
-  	  // You can configure your component node through the 'configure' closure:
+  // You can configure your component node through the 'configure' closure:
+  return ComponentNode<UIView>().configure({ view in
+    view.css_usesFlexbox = true
+    view.css_flexDirection = self.componentState.expanded ? CSSFlexDirectionRow : CSSFlexDirectionColumn
+    view.backgroundColor = UIColor.black}).children([
+	
+      // Image View.
+      ComponentNode<UIImageView>().configure({  view in
+        view.image = self.componentState?.image
+        let size = self.componentState.expanded ? self.referenceSize.width : 48.0
+        view.css_usesFlexbox = true
+        view.css_width = size
+        view.css_height = size }),
+	
+        // Text Wrapper.
+        ComponentNode<UIView>().configure({ view in
+          view.css_flexDirection = CSSFlexDirectionColum
+          view.css_setMargin(4 for: CSSEdgeTop) ...  }).children([
 
-	  return ComponentNode<UIView>().configure({ view in
-			view.css_usesFlexbox = true
-			view.css_flexDirection = self.componentState.expanded ? CSSFlexDirectionRow : CSSFlexDirectionColumn
-			view.backgroundColor = UIColor.black}).children([
-	
-	      // Image View.
-	      ComponentNode<UIImageView>().configure({  view in
-					view.image = self.componentState?.image
-					let size = self.componentState.expanded ? self.referenceSize.width : 48.0
-					view.css_usesFlexbox = true
-					view.css_width = size
-					view.css_height = size  }),
-	
-	      // Text Wrapper.
-	      ComponentNode<UIView>().configure({ view in
-	        view.css_flexDirection = CSSFlexDirectionColum
-	        view.css_setMargin(4 for: CSSEdgeTop) ...  }).children([
-	
-	        // Title.
-	        ComponentNode<UILabel>().configure({ view in
-	          view.text = self.componentState?.title ?? "None"
-	          view.font = UIFont.system(fontOfSize: 18.0, weight: UIFontWeightBold)
-	          view.textColor = UIColor.white}),
-	
-	        // Subtitle.
-	        ComponentNode<UILabel>().configure({ view in
-	          view.text = self.componentState?.subtitle ?? "Subtitle"
-	          view.font = UIFont.system(fontOfSize: 12.0, weight: UIFontWeightLight)
-	          view.textColor = UIColor.white})
+          // Title.
+          ComponentNode<UILabel>().configure({ view in
+            view.text = self.componentState?.title ?? "None"
+            view.font = UIFont.system(fontOfSize: 18.0, weight: UIFontWeightBold)
+            view.textColor = UIColor.white }),
+
+          // Subtitle.
+          ComponentNode<UILabel>().configure({ view in
+            view.text = self.componentState?.subtitle ?? "Subtitle"
+            view.font = UIFont.system(fontOfSize: 12.0, weight: UIFontWeightLight)
+            view.textColor = UIColor.white })
       	])
 	
-	
-
-			// components can be configured using the 'props' collection
-	    return ComponentNode<UIView>(props: [
-	      #keyPath(backgroundColor): UIColor.black,
-	      #keyPath(flexDimensions): self.featured
-	                                ? CGSize(width: size.width/2, height: CGFloat(Undefined))
-	                                : CGSize(width: size.width, height: 64)]).children([ ....
+    // components can be configured using the 'props' collection
+    return ComponentNode<UIView>(props: [
+      #keyPath(backgroundColor): UIColor.black,
+      #keyPath(flexDimensions): self.featured
+                                ? CGSize(width: size.width/2, height: CGFloat(Undefined))
+                                : CGSize(width: size.width, height: 64)]).children([ ....
   }
     
 }
