@@ -40,15 +40,6 @@ Then add the following line to your `Cartfile`:
 github "alexdrone/Render" "master"    
 ```
 
-#### CocoaPods
-You can use [CocoaPods](http://cocoapods.org/) to install `Render` by adding it to your `Podfile`:
-
-```ruby
-platform :ios, '8.0'
-use_frameworks!
-pod 'Render'
-```
-
 #### Manually
 1. Download and drop ```/Render``` folder in your project.  
 2. Congratulations!
