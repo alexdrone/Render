@@ -28,7 +28,7 @@
 
 import UIKit
 
-#if (arch(i386) || arch(x86_64)) && (os(iOS) || os(tvOS))
+#if (arch(i386) || arch(x86_64)) && (os(iOS))
   struct KeyActionableCommand {
     fileprivate let keyCommand: UIKeyCommand
     fileprivate let actionBlock: () -> ()

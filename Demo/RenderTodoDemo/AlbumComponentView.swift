@@ -87,7 +87,7 @@ class AlbumComponentView: ComponentView {
         ComponentNode<UILabel>().configure({ view in
           view.text = self.album?.artist ?? "Unknown Artist"
           view.font = S.Typography.extraSmallLight
-          view.textColor = S.Color.white
+          view.textColor = UIColor.red
           view.numberOfLines = 0
           view.backgroundColor = UIColor.gray.withAlphaComponent(0.67)
           view.css_usesFlexbox = true

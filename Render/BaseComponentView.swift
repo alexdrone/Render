@@ -66,11 +66,13 @@ open class BaseComponentView: UIView, ComponentViewWithReusePoolViewType {
   /// - Note: Always call the super implemention.
   open func initalizeComponent() {
       //⌘+R
+    #if (arch(i386) || arch(x86_64)) && (os(iOS))
       KeyCommands.register(input: "r", modifierFlags: .command) { [weak self] in
         guard let _ = self?.superview else { return }
         print("⌘+R: Reloading component.")
         self?.renderComponent(withSize: self?.lastSize ?? CGSize.undefined)
       }
+    #endif
   }
 
   /// Applies the component configuration (as per ViewType extension)
