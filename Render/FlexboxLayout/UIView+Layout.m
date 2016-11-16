@@ -143,6 +143,12 @@
 
 - (void)css_setMargin:(CGFloat)margin forEdge:(CSSEdge)edge {
   CSSNodeStyleSetMargin([self cssNode], edge, margin);
+  if (edge != CSSEdgeAll) return;
+
+  CSSNodeStyleSetMargin([self cssNode], CSSEdgeTop, margin);
+  CSSNodeStyleSetMargin([self cssNode], CSSEdgeLeft, margin);
+  CSSNodeStyleSetMargin([self cssNode], CSSEdgeRight, margin);
+  CSSNodeStyleSetMargin([self cssNode], CSSEdgeBottom, margin);
 }
 
 - (CGFloat)css_marginForEdge:(CSSEdge)edge {
