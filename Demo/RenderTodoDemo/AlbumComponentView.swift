@@ -25,7 +25,7 @@ class AlbumComponentView: ComponentView {
     return self.state as? Album
   }
 
-  var featured: Bool {
+  private var featured: Bool {
     return self.album?.featured ?? false
   }
 
@@ -36,10 +36,10 @@ class AlbumComponentView: ComponentView {
     return ComponentNode<UIView>().configure({ view in
       let size = self.referenceSize
       view.backgroundColor = UIColor.black
-      view.css_usesFlexbox = true
-      view.css_flexDirection = self.featured ? CSSFlexDirectionColumn : CSSFlexDirectionRow
-      view.css_width = self.featured ? size.width/2 : size.width
-      view.css_minHeight = self.featured ? 	size.width/2 : 64
+      view.useFlexbox = true
+      view.layout_flexDirection = self.featured ? .column : .row
+      view.layout_width = self.featured ? size.width/2 : size.width
+      view.layout_minHeight = self.featured ? 	size.width/2 : 64
 
     }).children([
 
@@ -47,14 +47,15 @@ class AlbumComponentView: ComponentView {
       ComponentNode<UIImageView>().configure({ view in
         let size = self.referenceSize
         view.image = self.album?.cover
-        view.css_usesFlexbox = true
-        view.css_alignSelf = CSSAlignCenter
-        view.css_alignItems = CSSAlignCenter
-        view.css_justifyContent = CSSJustifyCenter
-        view.css_width = self.featured ? size.width/2 : 64
-        view.css_height = self.featured ? size.width/2 : 64
-        view.css_setMargin(4, for: CSSEdgeLeft)
-        view.css_setMargin(4, for: CSSEdgeRight)
+        view.layer.cornerRadius = self.featured ? 0 : 32
+        view.clipsToBounds = true
+        view.useFlexbox = true
+        view.layout_alignSelf = .center
+        view.layout_alignItems = .center
+        view.layout_justifyContent = .center
+        view.layout_width = self.featured ? size.width/2 : 64
+        view.layout_height = self.featured ? size.width/2 : 64
+        view.layout_marginAll = self.featured ? 0 : 4
       }).children([
 
         // Play button.
@@ -63,34 +64,30 @@ class AlbumComponentView: ComponentView {
 
       // Text wrapper.
       ComponentNode<UIView>().configure({ view in
-        view.css_usesFlexbox = true
-        view.css_flexDirection = CSSFlexDirectionColumn
-        view.css_alignSelf = CSSAlignStretch
-        view.css_justifyContent = CSSJustifyCenter
-        view.css_flexShrink = 1
-        view.css_setMargin(4, for: CSSEdgeTop)
-        view.css_setMargin(4, for: CSSEdgeLeft)
-        view.css_setMargin(4, for: CSSEdgeRight)
-        view.css_setMargin(4, for: CSSEdgeBottom)
+        view.useFlexbox = true
+        view.layout_flexDirection = .column
+        view.layout_alignSelf = .stretch
+        view.layout_justifyContent = .center
+        view.layout_flexShrink = 1
+        view.layout_marginAll = 4
 
       }).children([
 
         // Title.
         ComponentNode<UILabel>().configure({ view in
-          view.text = (self.album?.title ?? "None") + "_random\(randomInt(0, max: 10))"
+          view.text = (self.album?.title ?? "None")
           view.font = S.Typography.mediumBold
-          view.textColor =  S.Color.white
-          view.css_usesFlexbox = true
+          view.textColor = S.Color.white
+          view.useFlexbox = true
         }),
 
         // Caption.
         ComponentNode<UILabel>().configure({ view in
           view.text = self.album?.artist ?? "Unknown Artist"
           view.font = S.Typography.extraSmallLight
-          view.textColor = UIColor.red
+          view.textColor = S.Color.white
           view.numberOfLines = 0
-          view.backgroundColor = UIColor.gray.withAlphaComponent(0.67)
-          view.css_usesFlexbox = true
+          view.useFlexbox = true
         })
       ])
     ])
@@ -103,9 +100,9 @@ func DefaultButton(title: String = "Button") -> ComponentNode<UIButton> {
   // helps the infra recycling that view.
   return ComponentNode<UIButton>(reuseIdentifier: "button", initClosure: {
     let view = UIButton()
-    view.css_usesFlexbox = true
-    view.css_width = 64
-    view.css_height = 64
+    view.useFlexbox = true
+    view.layout_width = 64
+    view.layout_height = 64
     view.setTitleColor(S.Color.white, for: .normal)
     view.backgroundColor = S.Color.black.withAlphaComponent(0.8)
     view.titleLabel?.font = S.Typography.superSmallBold

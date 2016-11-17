@@ -46,7 +46,10 @@ import UIKit
 
   public enum KeyCommands {
     private static var __once: () = {
-      exchangeImplementations(class: UIApplication.self, originalSelector: #selector(getter: UIResponder.keyCommands), swizzledSelector: #selector(UIApplication.KYC_keyCommands));
+      exchangeImplementations(
+          class: UIApplication.self,
+          originalSelector: #selector(getter: UIResponder.keyCommands),
+          swizzledSelector: #selector(UIApplication.KYC_keyCommands));
     }()
     fileprivate struct Static {
       static var token: Int = 0

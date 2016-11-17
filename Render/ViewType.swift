@@ -80,12 +80,6 @@ extension FlexboxView where Self: UIView {
     }
 
     let startTime = CFAbsoluteTimeGetCurrent()
-
-    // Reset the flexbox properties before re-render.
-    if self.css_usesFlexbox {
-      self.css_reset()
-    }
-
     self.configure()
     self.layout(bounds)
     postRender(self)

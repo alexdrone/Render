@@ -83,22 +83,23 @@ class MyComponentView: ComponentView {
   	
   // You can configure your component node through the 'configure' closure:
   return ComponentNode<UIView>().configure({ view in
-    view.css_usesFlexbox = true
-    view.css_flexDirection = self.componentState.expanded ? CSSFlexDirectionRow : CSSFlexDirectionColumn
+    view.layout_usesFlexbox = true
+    view.layout_flexDirection = self.componentState.expanded ? .row : .column
     view.backgroundColor = UIColor.black}).children([
 	
       // Image View.
       ComponentNode<UIImageView>().configure({  view in
         view.image = self.componentState?.image
         let size = self.componentState.expanded ? self.referenceSize.width : 48.0
-        view.css_usesFlexbox = true
-        view.css_width = size
-        view.css_height = size }),
+        view.useFlexbox = true
+        view.layout_height = size
+        view.layout_width = size }),
 	
         // Text Wrapper.
         ComponentNode<UIView>().configure({ view in
-          view.css_flexDirection = CSSFlexDirectionColum
-          view.css_setMargin(4 for: CSSEdgeTop) ...  }).children([
+	        view.useFlexbox = true
+          view.layout_flexDirection = .colum
+          view.layout_marginAll = 4 }).children([
 
           // Title.
           ComponentNode<UILabel>().configure({ view in
