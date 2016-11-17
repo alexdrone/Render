@@ -97,7 +97,7 @@ class MyComponentView: ComponentView {
 	
         // Text Wrapper.
         ComponentNode<UIView>().configure({ view in
-	        view.useFlexbox = true
+          view.useFlexbox = true
           view.layout_flexDirection = .colum
           view.layout_marginAll = 4 }).children([
 
