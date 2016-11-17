@@ -27,7 +27,7 @@
 
 import UIKit
 
-public protocol ComponentNodeType: class {
+public protocol NodeType: class {
 
   /// The underlying view rendered from the component.
   var renderedView: UIView? { get set }
@@ -36,7 +36,7 @@ public protocol ComponentNodeType: class {
   var reuseIdentifier: String { get set }
 
   /// The subnodes of this node.
-  var children: [ComponentNodeType] { get set }
+  var children: [NodeType] { get set }
 
   /// Wether the component is part of the view hierarchy or not.
   var mounted: Bool { get }
@@ -55,7 +55,7 @@ public protocol ComponentNodeType: class {
 }
 
 /// Used to wrap any view as a node for the view description.
-public class ComponentNode<ViewType: UIView>: ComponentNodeType {
+public class Node<ViewType: UIView>: NodeType {
 
   /// The underlying view rendered from the component.
   public var view: ViewType?
@@ -85,7 +85,7 @@ public class ComponentNode<ViewType: UIView>: ComponentNodeType {
   public let prepareForReuse: Bool
 
   /// The current children for this component.
-  public var children = [ComponentNodeType]() {
+  public var children = [NodeType]() {
     didSet {
       self.children = children.filter({ return !($0 is NilComponent) })
     }
@@ -187,10 +187,10 @@ public class ComponentNode<ViewType: UIView>: ComponentNodeType {
   }
 }
 
-extension ComponentNodeType {
+extension NodeType {
 
   /// Sets the children of this component.
-  public func children(_ children: [ComponentNodeType]) -> Self {
+  public func children(_ children: [NodeType]) -> Self {
     for c in children where !(c is NilComponent) {
       self.children.append(c)
     }
@@ -198,7 +198,7 @@ extension ComponentNodeType {
   }
 
   /// Adds a child to this component.
-  @discardableResult public func add(child: ComponentNodeType) -> Self {
+  @discardableResult public func add(child: NodeType) -> Self {
     if child is NilComponent { return self }
     self.children.append(child)
     return self
@@ -207,7 +207,7 @@ extension ComponentNodeType {
   /// Runs the closure 'count' times.
   /// - parameter count: How many times the closure is going to be executed.
   /// - parameter closure: the index is passed as argument.
-  public func add(childrenWithCount count: Int, closure: (Int) -> ComponentNodeType) -> Self {
+  public func add(childrenWithCount count: Int, closure: (Int) -> NodeType) -> Self {
     for i in 0..<count {
       self.add(child: closure(i))
     }
@@ -216,8 +216,8 @@ extension ComponentNodeType {
 
   /// Returns the components with the associated reuse identifier.
   /// - parameter identifier: The identifier passed as argument in the component's constructor
-  public func components(withIdentifier identifier: String) -> [ComponentNodeType] {
-    var result = [ComponentNodeType]()
+  public func components(withIdentifier identifier: String) -> [NodeType] {
+    var result = [NodeType]()
     if self.reuseIdentifier == identifier {
       result.append(self)
     }
@@ -229,7 +229,7 @@ extension ComponentNodeType {
 
   /// Returns the first component with the associated reuse identifier.
   /// - parameter identifier: The identifier passed as argument in the component's constructor
-  public func component(withIdentifier identifier: String) -> ComponentNodeType? {
+  public func component(withIdentifier identifier: String) -> NodeType? {
     return self.components(withIdentifier: identifier).first
   }
 
@@ -241,10 +241,10 @@ extension ComponentNodeType {
 }
 
 /// It is always discarded when added.
-public final class NilComponent: ComponentNodeType {
+public final class NilComponent: NodeType {
   public var renderedView: UIView? = nil
   public var reuseIdentifier: String = ""
-  public var children: [ComponentNodeType] = [NilComponent]()
+  public var children: [NodeType] = [NilComponent]()
   public internal(set) var mounted: Bool = false
   public var index: Int = 0
   public var immutable: Bool = true
@@ -255,7 +255,7 @@ public final class NilComponent: ComponentNodeType {
   public func build(reusableView: UIView? = nil) { }
 }
 
-public func when(_ condition: @autoclosure () -> Bool, _ component: ComponentNodeType)
-    -> ComponentNodeType {
+public func when(_ condition: @autoclosure () -> Bool, _ component: NodeType)
+    -> NodeType {
   return condition() ? component: NilComponent()
 }

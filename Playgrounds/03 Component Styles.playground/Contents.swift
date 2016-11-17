@@ -15,9 +15,9 @@ import Render
  */
 
 let centered = ComponentStyle<UIView>() { view in
-  view.css_usesFlexbox = true
-  view.css_justifyCotent = CSSJustifyCenter
-  view.css_alignSelf = CSSAlignCenter
+  view.useFlexbox = true
+  view.layout_justifyCotent = .center
+  view.layout_alignSelf = .center
 }
 
 let h1 = ComponentStyle<UILabel>() { view in
@@ -35,16 +35,14 @@ let paragraph = ComponentStyle<UILabel>() { view in
  */
 
 func insets(_ margin: Float) -> ComponentStyle<UIView> {
-  view.css_setMargin(margin, for: CSSEdgeTop)
-  view.css_setMargin(margin, for: CSSEdgeLeft)
-  view.css_setMargin(margin, for: CSSEdgeBottom)
-  view.css_setMargin(margin, for: CSSEdgeRight)
+  view.useFlexbox = true
+  view.layout_marginAll = 4
 }
 
 func rounded(_ size: Float) -> ComponentStyle<UIView> {
   return ComponentStyle<UIView>() { view in
-    view.css_width = size
-    view.css_height = size
+    view.layout_width = size
+    view.layout_height = size
     view.layer.cornerRadius = CGFloat(size)/2
   }
 }
@@ -55,15 +53,15 @@ func rounded(_ size: Float) -> ComponentStyle<UIView> {
 
 class FooComponentView: ComponentView {
 
-  override func construct() -> ComponentNodeType {
+  override func construct() -> NodeType {
 
-    return ComponentNode<UIView>().configure({ view in
+    return Node<UIView>().configure({ view in
       view.apply(style: insets(4.0))
       view.backgroundColor = UIColor.A
 
     }).children([
 
-      ComponentNode<UIView>().configure({ view in
+      Node<UIView>().configure({ view in
         let style = CompoundComponentStyle(styles: [insets(2.0), rounded(64), centered])
         view.apply(style: style)
         view.backgroundColor = UIColor.B
@@ -73,11 +71,11 @@ class FooComponentView: ComponentView {
       // - Note: In this case the style is going to be computed only at initialisation time.
       // This is the reason why the reuseIdentifier is mandatory - several views with the same style can be
       // reused by the infra efficiently.
-      ComponentNode<UILabel>(reuseIdentifier: "h1", style: insets(3.0) + centered + h1).configure({ view in
+      Node<UILabel>(reuseIdentifier: "h1", style: insets(3.0) + centered + h1).configure({ view in
         view.text = "John"
       }),
 
-      ComponentNode<UILabel>(reuseIdentifier: "p", style: insets(1.0) + centered + paragraph).configure({ view in
+      Node<UILabel>(reuseIdentifier: "p", style: insets(1.0) + centered + paragraph).configure({ view in
         view.text = "Appleseed"
       })
     ])

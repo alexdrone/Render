@@ -29,29 +29,29 @@ class FooComponentView: ComponentView {
         return  (self.state as? FooState) ?? FooState()
     }
 
-    override func construct() -> ComponentNodeType {
+    override func construct() -> NodeType {
         let margin: Float = 4.0
         let insets: Inset = (margin, margin, margin, margin, margin, margin)
-        return ComponentNode<UIView>().configure({ view in
-            view.style.flexDirection = .row
-            view.style.margin = insets
-            
-            // that's how we can define the size in relation to the size of the parent view.
-            let min = ~self.referenceSize.width
-            view.style.minDimensions.width = max(min, 96)
-            
+        return Node<UIView>().configure({ view in
+            view.useFlexbox = true
+            view.layout_flexDirection = .row
+            view.layout_marginAll = insets
+            view.layout_minWidth = max(self.referenceSize.widt, 98)
             view.backgroundColor = UIColor.A
         }).children([
-            ComponentNode<UIView>().configure({ view in
-                view.style.dimensions = (32, 32)
-                view.style.margin = insets
+            Node<UIView>().configure({ view in
+                view.useFlexbox = true
+                view.layout_width = 32
+                view.layout_height = 32
+                view.layout_marginAll = insets
                 view.backgroundColor = UIColor.B
                 view.layer.cornerRadius = 16
             }),
-            ComponentNode<UILabel>().configure({ view in
-                view.style.margin = insets
-                view.style.alignSelf = .center
-                view.style.flex = Flex.Max
+            Node<UILabel>().configure({ view in
+                view.useFlexbox = true
+                view.layout_marginAll = insets
+                view.layout_alignSelf = .center
+                view.layout_flexGrow = 1
                 view.text = self.fooState.text
                 view.numberOfLines = 0
                 view.font = UIFont.systemFont(ofSize: 12.0, weight: UIFontWeightLight)

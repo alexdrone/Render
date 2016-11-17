@@ -30,21 +30,20 @@ class AlbumComponentView: ComponentView {
   }
 
   /// Constructs the component tree.
-  override func construct() -> ComponentNodeType {
+  override func construct() -> NodeType {
 
     // Wrapper view.
-    return ComponentNode<UIView>().configure({ view in
+    return Node<UIView>().configure({ view in
       let size = self.referenceSize
       view.backgroundColor = UIColor.black
       view.useFlexbox = true
       view.layout_flexDirection = self.featured ? .column : .row
       view.layout_width = self.featured ? size.width/2 : size.width
       view.layout_minHeight = self.featured ? 	size.width/2 : 64
-
     }).children([
 
       // Album cover.
-      ComponentNode<UIImageView>().configure({ view in
+      Node<UIImageView>().configure({ view in
         let size = self.referenceSize
         view.image = self.album?.cover
         view.layer.cornerRadius = self.featured ? 0 : 32
@@ -57,24 +56,22 @@ class AlbumComponentView: ComponentView {
         view.layout_height = self.featured ? size.width/2 : 64
         view.layout_marginAll = self.featured ? 0 : 4
       }).children([
-
         // Play button.
         when(self.featured, DefaultButton())
       ]),
 
       // Text wrapper.
-      ComponentNode<UIView>().configure({ view in
+      Node<UIView>().configure({ view in
         view.useFlexbox = true
         view.layout_flexDirection = .column
         view.layout_alignSelf = .stretch
         view.layout_justifyContent = .center
         view.layout_flexShrink = 1
         view.layout_marginAll = 4
-
       }).children([
 
         // Title.
-        ComponentNode<UILabel>().configure({ view in
+        Node<UILabel>().configure({ view in
           view.text = (self.album?.title ?? "None")
           view.font = S.Typography.mediumBold
           view.textColor = S.Color.white
@@ -82,7 +79,7 @@ class AlbumComponentView: ComponentView {
         }),
 
         // Caption.
-        ComponentNode<UILabel>().configure({ view in
+        Node<UILabel>().configure({ view in
           view.text = self.album?.artist ?? "Unknown Artist"
           view.font = S.Typography.extraSmallLight
           view.textColor = S.Color.white
@@ -94,11 +91,11 @@ class AlbumComponentView: ComponentView {
   }
 }
 
-func DefaultButton(title: String = "Button") -> ComponentNode<UIButton> {
+func DefaultButton(title: String = "Button") -> Node<UIButton> {
 
   // when you construct a node with a custom initClosure setting a reuseIdentifier
   // helps the infra recycling that view.
-  return ComponentNode<UIButton>(reuseIdentifier: "button", initClosure: {
+  return Node<UIButton>(reuseIdentifier: "button", initClosure: {
     let view = UIButton()
     view.useFlexbox = true
     view.layout_width = 64

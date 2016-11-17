@@ -30,7 +30,7 @@ import UIKit
 extension ComponentViewType {
 
   /// The root node for this component.
-  var root: ComponentNodeType? {
+  var root: NodeType? {
     return NilComponent()
   }
 
@@ -57,7 +57,7 @@ extension ComponentViewType where Self: FlexboxComponentView {
     let reusePool = self.reusePool
 
     // visits the component tree and flags the useful existing views.
-    func visit(_ component: ComponentNodeType, index: Int, parent: ComponentNodeType?) {
+    func visit(_ component: NodeType, index: Int, parent: NodeType?) {
       component.index = index
       if let view = component.renderedView {
         viewSet.insert(view)
@@ -87,7 +87,7 @@ extension ComponentViewType where Self: FlexboxComponentView {
 
     // invoked from mount - attemps view reuse from a local shared pool.
     // - Note: Skipped when the UseReusePool configuration flag is 'false'.
-    func reuse(_ view: UIView?, component: ComponentNodeType) {
+    func reuse(_ view: UIView?, component: NodeType) {
 
       guard let view = view, view.hasNode else { return }
 
@@ -116,7 +116,7 @@ extension ComponentViewType where Self: FlexboxComponentView {
     }
 
     // recursively adds the views that are not in the hierarchy to the hierarchy.
-    func mount(_ component: ComponentNodeType, parent: UIView) {
+    func mount(_ component: NodeType, parent: UIView) {
 
       if InfraConfiguration.useReusePool {
 
@@ -152,8 +152,8 @@ extension ComponentViewType where Self: FlexboxComponentView {
 open class FlexboxComponentView: BaseComponentView {
 
   /// The tree of components owned by this component view.
-  var _root: ComponentNodeType?
-  open var root: ComponentNodeType! {
+  var _root: NodeType?
+  open var root: NodeType! {
     if _root != nil { return _root! }
     _root = construct()
     return _root!
@@ -171,7 +171,7 @@ open class FlexboxComponentView: BaseComponentView {
 
   /// Constructs the component tree.
   /// - Note: Must be overriden by subclasses.
-  open func construct() -> ComponentNodeType {
+  open func construct() -> NodeType {
     fatalError("unable to call 'construct' on the internal abstract class '_ComponentView'.")
   }
 
@@ -228,7 +228,7 @@ open class ComponentView: FlexboxComponentView {
     var new = self.construct()
 
     // Diff between new and old.
-    func diff(_ old: ComponentNodeType, new: ComponentNodeType) -> ComponentNodeType {
+    func diff(_ old: NodeType, new: NodeType) -> NodeType {
 
       old.prepareForUnmount()
 
@@ -236,7 +236,7 @@ open class ComponentView: FlexboxComponentView {
         return new
       }
 
-      var children = [ComponentNodeType]()
+      var children = [NodeType]()
       for (o,n) in zip(old.children, new.children) {
         children.append(diff(o, new: n))
       }

@@ -25,17 +25,17 @@ import Render
  Additionaly we define a `reuseIdentifier` - This is not mandatory, but since we have a custom init closure, this will help 
  Render's infra to reuse view of the same kind.
  */
-func DefaultButton() -> ComponentNode<UIButton> {
+func DefaultButton() -> Node<UIButton> {
     
     // when you construct a node with a custom initClosure setting a reuseIdentifier
     // helps the infra recycling that view.
-    return ComponentNode<UIButton>(reuseIdentifier: "DefaultButton", initClosure: {
+    return Node<UIButton>(reuseIdentifier: "DefaultButton", initClosure: {
         let view = UIButton()
-        view.css_usesFlexbox = true
-        view.css_minWidth = 64
-        view.css_minHeight = 64
-        view.css_alignSelf = CSSAlignCenter
-        view.css_justifyContent = CSSJustifyCenter
+        view.useFlexBox = true
+        view.layout_minWidth = 64
+        view.layout_minHeight = 64
+        view.layout_alignSelf = .center
+        view.layout_justifyContent = .center
         view.setTitleColor(UIColor.A, for: .normal)
         view.backgroundColor = UIColor.black.withAlphaComponent(0.2)
         view.titleLabel?.font = UIFont.systemFont(ofSize: 14.0, weight: UIFontWeightLight)
@@ -84,17 +84,17 @@ class FooComponentView: ComponentView {
     override func construct() -> ComponentNodeType {
 
         
-        return ComponentNode<UIView>().configure({ view in
-            view.css_usesFlexbox = true
-            view.style.css_flexDirection = self.fooState.expanded ? CSSFlexDirectionColumn : CSSFlexDirectionRow
+        return Node<UIView>().configure({ view in
+            view.useFlexbox = true
+            view.layout_flexDirection = self.fooState.expanded ? .column : .row
             view.backgroundColor = UIColor.A
         }).children([
             
-            ComponentNode<UIView>().configure({ view in
+            Node<UIView>().configure({ view in
                 let size: Float = self.fooState.expanded ? 128 : 32
-                view.css_usesFlexbox = true
-                view.css_width = size
-                view.css_height = size
+                view.useFlexbox = true
+                view.layout_width = size
+                view.layout_height = size
                 view.backgroundColor = UIColor.D
                 view.layer.cornerRadius = CGFloat(size)/2
             }).children([
@@ -102,11 +102,11 @@ class FooComponentView: ComponentView {
                 // this node is going to be part of the view hierarchy only when
                 // the condition 'self.fooState.expanded' is true.
                 when(self.fooState.expanded,
-                ComponentNode<UIView>().configure({ view in
-                    view.css_usesFlexbox = true
-                    view.css_flexGrow = 1
-                    view.css_alignSelf = CSSAlignStretch
-                    view.css_justifyContent = CSSJustifyCenter
+                Node<UIView>().configure({ view in
+                    view.layout_useFlexbox = true
+                    view.layout_flexGrow = 1
+                    view.layout_alignSelf = .stretch
+                    view.layout_justifyContent = .center
                         
                 }).children([
                     
@@ -120,11 +120,11 @@ class FooComponentView: ComponentView {
             // simmetrically, this node is going to be part of the view hierarchy only when
             // the condition 'self.fooState.expanded' is false.
             when(!self.fooState.expanded,
-            ComponentNode<UILabel>().configure({ view in
-                view.css_usesFlexbox = true
-                view.css_alignSelf = CSSJustifyCenter
-                view.css_minWidfth = 96
-                view.css_flexGrow = 1
+            Node<UILabel>().configure({ view in
+                view.useFlexbox = true
+                view.layout_alignSelf = .center
+                view.layout_minWidfth = 96
+                view.layout_flexGrow = 1
                 view.textAlignment = self.fooState.expanded ? .center : .left
                 view.text = self.fooState.text
                 if self.fooState.expanded {
@@ -167,31 +167,31 @@ class StaticFooComponentView: StaticComponentView {
     
     override func construct() -> ComponentNodeType {
 
-        return ComponentNode<UIView>().configure({ view in
-            view.css_usesFlexbox = true
-            view.css_flexDirection = self.fooState.expanded ? CSSFlexDirectionColumn : CSSFlexDirectionRow
+        return Node<UIView>().configure({ view in
+            view.layout_useFlexbox = true
+            view.layout_flexDirection = self.fooState.expanded ? .column : .row
             view.backgroundColor = UIColor.A
         }).children([
             
-            ComponentNode<UIView>().configure({ view in
+            Node<UIView>().configure({ view in
                 let size: Float = self.fooState.expanded ? 128 : 32
-                view.css_usesFlexbox = true
-                view.css_minWidth = size
-                view.css_minHeight = size
+                view.layout_useFlexbox = true
+                view.layout_minWidth = size
+                view.layout_minHeight = size
                 view.backgroundColor = UIColor.D
                 view.layer.cornerRadius = CGFloat(size)/2
             }).children([
                 
 
-                ComponentNode<UIView>().configure({ view in
+                Node<UIView>().configure({ view in
                     
                     // this node is going to be visible only when
                     // the condition 'self.fooState.expanded' is true.
                     view.isHidden = !self.fooState.expanded
-                    view.css_usesFlexbox = true
-                    view.css_flexGrow = 1
-                    view.css_alignSelf = CSSAlignCenter
-                    view.css_justifyContent = CSSJustifyCenter
+                    view.useFlexbox = true
+                    view.layout_flexGrow = 1
+                    view.layout_alignSelf = .center
+                    view.layout_justifyContent = .center
                 
                 }).children([
                         
@@ -203,16 +203,16 @@ class StaticFooComponentView: StaticComponentView {
             ]),
             
 
-            ComponentNode<UILabel>().configure({ view in
+            Node<UILabel>().configure({ view in
                 
                 // simmetrically, this node is going to be visible only when
                 // the condition 'self.fooState.expanded' is false.
                 view.isHidden = self.fooState.expanded
 
-                view.css_usesFlexbox = true
-                view.css_alignSelf = CSSAlignCenter
-                view.css_minWidth = 96
-                view.css_flexGrow = Flex.Max
+                view.useFlexbox = true
+                view.layout_alignSelf = .center
+                view.layout_minWidth = 96
+                view.layout_flexGrow = 1
                 view.textAlignment = self.fooState.expanded ? .center : .left
                 view.text = self.fooState.text
                 if self.fooState.expanded {

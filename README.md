@@ -79,16 +79,16 @@ class MyComponentView: ComponentView {
   var componentState: MyComponentState? { return self.state as? MyComponentState }
     
   /// Constructs the component tree.
-  override func construct() -> ComponentNodeType {
+  override func construct() -> NodeType {
   	
   // You can configure your component node through the 'configure' closure:
-  return ComponentNode<UIView>().configure({ view in
+  return Node<UIView>().configure({ view in
     view.layout_usesFlexbox = true
     view.layout_flexDirection = self.componentState.expanded ? .row : .column
     view.backgroundColor = UIColor.black}).children([
 	
       // Image View.
-      ComponentNode<UIImageView>().configure({  view in
+      Node<UIImageView>().configure({  view in
         view.image = self.componentState?.image
         let size = self.componentState.expanded ? self.referenceSize.width : 48.0
         view.useFlexbox = true
@@ -96,26 +96,26 @@ class MyComponentView: ComponentView {
         view.layout_width = size }),
 	
         // Text Wrapper.
-        ComponentNode<UIView>().configure({ view in
+        Node<UIView>().configure({ view in
           view.useFlexbox = true
           view.layout_flexDirection = .colum
           view.layout_marginAll = 4 }).children([
 
           // Title.
-          ComponentNode<UILabel>().configure({ view in
+          Node<UILabel>().configure({ view in
             view.text = self.componentState?.title ?? "None"
             view.font = UIFont.system(fontOfSize: 18.0, weight: UIFontWeightBold)
             view.textColor = UIColor.white }),
 
           // Subtitle.
-          ComponentNode<UILabel>().configure({ view in
+          Node<UILabel>().configure({ view in
             view.text = self.componentState?.subtitle ?? "Subtitle"
             view.font = UIFont.system(fontOfSize: 12.0, weight: UIFontWeightLight)
             view.textColor = UIColor.white })
       	])
 	
     // components can be configured using the 'props' collection
-    return ComponentNode<UIView>(props: [
+    return Node<UIView>(props: [
       #keyPath(backgroundColor): UIColor.black,
       #keyPath(flexDimensions): self.featured
                                 ? CGSize(width: size.width/2, height: CGFloat(Undefined))
@@ -131,7 +131,7 @@ class MyComponentView: ComponentView {
 
 The view description is defined by the `construct()` method.
 
-`ComponentNode<T>` is an abstraction around views of any sort that knows how to build, configure and layout the view when necessary.
+`Node<T>` is an abstraction around views of any sort that knows how to build, configure and layout the view when necessary.
 
 Every time `renderComponent()` is called, a new tree is constructed, compared to the existing tree and only the required changes to the actual view hierarchy are performed - *if you have a static view hierarchy, you might want to inherit from `StaticComponentView` to skip this part of the rendering* . Also the `configure` closure passed as argument is re-applied to every view defined in the `construct()` method and the layout is re-computed based on the nodes' flexbox attributes. 
 
@@ -145,7 +145,7 @@ The component above would render to:
 ###Lightweight Integration with UIKit
 
 *Components* are plain UIViews, so they can be used inside a vanilla view hierarchy with *autolayout* or *layoutSubviews*.
-Similarly plain vanilla UIViews (UIKit components or custom ones) can be wrapped in a `ComponentNode` (so they can be part of a `ComponentView` or a `StaticComponentView`).
+Similarly plain vanilla UIViews (UIKit components or custom ones) can be wrapped in a `Node` (so they can be part of a `ComponentView` or a `StaticComponentView`).
 
 The framework doesn't force you to use the Component abstraction. You can use normal UIViews with autolayout inside a component or vice versa. This is probably one of the biggest difference from Facebook's `ComponentKit`.
 
