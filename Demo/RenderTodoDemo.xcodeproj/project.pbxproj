@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		160B2C451CE72C33006327D0 /* SingleDemoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160B2C441CE72C33006327D0 /* SingleDemoViewController.swift */; };
 		1638C4ED1CE3359B00A0E283 /* Video.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1638C4EC1CE3359B00A0E283 /* Video.swift */; };
+		16859D311DDEF9C1003EC851 /* ListComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16859D301DDEF9C1003EC851 /* ListComponent.swift */; };
 		169F69611CCE3BA000240315 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 169F69601CCE3BA000240315 /* AppDelegate.swift */; };
 		169F69661CCE3BA000240315 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 169F69641CCE3BA000240315 /* Main.storyboard */; };
 		169F69681CCE3BA000240315 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 169F69671CCE3BA000240315 /* Assets.xcassets */; };
@@ -56,6 +57,7 @@
 		1638C4EC1CE3359B00A0E283 /* Video.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Video.swift; sourceTree = "<group>"; };
 		166071DF1CCFB20B008589A9 /* RenderTodoDemo-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "RenderTodoDemo-Bridging-Header.h"; sourceTree = "<group>"; };
 		166071E01CCFB20B008589A9 /* DebugObjc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DebugObjc.h; sourceTree = "<group>"; };
+		16859D301DDEF9C1003EC851 /* ListComponent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListComponent.swift; sourceTree = "<group>"; };
 		169F695D1CCE3BA000240315 /* RenderTodoDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RenderTodoDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		169F69601CCE3BA000240315 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		169F69651CCE3BA000240315 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -136,6 +138,7 @@
 			isa = PBXGroup;
 			children = (
 				16B5F80C1CD8CF35001726E4 /* AlbumComponentView.swift */,
+				16859D301DDEF9C1003EC851 /* ListComponent.swift */,
 			);
 			name = Components;
 			sourceTree = "<group>";
@@ -177,7 +180,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0730;
-				LastUpgradeCheck = 0730;
+				LastUpgradeCheck = 0800;
 				ORGANIZATIONNAME = "Alex Usbergo";
 				TargetAttributes = {
 					169F695C1CCE3BA000240315 = {
@@ -240,6 +243,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				169F697E1CCE3C1700240315 /* Style.swift in Sources */,
+				16859D311DDEF9C1003EC851 /* ListComponent.swift in Sources */,
 				16B5F80D1CD8CF35001726E4 /* AlbumComponentView.swift in Sources */,
 				169F69611CCE3BA000240315 /* AppDelegate.swift in Sources */,
 				1638C4ED1CE3359B00A0E283 /* Video.swift in Sources */,
@@ -292,8 +296,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -338,8 +344,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -358,6 +366,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
@@ -366,11 +375,11 @@
 		169F69701CCE3BA000240315 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				INFOPLIST_FILE = RenderTodoDemo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -386,11 +395,11 @@
 		169F69711CCE3BA000240315 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				INFOPLIST_FILE = RenderTodoDemo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

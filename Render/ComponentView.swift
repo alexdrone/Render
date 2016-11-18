@@ -30,13 +30,8 @@ import UIKit
 extension ComponentViewType {
 
   /// The root node for this component.
-  var root: NodeType? {
+  public var root: NodeType? {
     return NilComponent()
-  }
-
-  /// The dimension of the parent.
-  public var referenceSize: CGSize {
-    return self.referenceView?.bounds.size ?? CGSize.zero
   }
 }
 
@@ -209,6 +204,7 @@ open class ComponentView: FlexboxComponentView {
   /// - parameter state: The (optional) state for this component.
   open override func renderComponent(withSize size: CGSize = CGSize.undefined) {
     self.lastSize = size
+
     // runs its own configuration.
     self.internalStore.configureClosure?()
     self._root?.render(size)

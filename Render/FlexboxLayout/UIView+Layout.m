@@ -26,6 +26,7 @@
 - (void)dealloc {
   CSSNodeFree(_cnode);
 }
+
 @end
 
 @implementation UIView (CSSLayout)
@@ -34,6 +35,7 @@
   NSNumber *usesFlexbox = objc_getAssociatedObject(self, @selector(css_usesFlexbox));
   return [usesFlexbox boolValue];
 }
+
 
 #pragma mark - Setters
 

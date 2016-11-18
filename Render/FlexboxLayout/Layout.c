@@ -301,6 +301,9 @@ CSSMeasureFunc CSSNodeGetMeasureFunc(const CSSNodeRef node) {
 }
 
 void CSSNodeInsertChild(const CSSNodeRef node, const CSSNodeRef child, const uint32_t index) {
+  if (child->parent != NULL) {
+    CSSNodeRemoveChild(node, child);
+  }
   CSS_ASSERT(child->parent == NULL, "Child already has a parent, it must be removed first.");
   CSS_ASSERT(node->measure == NULL,
              "Cannot add child: Nodes with measure functions cannot have children.");

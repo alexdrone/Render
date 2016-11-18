@@ -32,28 +32,35 @@ class AlbumComponentView: ComponentView {
   /// Constructs the component tree.
   override func construct() -> NodeType {
 
+    let bigSize: CGFloat = 320
+    let smallSize: CGFloat = 90
     // Wrapper view.
     return Node<UIView>().configure({ view in
-      let size = self.referenceSize
       view.backgroundColor = UIColor.black
       view.useFlexbox = true
       view.layout_flexDirection = self.featured ? .column : .row
-      view.layout_width = self.featured ? size.width/2 : size.width
-      view.layout_minHeight = self.featured ? 	size.width/2 : 64
+      if self.featured {
+        view.layout_width = bigSize
+        view.layout_minHeight = bigSize
+        view.layout_alignSelf = .center
+      } else {
+        view.layout_minHeight = smallSize
+        view.layout_alignSelf = .stretch
+        view.layout_alignItems = .stretch
+      }
     }).children([
 
       // Album cover.
       Node<UIImageView>().configure({ view in
-        let size = self.referenceSize
         view.image = self.album?.cover
-        view.layer.cornerRadius = self.featured ? 0 : 32
+        view.layer.cornerRadius = self.featured ? 0 : smallSize/2
         view.clipsToBounds = true
         view.useFlexbox = true
         view.layout_alignSelf = .center
         view.layout_alignItems = .center
         view.layout_justifyContent = .center
-        view.layout_width = self.featured ? size.width/2 : 64
-        view.layout_height = self.featured ? size.width/2 : 64
+        view.layout_width = self.featured ? bigSize : smallSize
+        view.layout_height = self.featured ? bigSize : smallSize
         view.layout_marginAll = self.featured ? 0 : 4
       }).children([
         // Play button.
@@ -64,10 +71,11 @@ class AlbumComponentView: ComponentView {
       Node<UIView>().configure({ view in
         view.useFlexbox = true
         view.layout_flexDirection = .column
-        view.layout_alignSelf = .stretch
         view.layout_justifyContent = .center
         view.layout_flexShrink = 1
+        view.layout_alignItems = .stretch
         view.layout_marginAll = 4
+        view.layout_maxWidth = self.featured ? bigSize : CGFloat(FLT_MAX)
       }).children([
 
         // Title.

@@ -60,12 +60,16 @@ open class BaseComponentView: UIView, ComponentViewWithReusePoolViewType {
     }
   }
 
+  public var referenceSize: ((Void) -> CGSize)!
   var lastSize: CGSize?
 
   /// The component initialization.
   /// - Note: Always call the super implemention.
   open func initalizeComponent() {
-      //⌘+R
+    self.referenceSize = {
+      return self.referenceView?.bounds.size ?? CGSize.zero
+    }
+    //⌘+R
     #if (arch(i386) || arch(x86_64)) && (os(iOS))
       KeyCommands.register(input: "r", modifierFlags: .command) { [weak self] in
         guard let _ = self?.superview else { return }

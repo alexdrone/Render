@@ -15,11 +15,20 @@ class SingleDemoViewController: UIViewController {
   var album = Album(featured: true)
 
   /// The collection view component.
-  lazy var component: AlbumComponentView = {
-    let component = AlbumComponentView()
-    component.state = self.album
+  lazy var component: ListComponentView = {
+    let component = ListComponentView()
+    component.state = self.newRandomState()
     return component
   }()
+
+  func newRandomState() -> ListComponentState {
+    var albums: [Album] = []
+    for _ in 0..<randomInt(2, max: 16) {
+      albums.append(Album())
+    }
+    return ListComponentState(albums: albums)
+  }
+
 
   /// Called after the controller's view is loaded into memory.
   override func viewDidLoad() {
@@ -34,28 +43,27 @@ class SingleDemoViewController: UIViewController {
   }
 
   func render(_ animated: Bool = false) {
+    func layout() {
+      self.component.renderComponent(withSize: self.view.bounds.size)
+      self.component.center = self.view.center
+    }
     if animated {
       UIView.animate(withDuration: 0.3, animations: {
-        self.component.renderComponent()
-        self.component.center = self.view.center
+       layout()
       })
     } else {
-      self.component.renderComponent()
-      self.component.center = self.view.center
+      layout()
     }
   }
 
   /// Change the component state every 2 seconds.
   func toggleFeatured() {
-    delay(2) {
-      self.album.featured = !self.album.featured
-      self.component.state = self.album
+    delay(10) {
+      self.component.state = self.newRandomState()
       self.render(true)
-
       self.toggleFeatured()
     }
   }
-
 }
 
 

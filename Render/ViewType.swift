@@ -73,13 +73,18 @@ extension FlexboxView where Self: UIView {
       print("Unable to call 'render' on a ComponentView. Please call 'renderComponent'.")
       return
     }
-
+    func preRender(_ view: UIView) {
+      if view.useFlexbox {
+        view.layout_reset()
+      }
+      view.subviews.forEach(preRender)
+    }
     func postRender(_ view: UIView) {
       view.postRender()
       view.subviews.forEach(postRender)
     }
-
     let startTime = CFAbsoluteTimeGetCurrent()
+    preRender(self)
     self.configure()
     self.layout(bounds)
     postRender(self)
