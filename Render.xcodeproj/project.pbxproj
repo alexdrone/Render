@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		16097B621CB3B1A700551EBE /* Render.h in Headers */ = {isa = PBXBuildFile; fileRef = 16097B611CB3B1A700551EBE /* Render.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		16097B721CB3B1D100551EBE /* ViewType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16097B6D1CB3B1D100551EBE /* ViewType.swift */; };
-		16097B761CB3B5B600551EBE /* ComponentNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16097B751CB3B5B600551EBE /* ComponentNode.swift */; };
+		16097B761CB3B5B600551EBE /* Node.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16097B751CB3B5B600551EBE /* Node.swift */; };
 		161E87331CD775A2002C1BE1 /* ComponentViewType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 161E87321CD775A2002C1BE1 /* ComponentViewType.swift */; };
 		16268A4C1DDD11C50013B491 /* Layout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16268A4B1DDD11C50013B491 /* Layout.swift */; };
 		16329ABC1CC9266D00927B1B /* ComponentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16329ABB1CC9266D00927B1B /* ComponentCell.swift */; };
@@ -31,7 +31,7 @@
 		16097B611CB3B1A700551EBE /* Render.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Render.h; sourceTree = "<group>"; };
 		16097B631CB3B1A700551EBE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		16097B6D1CB3B1D100551EBE /* ViewType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewType.swift; sourceTree = "<group>"; };
-		16097B751CB3B5B600551EBE /* ComponentNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComponentNode.swift; sourceTree = "<group>"; };
+		16097B751CB3B5B600551EBE /* Node.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Node.swift; sourceTree = "<group>"; };
 		161E87321CD775A2002C1BE1 /* ComponentViewType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComponentViewType.swift; sourceTree = "<group>"; };
 		16268A4B1DDD11C50013B491 /* Layout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Layout.swift; sourceTree = "<group>"; };
 		16329ABB1CC9266D00927B1B /* ComponentCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComponentCell.swift; sourceTree = "<group>"; };
@@ -91,7 +91,7 @@
 		16329AB61CC8EA4300927B1B /* Components */ = {
 			isa = PBXGroup;
 			children = (
-				16097B751CB3B5B600551EBE /* ComponentNode.swift */,
+				16097B751CB3B5B600551EBE /* Node.swift */,
 				161E87321CD775A2002C1BE1 /* ComponentViewType.swift */,
 				16F19C941CE888A300EE8661 /* BaseComponentView.swift */,
 				16AD71B91CD0EF4700441CD0 /* ComponentView.swift */,
@@ -209,7 +209,7 @@
 				16B9D12D1DD9040400AD42AD /* KeyCommands.swift in Sources */,
 				161E87331CD775A2002C1BE1 /* ComponentViewType.swift in Sources */,
 				16AD71BA1CD0EF4700441CD0 /* ComponentView.swift in Sources */,
-				16097B761CB3B5B600551EBE /* ComponentNode.swift in Sources */,
+				16097B761CB3B5B600551EBE /* Node.swift in Sources */,
 				16329ABC1CC9266D00927B1B /* ComponentCell.swift in Sources */,
 				16CCDCC31CECA80300105446 /* ComponentStyle.swift in Sources */,
 				96E402761D100A81002509BC /* InfraConfiguration.swift in Sources */,
