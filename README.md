@@ -83,7 +83,7 @@ class MyComponentView: ComponentView {
   	
   // You can configure your component node through the 'configure' closure:
   return Node<UIView>().configure({ view in
-    view.layout_usesFlexbox = true
+    view.useFlexbox = true
     view.layout_flexDirection = self.componentState.expanded ? .row : .column
     view.backgroundColor = UIColor.black}).children([
 	
