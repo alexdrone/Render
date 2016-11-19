@@ -1,5 +1,5 @@
 //
-//  ComponentStyle.swift
+//  Style.swift
 //  Render
 //
 //  Created by Alex Usbergo on 27/04/16.
@@ -27,18 +27,18 @@
 
 import UIKit
 
-public protocol ComponentStyleType {
+public protocol StyleType {
 
   /// Applies the style to the view pased as argument.
   /// - parameter view: The target view.
   func apply(in view: UIView)
 }
 
-public func +(lhs: ComponentStyleType, rhs: ComponentStyleType) -> ComponentStyleType {
-  return CompoundComponentStyle(styles: [lhs, rhs])
+public func +(lhs: StyleType, rhs: StyleType) -> StyleType {
+  return CompoundStyle(styles: [lhs, rhs])
 }
 
-public struct ComponentStyle<ViewType: UIView>: ComponentStyleType {
+public struct Style<ViewType: UIView>: StyleType {
 
   // The associated cloure that applies the style to the target view.
   public let closure: (ViewType) -> Void
@@ -56,13 +56,13 @@ public struct ComponentStyle<ViewType: UIView>: ComponentStyleType {
   }
 }
 
-public struct CompoundComponentStyle: ComponentStyleType {
+public struct CompoundStyle: StyleType {
 
   /// All the styles that form the compound.
   /// - Note: The style are applied in order.
-  let styles: [ComponentStyleType]
+  let styles: [StyleType]
 
-  public init(styles: [ComponentStyleType]) {
+  public init(styles: [StyleType]) {
     self.styles = styles
   }
 
@@ -79,7 +79,7 @@ public extension UIView {
 
   /// Apply the component style passed as argument.
   /// - parameter style: A component style object.
-  public func apply(style: ComponentStyleType) {
+  public func apply(style: StyleType) {
     style.apply(in: self)
   }
 }

@@ -12,15 +12,15 @@
 		16097B761CB3B5B600551EBE /* Node.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16097B751CB3B5B600551EBE /* Node.swift */; };
 		161E87331CD775A2002C1BE1 /* ComponentViewType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 161E87321CD775A2002C1BE1 /* ComponentViewType.swift */; };
 		16268A4C1DDD11C50013B491 /* Layout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16268A4B1DDD11C50013B491 /* Layout.swift */; };
-		16329ABC1CC9266D00927B1B /* ComponentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16329ABB1CC9266D00927B1B /* ComponentCell.swift */; };
+		16329ABC1CC9266D00927B1B /* Cells.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16329ABB1CC9266D00927B1B /* Cells.swift */; };
+		164D51541DE0FF52007A87B1 /* Layout.c in Sources */ = {isa = PBXBuildFile; fileRef = 164D51501DE0FF52007A87B1 /* Layout.c */; };
+		164D51551DE0FF52007A87B1 /* Layout.h in Headers */ = {isa = PBXBuildFile; fileRef = 164D51511DE0FF52007A87B1 /* Layout.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		164D51561DE0FF52007A87B1 /* UIView+Layout.h in Headers */ = {isa = PBXBuildFile; fileRef = 164D51521DE0FF52007A87B1 /* UIView+Layout.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		164D51571DE0FF52007A87B1 /* UIView+Layout.m in Sources */ = {isa = PBXBuildFile; fileRef = 164D51531DE0FF52007A87B1 /* UIView+Layout.m */; };
 		1693B9761CBD734D00A44B24 /* Reset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1693B9751CBD734D00A44B24 /* Reset.swift */; };
 		16AD71BA1CD0EF4700441CD0 /* ComponentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16AD71B91CD0EF4700441CD0 /* ComponentView.swift */; };
-		16B9D1281DD8F3E900AD42AD /* Layout.c in Sources */ = {isa = PBXBuildFile; fileRef = 16B9D1241DD8F3E900AD42AD /* Layout.c */; };
-		16B9D1291DD8F3E900AD42AD /* Layout.h in Headers */ = {isa = PBXBuildFile; fileRef = 16B9D1251DD8F3E900AD42AD /* Layout.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		16B9D12A1DD8F3E900AD42AD /* UIView+Layout.h in Headers */ = {isa = PBXBuildFile; fileRef = 16B9D1261DD8F3E900AD42AD /* UIView+Layout.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		16B9D12B1DD8F3E900AD42AD /* UIView+Layout.m in Sources */ = {isa = PBXBuildFile; fileRef = 16B9D1271DD8F3E900AD42AD /* UIView+Layout.m */; };
 		16B9D12D1DD9040400AD42AD /* KeyCommands.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16B9D12C1DD9040400AD42AD /* KeyCommands.swift */; };
-		16CCDCC31CECA80300105446 /* ComponentStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16CCDCC21CECA80300105446 /* ComponentStyle.swift */; };
+		16CCDCC31CECA80300105446 /* Style.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16CCDCC21CECA80300105446 /* Style.swift */; };
 		16F19C951CE888A300EE8661 /* BaseComponentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F19C941CE888A300EE8661 /* BaseComponentView.swift */; };
 		96E402761D100A81002509BC /* InfraConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96E402751D100A81002509BC /* InfraConfiguration.swift */; };
 		96E402781D100D1B002509BC /* ViewReusePool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96E402771D100D1B002509BC /* ViewReusePool.swift */; };
@@ -34,15 +34,15 @@
 		16097B751CB3B5B600551EBE /* Node.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Node.swift; sourceTree = "<group>"; };
 		161E87321CD775A2002C1BE1 /* ComponentViewType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComponentViewType.swift; sourceTree = "<group>"; };
 		16268A4B1DDD11C50013B491 /* Layout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Layout.swift; sourceTree = "<group>"; };
-		16329ABB1CC9266D00927B1B /* ComponentCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComponentCell.swift; sourceTree = "<group>"; };
+		16329ABB1CC9266D00927B1B /* Cells.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cells.swift; sourceTree = "<group>"; };
+		164D51501DE0FF52007A87B1 /* Layout.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = Layout.c; path = objc/Layout.c; sourceTree = "<group>"; };
+		164D51511DE0FF52007A87B1 /* Layout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Layout.h; path = objc/Layout.h; sourceTree = "<group>"; };
+		164D51521DE0FF52007A87B1 /* UIView+Layout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIView+Layout.h"; path = "objc/UIView+Layout.h"; sourceTree = "<group>"; };
+		164D51531DE0FF52007A87B1 /* UIView+Layout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIView+Layout.m"; path = "objc/UIView+Layout.m"; sourceTree = "<group>"; };
 		1693B9751CBD734D00A44B24 /* Reset.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reset.swift; sourceTree = "<group>"; };
 		16AD71B91CD0EF4700441CD0 /* ComponentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComponentView.swift; sourceTree = "<group>"; };
-		16B9D1241DD8F3E900AD42AD /* Layout.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = Layout.c; path = FlexboxLayout/Layout.c; sourceTree = "<group>"; };
-		16B9D1251DD8F3E900AD42AD /* Layout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Layout.h; path = FlexboxLayout/Layout.h; sourceTree = "<group>"; };
-		16B9D1261DD8F3E900AD42AD /* UIView+Layout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIView+Layout.h"; path = "FlexboxLayout/UIView+Layout.h"; sourceTree = "<group>"; };
-		16B9D1271DD8F3E900AD42AD /* UIView+Layout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIView+Layout.m"; path = "FlexboxLayout/UIView+Layout.m"; sourceTree = "<group>"; };
 		16B9D12C1DD9040400AD42AD /* KeyCommands.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyCommands.swift; sourceTree = "<group>"; };
-		16CCDCC21CECA80300105446 /* ComponentStyle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComponentStyle.swift; sourceTree = "<group>"; };
+		16CCDCC21CECA80300105446 /* Style.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Style.swift; sourceTree = "<group>"; };
 		16F19C941CE888A300EE8661 /* BaseComponentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseComponentView.swift; sourceTree = "<group>"; };
 		96E402751D100A81002509BC /* InfraConfiguration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InfraConfiguration.swift; sourceTree = "<group>"; };
 		96E402771D100D1B002509BC /* ViewReusePool.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewReusePool.swift; sourceTree = "<group>"; };
@@ -91,13 +91,13 @@
 		16329AB61CC8EA4300927B1B /* Components */ = {
 			isa = PBXGroup;
 			children = (
-				16097B751CB3B5B600551EBE /* Node.swift */,
-				161E87321CD775A2002C1BE1 /* ComponentViewType.swift */,
 				16F19C941CE888A300EE8661 /* BaseComponentView.swift */,
+				16329ABB1CC9266D00927B1B /* Cells.swift */,
 				16AD71B91CD0EF4700441CD0 /* ComponentView.swift */,
-				16CCDCC21CECA80300105446 /* ComponentStyle.swift */,
-				16329ABB1CC9266D00927B1B /* ComponentCell.swift */,
+				161E87321CD775A2002C1BE1 /* ComponentViewType.swift */,
+				16097B751CB3B5B600551EBE /* Node.swift */,
 				96E402751D100A81002509BC /* InfraConfiguration.swift */,
+				16CCDCC21CECA80300105446 /* Style.swift */,
 				96E402771D100D1B002509BC /* ViewReusePool.swift */,
 			);
 			name = Components;
@@ -106,8 +106,8 @@
 		16329AB71CC8EA5800927B1B /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				1693B9751CBD734D00A44B24 /* Reset.swift */,
 				16B9D12C1DD9040400AD42AD /* KeyCommands.swift */,
+				1693B9751CBD734D00A44B24 /* Reset.swift */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -115,14 +115,22 @@
 		16329AB81CC8EA6500927B1B /* Layout */ = {
 			isa = PBXGroup;
 			children = (
-				16097B6D1CB3B1D100551EBE /* ViewType.swift */,
-				16B9D1241DD8F3E900AD42AD /* Layout.c */,
-				16B9D1251DD8F3E900AD42AD /* Layout.h */,
-				16B9D1261DD8F3E900AD42AD /* UIView+Layout.h */,
-				16B9D1271DD8F3E900AD42AD /* UIView+Layout.m */,
+				164D514F1DE0FF2A007A87B1 /* objc */,
 				16268A4B1DDD11C50013B491 /* Layout.swift */,
+				16097B6D1CB3B1D100551EBE /* ViewType.swift */,
 			);
 			name = Layout;
+			sourceTree = "<group>";
+		};
+		164D514F1DE0FF2A007A87B1 /* objc */ = {
+			isa = PBXGroup;
+			children = (
+				164D51511DE0FF52007A87B1 /* Layout.h */,
+				164D51501DE0FF52007A87B1 /* Layout.c */,
+				164D51521DE0FF52007A87B1 /* UIView+Layout.h */,
+				164D51531DE0FF52007A87B1 /* UIView+Layout.m */,
+			);
+			name = objc;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -132,9 +140,9 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				16B9D1291DD8F3E900AD42AD /* Layout.h in Headers */,
+				164D51551DE0FF52007A87B1 /* Layout.h in Headers */,
 				16097B621CB3B1A700551EBE /* Render.h in Headers */,
-				16B9D12A1DD8F3E900AD42AD /* UIView+Layout.h in Headers */,
+				164D51561DE0FF52007A87B1 /* UIView+Layout.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -206,17 +214,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				164D51541DE0FF52007A87B1 /* Layout.c in Sources */,
 				16B9D12D1DD9040400AD42AD /* KeyCommands.swift in Sources */,
 				161E87331CD775A2002C1BE1 /* ComponentViewType.swift in Sources */,
 				16AD71BA1CD0EF4700441CD0 /* ComponentView.swift in Sources */,
+				164D51571DE0FF52007A87B1 /* UIView+Layout.m in Sources */,
 				16097B761CB3B5B600551EBE /* Node.swift in Sources */,
-				16329ABC1CC9266D00927B1B /* ComponentCell.swift in Sources */,
-				16CCDCC31CECA80300105446 /* ComponentStyle.swift in Sources */,
+				16329ABC1CC9266D00927B1B /* Cells.swift in Sources */,
+				16CCDCC31CECA80300105446 /* Style.swift in Sources */,
 				96E402761D100A81002509BC /* InfraConfiguration.swift in Sources */,
 				96E402781D100D1B002509BC /* ViewReusePool.swift in Sources */,
 				16097B721CB3B1D100551EBE /* ViewType.swift in Sources */,
-				16B9D12B1DD8F3E900AD42AD /* UIView+Layout.m in Sources */,
-				16B9D1281DD8F3E900AD42AD /* Layout.c in Sources */,
 				16268A4C1DDD11C50013B491 /* Layout.swift in Sources */,
 				16F19C951CE888A300EE8661 /* BaseComponentView.swift in Sources */,
 				1693B9761CBD734D00A44B24 /* Reset.swift in Sources */,

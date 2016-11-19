@@ -20,99 +20,6 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "RenderTodoDemo/AlbumComponentView.swift"
-            timestampString = "501166711.656066"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "103"
-            endingLineNumber = "103"
-            landmarkName = "DefaultButton(title:)"
-            landmarkType = "9">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "RenderTodoDemo.AlbumComponentView.construct () -&gt; Render.ComponentNodeType"
-                  moduleName = "RenderTodoDemo"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/alexusbergo/github/Render/Demo/RenderTodoDemo/AlbumComponentView.swift"
-                  timestampString = "495361981.474669"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "93"
-                  endingLineNumber = "93"
-                  offsetFromSymbolStart = "3467">
-               </Location>
-               <Location
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "RenderTodoDemo.DefaultButton () -&gt; Render.ComponentNode&lt;__ObjC.UIButton&gt;"
-                  moduleName = "RenderTodoDemo"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/alexusbergo/github/Render/Demo/RenderTodoDemo/AlbumComponentView.swift"
-                  timestampString = "495361981.476415"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "93"
-                  endingLineNumber = "93"
-                  offsetFromSymbolStart = "124">
-               </Location>
-               <Location
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "RenderTodoDemo.VideoComponentView.construct () -&gt; Render.ComponentNodeType"
-                  moduleName = "RenderTodoDemo"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/alexusbergo/github/Render/Demo/RenderTodoDemo/AlbumComponentView.swift"
-                  timestampString = "495361981.478175"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "93"
-                  endingLineNumber = "93"
-                  offsetFromSymbolStart = "999">
-               </Location>
-               <Location
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "RenderTodoDemo.VideoComponentView.construct () -&gt; Render.ComponentNodeType"
-                  moduleName = "RenderTodoDemo"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/alexusbergo/github/Render/Demo/RenderTodoDemo/AlbumComponentView.swift"
-                  timestampString = "495361981.479977"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "93"
-                  endingLineNumber = "93"
-                  offsetFromSymbolStart = "1114">
-               </Location>
-               <Location
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "RenderTodoDemo.VideoComponentView.construct () -&gt; Render.ComponentNodeType"
-                  moduleName = "RenderTodoDemo"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/alexusbergo/github/Render/Demo/RenderTodoDemo/AlbumComponentView.swift"
-                  timestampString = "495361981.481857"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "93"
-                  endingLineNumber = "93"
-                  offsetFromSymbolStart = "1229">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "RenderTodoDemo/AlbumComponentView.swift"
             timestampString = "500722069.477322"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
@@ -500,38 +407,6 @@
             startingLineNumber = "73"
             endingLineNumber = "73"
             landmarkName = "initalizeComponent()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "RenderTodoDemo/AlbumComponentView.swift"
-            timestampString = "501164449.834231"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "34"
-            endingLineNumber = "34"
-            landmarkName = "construct()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "RenderTodoDemo/AlbumComponentView.swift"
-            timestampString = "501164449.834231"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "39"
-            endingLineNumber = "39"
-            landmarkName = "construct()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

@@ -129,7 +129,7 @@ public class Node<ViewType: UIView>: NodeType {
   /// This is really meant to be used as a shorthand to initialize your node.
   public init(reuseIdentifier: String,
               props: PropsType = PropsType(),
-              style: ComponentStyleType) {
+              style: StyleType) {
     self.prepareForReuse = false
     self.reuseIdentifier = reuseIdentifier
     self.props = props

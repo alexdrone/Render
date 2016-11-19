@@ -61,68 +61,82 @@ Despite virtually any `UIView` object can be a component (as long as it conforms
 
 **Render** layout engine is based on [FlexboxLayout](https://github.com/alexdrone/FlexboxLayout).
 
-This is what a component (and its state) would look like:
+This is what a component looks like:
 
 
 ```swift
 
-struct MyComponentState: ComponentStateType {
-	let title: String
-	let subtitle: String
-	let image: UIImage  
-	let expanded: Bool
-}
+final class AlbumComponentView: ComponentView {
 
-class MyComponentView: ComponentView {
-    
-  // The component state.
-  var componentState: MyComponentState? { return self.state as? MyComponentState }
-    
+  /// The component state.
+  var album: Album {
+    return self.state as! Album
+  }
+
   /// Constructs the component tree.
   override func construct() -> NodeType {
-  	
-  // You can configure your component node through the 'configure' closure:
-  return Node<UIView>().configure({ view in
-    view.useFlexbox = true
-    view.layout_flexDirection = self.componentState.expanded ? .row : .column
-    view.backgroundColor = UIColor.black}).children([
-	
-      // Image View.
-      Node<UIImageView>().configure({  view in
-        view.image = self.componentState?.image
-        let size = self.componentState.expanded ? self.referenceSize.width : 48.0
-        view.useFlexbox = true
-        view.layout_height = size
-        view.layout_width = size }),
-	
-        // Text Wrapper.
-        Node<UIView>().configure({ view in
-          view.useFlexbox = true
-          view.layout_flexDirection = .colum
-          view.layout_marginAll = 4 }).children([
-
-          // Title.
-          Node<UILabel>().configure({ view in
-            view.text = self.componentState?.title ?? "None"
-            view.font = UIFont.system(fontOfSize: 18.0, weight: UIFontWeightBold)
-            view.textColor = UIColor.white }),
-
-          // Subtitle.
-          Node<UILabel>().configure({ view in
-            view.text = self.componentState?.subtitle ?? "Subtitle"
-            view.font = UIFont.system(fontOfSize: 12.0, weight: UIFontWeightLight)
-            view.textColor = UIColor.white })
-      	])
-	
-    // components can be configured using the 'props' collection
-    return Node<UIView>(props: [
-      #keyPath(backgroundColor): UIColor.black,
-      #keyPath(flexDimensions): self.featured
-                                ? CGSize(width: size.width/2, height: CGFloat(Undefined))
-                                : CGSize(width: size.width, height: 64)]).children([ ....
+    return wrapper(isFeatured: self.featured).children([
+      albumCover(isFeatured: self.featured, cover: self.album?.cover).children([
+        // This node is added only when self.featured is 'true'.
+        when(self.featured, defaultButton())]),
+      textContainer(isFeatured: self.featured).children([
+        text(title: self.album?.title ?? "None", isTitle: true),
+        text(title: self.album?.artist ?? "Unknown Artist", isTitle: false)])
+      ])
+    }    
   }
-    
 }
+
+fileprivate func albumCover(isFeatured: Bool, cover: UIImage?) -> Node<UIImageView> {
+  return Node<UIImageView>().configure { view in
+    let smallSize = AlbumComponentView.Metrics.smallSize
+    let bigSize = AlbumComponentView.Metrics.bigSize
+    view.image = cover
+    view.layer.cornerRadius = isFeatured ? 0 : smallSize/2
+    view.clipsToBounds = true
+    view.useFlexbox = true
+    view.layout_alignSelf = .center
+    view.layout_alignItems = .center
+    view.layout_justifyContent = .center
+    view.layout_width = isFeatured ? bigSize : smallSize
+    view.layout_height = isFeatured ? bigSize : smallSize
+    view.layout_marginAll = isFeatured ? 0 : 4
+  }
+}
+
+fileprivate func text(title: String, isTitle: Bool) -> Node<UILabel> {
+  return Node<UILabel>().configure { view in
+    view.text = title
+    view.font = isTitle
+    ? UIFont.systemFont(ofSize: 18.0, weight: UIFontWeightBold)
+    : UIFont.systemFont(ofSize: 12.0, weight: UIFontWeightLight)
+    view.textColor = S.Color.white
+    view.numberOfLines = isTitle ? 1 : 0
+    view.useFlexbox = true
+  }
+}
+
+fileprivate func defaultButton(title: String = "Button") -> Node<UIButton> {
+  return Node<UIButton>().configure { view in
+    ... Check the demo for more info
+  }
+}
+
+fileprivate func wrapper(isFeatured: Bool) -> Node<UIView> {
+    return Node<UIView>().configure { view in
+      ... Check the demo for more info
+    }
+  }
+}
+
+fileprivate func textContainer(isFeatured: Bool) -> Node<UIView> {
+  return Node<UIView>().configure{ view in
+    ... Check the demo for more info
+  }
+}
+
+...
+
 
 ```
 
@@ -137,7 +151,7 @@ Every time `renderComponent()` is called, a new tree is constructed, compared to
 
 The component above would render to:
 
-<img src="Doc/render.jpg" width="454">
+<img src="Doc/render.png" width="320">
 
 **Check the playgrounds for more examples**
 
