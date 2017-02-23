@@ -145,10 +145,10 @@ Install the injection plugin, patch your project for injection and add this code
 ```swift
 
 class MyComponentView: ComponentView<State> {
-	...
-	func injected() {
-		self.render()
-	}
+  ...
+  func injected() {
+  	self.render()
+  }
 }
 
 ```
@@ -179,6 +179,49 @@ class HelloWorldComponentView: ComponentView<AppState>, StoreSubscriber {
 }
 
 ```
+
+##Use with Buffer
+
+[Buffer](https://github.com/alexdrone/Buffer) is a μ-framework for efficient array diffs, collection observation and data source implementation.
+It exposes a declarative API for UITableView and UICollectionView.
+This is an example of how to use Buffer with Render's ComponentViews.
+
+```swift
+
+import Buffer
+import Render
+
+class ViewController: UIViewController {
+
+  let tableView =  TableView<FooModel>()
+
+  lazy var elements: [AnyListItem<FooState>] = {
+    var elements = [AnyListItem<FooState>]()
+    for _ in 0...100 {
+      // AnyListItem wraps the data and the configuration for every row in the tableview.
+      let item = AnyListItem(type: ComponentTableViewCell<FooState>.self, state: FooState(text: "Foo")) { cell, state in
+        cell.mountComponentIfNecessary(FooComponentView())
+        cell.state = state
+        cell.textLabel?.text = state.text
+        cell.render(in: self.tableView.bounds.size)
+      }
+      elements.append(item)
+    }
+    return elements
+  }()
+
+  override func viewDidLoad() {
+    super.viewDidLoad()
+    self.view.addSubview(self.tableView)
+
+    // Simply set the elements for the table view.
+    self.tableView.elements = self.elements
+  }
+}
+
+```
+
+
 #LICENSE
 
 - [Yoga](https://facebook.github.io/yoga/)

@@ -53,5 +53,4 @@ struct Fragments {
       view.backgroundColor = Color.red
     }
   }
-
 }
