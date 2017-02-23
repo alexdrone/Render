@@ -1,30 +1,4 @@
-//
-//  Reset.swift
-//  Render
-//
-//  Created by Alex Usbergo on 30/03/16.
-//
-//  Copyright (c) 2016 Alex Usbergo.
-//
-//  Permission is hereby granted, free of charge, to any person obtaining a copy
-//  of this software and associated documentation files (the "Software"), to deal
-//  in the Software without restriction, including without limitation the rights
-//  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-//  copies of the Software, and to permit persons to whom the Software is
-//  furnished to do so, subject to the following conditions:
-//
-//  The above copyright notice and this permission notice shall be included in
-//  all copies or substantial portions of the Software.
-//
-//  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-//  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-//  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-//  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-//  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-//  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-//  THE SOFTWARE.
-//
-
+import Foundation
 import UIKit
 
 struct Reset {
@@ -55,25 +29,38 @@ struct Reset {
   }
 
   fileprivate static func resetCssView(_ view: UIView, proto: UIView = Reset.View) {
-    proto.css_usesFlexbox = true
-    view.css_usesFlexbox = true
-    view.css_direction = proto.css_direction
-    view.css_flexDirection = proto.css_flexDirection
-    view.css_justifyContent = proto.css_justifyContent
-    view.css_alignContent = proto.css_alignContent
-    view.css_alignSelf = proto.css_alignSelf
-    view.css_alignItems = proto.css_alignItems
-    view.css_positionType = proto.css_positionType
-    view.css_flexWrap = proto.css_flexWrap
-    view.css_flexGrow = proto.css_flexGrow
-    view.css_flexShrink = proto.css_flexShrink
-    view.css_flexBasis = proto.css_flexBasis
-    view.css_width = proto.css_width
-    view.css_height = proto.css_height
-    view.css_minHeight = proto.css_minHeight
-    view.css_minWidth = proto.css_minWidth
-    view.css_maxWidth = proto.css_maxWidth
-    view.css_maxHeight = proto.css_maxHeight
+    guard view.yoga.isEnabled else {
+      return
+    }
+    view.yoga.direction = proto.yoga.direction
+    view.yoga.flexDirection = proto.yoga.flexDirection
+    view.yoga.justifyContent = proto.yoga.justifyContent
+    view.yoga.flexDirection = proto.yoga.flexDirection
+    view.yoga.alignContent = proto.yoga.alignContent
+    view.yoga.alignSelf = proto.yoga.alignSelf
+    view.yoga.alignItems = proto.yoga.alignItems
+    view.yoga.position = proto.yoga.position
+    view.yoga.flexWrap = proto.yoga.flexWrap
+    view.yoga.flexGrow = proto.yoga.flexGrow
+    view.yoga.flexShrink = proto.yoga.flexShrink
+    view.yoga.flexBasis = proto.yoga.flexBasis
+    view.yoga.width = proto.yoga.width
+    view.yoga.height = proto.yoga.height
+    view.yoga.minHeight = proto.yoga.minHeight
+    view.yoga.minWidth = proto.yoga.minWidth
+    view.yoga.maxHeight = proto.yoga.maxHeight
+    view.yoga.maxWidth = proto.yoga.maxWidth
+    view.yoga.padding = proto.yoga.padding
+    view.yoga.paddingTop = proto.yoga.paddingTop
+    view.yoga.paddingLeft = proto.yoga.paddingLeft
+    view.yoga.paddingRight = proto.yoga.paddingRight
+    view.yoga.paddingBottom = proto.yoga.paddingBottom
+    view.yoga.margin = proto.yoga.margin
+    view.yoga.marginTop = proto.yoga.marginTop
+    view.yoga.marginLeft = proto.yoga.marginLeft
+    view.yoga.marginRight = proto.yoga.marginRight
+    view.yoga.marginBottom = proto.yoga.marginBottom
+    view.yoga.aspectRatio = proto.yoga.aspectRatio
   }
 
   fileprivate static let Label = UILabel()
@@ -328,23 +315,20 @@ extension UIImageView {
   }
 }
 
-extension FlexboxView where Self: UIView {
+protocol PostRendering {
 
-  /// content-size calculation for the scrollview should be applied after the layout.
-  /// This is called after the scroll view is rendered.
-  /// TableViews and CollectionViews are excluded from this post-render pass.
-  func postRender() {
-    if let scrollView = self as? UIScrollView {
-      if let _ = self as? UITableView { return }
-      if let _ = self as? UICollectionView { return }
-      scrollView.postRender()
-    }
-  }
+  /** content-size calculation for the scrollview should be applied after the layout.
+   *  This is called after the scroll view is rendered.
+   *  TableViews and CollectionViews are excluded from this post-render pass.
+   */
+  func postRender()
 }
 
-extension UIScrollView {
+extension UIScrollView: PostRendering {
 
   func postRender() {
+    if let _ = self as? UITableView { return }
+    if let _ = self as? UICollectionView { return }
     var x: CGFloat = 0
     var y: CGFloat = 0
     for subview in self.subviews {
@@ -353,24 +337,5 @@ extension UIScrollView {
     }
     self.contentSize = CGSize(width: x, height: y)
     self.isScrollEnabled = true
-  }
-}
-
-public extension CGSize {
-
-  /// Undefined size.
-  public static let undefined = CGSize(width: CGFloat(CSSNaN()), height: CGFloat(CSSNaN()))
-
-  public static func sizeConstraintToHeight(_ height: CGFloat) -> CGSize {
-    return CGSize(width: CGFloat(CSSNaN()), height: height)
-  }
-
-  public static func sizeConstraintToWidth(_ width: CGFloat) -> CGSize {
-    return CGSize(width: width, height: CGFloat(CSSNaN()))
-  }
-
-  /// Returns true is this value is less than .19209290E-07F
-  public var isZero: Bool {
-    return self.width < CGFloat(FLT_EPSILON) && self.height < CGFloat(FLT_EPSILON)
   }
 }

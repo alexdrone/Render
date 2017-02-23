@@ -2,15 +2,21 @@
 //  Render.h
 //  Render
 //
-//  Created by Alex Usbergo on 05/04/16.
-//  Copyright © 2016 Alex Usbergo. All rights reserved.
+//  Created by Alex Usbergo on 2017-02-19.
+//  Copyright © 2017 Alex Usbergo. All rights reserved.
 //
 
-#if __IPHONE_OS_VERSION_MAX_ALLOWED
 #import <UIKit/UIKit.h>
-#else
-#import <Foundation/Foundation.h>
-#endif
+#import <Render/UIView+Yoga.h>
+#import <Render/YGEnums.h>
+#import <Render/YGLayout.h>
+#import <Render/YGNodeList.h>
+#import <Render/Yoga.h>
 
-#import <Render/Layout.h>
-#import <Render/UIView+Layout.h>
+//! Project version number for Render.
+FOUNDATION_EXPORT double RenderVersionNumber;
+
+//! Project version string for Render.
+FOUNDATION_EXPORT const unsigned char RenderVersionString[];
+
+
