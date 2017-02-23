@@ -56,12 +56,7 @@ import Render
 
 #TL;DR
 
-**Render**'s building blocks are *Components* (described in the protocol `ComponentViewType`).
-
-
-**Render**'s core functionalities are exposed by ComponentView class.
-
-**Render** layout engine is based on [Yoga](https://github.com/alexdrone/FlexboxLayout).
+**Render**'s building blocks are *Components* (described in the protocol `ComponentViewType`) and its layout engine is based on [Yoga](https://facebook.github.io/yoga/).
 
 This is what a component looks like:
 
