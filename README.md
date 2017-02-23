@@ -166,7 +166,7 @@ You can wrap your components in `ComponentTableViewCell` or `ComponentCollection
 
 #LICENSE
 
-- [Yoga](https://facebook.github.io/yoga/))
+- [Yoga](https://facebook.github.io/yoga/)
 - [React](https://github.com/facebook/react): The React github page
 
 
