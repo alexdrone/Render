@@ -157,7 +157,33 @@ class MyComponentView: ComponentView<State> {
 
 You can wrap your components in `ComponentTableViewCell` or `ComponentCollectionViewCell` and use the classic dataSource/delegate pattern for you view controller.
 
+###Use with ReSwift
 
+[ReSwift](https://github.com/ReSwift/ReSwift) is a Redux-like implementation of the unidirectional data flow architecture in Swift. 
+Render fits perfectly ReSwift updates model.
+
+
+```swift
+
+import Render
+import ReSwift
+
+class HelloWorldComponentView: ComponentView<AppState>, StoreSubscriber {
+  override func construct(state: AppState?, size: CGSize = CGSize.undefined) -> NodeType {
+   ...
+  }
+	
+  func newState(state: AppState) {
+		self.state = state
+		self.render()
+  }
+	
+  func buttonTapped(sender: UIButton) {
+  	mainStore.dispatch(AnAction())
+  }
+}
+
+```
 #LICENSE
 
 - [Yoga](https://facebook.github.io/yoga/)
