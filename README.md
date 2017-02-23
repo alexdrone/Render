@@ -202,7 +202,6 @@ class ViewController: UIViewController {
       let item = AnyListItem(type: ComponentTableViewCell<FooState>.self, state: FooState(text: "Foo")) { cell, state in
         cell.mountComponentIfNecessary(FooComponentView())
         cell.state = state
-        cell.textLabel?.text = state.text
         cell.render(in: self.tableView.bounds.size)
       }
       elements.append(item)
