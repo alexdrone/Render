@@ -128,7 +128,7 @@ The component above would render to:
 
 <img src="Doc/render.png" width="300">
 
-**Check the playgrounds for more examples**
+**Check the demo project for more examples**
 
 
 ###Lightweight Integration with UIKit
