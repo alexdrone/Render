@@ -160,8 +160,6 @@ You can wrap your components in `ComponentTableViewCell` or `ComponentCollection
 ###Use with ReSwift
 
 [ReSwift](https://github.com/ReSwift/ReSwift) is a Redux-like implementation of the unidirectional data flow architecture in Swift. 
-Render fits perfectly ReSwift updates model.
-
 
 ```swift
 
