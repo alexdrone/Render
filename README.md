@@ -169,6 +169,7 @@ import Render
 import ReSwift
 
 class HelloWorldComponentView: ComponentView<AppState>, StoreSubscriber {
+
   override func construct(state: AppState?, size: CGSize = CGSize.undefined) -> NodeType {
     ...
   }
