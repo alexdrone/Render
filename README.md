@@ -9,7 +9,6 @@
 *React-inspired Swift library for writing UIKit UIs.*
 
 
-
 #Why
 
 - In render a view is a simple function of the application state inspired from React/Elm architectures.
