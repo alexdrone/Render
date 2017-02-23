@@ -7,7 +7,6 @@
 [![Gitter](https://badges.gitter.im/alexdrone/Render.svg)](https://gitter.im/alexdrone/Render?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
 *React-inspired Swift library for writing UIKit UIs.*
-[(Swift 2.3 branch here)](https://github.com/alexdrone/Render/tree/swift_2_3)
 
 
 #Why
