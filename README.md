@@ -196,17 +196,14 @@ class ViewController: UIViewController {
   let tableView =  TableView<FooModel>()
 
   lazy var elements: [AnyListItem<FooState>] = {
-    var elements = [AnyListItem<FooState>]()
-    for _ in 0...100 {
+    return (0...100).map { _ in
       // AnyListItem wraps the data and the configuration for every row in the tableview.
       let item = AnyListItem(type: ComponentTableViewCell<FooState>.self, state: FooState(text: "Foo")) { cell, state in
         cell.mountComponentIfNecessary(FooComponentView())
         cell.state = state
         cell.render(in: self.tableView.bounds.size)
       }
-      elements.append(item)
     }
-    return elements
   }()
 
   override func viewDidLoad() {
