@@ -12,7 +12,7 @@
 
 #Why
 
-- In render a view is a simple function of the give application state inspired from React/Elm architectures.
+- In render a view is a simple function of the application state inspired from React/Elm architectures.
 - Diff and reconciliation from the virtual view hierarchy to the actual one under the hood.
 - Battle tested flexbox layout engine ([Yoga](https://facebook.github.io/yoga/)) from Facebook (used in popular frameworks like React Native).
 
