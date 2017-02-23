@@ -23,9 +23,9 @@ From [Why React matters](http://joshaber.github.io/2015/01/30/why-react-native-m
 > 
 > [The framework] lets us describe our entire UI for a given state, and then it does the hard work of figuring out what needs to change. It abstracts all the fragile, error-prone code out away from us. 
 
-## Installation
+# Installation
 
-### Carthage
+## Carthage
 
 
 
@@ -42,7 +42,7 @@ Then add the following line to your `Cartfile`:
 github "alexdrone/Render" "master"    
 ```
 
-#### Manually
+## Manually
 1. Download and drop ```/Render``` folder in your project.  
 2. Congratulations!
 
@@ -125,7 +125,7 @@ The component above would render to:
 **Check the demo project for more examples**
 
 
-###Lightweight Integration with UIKit
+##Lightweight Integration with UIKit
 
 *Components* are plain UIViews, so they can be used inside a vanilla view hierarchy with *autolayout* or *layoutSubviews*.
 Similarly plain vanilla UIViews (UIKit components or custom ones) can be wrapped in a `Node`.
@@ -133,11 +133,11 @@ Similarly plain vanilla UIViews (UIKit components or custom ones) can be wrapped
 
 The framework doesn't force you to use the Component abstraction. You can use normal UIViews with autolayout inside a component or vice versa. This is probably one of the biggest difference from Facebook's `ComponentKit`.
 
-###Performance & Thread Model
+##Performance & Thread Model
 
 **Render**'s `render(in:options:)` function is performed on the main thread. Diff+Reconciliation+Layout+Configuration runs usually under 16ms for a component with a complex view hierarchy on a iPhone 4S, which makes it suitable for cells implementation (with a smooth scrolling).
 
-###Hot Reload
+##Hot Reload
 
 You can use **Render** with [Injection](https://github.com/johnno1962/injectionforxcode) in order to have live refresh of your components.
 Install the injection plugin, patch your project for injection and add this code inside your component class (or in your ViewController):
@@ -153,11 +153,11 @@ class MyComponentView: ComponentView<State> {
 
 ```
 
-###Components embedded in cells
+##Components embedded in cells
 
 You can wrap your components in `ComponentTableViewCell` or `ComponentCollectionViewCell` and use the classic dataSource/delegate pattern for you view controller.
 
-###Use with ReSwift
+##Use with ReSwift
 
 [ReSwift](https://github.com/ReSwift/ReSwift) is a Redux-like implementation of the unidirectional data flow architecture in Swift. 
 
