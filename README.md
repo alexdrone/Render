@@ -170,17 +170,13 @@ import ReSwift
 
 class HelloWorldComponentView: ComponentView<AppState>, StoreSubscriber {
   override func construct(state: AppState?, size: CGSize = CGSize.undefined) -> NodeType {
-   ...
+    ...
   }
 	
   func newState(state: AppState) {
-		self.state = state
-		self.render()
-  }
-	
-  func buttonTapped(sender: UIButton) {
-  	mainStore.dispatch(AnAction())
-  }
+    self.state = state
+    self.render()
+  }	
 }
 
 ```
