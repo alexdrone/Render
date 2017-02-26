@@ -5,7 +5,7 @@ struct FooCollectionState: StateType {
   let foos: [FooState]
 
   init() {
-    self.foos = (0..<randomInt(1, max: 64)).map { _ in FooState() }
+    self.foos = (0..<randomInt(12, max: 128)).map { _ in FooState() }
   }
 }
 
