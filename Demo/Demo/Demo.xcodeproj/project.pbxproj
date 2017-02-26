@@ -11,8 +11,6 @@
 		164C117B1E5B31E900766914 /* Example2ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164C117A1E5B31E900766914 /* Example2ViewController.swift */; };
 		164C11801E5B31E900766914 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 164C117F1E5B31E900766914 /* Assets.xcassets */; };
 		164C11831E5B31E900766914 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 164C11811E5B31E900766914 /* LaunchScreen.storyboard */; };
-		164C11921E5B321F00766914 /* Render.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 164C118F1E5B31F900766914 /* Render.framework */; };
-		164C11931E5B321F00766914 /* Render.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 164C118F1E5B31F900766914 /* Render.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		164C11981E5C7E9D00766914 /* FooComponentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164C11971E5C7E9D00766914 /* FooComponentView.swift */; };
 		164C11A01E5C840D00766914 /* Random.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164C119E1E5C840D00766914 /* Random.swift */; };
 		164C11A11E5C840D00766914 /* Style.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164C119F1E5C840D00766914 /* Style.swift */; };
@@ -23,6 +21,8 @@
 		164C11B01E5EC3F400766914 /* ScrollableComponentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164C11AF1E5EC3F400766914 /* ScrollableComponentView.swift */; };
 		164C11B31E5ECEC000766914 /* Example1ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164C11B21E5ECEC000766914 /* Example1ViewController.swift */; };
 		164C11B51E5ECF0400766914 /* HelloWorldComponentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164C11B41E5ECF0400766914 /* HelloWorldComponentView.swift */; };
+		16A595B81E632D430070C0B5 /* Render.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16A595B61E632D2E0070C0B5 /* Render.framework */; };
+		16A595BA1E632D460070C0B5 /* Render.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 16A595B61E632D2E0070C0B5 /* Render.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -33,23 +33,16 @@
 			remoteGlobalIDString = 164C11401E59ECB200766914;
 			remoteInfo = Render;
 		};
-		164C11941E5B321F00766914 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 164C118A1E5B31F900766914 /* Render.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 164C113F1E59ECB100766914;
-			remoteInfo = Render;
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		164C11961E5B321F00766914 /* Embed Frameworks */ = {
+		16A595BB1E632D460070C0B5 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				164C11931E5B321F00766914 /* Render.framework in Embed Frameworks */,
+				16A595BA1E632D460070C0B5 /* Render.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -74,6 +67,7 @@
 		164C11AF1E5EC3F400766914 /* ScrollableComponentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScrollableComponentView.swift; sourceTree = "<group>"; };
 		164C11B21E5ECEC000766914 /* Example1ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Example1ViewController.swift; sourceTree = "<group>"; };
 		164C11B41E5ECF0400766914 /* HelloWorldComponentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HelloWorldComponentView.swift; sourceTree = "<group>"; };
+		16A595B61E632D2E0070C0B5 /* Render.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Render.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,7 +75,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				164C11921E5B321F00766914 /* Render.framework in Frameworks */,
+				16A595B81E632D430070C0B5 /* Render.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -118,6 +112,7 @@
 				164C11841E5B31E900766914 /* Info.plist */,
 				164C11A51E5E2EBA00766914 /* IndexViewController.swift */,
 				164C11AD1E5EC29600766914 /* SharedFragments.swift */,
+				16A595B61E632D2E0070C0B5 /* Render.framework */,
 			);
 			path = Demo;
 			sourceTree = "<group>";
@@ -177,12 +172,11 @@
 				164C11711E5B31E900766914 /* Sources */,
 				164C11721E5B31E900766914 /* Frameworks */,
 				164C11731E5B31E900766914 /* Resources */,
-				164C11961E5B321F00766914 /* Embed Frameworks */,
+				16A595BB1E632D460070C0B5 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				164C11951E5B321F00766914 /* PBXTargetDependency */,
 			);
 			name = Demo;
 			productName = Demo;
@@ -272,14 +266,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		164C11951E5B321F00766914 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = Render;
-			targetProxy = 164C11941E5B321F00766914 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		164C11811E5B31E900766914 /* LaunchScreen.storyboard */ = {
@@ -389,8 +375,11 @@
 		164C11881E5B31E900766914 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Demo",
+				);
 				INFOPLIST_FILE = Demo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.alexdrone.Demo;
@@ -402,8 +391,11 @@
 		164C11891E5B31E900766914 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Demo",
+				);
 				INFOPLIST_FILE = Demo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.alexdrone.Demo;

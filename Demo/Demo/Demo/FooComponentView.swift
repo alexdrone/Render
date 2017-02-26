@@ -34,10 +34,10 @@ class FooComponentView: ComponentView<FooState> {
         layout.flexGrow = 1
       }
     }
-    return content(state: state, size: size).addChildren([
-      columnWrapper().addChildren([
+    return content(state: state, size: size).add(children: [
+      columnWrapper().add(children: [
         Fragments.avatar(),
-        rightSideWrapper().addChildren([
+        rightSideWrapper().add(children: [
           Fragments.paddedLabel(text: state?.text),
           // The way we compose components is by manually calling 'construct' and pass the
           // component's state as argument.

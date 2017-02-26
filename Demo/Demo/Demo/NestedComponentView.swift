@@ -27,7 +27,7 @@ class NestedComponentView: ComponentView<NestedState> {
       layout.margin = 4
       layout.flexDirection = .row
       layout.flexWrap = .wrap
-    }.addChildren((0..<n).map { _ in item() })
+    }.add(children: (0..<n).map { _ in item() })
   }
 
 }

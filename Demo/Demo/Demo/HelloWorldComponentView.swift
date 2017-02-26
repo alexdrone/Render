@@ -46,7 +46,7 @@ class HelloWorldComponentView: ComponentView<HelloWorldState> {
       }
     }
 
-    return container().addChildren([
+    return container().add(children: [
       avatar(),
       text(text: state?.name)
     ])

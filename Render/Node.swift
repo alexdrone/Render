@@ -15,7 +15,7 @@ public protocol NodeType: class {
   var children: [NodeType] { get set }
 
   /** Adds the nodes passed as argument as subnodes. */
-  func addChildren(_ new: [NodeType]) -> NodeType
+  func add(children: [NodeType]) -> NodeType
 
   /** This component is the n-th children. */
   var index: Int { get set }
@@ -88,8 +88,8 @@ public class Node<V: UIView>: NodeType {
     }
   }
 
-  public func addChildren(_ new: [NodeType]) -> NodeType {
-    self.children = new
+  public func add(children: [NodeType]) -> NodeType {
+    self.children = children
     return self
   }
 
@@ -186,7 +186,7 @@ public class NilNode: NodeType {
   public var identifier: String = "__nilnode"
   public var children: [NodeType] = []
 
-  public func addChildren(_ new: [NodeType]) -> NodeType {
+  public func add(children: [NodeType]) -> NodeType {
     return self
   }
 

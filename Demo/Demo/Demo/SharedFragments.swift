@@ -10,7 +10,7 @@ struct Fragments {
       layout.padding = 4
       layout.alignSelf = .flexStart
       view.backgroundColor = Color.green
-      }.addChildren([
+      }.add(children: [
         // The actual label.
         Node<UILabel>() { (view, layout, size) in
           view.text = text ?? "N/A"

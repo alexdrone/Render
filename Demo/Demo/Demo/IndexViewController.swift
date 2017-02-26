@@ -77,7 +77,7 @@ class IndexItemComponentView: ComponentView<IndexState> {
       view.backgroundColor = Color.black
       layout.padding = 8
       layout.width = size.width
-    }.addChildren([
+    }.add(children: [
         Fragments.paddedLabel(text: state?.title),
         Fragments.subtitleLabel(text: state?.subtitle)
     ])

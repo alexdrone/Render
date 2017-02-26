@@ -92,7 +92,7 @@ class HelloWorldComponentView: ComponentView<HelloWorldState> {
       layout.justifyContent = .center
     }
 
-    return container(children: [
+    return container.add(children: [
       avatar,
       text
     ])
