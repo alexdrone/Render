@@ -69,7 +69,7 @@ struct HelloWorldState: StateType {
 class HelloWorldComponentView: ComponentView<HelloWorldState> {
 
   override func construct(state: HelloWorldState?, size: CGSize = CGSize.undefined) -> NodeType {
-    let avatar =  Node<UIImageView> { (view, layout, size) in
+    let avatar = Node<UIImageView> { (view, layout, size) in
       let radius: CGFloat = 64
       view.backgroundColor = Color.green
       view.layer.cornerRadius = radius
