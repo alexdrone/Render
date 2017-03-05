@@ -14,13 +14,14 @@ class Example2ViewController: UIViewController {
     self.view.backgroundColor = Color.gray
     self.view.addSubview(fooComponent)
     self.title = "EXAMPLE 2"
-    generateRandomStates()
+    self.generateRandomStates()
+    self.fooComponent.center = self.view.center
   }
 
   func generateRandomStates() {
-    fooComponent.state = FooState()
-    fooComponent.render(in: self.view.bounds.size)
-    fooComponent.center = self.view.center
+    self.fooComponent.state = FooState()
+    self.fooComponent.render(in: self.view.bounds.size)
+    self.fooComponent.center = self.view.center
 
     // Generates a new random state every 2 seconds.
     DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
@@ -29,8 +30,9 @@ class Example2ViewController: UIViewController {
   }
 
   override func viewDidLayoutSubviews() {
-    fooComponent.render(in: self.view.bounds.size)
-    fooComponent.center = self.view.center
+    self.fooComponent.render(in: self.view.bounds.size)
+    self.fooComponent.center = self.view.center
   }
+
 }
 

@@ -22,17 +22,44 @@ public extension CGRect {
   }
 }
 
-fileprivate var handleHasNode: UInt8 = 0
 fileprivate var handleAnimatable: UInt8 = 0
+fileprivate var handleHasNode: UInt8 = 0
+fileprivate var handleNewlyCreated: UInt8 = 0
 
 public extension UIView {
-  public var hasNode: Bool {
+
+  public var isAnimatable: Bool {
+    get {
+      return (objc_getAssociatedObject(self, &handleAnimatable) as? NSNumber)?.boolValue ?? true
+    }
+    set {
+      objc_setAssociatedObject(self,
+                               &handleAnimatable,
+                               NSNumber(value: newValue),
+                               .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+    }
+  }
+
+  internal var hasNode: Bool {
     get {
       return (objc_getAssociatedObject(self, &handleHasNode) as? NSNumber)?.boolValue ?? false
     }
     set {
       objc_setAssociatedObject(self,
                                &handleHasNode,
+                               NSNumber(value: newValue),
+                               .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+    }
+  }
+
+
+  internal var isNewlyCreated: Bool {
+    get {
+      return (objc_getAssociatedObject(self, &handleNewlyCreated) as? NSNumber)?.boolValue ?? false
+    }
+    set {
+      objc_setAssociatedObject(self,
+                               &handleNewlyCreated,
                                NSNumber(value: newValue),
                                .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
     }

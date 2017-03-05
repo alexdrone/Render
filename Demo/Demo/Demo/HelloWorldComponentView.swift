@@ -20,9 +20,8 @@ class HelloWorldComponentView: ComponentView<HelloWorldState> {
   override func construct(state: HelloWorldState?, size: CGSize = CGSize.undefined) -> NodeType {
     func avatar() -> NodeType {
       return Node<UIImageView> { (view, layout, size) in
-        let radius: CGFloat = 64
+        let radius: CGFloat = CGFloat(randomInt(16, max: 128))
         view.backgroundColor = Color.green
-        view.layer.cornerRadius = radius
         layout.height = radius * 2
         layout.width = radius * 2
         layout.alignSelf = .center

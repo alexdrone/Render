@@ -14,11 +14,16 @@ class IndexViewController: UITableViewController {
         "Example 2 - Nested Component",
       subtitle:
         "A component with a complex dynamic view hierarchy comprising of a nested component."),
-      IndexState(
-        title:
-          "Example 3 - Scrolling Component",
-        subtitle:
-          "The contentsize for the wrapping scrollview component is automatically determined.")
+    IndexState(
+      title:
+        "Example 3 - Scrolling Component",
+      subtitle:
+        "The contentsize for the wrapping scrollview component is automatically determined."),
+    IndexState(
+      title:
+        "Example 4 - Animations",
+      subtitle:
+        "Passing the .animated option to the render function.")
   ]
 
   override func viewDidLoad() {
@@ -59,6 +64,8 @@ class IndexViewController: UITableViewController {
       self.navigationController?.pushViewController(Example2ViewController(), animated: true)
     case 2:
       self.navigationController?.pushViewController(Example3ViewController(), animated: true)
+    case 3:
+      self.navigationController?.pushViewController(Example4ViewController(), animated: true)
     default:
       break
     }
