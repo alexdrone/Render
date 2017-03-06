@@ -52,11 +52,10 @@ github "alexdrone/Render" "master"
 
 Manually:
 
+Download and drop ```/Render``` folder in your project.  
 
-1. Download and drop ```/Render``` folder in your project.  
-2. Congratulations!
+Remember to import the Render framework in your source files.
 
-To get the full benefits import `Render` wherever you import UIKit
 
 ``` swift
 import UIKit
