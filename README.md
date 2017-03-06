@@ -25,6 +25,16 @@ From [Why React matters](http://joshaber.github.io/2015/01/30/why-react-native-m
 
 # Installation
 
+## Cocoapods
+
+
+
+If you are using CocoaPods, add the following to your [Podfile](https://guides.cocoapods.org/using/the-podfile.html):
+
+```ruby
+pod 'Render', '~> 2.1'
+```
+
 ## Carthage
 
 
