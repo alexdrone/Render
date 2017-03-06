@@ -25,18 +25,16 @@ From [Why React matters](http://joshaber.github.io/2015/01/30/why-react-native-m
 
 # Installation
 
-## Cocoapods
+If you are using **CocoaPods**:
 
 
-
-If you are using CocoaPods, add the following to your [Podfile](https://guides.cocoapods.org/using/the-podfile.html):
+Add the following to your [Podfile](https://guides.cocoapods.org/using/the-podfile.html):
 
 ```ruby
 pod 'Render', '~> 2.1'
 ```
 
-## Carthage
-
+If you are using **Carthage**:
 
 
 To install Carthage, run (using Homebrew):
@@ -52,7 +50,9 @@ Then add the following line to your `Cartfile`:
 github "alexdrone/Render" "master"    
 ```
 
-## Manually
+Manually:
+
+
 1. Download and drop ```/Render``` folder in your project.  
 2. Congratulations!
 
