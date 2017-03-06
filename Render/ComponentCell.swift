@@ -6,7 +6,7 @@ import UIKit
 public protocol ComponentCellType {
 
   /** Calls render on the underlying component view. See: 'render(in:options)' in ComponentView. */
-  func render(in bounds: CGSize, options: [RenderOptions])
+  func render(in bounds: CGSize, options: [RenderOption])
 }
 
 // MARK: - UITableViewCell
@@ -43,7 +43,7 @@ open class ComponentTableViewCell<C : ComponentViewType>: UITableViewCell {
   }
 
   open func render(in bounds: CGSize = CGSize(width: CGFloat.undefined, height: CGFloat.max),
-                   options: [RenderOptions] = []) {
+                   options: [RenderOption] = []) {
     var size = bounds
     size.width = size.width.isNormal ? size.width : self.contentView.bounds.size.width
     componentView?.render(in: size, options: options)
@@ -82,7 +82,7 @@ open class ComponentCollectionViewCell<C : ComponentViewType>: UICollectionViewC
   }
 
   open func render(in bounds: CGSize = CGSize(width: CGFloat.undefined, height: CGFloat.max),
-                   options: [RenderOptions] = []) {
+                   options: [RenderOption] = []) {
     var size = bounds
     size.width = size.width.isNormal ? size.width : self.contentView.bounds.size.width
     componentView?.render(in: size, options: options)
@@ -117,8 +117,8 @@ extension UITableView {
   public func renderVisibleComponents() {
     let size = CGSize(width: self.bounds.size.width, height: CGFloat.max)
     self.visibleCells
-      .flatMap { $0 as? ComponentCellType }
-      .forEach { $0.render(in: size, options: []) }
+      .flatMap { cell in cell as? ComponentCellType }
+      .forEach { cell in cell.render(in: size, options: []) }
   }
 }
 
@@ -137,8 +137,8 @@ extension UICollectionView {
   public func renderVisibleComponents() {
     let size = CGSize(width: self.bounds.size.width, height: CGFloat.max)
     self.visibleCells
-      .flatMap { $0 as? ComponentCellType }
-      .forEach { $0.render(in: size, options: []) }
+      .flatMap { cell in cell as? ComponentCellType }
+      .forEach { cell in cell.render(in: size, options: []) }
   }
 }
 

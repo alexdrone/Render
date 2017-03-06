@@ -19,7 +19,6 @@ class Example3ViewController: UIViewController {
   func generateRandomStates() {
     scrollableComponent.state = FooCollectionState()
     scrollableComponent.render(in: self.view.bounds.size)
-
     self.title = "EXAMPLE 3 (\(scrollableComponent.state!.foos.count) elements)"
   }
 

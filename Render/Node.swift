@@ -80,9 +80,8 @@ public class Node<V: UIView>: NodeType {
   public var children: [NodeType] = [] {
     didSet {
       var index = 0
-      self.children = self.children.filter { !($0 is NilNode) }
-      self.children.forEach {
-        $0.index = index
+      for child in self.children where !(child is NilNode) {
+        child.index = index
         index += 1
       }
     }
@@ -126,7 +125,9 @@ public class Node<V: UIView>: NodeType {
   public func internalConfigure(in bounds: CGSize) {
     self.build()
     self.willRender()
-    self.children.forEach { $0.internalConfigure(in: bounds) }
+    for child in self.children {
+      child.internalConfigure(in: bounds)
+    }
     self.configure(self.view!, self.view!.yoga, bounds)
     if let yoga = self.view?.yoga, yoga.isEnabled && yoga.isLeaf {
       if !(self.view is ComponentViewType) {
