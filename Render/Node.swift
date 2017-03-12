@@ -88,7 +88,8 @@ public class Node<V: UIView>: NodeType {
   }
 
   public func add(children: [NodeType]) -> NodeType {
-    self.children = children
+    let nodes = children.filter { node in !(node is NilNode) }
+    self.children = nodes
     return self
   }
 
@@ -107,6 +108,9 @@ public class Node<V: UIView>: NodeType {
   }
 
   public func add(child: NodeType) {
+    guard !(child is NilNode) else {
+      return
+    }
     children = children + [child]
   }
 
