@@ -15,7 +15,9 @@ public enum RenderOption {
   case preventViewHierarchyDiff
 
   /** Animates the layout changes. */
-  case animated(duration: TimeInterval, options: UIViewAnimationOptions, alongside: ((Void) -> Void)?)
+  case animated(duration: TimeInterval,
+                options: UIViewAnimationOptions,
+                alongside: ((Void) -> Void)?)
 
   /** Internal use only. */
   case __animated
