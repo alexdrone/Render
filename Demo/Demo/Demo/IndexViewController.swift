@@ -23,7 +23,12 @@ class IndexViewController: UITableViewController {
       title:
         "Example 4 - Animations",
       subtitle:
-        "Passing the .animated option to the render function.")
+        "Passing the .animated option to the render function."),
+    IndexState(
+        title:
+          "Example 5 - Nil Node",
+        subtitle:
+          "/issues/34"),
   ]
 
   override func viewDidLoad() {
@@ -66,6 +71,8 @@ class IndexViewController: UITableViewController {
       self.navigationController?.pushViewController(Example3ViewController(), animated: true)
     case 3:
       self.navigationController?.pushViewController(Example4ViewController(), animated: true)
+    case 4:
+      self.navigationController?.pushViewController(Example5ViewController(), animated: true)
     default:
       break
     }

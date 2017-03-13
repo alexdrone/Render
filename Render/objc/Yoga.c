@@ -342,8 +342,6 @@ void YGNodeSetMeasureFunc(const YGNodeRef node, YGMeasureFunc measureFunc) {
   if (measureFunc == NULL) {
     node->measure = NULL;
   } else {
-    YG_ASSERT(YGNodeGetChildCount(node) == 0,
-              "Cannot set measure function: Nodes with measure functions cannot have children.");
     node->measure = measureFunc;
   }
 }

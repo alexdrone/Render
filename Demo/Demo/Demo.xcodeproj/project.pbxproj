@@ -23,6 +23,7 @@
 		164C11B51E5ECF0400766914 /* HelloWorldComponentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164C11B41E5ECF0400766914 /* HelloWorldComponentView.swift */; };
 		16A595B81E632D430070C0B5 /* Render.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16A595B61E632D2E0070C0B5 /* Render.framework */; };
 		16A595BA1E632D460070C0B5 /* Render.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 16A595B61E632D2E0070C0B5 /* Render.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		16C59F841E76FDCA00D9E297 /* Example5ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16C59F831E76FDCA00D9E297 /* Example5ViewController.swift */; };
 		16CAF70C1E6CAF0600565D60 /* Example4ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16CAF70B1E6CAF0600565D60 /* Example4ViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -69,6 +70,7 @@
 		164C11B21E5ECEC000766914 /* Example1ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Example1ViewController.swift; sourceTree = "<group>"; };
 		164C11B41E5ECF0400766914 /* HelloWorldComponentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HelloWorldComponentView.swift; sourceTree = "<group>"; };
 		16A595B61E632D2E0070C0B5 /* Render.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Render.framework; sourceTree = "<group>"; };
+		16C59F831E76FDCA00D9E297 /* Example5ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Example5ViewController.swift; sourceTree = "<group>"; };
 		16CAF70B1E6CAF0600565D60 /* Example4ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Example4ViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -104,6 +106,7 @@
 		164C11771E5B31E900766914 /* Demo */ = {
 			isa = PBXGroup;
 			children = (
+				16C59F861E76FDCE00D9E297 /* example5 */,
 				164C11B11E5ECEA400766914 /* example1 */,
 				164C11A91E5E45F900766914 /* example2 */,
 				164C11AC1E5EC19100766914 /* example3 */,
@@ -163,6 +166,14 @@
 				164C11B41E5ECF0400766914 /* HelloWorldComponentView.swift */,
 			);
 			name = example1;
+			sourceTree = "<group>";
+		};
+		16C59F861E76FDCE00D9E297 /* example5 */ = {
+			isa = PBXGroup;
+			children = (
+				16C59F831E76FDCA00D9E297 /* Example5ViewController.swift */,
+			);
+			name = example5;
 			sourceTree = "<group>";
 		};
 		16CAF7091E6CAE9A00565D60 /* example4 */ = {
@@ -262,6 +273,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				164C11B31E5ECEC000766914 /* Example1ViewController.swift in Sources */,
+				16C59F841E76FDCA00D9E297 /* Example5ViewController.swift in Sources */,
 				164C11AB1E5EC17B00766914 /* Example3ViewController.swift in Sources */,
 				164C11981E5C7E9D00766914 /* FooComponentView.swift in Sources */,
 				164C11A01E5C840D00766914 /* Random.swift in Sources */,
