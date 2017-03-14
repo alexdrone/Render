@@ -58,12 +58,21 @@ public protocol ComponentViewType: AnyComponentView {
 open class ComponentView<S: StateType>: UIView, ComponentViewType {
 
   public typealias StateType = S
+  public typealias Construct = (S?, CGSize) -> NodeType
 
   /** The state of the component. Call 'render' on this component after the new state is set. */
   public var state: S? = nil
 
   /** The component's default options. */
   public var defaultOptions: [RenderOption] = []
+
+  /** The reuse identifier of the root node for this component. */
+  public var reuseIdentifier: String {
+    return self.root.identifier
+  }
+
+  /** Alternative to subclassing ComponentView. */ 
+  public var constructBlock: Construct?
 
   /** The (current) root node. */
   private var root: NodeType = NilNode()
@@ -88,8 +97,12 @@ open class ComponentView<S: StateType>: UIView, ComponentViewType {
   }
 
   open func construct(state: S?, size: CGSize = CGSize.undefined) -> NodeType {
-    print("Subclasses should override this method.")
-    return NilNode()
+    if let constructBlock = constructBlock {
+      return constructBlock(state, size)
+    } else {
+      print("Subclasses should override this method.")
+      return NilNode()
+    }
   }
 
   open func willRender() { }
@@ -285,4 +298,10 @@ extension RenderOption: Equatable {
   public static func first(_ options: [RenderOption], _ option: RenderOption) -> RenderOption? {
     return RenderOption.filter(options, option).first
   }
+}
+
+// MARK: Equatable Options
+
+public class NilStateComponentView: ComponentView<NilState> {
+
 }

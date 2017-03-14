@@ -39,7 +39,10 @@ class HelloWorldComponentView: ComponentView<HelloWorldState> {
     func container() -> NodeType {
       return Node<UIImageView> { (view, layout, size) in
         view.backgroundColor = Color.black
-        layout.width = min(size.width, size.height)
+
+        let h = size.height == 0 ? CGFloat.max : size.height
+        let w = size.width == 0 ? CGFloat.max : size.width
+        layout.width = min(w, h)
         layout.height = layout.width
         layout.justifyContent = .center
       }

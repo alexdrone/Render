@@ -106,11 +106,11 @@
 		164C11771E5B31E900766914 /* Demo */ = {
 			isa = PBXGroup;
 			children = (
-				16C59F861E76FDCE00D9E297 /* example5 */,
 				164C11B11E5ECEA400766914 /* example1 */,
 				164C11A91E5E45F900766914 /* example2 */,
 				164C11AC1E5EC19100766914 /* example3 */,
 				16CAF7091E6CAE9A00565D60 /* example4 */,
+				16C59F861E76FDCE00D9E297 /* example5 */,
 				164C119D1E5C840D00766914 /* external */,
 				164C11781E5B31E900766914 /* AppDelegate.swift */,
 				164C117F1E5B31E900766914 /* Assets.xcassets */,

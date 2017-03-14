@@ -76,10 +76,13 @@ public class Node<V: UIView>: NodeType {
    */
   private let create: CreateBlock
 
+  public var index: Int = 0
+
   /** The current children of this node. */
   public var children: [NodeType] = [] {
     didSet {
       var index = 0
+      self.children = children.filter { child in !(child is NilNode) }
       for child in self.children where !(child is NilNode) {
         child.index = index
         index += 1
@@ -93,7 +96,13 @@ public class Node<V: UIView>: NodeType {
     return self
   }
 
-  public var index: Int = 0
+  public func add(child: NodeType) -> NodeType {
+    guard !(child is NilNode) else {
+      return self
+    }
+    children = children + [child]
+    return self
+  }
 
   public init(identifier: String = String(describing: V.self),
               resetBeforeReuse: Bool = false,
@@ -105,13 +114,6 @@ public class Node<V: UIView>: NodeType {
     self.create = create
     self.configure = configure
     self.children = children
-  }
-
-  public func add(child: NodeType) {
-    guard !(child is NilNode) else {
-      return
-    }
-    children = children + [child]
   }
 
   public func render(in bounds: CGSize) {

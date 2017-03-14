@@ -26,9 +26,9 @@ class IndexViewController: UITableViewController {
         "Passing the .animated option to the render function."),
     IndexState(
         title:
-          "Example 5 - Nil Node",
+          "Example 5 - TableNode",
         subtitle:
-          "/issues/34"),
+          "Wraps the children nodes in UITableViewCells."),
   ]
 
   override func viewDidLoad() {

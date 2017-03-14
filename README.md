@@ -162,6 +162,43 @@ class MyComponentView: ComponentView<State> {
 
 You can wrap your components in `ComponentTableViewCell` or `ComponentCollectionViewCell` and use the classic dataSource/delegate pattern for you view controller.
 
+## Declarative UITableView implementation
+
+You can quickly leverage the efficiency of UITableView and its cell reuse capabilities by using **TableNode** as the container node for your children.
+In this way the node's subnodes will be wrapped inside UITableViewCollectionCells.
+
+```swift
+
+ override func construct(state: State?, size: CGSize) -> NodeType {
+
+    let list = TableNode() { (view, layout, size) in
+      layout.width = size.width
+      layout.height = size.height
+    }
+
+    list.children =  [
+
+      // Any node definition will be wrapped inside a UITableViewCell.
+      Node<UIView> { (view, layout, size) in
+        layout.width = size.width
+        layout.height = 300
+        view.backgroundColor = Color.green
+      },
+
+      // Another one..
+      Node<UIView> { (view, layout, size) in
+        ...
+      },
+
+      // ComponentViews can also be added to the TableNode.
+      HelloWorldComponentView().construct(state: HelloWorldState(name:"Foo"), size: size)
+    ]
+    return list
+  }
+
+```
+
+
 ## Use with ReSwift
 
 [ReSwift](https://github.com/ReSwift/ReSwift) is a Redux-like implementation of the unidirectional data flow architecture in Swift. 
