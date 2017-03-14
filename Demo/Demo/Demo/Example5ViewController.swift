@@ -28,7 +28,7 @@ class ListComponentView: ComponentView<ListState> {
 
       Node<UIView> { (view, layout, size) in
         layout.width = size.width
-        layout.height = 400
+        layout.height = 100
         view.backgroundColor = Color.red
       },
 

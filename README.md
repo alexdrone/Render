@@ -198,6 +198,8 @@ In this way the node's subnodes will be wrapped inside UITableViewCollectionCell
 
 ```
 
+<img src="Doc/table_node.png" width="320">
+
 
 ### Use with ReSwift
 
