@@ -19,7 +19,9 @@ class HelloWorldComponentView: ComponentView<HelloWorldState> {
 
   override func construct(state: HelloWorldState?, size: CGSize = CGSize.undefined) -> NodeType {
     func avatar() -> NodeType {
-      return Node<UIImageView> { (view, layout, size) in
+      return Node<UIImageView> {
+        (view, layout, size) in
+
         let radius: CGFloat = CGFloat(randomInt(16, max: 128))
         view.backgroundColor = Color.green
         layout.height = radius * 2
@@ -28,7 +30,10 @@ class HelloWorldComponentView: ComponentView<HelloWorldState> {
       }
     }
     func text(text: String?) -> NodeType {
-      return Node<UILabel> { (view, layout, size) in
+      return Node<UILabel> {
+        (view, layout, size) in
+
+        print(state)
         view.text = "Hello \(text ?? "stranger")"
         view.textAlignment = .center
         view.textColor = Color.green
@@ -37,9 +42,10 @@ class HelloWorldComponentView: ComponentView<HelloWorldState> {
       }
     }
     func container() -> NodeType {
-      return Node<UIImageView> { (view, layout, size) in
-        view.backgroundColor = Color.black
+      return Node<UIImageView>(identifier: String(describing: HelloWorldComponentView.self)) {
+        (view, layout, size) in
 
+        view.backgroundColor = Color.black
         let h = size.height == 0 ? CGFloat.max : size.height
         let w = size.width == 0 ? CGFloat.max : size.width
         layout.width = min(w, h)

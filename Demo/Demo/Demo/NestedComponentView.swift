@@ -14,7 +14,9 @@ class NestedComponentView: ComponentView<NestedState> {
 
     func item() -> NodeType {
       // The small dots below the view.
-      return Node<UIView> { (view, layout, size) in
+      return Node<UIView> {
+        (view, layout, size) in
+
         view.backgroundColor = Color.green
         view.layer.cornerRadius = 8
         layout.margin = 2
@@ -23,7 +25,9 @@ class NestedComponentView: ComponentView<NestedState> {
       }
     }
 
-    return Node<UIView>() { (view, layout, size) in
+    return Node<UIView>(identifier: String(describing: NestedComponentView.self)) {
+      (view, layout, size) in
+
       layout.margin = 4
       layout.flexDirection = .row
       layout.flexWrap = .wrap

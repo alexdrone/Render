@@ -17,7 +17,9 @@ class ScrollableDemoComponentView: ComponentView<FooCollectionState> {
     guard let state = state else {
       return NilNode()
     }
-    return Node<UIScrollView>() { (view, layout, size) in
+    return Node<UIScrollView>(identifier: String(describing: ScrollableDemoComponentView.self)) {
+      (view, layout, size) in
+
       layout.width = size.width
       layout.height = size.height
       }.add(children:  state.foos.map { foo in

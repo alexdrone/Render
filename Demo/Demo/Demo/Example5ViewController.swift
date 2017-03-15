@@ -17,7 +17,7 @@ class ListComponentView: ComponentView<ListState> {
       view.separatorStyle = .none
     }
 
-    list.children =  [
+    let basicNodeFragments = [
 
       // Any node definition will be wrapped inside a UITableViewCell.
       Node<UIView> { (view, layout, size) in
@@ -37,11 +37,18 @@ class ListComponentView: ComponentView<ListState> {
         layout.width = size.width
         layout.height = 300
         view.backgroundColor = Color.darkerGreen
-      },
-
-      // ComponentViews can also be added to the TableNode.
-      HelloWorldComponentView().construct(state: HelloWorldState(name:"Foo"), size: size)
+      }
     ]
+
+    let helloWorldFragments = (1..<100).map { index in
+      HelloWorldComponentView().construct(state: HelloWorldState(name:"\(index)"), size: size)
+    }
+
+
+    list.add(children: basicNodeFragments + helloWorldFragments)
+    //list.add(children: helloWorldFragments)
+
+
     return list
   }
 

@@ -15,7 +15,7 @@ public protocol NodeType: class {
   var children: [NodeType] { get set }
 
   /** Adds the nodes passed as argument as subnodes. */
-  func add(children: [NodeType]) -> NodeType
+  @discardableResult func add(children: [NodeType]) -> NodeType
 
   /** This component is the n-th children. */
   var index: Int { get set }
@@ -90,13 +90,13 @@ public class Node<V: UIView>: NodeType {
     }
   }
 
-  public func add(children: [NodeType]) -> NodeType {
+  @discardableResult public func add(children: [NodeType]) -> NodeType {
     let nodes = children.filter { node in !(node is NilNode) }
-    self.children = nodes
+    self.children += nodes
     return self
   }
 
-  public func add(child: NodeType) -> NodeType {
+  @discardableResult public func add(child: NodeType) -> NodeType {
     guard !(child is NilNode) else {
       return self
     }

@@ -6,7 +6,7 @@ import UIKit
  *  Consider using TableNode over Node<ScrollView> where you have a big number of items to be 
  *  displayed.
  */
-public class TableNode: NSObject, NodeType, UITableViewDataSource {
+public class TableNode: NSObject, NodeType, UITableViewDataSource, UITableViewDelegate {
 
   /** TableNode redirects all of the layout calls to a Node<TableView>.
    *  Essentially this class is just a proxy in oder to hide the 'children' collection to the
@@ -21,6 +21,12 @@ public class TableNode: NSObject, NodeType, UITableViewDataSource {
 
   /** The unique identifier for this node is its hierarchy. */
   public let identifier: String
+
+  /** Set this property to 'true' if you want to disable the built-in cell reuse mechanism. 
+   *  This could be beneficial when the number of items is limited and you wish to improve the
+   *  overall scroll performance.
+   */
+  public var disableCellReuse: Bool = false
 
   /** This component is the n-th children. */
   public var index: Int = 0 {
@@ -48,13 +54,13 @@ public class TableNode: NSObject, NodeType, UITableViewDataSource {
   }
 
   /** Adds the nodes passed as argument as subnodes. */
-  public func add(children: [NodeType]) -> NodeType {
-    self.children = children
+  @discardableResult public func add(children: [NodeType]) -> NodeType {
+    self.children += children
     return self
   }
 
   /** Adds the node passed as argument as subnode. */
-  public func add(child: NodeType) -> NodeType {
+  @discardableResult public func add(child: NodeType) -> NodeType {
     self.children = children + [child]
     return self
   }
@@ -109,10 +115,11 @@ public class TableNode: NSObject, NodeType, UITableViewDataSource {
   public func tableView(_ tableView: UITableView,
                         cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     let node = self._children[indexPath.row]
-    let identifier = node.identifier
+    var identifier = node.identifier
 
-    tableView.register(ComponentTableViewCell<NilStateComponentView>.self,
-                       forCellReuseIdentifier: identifier)
+    if self.disableCellReuse {
+      identifier = "\(identifier)_\(indexPath.row)"
+    }
 
     let cell: ComponentTableViewCell<NilStateComponentView> =
         tableView.dequeueReusableCell(withIdentifier: identifier)
@@ -122,8 +129,11 @@ public class TableNode: NSObject, NodeType, UITableViewDataSource {
     cell.mountComponentIfNecessary(NilStateComponentView())
     cell.componentView?.constructBlock = { _, _ in return node }
 
+    node.render(in: tableView.bounds.size)
     cell.render(in: tableView.bounds.size, options: [])
+
     return cell
   }
-
 }
+
+
