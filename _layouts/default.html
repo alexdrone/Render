@@ -6,7 +6,18 @@
     <title>{{ site.title | default: site.github.repository_name }} by {{ site.github.owner_name }}</title>
 
     <link rel="stylesheet" href="{{ '/assets/css/style.css?v=' | append: site.github.build_revision | relative_url }}">
-    <link rel="stylesheet" href="overrides.css">
+
+    <style>
+body {
+  font-family: 'Roboto', sans-serif;
+  background: #313946;
+  color: white;
+}
+
+h1, h2, h3, h4 {
+  color: #99DBCF;
+}
+    </style>
 
     <meta name="viewport" content="width=device-width">
     <!--[if lt IE 9]>
