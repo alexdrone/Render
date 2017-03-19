@@ -2,3 +2,8 @@
 ---
 
 @import "{{ site.theme }}";
+@import url('https://fonts.googleapis.com/css?family=Roboto');
+
+html {
+  font-family: 'Roboto', sans-serif !important;
+}
