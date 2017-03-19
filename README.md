@@ -1,4 +1,4 @@
-# <img src="https://raw.githubusercontent.com/alexdrone/Render/master/Doc/render_logo.png" width="444" alt="Render" />
+# <img src="https://raw.githubusercontent.com/alexdrone/Render/master/docs/render_logo.png" width="444" alt="Render" />
 
 [![Swift](https://img.shields.io/badge/swift-3-orange.svg?style=flat)](#)
 [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
@@ -123,7 +123,7 @@ Every time `render(in:options:)` is called, a new tree is constructed, compared 
 
 The component above would render to:
 
-<img src="Doc/render.png" width="300">
+<img src="docs/render.png" width="300">
 
 **Check the demo project for more examples**
 
@@ -183,7 +183,7 @@ In this way the node's subnodes will be wrapped inside UITableViewCollectionCell
  - Todolist app
 
 <table border="0" cellspacing="0" cellpadding="0">
-<tr><td><img src="Doc/todo.gif" width="300"></td><td><img src="Doc/catalogue.gif" width="300"></td></tr>
+<tr><td><img src="docs/todo.gif" width="300"></td><td><img src="docs/catalogue.gif" width="300"></td></tr>
 </table>
 
 
