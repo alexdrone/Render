@@ -115,8 +115,6 @@ component.render(in: self.view.bounds.size)
 
 ```
 
-
-
 The view description is defined by the `construct(state:size:)` method.
 
 `Node<T>` is an abstraction around views of any sort that knows how to build, configure and layout the view when necessary.
@@ -142,21 +140,6 @@ The framework doesn't force you to use the Component abstraction. You can use no
 
 **Render**'s `render(in:options:)` function is performed on the main thread. Diff+Reconciliation+Layout+Configuration runs usually under 16ms for a component with a complex view hierarchy on a iPhone 4S, which makes it suitable for cells implementation (with a smooth scrolling).
 
-### Hot Reload
-
-You can use **Render** with [Injection](https://github.com/johnno1962/injectionforxcode) in order to have live refresh of your components.
-Install the injection plugin, patch your project for injection and add this code inside your component class (or in your ViewController):
-
-```swift
-
-class MyComponentView: ComponentView<State> {
-  ...
-  func injected() {
-  	self.render()
-  }
-}
-
-```
 
 ### Components embedded in cells
 
@@ -170,61 +153,35 @@ In this way the node's subnodes will be wrapped inside UITableViewCollectionCell
 ```swift
 
  override func construct(state: State?, size: CGSize) -> NodeType {
-
-    let list = TableNode() { (view, layout, size) in
+    let table = TableNode() { (view, layout, size) in
       layout.width = size.width
       layout.height = size.height
     }
-
-    list.children =  [
-
+    return table.add(children: [
       // Any node definition will be wrapped inside a UITableViewCell.
       Node<UIView> { (view, layout, size) in
         layout.width = size.width
         layout.height = 300
-        view.backgroundColor = Color.green
       },
-
       // Another one..
       Node<UIView> { (view, layout, size) in
         ...
       },
-
       // ComponentViews can also be added to the TableNode.
-      HelloWorldComponentView().construct(state: HelloWorldState(name:"Foo"), size: size)
-    ]
-    return list
+      MyComponent().construct(state: MyState(), size: size)
+    ])
   }
 
 ```
 
-<img src="Doc/table_node.gif" width="320">
+### Samples
 
+ - Catalogue app 
+ - Todolist app
 
-### Use with ReSwift
+<img src="Doc/todo.gif" width="300">
 
-[ReSwift](https://github.com/ReSwift/ReSwift) is a Redux-like implementation of the unidirectional data flow architecture in Swift. 
-
-```swift
-
-import Render
-import ReSwift
-
-class HelloWorldComponentView: ComponentView<AppState>, StoreSubscriber {
-
-  override func construct(state: AppState?, size: CGSize = CGSize.undefined) -> NodeType {
-    ...
-  }
-	
-  func newState(state: AppState) {
-    self.state = state
-    self.render()
-  }	
-}
-
-```
-
-### Use with Buffer
+#### Use with Buffer
 
 [Buffer](https://github.com/alexdrone/Buffer) is a μ-framework for efficient array diffs, collection observation and data source implementation.
 It exposes a declarative API for UITableView and UICollectionView.
@@ -257,6 +214,29 @@ class ViewController: UIViewController {
     // Simply set the elements for the table view.
     self.tableView.elements = self.elements
   }
+}
+
+```
+
+#### Use with ReSwift
+
+[ReSwift](https://github.com/ReSwift/ReSwift) is a Redux-like implementation of the unidirectional data flow architecture in Swift. 
+
+```swift
+
+import Render
+import ReSwift
+
+class HelloWorldComponentView: ComponentView<AppState>, StoreSubscriber {
+
+  override func construct(state: AppState?, size: CGSize = CGSize.undefined) -> NodeType {
+    ...
+  }
+	
+  func newState(state: AppState) {
+    self.state = state
+    self.render()
+  }	
 }
 
 ```
