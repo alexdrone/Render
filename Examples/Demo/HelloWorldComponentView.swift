@@ -33,7 +33,6 @@ class HelloWorldComponentView: ComponentView<HelloWorldState> {
       return Node<UILabel> {
         (view, layout, size) in
 
-        print(state)
         view.text = "Hello \(text ?? "stranger")"
         view.textAlignment = .center
         view.textColor = Color.green

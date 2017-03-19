@@ -25,8 +25,8 @@ class AppToolbarController: ToolbarController {
     button.addTarget(self, action: #selector(didTapAddButton), for: .touchUpInside)
 
     statusBarStyle = .lightContent
-    statusBar.backgroundColor = Color.pink.darken3
-    toolbar.backgroundColor = Color.pink.darken2
+    statusBar.backgroundColor = Color.pink.darken2
+    toolbar.backgroundColor = Color.pink.darken1
     toolbar.leftViews = [cancelButton]
     toolbar.rightViews = [button]
 

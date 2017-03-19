@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1618D08F1E7EDC4100CD984C /* Material.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16C68FA81E7DF80600BA24AC /* Material.framework */; };
+		1618D0901E7EDC4100CD984C /* Material.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 16C68FA81E7DF80600BA24AC /* Material.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		1618D0911E7EDC4100CD984C /* Render.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16C68FA91E7DF80600BA24AC /* Render.framework */; };
+		1618D0921E7EDC4100CD984C /* Render.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 16C68FA91E7DF80600BA24AC /* Render.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		161AE62F1E7B79600038FBE0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 161AE62E1E7B79600038FBE0 /* AppDelegate.swift */; };
 		161AE6311E7B79600038FBE0 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 161AE6301E7B79600038FBE0 /* ViewController.swift */; };
 		161AE6341E7B79600038FBE0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 161AE6321E7B79600038FBE0 /* Main.storyboard */; };
@@ -26,6 +30,8 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				1618D0921E7EDC4100CD984C /* Render.framework in Embed Frameworks */,
+				1618D0901E7EDC4100CD984C /* Material.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -52,8 +58,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1618D0911E7EDC4100CD984C /* Render.framework in Frameworks */,
 				16C68FAB1E7DF80600BA24AC /* Render.framework in Frameworks */,
 				16C68FAA1E7DF80600BA24AC /* Material.framework in Frameworks */,
+				1618D08F1E7EDC4100CD984C /* Material.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -113,7 +121,6 @@
 				161AE6281E7B79600038FBE0 /* Frameworks */,
 				161AE6291E7B79600038FBE0 /* Resources */,
 				161AE6471E7B7BC10038FBE0 /* Embed Frameworks */,
-				16C68FA71E7DF75A00BA24AC /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -170,24 +177,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		16C68FA71E7DF75A00BA24AC /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"$(SRCROOT)/Frameworks/Carthage/Build/iOS/Material.framework",
-				"$(SRCROOT)/Frameworks/Carthage/Build/iOS/Render.framework",
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "/usr/local/bin/carthage copy-frameworks\n";
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		161AE6271E7B79600038FBE0 /* Sources */ = {

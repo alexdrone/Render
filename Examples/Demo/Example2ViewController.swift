@@ -11,7 +11,7 @@ class Example2ViewController: UIViewController {
 
   override func viewDidLoad() {
     super.viewDidLoad()
-    self.view.backgroundColor = Color.gray
+    self.view.backgroundColor = Color.black
     self.view.addSubview(fooComponent)
     self.title = "EXAMPLE 2"
     self.generateRandomStates()

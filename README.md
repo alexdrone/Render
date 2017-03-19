@@ -177,6 +177,9 @@ In this way the node's subnodes will be wrapped inside UITableViewCollectionCell
 ### Samples
 
  - Catalogue app 
+
+ <img src="Doc/catalogue.gif" width="300">
+
  - Todolist app
 
 <img src="Doc/todo.gif" width="300">

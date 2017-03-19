@@ -32,8 +32,7 @@ class TodoComponentView: ComponentView<TodoState>, UITextFieldDelegate {
       layout.alignSelf = .stretch
       layout.margin = 8
       layout.flexDirection = .row
-      view.backgroundColor = Color.grey.lighten4
-      view.depthPreset = state.isNew ? .depth2 : .depth1
+      view.backgroundColor = Color.grey.lighten5
     }
 
     // Title input field.
@@ -41,10 +40,9 @@ class TodoComponentView: ComponentView<TodoState>, UITextFieldDelegate {
       identifier: "input",
       create: { [weak self] in
         let field = TextField()
-        field.placeholder = "Todo"
-        field.isClearIconButtonEnabled = true
+        field.placeholder = "TODO"
         field.delegate = self
-        field.font = Material.Font.boldSystemFont(ofSize: 15)
+        field.font = Material.Font.boldSystemFont(ofSize: 16)
         self?.textField = field
         return field
       },
@@ -61,15 +59,17 @@ class TodoComponentView: ComponentView<TodoState>, UITextFieldDelegate {
       attr.addAttribute(NSStrikethroughStyleAttributeName,
                         value: state.isDone ? 2 : 0,
                         range: NSMakeRange(0, attr.length))
+      attr.addAttribute(NSForegroundColorAttributeName,
+                        value: state.isDone ? Color.grey.darken4 : Color.lightBlue.darken3,
+                        range: NSMakeRange(0, attr.length))
       view.attributedText = attr
       view.font = Material.Font.boldSystemFont(ofSize: 15)
-      view.textColor = Color.lightBlue.darken3
       view.numberOfLines = 0
       layout.flexShrink = 1
       layout.margin = 16
     }
 
-    // The check button
+    // The check button.
     let doneButton = Node<IconButton>(
       identifier: "doneButton",
       create: {

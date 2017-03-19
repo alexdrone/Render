@@ -64,15 +64,15 @@ class IndexViewController: UITableViewController {
   override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     switch indexPath.row {
     case 0:
-      self.navigationController?.pushViewController(Example1ViewController(), animated: true)
+      self.navigationController?.pushViewController(Example1ViewController(), animated: false)
     case 1:
-      self.navigationController?.pushViewController(Example2ViewController(), animated: true)
+      self.navigationController?.pushViewController(Example2ViewController(), animated: false)
     case 2:
-      self.navigationController?.pushViewController(Example3ViewController(), animated: true)
+      self.navigationController?.pushViewController(Example3ViewController(), animated: false)
     case 3:
-      self.navigationController?.pushViewController(Example4ViewController(), animated: true)
+      self.navigationController?.pushViewController(Example4ViewController(), animated: false)
     case 4:
-      self.navigationController?.pushViewController(Example5ViewController(), animated: true)
+      self.navigationController?.pushViewController(Example5ViewController(), animated: false)
     default:
       break
     }
