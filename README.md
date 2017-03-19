@@ -178,11 +178,14 @@ In this way the node's subnodes will be wrapped inside UITableViewCollectionCell
 
  - Catalogue app 
 
- <img src="Doc/catalogue.gif" width="300">
+ 
 
  - Todolist app
 
-<img src="Doc/todo.gif" width="300">
+<table>
+<tr><td><img src="Doc/todo.gif" width="300"></td><td><img src="Doc/catalogue.gif" width="300"></td></tr>
+</table>
+
 
 #### Use with Buffer
 
