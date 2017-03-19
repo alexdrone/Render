@@ -182,7 +182,7 @@ In this way the node's subnodes will be wrapped inside UITableViewCollectionCell
 
  - Todolist app
 
-<table>
+<table border="0" cellspacing="0" cellpadding="0">
 <tr><td><img src="Doc/todo.gif" width="300"></td><td><img src="Doc/catalogue.gif" width="300"></td></tr>
 </table>
 
