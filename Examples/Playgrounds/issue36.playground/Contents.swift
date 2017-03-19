@@ -11,7 +11,6 @@ struct AppState: StateType {
 
 class MyView: ComponentView<AppState> {
     override func construct(state: AppState?, size: CGSize) -> NodeType {
-        
         let children = [
             Node<UILabel>() { label, layout, size in
                 label.text = "text"
@@ -23,7 +22,6 @@ class MyView: ComponentView<AppState> {
                 label.text = "text"
             }
         ]
-        
         return Node<UIView>().add(children: [
             Node() { view, layout, size in
                 view.backgroundColor = .gray
