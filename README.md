@@ -248,7 +248,7 @@ class HelloWorldComponentView: ComponentView<AppState>, StoreSubscriber {
 ```
 
 
-#LICENSE
+# LICENSE
 
 - [Yoga](https://facebook.github.io/yoga/)
 - [React](https://github.com/facebook/react): The React github page
