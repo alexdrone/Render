@@ -1,12 +1,13 @@
 import UIKit
 import Material
+import Dispatcher_iOS
 
 class AppToolbarController: ToolbarController {
 
-  let store: Store
+  let dispatcher: Dispatcher
 
-  init(rootViewController: UIViewController, store: Store) {
-    self.store = store
+  init(rootViewController: UIViewController, dispatcher: Dispatcher = Dispatcher.default) {
+    self.dispatcher = dispatcher
     super.init(rootViewController: rootViewController)
   }
   
@@ -35,10 +36,10 @@ class AppToolbarController: ToolbarController {
   }
 
   dynamic private func didTapAddButton() {
-    self.store.dispatch(action: .add)
+    self.dispatcher.dispatch(action: Action.add)
   }
 
   dynamic private func didTapCancelAllButton() {
-    self.store.dispatch(action: .clear)
+    self.dispatcher.dispatch(action: Action.clear)
   }
 }

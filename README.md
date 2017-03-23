@@ -224,6 +224,13 @@ class ViewController: UIViewController {
 
 ```
 
+#### Use with Dispatch
+
+[Dispatch](https://github.com/alexdrone/Dispatch) is a Flux-like implementation of the unidirectional data flow architecture in Swift.
+In this architecture views are simple function of your state - this works especially well with Render's declarative programming style.
+
+Checkout the **TodoApp** example to see how to get the best out of **Dispatch** and **Render**.
+
 #### Use with ReSwift
 
 [ReSwift](https://github.com/ReSwift/ReSwift) is a Redux-like implementation of the unidirectional data flow architecture in Swift. 
@@ -234,10 +241,7 @@ import Render
 import ReSwift
 
 class HelloWorldComponentView: ComponentView<AppState>, StoreSubscriber {
-
-  override func construct(state: AppState?, size: CGSize = CGSize.undefined) -> NodeType {
-    ...
-  }
+  override func construct(state: AppState?, size: CGSize = CGSize.undefined) -> NodeType { ... }
 	
   func newState(state: AppState) {
     self.state = state

@@ -1,4 +1,5 @@
 import UIKit
+import Dispatcher_iOS
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -9,9 +10,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                    launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
     window = UIWindow(frame: UIScreen.main.bounds)
 
-    let store = Store()
-    let vc = ViewController(store: store)
-    window?.rootViewController = AppToolbarController(rootViewController: vc, store: store)
+    Dispatcher.default.initAppStore()
+    Dispatcher.default.register(middleware: LoggerMiddleware())
+
+    let vc = ViewController()
+    window?.rootViewController = AppToolbarController(rootViewController: vc)
     window?.makeKeyAndVisible()
     return true
   }

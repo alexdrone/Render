@@ -1,0 +1,10 @@
+framework module Material {
+  umbrella header "Material.h"
+
+  export *
+  module * { export * }
+}
+
+module Material.Swift {
+    header "Material-Swift.h"
+}

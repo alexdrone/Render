@@ -1,15 +1,14 @@
 import UIKit
 import Render
 import Material
+import Dispatcher_iOS
 
 class ViewController: UITableViewController {
 
-  let store: Store
-  var state: AppState
+  let dispatcher: Dispatcher
 
-  init(store: Store) {
-    self.store = store
-    self.state = self.store.state
+  init(dispatcher: Dispatcher = Dispatcher.default) {
+    self.dispatcher = dispatcher
     super.init(nibName: nil, bundle: nil)
   }
   
@@ -18,7 +17,9 @@ class ViewController: UITableViewController {
   }
 
   override func viewDidLoad() {
-    self.store.register(observer: self)
+    self.dispatcher.appStore.register(observer: self) { _ in
+      self.tableView.reloadData()
+    }
     super.viewDidLoad()
     self.tableView.estimatedRowHeight = 100
     self.tableView.rowHeight = UITableViewAutomaticDimension
@@ -35,7 +36,8 @@ extension ViewController {
 
   override func tableView(_ tableView: UITableView,
                           numberOfRowsInSection section: Int) -> Int {
-    return self.state.todoList.todos.count
+    let appState = self.dispatcher.appStore.state
+    return appState.todoList.count
   }
 
   override func tableView(_ tableView: UITableView,
@@ -49,25 +51,15 @@ extension ViewController {
       return cell
     }
 
+    let appState = self.dispatcher.appStore.state
+
     componentCell.mountComponentIfNecessary(TodoComponentView())
-    componentCell.state = self.state.todoList.todos[indexPath.row]
+    componentCell.state = appState.todoList[indexPath.row]
     componentCell.componentView?.delegate = self
     componentCell.render()
     return cell
   }
   
-}
-
-//MARK: - Store Observer
-
-extension ViewController: Observer {
-
-  /** The store state changed. The components need to be re-rendered. */
-  func onStateChange(_ state: AppState) {
-    self.state = state
-    self.tableView.reloadData()
-  }
-
 }
 
 //MARK: - Component Delegate
@@ -76,12 +68,12 @@ extension ViewController: TodoComponentViewDelegate {
 
   /** The user finished adding a description for the todo item with the 'id' passed as argument. */
   func didNameTodo(id: String, title: String) {
-    self.store.dispatch(action: .name(id: id, title: title))
+    self.dispatcher.dispatch(action: Action.name(id: id, title: title))
   }
 
   /** The user tapped on the check button in the todo item with the 'id' passed as argument */
   func didCheckTodo(id: String) {
-    self.store.dispatch(action: .check(id: id))
+    self.dispatcher.dispatch(action: Action.check(id: id))
   }
 
 }
