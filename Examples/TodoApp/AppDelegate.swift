@@ -12,6 +12,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     Dispatcher.default.initAppStore()
     Dispatcher.default.register(middleware: LoggerMiddleware())
+    Dispatcher.default.register(middleware: RecorderMiddleware(enableKeyboardControls: true))
 
     let vc = ViewController()
     window?.rootViewController = AppToolbarController(rootViewController: vc)

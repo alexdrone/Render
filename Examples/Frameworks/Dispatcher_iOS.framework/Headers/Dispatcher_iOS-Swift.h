@@ -116,6 +116,7 @@ typedef unsigned int swift_uint4  __attribute__((__ext_vector_type__(4)));
 #endif
 #if defined(__has_feature) && __has_feature(modules)
 @import Foundation;
+@import UIKit;
 #endif
 
 #pragma clang diagnostic ignored "-Wproperty-attribute-mismatch"
@@ -158,6 +159,10 @@ SWIFT_CLASS("_TtC14Dispatcher_iOS21AsynchronousOperation")
 */
 - (void)finish;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+@end
+
+
+@interface UIApplication (SWIFT_EXTENSION(Dispatcher_iOS))
 @end
 
 #pragma clang diagnostic pop
