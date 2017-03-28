@@ -25,14 +25,17 @@ class AppToolbarController: ToolbarController {
     button.pulseColor = .white
     button.addTarget(self, action: #selector(didTapAddButton), for: .touchUpInside)
 
-    statusBarStyle = .lightContent
-    statusBar.backgroundColor = Color.pink.darken2
-    toolbar.backgroundColor = Color.pink.darken1
+    statusBar.backgroundColor = Color.cyan.darken2
+    toolbar.backgroundColor = Color.cyan.darken1
     toolbar.leftViews = [cancelButton]
     toolbar.rightViews = [button]
 
     toolbar.title = "Todos"
     toolbar.titleLabel.textColor = UIColor.white
+  }
+
+  override var preferredStatusBarStyle: UIStatusBarStyle {
+    return .lightContent
   }
 
   dynamic private func didTapAddButton() {

@@ -17,7 +17,7 @@ class ViewController: UITableViewController {
   }
 
   override func viewDidLoad() {
-    self.dispatcher.appStore.register(observer: self) { _ in
+    self.dispatcher.todoListStore.register(observer: self) { _ in
       self.tableView.reloadData()
     }
     super.viewDidLoad()
@@ -36,8 +36,8 @@ extension ViewController {
 
   override func tableView(_ tableView: UITableView,
                           numberOfRowsInSection section: Int) -> Int {
-    let appState = self.dispatcher.appStore.state
-    return appState.todoList.count
+    let TodoListState = self.dispatcher.todoListStore.state
+    return TodoListState.todoList.count
   }
 
   override func tableView(_ tableView: UITableView,
@@ -51,10 +51,10 @@ extension ViewController {
       return cell
     }
 
-    let appState = self.dispatcher.appStore.state
+    let TodoListState = self.dispatcher.todoListStore.state
 
     componentCell.mountComponentIfNecessary(TodoComponentView())
-    componentCell.state = appState.todoList[indexPath.row]
+    componentCell.state = TodoListState.todoList[indexPath.row]
     componentCell.componentView?.delegate = self
     componentCell.render()
     return cell

@@ -6,16 +6,30 @@ protocol State: Dispatcher_iOS.StateType, Render.StateType { }
 
 //MARK: - States
 
-struct AppState: State {
+struct TodoListState: State {
   let todoList: [TodoState]
 
   init() {
-    /** The initial 'empty' value for this state. */
     self.todoList = []
   }
 
   init(list: [TodoState]) {
     self.todoList = list
+  }
+
+  func add(item: TodoState) -> TodoListState {
+    var list = self.todoList
+    list.insert(item, at: 0)
+    return TodoListState(list: list)
+  }
+
+  func replace(id: String, closure: (TodoState) -> TodoState) -> TodoListState {
+    guard let index = self.todoList.index(where: { $0.id == id }) else {
+      return self
+    }
+    var list = self.todoList
+    list[index] = closure(list[index])
+    return TodoListState(list: list)
   }
 }
 
@@ -39,14 +53,13 @@ struct TodoState: State {
     self.date = date
   }
 
-  func with(title: String) -> TodoState {
-    return TodoState(id: self.id, isNew: false, isDone: self.isDone, title: title, date: self.date)
+  func with(isNew: Bool? = nil, isDone: Bool? = nil, title: String? = nil, date: Date? = nil) -> TodoState {
+    return TodoState(id: self.id,
+                     isNew: isNew ?? self.isNew,
+                     isDone: isDone ?? self.isDone,
+                     title: title ?? self.title,
+                     date: date ?? self.date)
   }
-
-  func markDone() -> TodoState {
-    return TodoState(id: self.id, isNew: false, isDone: true, title: self.title, date: self.date)
-  }
-
 }
 
 //MARK: - Actions
@@ -60,10 +73,12 @@ enum Action: ActionType {
 
 //MARK: - Reducer
 
-class TodoReducer: Reducer<AppState, Action> {
+class TodoReducer: Reducer<TodoListState, Action> {
 
-  override func operation(for action: Action,
-                          in store: Store<AppState, Action>) -> ActionOperation<AppState, Action> {
+  typealias O = ActionOperation<TodoListState, Action>
+  typealias S = Store<TodoListState, Action>
+
+  override func operation(for action: Action, in store: S) -> O {
 
     switch action {
     case .add:
@@ -80,70 +95,48 @@ class TodoReducer: Reducer<AppState, Action> {
     }
   }
 
-  private func add(operation: AsynchronousOperation,
-                   action: Action,
-                   store: Store<AppState, Action>) {
-    defer { operation.finish() }
-    guard store.state.todoList.filter({ $0.isNew }).isEmpty else { return  }
-
-    store.updateState {  appState in
-
-      // Make a copy of the todolist and add a new item on top of it.
-      var list = appState.todoList
-      list.insert(TodoState(), at: 0)
-
-      // Create a new appstate with the new list.
-      appState = AppState(list: list)
+  private func add(operation: AsynchronousOperation, action: Action, store: S) {
+    defer {
+      operation.finish()
+    }
+    guard store.state.todoList.filter({ $0.isNew }).isEmpty else {
+      return
+    }
+    store.updateState {  state in
+      state = state.add(item: TodoState())
     }
   }
 
-  private func name(operation: AsynchronousOperation,
-                    action: Action,
-                    store: Store<AppState, Action>) {
-    defer { operation.finish() }
-    guard case .name(let id, let title) = action else { return }
-
-    store.updateState { appState in
-
-      // Get the index of the todo item with the given id
-      guard let index = appState.todoList.index(where: { $0.id == id }) else { return }
-
-      // Make a copy of the todolist and set the title for the item at the index just found.
-      var list = appState.todoList
-      list[index] = appState.todoList[index].with(title: title)
-
-      // Create a new appstate with the new list.
-      appState = AppState(list: list)
+  private func name(operation: AsynchronousOperation, action: Action, store: S) {
+    defer {
+      operation.finish()
+    }
+    guard case .name(let id, let title) = action else {
+      return
+    }
+    store.updateState { state in
+      state = state.replace(id: id) { $0.with(isNew: false, title: title) }
     }
   }
 
-  private func clear(operation: AsynchronousOperation,
-                     action: Action,
-                     store: Store<AppState, Action>) {
-    defer { operation.finish() }
-
-    store.updateState { appState in
-      appState = AppState()
+  private func clear(operation: AsynchronousOperation, action: Action, store: S) {
+    defer {
+      operation.finish()
+    }
+    store.updateState { state in
+      state = TodoListState()
     }
   }
 
-  private func check(operation: AsynchronousOperation,
-                     action: Action,
-                     store: Store<AppState, Action>) {
-    defer { operation.finish() }
-    guard case .check(let id) = action else { return }
-
-    store.updateState { appState in
-
-      // Get the index of the todo item with the given id
-      guard let index = appState.todoList.index(where: { $0.id == id }) else { return }
-
-      // Make a copy of the todolist and mark the item at the index just found as 'done'.
-      var list = appState.todoList
-      list[index] = appState.todoList[index].markDone()
-
-      // Create a new appstate with the new list.
-      appState = AppState(list: list)
+  private func check(operation: AsynchronousOperation, action: Action, store: S) {
+    defer {
+      operation.finish()
+    }
+    guard case .check(let id) = action else {
+      return
+    }
+    store.updateState { state in
+      state = state.replace(id: id) { $0.with(isDone: true) }
     }
   }
 }
@@ -152,14 +145,14 @@ class TodoReducer: Reducer<AppState, Action> {
 
 extension Dispatcher {
 
-  /** Convenience getter for the appstore. */
-  var appStore: Store<AppState, Action> {
-    return self.store(with: "appStore") as! Store<AppState, Action>
+  static let todoListStoreIndetifier = "todoList"
+
+  var todoListStore: Store<TodoListState, Action> {
+    return self.store(with: Dispatcher.todoListStoreIndetifier) as! Store<TodoListState, Action>
   }
 
-  /** Creates the AppStore and register it to this 'dispatcher'. */
-  func initAppStore() {
-    let store = Store<AppState, Action>(identifier: "appStore", reducer: TodoReducer())
+  func initTodoListStore() {
+    let store = Store<TodoListState, Action>(identifier:  Dispatcher.todoListStoreIndetifier, reducer: TodoReducer())
     Dispatcher.default.register(store: store)
   }
 }
