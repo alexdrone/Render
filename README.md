@@ -1,4 +1,4 @@
-# <img src="https://raw.githubusercontent.com/alexdrone/Render/master/docs/render_logo.png" width="387" alt="Render" />
+# <img src="https://raw.githubusercontent.com/alexdrone/Render/master/docs/logo" width="387" alt="Render" />
 
 [![Swift](https://img.shields.io/badge/swift-3-orange.svg?style=flat)](#)
 [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
