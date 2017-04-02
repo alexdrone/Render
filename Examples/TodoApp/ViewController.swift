@@ -1,6 +1,5 @@
 import UIKit
 import Render
-import Material
 import Dispatcher_iOS
 
 class ViewController: UITableViewController {
@@ -21,11 +20,31 @@ class ViewController: UITableViewController {
       self.tableView.reloadData()
     }
     super.viewDidLoad()
+    self.tableView.backgroundColor = Color.black
     self.tableView.estimatedRowHeight = 100
     self.tableView.rowHeight = UITableViewAutomaticDimension
     self.tableView.separatorStyle = .none
     self.tableView.dataSource = self
     self.tableView.reloadData()
+
+    self.title = "TODOS"
+    self.navigationController?.navigationBar.tintColor = Color.black
+    self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add,
+                                                             target: self,
+                                                             action: #selector(didTapAddButton))
+    self.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .trash,
+                                                             target: self,
+                                                             action: #selector(didTapCancelButton))
+
+
+  }
+
+  dynamic private func didTapAddButton() {
+    self.dispatcher.dispatch(action: Action.add)
+  }
+
+  dynamic private func didTapCancelButton() {
+    self.dispatcher.dispatch(action: Action.clear)
   }
 
 }

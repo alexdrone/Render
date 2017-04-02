@@ -13,12 +13,10 @@
 		161AE6361E7B79600038FBE0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 161AE6351E7B79600038FBE0 /* Assets.xcassets */; };
 		161AE6391E7B79600038FBE0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 161AE6371E7B79600038FBE0 /* LaunchScreen.storyboard */; };
 		161AE6491E7B7C980038FBE0 /* Component.swift in Sources */ = {isa = PBXBuildFile; fileRef = 161AE6481E7B7C980038FBE0 /* Component.swift */; };
-		161AE6501E7B835E0038FBE0 /* AppToolbarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 161AE64F1E7B835E0038FBE0 /* AppToolbarViewController.swift */; };
 		161AE6521E7B86310038FBE0 /* States+Reducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 161AE6511E7B86310038FBE0 /* States+Reducer.swift */; };
+		167512BF1E903A9B00CA5844 /* Style.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167512BE1E903A9B00CA5844 /* Style.swift */; };
 		167A43521E846FE100083790 /* Dispatcher_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 167A434F1E846FE100083790 /* Dispatcher_iOS.framework */; };
 		167A43531E846FE100083790 /* Dispatcher_iOS.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 167A434F1E846FE100083790 /* Dispatcher_iOS.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		167A43541E846FE100083790 /* Material.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 167A43501E846FE100083790 /* Material.framework */; };
-		167A43551E846FE100083790 /* Material.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 167A43501E846FE100083790 /* Material.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		167A43561E846FE100083790 /* Render.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 167A43511E846FE100083790 /* Render.framework */; };
 		167A43571E846FE100083790 /* Render.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 167A43511E846FE100083790 /* Render.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
@@ -32,7 +30,6 @@
 			files = (
 				167A43571E846FE100083790 /* Render.framework in Embed Frameworks */,
 				167A43531E846FE100083790 /* Dispatcher_iOS.framework in Embed Frameworks */,
-				167A43551E846FE100083790 /* Material.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -48,10 +45,9 @@
 		161AE6381E7B79600038FBE0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		161AE63A1E7B79600038FBE0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		161AE6481E7B7C980038FBE0 /* Component.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Component.swift; sourceTree = "<group>"; };
-		161AE64F1E7B835E0038FBE0 /* AppToolbarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppToolbarViewController.swift; sourceTree = "<group>"; };
 		161AE6511E7B86310038FBE0 /* States+Reducer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "States+Reducer.swift"; sourceTree = "<group>"; };
+		167512BE1E903A9B00CA5844 /* Style.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Style.swift; sourceTree = "<group>"; };
 		167A434F1E846FE100083790 /* Dispatcher_iOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Dispatcher_iOS.framework; path = Frameworks/Dispatcher_iOS.framework; sourceTree = "<group>"; };
-		167A43501E846FE100083790 /* Material.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Material.framework; path = Frameworks/Material.framework; sourceTree = "<group>"; };
 		167A43511E846FE100083790 /* Render.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Render.framework; path = Frameworks/Render.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -62,7 +58,6 @@
 			files = (
 				167A43561E846FE100083790 /* Render.framework in Frameworks */,
 				167A43521E846FE100083790 /* Dispatcher_iOS.framework in Frameworks */,
-				167A43541E846FE100083790 /* Material.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -73,7 +68,6 @@
 			isa = PBXGroup;
 			children = (
 				167A434F1E846FE100083790 /* Dispatcher_iOS.framework */,
-				167A43501E846FE100083790 /* Material.framework */,
 				167A43511E846FE100083790 /* Render.framework */,
 				161AE62D1E7B79600038FBE0 /* TodoApp */,
 				161AE62C1E7B79600038FBE0 /* Products */,
@@ -95,6 +89,7 @@
 				161AE6511E7B86310038FBE0 /* States+Reducer.swift */,
 				161AE6481E7B7C980038FBE0 /* Component.swift */,
 				161AE6301E7B79600038FBE0 /* ViewController.swift */,
+				167512BE1E903A9B00CA5844 /* Style.swift */,
 				161AE6321E7B79600038FBE0 /* Main.storyboard */,
 				161AE6351E7B79600038FBE0 /* Assets.xcassets */,
 				161AE6371E7B79600038FBE0 /* LaunchScreen.storyboard */,
@@ -107,7 +102,6 @@
 			isa = PBXGroup;
 			children = (
 				161AE62E1E7B79600038FBE0 /* AppDelegate.swift */,
-				161AE64F1E7B835E0038FBE0 /* AppToolbarViewController.swift */,
 			);
 			name = "AppDelegate & Root";
 			sourceTree = "<group>";
@@ -186,10 +180,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				161AE6311E7B79600038FBE0 /* ViewController.swift in Sources */,
+				167512BF1E903A9B00CA5844 /* Style.swift in Sources */,
 				161AE62F1E7B79600038FBE0 /* AppDelegate.swift in Sources */,
 				161AE6521E7B86310038FBE0 /* States+Reducer.swift in Sources */,
 				161AE6491E7B7C980038FBE0 /* Component.swift in Sources */,
-				161AE6501E7B835E0038FBE0 /* AppToolbarViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

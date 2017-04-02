@@ -1,6 +1,5 @@
 import Foundation
 import Render
-import Material
 
 protocol TodoComponentViewDelegate: class {
 
@@ -24,25 +23,25 @@ class TodoComponentView: ComponentView<TodoState>, UITextFieldDelegate {
     // Main wrapper element.
     let container = Node<UIView>(identifier: "container") { (view, layout, size) in
       layout.width = size.width
-      view.backgroundColor = UIColor.white
+      view.backgroundColor = Color.black
     }
 
-    // Card with depth.
     let card = Node<UIView>(identifier: "card") { (view, layout, size) in
       layout.alignSelf = .stretch
       layout.margin = 8
       layout.flexDirection = .row
-      view.backgroundColor = Color.grey.lighten5
+      view.backgroundColor = Color.white.withAlphaComponent(0.1)
     }
 
     // Title input field.
-    let textField = Node<TextField>(
+    let textField = Node<UITextField>(
       identifier: "input",
       create: { [weak self] in
-        let field = TextField()
+        let field = UITextField()
         field.placeholder = "TODO"
         field.delegate = self
-        field.font = Material.Font.boldSystemFont(ofSize: 16)
+        field.textColor = Color.green
+        field.font = Typography.mediumBold
         self?.textField = field
         return field
       },
@@ -60,26 +59,29 @@ class TodoComponentView: ComponentView<TodoState>, UITextFieldDelegate {
                         value: state.isDone ? 2 : 0,
                         range: NSMakeRange(0, attr.length))
       attr.addAttribute(NSForegroundColorAttributeName,
-                        value: state.isDone ? Color.grey.darken4 : Color.lightBlue.darken3,
+                        value: state.isDone ? Color.white.withAlphaComponent(0.3) : Color.green,
                         range: NSMakeRange(0, attr.length))
       view.attributedText = attr
-      view.font = Material.Font.boldSystemFont(ofSize: 15)
+      view.font = Typography.mediumBold
       view.numberOfLines = 0
       layout.flexShrink = 1
       layout.margin = 16
     }
 
     // The check button.
-    let doneButton = Node<IconButton>(
+    let doneButton = Node<UIButton>(
       identifier: "doneButton",
       create: {
-        let button = IconButton(image: Icon.cm.check)
+        let button = UIButton(type: UIButtonType.custom)
+        button.setTitle("CHECK", for: .normal)
+        button.titleLabel?.font = Typography.smallBold
+        button.setTitleColor(Color.white, for: .normal)
         return button
       },
       configure: { (view, layout, size) in
         layout.justifyContent = .center
         layout.alignSelf = .stretch
-        layout.width = 42
+        layout.width = 64
         layout.marginLeft = 8
         view.isHidden = state.isDone
         view.addTarget(self, action: #selector(self.didTapCheckButton), for: .touchUpInside)
@@ -130,3 +132,5 @@ class TodoComponentView: ComponentView<TodoState>, UITextFieldDelegate {
     return true
   }
 }
+
+

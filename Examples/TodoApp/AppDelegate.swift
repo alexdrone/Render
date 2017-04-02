@@ -15,7 +15,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     Dispatcher.default.register(middleware: RecorderMiddleware(enableKeyboardControls: true))
 
     let vc = ViewController()
-    window?.rootViewController = AppToolbarController(rootViewController: vc)
+    window?.rootViewController = UINavigationController(rootViewController: vc)
     window?.makeKeyAndVisible()
     return true
   }
