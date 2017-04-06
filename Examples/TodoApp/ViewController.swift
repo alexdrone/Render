@@ -28,10 +28,16 @@ class ViewController: UITableViewController {
     self.tableView.reloadData()
 
     self.title = "TODOS"
-    self.navigationController?.navigationBar.tintColor = Color.black
+
+    self.navigationController?.navigationBar.isTranslucent = false
+    self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: Color.green]
+    self.navigationController?.navigationBar.barTintColor = Color.black
+    self.navigationController?.navigationBar.tintColor = Color.green
+    self.navigationController?.navigationBar.shadowImage = UIImage()
     self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add,
                                                              target: self,
                                                              action: #selector(didTapAddButton))
+
     self.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .trash,
                                                              target: self,
                                                              action: #selector(didTapCancelButton))

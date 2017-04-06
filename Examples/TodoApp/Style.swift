@@ -10,8 +10,8 @@ struct Color {
 }
 
 struct Typography {
-  static let mediumBold = UIFont.systemFont(ofSize: 15.0, weight: UIFontWeightBold)
+  static let mediumBold = UIFont.systemFont(ofSize: 13.0, weight: UIFontWeightBold)
   static let small = UIFont.systemFont(ofSize: 12.0, weight: UIFontWeightRegular)
-  static let smallBold = UIFont.systemFont(ofSize: 12.0, weight: UIFontWeightBold)
-  static let smallLight = UIFont.systemFont(ofSize: 12.0, weight: UIFontWeightLight)
+  static let smallBold = UIFont.systemFont(ofSize: 10.0, weight: UIFontWeightBold)
+  static let smallLight = UIFont.systemFont(ofSize: 10.0, weight: UIFontWeightLight)
 }

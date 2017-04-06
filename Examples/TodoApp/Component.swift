@@ -23,11 +23,13 @@ class TodoComponentView: ComponentView<TodoState>, UITextFieldDelegate {
     // Main wrapper element.
     let container = Node<UIView>(identifier: "container") { (view, layout, size) in
       layout.width = size.width
+      layout.flexDirection = .row
       view.backgroundColor = Color.black
     }
 
     let card = Node<UIView>(identifier: "card") { (view, layout, size) in
       layout.alignSelf = .stretch
+      layout.flexGrow = 1
       layout.margin = 8
       layout.flexDirection = .row
       view.backgroundColor = Color.white.withAlphaComponent(0.1)
@@ -40,14 +42,13 @@ class TodoComponentView: ComponentView<TodoState>, UITextFieldDelegate {
         let field = UITextField()
         field.placeholder = "TODO"
         field.delegate = self
-        field.textColor = Color.green
+        field.textColor = Color.white
         field.font = Typography.mediumBold
         self?.textField = field
         return field
       },
       configure: { (view, layout, size) in
         layout.alignSelf = .stretch
-        layout.flexGrow = 1
         layout.margin = 16
         layout.marginTop = 24
       })
@@ -59,13 +60,14 @@ class TodoComponentView: ComponentView<TodoState>, UITextFieldDelegate {
                         value: state.isDone ? 2 : 0,
                         range: NSMakeRange(0, attr.length))
       attr.addAttribute(NSForegroundColorAttributeName,
-                        value: state.isDone ? Color.white.withAlphaComponent(0.3) : Color.green,
+                        value: state.isDone ? Color.white.withAlphaComponent(0.3) : Color.white,
                         range: NSMakeRange(0, attr.length))
       view.attributedText = attr
       view.font = Typography.mediumBold
       view.numberOfLines = 0
-      layout.flexShrink = 1
+      layout.flexGrow = 1
       layout.margin = 16
+      layout.alignSelf = .stretch
     }
 
     // The check button.
@@ -75,7 +77,7 @@ class TodoComponentView: ComponentView<TodoState>, UITextFieldDelegate {
         let button = UIButton(type: UIButtonType.custom)
         button.setTitle("CHECK", for: .normal)
         button.titleLabel?.font = Typography.smallBold
-        button.setTitleColor(Color.white, for: .normal)
+        button.setTitleColor(Color.red, for: .normal)
         return button
       },
       configure: { (view, layout, size) in
@@ -94,8 +96,8 @@ class TodoComponentView: ComponentView<TodoState>, UITextFieldDelegate {
           textField
         ] : [
           // Todo with a title already.
+          title,
           doneButton,
-          title
         ])
     )
   }
