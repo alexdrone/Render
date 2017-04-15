@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workspace
+   version = "1.0">
+   <FileRef
+      location = "group:../../Render.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "container:issue33.playground">
+   </FileRef>
+   <FileRef
+      location = "group:issue34.playground">
+   </FileRef>
+   <FileRef
+      location = "group:issue36.playground">
+   </FileRef>
+</Workspace>

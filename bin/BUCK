@@ -1,0 +1,7 @@
+prebuilt_apple_framework(
+  name = 'Render',
+  framework = 'Render.framework',
+  visibility = [
+    'PUBLIC'
+  ]
+)

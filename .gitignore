@@ -19,3 +19,5 @@ xcuserdata/
 *.moved-aside
 *.xccheckout
 *.xcscmblueprint
+.buckd/
+.build_temp/
