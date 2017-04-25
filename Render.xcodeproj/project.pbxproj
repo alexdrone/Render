@@ -24,6 +24,7 @@
 		164C11691E5A203100766914 /* Reset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164C11681E5A203100766914 /* Reset.swift */; };
 		164C116B1E5A257300766914 /* ComponentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164C116A1E5A257300766914 /* ComponentView.swift */; };
 		164C11A81E5E2F4400766914 /* ComponentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164C11A71E5E2F4400766914 /* ComponentCell.swift */; };
+		165649D71EAF82EB00E02BC1 /* YGEnums.c in Sources */ = {isa = PBXBuildFile; fileRef = 165649D61EAF82EB00E02BC1 /* YGEnums.c */; };
 		16C59F811E75BE9900D9E297 /* TableNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16C59F801E75BE9900D9E297 /* TableNode.swift */; };
 /* End PBXBuildFile section */
 
@@ -47,6 +48,7 @@
 		164C11681E5A203100766914 /* Reset.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reset.swift; sourceTree = "<group>"; };
 		164C116A1E5A257300766914 /* ComponentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComponentView.swift; sourceTree = "<group>"; };
 		164C11A71E5E2F4400766914 /* ComponentCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComponentCell.swift; sourceTree = "<group>"; };
+		165649D61EAF82EB00E02BC1 /* YGEnums.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = YGEnums.c; sourceTree = "<group>"; };
 		16C59F801E75BE9900D9E297 /* TableNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableNode.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -98,6 +100,7 @@
 			children = (
 				164C114C1E59ECC600766914 /* UIView+Yoga.h */,
 				164C114D1E59ECC600766914 /* UIView+Yoga.m */,
+				165649D61EAF82EB00E02BC1 /* YGEnums.c */,
 				164C114E1E59ECC600766914 /* YGEnums.h */,
 				164C114F1E59ECC600766914 /* YGLayout+Private.h */,
 				164C11501E59ECC600766914 /* YGLayout.h */,
@@ -198,6 +201,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				165649D71EAF82EB00E02BC1 /* YGEnums.c in Sources */,
 				164C11691E5A203100766914 /* Reset.swift in Sources */,
 				16C59F811E75BE9900D9E297 /* TableNode.swift in Sources */,
 				164C11631E59ECEC00766914 /* Node.swift in Sources */,

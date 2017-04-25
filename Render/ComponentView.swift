@@ -19,6 +19,9 @@ public enum RenderOption {
                 options: UIViewAnimationOptions,
                 alongside: ((Void) -> Void)?)
 
+  case flexibleWidth
+  case flexibleHeigth
+
   /** Internal use only. */
   case __animated
 }
@@ -138,8 +141,17 @@ open class ComponentView<S: StateType>: UIView, ComponentViewType {
     func layout() {
       // Applies the configuration closures and recursively computes the layout.
       self.root.render(in: bounds)
-      self.rootView.yoga.applyLayout(preservingOrigin: false)
+
+      let preservingOrigin = false
       let yoga = self.rootView.yoga
+
+      if RenderOption.contains(opts, .flexibleWidth)  {
+        yoga.applyLayout(preservingOrigin: preservingOrigin, dimensionFlexibility: .flexibleWidth)
+      } else if RenderOption.contains(opts, .flexibleHeigth) {
+        yoga.applyLayout(preservingOrigin: preservingOrigin, dimensionFlexibility: .flexibleHeigth)
+      } else {
+        yoga.applyLayout(preservingOrigin: false)
+      }
 
       // Applies the frame to the host view.
       self.rootView.frame.normalize()
@@ -277,6 +289,8 @@ extension RenderOption: Equatable {
     switch self {
     case .preventViewHierarchyDiff: return 0
     case .animated(_), .__animated: return 1
+    case .flexibleWidth: return 2
+    case .flexibleHeigth: return 3
     }
   }
 

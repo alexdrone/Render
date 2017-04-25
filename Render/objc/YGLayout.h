@@ -1,4 +1,11 @@
-/** Copyright (c) 2014-present, Facebook, Inc. */
+/**
+ * Copyright (c) 2014-present, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the BSD-style license found in the
+ * LICENSE file in the root directory of this source tree. An additional grant
+ * of patent rights can be found in the PATENTS file in the same directory.
+ */
 
 #import <UIKit/UIKit.h>
 #import "YGEnums.h"
@@ -8,10 +15,16 @@ static CGSize YGNaNSize = {
   .width = YGUndefined,
   .height = YGUndefined,
 };
+
+typedef NS_OPTIONS(NSInteger, YGDimensionFlexibility) {
+  YGDimensionFlexibilityFlexibleWidth = 1 << 0,
+  YGDimensionFlexibilityFlexibleHeigth = 1 << 1,
+};
+
 @interface YGLayout : NSObject
 
 /**
- The property that decides if we should include this view when calculating layout. Defaults to YES.
+  The property that decides if we should include this view when calculating layout. Defaults to YES.
  */
 @property (nonatomic, readwrite, assign, setter=setIncludedInLayout:) BOOL isIncludedInLayout;
 
@@ -91,9 +104,14 @@ static CGSize YGNaNSize = {
  If the origin is not preserved, the root view's layout results will applied from {0,0}.
  */
 - (void)applyLayoutPreservingOrigin:(BOOL)preserveOrigin
-NS_SWIFT_NAME(applyLayout(preservingOrigin:));
+    NS_SWIFT_NAME(applyLayout(preservingOrigin:));
 
-- (void)applyLayoutPreservingOrigin:(BOOL)preserveOrigin withSize:(CGSize)size;
+/**
+ Perform a layout calculation and update the frames of the views in the hierarchy with the results.
+ If the origin is not preserved, the root view's layout results will applied from {0,0}.
+ */
+- (void)applyLayoutPreservingOrigin:(BOOL)preserveOrigin dimensionFlexibility:(YGDimensionFlexibility)dimensionFlexibility
+    NS_SWIFT_NAME(applyLayout(preservingOrigin:dimensionFlexibility:));
 
 /**
  Returns the size of the view if no constraints were given. This could equivalent to calling [self

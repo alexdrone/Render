@@ -3,8 +3,8 @@ import UIKit
 
 public extension CGFloat {
   public static let undefined: CGFloat = YGNaNSize.width
-  public static let max: CGFloat = CGFloat(FLT_MAX)
-  public static let epsilon: CGFloat = CGFloat(FLT_EPSILON)
+  public static let max: CGFloat = CGFloat(Float.greatestFiniteMagnitude)
+  public static let epsilon: CGFloat = CGFloat(Float.ulpOfOne)
 }
 
 public extension CGSize {
