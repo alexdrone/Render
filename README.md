@@ -1,6 +1,6 @@
 # <img src="https://raw.githubusercontent.com/alexdrone/Render/master/docs/logo.png" width="387" alt="Render" />
 
-[![Swift](https://img.shields.io/badge/swift-3-orange.svg?style=flat)](#)
+[![Swift](https://img.shields.io/badge/swift-3.1-orange.svg?style=flat)](#)
 [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 [![Platform](https://img.shields.io/badge/platform-iOS-lightgrey.svg?style=flat)](#)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg?style=flat)](https://opensource.org/licenses/MIT)
