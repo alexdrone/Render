@@ -12,7 +12,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     Dispatcher.default.initTodoListStore()
     Dispatcher.default.register(middleware: LoggerMiddleware())
-    //Dispatcher.default.register(middleware: RecorderMiddleware(enableKeyboardControls: true))
+    Dispatcher.default.register(middleware: RecorderMiddleware(enableKeyboardControls: true))
 
     let vc = ViewController()
     window?.rootViewController = UINavigationController(rootViewController: vc)
