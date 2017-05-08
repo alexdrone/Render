@@ -14,6 +14,7 @@
 		161AE6391E7B79600038FBE0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 161AE6371E7B79600038FBE0 /* LaunchScreen.storyboard */; };
 		161AE6491E7B7C980038FBE0 /* Component.swift in Sources */ = {isa = PBXBuildFile; fileRef = 161AE6481E7B7C980038FBE0 /* Component.swift */; };
 		161AE6521E7B86310038FBE0 /* States+Reducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 161AE6511E7B86310038FBE0 /* States+Reducer.swift */; };
+		162B39C01EC0871F0074E075 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 162B39BF1EC0871F0074E075 /* main.m */; };
 		167512BF1E903A9B00CA5844 /* Style.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167512BE1E903A9B00CA5844 /* Style.swift */; };
 		167A43521E846FE100083790 /* Dispatcher_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 167A434F1E846FE100083790 /* Dispatcher_iOS.framework */; };
 		167A43531E846FE100083790 /* Dispatcher_iOS.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 167A434F1E846FE100083790 /* Dispatcher_iOS.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -46,6 +47,8 @@
 		161AE63A1E7B79600038FBE0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		161AE6481E7B7C980038FBE0 /* Component.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Component.swift; sourceTree = "<group>"; };
 		161AE6511E7B86310038FBE0 /* States+Reducer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "States+Reducer.swift"; sourceTree = "<group>"; };
+		162B39BE1EC0871F0074E075 /* TodoApp-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TodoApp-Bridging-Header.h"; sourceTree = "<group>"; };
+		162B39BF1EC0871F0074E075 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = ../main.m; sourceTree = "<group>"; };
 		167512BE1E903A9B00CA5844 /* Style.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Style.swift; sourceTree = "<group>"; };
 		167A434F1E846FE100083790 /* Dispatcher_iOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Dispatcher_iOS.framework; path = Frameworks/Dispatcher_iOS.framework; sourceTree = "<group>"; };
 		167A43511E846FE100083790 /* Render.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Render.framework; path = Frameworks/Render.framework; sourceTree = "<group>"; };
@@ -71,6 +74,7 @@
 				167A43511E846FE100083790 /* Render.framework */,
 				161AE62D1E7B79600038FBE0 /* TodoApp */,
 				161AE62C1E7B79600038FBE0 /* Products */,
+				162B39BE1EC0871F0074E075 /* TodoApp-Bridging-Header.h */,
 			);
 			sourceTree = "<group>";
 		};
@@ -101,6 +105,7 @@
 		1656A9621E7C7FFC00BC9016 /* AppDelegate & Root */ = {
 			isa = PBXGroup;
 			children = (
+				162B39BF1EC0871F0074E075 /* main.m */,
 				161AE62E1E7B79600038FBE0 /* AppDelegate.swift */,
 			);
 			name = "AppDelegate & Root";
@@ -139,6 +144,8 @@
 				TargetAttributes = {
 					161AE62A1E7B79600038FBE0 = {
 						CreatedOnToolsVersion = 8.2.1;
+						DevelopmentTeam = EQHXZ8M8AV;
+						LastSwiftMigration = 0830;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -181,6 +188,7 @@
 			files = (
 				161AE6311E7B79600038FBE0 /* ViewController.swift in Sources */,
 				167512BF1E903A9B00CA5844 /* Style.swift in Sources */,
+				162B39C01EC0871F0074E075 /* main.m in Sources */,
 				161AE62F1E7B79600038FBE0 /* AppDelegate.swift in Sources */,
 				161AE6521E7B86310038FBE0 /* States+Reducer.swift in Sources */,
 				161AE6491E7B7C980038FBE0 /* Component.swift in Sources */,
@@ -306,6 +314,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				DEVELOPMENT_TEAM = EQHXZ8M8AV;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
@@ -314,8 +324,11 @@
 				);
 				INFOPLIST_FILE = TodoApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_SWIFT_FLAGS = "-Xfrontend -debug-time-function-bodies";
 				PRODUCT_BUNDLE_IDENTIFIER = com.alexdrone.TodoApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "TodoApp-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
@@ -324,6 +337,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				DEVELOPMENT_TEAM = EQHXZ8M8AV;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
@@ -332,8 +347,10 @@
 				);
 				INFOPLIST_FILE = TodoApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_SWIFT_FLAGS = "-Xfrontend -debug-time-function-bodies";
 				PRODUCT_BUNDLE_IDENTIFIER = com.alexdrone.TodoApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "TodoApp-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Release;

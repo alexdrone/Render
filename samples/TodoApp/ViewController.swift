@@ -19,6 +19,7 @@ class ViewController: UITableViewController {
     self.dispatcher.todoListStore.register(observer: self) { _ in
       self.tableView.reloadData()
     }
+
     super.viewDidLoad()
     self.tableView.backgroundColor = Color.black
     self.tableView.estimatedRowHeight = 100
@@ -54,6 +55,18 @@ class ViewController: UITableViewController {
   }
 
 }
+
+func createCard() -> NodeType {
+  return Node<UIView>(identifier: "card") { (view, layout, size) in
+    layout.alignSelf = .stretch
+    layout.flexGrow = 1
+    layout.margin = 28
+    layout.flexDirection = .row
+    view.backgroundColor = Color.white.withAlphaComponent(0.1)
+  }
+}
+
+
 
 //MARK: - UITableViewDelegate
 
@@ -102,3 +115,4 @@ extension ViewController: TodoComponentViewDelegate {
   }
 
 }
+
