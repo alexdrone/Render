@@ -22,6 +22,9 @@ public enum RenderOption {
   case flexibleWidth
   case flexibleHeigth
 
+  /** Use this if you wish to use the same bounds passed as argument in the previous invocation. */
+  case usePreviousBoundsAndOptions
+
   /** Internal use only. */
   case __animated
 }
@@ -80,6 +83,9 @@ open class ComponentView<S: StateType>: UIView, ComponentViewType {
   /** The (current) root node. */
   private var root: NodeType = NilNode()
 
+  /** The bounds used in the last invocation of 'render'. */
+  private var lastRenderParams: (CGSize, [RenderOption]) = (CGSize.max, [])
+
   /** The (current) view associated to the root node. */
   private var rootView: UIView!
   private lazy var contentView: UIView = {
@@ -93,8 +99,14 @@ open class ComponentView<S: StateType>: UIView, ComponentViewType {
     super.init(frame: CGRect.zero)
     self.rootView = self.root.renderedView
     self.addSubview(contentView)
+
+    NotificationCenter.default.addObserver(forName: Notification.Name("INJECTION_BUNDLE_NOTIFICATION"),
+                                           object: nil,
+                                           queue: nil) { _ in
+      self.render(options: [.usePreviousBoundsAndOptions])
+    }
   }
-  
+
   required public init?(coder aDecoder: NSCoder) {
     fatalError()
   }
@@ -112,11 +124,22 @@ open class ComponentView<S: StateType>: UIView, ComponentViewType {
 
   public func render(in bounds: CGSize = CGSize.max, options: [RenderOption] = []) {
     assert(Thread.isMainThread)
+
+    var argBounds = bounds
+    var argOptions = options
+    if RenderOption.contains(options, .usePreviousBoundsAndOptions) {
+      argBounds = self.lastRenderParams.0
+      argOptions = RenderOption.filter(options, .__animated)
+    } else {
+      self.lastRenderParams.0 = bounds
+      self.lastRenderParams.1 = options
+    }
+
     self.willRender()
     let startTime = CFAbsoluteTimeGetCurrent()
 
     // Applies the configuration closures recursively.
-    internalRender(in: bounds, options: options)
+    internalRender(in: argBounds, options: argOptions)
 
     debugRenderTime("\(type(of: self)).render", startTime: startTime)
     self.didRender()
@@ -270,7 +293,7 @@ open class ComponentView<S: StateType>: UIView, ComponentViewType {
 
 // MARK: - Utilities
 
-func debugRenderTime(_ label: String, startTime: CFAbsoluteTime, threshold: CFAbsoluteTime = 16) {
+func debugRenderTime(_ label: String, startTime: CFAbsoluteTime, threshold: CFAbsoluteTime = 0) {
   let timeElapsed = (CFAbsoluteTimeGetCurrent() - startTime)*1000
 
   // - Note: 60fps means you need to render a frame every ~16ms to not drop any frames.
@@ -287,10 +310,11 @@ extension RenderOption: Equatable {
   /** Strips the param out of the enum type. */
   public var kind: Int {
     switch self {
-    case .preventViewHierarchyDiff: return 0
-    case .animated(_), .__animated: return 1
-    case .flexibleWidth: return 2
-    case .flexibleHeigth: return 3
+    case .preventViewHierarchyDiff: return 1 << 0
+    case .animated(_), .__animated: return 1 << 1
+    case .usePreviousBoundsAndOptions: return 1 << 2
+    case .flexibleWidth: return 1 << 3
+    case .flexibleHeigth: return 1 << 4
     }
   }
 
