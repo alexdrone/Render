@@ -32,7 +32,7 @@ If you are using **CocoaPods**:
 Add the following to your [Podfile](https://guides.cocoapods.org/using/the-podfile.html):
 
 ```ruby
-pod 'Render', '~> 2.1'
+pod 'Render', '~> 2.4'
 ```
 
 If you are using **Carthage**:

@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = "Render"
-  s.version          = "2.1.1"
+  s.version          = "2.4"
   s.summary          = "Swift and UIKit a la React."
 
 # This description is used to generate tags and improve search results.
@@ -22,13 +22,13 @@ Pod::Spec.new do |s|
                        DESC
 
   s.homepage         = "https://github.com/alexdrone/Render"
-  s.screenshots      = "https://github.com/alexdrone/Render/raw/master/Doc/logo.png"
+  s.screenshots      = "https://github.com/alexdrone/Render/raw/master/docs/logo.png"
   s.license          = 'MIT'
   s.author           = { "Alex Usbergo" => "alexakadrone@gmail.com" }
   s.source           = { :git => "https://github.com/alexdrone/Render.git", :tag => s.version.to_s }
   s.social_media_url = 'https://twitter.com/alexdrone'
 
-  s.ios.deployment_target = '8.0'
+  s.ios.deployment_target = '9.0'
 
   s.source_files = 'Render/**/*'
 
