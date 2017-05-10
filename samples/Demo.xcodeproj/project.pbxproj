@@ -7,8 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1618D09A1E7EDCB200CD984C /* Render.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1618D0991E7EDC9C00CD984C /* Render.framework */; };
-		1618D09B1E7EDCB200CD984C /* Render.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 1618D0991E7EDC9C00CD984C /* Render.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		161B4D861EC33C7F00007E8A /* PercentComponentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 161B4D851EC33C7F00007E8A /* PercentComponentView.swift */; };
+		161B4D871EC33D3400007E8A /* Render.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1618D0991E7EDC9C00CD984C /* Render.framework */; };
+		161B4D881EC33D3400007E8A /* Render.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 1618D0991E7EDC9C00CD984C /* Render.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		161B4D8D1EC33ED600007E8A /* Example6ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 161B4D8C1EC33ED600007E8A /* Example6ViewController.swift */; };
 		164C11791E5B31E900766914 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164C11781E5B31E900766914 /* AppDelegate.swift */; };
 		164C117B1E5B31E900766914 /* Example2ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164C117A1E5B31E900766914 /* Example2ViewController.swift */; };
 		164C11801E5B31E900766914 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 164C117F1E5B31E900766914 /* Assets.xcassets */; };
@@ -35,7 +37,7 @@
 			remoteGlobalIDString = 164C11401E59ECB200766914;
 			remoteInfo = Render;
 		};
-		1618D09C1E7EDCB200CD984C /* PBXContainerItemProxy */ = {
+		161B4D891EC33D3400007E8A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 1618D0941E7EDC9C00CD984C /* Render.xcodeproj */;
 			proxyType = 1;
@@ -45,13 +47,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		16A595BB1E632D460070C0B5 /* Embed Frameworks */ = {
+		161B4D8B1EC33D3400007E8A /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				1618D09B1E7EDCB200CD984C /* Render.framework in Embed Frameworks */,
+				161B4D881EC33D3400007E8A /* Render.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -60,6 +62,8 @@
 
 /* Begin PBXFileReference section */
 		1618D0941E7EDC9C00CD984C /* Render.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Render.xcodeproj; path = ../Render.xcodeproj; sourceTree = "<group>"; };
+		161B4D851EC33C7F00007E8A /* PercentComponentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PercentComponentView.swift; sourceTree = "<group>"; };
+		161B4D8C1EC33ED600007E8A /* Example6ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Example6ViewController.swift; sourceTree = "<group>"; };
 		164C11751E5B31E900766914 /* Demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Demo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		164C11781E5B31E900766914 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		164C117A1E5B31E900766914 /* Example2ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Example2ViewController.swift; sourceTree = "<group>"; };
@@ -85,7 +89,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1618D09A1E7EDCB200CD984C /* Render.framework in Frameworks */,
+				161B4D871EC33D3400007E8A /* Render.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -98,6 +102,15 @@
 				1618D0991E7EDC9C00CD984C /* Render.framework */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		161B4D841EC33C6800007E8A /* example6 */ = {
+			isa = PBXGroup;
+			children = (
+				161B4D851EC33C7F00007E8A /* PercentComponentView.swift */,
+				161B4D8C1EC33ED600007E8A /* Example6ViewController.swift */,
+			);
+			name = example6;
 			sourceTree = "<group>";
 		};
 		164C116C1E5B31E900766914 = {
@@ -125,6 +138,7 @@
 				164C11AC1E5EC19100766914 /* example3 */,
 				16CAF7091E6CAE9A00565D60 /* example4 */,
 				16C59F861E76FDCE00D9E297 /* example5 */,
+				161B4D841EC33C6800007E8A /* example6 */,
 				164C119D1E5C840D00766914 /* external */,
 				164C11781E5B31E900766914 /* AppDelegate.swift */,
 				164C117F1E5B31E900766914 /* Assets.xcassets */,
@@ -199,12 +213,12 @@
 				164C11711E5B31E900766914 /* Sources */,
 				164C11721E5B31E900766914 /* Frameworks */,
 				164C11731E5B31E900766914 /* Resources */,
-				16A595BB1E632D460070C0B5 /* Embed Frameworks */,
+				161B4D8B1EC33D3400007E8A /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				1618D09D1E7EDCB200CD984C /* PBXTargetDependency */,
+				161B4D8A1EC33D3400007E8A /* PBXTargetDependency */,
 			);
 			name = Demo;
 			productName = Demo;
@@ -286,9 +300,11 @@
 				164C11AE1E5EC29600766914 /* SharedFragments.swift in Sources */,
 				164C11A41E5DC86A00766914 /* NestedComponentView.swift in Sources */,
 				16CAF70C1E6CAF0600565D60 /* Example4ViewController.swift in Sources */,
+				161B4D8D1EC33ED600007E8A /* Example6ViewController.swift in Sources */,
 				164C11B51E5ECF0400766914 /* HelloWorldComponentView.swift in Sources */,
 				164C117B1E5B31E900766914 /* Example2ViewController.swift in Sources */,
 				164C11791E5B31E900766914 /* AppDelegate.swift in Sources */,
+				161B4D861EC33C7F00007E8A /* PercentComponentView.swift in Sources */,
 				164C11A61E5E2EBA00766914 /* IndexViewController.swift in Sources */,
 				164C11A11E5C840D00766914 /* Style.swift in Sources */,
 				164C11B01E5EC3F400766914 /* ScrollableComponentView.swift in Sources */,
@@ -298,10 +314,10 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		1618D09D1E7EDCB200CD984C /* PBXTargetDependency */ = {
+		161B4D8A1EC33D3400007E8A /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = Render;
-			targetProxy = 1618D09C1E7EDCB200CD984C /* PBXContainerItemProxy */;
+			targetProxy = 161B4D891EC33D3400007E8A /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 

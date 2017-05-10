@@ -9,6 +9,7 @@
 
 #import "YGLayout+Private.h"
 #import "UIView+Yoga.h"
+#import "YGPercentLayout.h"
 
 #define YG_PROPERTY(type, lowercased_name, capitalized_name)    \
 - (type)lowercased_name                                         \
@@ -113,6 +114,7 @@ static YGConfigRef globalConfig;
     YGNodeSetContext(_node, (__bridge void *) view);
     _isEnabled = NO;
     _isIncludedInLayout = YES;
+    _percent = [[YGPercentLayout alloc] initWithLayout:self];
   }
 
   return self;
@@ -245,7 +247,7 @@ YG_PROPERTY(CGFloat, aspectRatio, AspectRatio)
     size.height = YGUndefined;
   }
   [self calculateLayoutWithSize:size];
-  YGApplyLayoutToViewHierarchy(self.view, NO);
+  YGApplyLayoutToViewHierarchy(self.view, preserveOrigin);
 }
 
 
@@ -269,10 +271,10 @@ YG_PROPERTY(CGFloat, aspectRatio, AspectRatio)
 
   const YGNodeRef node = self.node;
   YGNodeCalculateLayout(
-    node,
-    size.width,
-    size.height,
-    YGNodeStyleGetDirection(node));
+                        node,
+                        size.width,
+                        size.height,
+                        YGNodeStyleGetDirection(node));
 
   return (CGSize) {
     .width = YGNodeLayoutGetWidth(node),
@@ -281,11 +283,11 @@ YG_PROPERTY(CGFloat, aspectRatio, AspectRatio)
 }
 
 static YGSize YGMeasureView(
-  YGNodeRef node,
-  float width,
-  YGMeasureMode widthMode,
-  float height,
-  YGMeasureMode heightMode)
+                            YGNodeRef node,
+                            float width,
+                            YGMeasureMode widthMode,
+                            float height,
+                            YGMeasureMode heightMode)
 {
   const CGFloat constrainedWidth = (widthMode == YGMeasureModeUndefined) ? CGFLOAT_MAX : width;
   const CGFloat constrainedHeight = (heightMode == YGMeasureModeUndefined) ? CGFLOAT_MAX: height;
@@ -303,9 +305,9 @@ static YGSize YGMeasureView(
 }
 
 static CGFloat YGSanitizeMeasurement(
-  CGFloat constrainedSize,
-  CGFloat measuredSize,
-  YGMeasureMode measureMode)
+                                     CGFloat constrainedSize,
+                                     CGFloat measuredSize,
+                                     YGMeasureMode measureMode)
 {
   CGFloat result;
   if (measureMode == YGMeasureModeExactly) {
@@ -395,7 +397,7 @@ static void YGApplyLayoutToViewHierarchy(UIView *view, BOOL preserveOrigin)
   const YGLayout *yoga = view.yoga;
 
   if (!yoga.isIncludedInLayout) {
-     return;
+    return;
   }
 
   YGNodeRef node = yoga.node;
@@ -420,7 +422,7 @@ static void YGApplyLayoutToViewHierarchy(UIView *view, BOOL preserveOrigin)
       .height = YGRoundPixelValue(bottomRight.y) - YGRoundPixelValue(topLeft.y),
     },
   };
-
+  
   if (!yoga.isLeaf) {
     for (NSUInteger i=0; i<view.subviews.count; i++) {
       YGApplyLayoutToViewHierarchy(view.subviews[i], NO);

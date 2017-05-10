@@ -175,6 +175,29 @@ In this way the node's subnodes will be wrapped inside UITableViewCollectionCell
 
 ```
 
+### Percentage values in layout
+
+Size, margins and padding can now be expressed as a % of the parent.
+
+```swift
+
+class PercentComponentView: ComponentView<NilState> {
+
+override func construct(state: NilState?, size: CGSize = CGSize.undefined) -> NodeType {
+  return Node<UIView>() { (view, layout, size) in
+      view.backgroundColor = Color.green
+      layout.percent.height = 95%
+      layout.percent.width = 95%;
+    }.add(child: Node<UIView>() { (view, layout, size) in
+      view.backgroundColor = Color.darkerGreen
+      layout.percent.height = 90%
+      layout.percent.width = 90%;
+    })
+  }
+}
+
+```
+
 ### Samples
 
  - Catalogue app 

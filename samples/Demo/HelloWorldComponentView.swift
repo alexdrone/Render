@@ -18,10 +18,9 @@ class HelloWorldComponentView: ComponentView<HelloWorldState> {
   }
 
   override func construct(state: HelloWorldState?, size: CGSize = CGSize.undefined) -> NodeType {
-    func avatar() -> NodeType {
-      return Node<UIImageView> {
-        (view, layout, size) in
 
+    func avatar(image: UIImage?) -> NodeType {
+      return Node<UIImageView> { (view, layout, size) in
         let radius: CGFloat = CGFloat(randomInt(16, max: 128))
         view.backgroundColor = Color.green
         layout.height = radius * 2
@@ -29,10 +28,9 @@ class HelloWorldComponentView: ComponentView<HelloWorldState> {
         layout.alignSelf = .center
       }
     }
-    func text(text: String?) -> NodeType {
-      return Node<UILabel> {
-        (view, layout, size) in
 
+    func text(text: String?) -> NodeType {
+      return Node<UILabel> { (view, layout, size) in
         view.text = "Hello \(text ?? "stranger")"
         view.textAlignment = .center
         view.textColor = Color.green
@@ -40,10 +38,9 @@ class HelloWorldComponentView: ComponentView<HelloWorldState> {
         layout.margin = 16
       }
     }
-    func container() -> NodeType {
-      return Node<UIImageView>(identifier: String(describing: HelloWorldComponentView.self)) {
-        (view, layout, size) in
 
+    func container() -> NodeType {
+      return Node<UIImageView>(identifier: "hello_world") { (view, layout, size) in
         view.backgroundColor = Color.black
         let h = size.height == 0 ? CGFloat.max : size.height
         let w = size.width == 0 ? CGFloat.max : size.width
@@ -54,7 +51,7 @@ class HelloWorldComponentView: ComponentView<HelloWorldState> {
     }
 
     return container().add(children: [
-      avatar(),
+      avatar(image: nil),
       text(text: state?.name)
     ])
   }

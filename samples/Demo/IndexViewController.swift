@@ -29,6 +29,12 @@ class IndexViewController: UITableViewController {
           "Example 5 - TableNode",
         subtitle:
           "Wraps the children nodes in UITableViewCells."),
+
+    IndexState(
+        title:
+          "Example 6 - Layout values with %",
+        subtitle:
+          "You can express size, margins and padding as %."),
   ]
 
   override func viewDidLoad() {
@@ -73,6 +79,8 @@ class IndexViewController: UITableViewController {
       self.navigationController?.pushViewController(Example4ViewController(), animated: false)
     case 4:
       self.navigationController?.pushViewController(Example5ViewController(), animated: false)
+    case 5:
+      self.navigationController?.pushViewController(Example6ViewController(), animated: false)
     default:
       break
     }
