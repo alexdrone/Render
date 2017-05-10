@@ -14,12 +14,6 @@ class Example6ViewController: UIViewController {
     self.view.backgroundColor = Color.black
     self.view.addSubview(component)
     self.title = "EXAMPLE 6"
-    generateRandomStates()
-  }
-
-  func generateRandomStates() {
-    component.render(in: self.view.bounds.size)
-    component.center = self.view.center
   }
 
   override func viewDidLayoutSubviews() {
