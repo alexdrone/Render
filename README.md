@@ -32,7 +32,7 @@ If you are using **CocoaPods**:
 Add the following to your [Podfile](https://guides.cocoapods.org/using/the-podfile.html):
 
 ```ruby
-pod 'Render', '~> 2.4'
+pod 'Render', '~> 2.5'
 ```
 
 If you are using **Carthage**:
@@ -186,12 +186,12 @@ class PercentComponentView: ComponentView<NilState> {
 override func construct(state: NilState?, size: CGSize = CGSize.undefined) -> NodeType {
   return Node<UIView>() { (view, layout, size) in
       view.backgroundColor = Color.green
-      layout.percent.height = 95%
-      layout.percent.width = 95%;
+      layout.percent.height = 100%
+      layout.percent.width = 100%
     }.add(child: Node<UIView>() { (view, layout, size) in
       view.backgroundColor = Color.darkerGreen
-      layout.percent.height = 90%
-      layout.percent.width = 90%;
+      layout.percent.height = 50%
+      layout.percent.width = 50%
     })
   }
 }
