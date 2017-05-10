@@ -11,6 +11,8 @@
 #import "YGEnums.h"
 #import "Yoga.h"
 
+@class YGPercentLayout;
+
 static CGSize YGNaNSize = {
   .width = YGUndefined,
   .height = YGUndefined,
@@ -84,12 +86,15 @@ typedef NS_OPTIONS(NSInteger, YGDimensionFlexibility) {
 @property (nonatomic, readwrite, assign) CGFloat borderEndWidth;
 @property (nonatomic, readwrite, assign) CGFloat borderWidth;
 
+@property (nonatomic, readwrite, strong) YGPercentLayout *percent;
+
 @property (nonatomic, readwrite, assign) CGFloat width;
 @property (nonatomic, readwrite, assign) CGFloat height;
 @property (nonatomic, readwrite, assign) CGFloat minWidth;
 @property (nonatomic, readwrite, assign) CGFloat minHeight;
 @property (nonatomic, readwrite, assign) CGFloat maxWidth;
 @property (nonatomic, readwrite, assign) CGFloat maxHeight;
+
 
 // Yoga specific properties, not compatible with flexbox specification
 @property (nonatomic, readwrite, assign) CGFloat aspectRatio;
