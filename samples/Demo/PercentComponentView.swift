@@ -4,7 +4,7 @@ import Render
 
 class PercentComponentView: ComponentView<NilState> {
 
-  override init() {
+  required init() {
     super.init()
     self.defaultOptions = [.preventViewHierarchyDiff]
   }

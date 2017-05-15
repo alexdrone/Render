@@ -29,39 +29,30 @@ fileprivate var handleNewlyCreated: UInt8 = 0
 public extension UIView {
 
   public var isAnimatable: Bool {
-    get {
-      return (objc_getAssociatedObject(self, &handleAnimatable) as? NSNumber)?.boolValue ?? true
-    }
-    set {
-      objc_setAssociatedObject(self,
-                               &handleAnimatable,
-                               NSNumber(value: newValue),
-                               .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
-    }
+    get { return getBool(&handleAnimatable, self) }
+    set { setBool(&handleAnimatable, self, newValue) }
   }
 
   internal var hasNode: Bool {
-    get {
-      return (objc_getAssociatedObject(self, &handleHasNode) as? NSNumber)?.boolValue ?? false
-    }
-    set {
-      objc_setAssociatedObject(self,
-                               &handleHasNode,
-                               NSNumber(value: newValue),
-                               .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
-    }
+    get { return getBool(&handleHasNode, self) }
+    set { setBool(&handleHasNode, self, newValue) }
   }
-
 
   internal var isNewlyCreated: Bool {
-    get {
-      return (objc_getAssociatedObject(self, &handleNewlyCreated) as? NSNumber)?.boolValue ?? false
-    }
-    set {
-      objc_setAssociatedObject(self,
-                               &handleNewlyCreated,
-                               NSNumber(value: newValue),
-                               .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
-    }
+    get { return getBool(&handleNewlyCreated, self) }
+    set { setBool(&handleNewlyCreated, self, newValue) }
   }
 }
+
+
+fileprivate func getBool(_ handle: UnsafeRawPointer!, _ object: UIView) -> Bool {
+  return (objc_getAssociatedObject(object, handle) as? NSNumber)?.boolValue ?? true
+}
+
+fileprivate func setBool(_ handle: UnsafeRawPointer!, _ object: UIView, _ value: Bool) {
+  objc_setAssociatedObject(object,
+                           handle,
+                           NSNumber(value: value),
+                           .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+}
+

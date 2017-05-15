@@ -39,9 +39,7 @@ class FooComponentView: ComponentView<FooState> {
         Fragments.avatar(),
         rightSideWrapper().add(children: [
           Fragments.paddedLabel(text: state?.text),
-          // The way we compose components is by manually calling 'construct' and pass the
-          // component's state as argument.
-          nestedComponent.construct(state: state?.bar),
+          ComponentNode(type: NestedComponentView.self, state: state?.bar),
           Fragments.button()
         ])
       ])

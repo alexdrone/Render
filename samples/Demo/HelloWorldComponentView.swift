@@ -8,7 +8,7 @@ struct HelloWorldState: StateType {
 
 class HelloWorldComponentView: ComponentView<HelloWorldState> {
 
-  override init() {
+  required init() {
     super.init()
     self.defaultOptions = [.preventViewHierarchyDiff]
   }

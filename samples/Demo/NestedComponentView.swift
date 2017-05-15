@@ -8,6 +8,8 @@ struct NestedState: StateType {
 
 class NestedComponentView: ComponentView<NestedState> {
 
+  var radius: CGFloat = 8
+
   override func construct(state: NestedState?, size: CGSize = CGSize.undefined) -> NodeType {
 
     let n = state?.numberOfItems ?? 0
@@ -18,7 +20,7 @@ class NestedComponentView: ComponentView<NestedState> {
         (view, layout, size) in
 
         view.backgroundColor = Color.green
-        view.layer.cornerRadius = 8
+        view.layer.cornerRadius = self.radius
         layout.margin = 2
         layout.height = 16
         layout.width = 16

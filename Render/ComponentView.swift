@@ -51,6 +51,10 @@ public protocol ComponentViewType: AnyComponentView {
 
   /** The natural size for the receiving view, considering only properties of the view itself. */
   var intrinsicContentSize : CGSize { get }
+
+  init()
+
+  func construct(state: StateType?, size: CGSize) -> NodeType
 }
 
 // MARK: - Implementation
@@ -95,7 +99,7 @@ open class ComponentView<S: StateType>: UIView, ComponentViewType {
   /** Wether the 'root' node has been constructed yet. */
   private var initialized: Bool = false
 
-  public init() {
+  public required init() {
     super.init(frame: CGRect.zero)
     self.rootView = self.root.renderedView
     self.addSubview(contentView)
