@@ -66,7 +66,11 @@ open class ComponentTableViewCell<C : ComponentViewType>: UITableViewCell {
 /** Wraps a 'ComponentView' in a UICollectionViewCell. */
 open class ComponentCollectionViewCell<C : ComponentViewType>: UICollectionViewCell {
 
-  public var state: C.StateType?
+  public var state: C.StateType? {
+    didSet {
+      self.componentView?.state = state
+    }
+  }
 
   public private(set) var componentView: C?
 
