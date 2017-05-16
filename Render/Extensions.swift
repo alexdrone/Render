@@ -29,24 +29,24 @@ fileprivate var handleNewlyCreated: UInt8 = 0
 public extension UIView {
 
   public var isAnimatable: Bool {
-    get { return getBool(&handleAnimatable, self) }
+    get { return getBool(&handleAnimatable, self, true) }
     set { setBool(&handleAnimatable, self, newValue) }
   }
 
   internal var hasNode: Bool {
-    get { return getBool(&handleHasNode, self) }
+    get { return getBool(&handleHasNode, self, false) }
     set { setBool(&handleHasNode, self, newValue) }
   }
 
   internal var isNewlyCreated: Bool {
-    get { return getBool(&handleNewlyCreated, self) }
+    get { return getBool(&handleNewlyCreated, self, false) }
     set { setBool(&handleNewlyCreated, self, newValue) }
   }
 }
 
 
-fileprivate func getBool(_ handle: UnsafeRawPointer!, _ object: UIView) -> Bool {
-  return (objc_getAssociatedObject(object, handle) as? NSNumber)?.boolValue ?? true
+fileprivate func getBool(_ handle: UnsafeRawPointer!, _ object: UIView, _ value: Bool) -> Bool {
+  return (objc_getAssociatedObject(object, handle) as? NSNumber)?.boolValue ?? value
 }
 
 fileprivate func setBool(_ handle: UnsafeRawPointer!, _ object: UIView, _ value: Bool) {
