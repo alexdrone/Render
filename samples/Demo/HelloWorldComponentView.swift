@@ -23,8 +23,7 @@ class HelloWorldComponentView: ComponentView<HelloWorldState> {
       return Node<UIImageView> { (view, layout, size) in
         let radius: CGFloat = CGFloat(randomInt(16, max: 128))
         view.backgroundColor = Color.green
-        layout.height = radius * 2
-        layout.width = radius * 2
+        (layout.height, layout.width) = (radius * 2, radius * 2)
         layout.alignSelf = .center
       }
     }

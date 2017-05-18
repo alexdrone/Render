@@ -74,31 +74,26 @@ This is what a component looks like:
 
 struct HelloWorldState: StateType {
   let name: String
+  let image: UIImage
 }
 
 class HelloWorldComponentView: ComponentView<HelloWorldState> {
 
   override func construct(state: HelloWorldState?, size: CGSize = CGSize.undefined) -> NodeType {
     let avatar = Node<UIImageView> { (view, layout, size) in
-      let radius: CGFloat = 64
-      view.backgroundColor = Color.green
-      view.layer.cornerRadius = radius
-      layout.height = radius * 2
-      layout.width = radius * 2
+      view.image = state.image
       layout.alignSelf = .center
+      (layout.width, layout.height) = (128, 128) 
     }
    
     let text = Node<UILabel> { (view, layout, size) in
       view.text = "Hello \(state?.name)"
       view.textAlignment = .center
-      view.textColor = Color.green
       layout.margin = 16
     }
 		
     let container = Node<UIImageView> { (view, layout, size) in
       view.backgroundColor = Color.black
-      layout.width = min(size.width, size.height)
-      layout.height = layout.width
       layout.justifyContent = .center
     }
 
@@ -154,55 +149,27 @@ In this way the node's subnodes will be wrapped inside UITableViewCollectionCell
 ```swift
 
  override func construct(state: State?, size: CGSize) -> NodeType {
-    let table = TableNode() { (view, layout, size) in
-      layout.width = size.width
-      layout.height = size.height
+    let table = TableNode() { (_, layout, _) in
+      // Size, margins and padding can now be expressed as a % of the parent.
+      (layout.percent.height, layout.percent.width) = (100%, 100%)
     }
     return table.add(children: [
       // Any node definition will be wrapped inside a UITableViewCell.
-      Node<UIView> { (view, layout, size) in
-        layout.width = size.width
-        layout.height = 300
+      Node<UIView> { (_, layout, _) in
+        (layout.width, layout.height) = (size.width, 128)
       },
-      // Another one..
-      Node<UIView> { (view, layout, size) in
-        ...
-      },
-      // ComponentViews can also be added to the TableNode.
-      MyComponent().construct(state: MyState(), size: size)
+      // Another one.
+      Node<UIView>(),
+      // ComponentViews can also be added as child-nodes.
+      ComponentNode(type: MyComponent.self, state: state?.bar, size: size),
     ])
   }
-
-```
-
-### Percentage values in layout
-
-Size, margins and padding can now be expressed as a % of the parent.
-
-```swift
-
-class PercentComponentView: ComponentView<NilState> {
-
-override func construct(state: NilState?, size: CGSize = CGSize.undefined) -> NodeType {
-  return Node<UIView>() { (view, layout, size) in
-      view.backgroundColor = Color.green
-      layout.percent.height = 100%
-      layout.percent.width = 100%
-    }.add(child: Node<UIView>() { (view, layout, size) in
-      view.backgroundColor = Color.darkerGreen
-      layout.percent.height = 50%
-      layout.percent.width = 50%
-    })
-  }
-}
 
 ```
 
 ### Samples
 
  - Catalogue app 
-
- 
 
  - Todolist app
 
