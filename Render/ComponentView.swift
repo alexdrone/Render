@@ -143,8 +143,10 @@ open class ComponentView<S: StateType>: UIView, ComponentViewType {
     let startTime = CFAbsoluteTimeGetCurrent()
 
     // Applies the configuration closures recursively.
-    internalRender(in: argBounds, options: argOptions)
-
+    let numberOfPasses = 2
+    for _ in 0..<numberOfPasses {
+      internalRender(in: argBounds, options: argOptions)
+    }
     debugRenderTime("\(type(of: self)).render", startTime: startTime)
     self.didRender()
   }

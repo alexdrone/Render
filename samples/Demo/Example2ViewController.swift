@@ -1,9 +1,9 @@
 import UIKit
 import Render
 
-class Example2ViewController: UIViewController {
+class Example2ViewController: ViewController {
 
-  let fooComponent = FooComponentView()
+  private let fooComponent = FooComponentView()
 
   override var preferredStatusBarStyle: UIStatusBarStyle {
     return .lightContent
@@ -11,27 +11,29 @@ class Example2ViewController: UIViewController {
 
   override func viewDidLoad() {
     super.viewDidLoad()
-    self.view.backgroundColor = Color.black
-    self.view.addSubview(fooComponent)
-    self.title = "EXAMPLE 2"
-    self.generateRandomStates()
-    self.fooComponent.center = self.view.center
+    view.addSubview(fooComponent)
+    generateRandomStates()
+    fooComponent.center = view.center
   }
 
-  func generateRandomStates() {
-    self.fooComponent.state = FooState()
-    self.fooComponent.render(in: self.view.bounds.size)
-    self.fooComponent.center = self.view.center
+  private func generateRandomStates() {
+    fooComponent.state = FooState()
+    fooComponent.render(in: view.bounds.size, options: [
 
+      // Renders the component with an animation.
+      .animated(duration: 0.5, options: .curveEaseInOut, alongside: {
+        self.fooComponent.center = self.view.center
+      })
+    ])
     // Generates a new random state every 2 seconds.
-    DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-      self.generateRandomStates()
+    DispatchQueue.main.asyncAfter(deadline: .now() + 2) { [weak self] in
+      self?.generateRandomStates()
     }
   }
 
   override func viewDidLayoutSubviews() {
-    self.fooComponent.render(in: self.view.bounds.size)
-    self.fooComponent.center = self.view.center
+    fooComponent.render(in: view.bounds.size)
+    fooComponent.center = view.center
   }
 
 }

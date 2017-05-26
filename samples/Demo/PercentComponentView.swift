@@ -6,6 +6,8 @@ class PercentComponentView: ComponentView<NilState> {
 
   required init() {
     super.init()
+    // Optimization: The component doesn't have a dynamic hierarchy - this prevents the
+    // reconciliation algorithm to look for differences in the component view hierarchy.
     self.defaultOptions = [.preventViewHierarchyDiff]
   }
 

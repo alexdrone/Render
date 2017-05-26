@@ -1,31 +1,21 @@
 import UIKit
 import Render
 
-class Example1ViewController: UIViewController {
+class Example1ViewController: ViewController {
 
-  let component = HelloWorldComponentView()
-
-  override var preferredStatusBarStyle: UIStatusBarStyle {
-    return .lightContent
-  }
+  private let component = HelloWorldComponentView()
 
   override func viewDidLoad() {
     super.viewDidLoad()
-    self.view.backgroundColor = Color.black
-    self.view.addSubview(component)
-    self.title = "EXAMPLE 1"
-    generateRandomStates()
-  }
+    view.addSubview(component)
 
-  func generateRandomStates() {
+    // Set a state to the component.
     component.state = HelloWorldState(name: "Alex")
-    component.render(in: self.view.bounds.size)
-    component.center = self.view.center
   }
 
   override func viewDidLayoutSubviews() {
-    component.render(in: self.view.bounds.size)
-    component.center = self.view.center
+    component.render(in: view.bounds.size)
+    component.center = view.center
   }
 }
 

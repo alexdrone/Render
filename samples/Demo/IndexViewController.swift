@@ -5,47 +5,35 @@ import Render
 class IndexViewController: UITableViewController {
   let states: [IndexState] = [
     IndexState(
-      title:
-        "Example 1 - Hello world",
-      subtitle:
-        "A simple component with static view hierarchy."),
+      title: "Example 1 - Hello world",
+      subtitle: "A simple component with static view hierarchy."),
     IndexState(
-      title:
-        "Example 2 - Nested Component",
-      subtitle:
-        "A component with a complex dynamic view hierarchy comprising of a nested component."),
+      title: "Example 2 - Nested Component",
+      subtitle: "A component with a complex dynamic view hierarchy comprising of a nested component."),
     IndexState(
-      title:
-        "Example 3 - Scrolling Component",
-      subtitle:
-        "The contentsize for the wrapping scrollview component is automatically determined."),
+      title: "Example 3 - Scrolling Component",
+      subtitle:  "The contentsize for the wrapping scrollview component is automatically determined."),
     IndexState(
-      title:
-        "Example 4 - Animations",
-      subtitle:
-        "Passing the .animated option to the render function."),
+      title: "Example 4 - Animations",
+      subtitle: "Passing the .animated option to the render function."),
     IndexState(
-        title:
-          "Example 5 - TableNode",
-        subtitle:
-          "Wraps the children nodes in UITableViewCells."),
-
+        title: "Example 5 - TableNode",
+        subtitle: "Wraps the children nodes in UITableViewCells."),
     IndexState(
-        title:
-          "Example 6 - Layout values with %",
-        subtitle:
-          "You can express size, margins and padding as %."),
+        title: "Example 6 - Layout values with %",
+        subtitle: "You can express size, margins and padding as %."),
   ]
 
   override func viewDidLoad() {
     super.viewDidLoad()
-    self.tableView.estimatedRowHeight = 100
-    self.tableView.rowHeight = UITableViewAutomaticDimension
-    self.tableView.separatorStyle = .none
-    self.tableView.backgroundColor = Color.black
-    self.tableView.dataSource = self
-    self.tableView.reloadData()
-    self.title = "RENDER CATALOG"
+    tableView.estimatedRowHeight = 100
+    tableView.rowHeight = UITableViewAutomaticDimension
+    tableView.separatorStyle = .none
+    tableView.backgroundColor = Color.black
+    tableView.dataSource = self
+    tableView.reloadData()
+    ViewController.styleNavigationBar(viewController: self)
+    title = "INDEX"
   }
 
   override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -69,23 +57,18 @@ class IndexViewController: UITableViewController {
 
   override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     switch indexPath.row {
-    case 0:
-      self.navigationController?.pushViewController(Example1ViewController(), animated: false)
-    case 1:
-      self.navigationController?.pushViewController(Example2ViewController(), animated: false)
-    case 2:
-      self.navigationController?.pushViewController(Example3ViewController(), animated: false)
-    case 3:
-      self.navigationController?.pushViewController(Example4ViewController(), animated: false)
-    case 4:
-      self.navigationController?.pushViewController(Example5ViewController(), animated: false)
-    case 5:
-      self.navigationController?.pushViewController(Example6ViewController(), animated: false)
-    default:
-      break
+    case 0: self.navigationController?.pushViewController(Example1ViewController(), animated: true)
+    case 1: self.navigationController?.pushViewController(Example2ViewController(), animated: true)
+    case 2: self.navigationController?.pushViewController(Example3ViewController(), animated: true)
+    case 3: self.navigationController?.pushViewController(Example4ViewController(), animated: true)
+    case 4: self.navigationController?.pushViewController(Example5ViewController(), animated: true)
+    case 5: self.navigationController?.pushViewController(Example6ViewController(), animated: true)
+    default: break
     }
   }
 }
+
+//MARK: - Index cells
 
 struct IndexState: StateType {
   let title: String

@@ -3,46 +3,49 @@ import UIKit
 import Render
 
 struct FooState: StateType {
-  var bar = NestedState()
-  var numberOfLabels = randomInt(1, max: 4)
+  var numberOfDots = randomInt(1, max: 16)
   var text: String = randomString()
 }
 
 class FooComponentView: ComponentView<FooState> {
 
-  // Components can be composed.
-  // See in the 'construct' method how this nested component is added to the hierarchy.
-  let nestedComponent = NestedComponentView()
-
   override func construct(state: FooState?, size: CGSize = CGSize.undefined) -> NodeType {
-    func content(state: FooState?, size: CGSize) -> NodeType {
-      return Node<UIView>() { (view, layout, size) in
-        layout.width = size.width
-        view.backgroundColor = Color.black
-      }
+
+    // Main wrapper.
+    let wrapper = Node<UIView>() { (view, layout, size) in
+      layout.width = size.width
+      view.backgroundColor = Color.black
     }
-    func columnWrapper() -> NodeType {
-      // A wrapper that changes the direction of the elements from .colum (the default) to row.
-      return Node<UIView> { (view, layout, size) in
-        layout.flexDirection = .row
-      }
+
+    // Container view that simply changes the flex direction.
+    let column = Node<UIView> { (_, layout, _) in
+      layout.flexDirection = .row
     }
-    func rightSideWrapper() -> NodeType {
-      return Node<UIView>(){ (view, layout, size) in
-        // Makes sure the right column covers all of the remaining space.
-        layout.flexShrink = 1
-        layout.flexGrow = 1
-      }
+
+    let rightWrapper = Node<UIView>(){ (_, layout, _) in
+      // Makes sure the right column covers all of the remaining space.
+      layout.flexShrink = 1
+      layout.flexGrow = 1
     }
-    return content(state: state, size: size).add(children: [
-      columnWrapper().add(children: [
+
+    return wrapper.add(children: [
+      column.add(children: [
+        // A convenient way to reuse views is to simply create a function that returns a node.
+        // In this way you could a very fine grained reusable fragments.
         Fragments.avatar(),
-        rightSideWrapper().add(children: [
+        rightWrapper.add(children: [
+          // Fragments can take a function as argument. Remember view = function(state).
           Fragments.paddedLabel(text: state?.text),
-          ComponentNode(type: NestedComponentView.self, state: state?.bar),
+
+          // You can nest complex components within components by using the 'ComponentNode' helper 
+          // function.
+          ComponentNode(type: DotComponentView.self) { component in
+            component.numberOfDots = state?.numberOfDots ?? 0
+          },
           Fragments.button()
         ])
       ])
     ])
+
   }
 }

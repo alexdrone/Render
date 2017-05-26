@@ -1,19 +1,13 @@
 import UIKit
 import Render
 
-class Example6ViewController: UIViewController {
+class Example6ViewController: ViewController {
 
-  let component = PercentComponentView()
-
-  override var preferredStatusBarStyle: UIStatusBarStyle {
-    return .lightContent
-  }
+  private let component = PercentComponentView()
 
   override func viewDidLoad() {
     super.viewDidLoad()
-    self.view.backgroundColor = Color.black
     self.view.addSubview(component)
-    self.title = "EXAMPLE 6"
   }
 
   override func viewDidLayoutSubviews() {

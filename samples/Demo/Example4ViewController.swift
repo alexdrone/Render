@@ -1,38 +1,32 @@
 import UIKit
 import Render
 
-class Example4ViewController: UIViewController {
+class Example4ViewController: ViewController {
 
   let component = HelloWorldComponentView()
 
-  override var preferredStatusBarStyle: UIStatusBarStyle {
-    return .lightContent
-  }
-
   override func viewDidLoad() {
     super.viewDidLoad()
-    self.view.backgroundColor = Color.black
-    self.view.addSubview(component)
-    self.title = "EXAMPLE 4"
+    view.addSubview(component)
     generateRandomStates()
   }
 
-  func generateRandomStates() {
-    component.state = HelloWorldState(name: "Animations")
+  private func generateRandomStates() {
+    component.state = HelloWorldState(name: randomString())
     component.render(in: self.view.bounds.size, options: [
       .animated(duration: 1, options: [.curveLinear]) {
         self.component.center = self.view.center
       }
     ])
     // Generates a new random state every 2 seconds.
-    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-      self.generateRandomStates()
+    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
+      self?.generateRandomStates()
     }
   }
 
   override func viewDidLayoutSubviews() {
-    component.render(in: self.view.bounds.size)
-    self.component.center = self.view.center
+    component.render(in: view.bounds.size)
+    component.center = view.center
   }
 
 }

@@ -4,11 +4,13 @@ import Render
 
 // from https://github.com/alexdrone/Render/issues/34
 
-class ListState: StateType { }
+struct TableState: StateType {
+  let number: Int = 100
+}
 
-class ListComponentView: ComponentView<ListState> {
+class TableComponentView: ComponentView<TableState> {
 
-  override func construct(state: ListState?, size: CGSize) -> NodeType {
+  override func construct(state: TableState?, size: CGSize) -> NodeType {
 
     let list = TableNode() { (view, layout, size) in
       layout.width = size.width
@@ -40,40 +42,30 @@ class ListComponentView: ComponentView<ListState> {
       }
     ]
 
-    let helloWorldFragments = (1..<100).map { index in
+    let helloWorldFragments = (1..<(state?.number ?? 0)).map { index in
       HelloWorldComponentView().construct(state: HelloWorldState(name:"\(index)"), size: size)
     }
 
-
     list.add(children: basicNodeFragments + helloWorldFragments)
-    //list.add(children: helloWorldFragments)
-
-
     return list
   }
 
 }
 
-class Example5ViewController: UIViewController {
+class Example5ViewController: ViewController {
 
-  let component = ListComponentView()
-
-  override var preferredStatusBarStyle: UIStatusBarStyle {
-    return .lightContent
-  }
+  private let component = TableComponentView()
 
   override func viewDidLoad() {
     super.viewDidLoad()
-    self.view.backgroundColor = Color.white
-    self.view.addSubview(component)
-    self.title = "EXAMPLE 5"
-    component.render(in: self.view.frame.size)
+    view.addSubview(component)
+    component.state = TableState()
+    component.render(in: view.frame.size)
   }
 
-
   override func viewDidLayoutSubviews() {
-    component.render(in: self.view.bounds.size)
-    component.center = self.view.center
+    component.render(in: view.bounds.size)
+    component.center = view.center
   }
 }
 

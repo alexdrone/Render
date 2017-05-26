@@ -11,6 +11,7 @@
 		161B4D871EC33D3400007E8A /* Render.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1618D0991E7EDC9C00CD984C /* Render.framework */; };
 		161B4D881EC33D3400007E8A /* Render.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 1618D0991E7EDC9C00CD984C /* Render.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		161B4D8D1EC33ED600007E8A /* Example6ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 161B4D8C1EC33ED600007E8A /* Example6ViewController.swift */; };
+		161CCCAF1ED85E600095E54A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 161CCCAE1ED85E600095E54A /* ViewController.swift */; };
 		164C11791E5B31E900766914 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164C11781E5B31E900766914 /* AppDelegate.swift */; };
 		164C117B1E5B31E900766914 /* Example2ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164C117A1E5B31E900766914 /* Example2ViewController.swift */; };
 		164C11801E5B31E900766914 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 164C117F1E5B31E900766914 /* Assets.xcassets */; };
@@ -18,7 +19,7 @@
 		164C11981E5C7E9D00766914 /* FooComponentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164C11971E5C7E9D00766914 /* FooComponentView.swift */; };
 		164C11A01E5C840D00766914 /* Random.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164C119E1E5C840D00766914 /* Random.swift */; };
 		164C11A11E5C840D00766914 /* Style.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164C119F1E5C840D00766914 /* Style.swift */; };
-		164C11A41E5DC86A00766914 /* NestedComponentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164C11A31E5DC86A00766914 /* NestedComponentView.swift */; };
+		164C11A41E5DC86A00766914 /* DotComponentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164C11A31E5DC86A00766914 /* DotComponentView.swift */; };
 		164C11A61E5E2EBA00766914 /* IndexViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164C11A51E5E2EBA00766914 /* IndexViewController.swift */; };
 		164C11AB1E5EC17B00766914 /* Example3ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164C11AA1E5EC17B00766914 /* Example3ViewController.swift */; };
 		164C11AE1E5EC29600766914 /* SharedFragments.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164C11AD1E5EC29600766914 /* SharedFragments.swift */; };
@@ -64,6 +65,7 @@
 		1618D0941E7EDC9C00CD984C /* Render.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Render.xcodeproj; path = ../Render.xcodeproj; sourceTree = "<group>"; };
 		161B4D851EC33C7F00007E8A /* PercentComponentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PercentComponentView.swift; sourceTree = "<group>"; };
 		161B4D8C1EC33ED600007E8A /* Example6ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Example6ViewController.swift; sourceTree = "<group>"; };
+		161CCCAE1ED85E600095E54A /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		164C11751E5B31E900766914 /* Demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Demo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		164C11781E5B31E900766914 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		164C117A1E5B31E900766914 /* Example2ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Example2ViewController.swift; sourceTree = "<group>"; };
@@ -73,7 +75,7 @@
 		164C11971E5C7E9D00766914 /* FooComponentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FooComponentView.swift; sourceTree = "<group>"; };
 		164C119E1E5C840D00766914 /* Random.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Random.swift; sourceTree = "<group>"; };
 		164C119F1E5C840D00766914 /* Style.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Style.swift; sourceTree = "<group>"; };
-		164C11A31E5DC86A00766914 /* NestedComponentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NestedComponentView.swift; path = Demo/NestedComponentView.swift; sourceTree = SOURCE_ROOT; };
+		164C11A31E5DC86A00766914 /* DotComponentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DotComponentView.swift; path = Demo/DotComponentView.swift; sourceTree = SOURCE_ROOT; };
 		164C11A51E5E2EBA00766914 /* IndexViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IndexViewController.swift; sourceTree = "<group>"; };
 		164C11AA1E5EC17B00766914 /* Example3ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Example3ViewController.swift; sourceTree = "<group>"; };
 		164C11AD1E5EC29600766914 /* SharedFragments.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SharedFragments.swift; sourceTree = "<group>"; };
@@ -155,6 +157,7 @@
 			children = (
 				164C119E1E5C840D00766914 /* Random.swift */,
 				164C119F1E5C840D00766914 /* Style.swift */,
+				161CCCAE1ED85E600095E54A /* ViewController.swift */,
 			);
 			path = external;
 			sourceTree = "<group>";
@@ -164,7 +167,7 @@
 			children = (
 				164C117A1E5B31E900766914 /* Example2ViewController.swift */,
 				164C11971E5C7E9D00766914 /* FooComponentView.swift */,
-				164C11A31E5DC86A00766914 /* NestedComponentView.swift */,
+				164C11A31E5DC86A00766914 /* DotComponentView.swift */,
 			);
 			name = example2;
 			sourceTree = "<group>";
@@ -237,6 +240,7 @@
 				TargetAttributes = {
 					164C11741E5B31E900766914 = {
 						CreatedOnToolsVersion = 8.2.1;
+						DevelopmentTeam = 9Z67YL2L6Z;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -298,9 +302,10 @@
 				164C11981E5C7E9D00766914 /* FooComponentView.swift in Sources */,
 				164C11A01E5C840D00766914 /* Random.swift in Sources */,
 				164C11AE1E5EC29600766914 /* SharedFragments.swift in Sources */,
-				164C11A41E5DC86A00766914 /* NestedComponentView.swift in Sources */,
+				164C11A41E5DC86A00766914 /* DotComponentView.swift in Sources */,
 				16CAF70C1E6CAF0600565D60 /* Example4ViewController.swift in Sources */,
 				161B4D8D1EC33ED600007E8A /* Example6ViewController.swift in Sources */,
+				161CCCAF1ED85E600095E54A /* ViewController.swift in Sources */,
 				164C11B51E5ECF0400766914 /* HelloWorldComponentView.swift in Sources */,
 				164C117B1E5B31E900766914 /* Example2ViewController.swift in Sources */,
 				164C11791E5B31E900766914 /* AppDelegate.swift in Sources */,
@@ -373,7 +378,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -417,7 +422,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
@@ -431,6 +436,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = 9Z67YL2L6Z;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Demo",
@@ -448,6 +454,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = 9Z67YL2L6Z;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Demo",
