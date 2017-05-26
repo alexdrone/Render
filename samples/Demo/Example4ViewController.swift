@@ -12,7 +12,7 @@ class Example4ViewController: ViewController {
   }
 
   private func generateRandomStates() {
-    component.state = HelloWorldState(name: randomString())
+    component.state = HelloWorldState(name: "Animations!")
     component.render(in: self.view.bounds.size, options: [
       .animated(duration: 1, options: [.curveLinear]) {
         self.component.center = self.view.center

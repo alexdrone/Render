@@ -240,7 +240,6 @@
 				TargetAttributes = {
 					164C11741E5B31E900766914 = {
 						CreatedOnToolsVersion = 8.2.1;
-						DevelopmentTeam = 9Z67YL2L6Z;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -436,7 +435,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = 9Z67YL2L6Z;
+				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Demo",
@@ -454,7 +453,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = 9Z67YL2L6Z;
+				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Demo",

@@ -142,11 +142,7 @@ open class ComponentView<S: StateType>: UIView, ComponentViewType {
     self.willRender()
     let startTime = CFAbsoluteTimeGetCurrent()
 
-    // Applies the configuration closures recursively.
-    let numberOfPasses = 2
-    for _ in 0..<numberOfPasses {
-      internalRender(in: argBounds, options: argOptions)
-    }
+    internalRender(in: argBounds, options: argOptions)
     debugRenderTime("\(type(of: self)).render", startTime: startTime)
     self.didRender()
   }
@@ -299,7 +295,7 @@ open class ComponentView<S: StateType>: UIView, ComponentViewType {
 
 // MARK: - Utilities
 
-func debugRenderTime(_ label: String, startTime: CFAbsoluteTime, threshold: CFAbsoluteTime = 0) {
+func debugRenderTime(_ label: String, startTime: CFAbsoluteTime, threshold: CFAbsoluteTime = 16) {
   let timeElapsed = (CFAbsoluteTimeGetCurrent() - startTime)*1000
 
   // - Note: 60fps means you need to render a frame every ~16ms to not drop any frames.

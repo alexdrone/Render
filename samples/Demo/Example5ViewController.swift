@@ -42,8 +42,10 @@ class TableComponentView: ComponentView<TableState> {
       }
     ]
 
-    let helloWorldFragments = (1..<(state?.number ?? 0)).map { index in
-      HelloWorldComponentView().construct(state: HelloWorldState(name:"\(index)"), size: size)
+    let helloWorldFragments = (1..<(100)).map { index in
+      ComponentNode(type: HelloWorldComponentView.self,
+                    state: HelloWorldState(name:"\(index)"),
+                    size: size)
     }
 
     list.add(children: basicNodeFragments + helloWorldFragments)

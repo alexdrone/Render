@@ -40,8 +40,8 @@ class HelloWorldComponentView: ComponentView<HelloWorldState> {
     // Returns the container node (a simple UIView) wrapping the other elements.
     return Node<UIView>(identifier: "HelloWorld") { (view, layout, size) in
       view.backgroundColor = Color.black
-      let size =  min(size.height.maxIfZero, size.height.maxIfZero)
-      (layout.height, layout.width) = (size, size)
+      let dim =  min(size.height.maxIfZero, size.width.maxIfZero)
+      (layout.height, layout.width) = (dim, dim)
       layout.justifyContent = .center
     }.add(children: [
       avatar,
