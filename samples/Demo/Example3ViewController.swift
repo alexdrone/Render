@@ -5,10 +5,6 @@ class Example3ViewController: ViewController {
 
   private let scrollableComponent = ScrollableDemoComponentView()
 
-  override var preferredStatusBarStyle: UIStatusBarStyle {
-    return .lightContent
-  }
-
   override func viewDidLoad() {
     super.viewDidLoad()
     view.addSubview(scrollableComponent)
