@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = "Render"
-  s.version          = "2.7"
+  s.version          = "2.8"
   s.summary          = "Swift and UIKit a la React."
 
 # This description is used to generate tags and improve search results.
