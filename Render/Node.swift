@@ -194,6 +194,7 @@ public func ComponentNode<T: ComponentViewType>(type: T.Type,
                                                 size: CGSize = CGSize.undefined,
                                                 props: ((T) -> Void)? = nil) -> NodeType {
   let component = T()
+  component.state = state
   props?(component)
   parent?.__children.append(component)
   return component.construct(state: state, size: size)

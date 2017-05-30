@@ -21,6 +21,7 @@ class ViewController: UIViewController {
 
     self.dispatcher.todoListStore.register(observer: self) { state, action in
       self.todoListComponent.state = state
+      self.todoListComponent.delegate = self
       self.todoListComponent.render(in: self.view.bounds.size)
       self.view.setNeedsLayout()
     }
@@ -44,7 +45,7 @@ class ViewController: UIViewController {
 
   private func configureNavigationBar() {
     self.title = "TODOS"
-
+    self.view.backgroundColor = Color.black
     self.navigationController?.navigationBar.titleTextAttributes =
         [NSForegroundColorAttributeName: Color.green]
     self.navigationController?.navigationBar.barTintColor = Color.black

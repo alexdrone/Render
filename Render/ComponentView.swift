@@ -123,7 +123,7 @@ open class ComponentView<S: StateType>: UIView, ComponentViewType {
     fatalError()
   }
 
-  open func prepareConstruct() {
+  open func prepareForConstruct() {
     if !RenderOption.contains(self.defaultOptions, .preventViewHierarchyDiff) {
       self.__children = []
     }
@@ -176,6 +176,7 @@ open class ComponentView<S: StateType>: UIView, ComponentViewType {
 
     // Reconstructs the tree and computes the diff.
     if !initialized || !RenderOption.contains(opts, .preventViewHierarchyDiff) {
+      self.prepareForConstruct()
       self.root = self.construct(state: self.state, size: bounds)
       self.reconcile(new: self.root, size: bounds, view: self.rootView, parent: self.contentView)
       self.rootView = self.root.renderedView!
@@ -370,6 +371,4 @@ extension RenderOption: Equatable {
 
 // MARK: Equatable Options
 
-public class NilStateComponentView: ComponentView<NilState> {
-
-}
+public class NilStateComponentView: ComponentView<NilState> { }
