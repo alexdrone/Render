@@ -36,6 +36,8 @@ public protocol AnyComponentView: class {
   /** Used a store for nested component view refs. */
   var __children: [AnyComponentView] { get set }
 
+  func willRender()
+  func didRender()
 }
 
 public protocol ComponentViewType: AnyComponentView {
@@ -60,6 +62,7 @@ public protocol ComponentViewType: AnyComponentView {
   init()
 
   func construct(state: StateType?, size: CGSize) -> NodeType
+
 }
 
 // MARK: - Implementation
@@ -137,8 +140,6 @@ open class ComponentView<S: StateType>: UIView, ComponentViewType {
       return NilNode()
     }
   }
-
-  open func willRender() { }
 
   public func render(in bounds: CGSize = CGSize.max, options: [RenderOption] = []) {
     assert(Thread.isMainThread)
@@ -245,7 +246,17 @@ open class ComponentView<S: StateType>: UIView, ComponentViewType {
     }
   }
 
-  open func didRender() { }
+  open func willRender() {
+    for child in self.__children {
+      child.willRender()
+    }
+  }
+
+  open func didRender() {
+    for child in self.__children {
+      child.didRender()
+    }
+  }
 
   /** Returns all views (descending recursively through the view hierarchy) that matches the 
    *  condition passed as argument. */
