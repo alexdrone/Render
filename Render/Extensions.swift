@@ -7,6 +7,7 @@ public extension CGFloat {
   public static let epsilon: CGFloat = CGFloat(Float.ulpOfOne)
   public var maxIfZero: CGFloat { return self == 0 ? CGFloat.max : self }
   public var undefinedIfZero: CGFloat { return self == 0 ? CGFloat.undefined : self }
+  public var normal: CGFloat { return self.isNormal ? self : 0  }
 }
 
 public extension CGSize {

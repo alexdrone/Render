@@ -36,9 +36,8 @@ class TodoComponentView: ComponentView<TodoState>, UITextFieldDelegate {
     }
 
     // Title input field.
-    let textField = Node<UITextField>(
-      identifier: "input",
-      create: { [weak self] in
+    let textField = Node<UITextField>(identifier: "input",
+                                      create: { [weak self] in
         let field = UITextField()
         field.placeholder = "TODO"
         field.delegate = self
@@ -46,12 +45,11 @@ class TodoComponentView: ComponentView<TodoState>, UITextFieldDelegate {
         field.font = Typography.mediumBold
         self?.textField = field
         return field
-      },
-      configure: { (view, layout, size) in
+      }) { (view, layout, size) in
         layout.alignSelf = .stretch
         layout.margin = 16
         layout.marginTop = 24
-      })
+      }
 
     // Title label.
     let title = Node<UILabel>(identifier: "title") { (view, layout, size) in
@@ -71,23 +69,21 @@ class TodoComponentView: ComponentView<TodoState>, UITextFieldDelegate {
     }
 
     // The check button.
-    let doneButton = Node<UIButton>(
-      identifier: "doneButton",
-      create: {
+    let doneButton = Node<UIButton>(identifier: "doneButton",
+                                    create: {
         let button = UIButton(type: UIButtonType.custom)
         button.setTitle("CHECK", for: .normal)
         button.titleLabel?.font = Typography.smallBold
         button.setTitleColor(Color.red, for: .normal)
         return button
-      },
-      configure: { (view, layout, size) in
+      }) { (view, layout, size) in
         layout.justifyContent = .center
         layout.alignSelf = .stretch
         layout.width = 64
         layout.marginLeft = 8
         view.isHidden = state.isDone
         view.addTarget(self, action: #selector(self.didTapCheckButton), for: .touchUpInside)
-    })
+    }
 
     return container.add(child:
       card.add(children:

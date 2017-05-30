@@ -22,20 +22,20 @@ class TableComponentView: ComponentView<TableState> {
     let basicNodeFragments = [
 
       // Any node definition will be wrapped inside a UITableViewCell.
-      Node<UIView> { (view, layout, size) in
+      Node<UIView>(identifier: "green") { (view, layout, size) in
         layout.width = size.width
         layout.height = 300
         view.backgroundColor = Color.green
       },
 
-      Node<UIView> { (view, layout, size) in
+      Node<UIView>(identifier: "red") { (view, layout, size) in
         layout.width = size.width
         layout.height = 100
         view.backgroundColor = Color.red
       },
 
       // A node definition.
-      Node<UIView> { (view, layout, size) in
+      Node<UIView>(identifier: "darkerGreen") { (view, layout, size) in
         layout.width = size.width
         layout.height = 300
         view.backgroundColor = Color.darkerGreen

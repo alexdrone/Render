@@ -2,9 +2,11 @@ import UIKit
 import Render
 import Dispatcher_iOS
 
-class ViewController: UITableViewController {
+class ViewController: UIViewController {
 
   let dispatcher: Dispatcher
+
+  private let todoListComponent = TodoListComponentView()
 
   init(dispatcher: Dispatcher = Dispatcher.default) {
     self.dispatcher = dispatcher
@@ -16,34 +18,20 @@ class ViewController: UITableViewController {
   }
 
   override func viewDidLoad() {
-    self.dispatcher.todoListStore.register(observer: self) { _ in
-      self.tableView.reloadData()
+
+    self.dispatcher.todoListStore.register(observer: self) { state, action in
+      self.todoListComponent.state = state
+      self.todoListComponent.render(in: self.view.bounds.size)
+      self.view.setNeedsLayout()
     }
 
     super.viewDidLoad()
-    self.tableView.backgroundColor = Color.black
-    self.tableView.estimatedRowHeight = 100
-    self.tableView.rowHeight = UITableViewAutomaticDimension
-    self.tableView.separatorStyle = .none
-    self.tableView.dataSource = self
-    self.tableView.reloadData()
+    self.configureNavigationBar()
+    self.view.addSubview(self.todoListComponent)
+  }
 
-    self.title = "TODOS"
-
-    self.navigationController?.navigationBar.isTranslucent = false
-    self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: Color.green]
-    self.navigationController?.navigationBar.barTintColor = Color.black
-    self.navigationController?.navigationBar.tintColor = Color.green
-    self.navigationController?.navigationBar.shadowImage = UIImage()
-    self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add,
-                                                             target: self,
-                                                             action: #selector(didTapAddButton))
-
-    self.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .trash,
-                                                             target: self,
-                                                             action: #selector(didTapCancelButton))
-
-
+  override func viewDidLayoutSubviews() {
+    self.todoListComponent.frame.origin = self.view.frame.origin
   }
 
   dynamic private func didTapAddButton() {
@@ -54,51 +42,24 @@ class ViewController: UITableViewController {
     self.dispatcher.dispatch(action: Action.clear)
   }
 
-}
+  private func configureNavigationBar() {
+    self.title = "TODOS"
 
-func createCard() -> NodeType {
-  return Node<UIView>(identifier: "card") { (view, layout, size) in
-    layout.alignSelf = .stretch
-    layout.flexGrow = 1
-    layout.margin = 28
-    layout.flexDirection = .row
-    view.backgroundColor = Color.white.withAlphaComponent(0.1)
+    self.navigationController?.navigationBar.titleTextAttributes =
+        [NSForegroundColorAttributeName: Color.green]
+    self.navigationController?.navigationBar.barTintColor = Color.black
+    self.navigationController?.navigationBar.tintColor = Color.green
+    self.navigationController?.navigationBar.shadowImage = UIImage()
+    self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add,
+                                                             target: self,
+                                                             action: #selector(didTapAddButton))
+    self.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .trash,
+                                                            target: self,
+                                                            action: #selector(didTapCancelButton))
+    
   }
 }
 
-
-
-//MARK: - UITableViewDelegate
-
-extension ViewController {
-
-  override func tableView(_ tableView: UITableView,
-                          numberOfRowsInSection section: Int) -> Int {
-    let TodoListState = self.dispatcher.todoListStore.state
-    return TodoListState.todoList.count
-  }
-
-  override func tableView(_ tableView: UITableView,
-                          cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-
-    let id = CellPrototype.defaultIdentifier(TodoComponentView.self)
-    let dequeued = tableView.dequeueReusableCell(withIdentifier: id)
-    let cell = dequeued ?? ComponentTableViewCell<TodoComponentView>()
-
-    guard let componentCell = cell as? ComponentTableViewCell<TodoComponentView> else {
-      return cell
-    }
-
-    let TodoListState = self.dispatcher.todoListStore.state
-
-    componentCell.mountComponentIfNecessary(TodoComponentView())
-    componentCell.state = TodoListState.todoList[indexPath.row]
-    componentCell.componentView?.delegate = self
-    componentCell.render()
-    return cell
-  }
-  
-}
 
 //MARK: - Component Delegate
 
@@ -115,4 +76,5 @@ extension ViewController: TodoComponentViewDelegate {
   }
 
 }
+
 

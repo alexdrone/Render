@@ -186,13 +186,16 @@ public class Node<V: UIView>: NodeType {
 
 // MARK: - Nested components
 
+
 /** Used to wrap nested components in the Node hierarchy. */
 public func ComponentNode<T: ComponentViewType>(type: T.Type,
+                                                in parent: AnyComponentView? = nil,
                                                 state: T.StateType? = nil,
                                                 size: CGSize = CGSize.undefined,
                                                 props: ((T) -> Void)? = nil) -> NodeType {
   let component = T()
   props?(component)
+  parent?.__children.append(component)
   return component.construct(state: state, size: size)
 }
 

@@ -15,7 +15,7 @@ class ViewController: UIViewController {
   }
 
   static func styleNavigationBar(viewController vc: UIViewController) {
-    vc.navigationController?.navigationBar.isTranslucent = false
+    vc.navigationController?.navigationBar.isTranslucent = true
     vc.navigationController?.navigationBar.titleTextAttributes =
       [NSForegroundColorAttributeName: Color.green]
     vc.navigationController?.navigationBar.barTintColor = Color.black

@@ -31,7 +31,12 @@ public enum RenderOption {
 
 // MARK: - ComponentView protocol
 
-public protocol AnyComponentView: class { }
+public protocol AnyComponentView: class {
+
+  /** Used a store for nested component view refs. */
+  var __children: [AnyComponentView] { get set }
+
+}
 
 public protocol ComponentViewType: AnyComponentView {
 
@@ -99,12 +104,15 @@ open class ComponentView<S: StateType>: UIView, ComponentViewType {
   /** Wether the 'root' node has been constructed yet. */
   private var initialized: Bool = false
 
+  public var __children: [AnyComponentView] = []
+
   public required init() {
     super.init(frame: CGRect.zero)
     self.rootView = self.root.renderedView
     self.addSubview(contentView)
 
-    NotificationCenter.default.addObserver(forName: Notification.Name("INJECTION_BUNDLE_NOTIFICATION"),
+    let notification = Notification.Name("INJECTION_BUNDLE_NOTIFICATION")
+    NotificationCenter.default.addObserver(forName: notification,
                                            object: nil,
                                            queue: nil) { _ in
       self.render(options: [.usePreviousBoundsAndOptions])
@@ -113,6 +121,12 @@ open class ComponentView<S: StateType>: UIView, ComponentViewType {
 
   required public init?(coder aDecoder: NSCoder) {
     fatalError()
+  }
+
+  open func prepareConstruct() {
+    if !RenderOption.contains(self.defaultOptions, .preventViewHierarchyDiff) {
+      self.__children = []
+    }
   }
 
   open func construct(state: S?, size: CGSize = CGSize.undefined) -> NodeType {
@@ -142,7 +156,12 @@ open class ComponentView<S: StateType>: UIView, ComponentViewType {
     self.willRender()
     let startTime = CFAbsoluteTimeGetCurrent()
 
-    internalRender(in: argBounds, options: argOptions)
+    let numberOfPasses = 2
+    for idx in 0..<numberOfPasses {
+      let passOptions = idx != 0 ? argOptions + [.preventViewHierarchyDiff] : argOptions
+      internalRender(in: argBounds, options: passOptions)
+    }
+
     debugRenderTime("\(type(of: self)).render", startTime: startTime)
     self.didRender()
   }
@@ -170,10 +189,16 @@ open class ComponentView<S: StateType>: UIView, ComponentViewType {
       let preservingOrigin = false
       let yoga = self.rootView.yoga
 
-      if RenderOption.contains(opts, .flexibleWidth)  {
+      if RenderOption.contains(opts, [.flexibleWidth, .flexibleHeigth]) {
+        yoga.applyLayout(preservingOrigin: preservingOrigin,
+                         dimensionFlexibility: [.flexibleWidth, .flexibleHeigth])
+
+      } else if RenderOption.contains(opts, .flexibleWidth) {
         yoga.applyLayout(preservingOrigin: preservingOrigin, dimensionFlexibility: .flexibleWidth)
+
       } else if RenderOption.contains(opts, .flexibleHeigth) {
         yoga.applyLayout(preservingOrigin: preservingOrigin, dimensionFlexibility: .flexibleHeigth)
+
       } else {
         yoga.applyLayout(preservingOrigin: false)
       }
@@ -182,9 +207,8 @@ open class ComponentView<S: StateType>: UIView, ComponentViewType {
       self.rootView.frame.normalize()
       self.contentView.frame.size = rootView.bounds.size
 
-      func normalize(_ value: CGFloat) -> CGFloat { return value.isNormal ? value : 0 }
-      self.contentView.frame.size.height += normalize(yoga.marginTop) + normalize(yoga.marginBottom)
-      self.contentView.frame.size.width +=  normalize(yoga.marginLeft) + normalize(yoga.marginRight)
+      self.contentView.frame.size.height += yoga.marginTop.normal + yoga.marginBottom.normal
+      self.contentView.frame.size.width +=  yoga.marginLeft.normal + yoga.marginRight.normal
       self.frame = self.contentView.bounds
     }
 
@@ -333,6 +357,10 @@ extension RenderOption: Equatable {
 
   public static func contains(_ options: [RenderOption], _ option: RenderOption) -> Bool {
     return RenderOption.filter(options, option).count > 0
+  }
+
+  public static func contains(_ options: [RenderOption], _ subset: [RenderOption]) -> Bool {
+    return subset.map({ RenderOption.contains(options, $0) }).reduce(true, { $0 && $1 })
   }
 
   public static func first(_ options: [RenderOption], _ option: RenderOption) -> RenderOption? {
