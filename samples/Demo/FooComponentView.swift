@@ -39,7 +39,7 @@ class FooComponentView: ComponentView<FooState> {
 
           // You can nest complex components within components by using the 'ComponentNode' helper 
           // function.
-          ComponentNode(type: DotComponentView.self) { component in
+          ComponentNode(type: DotComponentView.self, in: self) { component in
             component.numberOfDots = state?.numberOfDots ?? 0
           },
           Fragments.button()

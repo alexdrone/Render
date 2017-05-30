@@ -189,14 +189,14 @@ public class Node<V: UIView>: NodeType {
 
 /** Used to wrap nested components in the Node hierarchy. */
 public func ComponentNode<T: ComponentViewType>(type: T.Type,
-                                                in parent: AnyComponentView? = nil,
+                                                in parent: AnyComponentView,
                                                 state: T.StateType? = nil,
                                                 size: CGSize = CGSize.undefined,
                                                 props: ((T) -> Void)? = nil) -> NodeType {
   let component = T()
   component.state = state
   props?(component)
-  parent?.__children.append(component)
+  parent.__children.append(component)
   return component.construct(state: state, size: size)
 }
 

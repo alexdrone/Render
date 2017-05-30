@@ -16,7 +16,6 @@ class TodoComponentView: ComponentView<TodoState>, UITextFieldDelegate {
   weak var textField: UITextField?
 
   override func construct(state: TodoState?, size: CGSize) -> NodeType {
-    self.prepareConstruct()
 
     guard let state = state else {
       return Node<UIView>()
