@@ -13,7 +13,7 @@ protocol TodoComponentViewDelegate: class {
 class TodoComponentView: ComponentView<TodoState>, UITextFieldDelegate {
 
   weak var delegate: TodoComponentViewDelegate?
-  weak var textField: UITextField?
+  private var textField: UITextField?
 
   override func construct(state: TodoState?, size: CGSize) -> NodeType {
 

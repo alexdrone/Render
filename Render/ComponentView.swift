@@ -160,7 +160,7 @@ open class ComponentView<S: StateType>: UIView, ComponentViewType {
     let numberOfPasses = 2
     for idx in 0..<numberOfPasses {
       let passOptions = idx != 0 ? argOptions + [.preventViewHierarchyDiff] : argOptions
-      internalRender(in: argBounds, options: passOptions)
+      internalRender(in: argBounds, options: argOptions)
     }
 
     debugRenderTime("\(type(of: self)).render", startTime: startTime)

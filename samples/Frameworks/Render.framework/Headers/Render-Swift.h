@@ -246,6 +246,7 @@ SWIFT_CLASS("_TtC6Render9TableNode")
 
 @interface UIView (SWIFT_EXTENSION(Render))
 @property (nonatomic) BOOL isAnimatable;
+- (UIView * _Nullable)subviewWith:(NSString * _Nonnull)identifier SWIFT_WARN_UNUSED_RESULT;
 @end
 
 #pragma clang diagnostic pop
