@@ -45,6 +45,21 @@ public extension UIView {
     get { return getBool(&handleNewlyCreated, self, defaultIfNil: false) }
     set { setBool(&handleNewlyCreated, self, newValue) }
   }
+
+  func subview(with identifier: String) -> UIView? {
+    for subview in self.subviews {
+      if !subview.hasNode {
+        continue
+      }
+      if subview.tag == identifier.hashValue {
+        return subview
+      }
+      if let result = subview.subview(with: identifier) {
+        return result
+      }
+    }
+    return nil
+  }
 }
 
 

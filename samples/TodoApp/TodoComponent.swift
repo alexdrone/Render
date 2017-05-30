@@ -38,13 +38,13 @@ class TodoComponentView: ComponentView<TodoState>, UITextFieldDelegate {
 
     // Title input field.
     let textField = Node<UITextField>(identifier: "input",
-                                      create: { [weak self] in
+                                      create: {
         let field = UITextField()
         field.placeholder = "TODO"
         field.delegate = self
         field.textColor = Color.white
         field.font = Typography.mediumBold
-        self?.textField = field
+        self.textField = field
         return field
       }) { (view, layout, size) in
         layout.alignSelf = .stretch
@@ -104,6 +104,7 @@ class TodoComponentView: ComponentView<TodoState>, UITextFieldDelegate {
     guard let state = state, state.isNew else {
       return
     }
+
     // After we render the component we want to make sure the texfield is new first responder.
     self.textField?.becomeFirstResponder()
   }
@@ -113,6 +114,7 @@ class TodoComponentView: ComponentView<TodoState>, UITextFieldDelegate {
     guard let state = state, !state.isDone else {
       return
     }
+
     self.delegate?.didCheckTodo(id: state.id)
   }
 
