@@ -129,8 +129,8 @@ public class TableNode: NSObject, NodeType, UITableViewDataSource, UITableViewDe
     cell.mountComponentIfNecessary(NilStateComponentView())
     cell.componentView?.constructBlock = { _, _ in return node }
 
+    node.render(in: tableView.bounds.size)
     cell.render(in: tableView.bounds.size, options: [.preventViewHierarchyDiff])
-    self.didRender()
 
     var view = self.renderedView?.superview
     while view != nil {
