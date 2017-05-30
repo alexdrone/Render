@@ -40,7 +40,7 @@ class TodoComponentView: ComponentView<TodoState>, UITextFieldDelegate {
     let textField = Node<UITextField>(identifier: "input",
                                       create: {
         let field = UITextField()
-        field.placeholder = "TODO"
+        field.placeholder = "Type something here..."
         field.delegate = self
         field.textColor = Color.white
         field.font = Typography.mediumBold
