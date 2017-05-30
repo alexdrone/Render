@@ -18,6 +18,7 @@ class TodoListComponentView: ComponentView<TodoListState> {
     return TableNode(identifier: "list") { (view, layout, size) in
       view.backgroundColor = Color.black
       view.contentInset.top = 64
+      view.separatorStyle = .none
       layout.width = size.width
       layout.height = size.height
     }.add(children: children)
