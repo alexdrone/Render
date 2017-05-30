@@ -176,7 +176,7 @@ SWIFT_CLASS("_TtC6Render9TableNode")
 @property (nonatomic) NSInteger index;
 /// Re-applies the configuration closures to the UITableView and reload the data source.
 - (void)renderIn:(CGSize)bounds;
-- (void)internalConfigureIn:(CGSize)bounds;
+- (void)__configureIn:(CGSize)bounds;
 /// ‘willRender’ is not yet supported for TableNode.
 - (void)willRender;
 /// ‘didRender’ is not yet supported for TableNode.
@@ -246,7 +246,6 @@ SWIFT_CLASS("_TtC6Render9TableNode")
 
 @interface UIView (SWIFT_EXTENSION(Render))
 @property (nonatomic) BOOL isAnimatable;
-- (UIView * _Nullable)subviewWith:(NSString * _Nonnull)identifier SWIFT_WARN_UNUSED_RESULT;
 @end
 
 #pragma clang diagnostic pop
