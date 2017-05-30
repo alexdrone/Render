@@ -13,7 +13,7 @@ protocol TodoComponentViewDelegate: class {
 class TodoComponentView: ComponentView<TodoState>, UITextFieldDelegate {
 
   weak var delegate: TodoComponentViewDelegate?
-  private var textField: UITextField?
+  private weak var textField: UITextField?
 
   override func construct(state: TodoState?, size: CGSize) -> NodeType {
 
@@ -38,13 +38,13 @@ class TodoComponentView: ComponentView<TodoState>, UITextFieldDelegate {
 
     // Title input field.
     let textField = Node<UITextField>(identifier: "input",
-                                      create: {
+                                      create: { [weak self] in
         let field = UITextField()
         field.placeholder = "TODO"
         field.delegate = self
         field.textColor = Color.white
         field.font = Typography.mediumBold
-        self.textField = field
+        self?.textField = field
         return field
       }) { (view, layout, size) in
         layout.alignSelf = .stretch
