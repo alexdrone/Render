@@ -16,7 +16,7 @@ open class ComponentTableViewCell<C : ComponentViewType>: UITableViewCell {
 
   public var state: C.StateType? {
     didSet {
-      self.componentView?.state = state
+      componentView?.state = state
     }
   }
 
@@ -24,7 +24,7 @@ open class ComponentTableViewCell<C : ComponentViewType>: UITableViewCell {
 
   public override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
     super.init(style: style, reuseIdentifier: reuseIdentifier)
-    self.selectionStyle = .none
+    selectionStyle = .none
   }
   
   required public init?(coder aDecoder: NSCoder) {
@@ -32,23 +32,23 @@ open class ComponentTableViewCell<C : ComponentViewType>: UITableViewCell {
   }
 
   open func mountComponentIfNecessary(_ component: @autoclosure (Void) -> C) {
-    guard self.componentView == nil else {
+    guard componentView == nil else {
       return
     }
-    self.componentView = component()
-    if let componentView = self.componentView as? UIView {
-      self.contentView.addSubview(componentView)
+    componentView = component()
+    if let componentView = componentView as? UIView {
+      contentView.addSubview(componentView)
     }
-    self.clipsToBounds = true
+    clipsToBounds = true
   }
 
   open func render(in bounds: CGSize = CGSize(width: CGFloat.undefined, height: CGFloat.max),
                    options: [RenderOption] = []) {
     var size = bounds
-    size.width = size.width.isNormal ? size.width : self.contentView.bounds.size.width
+    size.width = size.width.isNormal ? size.width : contentView.bounds.size.width
     componentView?.render(in: size, options: options)
-    if let componentView = self.componentView as? UIView {
-      self.contentView.frame.size = componentView.frame.size
+    if let componentView = componentView as? UIView {
+      contentView.frame.size = componentView.frame.size
     }
   }
 
@@ -68,30 +68,30 @@ open class ComponentCollectionViewCell<C : ComponentViewType>: UICollectionViewC
 
   public var state: C.StateType? {
     didSet {
-      self.componentView?.state = state
+      componentView?.state = state
     }
   }
 
   public private(set) var componentView: C?
 
   open func mountComponentIfNecessary(_ component: @autoclosure (Void) -> C) {
-    guard self.componentView == nil else {
+    guard componentView == nil else {
       return
     }
-    self.componentView = component()
-    if let componentView = self.componentView as? UIView {
-      self.contentView.addSubview(componentView)
+    componentView = component()
+    if let componentView = componentView as? UIView {
+      contentView.addSubview(componentView)
     }
-    self.clipsToBounds = true
+    clipsToBounds = true
   }
 
   open func render(in bounds: CGSize = CGSize(width: CGFloat.undefined, height: CGFloat.max),
                    options: [RenderOption] = []) {
     var size = bounds
-    size.width = size.width.isNormal ? size.width : self.contentView.bounds.size.width
+    size.width = size.width.isNormal ? size.width : contentView.bounds.size.width
     componentView?.render(in: size, options: options)
-    if let componentView = self.componentView as? UIView {
-      self.contentView.frame.size = componentView.frame.size
+    if let componentView = componentView as? UIView {
+      contentView.frame.size = componentView.frame.size
     }
   }
 
@@ -110,17 +110,17 @@ extension UITableView {
 
   /** Refreshes the component at the given index path. */
   public func render(at indexPath: IndexPath) {
-    self.beginUpdates()
-    self.reloadRows(at: [indexPath], with: .fade)
-    self.endUpdates()
+    beginUpdates()
+    reloadRows(at: [indexPath], with: .fade)
+    endUpdates()
   }
 
   /** Re-renders all the compoents currently visible on screen.
    *  Call this method whenever the table view changes its bounds/size.
    */
   public func renderVisibleComponents() {
-    let size = CGSize(width: self.bounds.size.width, height: CGFloat.max)
-    self.visibleCells
+    let size = CGSize(width: bounds.size.width, height: CGFloat.max)
+    visibleCells
       .flatMap { cell in cell as? ComponentCellType }
       .forEach { cell in cell.render(in: size, options: []) }
   }
@@ -130,17 +130,15 @@ extension UICollectionView {
 
   /** Refreshes the component at the given index path. */
   public func render(at indexPath: IndexPath) {
-    self.performBatchUpdates({
-      self.reloadItems(at: [indexPath])
-    }, completion: nil)
+    performBatchUpdates({ self.reloadItems(at: [indexPath]) }, completion: nil)
   }
 
   /** Re-renders all the compoents currently visible on screen.
    *  Call this method whenever the collecrion view changes its bounds/size.
    */
   public func renderVisibleComponents() {
-    let size = CGSize(width: self.bounds.size.width, height: CGFloat.max)
-    self.visibleCells
+    let size = CGSize(width: bounds.size.width, height: CGFloat.max)
+    visibleCells
       .flatMap { cell in cell as? ComponentCellType }
       .forEach { cell in cell.render(in: size, options: []) }
   }

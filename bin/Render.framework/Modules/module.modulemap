@@ -1,0 +1,10 @@
+framework module Render {
+  umbrella header "Render.h"
+
+  export *
+  module * { export * }
+}
+
+module Render.Swift {
+    header "Render-Swift.h"
+}

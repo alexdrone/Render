@@ -8,6 +8,7 @@ import UIKit
  */
 public class TableNode: NSObject, NodeType, UITableViewDataSource, UITableViewDelegate {
 
+
   /** TableNode redirects all of the layout calls to a Node<TableView>.
    *  Essentially this class is just a proxy in oder to hide the 'children' collection to the
    *  node hierarchy and to implement the UITableView's datasource.
@@ -32,6 +33,15 @@ public class TableNode: NSObject, NodeType, UITableViewDataSource, UITableViewDe
   public var index: Int = 0 {
     didSet {
       node.index = index
+    }
+  }
+
+  public weak var __associatedComponent: AnyComponentView? {
+    get {
+      return node.__associatedComponent
+    }
+    set {
+      node.__associatedComponent = newValue
     }
   }
 
@@ -82,7 +92,7 @@ public class TableNode: NSObject, NodeType, UITableViewDataSource, UITableViewDe
   /** Re-applies the configuration closures to the UITableView and reload the data source. */
   public func render(in bounds: CGSize) {
     node.render(in: bounds)
-    if let table = self.renderedView as? UITableView {
+    if let table = renderedView as? UITableView {
       table.estimatedRowHeight = 64;
       table.rowHeight = UITableViewAutomaticDimension
       table.dataSource = self
@@ -90,8 +100,8 @@ public class TableNode: NSObject, NodeType, UITableViewDataSource, UITableViewDe
     }
   }
 
-  public func internalConfigure(in bounds: CGSize) {
-    node.internalConfigure(in: bounds)
+  public func __configure(in bounds: CGSize) {
+    node.__configure(in: bounds)
   }
 
   /** 'willRender' is not yet supported for TableNode. */
@@ -108,16 +118,16 @@ public class TableNode: NSObject, NodeType, UITableViewDataSource, UITableViewDe
 
   /** Tells the data source to return the number of rows in a given section of a table view. */
   public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return self.__children.count
+    return __children.count
   }
 
   /**  Asks the data source for a cell to insert in a particular location of the table view. */
   public func tableView(_ tableView: UITableView,
                         cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-    let node = self.__children[indexPath.row]
+    let node = __children[indexPath.row]
     var identifier = node.identifier
 
-    if self.disableCellReuse {
+    if disableCellReuse {
       identifier = "\(identifier)_\(indexPath.row)"
     }
 
@@ -131,13 +141,7 @@ public class TableNode: NSObject, NodeType, UITableViewDataSource, UITableViewDe
 
     node.render(in: tableView.bounds.size)
     cell.render(in: tableView.bounds.size, options: [.preventViewHierarchyDiff])
-
-    var view = self.renderedView?.superview
-    while view != nil {
-      if view is AnyComponentView { break }
-      view = view?.superview
-    }
-    (view as? AnyComponentView)?.didRender()
+    node.__associatedComponent?.didRender()
 
     return cell
   }

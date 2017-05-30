@@ -335,7 +335,7 @@ extension UIScrollView: PostRendering {
       x = subview.frame.maxX > x ? subview.frame.maxX : x
       y = subview.frame.maxY > y ? subview.frame.maxY : y
     }
-    self.contentSize = CGSize(width: x, height: y)
-    self.isScrollEnabled = true
+    contentSize = CGSize(width: x, height: y)
+    isScrollEnabled = true
   }
 }

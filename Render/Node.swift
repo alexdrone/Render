@@ -25,7 +25,7 @@ public protocol NodeType: class {
    */
   func render(in bounds: CGSize)
 
-  func internalConfigure(in bounds: CGSize)
+  func __configure(in bounds: CGSize)
 
   /** Pre-render callback. */
   func willRender()
@@ -35,6 +35,8 @@ public protocol NodeType: class {
 
   /** Force the component to construct the view. */
   func build(with reusable: UIView?)
+
+  weak var __associatedComponent: AnyComponentView? { get set }
 }
 
 // MARK: - Implementation
@@ -47,8 +49,8 @@ public class Node<V: UIView>: NodeType {
 
   /** The underlying view rendered from the node. */
   public private(set) var renderedView: UIView? {
-    get { return self.view }
-    set { self.view = newValue as? V }
+    get { return view }
+    set { view = newValue as? V }
   }
   public private(set) var view: V?
 
@@ -78,12 +80,14 @@ public class Node<V: UIView>: NodeType {
 
   public var index: Int = 0
 
+  public weak var __associatedComponent: AnyComponentView?
+
   /** The current children of this node. */
   public var children: [NodeType] = [] {
     didSet {
       var index = 0
-      self.children = children.filter { child in !(child is NilNode) }
-      for child in self.children where !(child is NilNode) {
+      children = children.filter { child in !(child is NilNode) }
+      for child in children where !(child is NilNode) {
         child.index = index
         index += 1
       }
@@ -118,8 +122,8 @@ public class Node<V: UIView>: NodeType {
 
   public func render(in bounds: CGSize) {
     assert(Thread.isMainThread)
-    internalConfigure(in: bounds)
-    guard let view = self.view else {
+    __configure(in: bounds)
+    guard let view = view else {
       fatalError()
     }
     view.bounds.size = bounds
@@ -128,29 +132,29 @@ public class Node<V: UIView>: NodeType {
     view.yoga.applyLayout(preservingOrigin: false)
   }
 
-  public func internalConfigure(in bounds: CGSize) {
-    self.build()
-    self.willRender()
-    for child in self.children {
-      child.internalConfigure(in: bounds)
+  public func __configure(in bounds: CGSize) {
+    build()
+    willRender()
+    for child in children {
+      child.__configure(in: bounds)
     }
-    self.configure(self.view!, self.view!.yoga, bounds)
-    if let yoga = self.view?.yoga, yoga.isEnabled && yoga.isLeaf {
-      if !(self.view is ComponentViewType) {
+    configure(view!, view!.yoga, bounds)
+    if let yoga = view?.yoga, yoga.isEnabled && yoga.isLeaf {
+      if !(view is ComponentViewType) {
         // UIView reports its current size as the content size.
         // This is done to make sure that empty views don't show up.
-        self.view?.frame.size = .zero
+        view?.frame.size = .zero
         
         yoga.markDirty()
       }
     }
-    self.didRender()
+    didRender()
   }
 
   public func willRender() {
-    if self.resetBeforeReuse {
-      self.view?.prepareForComponentReuse()
-      self.view?.tag = identifier.hashValue
+    if resetBeforeReuse {
+      view?.prepareForComponentReuse()
+      view?.tag = identifier.hashValue
     }
     if let view = self.view {
 
@@ -162,24 +166,24 @@ public class Node<V: UIView>: NodeType {
 
   /** Post-render callback. */
   public func didRender() {
-    if let postRenderingView = self.view as? PostRendering {
+    if let postRenderingView = view as? PostRendering {
       postRenderingView.postRender()
     }
-    if let view = self.view {
+    if let view = view {
       onRender.did?(view)
     }
   }
 
   /** Constructs a new view for this node or recycle the one passed as argument. */
   public func build(with reusable: UIView? = nil) {
-    guard self.view == nil else { return }
+    guard view == nil else { return }
     if let reusable = reusable as? V {
-      self.view = reusable
+      view = reusable
     } else {
-      self.view = self.create()
-      self.view?.yoga.isEnabled = true
-      self.view?.tag = identifier.hashValue
-      self.view?.hasNode = true
+      view = create()
+      view?.yoga.isEnabled = true
+      view?.tag = identifier.hashValue
+      view?.hasNode = true
     }
   }
 }
@@ -197,7 +201,10 @@ public func ComponentNode<T: ComponentViewType>(type: T.Type,
   component.state = state
   props?(component)
   parent.__children.append(component)
-  return component.construct(state: state, size: size)
+
+  let node = component.construct(state: state, size: size)
+  node.__associatedComponent = component
+  return node
 }
 
 // MARK: - Nil Implementation
@@ -218,12 +225,13 @@ public class NilNode: NodeType {
   }
 
   public var index: Int = 0
+  public weak var __associatedComponent: AnyComponentView?
 
   public init() { }
 
   public func render(in bounds: CGSize) { }
 
-  public func internalConfigure(in bounds: CGSize) { }
+  public func __configure(in bounds: CGSize) { }
 
   public func willRender() { }
 

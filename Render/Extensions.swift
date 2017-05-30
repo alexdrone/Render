@@ -7,7 +7,7 @@ public extension CGFloat {
   public static let epsilon: CGFloat = CGFloat(Float.ulpOfOne)
   public var maxIfZero: CGFloat { return self == 0 ? CGFloat.max : self }
   public var undefinedIfZero: CGFloat { return self == 0 ? CGFloat.undefined : self }
-  public var normal: CGFloat { return self.isNormal ? self : 0  }
+  public var normal: CGFloat { return isNormal ? self : 0  }
 }
 
 public extension CGSize {
@@ -18,10 +18,10 @@ public extension CGSize {
 
 public extension CGRect {
   public mutating func normalize() {
-    self.origin.x = self.origin.x.isNormal ? self.origin.x : 0
-    self.origin.y = self.origin.y.isNormal ? self.origin.y : 0
-    self.size.width = self.size.width.isNormal ? self.size.width : 0
-    self.size.height = self.size.height.isNormal ? self.size.height : 0
+    origin.x = origin.x.isNormal ? origin.x : 0
+    origin.y = origin.y.isNormal ? origin.y : 0
+    size.width = size.width.isNormal ? size.width : 0
+    size.height = size.height.isNormal ? size.height : 0
   }
 }
 
@@ -44,23 +44,6 @@ public extension UIView {
   internal var isNewlyCreated: Bool {
     get { return getBool(&handleNewlyCreated, self, defaultIfNil: false) }
     set { setBool(&handleNewlyCreated, self, newValue) }
-  }
-
-  func subview(with identifier: String) -> UIView? {
-    for subview in self.subviews {
-      if subview.tag == identifier.hashValue {
-        return subview
-      }
-    }
-    for subview in self.subviews {
-      if !subview.hasNode {
-        continue
-      }
-      if let result = subview.subview(with: identifier) {
-        return result
-      }
-    }
-    return nil
   }
 }
 

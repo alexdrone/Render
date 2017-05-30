@@ -86,7 +86,7 @@ open class ComponentView<S: StateType>: UIView, ComponentViewType {
 
   /** The reuse identifier of the root node for this component. */
   public var reuseIdentifier: String {
-    return self.root.identifier
+    return root.identifier
   }
 
   /** Alternative to subclassing ComponentView. */ 
@@ -111,14 +111,14 @@ open class ComponentView<S: StateType>: UIView, ComponentViewType {
 
   public required init() {
     super.init(frame: CGRect.zero)
-    self.rootView = self.root.renderedView
-    self.addSubview(contentView)
+    rootView = root.renderedView
+    addSubview(contentView)
 
     let notification = Notification.Name("INJECTION_BUNDLE_NOTIFICATION")
     NotificationCenter.default.addObserver(forName: notification,
                                            object: nil,
-                                           queue: nil) { _ in
-      self.render(options: [.usePreviousBoundsAndOptions])
+                                           queue: nil) { [weak self] _ in
+      self?.render(options: [.usePreviousBoundsAndOptions])
     }
   }
 
@@ -127,8 +127,8 @@ open class ComponentView<S: StateType>: UIView, ComponentViewType {
   }
 
   open func prepareForConstruct() {
-    if !RenderOption.contains(self.defaultOptions, .preventViewHierarchyDiff) {
-      self.__children = []
+    if !RenderOption.contains(defaultOptions, .preventViewHierarchyDiff) {
+      __children = []
     }
   }
 
@@ -147,28 +147,28 @@ open class ComponentView<S: StateType>: UIView, ComponentViewType {
     var argBounds = bounds
     var argOptions = options
     if RenderOption.contains(options, .usePreviousBoundsAndOptions) {
-      argBounds = self.lastRenderParams.0
+      argBounds = lastRenderParams.0
       argOptions = RenderOption.filter(options, .__animated)
     } else {
-      self.lastRenderParams.0 = bounds
-      self.lastRenderParams.1 = options
+      lastRenderParams.0 = bounds
+      lastRenderParams.1 = options
     }
 
-    self.willRender()
+    willRender()
     let startTime = CFAbsoluteTimeGetCurrent()
 
     let numberOfPasses = 2
     for idx in 0..<numberOfPasses {
       let passOptions = idx != 0 ? argOptions + [.preventViewHierarchyDiff] : argOptions
-      internalRender(in: argBounds, options: passOptions)
+      __render(in: argBounds, options: passOptions)
     }
 
     debugRenderTime("\(type(of: self)).render", startTime: startTime)
-    self.didRender()
+    didRender()
   }
 
-  private func internalRender(in bounds: CGSize = CGSize.max, options: [RenderOption]) {
-    var opts = self.defaultOptions + options
+  private func __render(in bounds: CGSize = CGSize.max, options: [RenderOption]) {
+    var opts = defaultOptions + options
 
     // At the first execution of 'render' the view cannot be animated.
     if !initialized {
@@ -177,19 +177,19 @@ open class ComponentView<S: StateType>: UIView, ComponentViewType {
 
     // Reconstructs the tree and computes the diff.
     if !initialized || !RenderOption.contains(opts, .preventViewHierarchyDiff) {
-      self.prepareForConstruct()
-      self.root = self.construct(state: self.state, size: bounds)
-      self.reconcile(new: self.root, size: bounds, view: self.rootView, parent: self.contentView)
-      self.rootView = self.root.renderedView!
+      prepareForConstruct()
+      root = construct(state: state, size: bounds)
+      reconcile(new: root, size: bounds, view: rootView, parent: contentView)
+      rootView = root.renderedView!
     }
-    self.initialized = true
+    initialized = true
 
     func layout() {
       // Applies the configuration closures and recursively computes the layout.
-      self.root.render(in: bounds)
+      root.render(in: bounds)
 
       let preservingOrigin = false
-      let yoga = self.rootView.yoga
+      let yoga = rootView.yoga
 
       if RenderOption.contains(opts, [.flexibleWidth, .flexibleHeigth]) {
         yoga.applyLayout(preservingOrigin: preservingOrigin,
@@ -206,19 +206,19 @@ open class ComponentView<S: StateType>: UIView, ComponentViewType {
       }
 
       // Applies the frame to the host view.
-      self.rootView.frame.normalize()
-      self.contentView.frame.size = rootView.bounds.size
+      rootView.frame.normalize()
+      contentView.frame.size = rootView.bounds.size
 
-      self.contentView.frame.size.height += yoga.marginTop.normal + yoga.marginBottom.normal
-      self.contentView.frame.size.width +=  yoga.marginLeft.normal + yoga.marginRight.normal
-      self.frame = self.contentView.bounds
+      contentView.frame.size.height += yoga.marginTop.normal + yoga.marginBottom.normal
+      contentView.frame.size.width +=  yoga.marginLeft.normal + yoga.marginRight.normal
+      frame = contentView.bounds
     }
 
     // Lays out the views with an animation.
     if let animation = RenderOption.first(opts, .__animated) {
 
       // Hides all of the newly created views.
-      let newViews: [(UIView, CGFloat)] = self.views() { view in
+      let newViews: [(UIView, CGFloat)] = views() { view in
         return view.isNewlyCreated && !RenderOption.contains(opts, .preventViewHierarchyDiff)
       }.map { view in
         let result = (view, view.alpha)
@@ -247,13 +247,13 @@ open class ComponentView<S: StateType>: UIView, ComponentViewType {
   }
 
   open func willRender() {
-    for child in self.__children {
+    for child in __children {
       child.willRender()
     }
   }
 
   open func didRender() {
-    for child in self.__children {
+    for child in __children {
       child.didRender()
     }
   }
@@ -261,7 +261,7 @@ open class ComponentView<S: StateType>: UIView, ComponentViewType {
   /** Returns all views (descending recursively through the view hierarchy) that matches the 
    *  condition passed as argument. */
   public func views(root: UIView? = nil, matching: (UIView) -> Bool) -> [UIView] {
-    guard let view: UIView = root ?? self.rootView else {
+    guard let view: UIView = root ?? rootView else {
       return []
     }
     var result: [UIView] = matching(view) ? [view] : []
@@ -280,8 +280,8 @@ open class ComponentView<S: StateType>: UIView, ComponentViewType {
 
   open override func sizeThatFits(_ size: CGSize) -> CGSize {
     assert(Thread.isMainThread)
-    self.render(in: size)
-    return self.rootView.yoga.intrinsicSize
+    render(in: size)
+    return rootView.yoga.intrinsicSize
   }
 
   open override var intrinsicContentSize : CGSize {
