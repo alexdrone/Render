@@ -48,11 +48,13 @@ public extension UIView {
 
   func subview(with identifier: String) -> UIView? {
     for subview in self.subviews {
-      if !subview.hasNode {
-        continue
-      }
       if subview.tag == identifier.hashValue {
         return subview
+      }
+    }
+    for subview in self.subviews {
+      if !subview.hasNode {
+        continue
       }
       if let result = subview.subview(with: identifier) {
         return result
