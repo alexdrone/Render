@@ -35,7 +35,7 @@ public class TableNode: NSObject, NodeType, UITableViewDataSource, UITableViewDe
     }
   }
 
-  private var _children: [NodeType] = []
+  private var __children: [NodeType] = []
 
   /** The children are bypassed and used to implement the UITableView's datasource. */
   public var children: [NodeType] {
@@ -46,7 +46,7 @@ public class TableNode: NSObject, NodeType, UITableViewDataSource, UITableViewDe
         child.index = index
         index += 1
       }
-      _children = children;
+      __children = children;
     }
     get {
       return []
@@ -75,7 +75,7 @@ public class TableNode: NSObject, NodeType, UITableViewDataSource, UITableViewDe
                      children: [],
                      create: create,
                      configure: configure)
-    self._children = children
+    self.__children = children
     self.identifier = identifier
   }
 
@@ -108,13 +108,13 @@ public class TableNode: NSObject, NodeType, UITableViewDataSource, UITableViewDe
 
   /** Tells the data source to return the number of rows in a given section of a table view. */
   public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return self._children.count
+    return self.__children.count
   }
 
   /**  Asks the data source for a cell to insert in a particular location of the table view. */
   public func tableView(_ tableView: UITableView,
                         cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-    let node = self._children[indexPath.row]
+    let node = self.__children[indexPath.row]
     var identifier = node.identifier
 
     if self.disableCellReuse {
@@ -131,6 +131,13 @@ public class TableNode: NSObject, NodeType, UITableViewDataSource, UITableViewDe
 
     cell.render(in: tableView.bounds.size, options: [.preventViewHierarchyDiff])
     self.didRender()
+
+    var view = self.renderedView?.superview
+    while view != nil {
+      if view is AnyComponentView { break }
+      view = view?.superview
+    }
+    (view as? AnyComponentView)?.didRender()
 
     return cell
   }

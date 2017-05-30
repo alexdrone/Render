@@ -38,18 +38,19 @@ class TodoComponentView: ComponentView<TodoState>, UITextFieldDelegate {
 
     // Title input field.
     let textField = Node<UITextField>(identifier: "input",
-                                      create: { [weak self] in
+                                      create: {
         let field = UITextField()
         field.placeholder = "TODO"
         field.delegate = self
         field.textColor = Color.white
         field.font = Typography.mediumBold
-        self?.textField = field
         return field
-      }) { (view, layout, size) in
+      }) { [weak self] (view, layout, size) in
         layout.alignSelf = .stretch
         layout.margin = 16
         layout.marginTop = 24
+
+        self?.textField = view
       }
 
     // Title label.

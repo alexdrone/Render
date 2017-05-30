@@ -15,10 +15,10 @@ class TodoListComponentView: ComponentView<TodoListState> {
         $0.delegate = self.delegate
       }
     }
-    return Node<UIScrollView>(identifier: "list") { (view, layout, size) in
+    return TableNode(identifier: "list") { (view, layout, size) in
       view.backgroundColor = Color.black
       view.contentInset.top = 64
-     // view.separatorStyle = .none
+      view.separatorStyle = .none
       layout.width = size.width
       layout.height = size.height
     }.add(children: children)
