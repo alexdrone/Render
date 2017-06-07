@@ -11,8 +11,9 @@ class TodoListComponentView: ComponentView<TodoListState> {
 
     // For every TodoState we create a TodoComponentView wrapped in a node.
     let children: [NodeType] = todos.map { state in
-      return ComponentNode<TodoState>(TodoComponentView(), in: self, state: state, size: size) {
-        $0.delegate = self.delegate
+      return ComponentNode(TodoComponentView(), in: self, state: state, size: size) {
+        (component, _) in
+        component.delegate = self.delegate
       }
     }
     return TableNode(identifier: "list") { (view, layout, size) in
