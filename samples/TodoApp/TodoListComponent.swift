@@ -5,13 +5,13 @@ class TodoListComponentView: ComponentView<TodoListState> {
 
   weak var delegate: TodoComponentViewDelegate?
 
-  override func construct(state: TodoListState?, size: CGSize) -> NodeType {
+  override func construct(state: TodoListState, size: CGSize) -> NodeType {
     
-    let todos = state?.todoList ?? []
+    let todos = state.todoList
 
     // For every TodoState we create a TodoComponentView wrapped in a node.
-    let children = todos.map { state in
-      return ComponentNode(type: TodoComponentView.self, in: self, state: state, size: size) {
+    let children: [NodeType] = todos.map { state in
+      return ComponentNode<TodoState>(TodoComponentView(), in: self, state: state, size: size) {
         $0.delegate = self.delegate
       }
     }

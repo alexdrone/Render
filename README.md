@@ -79,7 +79,7 @@ struct HelloWorldState: StateType {
 
 class HelloWorldComponentView: ComponentView<HelloWorldState> {
 
-  override func construct(state: HelloWorldState?, size: CGSize = CGSize.undefined) -> NodeType {
+  override func construct(state: HelloWorldState, size: CGSize = CGSize.undefined) -> NodeType {
     let avatar = Node<UIImageView> { (view, layout, size) in
       view.image = state.image
       layout.alignSelf = .center
@@ -87,7 +87,7 @@ class HelloWorldComponentView: ComponentView<HelloWorldState> {
     }
    
     let text = Node<UILabel> { (view, layout, size) in
-      view.text = "Hello \(state?.name)"
+      view.text = "Hello \(state.name)"
       view.textAlignment = .center
       layout.margin = 16
     }
@@ -161,7 +161,7 @@ In this way the node's subnodes will be wrapped inside UITableViewCollectionCell
       // Another one.
       Node<UIView>(),
       // ComponentViews can also be added as child-nodes.
-      ComponentNode(type: MyComponent.self, state: state?.bar, size: size),
+      ComponentNode(MyComponent(), state: state.bar, size: size),
     ])
   }
 

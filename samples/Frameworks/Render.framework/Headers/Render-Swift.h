@@ -145,17 +145,9 @@ typedef unsigned int swift_uint4  __attribute__((__ext_vector_type__(4)));
 @class UITableViewCell;
 
 /// Wraps a UITableView in a node definition.
-/// <ul>
-///   <li>
-///     TableNode.children will be wrapped into UITableViewCell.
-///   </li>
-///   <li>
-///     Consider using TableNode over Node<ScrollView> where you have a big number of items to be
-///   </li>
-///   <li>
-///     displayed.
-///   </li>
-/// </ul>
+/// TableNode.children will be wrapped into UITableViewCell.
+/// Consider using TableNode over Node<ScrollView> where you have a big number of items to be
+/// displayed.
 SWIFT_CLASS("_TtC6Render9TableNode")
 @interface TableNode : NSObject <UITableViewDataSource, UITableViewDelegate>
 /// The UITableView associated to this node.
@@ -163,24 +155,21 @@ SWIFT_CLASS("_TtC6Render9TableNode")
 /// The unique identifier for this node is its hierarchy.
 @property (nonatomic, readonly, copy) NSString * _Nonnull identifier;
 /// Set this property to ‘true’ if you want to disable the built-in cell reuse mechanism.
-/// <ul>
-///   <li>
-///     This could be beneficial when the number of items is limited and you wish to improve the
-///   </li>
-///   <li>
-///     overall scroll performance.
-///   </li>
-/// </ul>
+/// This could be beneficial when the number of items is limited and you wish to improve the
+/// overall scroll performance.
 @property (nonatomic) BOOL disableCellReuse;
 /// This component is the n-th children.
 @property (nonatomic) NSInteger index;
 /// Re-applies the configuration closures to the UITableView and reload the data source.
 - (void)renderIn:(CGSize)bounds;
-- (void)__configureIn:(CGSize)bounds;
+/// Internal use only.
+/// The configuration block for this node.
+- (void)configureIn:(CGSize)bounds;
 /// ‘willRender’ is not yet supported for TableNode.
 - (void)willRender;
 /// ‘didRender’ is not yet supported for TableNode.
 - (void)didRender;
+/// Asks the node to build the backing view for this node.
 - (void)buildWith:(UIView * _Nullable)reusable;
 /// Tells the data source to return the number of rows in a given section of a table view.
 - (NSInteger)tableView:(UITableView * _Nonnull)tableView numberOfRowsInSection:(NSInteger)section SWIFT_WARN_UNUSED_RESULT;
@@ -198,11 +187,7 @@ SWIFT_CLASS("_TtC6Render9TableNode")
 /// Refreshes the component at the given index path.
 - (void)renderAt:(NSIndexPath * _Nonnull)indexPath;
 /// Re-renders all the compoents currently visible on screen.
-/// <ul>
-///   <li>
-///     Call this method whenever the collecrion view changes its bounds/size.
-///   </li>
-/// </ul>
+/// Call this method whenever the collecrion view changes its bounds/size.
 - (void)renderVisibleComponents;
 @end
 
@@ -223,11 +208,7 @@ SWIFT_CLASS("_TtC6Render9TableNode")
 /// Refreshes the component at the given index path.
 - (void)renderAt:(NSIndexPath * _Nonnull)indexPath;
 /// Re-renders all the compoents currently visible on screen.
-/// <ul>
-///   <li>
-///     Call this method whenever the table view changes its bounds/size.
-///   </li>
-/// </ul>
+/// Call this method whenever the table view changes its bounds/size.
 - (void)renderVisibleComponents;
 @end
 

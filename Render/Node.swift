@@ -228,7 +228,7 @@ public class Node<V: UIView>: NodeType {
 public func ComponentNode<T: ComponentViewType>(_ component: @autoclosure () -> T,
                                                 in parent: AnyComponentView,
                                                 key: String? = nil,
-                                                state: T.StateType? = nil,
+                                                state: StateType? = nil,
                                                 size: CGSize = CGSize.undefined,
                                                 props: ((T, Bool) -> Void)? = nil) -> NodeType {
 
@@ -239,7 +239,7 @@ public func ComponentNode<T: ComponentViewType>(_ component: @autoclosure () -> 
     parent.childrenComponentAutoIncrementKey += 1
   }
   let component = (parent.childrenComponent[childKey] as? T) ?? component()
-  let componentState = state ?? component.state
+  let componentState = (state as? T.StateType) ?? component.state
   component.state = componentState
   props?(component, parent.childrenComponent[childKey] == nil)
   parent.childrenComponent[childKey] = component

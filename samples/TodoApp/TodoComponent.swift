@@ -15,11 +15,7 @@ class TodoComponentView: ComponentView<TodoState>, UITextFieldDelegate {
   weak var delegate: TodoComponentViewDelegate?
   private weak var textField: UITextField?
 
-  override func construct(state: TodoState?, size: CGSize) -> NodeType {
-
-    guard let state = state else {
-      return Node<UIView>()
-    }
+  override func construct(state: TodoState, size: CGSize) -> NodeType {
 
     // Main wrapper element.
     let container = Node<UIView>(identifier: "container") { (view, layout, size) in
@@ -102,29 +98,18 @@ class TodoComponentView: ComponentView<TodoState>, UITextFieldDelegate {
 
   override func didRender() {
     super.didRender()
-    guard let state = state, state.isNew else {
-      return
-    }
-
     // After we render the component we want to make sure the texfield is new first responder.
     self.textField?.becomeFirstResponder()
   }
 
   /** The user tapped on the check button in the todo item. */
   private dynamic func didTapCheckButton() {
-    guard let state = state, !state.isDone else {
-      return
-    }
-
     self.delegate?.didCheckTodo(id: state.id)
   }
 
   //MARK: - UITextFieldDelegate
 
   dynamic func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-    guard let state = self.state else {
-      return true
-    }
     self.delegate?.didNameTodo(id: state.id, title: textField.text ?? "")
     return true
   }
