@@ -4,6 +4,12 @@ import Render
 
 struct HelloWorldState: StateType {
   let name: String
+  init() {
+    self.name =  "NO_NAME"
+  }
+  init(name: String) {
+    self.name = name
+  }
 }
 
 class HelloWorldComponentView: ComponentView<HelloWorldState> {

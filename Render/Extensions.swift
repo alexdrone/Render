@@ -47,7 +47,6 @@ public extension UIView {
   }
 }
 
-
 fileprivate func getBool(_ handle: UnsafeRawPointer!, _ object: UIView, defaultIfNil: Bool) -> Bool {
   return (objc_getAssociatedObject(object, handle) as? NSNumber)?.boolValue ?? defaultIfNil
 }

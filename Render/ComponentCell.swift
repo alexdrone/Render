@@ -5,17 +5,18 @@ import UIKit
 
 public protocol ComponentCellType {
 
-  /** Calls render on the underlying component view. See: 'render(in:options)' in ComponentView. */
+  /// Calls render on the underlying component view. See: 'render(in:options)' in ComponentView.
   func render(in bounds: CGSize, options: [RenderOption])
 }
 
 // MARK: - UITableViewCell
 
-/** Wraps a 'ComponentView' in a UITableViewCell. */
+/// Wraps a component in a UITableViewCell.
 open class ComponentTableViewCell<C : ComponentViewType>: UITableViewCell {
 
-  public var state: C.StateType? {
+  public var state: C.StateType? = nil {
     didSet {
+      guard let state = state else { return }
       componentView?.state = state
     }
   }
@@ -31,7 +32,7 @@ open class ComponentTableViewCell<C : ComponentViewType>: UITableViewCell {
     super.init(coder: aDecoder)
   }
 
-  open func mountComponentIfNecessary(_ component: @autoclosure (Void) -> C) {
+  open func mountComponentIfNecessary(_ component: @autoclosure () -> C) {
     guard componentView == nil else {
       return
     }
@@ -63,18 +64,19 @@ open class ComponentTableViewCell<C : ComponentViewType>: UITableViewCell {
 
 // MARK: - UICollectionViewCell
 
-/** Wraps a 'ComponentView' in a UICollectionViewCell. */
+/// Wraps a component in a UICollectionViewCell.
 open class ComponentCollectionViewCell<C : ComponentViewType>: UICollectionViewCell {
 
   public var state: C.StateType? {
     didSet {
+      guard let state = state else { return }
       componentView?.state = state
     }
   }
 
   public private(set) var componentView: C?
 
-  open func mountComponentIfNecessary(_ component: @autoclosure (Void) -> C) {
+  open func mountComponentIfNecessary(_ component: @autoclosure () -> C) {
     guard componentView == nil else {
       return
     }
@@ -108,16 +110,15 @@ open class ComponentCollectionViewCell<C : ComponentViewType>: UICollectionViewC
 
 extension UITableView {
 
-  /** Refreshes the component at the given index path. */
+  /// Refreshes the component at the given index path.
   public func render(at indexPath: IndexPath) {
     beginUpdates()
     reloadRows(at: [indexPath], with: .fade)
     endUpdates()
   }
 
-  /** Re-renders all the compoents currently visible on screen.
-   *  Call this method whenever the table view changes its bounds/size.
-   */
+  /// Re-renders all the compoents currently visible on screen.
+  /// Call this method whenever the table view changes its bounds/size.
   public func renderVisibleComponents() {
     let size = CGSize(width: bounds.size.width, height: CGFloat.max)
     visibleCells
@@ -128,14 +129,13 @@ extension UITableView {
 
 extension UICollectionView {
 
-  /** Refreshes the component at the given index path. */
+  ///  Refreshes the component at the given index path.
   public func render(at indexPath: IndexPath) {
     performBatchUpdates({ self.reloadItems(at: [indexPath]) }, completion: nil)
   }
 
-  /** Re-renders all the compoents currently visible on screen.
-   *  Call this method whenever the collecrion view changes its bounds/size.
-   */
+  /// Re-renders all the compoents currently visible on screen.
+  /// Call this method whenever the collecrion view changes its bounds/size.
   public func renderVisibleComponents() {
     let size = CGSize(width: bounds.size.width, height: CGFloat.max)
     visibleCells
@@ -144,38 +144,3 @@ extension UICollectionView {
   }
 }
 
-//MARK: - Prototypes
-
-public struct CellPrototype {
-
-  private static var prototypes = [String: AnyComponentView]()
-
-  public static func defaultIdentifier<C: AnyComponentView>(_ class: C.Type) -> String {
-    return String(describing: C.self)
-  }
-
-  public static func register<C: AnyComponentView>(identifier: String = String(describing: C.self),
-                                                   component: C) {
-
-    CellPrototype.prototypes[identifier] = component
-  }
-
-  public static func size<C: ComponentViewType>(in container: UIView,
-                                                class: C.Type,
-                                                identifier: String = String(describing: C.self),
-                                                state: StateType) -> CGSize {
-
-    guard let component = CellPrototype.prototypes[identifier] as? C else {
-      return CGSize.zero
-    }
-    component.state = state as? C.StateType
-
-    let size = CGSize(width: container.bounds.size.width, height: CGFloat.max)
-    component.render(in: size, options: [])
-
-    guard let view = component as? UIView else {
-      return CGSize.zero
-    }
-    return view.bounds.size
-  }
-}

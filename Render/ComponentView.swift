@@ -3,29 +3,39 @@ import UIKit
 
 // MARK: - State protocol
 
-public protocol StateType { }
-public struct NilState: StateType { }
+/// There are two types of data that control a component: props and state.
+/// props are simply the component proprieties,  set by the parent and they are fixed throughout the
+/// lifetime of a component.
+/// For data that is going to change, we have to use state.
+public protocol StateType {
+  /// Returns the initial state for this current state type.
+  init()
+}
+
+/// Represent a empty state (for components that don't need a state).
+public struct NilState: StateType {
+  public init() { }
+}
 
 public enum RenderOption {
-  /** The 'construct' method is called just once.
-   *  This means that render will simply re-apply the existing configuration for the nodes
-   *  and compute the new layout accordingly.
-   *  This is a very useful optimisation for components with a static view hierarchy. 
-   */
+  /// The 'construct' method is called just once.
+  /// This means that render will simply re-apply the existing configuration for the nodes
+  /// and compute the new layout accordingly.
+  ///  This is a very useful optimisation for components with a static view hierarchy.
   case preventViewHierarchyDiff
 
-  /** Animates the layout changes. */
+  /// Animates the layout changes.
   case animated(duration: TimeInterval,
                 options: UIViewAnimationOptions,
-                alongside: ((Void) -> Void)?)
+                alongside: (() -> Void)?)
 
   case flexibleWidth
   case flexibleHeigth
 
-  /** Use this if you wish to use the same bounds passed as argument in the previous invocation. */
+  /// Use this if you wish to use the same bounds passed as argument in the previous invocation.
   case usePreviousBoundsAndOptions
 
-  /** Internal use only. */
+  /// Internal use only.
   case __animated
 }
 
@@ -33,8 +43,12 @@ public enum RenderOption {
 
 public protocol AnyComponentView: class {
 
-  /** Used a store for nested component view refs. */
-  var __children: [AnyComponentView] { get set }
+  /// Internal use only.
+  /// Used a store for nested component view refs.
+  var childrenComponent: [String: AnyComponentView] { get set }
+
+  /// Internal use only.
+  var childrenComponentAutoIncrementKey: Int  { get set }
 
   func willRender()
   func didRender()
@@ -44,76 +58,90 @@ public protocol ComponentViewType: AnyComponentView {
 
   associatedtype StateType
 
-  var state: StateType? { get set }
+  var state: StateType { get set }
 
-  /** This will run 'construct' that generates a new virtual-tree for this component.
-   *  The tree is then diffed against the current one and the changes are applied to current
-   *  view hierarchy.
-   *  The layout for the resulting view hierarchy is then re-computed.
-   */
+  /// This will run 'construct' that generates a new virtual-tree for this component.
+  /// The tree is then diffed against the current one and the changes are applied to current
+  /// view hierarchy.
+  /// The layout for the resulting view hierarchy is then re-computed.
   func render(in bounds: CGSize, options: [RenderOption])
 
-  /** Asks the view to calculate and return the size that best fits the specified size. */
+  /// Asks the view to calculate and return the size that best fits the specified size.
   func sizeThatFits(_ size: CGSize) -> CGSize
 
-  /** The natural size for the receiving view, considering only properties of the view itself. */
+  /// The natural size for the receiving view, considering only properties of the view itself.
   var intrinsicContentSize : CGSize { get }
 
   init()
 
-  func construct(state: StateType?, size: CGSize) -> NodeType
-
+  /// The 'construct' method is required.
+  /// When called, it should examine the component properties and the state  and return a Node tree.
+  /// This method is called every time 'render' is invoked.
+  func construct(state: StateType, size: CGSize) -> NodeType
 }
 
 // MARK: - Implementation
 
-/** Components let you split the UI into independent, reusable pieces, and think about each 
- *  piece in isolation.
- *  A component represents a function that maps a state S to its representation.
- *  The infrastructure below takes care of applying the minimal set of diffs whenever it is 
- *  necessary.
- */
+/// Components let you split the UI into independent, reusable pieces, and think about each
+/// piece in isolation.
+/// A component represents a function that maps a state S to its representation.
+/// The infrastructure below takes care of applying the minimal set of diffs whenever it is
+/// necessary.
 open class ComponentView<S: StateType>: UIView, ComponentViewType {
 
   public typealias StateType = S
-  public typealias Construct = (S?, CGSize) -> NodeType
+  public typealias Construct = (S, CGSize) -> NodeType
 
-  /** The state of the component. Call 'render' on this component after the new state is set. */
-  public var state: S? = nil
+  /// The state of the component. Call 'render' on this component after the new state is set.
+  public var state: S = S()
 
-  /** The component's default options. */
+  /// The component's default options.
   public var defaultOptions: [RenderOption] = []
 
-  /** The reuse identifier of the root node for this component. */
+  /// The reuse identifier of the root node for this component.
   public var reuseIdentifier: String {
     return root.identifier
   }
 
-  /** Alternative to subclassing ComponentView. */ 
+  /// Alternative to subclassing ComponentView.
   public var constructBlock: Construct?
 
-  /** The (current) root node. */
+  /// The (current) root node.
   private var root: NodeType = NilNode()
 
-  /** The bounds used in the last invocation of 'render'. */
+  /// The bounds used in the last invocation of 'render'.
   private var lastRenderParams: (CGSize, [RenderOption]) = (CGSize.max, [])
 
-  /** The (current) view associated to the root node. */
+  /// The (current) view associated to the root node.
   private var rootView: UIView!
   private lazy var contentView: UIView = {
     return UIView()
   }()
 
-  /** Wether the 'root' node has been constructed yet. */
+  /// Wether the 'root' node has been constructed yet.
   private var initialized: Bool = false
 
-  public var __children: [AnyComponentView] = []
+  /// Store for the chilren component view.
+  /// Keys in the store help identify which items have changed, are added, or are removed.
+  /// Keys should be given to the elements inside the array to give the elements a stable identity
+  public var childrenComponent: [String: AnyComponentView] = [:]
+
+  /// Internal use only.
+  public var childrenComponentAutoIncrementKey: Int = 0
 
   public required init() {
     super.init(frame: CGRect.zero)
+    commonInit()
+  }
+
+  required public init?(coder aDecoder: NSCoder) {
+    super.init(coder: aDecoder)
+    commonInit()
+  }
+
+  private func commonInit() {
     rootView = root.renderedView
     addSubview(contentView)
-
     let notification = Notification.Name("INJECTION_BUNDLE_NOTIFICATION")
     NotificationCenter.default.addObserver(forName: notification,
                                            object: nil,
@@ -122,17 +150,10 @@ open class ComponentView<S: StateType>: UIView, ComponentViewType {
     }
   }
 
-  required public init?(coder aDecoder: NSCoder) {
-    fatalError()
-  }
-
-  open func prepareForConstruct() {
-    if !RenderOption.contains(defaultOptions, .preventViewHierarchyDiff) {
-      __children = []
-    }
-  }
-
-  open func construct(state: S?, size: CGSize = CGSize.undefined) -> NodeType {
+  /// The 'construct' method is required for subclasses.
+  /// When called, it should examine the component properties and the state  and return a Node tree.
+  /// This method is called every time 'render' is invoked.
+  open func construct(state: S, size: CGSize = CGSize.undefined) -> NodeType {
     if let constructBlock = constructBlock {
       return constructBlock(state, size)
     } else {
@@ -141,6 +162,10 @@ open class ComponentView<S: StateType>: UIView, ComponentViewType {
     }
   }
 
+  /// This will run 'construct' that generates a new virtual-tree for this component.
+  /// The tree is then diffed against the current one and the changes are applied to current
+  /// view hierarchy.
+  /// The layout for the resulting view hierarchy is then re-computed.
   public func render(in bounds: CGSize = CGSize.max, options: [RenderOption] = []) {
     assert(Thread.isMainThread)
 
@@ -167,6 +192,7 @@ open class ComponentView<S: StateType>: UIView, ComponentViewType {
     didRender()
   }
 
+  // Internal render method.
   private func __render(in bounds: CGSize = CGSize.max, options: [RenderOption]) {
     var opts = defaultOptions + options
 
@@ -177,7 +203,7 @@ open class ComponentView<S: StateType>: UIView, ComponentViewType {
 
     // Reconstructs the tree and computes the diff.
     if !initialized || !RenderOption.contains(opts, .preventViewHierarchyDiff) {
-      prepareForConstruct()
+      self.childrenComponentAutoIncrementKey = 0
       root = construct(state: state, size: bounds)
       reconcile(new: root, size: bounds, view: rootView, parent: contentView)
       rootView = root.renderedView!
@@ -247,19 +273,21 @@ open class ComponentView<S: StateType>: UIView, ComponentViewType {
   }
 
   open func willRender() {
-    for child in __children {
+    // Forwards the 'willRender' method to all of the children compoennts.
+    for (_, child) in childrenComponent {
       child.willRender()
     }
   }
 
   open func didRender() {
-    for child in __children {
+    // Forwards the 'didRender' method to all of the children compoennts.
+    for (_, child) in childrenComponent {
       child.didRender()
     }
   }
 
-  /** Returns all views (descending recursively through the view hierarchy) that matches the 
-   *  condition passed as argument. */
+  /// Returns all views (descending recursively through the view hierarchy) that matches the
+  /// condition passed as argument.
   public func views(root: UIView? = nil, matching: (UIView) -> Bool) -> [UIView] {
     guard let view: UIView = root ?? rootView else {
       return []
@@ -269,13 +297,6 @@ open class ComponentView<S: StateType>: UIView, ComponentViewType {
       result.append(contentsOf: views(root: subview, matching: matching))
     }
     return result
-  }
-
-  /** Returns all the views with the given reuse identifier. */
-  public func views(withReuseIdentifier id: String) -> [UIView] {
-    return views(matching: { view in
-      return view.tag == id.hashValue
-    })
   }
 
   open override func sizeThatFits(_ size: CGSize) -> CGSize {
@@ -289,7 +310,7 @@ open class ComponentView<S: StateType>: UIView, ComponentViewType {
     return sizeThatFits(CGSize.max)
   }
 
-  /** Reconciliation algorithm for the view hierarchy. */
+  /// Reconciliation algorithm for the view hierarchy.
   private func reconcile(new: NodeType, size: CGSize, view: UIView?, parent: UIView) {
     assert(Thread.isMainThread)
 

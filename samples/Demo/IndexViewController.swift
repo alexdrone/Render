@@ -42,11 +42,8 @@ class IndexViewController: UITableViewController {
 
   override func tableView(_ tableView: UITableView,
                           cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-
-    let id = CellPrototype.defaultIdentifier(IndexItemComponentView.self)
-    let cell = tableView.dequeueReusableCell(withIdentifier: id) ??
+    let cell = tableView.dequeueReusableCell(withIdentifier: "Cell") ??
                ComponentTableViewCell<IndexItemComponentView>()
-
     if let cell = cell as? ComponentTableViewCell<IndexItemComponentView> {
       cell.mountComponentIfNecessary(IndexItemComponentView())
       cell.state = self.states[indexPath.row]
@@ -73,6 +70,14 @@ class IndexViewController: UITableViewController {
 struct IndexState: StateType {
   let title: String
   let subtitle: String
+  init() {
+    self.title = ""
+    self.subtitle = ""
+  }
+  init(title: String, subtitle: String) {
+    self.title = title
+    self.subtitle = subtitle
+  }
 }
 
 class IndexItemComponentView: ComponentView<IndexState> {

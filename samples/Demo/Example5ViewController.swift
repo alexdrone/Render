@@ -43,7 +43,7 @@ class TableComponentView: ComponentView<TableState> {
     ]
 
     let helloWorldFragments = (1..<(state?.number ?? 0)).map { index in
-      ComponentNode(type: HelloWorldComponentView.self,
+      ComponentNode(HelloWorldComponentView(),
                     in: self,
                     state: HelloWorldState(name:"\(index)"),
                     size: size)

@@ -1,53 +1,44 @@
 import Foundation
 import UIKit
 
-/** Wraps a UITableView in a node definition.
- *  TableNode.children will be wrapped into UITableViewCell.
- *  Consider using TableNode over Node<ScrollView> where you have a big number of items to be 
- *  displayed.
- */
+/// Wraps a UITableView in a node definition.
+/// TableNode.children will be wrapped into UITableViewCell.
+/// Consider using TableNode over Node<ScrollView> where you have a big number of items to be
+/// displayed.
 public class TableNode: NSObject, NodeType, UITableViewDataSource, UITableViewDelegate {
 
-
-  /** TableNode redirects all of the layout calls to a Node<TableView>.
-   *  Essentially this class is just a proxy in oder to hide the 'children' collection to the
-   *  node hierarchy and to implement the UITableView's datasource.
-   */
+  /// TableNode redirects all of the layout calls to a Node<TableView>.
+  /// Essentially this class is just a proxy in oder to hide the 'children' collection to the
+  /// node hierarchy and to implement the UITableView's datasource.
   private let node: Node<UITableView>
 
-  /** The UITableView associated to this node. */
+  /// The UITableView associated to this node.
   public var renderedView: UIView? {
     return node.renderedView
   }
 
-  /** The unique identifier for this node is its hierarchy. */
+  /// The unique identifier for this node is its hierarchy.
   public let identifier: String
 
-  /** Set this property to 'true' if you want to disable the built-in cell reuse mechanism. 
-   *  This could be beneficial when the number of items is limited and you wish to improve the
-   *  overall scroll performance.
-   */
+  /// Set this property to 'true' if you want to disable the built-in cell reuse mechanism.
+  /// This could be beneficial when the number of items is limited and you wish to improve the
+  /// overall scroll performance.
   public var disableCellReuse: Bool = false
 
-  /** This component is the n-th children. */
+  /// This component is the n-th children.
   public var index: Int = 0 {
-    didSet {
-      node.index = index
-    }
+    didSet { node.index = index }
   }
 
-  public weak var __associatedComponent: AnyComponentView? {
-    get {
-      return node.__associatedComponent
-    }
-    set {
-      node.__associatedComponent = newValue
-    }
+  /// The associated component (if applicable).
+  public weak var associatedComponent: AnyComponentView? {
+    get { return node.associatedComponent }
+    set { node.associatedComponent = newValue }
   }
 
   private var __children: [NodeType] = []
 
-  /** The children are bypassed and used to implement the UITableView's datasource. */
+  /// The children are bypassed and used to implement the UITableView's datasource.
   public var children: [NodeType] {
     set {
       var index = 0
@@ -63,19 +54,19 @@ public class TableNode: NSObject, NodeType, UITableViewDataSource, UITableViewDe
     }
   }
 
-  /** Adds the nodes passed as argument as subnodes. */
+  /// Adds the nodes passed as argument as subnodes.
   @discardableResult public func add(children: [NodeType]) -> NodeType {
     self.children += children
     return self
   }
 
-  /** Adds the node passed as argument as subnode. */
+  /// Adds the node passed as argument as subnode.
   @discardableResult public func add(child: NodeType) -> NodeType {
     self.children = children + [child]
     return self
   }
 
-  public init(identifier: String = "CollectionNode",
+  public init(identifier: String = "TABLE_NODE",
               children: [NodeType] = [],
               create: @escaping Node<UITableView>.CreateBlock = { return UITableView() },
               configure: @escaping Node<UITableView>.ConfigureBlock = { _ in }) {
@@ -89,7 +80,7 @@ public class TableNode: NSObject, NodeType, UITableViewDataSource, UITableViewDe
     self.identifier = identifier
   }
 
-  /** Re-applies the configuration closures to the UITableView and reload the data source. */
+  /// Re-applies the configuration closures to the UITableView and reload the data source.
   public func render(in bounds: CGSize) {
     node.render(in: bounds)
     if let table = renderedView as? UITableView {
@@ -100,28 +91,31 @@ public class TableNode: NSObject, NodeType, UITableViewDataSource, UITableViewDe
     }
   }
 
-  public func __configure(in bounds: CGSize) {
-    node.__configure(in: bounds)
+  /// Internal use only.
+  /// The configuration block for this node.
+  public func configure(in bounds: CGSize) {
+    node.configure(in: bounds)
   }
 
-  /** 'willRender' is not yet supported for TableNode. */
+  /// 'willRender' is not yet supported for TableNode.
   public func willRender() { }
 
-  /** 'didRender' is not yet supported for TableNode. */
+  /// 'didRender' is not yet supported for TableNode.
   public func didRender() { }
 
+  /// Asks the node to build the backing view for this node.
   public func build(with reusable: UIView?) {
     node.build(with: reusable)
   }
 
   //MARK: - UITableViewDataSource
 
-  /** Tells the data source to return the number of rows in a given section of a table view. */
+  /// Tells the data source to return the number of rows in a given section of a table view.
   public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     return __children.count
   }
 
-  /**  Asks the data source for a cell to insert in a particular location of the table view. */
+  /// Asks the data source for a cell to insert in a particular location of the table view.
   public func tableView(_ tableView: UITableView,
                         cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     let node = __children[indexPath.row]
@@ -141,7 +135,7 @@ public class TableNode: NSObject, NodeType, UITableViewDataSource, UITableViewDe
 
     node.render(in: tableView.bounds.size)
     cell.render(in: tableView.bounds.size, options: [.preventViewHierarchyDiff])
-    node.__associatedComponent?.didRender()
+    node.associatedComponent?.didRender()
 
     return cell
   }

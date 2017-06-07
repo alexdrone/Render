@@ -7,7 +7,7 @@ class DotComponentView: ComponentView<NilState> {
   // Components can expose props.
   var numberOfDots: Int = 0
 
-  override func construct(state: NilState?, size: CGSize = CGSize.undefined) -> NodeType {
+  override func construct(state: NilState, size: CGSize = CGSize.undefined) -> NodeType {
     // A simple green circle.
     func dot() -> NodeType {
       return Node<UIView> { (view, layout, _) in

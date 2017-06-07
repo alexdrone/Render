@@ -316,11 +316,9 @@ extension UIImageView {
 }
 
 protocol PostRendering {
-
-  /** content-size calculation for the scrollview should be applied after the layout.
-   *  This is called after the scroll view is rendered.
-   *  TableViews and CollectionViews are excluded from this post-render pass.
-   */
+  /// content-size calculation for the scrollview should be applied after the layout.
+  /// This is called after the scroll view is rendered.
+  /// TableViews and CollectionViews are excluded from this post-render pass.
   func postRender()
 }
 

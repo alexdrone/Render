@@ -9,7 +9,7 @@ struct FooState: StateType {
 
 class FooComponentView: ComponentView<FooState> {
 
-  override func construct(state: FooState?, size: CGSize = CGSize.undefined) -> NodeType {
+  override func construct(state: FooState, size: CGSize = CGSize.undefined) -> NodeType {
 
     // Main wrapper.
     let wrapper = Node<UIView>() { (view, layout, size) in
@@ -35,12 +35,12 @@ class FooComponentView: ComponentView<FooState> {
         Fragments.avatar(),
         rightWrapper.add(children: [
           // Fragments can take a function as argument. Remember view = function(state).
-          Fragments.paddedLabel(text: state?.text),
+          Fragments.paddedLabel(text: state.text),
 
           // You can nest complex components within components by using the 'ComponentNode' helper 
           // function.
-          ComponentNode(type: DotComponentView.self, in: self) { component in
-            component.numberOfDots = state?.numberOfDots ?? 0
+          ComponentNode(DotComponentView(), in: self) { (component, _) in
+            component.numberOfDots = state.numberOfDots
           },
           Fragments.button()
         ])
