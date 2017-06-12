@@ -50,16 +50,6 @@ public protocol AnyComponentView: class {
   /// Internal use only.
   var childrenComponentAutoIncrementKey: Int  { get set }
 
-  func willRender()
-  func didRender()
-}
-
-public protocol ComponentViewType: AnyComponentView {
-
-  associatedtype StateType
-
-  var state: StateType { get set }
-
   /// This will run 'construct' that generates a new virtual-tree for this component.
   /// The tree is then diffed against the current one and the changes are applied to current
   /// view hierarchy.
@@ -72,12 +62,36 @@ public protocol ComponentViewType: AnyComponentView {
   /// The natural size for the receiving view, considering only properties of the view itself.
   var intrinsicContentSize : CGSize { get }
 
+  /// Sets the component state.
+  func setState(_ state: Render.StateType)
+
   init()
+
+  func willRender()
+  func didRender()
+}
+
+public protocol ComponentViewType: AnyComponentView {
+
+  associatedtype StateType
+
+  var state: StateType { get set }
 
   /// The 'construct' method is required.
   /// When called, it should examine the component properties and the state  and return a Node tree.
   /// This method is called every time 'render' is invoked.
   func construct(state: StateType, size: CGSize) -> NodeType
+}
+
+public extension ComponentViewType {
+
+  /// Sets the component state.
+  func setState(_ state: Render.StateType) {
+    guard let state = state as? Self.StateType else {
+      return
+    }
+    self.state = state
+  }
 }
 
 // MARK: - Implementation
