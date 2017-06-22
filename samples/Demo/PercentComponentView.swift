@@ -15,7 +15,7 @@ class PercentComponentView: ComponentView<NilState> {
     fatalError("Not supported")
   }
 
-  override func construct(state: NilState?, size: CGSize = CGSize.undefined) -> NodeType {
+  override func render(size: CGSize = CGSize.undefined) -> NodeType {
     return Node<UIView>() { (view, layout, size) in
       view.backgroundColor = Color.green
       layout.percent.height = 95%

@@ -73,13 +73,17 @@ This is what a component looks like:
 ```swift
 
 struct HelloWorldState: StateType {
-  let name: String
+  let count: Int
   let image: UIImage
 }
 
-class HelloWorldComponentView: ComponentView<HelloWorldState> {
+class HelloWorldComponentView: ComponentView<HelloWorldState> {(
 
-  override func construct(state: HelloWorldState, size: CGSize = CGSize.undefined) -> NodeType {
+  init() {
+    self.state = HelloWorldState(name: "", image: UIImage());
+  }
+
+  override func render(size: CGSize = CGSize.undefined) -> NodeType {
     let avatar = Node<UIImageView> { (view, layout, size) in
       view.image = state.image
       layout.alignSelf = .center
@@ -87,13 +91,18 @@ class HelloWorldComponentView: ComponentView<HelloWorldState> {
     }
    
     let text = Node<UILabel> { (view, layout, size) in
-      view.text = "Hello \(state.name)"
+      view.text = "Hello \(state.count)
       view.textAlignment = .center
       layout.margin = 16
     }
 		
     let container = Node<UIImageView> { (view, layout, size) in
       view.backgroundColor = Color.black
+      view.onTap { [weak self] _ in
+        self?.setState {
+          $0.count += 1
+        }
+      }
       layout.justifyContent = .center
     }
 
@@ -106,16 +115,15 @@ class HelloWorldComponentView: ComponentView<HelloWorldState> {
 ...
 
 let component = HelloWorldComponentView()
-component.state = HelloWorldState(name: "Alex")
-component.render(in: self.view.bounds.size)
+component.update(in: self.view.bounds.size)
 
 ```
 
-The view description is defined by the `construct(state:size:)` method.
+The view description is defined by the `render(state:size:)` method.
 
 `Node<T>` is an abstraction around views of any sort that knows how to build, configure and layout the view when necessary.
 
-Every time `render(in:options:)` is called, a new tree is constructed, compared to the existing tree and only the required changes to the actual view hierarchy are performed - *if you have a static view hierarchy, you might want pass the '.preventViewHierarchyDiff' option to skip this part of the rendering* . Also the `configure` closure passed as argument is re-applied to every view defined in the `construct()` method and the layout is re-computed based on the nodes' flexbox attributes. 
+Every time `update(in:options:)` is called, a new tree is constructed, compared to the existing tree and only the required changes to the actual view hierarchy are performed - *if you have a static view hierarchy, you might want pass the '.preventViewHierarchyDiff' option to skip this part of the rendering* . Also the `configure` closure passed as argument is re-applied to every view defined in the `render()` method and the layout is re-computed based on the nodes' flexbox attributes. 
 
 The component above would render to:
 
@@ -134,7 +142,7 @@ The framework doesn't force you to use the Component abstraction. You can use no
 
 ### Performance & Thread Model
 
-**Render**'s `render(in:options:)` function is performed on the main thread. Diff+Reconciliation+Layout+Configuration runs usually under 16ms for a component with a complex view hierarchy on a iPhone 4S, which makes it suitable for cells implementation (with a smooth scrolling).
+**Render**'s `update(in:options:)` function is performed on the main thread. Diff+Reconciliation+Layout+Configuration runs usually under 16ms for a component with a complex view hierarchy on a iPhone 4S, which makes it suitable for cells implementation (with a smooth scrolling).
 
 
 ### Components embedded in cells
@@ -148,7 +156,7 @@ In this way the node's subnodes will be wrapped inside UITableViewCollectionCell
 
 ```swift
 
- override func construct(state: State?, size: CGSize) -> NodeType {
+ override func render(size: CGSize) -> NodeType {
     let table = TableNode() { (_, layout, _) in
       // Size, margins and padding can now be expressed as a % of the parent.
       (layout.percent.height, layout.percent.width) = (100%, 100%)
@@ -197,7 +205,7 @@ class ViewController: UIViewController {
       let item = AnyListItem(type: ComponentTableViewCell<FooState>.self, state: FooState(text: "Foo")) { cell, state in
         cell.mountComponentIfNecessary(FooComponentView())
         cell.state = state
-        cell.render(in: self.tableView.bounds.size)
+        cell.update(in: self.tableView.bounds.size)
       }
     }
   }()

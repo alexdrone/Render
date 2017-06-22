@@ -2,14 +2,23 @@ import Foundation
 import UIKit
 import Render
 
-struct FooState: StateType {
+struct FooComponentViewState: StateType {
   var numberOfDots = randomInt(1, max: 16)
   var text: String = randomString()
 }
 
-class FooComponentView: ComponentView<FooState> {
+class FooComponentView: ComponentView<FooComponentViewState> {
 
-  override func construct(state: FooState, size: CGSize = CGSize.undefined) -> NodeType {
+  required init() {
+    super.init()
+    self.state = FooComponentViewState()
+  }
+
+  required init?(coder aDecoder: NSCoder) {
+    fatalError("Not supported")
+  }
+
+  override func render(size: CGSize = CGSize.undefined) -> NodeType {
 
     // Main wrapper.
     let wrapper = Node<UIView>() { (view, layout, size) in
@@ -35,12 +44,12 @@ class FooComponentView: ComponentView<FooState> {
         Fragments.avatar(),
         rightWrapper.add(children: [
           // Fragments can take a function as argument. Remember view = function(state).
-          Fragments.paddedLabel(text: state.text),
+          Fragments.paddedLabel(text: self.state.text),
 
           // You can nest complex components within components by using the 'ComponentNode' helper 
           // function.
           ComponentNode(DotComponentView(), in: self) { (component, _) in
-            component.numberOfDots = state.numberOfDots
+            component.numberOfDots = self.state.numberOfDots
           },
           Fragments.button()
         ])

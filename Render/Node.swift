@@ -10,7 +10,7 @@ public protocol NodeType: class {
 
   /// The reuse identifier for this node is its hierarchy.
   /// Identifiers help Render understand which items have changed, are added, or are removed.
-  var identifier: String { get }
+  var key: String { get }
 
   /// The subnodes of this node.
   var children: [NodeType] { get set }
@@ -25,17 +25,17 @@ public protocol NodeType: class {
   /// Re-applies the configuration closures recursively and compute the new layout for the
   /// derived associated view hierarchy.
   /// - note: The rencociliation is perfomed from ComponentView owning this node hierarchy.
-  func render(in bounds: CGSize)
+  func layout(in bounds: CGSize)
 
   /// Internal use only.
   /// Configure the backing view of this node.
   func configure(in bounds: CGSize)
 
   /// Pre-render callback.
-  func willRender()
+  func willLayout()
 
   /// Post-render callback.
-  func didRender()
+  func didLayout()
 
   /// Asks the node to build the backing view for this node.
   func build(with reusable: UIView?)
@@ -51,7 +51,7 @@ public class Node<V: UIView>: NodeType {
 
   public typealias CreateBlock = () -> V
   public typealias ConfigureBlock = (V, YGLayout, CGSize) -> (Void)
-  public typealias OnRenderBlock = (V?) -> (Void)
+  public typealias OnLayoutBlock = (V?) -> (Void)
 
   /// The underlying view rendered from the node.
   public private(set) var renderedView: UIView? {
@@ -63,7 +63,7 @@ public class Node<V: UIView>: NodeType {
   /// The unique identifier of this node is its hierarchy.
   /// Choosing a good identifier is foundamental for good and performant view recycling.
   /// Identifiers help Render understand which items have changed, are added, or are removed.
-  public let identifier: String
+  public let key: String
 
   /// When this property is true the associated view will get reset to its original state before
   /// being reconfigured.
@@ -71,7 +71,7 @@ public class Node<V: UIView>: NodeType {
   public let resetBeforeReuse: Bool
 
   /// Pre/Post render callbacks.
-  public var onRender: (will: OnRenderBlock?, did: OnRenderBlock?) = (nil, nil)
+  public var onRender: (will: OnLayoutBlock?, did: OnLayoutBlock?) = (nil, nil)
 
   /// The configuration block for this node.
   private let configure: ConfigureBlock
@@ -118,7 +118,7 @@ public class Node<V: UIView>: NodeType {
   }
 
   /// Construct a new Node hierarchy.
-  /// - parameter identifier: The reuse identifier for this node is its hierarchy.
+  /// - parameter key: The reuse identifier for this node is its hierarchy.
   /// - parameter resetBeforeReuse: When this property is true the associated view will get reset
   /// to its original state before being reconfigured.
   /// - parameter children: (Optional) children for this node.
@@ -129,12 +129,12 @@ public class Node<V: UIView>: NodeType {
   /// initialization closure.
   /// - parameter configure: The closure that is going to be executed every time this node
   /// will re-render.
-  public init(identifier: String = String(describing: V.self),
+  public init(key: String = String(describing: V.self),
               resetBeforeReuse: Bool = false,
               children: [NodeType] = [],
               create: @escaping CreateBlock = { V() },
               configure: @escaping ConfigureBlock = { _ in }) {
-    self.identifier = identifier
+    self.key = key
     self.resetBeforeReuse = resetBeforeReuse
     self.create = create
     self.configure = configure
@@ -144,7 +144,7 @@ public class Node<V: UIView>: NodeType {
   /// Re-applies the configuration closures recursively and compute the new layout for the
   /// derived associated view hierarchy.
   /// - note: The rencociliation is perfomed from ComponentView owning this node hierarchy.
-  public func render(in bounds: CGSize) {
+  public func layout(in bounds: CGSize) {
     assert(Thread.isMainThread)
     configure(in: bounds)
     guard let view = view else {
@@ -159,7 +159,7 @@ public class Node<V: UIView>: NodeType {
   /// Configure the backing view of this node.
   public func configure(in bounds: CGSize) {
     build()
-    willRender()
+    willLayout()
     for child in children {
       child.configure(in: bounds)
     }
@@ -173,14 +173,14 @@ public class Node<V: UIView>: NodeType {
         yoga.markDirty()
       }
     }
-    didRender()
+    didLayout()
   }
 
   /// Pre-render callback.
-  public func willRender() {
+  public func willLayout() {
     if resetBeforeReuse {
       view?.prepareForComponentReuse()
-      view?.tag = identifier.hashValue
+      view?.tag = key.hashValue
     }
     if let view = self.view {
 
@@ -191,7 +191,7 @@ public class Node<V: UIView>: NodeType {
   }
 
   /// Post-render callback.
-  public func didRender() {
+  public func didLayout() {
     if let postRenderingView = view as? PostRendering {
       postRenderingView.postRender()
     }
@@ -208,7 +208,7 @@ public class Node<V: UIView>: NodeType {
     } else {
       view = create()
       view?.yoga.isEnabled = true
-      view?.tag = identifier.hashValue
+      view?.tag = key.hashValue
       view?.hasNode = true
     }
   }
@@ -218,7 +218,7 @@ public class Node<V: UIView>: NodeType {
 
 /// Used to wrap nested components in the Node hierarchy.
 /// - parameter type: The component class for this node.
-/// - parameter parent: Likely the component that is calling the 'construct' method.
+/// - parameter parent: Likely the component that is calling the 'render' method.
 /// - parameter key: Keys help Render identify which items have changed, are added, or are removed.
 /// Keys should be given to the elements inside the array to give the elements a stable identity
 /// - parameter state: The state for the component. (If nil is passed as argument the previous state
@@ -243,7 +243,7 @@ public func ComponentNode<T: ComponentViewType>(_ component: @autoclosure () -> 
   component.state = componentState
   props?(component, parent.childrenComponent[childKey] == nil)
   parent.childrenComponent[childKey] = component
-  let node = component.construct(state: componentState, size: size)
+  let node = component.render(size: size)
   node.associatedComponent = component
   return node
 }
@@ -256,10 +256,10 @@ public final class NilNode: NodeType {
   public lazy var renderedView: UIView? = {
     let view = UIView(frame: CGRect.zero)
     view.hasNode = true
-    view.tag = self.identifier.hashValue
+    view.tag = self.key.hashValue
     return view;
   }()
-  public var identifier: String = "NIL_NODE"
+  public var key: String = "NIL_NODE"
   public var children: [NodeType] = []
   public func add(children: [NodeType]) -> NodeType {
     return self
@@ -268,10 +268,10 @@ public final class NilNode: NodeType {
   public weak var associatedComponent: AnyComponentView?
 
   public init() { }
-  public func render(in bounds: CGSize) { }
+  public func layout(in bounds: CGSize) { }
   public func configure(in bounds: CGSize) { }
-  public func willRender() { }
-  public func didRender() { }
+  public func willLayout() { }
+  public func didLayout() { }
   public func build(with reusable: UIView?) { }
 }
 

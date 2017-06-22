@@ -18,7 +18,7 @@ public struct NilState: StateType {
 }
 
 public enum RenderOption {
-  /// The 'construct' method is called just once.
+  /// The 'render' method is called just once.
   /// This means that render will simply re-apply the existing configuration for the nodes
   /// and compute the new layout accordingly.
   ///  This is a very useful optimisation for components with a static view hierarchy.
@@ -43,6 +43,8 @@ public enum RenderOption {
 
 public protocol AnyComponentView: class {
 
+  weak var delegate: ComponentViewDelegate? { get set }
+
   /// Internal use only.
   /// Used a store for nested component view refs.
   var childrenComponent: [String: AnyComponentView] { get set }
@@ -50,11 +52,11 @@ public protocol AnyComponentView: class {
   /// Internal use only.
   var childrenComponentAutoIncrementKey: Int  { get set }
 
-  /// This will run 'construct' that generates a new virtual-tree for this component.
+  /// This will run 'render' that generates a new virtual-tree for this component.
   /// The tree is then diffed against the current one and the changes are applied to current
   /// view hierarchy.
   /// The layout for the resulting view hierarchy is then re-computed.
-  func render(in bounds: CGSize, options: [RenderOption])
+  func update(in bounds: CGSize, options: [RenderOption])
 
   /// Asks the view to calculate and return the size that best fits the specified size.
   func sizeThatFits(_ size: CGSize) -> CGSize
@@ -63,12 +65,20 @@ public protocol AnyComponentView: class {
   var intrinsicContentSize : CGSize { get }
 
   /// Sets the component state.
-  func setState(_ state: Render.StateType)
+  func setState(_ state: Render.StateType, shouldUpdate: Bool)
 
   init()
 
-  func willRender()
-  func didRender()
+  /// Called whenever the component is about to be updated and re-rendered.
+  func willUpdate()
+
+  /// Called whenever the component has been rendered and installed on the screen.
+  func didUpdate()
+
+  /// Geometry
+  var frame: CGRect { get set }
+  var center: CGPoint { get set }
+  var bounds: CGRect { get set }
 }
 
 public protocol ComponentViewType: AnyComponentView {
@@ -77,21 +87,30 @@ public protocol ComponentViewType: AnyComponentView {
 
   var state: StateType { get set }
 
-  /// The 'construct' method is required.
+  /// The 'render' method is required.
   /// When called, it should examine the component properties and the state  and return a Node tree.
   /// This method is called every time 'render' is invoked.
-  func construct(state: StateType, size: CGSize) -> NodeType
+  func render(size: CGSize) -> NodeType
 }
 
 public extension ComponentViewType {
 
   /// Sets the component state.
-  func setState(_ state: Render.StateType) {
+  func setState(_ state: Render.StateType, shouldUpdate: Bool = true) {
     guard let state = state as? Self.StateType else {
       return
     }
     self.state = state
+    if shouldUpdate {
+      update(in: CGSize.undefined, options: [.usePreviousBoundsAndOptions])
+    }
   }
+}
+
+public protocol ComponentViewDelegate: class {
+
+  /// Called whenever the component finished to be rendered and updated its size.
+  func componentDidRender(_ component: AnyComponentView)
 }
 
 // MARK: - Implementation
@@ -103,28 +122,41 @@ public extension ComponentViewType {
 /// necessary.
 open class ComponentView<S: StateType>: UIView, ComponentViewType {
 
+
+
   public typealias StateType = S
-  public typealias Construct = (S, CGSize) -> NodeType
+  public typealias RenderBlock = (S, CGSize) -> NodeType
+
+  public weak var delegate: ComponentViewDelegate?
 
   /// The state of the component. Call 'render' on this component after the new state is set.
   public var state: S = S()
+
+  public func setState(shouldUpdate: Bool = true,
+                       options: [RenderOption]? = nil,
+                       change: (inout S) -> (Void)) {
+    change(&self.state)
+    if shouldUpdate {
+      update(in: CGSize.undefined, options: options ?? [.usePreviousBoundsAndOptions])
+    }
+  }
 
   /// The component's default options.
   public var defaultOptions: [RenderOption] = []
 
   /// The reuse identifier of the root node for this component.
-  public var reuseIdentifier: String {
-    return root.identifier
+  public var key: String {
+    return root.key
   }
 
   /// Alternative to subclassing ComponentView.
-  public var constructBlock: Construct?
+  public var renderBlock: RenderBlock?
 
   /// The (current) root node.
   private var root: NodeType = NilNode()
 
   /// The bounds used in the last invocation of 'render'.
-  private var lastRenderParams: (CGSize, [RenderOption]) = (CGSize.max, [])
+  private var lastUpdateParams: (CGSize, [RenderOption]) = (CGSize.max, [])
 
   /// The (current) view associated to the root node.
   private var rootView: UIView!
@@ -132,7 +164,7 @@ open class ComponentView<S: StateType>: UIView, ComponentViewType {
     return UIView()
   }()
 
-  /// Wether the 'root' node has been constructed yet.
+  /// Wether the 'root' node has been rendered yet.
   private var initialized: Bool = false
 
   /// Store for the chilren component view.
@@ -160,54 +192,54 @@ open class ComponentView<S: StateType>: UIView, ComponentViewType {
     NotificationCenter.default.addObserver(forName: notification,
                                            object: nil,
                                            queue: nil) { [weak self] _ in
-      self?.render(options: [.usePreviousBoundsAndOptions])
+      self?.update(options: [.usePreviousBoundsAndOptions])
     }
   }
 
-  /// The 'construct' method is required for subclasses.
+  /// The 'render' method is required for subclasses.
   /// When called, it should examine the component properties and the state  and return a Node tree.
   /// This method is called every time 'render' is invoked.
-  open func construct(state: S, size: CGSize = CGSize.undefined) -> NodeType {
-    if let constructBlock = constructBlock {
-      return constructBlock(state, size)
+  open func render(size: CGSize = CGSize.undefined) -> NodeType {
+    if let renderBlock = renderBlock {
+      return renderBlock(state, size)
     } else {
       print("Subclasses should override this method.")
       return NilNode()
     }
   }
 
-  /// This will run 'construct' that generates a new virtual-tree for this component.
+  /// This will run 'render' that generates a new virtual-tree for this component.
   /// The tree is then diffed against the current one and the changes are applied to current
   /// view hierarchy.
   /// The layout for the resulting view hierarchy is then re-computed.
-  public func render(in bounds: CGSize = CGSize.max, options: [RenderOption] = []) {
+  public func update(in bounds: CGSize = CGSize.max, options: [RenderOption] = []) {
     assert(Thread.isMainThread)
 
     var argBounds = bounds
     var argOptions = options
     if RenderOption.contains(options, .usePreviousBoundsAndOptions) {
-      argBounds = lastRenderParams.0
+      argBounds = lastUpdateParams.0
       argOptions = RenderOption.filter(options, .__animated)
     } else {
-      lastRenderParams.0 = bounds
-      lastRenderParams.1 = options
+      lastUpdateParams.0 = bounds
+      lastUpdateParams.1 = options
     }
 
-    willRender()
+    willUpdate()
     let startTime = CFAbsoluteTimeGetCurrent()
 
     let numberOfPasses = 2
     for idx in 0..<numberOfPasses {
       let passOptions = idx != 0 ? argOptions + [.preventViewHierarchyDiff] : argOptions
-      __render(in: argBounds, options: passOptions)
+      internalUpdate(in: argBounds, options: passOptions)
     }
 
-    debugRenderTime("\(type(of: self)).render", startTime: startTime)
-    didRender()
+    debugReconcileTime("\(type(of: self)).render", startTime: startTime)
+    didUpdate()
   }
 
   // Internal render method.
-  private func __render(in bounds: CGSize = CGSize.max, options: [RenderOption]) {
+  private func internalUpdate(in bounds: CGSize = CGSize.max, options: [RenderOption]) {
     var opts = defaultOptions + options
 
     // At the first execution of 'render' the view cannot be animated.
@@ -215,10 +247,10 @@ open class ComponentView<S: StateType>: UIView, ComponentViewType {
       opts = RenderOption.filter(opts, .__animated)
     }
 
-    // Reconstructs the tree and computes the diff.
+    // Rerenders the tree and computes the diff.
     if !initialized || !RenderOption.contains(opts, .preventViewHierarchyDiff) {
       self.childrenComponentAutoIncrementKey = 0
-      root = construct(state: state, size: bounds)
+      root = render(size: bounds)
       reconcile(new: root, size: bounds, view: rootView, parent: contentView)
       rootView = root.renderedView!
     }
@@ -226,7 +258,7 @@ open class ComponentView<S: StateType>: UIView, ComponentViewType {
 
     func layout() {
       // Applies the configuration closures and recursively computes the layout.
-      root.render(in: bounds)
+      root.layout(in: bounds)
 
       let preservingOrigin = false
       let yoga = rootView.yoga
@@ -252,6 +284,8 @@ open class ComponentView<S: StateType>: UIView, ComponentViewType {
       contentView.frame.size.height += yoga.marginTop.normal + yoga.marginBottom.normal
       contentView.frame.size.width +=  yoga.marginLeft.normal + yoga.marginRight.normal
       frame = contentView.bounds
+
+      self.delegate?.componentDidRender(self)
     }
 
     // Lays out the views with an animation.
@@ -283,20 +317,21 @@ open class ComponentView<S: StateType>: UIView, ComponentViewType {
     // Lays out the views.
     } else {
       layout()
+
     }
   }
 
-  open func willRender() {
-    // Forwards the 'willRender' method to all of the children compoennts.
+  open func willUpdate() {
+    // Forwards the 'willMount' method to all of the children compoennts.
     for (_, child) in childrenComponent {
-      child.willRender()
+      child.willUpdate()
     }
   }
 
-  open func didRender() {
-    // Forwards the 'didRender' method to all of the children compoennts.
+  open func didUpdate() {
+    // Forwards the 'didMount' method to all of the children compoennts.
     for (_, child) in childrenComponent {
-      child.didRender()
+      child.didUpdate()
     }
   }
 
@@ -315,7 +350,7 @@ open class ComponentView<S: StateType>: UIView, ComponentViewType {
 
   open override func sizeThatFits(_ size: CGSize) -> CGSize {
     assert(Thread.isMainThread)
-    render(in: size)
+    update(in: size)
     return rootView.yoga.intrinsicSize
   }
 
@@ -329,7 +364,7 @@ open class ComponentView<S: StateType>: UIView, ComponentViewType {
     assert(Thread.isMainThread)
 
     // The candidate view is a good match for reuse.
-    if let view = view, view.hasNode && view.tag == new.identifier.hashValue {
+    if let view = view, view.hasNode && view.tag == new.key.hashValue {
       new.build(with: view)
       view.isNewlyCreated = false
     // The view for this node needs to be created.
@@ -347,7 +382,7 @@ open class ComponentView<S: StateType>: UIView, ComponentViewType {
     for subnode in new.children {
       // Look for a candidate view matching the node.
       let candidateView = oldSubviews?.filter { view in
-        return view.tag == subnode.identifier.hashValue
+        return view.tag == subnode.key.hashValue
       }.first
       // Pops the candidate view from the collection.
       oldSubviews = oldSubviews?.filter {
@@ -366,7 +401,7 @@ open class ComponentView<S: StateType>: UIView, ComponentViewType {
 
 // MARK: - Utilities
 
-func debugRenderTime(_ label: String, startTime: CFAbsoluteTime, threshold: CFAbsoluteTime = 16) {
+func debugReconcileTime(_ label: String, startTime: CFAbsoluteTime, threshold: CFAbsoluteTime = 16){
   let timeElapsed = (CFAbsoluteTimeGetCurrent() - startTime)*1000
 
   // - Note: 60fps means you need to render a frame every ~16ms to not drop any frames.

@@ -1,20 +1,22 @@
 import UIKit
 import Render
 
-class Example1ViewController: ViewController {
+class Example1ViewController: ViewController, ComponentViewDelegate {
 
   private let component = HelloWorldComponentView()
 
   override func viewDidLoad() {
     super.viewDidLoad()
+    component.delegate = self
     view.addSubview(component)
-
-    // Set a state to the component.
-    component.state = HelloWorldState(name: "Alex")
   }
 
   override func viewDidLayoutSubviews() {
-    component.render(in: view.bounds.size)
+    component.update(in: view.bounds.size)
+    self.componentDidRender(component)
+  }
+
+  func componentDidRender(_ component: AnyComponentView) {
     component.center = self.view.center
   }
 }

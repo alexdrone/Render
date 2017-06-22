@@ -18,7 +18,7 @@ public class TableNode: NSObject, NodeType, UITableViewDataSource, UITableViewDe
   }
 
   /// The unique identifier for this node is its hierarchy.
-  public let identifier: String
+  public let key: String
 
   /// Set this property to 'true' if you want to disable the built-in cell reuse mechanism.
   /// This could be beneficial when the number of items is limited and you wish to improve the
@@ -66,23 +66,23 @@ public class TableNode: NSObject, NodeType, UITableViewDataSource, UITableViewDe
     return self
   }
 
-  public init(identifier: String = "TABLE_NODE",
+  public init(key: String = "TABLE_NODE",
               children: [NodeType] = [],
               create: @escaping Node<UITableView>.CreateBlock = { return UITableView() },
               configure: @escaping Node<UITableView>.ConfigureBlock = { _ in }) {
 
-    self.node = Node(identifier: identifier,
+    self.node = Node(key: key,
                      resetBeforeReuse: false,
                      children: [],
                      create: create,
                      configure: configure)
     self.__children = children
-    self.identifier = identifier
+    self.key = key
   }
 
   /// Re-applies the configuration closures to the UITableView and reload the data source.
-  public func render(in bounds: CGSize) {
-    node.render(in: bounds)
+  public func layout(in bounds: CGSize) {
+    node.layout(in: bounds)
     if let table = renderedView as? UITableView {
       table.estimatedRowHeight = 64;
       table.rowHeight = UITableViewAutomaticDimension
@@ -97,11 +97,11 @@ public class TableNode: NSObject, NodeType, UITableViewDataSource, UITableViewDe
     node.configure(in: bounds)
   }
 
-  /// 'willRender' is not yet supported for TableNode.
-  public func willRender() { }
+  /// 'willMount' is not yet supported for TableNode.
+  public func willLayout() { }
 
-  /// 'didRender' is not yet supported for TableNode.
-  public func didRender() { }
+  /// 'didMount' is not yet supported for TableNode.
+  public func didLayout() { }
 
   /// Asks the node to build the backing view for this node.
   public func build(with reusable: UIView?) {
@@ -119,7 +119,7 @@ public class TableNode: NSObject, NodeType, UITableViewDataSource, UITableViewDe
   public func tableView(_ tableView: UITableView,
                         cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     let node = __children[indexPath.row]
-    var identifier = node.identifier
+    var identifier = node.key
 
     if disableCellReuse {
       identifier = "\(identifier)_\(indexPath.row)"
@@ -131,11 +131,11 @@ public class TableNode: NSObject, NodeType, UITableViewDataSource, UITableViewDe
         ComponentTableViewCell<NilStateComponentView>()
 
     cell.mountComponentIfNecessary(NilStateComponentView())
-    cell.componentView?.constructBlock = { _, _ in return node }
+    cell.componentView?.renderBlock = { _, _ in return node }
 
-    node.render(in: tableView.bounds.size)
-    cell.render(in: tableView.bounds.size, options: [.preventViewHierarchyDiff])
-    node.associatedComponent?.didRender()
+    node.layout(in: tableView.bounds.size)
+    cell.update(in: tableView.bounds.size, options: [.preventViewHierarchyDiff])
+    node.associatedComponent?.didUpdate()
 
     return cell
   }

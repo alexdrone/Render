@@ -2,29 +2,33 @@ import Foundation
 import UIKit
 import Render
 
-struct HelloWorldState: StateType {
+class HelloWorldComponentViewState: StateType {
   let name: String
-  init() {
-    self.name =  "NO_NAME"
+  var count: Int = 0
+
+  required init() {
+    self.name = "Render"
   }
   init(name: String) {
     self.name = name
   }
 }
 
-class HelloWorldComponentView: ComponentView<HelloWorldState> {
+class HelloWorldComponentView: ComponentView<HelloWorldComponentViewState> {
+
   required init() {
     super.init()
     // Optimization: The component doesn't have a dynamic hierarchy - this prevents the 
     // reconciliation algorithm to look for differences in the component view hierarchy.
     self.defaultOptions = [.preventViewHierarchyDiff]
+    self.state = HelloWorldComponentViewState()
   }
   
   required init?(coder aDecoder: NSCoder) {
     fatalError("Not supported")
   }
 
-  override func construct(state: HelloWorldState?, size: CGSize = CGSize.undefined) -> NodeType {
+  override func render(size: CGSize = CGSize.undefined) -> NodeType {
 
     // A square image placeholder.
     let avatar =  Node<UIImageView> { (view, layout, size) in
@@ -36,7 +40,7 @@ class HelloWorldComponentView: ComponentView<HelloWorldState> {
 
     // The text node (a label).
     let text = Node<UILabel> { (view, layout, size) in
-      view.text = "Hello \(state?.name ?? "stranger")"
+      view.text = "Tap Me: \(self.state.count)"
       view.textAlignment = .center
       view.textColor = Color.green
       view.font = Typography.smallBold
@@ -44,8 +48,14 @@ class HelloWorldComponentView: ComponentView<HelloWorldState> {
     }
 
     // Returns the container node (a simple UIView) wrapping the other elements.
-    return Node<UIView>(identifier: "HelloWorld") { (view, layout, size) in
+    return Node<UIView>(key: "HelloWorld") { (view, layout, size) in
       view.backgroundColor = Color.black
+      view.onTap { [weak self] _ in
+        self?.setState(options: [.usePreviousBoundsAndOptions,
+                                 .animated(duration: 0.2, options: [], alongside: nil)]) {
+          $0.count += 1
+        }
+      }
       let dim =  min(size.height.maxIfZero, size.width.maxIfZero)
       (layout.height, layout.width) = (dim, dim)
       layout.justifyContent = .center

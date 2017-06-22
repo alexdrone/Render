@@ -1,24 +1,32 @@
 import UIKit
 import Render
 
-struct FooCollectionState: StateType {
-  let foos: [FooState]
+struct ScrollableDemoComponentViewState: StateType {
+  let foos: [FooComponentViewState]
   init() {
-    self.foos = (0..<randomInt(12, max: 48)).map { _ in FooState() }
+    self.foos = (0..<randomInt(12, max: 48)).map { _ in FooComponentViewState() }
   }
 }
 
-class ScrollableDemoComponentView: ComponentView<FooCollectionState> {
+class ScrollableDemoComponentView: ComponentView<ScrollableDemoComponentViewState> {
 
-  override func construct(state: FooCollectionState, size: CGSize = CGSize.undefined) -> NodeType {
+  required init() {
+    super.init()
+    self.state = ScrollableDemoComponentViewState()
+  }
 
-    return Node<UIScrollView>(identifier: "ScrollableFoos") { (view, layout, size) in
+  required init?(coder aDecoder: NSCoder) {
+    fatalError("Not supported")
+  }
+
+  override func render(size: CGSize = CGSize.undefined) -> NodeType {
+    return Node<UIScrollView>() { (view, layout, size) in
       (layout.width, layout.height)  = (size.width, size.height)
     }.add(children: state.foos.map { foo in
         // We create a component for every item in the state collection and we add it as a 
         // child for the main UIScrollView node.
       ComponentNode(FooComponentView(), in: self, state: foo, size: size)
-      })
+    })
   }
 
 }

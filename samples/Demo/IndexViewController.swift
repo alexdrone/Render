@@ -14,13 +14,10 @@ class IndexViewController: UITableViewController {
       title: "Example 3 - Scrolling Component",
       subtitle:  "The contentsize for the wrapping scrollview component is automatically determined."),
     IndexState(
-      title: "Example 4 - Animations",
-      subtitle: "Passing the .animated option to the render function."),
-    IndexState(
-        title: "Example 5 - TableNode",
+        title: "Example 4 - TableNode",
         subtitle: "Wraps the children nodes in UITableViewCells."),
     IndexState(
-        title: "Example 6 - Layout values with %",
+        title: "Example 5 - Layout values with %",
         subtitle: "You can express size, margins and padding as %."),
   ]
 
@@ -47,7 +44,7 @@ class IndexViewController: UITableViewController {
     if let cell = cell as? ComponentTableViewCell<IndexItemComponentView> {
       cell.mountComponentIfNecessary(IndexItemComponentView())
       cell.state = self.states[indexPath.row]
-      cell.render()
+      cell.update()
     }
     return cell
   }
@@ -59,7 +56,6 @@ class IndexViewController: UITableViewController {
     case 2: self.navigationController?.pushViewController(Example3ViewController(), animated: true)
     case 3: self.navigationController?.pushViewController(Example4ViewController(), animated: true)
     case 4: self.navigationController?.pushViewController(Example5ViewController(), animated: true)
-    case 5: self.navigationController?.pushViewController(Example6ViewController(), animated: true)
     default: break
     }
   }
@@ -82,14 +78,14 @@ struct IndexState: StateType {
 
 class IndexItemComponentView: ComponentView<IndexState> {
 
-  override func construct(state: IndexState?, size: CGSize = CGSize.undefined) -> NodeType {
+  override func render(size: CGSize = CGSize.undefined) -> NodeType {
     return Node<UIView>() { (view, layout, size) in
       view.backgroundColor = Color.black
       layout.padding = 8
       layout.width = size.width
     }.add(children: [
-        Fragments.paddedLabel(text: state?.title),
-        Fragments.subtitleLabel(text: state?.subtitle)
+        Fragments.paddedLabel(text: self.state.title),
+        Fragments.subtitleLabel(text: self.state.subtitle)
     ])
   }
 
