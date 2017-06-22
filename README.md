@@ -99,7 +99,7 @@ class HelloWorldComponentView: ComponentView<HelloWorldState> {(
     let container = Node<UIImageView> { (view, layout, size) in
       view.backgroundColor = Color.black
       view.onTap { [weak self] _ in
-        self?.setState {
+        self?.setState { // When the state changes the component is automatically re-rendered.
           $0.count += 1
         }
       }
