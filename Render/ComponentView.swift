@@ -32,19 +32,11 @@ public enum RenderOption {
   case flexibleWidth
   case flexibleHeigth
 
-  /// Use this if you wish to use the same bounds passed as argument in the previous invocation.
-  case usePreviousBoundsAndOptions
-
-  /// Override the bounds passed to the 'update' function.
-  /// Likely to be used as an option in 'setState'.
-  case bounds(_: CGSize)
-
   /// Prevents the component from render.
   case preventUpdate
 
   // Internal use only.
   case __animated
-  case __bounds
   case __none
 }
 
@@ -65,7 +57,7 @@ public protocol AnyComponentView: class {
   /// The tree is then diffed against the current one and the changes are applied to current
   /// view hierarchy.
   /// The layout for the resulting view hierarchy is then re-computed.
-  func update(in bounds: CGSize, options: [RenderOption])
+  func update(options: [RenderOption])
 
   /// Asks the view to calculate and return the size that best fits the specified size.
   func sizeThatFits(_ size: CGSize) -> CGSize
@@ -90,6 +82,9 @@ public protocol AnyComponentView: class {
   /// Called whenever the component has been rendered and installed on the screen.
   func didUpdate()
 
+  /// The component bounds.
+  var size: () -> CGSize { get set }
+
   /// Geometry
   var frame: CGRect { get set }
   var center: CGPoint { get set }
@@ -105,27 +100,24 @@ public protocol ComponentViewType: AnyComponentView {
   /// The 'render' method is required.
   /// When called, it should examine the component properties and the state  and return a Node tree.
   /// This method is called every time 'render' is invoked.
-  func render(size: CGSize) -> NodeType
+  func render() -> NodeType
 }
 
 public extension ComponentViewType {
 
   /// Sets the component state.
-  func set(state: Render.StateType,
-           options: [RenderOption] = [.usePreviousBoundsAndOptions]) {
+  func set(state: Render.StateType, options: [RenderOption] = []) {
     guard let state = state as? Self.StateType else {
       return
     }
     self.state = state
     if !RenderOption.contains(options, .preventUpdate) {
-      update(in: CGSize.undefined, options: options)
+      update(options: options)
     }
   }
 }
 
 public protocol ComponentViewDelegate: class {
-
-  //func componentBounds() -> CGSize
 
   /// Called whenever the component finished to be rendered and updated its size.
   func componentDidRender(_ component: AnyComponentView)
@@ -148,8 +140,17 @@ open class ComponentView<S: StateType>: UIView, ComponentViewType {
   /// The state of the component. Call 'render' on this component after the new state is set.
   public var state: S = S()
 
-  public func setState(options: [RenderOption] = [.usePreviousBoundsAndOptions],
-                       change: (inout S) -> (Void)) {
+  /// The bounding rect of the component (the maximum size).
+  public lazy var size: () -> CGSize = {
+    return self.boundingRect
+  }()
+
+  private var lastSizeThatFits: CGSize?
+  private func boundingRect() -> CGSize {
+    return (lastSizeThatFits ?? self.superview?.bounds.size) ?? CGSize.zero
+  }
+
+  public func setState(options: [RenderOption] = [], change: (inout S) -> (Void)) {
     change(&self.state)
     if !RenderOption.contains(options, .preventUpdate) {
       update(options: options)
@@ -169,9 +170,6 @@ open class ComponentView<S: StateType>: UIView, ComponentViewType {
 
   /// The (current) root node.
   private var root: NodeType = NilNode()
-
-  /// The bounds used in the last invocation of 'render'.
-  private var lastUpdateParams: (CGSize, [RenderOption]) = (CGSize.undefined, [])
 
   /// The (current) view associated to the root node.
   private var rootView: UIView!
@@ -207,16 +205,16 @@ open class ComponentView<S: StateType>: UIView, ComponentViewType {
     NotificationCenter.default.addObserver(forName: notification,
                                            object: nil,
                                            queue: nil) { [weak self] _ in
-      self?.update(options: [.usePreviousBoundsAndOptions])
+      self?.update()
     }
   }
 
   /// The 'render' method is required for subclasses.
   /// When called, it should examine the component properties and the state  and return a Node tree.
   /// This method is called every time 'render' is invoked.
-  open func render(size: CGSize = CGSize.undefined) -> NodeType {
+  open func render() -> NodeType {
     if let renderBlock = renderBlock {
-      return renderBlock(state, size)
+      return renderBlock(state, size())
     } else {
       print("Subclasses should override this method.")
       return NilNode()
@@ -227,34 +225,20 @@ open class ComponentView<S: StateType>: UIView, ComponentViewType {
   /// The tree is then diffed against the current one and the changes are applied to current
   /// view hierarchy.
   /// The layout for the resulting view hierarchy is then re-computed.
-  public func update(in bounds: CGSize = CGSize.max, options: [RenderOption] = []) {
+  public func update(options: [RenderOption] = []) {
     assert(Thread.isMainThread)
     if RenderOption.contains(options, .preventUpdate) {
       return
     }
-    var argBounds = bounds
-    var argOptions = options
-    if RenderOption.contains(options, .usePreviousBoundsAndOptions) {
-      argBounds = lastUpdateParams.0
-      argOptions = RenderOption.filter(options, .__animated)
-    } else {
-      lastUpdateParams.0 = bounds
-      lastUpdateParams.1 = options
-    }
-
-    if RenderOption.contains(options, .__bounds) {
-      if case .bounds(let overrideBounds) = RenderOption.first(options, .__bounds) ?? .__none  {
-        argBounds = overrideBounds
-      }
-    }
+    let size = self.size()
 
     willUpdate()
     let startTime = CFAbsoluteTimeGetCurrent()
 
-    let numberOfPasses = 1
+    let numberOfPasses = 2
     for idx in 0..<numberOfPasses {
-      let passOptions = idx != 0 ? argOptions + [.preventViewHierarchyDiff] : argOptions
-      internalUpdate(in: argBounds, options: passOptions)
+      let passOptions = idx != 0 ? options + [.preventViewHierarchyDiff] : options
+      internalUpdate(in: size, options: passOptions)
     }
 
     debugReconcileTime("\(type(of: self)).render", startTime: startTime)
@@ -275,7 +259,7 @@ open class ComponentView<S: StateType>: UIView, ComponentViewType {
     // Rerenders the tree and computes the diff.
     if !initialized || !RenderOption.contains(opts, .preventViewHierarchyDiff) {
       self.childrenComponentAutoIncrementKey = 0
-      root = render(size: bounds)
+      root = render()
       reconcile(new: root, size: bounds, view: rootView, parent: contentView)
       rootView = root.renderedView!
     }
@@ -379,9 +363,20 @@ open class ComponentView<S: StateType>: UIView, ComponentViewType {
     return views { $0.tag == key.hashValue }
   }
 
+  open override func layoutSubviews() {
+    super.layoutSubviews()
+    update()
+  }
+
+  open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+    super.traitCollectionDidChange(previousTraitCollection)
+    update()
+  }
+
   open override func sizeThatFits(_ size: CGSize) -> CGSize {
     assert(Thread.isMainThread)
-    update(in: size)
+    lastSizeThatFits = (size != CGSize.zero ? size : nil)
+    update()
     return rootView.yoga.intrinsicSize
   }
 
@@ -451,12 +446,9 @@ extension RenderOption: Equatable {
     switch self {
     case .preventViewHierarchyDiff: return 1 << 0
     case .animated(_), .__animated: return 1 << 1
-    case .usePreviousBoundsAndOptions: return 1 << 2
     case .flexibleWidth: return 1 << 3
     case .flexibleHeigth: return 1 << 4
     case .preventUpdate: return 1 << 5
-    case .bounds(_): return 1 << 6
-    case .__bounds: return 1 << 6
     case .__none: return 1 << 7
     }
   }

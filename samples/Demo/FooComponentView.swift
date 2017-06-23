@@ -18,8 +18,7 @@ class FooComponentView: ComponentView<FooComponentViewState> {
     fatalError("Not supported")
   }
 
-  override func render(size: CGSize = CGSize.undefined) -> NodeType {
-
+  override func render() -> NodeType {
     // Main wrapper.
     let wrapper = Node<UIView>() { (view, layout, size) in
       layout.width = size.width

@@ -11,13 +11,8 @@ class Example1ViewController: ViewController, ComponentViewDelegate {
     view.addSubview(component)
   }
 
-  override func viewDidLayoutSubviews() {
-    component.update(in: view.bounds.size)
-    self.componentDidRender(component)
-  }
-
   func componentDidRender(_ component: AnyComponentView) {
-    component.center = self.view.center
+    component.center = view.center
   }
 }
 

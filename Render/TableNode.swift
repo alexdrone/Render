@@ -134,7 +134,7 @@ public class TableNode: NSObject, NodeType, UITableViewDataSource, UITableViewDe
     cell.componentView?.renderBlock = { _, _ in return node }
 
     node.layout(in: tableView.bounds.size)
-    cell.update(in: tableView.bounds.size, options: [.preventViewHierarchyDiff])
+    cell.update(options: [.preventViewHierarchyDiff])
     node.associatedComponent?.didUpdate()
 
     return cell

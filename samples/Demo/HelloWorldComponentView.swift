@@ -35,7 +35,7 @@ class HelloWorldComponentView: ComponentView<HelloWorldComponentViewState> {
     fatalError("Not supported")
   }
 
-  override func render(size: CGSize = CGSize.undefined) -> NodeType {
+  override func render() -> NodeType {
 
     // A square image placeholder.
     let avatar = Node<UIImageView>(key: Key.avatar.rawValue) { (view, layout, size) in
@@ -68,8 +68,7 @@ class HelloWorldComponentView: ComponentView<HelloWorldComponentViewState> {
     return Node<UIView>(key: Key.container.rawValue) { (view, layout, size) in
       view.backgroundColor = Color.black
       view.onTap { [weak self] _ in
-        self?.setState(options: [.usePreviousBoundsAndOptions,
-                                 .animated(duration: 0.5, options: [], alongside: nil)]) {
+        self?.setState(options: [.animated(duration: 0.5, options: [], alongside: nil)]) {
           $0.count += 1
         }
       }
@@ -83,7 +82,15 @@ class HelloWorldComponentView: ComponentView<HelloWorldComponentViewState> {
     ])
   }
 
-  override func onLayout(duration: TimeInterval) {
+  override func willUpdate() {
+    super.willUpdate()
+    guard let circle = views(key: Key.circle.rawValue).first else {
+      return
+    }
+    circle.alpha = 0
+  }
+
+  override func didUpdate() {
     guard let circle = views(key: Key.circle.rawValue).first,
           let avatar = views(key: Key.avatar.rawValue).first else  {
       return
@@ -92,6 +99,8 @@ class HelloWorldComponentView: ComponentView<HelloWorldComponentViewState> {
     circle.frame.size =  CGSize(width: size, height: size)
     circle.center = avatar.center
     circle.cornerRadius = size/2
-    circle.animateCornerRadiusInHierarchyIfNecessary(duration: duration)
+    UIView.animate(withDuration: 0.2) {
+      circle.alpha = 1
+    }
   }
 }

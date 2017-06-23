@@ -19,13 +19,13 @@ class ScrollableDemoComponentView: ComponentView<ScrollableDemoComponentViewStat
     fatalError("Not supported")
   }
 
-  override func render(size: CGSize = CGSize.undefined) -> NodeType {
+  override func render() -> NodeType {
     return Node<UIScrollView>() { (view, layout, size) in
       (layout.width, layout.height)  = (size.width, size.height)
     }.add(children: state.foos.map { foo in
         // We create a component for every item in the state collection and we add it as a 
         // child for the main UIScrollView node.
-      ComponentNode(FooComponentView(), in: self, state: foo, size: size)
+      ComponentNode(FooComponentView(), in: self, state: foo)
     })
   }
 

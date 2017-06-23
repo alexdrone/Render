@@ -19,7 +19,9 @@ class TableComponentView: ComponentView<TableComponentViewState> {
     fatalError("Not supported")
   }
   
-  override func render(size: CGSize) -> NodeType {
+  override func render() -> NodeType {
+
+    let size = self.size()
 
     let list = TableNode() { (view, layout, size) in
       layout.width = size.width
@@ -52,10 +54,7 @@ class TableComponentView: ComponentView<TableComponentViewState> {
     ]
 
     let helloWorldFragments = (1..<state.number).map { index in
-      ComponentNode(HelloWorldComponentView(),
-                    in: self,
-                    state: HelloWorldComponentViewState(name:"\(index)"),
-                    size: size)
+      ComponentNode(HelloWorldComponentView(), in: self)
     }
 
     list.add(children: basicNodeFragments + helloWorldFragments)
@@ -64,17 +63,17 @@ class TableComponentView: ComponentView<TableComponentViewState> {
 
 }
 
-class Example4ViewController: ViewController {
+class Example4ViewController: ViewController, ComponentViewDelegate {
 
   private let component = TableComponentView()
 
   override func viewDidLoad() {
     super.viewDidLoad()
     view.addSubview(component)
+    component.delegate = self
   }
 
-  override func viewDidLayoutSubviews() {
-    component.update(in: view.bounds.size)
+  func componentDidRender(_ component: AnyComponentView) {
     component.center = view.center
   }
 }

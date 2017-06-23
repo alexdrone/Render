@@ -10,8 +10,5 @@ class Example3ViewController: ViewController {
     view.addSubview(scrollableComponent)
   }
 
-  override func viewDidLayoutSubviews() {
-    scrollableComponent.update(in: view.bounds.size)
-  }
 }
 

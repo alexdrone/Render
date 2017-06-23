@@ -229,7 +229,7 @@ public func ComponentNode<T: ComponentViewType>(_ component: @autoclosure () -> 
                                                 in parent: AnyComponentView,
                                                 key: String? = nil,
                                                 state: StateType? = nil,
-                                                size: CGSize = CGSize.undefined,
+                                                size: (() -> CGSize)? = nil,
                                                 props: ((T, Bool) -> Void)? = nil) -> NodeType {
 
   var childKey = "\(String(describing: T.self))_\(parent.childrenComponentAutoIncrementKey)"
@@ -241,9 +241,11 @@ public func ComponentNode<T: ComponentViewType>(_ component: @autoclosure () -> 
   let component = (parent.childrenComponent[childKey] as? T) ?? component()
   let componentState = (state as? T.StateType) ?? component.state
   component.state = componentState
+  let sizeClosure = size ?? parent.size
+  component.size = sizeClosure
   props?(component, parent.childrenComponent[childKey] == nil)
   parent.childrenComponent[childKey] = component
-  let node = component.render(size: size)
+  let node = component.render()
   node.associatedComponent = component
   return node
 }

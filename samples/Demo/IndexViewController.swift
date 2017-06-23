@@ -43,8 +43,7 @@ class IndexViewController: UITableViewController {
                ComponentTableViewCell<IndexItemComponentView>()
     if let cell = cell as? ComponentTableViewCell<IndexItemComponentView> {
       cell.mountComponentIfNecessary(IndexItemComponentView())
-      cell.set(state: self.states[indexPath.row],
-               options: [.bounds(tableView.bounds.size)])
+      cell.set(state: self.states[indexPath.row], options: [])
     }
     return cell
   }
@@ -78,7 +77,7 @@ struct IndexState: StateType {
 
 class IndexItemComponentView: ComponentView<IndexState> {
 
-  override func render(size: CGSize = CGSize.undefined) -> NodeType {
+  override func render() -> NodeType {
     return Node<UIView>() { (view, layout, size) in
       view.backgroundColor = Color.black
       layout.padding = 8

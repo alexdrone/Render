@@ -9,7 +9,7 @@ public protocol ComponentCellType {
   func set(state: Render.StateType, options: [RenderOption])
 
   /// Calls render on the underlying component view. See: 'render(in:options)' in ComponentView.
-  func update(in bounds: CGSize, options: [RenderOption])
+  func update(options: [RenderOption])
 }
 
 // MARK: - UITableViewCell
@@ -18,8 +18,7 @@ public protocol ComponentCellType {
 open class ComponentTableViewCell<C : ComponentViewType>: UITableViewCell, ComponentCellType {
 
   /// Sets the component state.
-  public func set(state: Render.StateType,
-                  options: [RenderOption] = [.usePreviousBoundsAndOptions]) {
+  public func set(state: Render.StateType, options: [RenderOption] = []) {
     componentView?.set(state: state, options: options)
   }
 
@@ -42,14 +41,16 @@ open class ComponentTableViewCell<C : ComponentViewType>: UITableViewCell, Compo
     if let componentView = componentView as? UIView {
       contentView.addSubview(componentView)
     }
+    componentView?.size = { [weak self] in
+      let width = self?.bounds.size.width ?? UIScreen.main.bounds.size.width
+      let height = CGFloat.max
+      return CGSize(width: width, height: height)
+    }
     clipsToBounds = true
   }
 
-  open func update(in bounds: CGSize = CGSize(width: CGFloat.undefined, height: CGFloat.max),
-                   options: [RenderOption] = []) {
-    var size = bounds
-    size.width = size.width.isNormal ? size.width : contentView.bounds.size.width
-    componentView?.update(in: size, options: options)
+  open func update(options: [RenderOption] = []) {
+    componentView?.update(options: options)
     if let componentView = componentView as? UIView {
       contentView.frame.size = componentView.frame.size
     }
@@ -72,7 +73,7 @@ open class ComponentCollectionViewCell<C : ComponentViewType>: UICollectionViewC
 
   /// Sets the component state.
   public func set(state: Render.StateType,
-                  options: [RenderOption] = [.usePreviousBoundsAndOptions]) {
+                  options: [RenderOption] = []) {
     componentView?.set(state: state, options: options)
   }
 
@@ -86,14 +87,16 @@ open class ComponentCollectionViewCell<C : ComponentViewType>: UICollectionViewC
     if let componentView = componentView as? UIView {
       contentView.addSubview(componentView)
     }
+    componentView?.size = { [weak self] in
+      let width = self?.bounds.size.width ?? CGFloat.max
+      let height = CGFloat.max
+      return CGSize(width: width, height: height)
+    }
     clipsToBounds = true
   }
 
-  open func update(in bounds: CGSize = CGSize(width: CGFloat.undefined, height: CGFloat.max),
-                   options: [RenderOption] = []) {
-    var size = bounds
-    size.width = size.width.isNormal ? size.width : contentView.bounds.size.width
-    componentView?.update(in: size, options: options)
+  open func update(options: [RenderOption] = []) {
+    componentView?.update(options: options)
     if let componentView = componentView as? UIView {
       contentView.frame.size = componentView.frame.size
     }
@@ -122,10 +125,9 @@ extension UITableView {
   /// Re-renders all the compoents currently visible on screen.
   /// Call this method whenever the table view changes its bounds/size.
   public func updateVisibleComponents() {
-    let size = CGSize(width: bounds.size.width, height: CGFloat.max)
     visibleCells
       .flatMap { cell in cell as? ComponentCellType }
-      .forEach { cell in cell.update(in: size, options: []) }
+      .forEach { cell in cell.update(options: [])}
   }
 }
 
@@ -139,10 +141,9 @@ extension UICollectionView {
   /// Re-renders all the compoents currently visible on screen.
   /// Call this method whenever the collecrion view changes its bounds/size.
   public func updateVisibleComponents() {
-    let size = CGSize(width: bounds.size.width, height: CGFloat.max)
     visibleCells
       .flatMap { cell in cell as? ComponentCellType }
-      .forEach { cell in cell.update(in: size, options: []) }
+      .forEach { cell in cell.update(options: []) }
   }
 }
 

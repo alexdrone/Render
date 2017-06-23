@@ -14,7 +14,6 @@ class Example2ViewController: ViewController, ComponentViewDelegate {
 
   private func newState() {
     fooComponent.set(state: FooComponentViewState(), options: [
-      .bounds(view.bounds.size),
       // Renders the component with an animation.
       .animated(duration: 0.5, options: .curveEaseInOut, alongside: nil)
     ])
@@ -23,11 +22,6 @@ class Example2ViewController: ViewController, ComponentViewDelegate {
     DispatchQueue.main.asyncAfter(deadline: .now() + 2) { [weak self] in
       self?.newState()
     }
-  }
-
-  override func viewDidLayoutSubviews() {
-    fooComponent.update(in: view.bounds.size)
-    self.componentDidRender(fooComponent)
   }
 
   func componentDidRender(_ component: AnyComponentView) {
