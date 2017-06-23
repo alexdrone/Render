@@ -91,7 +91,7 @@ class HelloWorldComponentView: ComponentView<HelloWorldState> {(
     }
    
     let text = Node<UILabel> { (view, layout, size) in
-      view.text = "Hello \(state.count)
+      view.text = "Hello \(state.count)"
       view.textAlignment = .center
       layout.margin = 16
     }
@@ -112,11 +112,11 @@ class HelloWorldComponentView: ComponentView<HelloWorldState> {(
     ])
   }
 }
-...
+
+// ...
 
 let component = HelloWorldComponentView()
 component.update(in: self.view.bounds.size)
-
 ```
 
 The view description is defined by the `render(state:size:)` method.
