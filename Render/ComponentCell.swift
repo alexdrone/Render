@@ -6,7 +6,7 @@ import UIKit
 public protocol ComponentCellType {
 
   /// Sets the component state.
-  func setState(_ state: Render.StateType, shouldUpdate: Bool)
+  func set(state: Render.StateType, options: [RenderOption])
 
   /// Calls render on the underlying component view. See: 'render(in:options)' in ComponentView.
   func update(in bounds: CGSize, options: [RenderOption])
@@ -15,18 +15,12 @@ public protocol ComponentCellType {
 // MARK: - UITableViewCell
 
 /// Wraps a component in a UITableViewCell.
-open class ComponentTableViewCell<C : ComponentViewType>: UITableViewCell {
-
-  public var state: C.StateType? = nil {
-    didSet {
-      guard let state = state else { return }
-      componentView?.state = state
-    }
-  }
+open class ComponentTableViewCell<C : ComponentViewType>: UITableViewCell, ComponentCellType {
 
   /// Sets the component state.
-  func setState(_ state: Render.StateType, shouldUpdate: Bool) {
-    componentView?.setState(state, shouldUpdate: shouldUpdate)
+  public func set(state: Render.StateType,
+                  options: [RenderOption] = [.usePreviousBoundsAndOptions]) {
+    componentView?.set(state: state, options: options)
   }
 
   public private(set) var componentView: C?
@@ -73,13 +67,13 @@ open class ComponentTableViewCell<C : ComponentViewType>: UITableViewCell {
 // MARK: - UICollectionViewCell
 
 /// Wraps a component in a UICollectionViewCell.
-open class ComponentCollectionViewCell<C : ComponentViewType>: UICollectionViewCell {
+open class ComponentCollectionViewCell<C : ComponentViewType>: UICollectionViewCell,
+                                                               ComponentCellType {
 
-  public var state: C.StateType? {
-    didSet {
-      guard let state = state else { return }
-      componentView?.state = state
-    }
+  /// Sets the component state.
+  public func set(state: Render.StateType,
+                  options: [RenderOption] = [.usePreviousBoundsAndOptions]) {
+    componentView?.set(state: state, options: options)
   }
 
   public private(set) var componentView: C?

@@ -35,8 +35,17 @@ public enum RenderOption {
   /// Use this if you wish to use the same bounds passed as argument in the previous invocation.
   case usePreviousBoundsAndOptions
 
-  /// Internal use only.
+  /// Override the bounds passed to the 'update' function.
+  /// Likely to be used as an option in 'setState'.
+  case bounds(_: CGSize)
+
+  /// Prevents the component from render.
+  case preventUpdate
+
+  // Internal use only.
   case __animated
+  case __bounds
+  case __none
 }
 
 // MARK: - ComponentView protocol
@@ -65,9 +74,15 @@ public protocol AnyComponentView: class {
   var intrinsicContentSize : CGSize { get }
 
   /// Sets the component state.
-  func setState(_ state: Render.StateType, shouldUpdate: Bool)
+  func set(state: Render.StateType, options: [RenderOption])
 
   init()
+
+  /// This method is called during the layout transaction.
+  /// If an animation is ongoing the duration is going to be > 0.
+  /// This is the entry point for custom manual layout of node that have 'yoga.isIncludedInLayout'
+  /// set to 'false'.
+  func onLayout(duration: TimeInterval)
 
   /// Called whenever the component is about to be updated and re-rendered.
   func willUpdate()
@@ -96,18 +111,21 @@ public protocol ComponentViewType: AnyComponentView {
 public extension ComponentViewType {
 
   /// Sets the component state.
-  func setState(_ state: Render.StateType, shouldUpdate: Bool = true) {
+  func set(state: Render.StateType,
+           options: [RenderOption] = [.usePreviousBoundsAndOptions]) {
     guard let state = state as? Self.StateType else {
       return
     }
     self.state = state
-    if shouldUpdate {
-      update(in: CGSize.undefined, options: [.usePreviousBoundsAndOptions])
+    if !RenderOption.contains(options, .preventUpdate) {
+      update(in: CGSize.undefined, options: options)
     }
   }
 }
 
 public protocol ComponentViewDelegate: class {
+
+  //func componentBounds() -> CGSize
 
   /// Called whenever the component finished to be rendered and updated its size.
   func componentDidRender(_ component: AnyComponentView)
@@ -122,8 +140,6 @@ public protocol ComponentViewDelegate: class {
 /// necessary.
 open class ComponentView<S: StateType>: UIView, ComponentViewType {
 
-
-
   public typealias StateType = S
   public typealias RenderBlock = (S, CGSize) -> NodeType
 
@@ -132,12 +148,11 @@ open class ComponentView<S: StateType>: UIView, ComponentViewType {
   /// The state of the component. Call 'render' on this component after the new state is set.
   public var state: S = S()
 
-  public func setState(shouldUpdate: Bool = true,
-                       options: [RenderOption]? = nil,
+  public func setState(options: [RenderOption] = [.usePreviousBoundsAndOptions],
                        change: (inout S) -> (Void)) {
     change(&self.state)
-    if shouldUpdate {
-      update(in: CGSize.undefined, options: options ?? [.usePreviousBoundsAndOptions])
+    if !RenderOption.contains(options, .preventUpdate) {
+      update(options: options)
     }
   }
 
@@ -156,7 +171,7 @@ open class ComponentView<S: StateType>: UIView, ComponentViewType {
   private var root: NodeType = NilNode()
 
   /// The bounds used in the last invocation of 'render'.
-  private var lastUpdateParams: (CGSize, [RenderOption]) = (CGSize.max, [])
+  private var lastUpdateParams: (CGSize, [RenderOption]) = (CGSize.undefined, [])
 
   /// The (current) view associated to the root node.
   private var rootView: UIView!
@@ -214,7 +229,9 @@ open class ComponentView<S: StateType>: UIView, ComponentViewType {
   /// The layout for the resulting view hierarchy is then re-computed.
   public func update(in bounds: CGSize = CGSize.max, options: [RenderOption] = []) {
     assert(Thread.isMainThread)
-
+    if RenderOption.contains(options, .preventUpdate) {
+      return
+    }
     var argBounds = bounds
     var argOptions = options
     if RenderOption.contains(options, .usePreviousBoundsAndOptions) {
@@ -225,10 +242,16 @@ open class ComponentView<S: StateType>: UIView, ComponentViewType {
       lastUpdateParams.1 = options
     }
 
+    if RenderOption.contains(options, .__bounds) {
+      if case .bounds(let overrideBounds) = RenderOption.first(options, .__bounds) ?? .__none  {
+        argBounds = overrideBounds
+      }
+    }
+
     willUpdate()
     let startTime = CFAbsoluteTimeGetCurrent()
 
-    let numberOfPasses = 2
+    let numberOfPasses = 1
     for idx in 0..<numberOfPasses {
       let passOptions = idx != 0 ? argOptions + [.preventViewHierarchyDiff] : argOptions
       internalUpdate(in: argBounds, options: passOptions)
@@ -237,6 +260,8 @@ open class ComponentView<S: StateType>: UIView, ComponentViewType {
     debugReconcileTime("\(type(of: self)).render", startTime: startTime)
     didUpdate()
   }
+
+  open func onLayout(duration: TimeInterval) { }
 
   // Internal render method.
   private func internalUpdate(in bounds: CGSize = CGSize.max, options: [RenderOption]) {
@@ -256,7 +281,7 @@ open class ComponentView<S: StateType>: UIView, ComponentViewType {
     }
     initialized = true
 
-    func layout() {
+    func layout(duration: TimeInterval) {
       // Applies the configuration closures and recursively computes the layout.
       root.layout(in: bounds)
 
@@ -285,7 +310,8 @@ open class ComponentView<S: StateType>: UIView, ComponentViewType {
       contentView.frame.size.width +=  yoga.marginLeft.normal + yoga.marginRight.normal
       frame = contentView.bounds
 
-      self.delegate?.componentDidRender(self)
+      onLayout(duration: duration)
+      delegate?.componentDidRender(self)
     }
 
     // Lays out the views with an animation.
@@ -303,12 +329,14 @@ open class ComponentView<S: StateType>: UIView, ComponentViewType {
       switch animation {
         case .animated(let duration, let options, let alongside):
           UIView.animate(withDuration: duration, delay: 0, options: options, animations: {
-            layout()
+            layout(duration: duration)
             alongside?()
+            self.rootView.animateCornerRadiusInHierarchyIfNecessary(duration: duration)
           }) { _ in
             UIView.animate(withDuration: duration/2) {
               for (view, alpha) in newViews {
                 view.alpha = alpha
+                view.animateCornerRadiusInHierarchyIfNecessary(duration: duration/2)
               }
             }
           }
@@ -316,8 +344,7 @@ open class ComponentView<S: StateType>: UIView, ComponentViewType {
       }
     // Lays out the views.
     } else {
-      layout()
-
+      layout(duration: 0)
     }
   }
 
@@ -346,6 +373,10 @@ open class ComponentView<S: StateType>: UIView, ComponentViewType {
       result.append(contentsOf: views(root: subview, matching: matching))
     }
     return result
+  }
+
+  public func views(key: String) -> [UIView] {
+    return views { $0.tag == key.hashValue }
   }
 
   open override func sizeThatFits(_ size: CGSize) -> CGSize {
@@ -423,6 +454,10 @@ extension RenderOption: Equatable {
     case .usePreviousBoundsAndOptions: return 1 << 2
     case .flexibleWidth: return 1 << 3
     case .flexibleHeigth: return 1 << 4
+    case .preventUpdate: return 1 << 5
+    case .bounds(_): return 1 << 6
+    case .__bounds: return 1 << 6
+    case .__none: return 1 << 7
     }
   }
 

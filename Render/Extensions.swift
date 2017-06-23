@@ -28,6 +28,7 @@ public extension CGRect {
 fileprivate var handleAnimatable: UInt8 = 0
 fileprivate var handleHasNode: UInt8 = 0
 fileprivate var handleNewlyCreated: UInt8 = 0
+fileprivate var oldCornerRadiusHandle: UInt8 = 0
 
 public extension UIView {
 
@@ -36,14 +37,49 @@ public extension UIView {
     set { setBool(&handleAnimatable, self, newValue) }
   }
 
-  internal var hasNode: Bool {
+  var hasNode: Bool {
     get { return getBool(&handleHasNode, self, defaultIfNil: false) }
     set { setBool(&handleHasNode, self, newValue) }
   }
 
-  internal var isNewlyCreated: Bool {
+  var isNewlyCreated: Bool {
     get { return getBool(&handleNewlyCreated, self, defaultIfNil: false) }
     set { setBool(&handleNewlyCreated, self, newValue) }
+  }
+
+  var cornerRadius: CGFloat {
+    get { return layer.cornerRadius }
+    set {
+      oldCornerRadius = layer.cornerRadius
+      clipsToBounds = true
+      layer.cornerRadius = newValue
+    }
+  }
+
+  var oldCornerRadius: CGFloat {
+    get { return getFloat(&handleNewlyCreated, self) }
+    set { setFloat(&handleNewlyCreated, self, newValue) }
+  }
+
+  private func animateCornerRadius(duration: CFTimeInterval) {
+    if fabs(oldCornerRadius - oldCornerRadius) < CGFloat.epsilon {
+      return
+    }
+    let key = "cornerRadius"
+    let animation = CABasicAnimation(keyPath: key)
+    animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionLinear)
+    animation.fromValue = oldCornerRadius
+    animation.toValue = layer.cornerRadius
+    animation.duration = duration
+    self.layer.add(animation, forKey: key)
+    self.layer.cornerRadius = layer.cornerRadius
+  }
+
+  func animateCornerRadiusInHierarchyIfNecessary(duration: CFTimeInterval) {
+    animateCornerRadius(duration: duration)
+    for subview in subviews where subview.hasNode {
+      subview.animateCornerRadiusInHierarchyIfNecessary(duration: duration)
+    }
   }
 }
 
@@ -58,6 +94,18 @@ fileprivate func setBool(_ handle: UnsafeRawPointer!, _ object: UIView, _ value:
   objc_setAssociatedObject(object,
                            handle,
                            NSNumber(value: value),
+                           .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+}
+
+fileprivate func getFloat(_ handle: UnsafeRawPointer!,
+                          _ object: UIView) -> CGFloat {
+  return CGFloat((objc_getAssociatedObject(object, handle) as? NSNumber)?.floatValue ?? 0)
+}
+
+fileprivate func setFloat(_ handle: UnsafeRawPointer!, _ object: UIView, _ value: CGFloat) {
+  objc_setAssociatedObject(object,
+                           handle,
+                           NSNumber(value: Float(value)),
                            .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
 }
 

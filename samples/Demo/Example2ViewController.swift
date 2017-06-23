@@ -5,29 +5,23 @@ class Example2ViewController: ViewController, ComponentViewDelegate {
 
   private let fooComponent = FooComponentView()
 
-  override var preferredStatusBarStyle: UIStatusBarStyle {
-    return .lightContent
-  }
-
   override func viewDidLoad() {
     super.viewDidLoad()
     fooComponent.delegate = self
     view.addSubview(fooComponent)
-    generateRandomStates()
+    newState()
   }
 
-  private func generateRandomStates() {
-    fooComponent.state = FooComponentViewState()
-    fooComponent.update(in: view.bounds.size, options: [
-
+  private func newState() {
+    fooComponent.set(state: FooComponentViewState(), options: [
+      .bounds(view.bounds.size),
       // Renders the component with an animation.
-      .animated(duration: 0.5, options: .curveEaseInOut, alongside: {
-        self.fooComponent.center = self.view.center
-      })
+      .animated(duration: 0.5, options: .curveEaseInOut, alongside: nil)
     ])
+
     // Generates a new random state every 2 seconds.
     DispatchQueue.main.asyncAfter(deadline: .now() + 2) { [weak self] in
-      self?.generateRandomStates()
+      self?.newState()
     }
   }
 

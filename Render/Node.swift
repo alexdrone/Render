@@ -164,7 +164,7 @@ public class Node<V: UIView>: NodeType {
       child.configure(in: bounds)
     }
     configure(view!, view!.yoga, bounds)
-    if let yoga = view?.yoga, yoga.isEnabled && yoga.isLeaf {
+    if let yoga = view?.yoga, yoga.isEnabled, yoga.isLeaf, yoga.isIncludedInLayout {
       if !(view is ComponentViewType) {
         // UIView reports its current size as the content size.
         // This is done to make sure that empty views don't show up.

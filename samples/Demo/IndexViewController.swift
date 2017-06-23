@@ -43,8 +43,8 @@ class IndexViewController: UITableViewController {
                ComponentTableViewCell<IndexItemComponentView>()
     if let cell = cell as? ComponentTableViewCell<IndexItemComponentView> {
       cell.mountComponentIfNecessary(IndexItemComponentView())
-      cell.state = self.states[indexPath.row]
-      cell.update()
+      cell.set(state: self.states[indexPath.row],
+               options: [.bounds(tableView.bounds.size)])
     }
     return cell
   }
