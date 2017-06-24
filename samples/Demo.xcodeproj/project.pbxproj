@@ -104,13 +104,13 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		161B4D841EC33C6800007E8A /* example6 */ = {
+		161B4D841EC33C6800007E8A /* example5 */ = {
 			isa = PBXGroup;
 			children = (
 				161B4D851EC33C7F00007E8A /* PercentComponentView.swift */,
 				161B4D8C1EC33ED600007E8A /* Example5ViewController.swift */,
 			);
-			name = example6;
+			name = example5;
 			sourceTree = "<group>";
 		};
 		164C116C1E5B31E900766914 = {
@@ -136,8 +136,8 @@
 				164C11B11E5ECEA400766914 /* example1 */,
 				164C11A91E5E45F900766914 /* example2 */,
 				164C11AC1E5EC19100766914 /* example3 */,
-				16C59F861E76FDCE00D9E297 /* example5 */,
-				161B4D841EC33C6800007E8A /* example6 */,
+				16C59F861E76FDCE00D9E297 /* example4 */,
+				161B4D841EC33C6800007E8A /* example5 */,
 				164C119D1E5C840D00766914 /* external */,
 				164C11781E5B31E900766914 /* AppDelegate.swift */,
 				164C117F1E5B31E900766914 /* Assets.xcassets */,
@@ -187,12 +187,12 @@
 			name = example1;
 			sourceTree = "<group>";
 		};
-		16C59F861E76FDCE00D9E297 /* example5 */ = {
+		16C59F861E76FDCE00D9E297 /* example4 */ = {
 			isa = PBXGroup;
 			children = (
 				16C59F831E76FDCA00D9E297 /* Example4ViewController.swift */,
 			);
-			name = example5;
+			name = example4;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

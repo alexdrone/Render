@@ -48,7 +48,7 @@ public protocol AnyComponentView: class {
 
   /// Internal use only.
   /// Used a store for nested component view refs.
-  var childrenComponent: [String: AnyComponentView] { get set }
+  var childrenComponent: [Key: AnyComponentView] { get set }
 
   /// Internal use only.
   var childrenComponentAutoIncrementKey: Int  { get set }
@@ -161,7 +161,7 @@ open class ComponentView<S: StateType>: UIView, ComponentViewType {
   public var defaultOptions: [RenderOption] = []
 
   /// The reuse identifier of the root node for this component.
-  public var key: String {
+  public var key: Key {
     return root.key
   }
 
@@ -183,7 +183,7 @@ open class ComponentView<S: StateType>: UIView, ComponentViewType {
   /// Store for the chilren component view.
   /// Keys in the store help identify which items have changed, are added, or are removed.
   /// Keys should be given to the elements inside the array to give the elements a stable identity
-  public var childrenComponent: [String: AnyComponentView] = [:]
+  public var childrenComponent: [Key: AnyComponentView] = [:]
 
   /// Internal use only.
   public var childrenComponentAutoIncrementKey: Int = 0
@@ -235,7 +235,7 @@ open class ComponentView<S: StateType>: UIView, ComponentViewType {
     willUpdate()
     let startTime = CFAbsoluteTimeGetCurrent()
 
-    let numberOfPasses = 2
+    let numberOfPasses = 1
     for idx in 0..<numberOfPasses {
       let passOptions = idx != 0 ? options + [.preventViewHierarchyDiff] : options
       internalUpdate(in: size, options: passOptions)
@@ -359,8 +359,9 @@ open class ComponentView<S: StateType>: UIView, ComponentViewType {
     return result
   }
 
-  public func views(key: String) -> [UIView] {
-    return views { $0.tag == key.hashValue }
+  public func views<T: UIView>(type: T.Type, key: String) -> [T] {
+    let _key = Key(reuseIdentifier: String(describing: type), key: key)
+    return views { $0.tag == _key.stringValue.hashValue }.flatMap { $0 as? T }
   }
 
   open override func layoutSubviews() {

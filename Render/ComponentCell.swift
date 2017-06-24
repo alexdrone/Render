@@ -15,14 +15,14 @@ public protocol ComponentCellType {
 // MARK: - UITableViewCell
 
 /// Wraps a component in a UITableViewCell.
-open class ComponentTableViewCell<C : ComponentViewType>: UITableViewCell, ComponentCellType {
+open class ComponentTableViewCell: UITableViewCell, ComponentCellType, ComponentViewDelegate  {
 
   /// Sets the component state.
   public func set(state: Render.StateType, options: [RenderOption] = []) {
     componentView?.set(state: state, options: options)
   }
 
-  public private(set) var componentView: C?
+  public private(set) var componentView: AnyComponentView?
 
   public override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
     super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -33,26 +33,34 @@ open class ComponentTableViewCell<C : ComponentViewType>: UITableViewCell, Compo
     super.init(coder: aDecoder)
   }
 
-  open func mountComponentIfNecessary(_ component: @autoclosure () -> C) {
-    guard componentView == nil else {
+  /// Mount the component passed as argument in the cell.
+  open func mountComponentIfNecessary(forceMount: Bool = false,
+                                      _ component: @autoclosure () -> AnyComponentView) {
+    guard componentView == nil || forceMount else {
       return
     }
     componentView = component()
+    componentView?.delegate = self
     if let componentView = componentView as? UIView {
       contentView.addSubview(componentView)
     }
     componentView?.size = { [weak self] in
       let width = self?.bounds.size.width ?? UIScreen.main.bounds.size.width
-      let height = CGFloat.max
+      let height: CGFloat = CGFloat.max
       return CGSize(width: width, height: height)
     }
     clipsToBounds = true
   }
 
   open func update(options: [RenderOption] = []) {
+    selectionStyle = .none
     componentView?.update(options: options)
+  }
+
+  public func componentDidRender(_ component: AnyComponentView) {
     if let componentView = componentView as? UIView {
       contentView.frame.size = componentView.frame.size
+      componentView.center = contentView.center
     }
   }
 

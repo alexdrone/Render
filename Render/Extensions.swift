@@ -3,7 +3,7 @@ import UIKit
 
 public extension CGFloat {
   public static let undefined: CGFloat = YGNaNSize.width
-  public static let max: CGFloat = CGFloat(Float.greatestFiniteMagnitude)
+  public static let max: CGFloat = 32768
   public static let epsilon: CGFloat = CGFloat(Float.ulpOfOne)
   public var maxIfZero: CGFloat { return self == 0 ? CGFloat.max : self }
   public var undefinedIfZero: CGFloat { return self == 0 ? CGFloat.undefined : self }

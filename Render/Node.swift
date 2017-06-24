@@ -10,7 +10,7 @@ public protocol NodeType: class {
 
   /// The reuse identifier for this node is its hierarchy.
   /// Identifiers help Render understand which items have changed, are added, or are removed.
-  var key: String { get }
+  var key: Key { get set }
 
   /// The subnodes of this node.
   var children: [NodeType] { get set }
@@ -63,7 +63,7 @@ public class Node<V: UIView>: NodeType {
   /// The unique identifier of this node is its hierarchy.
   /// Choosing a good identifier is foundamental for good and performant view recycling.
   /// Identifiers help Render understand which items have changed, are added, or are removed.
-  public let key: String
+  public var key: Key
 
   /// When this property is true the associated view will get reset to its original state before
   /// being reconfigured.
@@ -129,12 +129,13 @@ public class Node<V: UIView>: NodeType {
   /// initialization closure.
   /// - parameter configure: The closure that is going to be executed every time this node
   /// will re-render.
-  public init(key: String = String(describing: V.self),
+  public init(reuseIdentifier: String = String(describing: V.self),
+              key: String = "",
               resetBeforeReuse: Bool = false,
               children: [NodeType] = [],
               create: @escaping CreateBlock = { V() },
               configure: @escaping ConfigureBlock = { _ in }) {
-    self.key = key
+    self.key = Key(reuseIdentifier: reuseIdentifier, key: key)
     self.resetBeforeReuse = resetBeforeReuse
     self.create = create
     self.configure = configure
@@ -180,7 +181,7 @@ public class Node<V: UIView>: NodeType {
   public func willLayout() {
     if resetBeforeReuse {
       view?.prepareForComponentReuse()
-      view?.tag = key.hashValue
+      view?.tag = key.stringValue.hashValue
     }
     if let view = self.view {
 
@@ -208,7 +209,7 @@ public class Node<V: UIView>: NodeType {
     } else {
       view = create()
       view?.yoga.isEnabled = true
-      view?.tag = key.hashValue
+      view?.tag = key.stringValue.hashValue
       view?.hasNode = true
     }
   }
@@ -227,26 +228,30 @@ public class Node<V: UIView>: NodeType {
 /// - paramenter props: Configuration closure for the component proprieties.
 public func ComponentNode<T: ComponentViewType>(_ component: @autoclosure () -> T,
                                                 in parent: AnyComponentView,
+                                                reuseIdentifier: String = String(describing:T.self),
                                                 key: String? = nil,
                                                 state: StateType? = nil,
                                                 size: (() -> CGSize)? = nil,
                                                 props: ((T, Bool) -> Void)? = nil) -> NodeType {
 
-  var childKey = "\(String(describing: T.self))_\(parent.childrenComponentAutoIncrementKey)"
+  var _key = "\(parent.childrenComponentAutoIncrementKey)"
   if let key = key {
-    childKey = key
+    _key = key
   } else {
     parent.childrenComponentAutoIncrementKey += 1
   }
+  let childKey = Key(reuseIdentifier: reuseIdentifier, key: _key)
   let component = (parent.childrenComponent[childKey] as? T) ?? component()
   let componentState = (state as? T.StateType) ?? component.state
   component.state = componentState
-  let sizeClosure = size ?? parent.size
-  component.size = sizeClosure
+  component.size = size ?? parent.size
   props?(component, parent.childrenComponent[childKey] == nil)
   parent.childrenComponent[childKey] = component
+
   let node = component.render()
+  node.key = childKey
   node.associatedComponent = component
+
   return node
 }
 
@@ -261,7 +266,7 @@ public final class NilNode: NodeType {
     view.tag = self.key.hashValue
     return view;
   }()
-  public var key: String = "NIL_NODE"
+  public var key: Key = Key(reuseIdentifier: String(describing: NilNode.self))
   public var children: [NodeType] = []
   public func add(children: [NodeType]) -> NodeType {
     return self
@@ -276,4 +281,29 @@ public final class NilNode: NodeType {
   public func didLayout() { }
   public func build(with reusable: UIView?) { }
 }
+
+// MARK: - Key
+
+public struct Key: Hashable, Equatable {
+  public let reuseIdentifier: String
+  public let key: String
+
+  public var stringValue: String {
+    return "\(reuseIdentifier)_\(key)"
+  }
+
+  public var hashValue: Int {
+    return stringValue.hashValue
+  }
+
+  public static func ==(lhs: Key, rhs: Key) -> Bool {
+    return lhs.stringValue == rhs.stringValue
+  }
+
+  public init(reuseIdentifier: String = "", key: String = "") {
+    self.reuseIdentifier = reuseIdentifier
+    self.key = key
+  }
+}
+
 

@@ -28,6 +28,7 @@
 		167272051EC330C000906746 /* YGPercentLayout.h in Headers */ = {isa = PBXBuildFile; fileRef = 167272031EC330C000906746 /* YGPercentLayout.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		167272061EC330C000906746 /* YGPercentLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 167272041EC330C000906746 /* YGPercentLayout.m */; };
 		167272081EC3340600906746 /* YGPercentLayoutExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167272071EC3340600906746 /* YGPercentLayoutExtension.swift */; };
+		168007D21EFE674600B4EA85 /* LCS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 168007D11EFE674600B4EA85 /* LCS.swift */; };
 		169D0E221EFC63F9002C700A /* Gestures.swift in Sources */ = {isa = PBXBuildFile; fileRef = 169D0E211EFC63F9002C700A /* Gestures.swift */; };
 		16C59F811E75BE9900D9E297 /* TableNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16C59F801E75BE9900D9E297 /* TableNode.swift */; };
 /* End PBXBuildFile section */
@@ -56,6 +57,7 @@
 		167272031EC330C000906746 /* YGPercentLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YGPercentLayout.h; sourceTree = "<group>"; };
 		167272041EC330C000906746 /* YGPercentLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YGPercentLayout.m; sourceTree = "<group>"; };
 		167272071EC3340600906746 /* YGPercentLayoutExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YGPercentLayoutExtension.swift; sourceTree = "<group>"; };
+		168007D11EFE674600B4EA85 /* LCS.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LCS.swift; sourceTree = "<group>"; };
 		169D0E211EFC63F9002C700A /* Gestures.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gestures.swift; sourceTree = "<group>"; };
 		16C59F801E75BE9900D9E297 /* TableNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableNode.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -90,6 +92,7 @@
 		164C11421E59ECB200766914 /* Render */ = {
 			isa = PBXGroup;
 			children = (
+				168007D01EFE674600B4EA85 /* deps */,
 				164C114B1E59ECC600766914 /* objc */,
 				164C11431E59ECB200766914 /* Render.h */,
 				164C11441E59ECB200766914 /* Info.plist */,
@@ -124,6 +127,14 @@
 				167272071EC3340600906746 /* YGPercentLayoutExtension.swift */,
 			);
 			path = objc;
+			sourceTree = "<group>";
+		};
+		168007D01EFE674600B4EA85 /* deps */ = {
+			isa = PBXGroup;
+			children = (
+				168007D11EFE674600B4EA85 /* LCS.swift */,
+			);
+			path = deps;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -218,6 +229,7 @@
 				165649D71EAF82EB00E02BC1 /* YGEnums.c in Sources */,
 				164C11691E5A203100766914 /* Reset.swift in Sources */,
 				16C59F811E75BE9900D9E297 /* TableNode.swift in Sources */,
+				168007D21EFE674600B4EA85 /* LCS.swift in Sources */,
 				167272061EC330C000906746 /* YGPercentLayout.m in Sources */,
 				169D0E221EFC63F9002C700A /* Gestures.swift in Sources */,
 				164C11631E59ECEC00766914 /* Node.swift in Sources */,

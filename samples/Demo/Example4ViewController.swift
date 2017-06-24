@@ -5,7 +5,7 @@ import Render
 // from https://github.com/alexdrone/Render/issues/34
 
 struct TableComponentViewState: StateType {
-  let number: Int = 100
+  let number: Int = 6
 }
 
 class TableComponentView: ComponentView<TableComponentViewState> {
@@ -21,9 +21,7 @@ class TableComponentView: ComponentView<TableComponentViewState> {
   
   override func render() -> NodeType {
 
-    let size = self.size()
-
-    let list = TableNode() { (view, layout, size) in
+    let list = TableNode(parent: self) { (view, layout, size) in
       layout.width = size.width
       layout.height = size.height
       view.backgroundColor = Color.black
@@ -54,7 +52,7 @@ class TableComponentView: ComponentView<TableComponentViewState> {
     ]
 
     let helloWorldFragments = (1..<state.number).map { index in
-      ComponentNode(HelloWorldComponentView(), in: self)
+      ComponentNode(HelloWorldComponentView(), in: self, key: "\(index)")
     }
 
     list.add(children: basicNodeFragments + helloWorldFragments)

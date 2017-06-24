@@ -39,7 +39,8 @@ class HelloWorldComponentView: ComponentView<HelloWorldComponentViewState> {
 
     // A square image placeholder.
     let avatar = Node<UIImageView>(key: Key.avatar.rawValue) { (view, layout, size) in
-      let radius: CGFloat = CGFloat(randomInt(16, max: 128))
+      var radius: CGFloat = 16 * CGFloat(self.state.count + 1)
+      radius = radius > 128 ? 128 : radius
       view.backgroundColor = Color.green
       view.cornerRadius = radius
       (layout.height, layout.width) = (radius * 2, radius * 2)
@@ -84,15 +85,15 @@ class HelloWorldComponentView: ComponentView<HelloWorldComponentViewState> {
 
   override func willUpdate() {
     super.willUpdate()
-    guard let circle = views(key: Key.circle.rawValue).first else {
+    guard let circle = views(type: UILabel.self, key: Key.circle.rawValue).first else {
       return
     }
     circle.alpha = 0
   }
 
   override func didUpdate() {
-    guard let circle = views(key: Key.circle.rawValue).first,
-          let avatar = views(key: Key.avatar.rawValue).first else  {
+    guard let circle = views(type: UILabel.self, key: Key.circle.rawValue).first,
+          let avatar = views(type: UIImageView.self, key: Key.avatar.rawValue).first else  {
       return
     }
     let size: CGFloat = avatar.bounds.size.width/2

@@ -1,6 +1,13 @@
 import Foundation
 import UIKit
 
+struct AnyNode: Equatable {
+  let node: NodeType
+  static func ==(lhs: AnyNode, rhs: AnyNode) -> Bool {
+    return lhs.node.key == rhs.node.key
+  }
+}
+
 /// Wraps a UITableView in a node definition.
 /// TableNode.children will be wrapped into UITableViewCell.
 /// Consider using TableNode over Node<ScrollView> where you have a big number of items to be
@@ -18,12 +25,17 @@ public class TableNode: NSObject, NodeType, UITableViewDataSource, UITableViewDe
   }
 
   /// The unique identifier for this node is its hierarchy.
-  public let key: String
+  public var key: Key
 
   /// Set this property to 'true' if you want to disable the built-in cell reuse mechanism.
   /// This could be beneficial when the number of items is limited and you wish to improve the
   /// overall scroll performance.
   public var disableCellReuse: Bool = false
+
+  /// Computes and applies the diff to the collection by adding and removing rows rather then
+  /// calling reloadData.
+  public var shouldUseDiff: Bool = true
+  public var maximumNuberOfDiffUpdates: Int = 50
 
   /// This component is the n-th children.
   public var index: Int = 0 {
@@ -36,11 +48,16 @@ public class TableNode: NSObject, NodeType, UITableViewDataSource, UITableViewDe
     set { node.associatedComponent = newValue }
   }
 
+  /// The component that is owning this table.
+  private weak var parentComponent: AnyComponentView?
+
   private var __children: [NodeType] = []
+  private var __oldChildren: [NodeType] = []
 
   /// The children are bypassed and used to implement the UITableView's datasource.
   public var children: [NodeType] {
     set {
+      __oldChildren = __children
       var index = 0
       let children = newValue.filter { child in !(child is NilNode) }
       for child in children where !(child is NilNode) {
@@ -66,27 +83,56 @@ public class TableNode: NSObject, NodeType, UITableViewDataSource, UITableViewDe
     return self
   }
 
-  public init(key: String = "TABLE_NODE",
+  public init(reuseIdentifier: String = String(describing: UITableView.self),
+              key: String = "",
+              parent: AnyComponentView,
               children: [NodeType] = [],
               create: @escaping Node<UITableView>.CreateBlock = { return UITableView() },
               configure: @escaping Node<UITableView>.ConfigureBlock = { _ in }) {
 
-    self.node = Node(key: key,
+    self.node = Node(reuseIdentifier: reuseIdentifier,
+                     key: key,
                      resetBeforeReuse: false,
                      children: [],
                      create: create,
                      configure: configure)
     self.__children = children
-    self.key = key
+    self.key = Key(reuseIdentifier: reuseIdentifier, key: key)
+    self.parentComponent = parent
   }
 
   /// Re-applies the configuration closures to the UITableView and reload the data source.
   public func layout(in bounds: CGSize) {
     node.layout(in: bounds)
-    if let table = renderedView as? UITableView {
-      table.estimatedRowHeight = 64;
-      table.rowHeight = UITableViewAutomaticDimension
-      table.dataSource = self
+    guard let table = renderedView as? UITableView else {
+      return
+    }
+    table.estimatedRowHeight = 64;
+    table.rowHeight = UITableViewAutomaticDimension
+    table.dataSource = self
+
+    if shouldUseDiff {
+      let set = Set( __children.map { $0.key })
+      guard set.count == __children.count else {
+        print("Unable to apply diff when table nodes don't all have a distinct key.")
+        table.reloadData()
+        return
+      }
+      let old = __oldChildren.map { AnyNode(node: $0) }
+      let new = __children.map { AnyNode(node: $0) }
+      let threshold = maximumNuberOfDiffUpdates
+      let diff = old.diff(new)
+      if diff.insertions.count < threshold  && diff.deletions.count < threshold  {
+        table.beginUpdates()
+        table.deleteRows(at: diff.deletions.map { IndexPath(row: Int($0.idx), section: 0) },
+                         with: .automatic)
+        table.insertRows(at: diff.insertions.map { IndexPath(row: Int($0.idx), section: 0) },
+                         with: .automatic)
+        table.endUpdates()
+      } else {
+        table.reloadData()
+      }
+    } else {
       table.reloadData()
     }
   }
@@ -119,26 +165,24 @@ public class TableNode: NSObject, NodeType, UITableViewDataSource, UITableViewDe
   public func tableView(_ tableView: UITableView,
                         cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     let node = __children[indexPath.row]
-    var identifier = node.key
-
+    var identifier = node.key.reuseIdentifier
     if disableCellReuse {
-      identifier = "\(identifier)_\(indexPath.row)"
+      identifier = node.key.stringValue
     }
+    let cell = tableView.dequeueReusableCell(withIdentifier: identifier) as? ComponentTableViewCell
+               ?? ComponentTableViewCell()
 
-    let cell: ComponentTableViewCell<NilStateComponentView> =
-        tableView.dequeueReusableCell(withIdentifier: identifier)
-            as? ComponentTableViewCell<NilStateComponentView> ??
-        ComponentTableViewCell<NilStateComponentView>()
-
-    cell.mountComponentIfNecessary(NilStateComponentView())
-    cell.componentView?.renderBlock = { _, _ in return node }
-
-    node.layout(in: tableView.bounds.size)
+    if let component = parentComponent?.childrenComponent[node.key] {
+      cell.mountComponentIfNecessary(forceMount: true, component)
+    } else {
+      let component = NilStateComponentView()
+      cell.mountComponentIfNecessary(component)
+      component.renderBlock = { _, _ in return node }
+    }
     cell.update(options: [.preventViewHierarchyDiff])
     node.associatedComponent?.didUpdate()
-
     return cell
   }
-}
 
+}
 

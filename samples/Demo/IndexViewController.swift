@@ -39,9 +39,8 @@ class IndexViewController: UITableViewController {
 
   override func tableView(_ tableView: UITableView,
                           cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-    let cell = tableView.dequeueReusableCell(withIdentifier: "Cell") ??
-               ComponentTableViewCell<IndexItemComponentView>()
-    if let cell = cell as? ComponentTableViewCell<IndexItemComponentView> {
+    let cell = tableView.dequeueReusableCell(withIdentifier: "Cell") ?? ComponentTableViewCell()
+    if let cell = cell as? ComponentTableViewCell {
       cell.mountComponentIfNecessary(IndexItemComponentView())
       cell.set(state: self.states[indexPath.row], options: [])
     }
