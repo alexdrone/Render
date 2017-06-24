@@ -83,15 +83,7 @@ class HelloWorldComponentView: ComponentView<HelloWorldComponentViewState> {
     ])
   }
 
-  override func willUpdate() {
-    super.willUpdate()
-    guard let circle = views(type: UILabel.self, key: Key.circle.rawValue).first else {
-      return
-    }
-    circle.alpha = 0
-  }
-
-  override func didUpdate() {
+  override func onLayout(duration: TimeInterval) {
     guard let circle = views(type: UILabel.self, key: Key.circle.rawValue).first,
           let avatar = views(type: UIImageView.self, key: Key.avatar.rawValue).first else  {
       return
@@ -100,8 +92,6 @@ class HelloWorldComponentView: ComponentView<HelloWorldComponentViewState> {
     circle.frame.size =  CGSize(width: size, height: size)
     circle.center = avatar.center
     circle.cornerRadius = size/2
-    UIView.animate(withDuration: 0.2) {
-      circle.alpha = 1
-    }
+    circle.animateCornerRadiusInHierarchyIfNecessary(duration: duration)
   }
 }

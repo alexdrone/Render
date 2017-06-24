@@ -51,20 +51,20 @@ public class TableNode: NSObject, NodeType, UITableViewDataSource, UITableViewDe
   /// The component that is owning this table.
   private weak var parentComponent: AnyComponentView?
 
-  private var __children: [NodeType] = []
-  private var __oldChildren: [NodeType] = []
+  private var internalChildren: [NodeType] = []
+  private var internalOldChildren: [NodeType] = []
 
   /// The children are bypassed and used to implement the UITableView's datasource.
   public var children: [NodeType] {
     set {
-      __oldChildren = __children
+      internalOldChildren = internalChildren
       var index = 0
       let children = newValue.filter { child in !(child is NilNode) }
       for child in children where !(child is NilNode) {
         child.index = index
         index += 1
       }
-      __children = children;
+      internalChildren = children;
     }
     get {
       return []
@@ -96,7 +96,7 @@ public class TableNode: NSObject, NodeType, UITableViewDataSource, UITableViewDe
                      children: [],
                      create: create,
                      configure: configure)
-    self.__children = children
+    self.internalChildren = children
     self.key = Key(reuseIdentifier: reuseIdentifier, key: key)
     self.parentComponent = parent
   }
@@ -107,19 +107,19 @@ public class TableNode: NSObject, NodeType, UITableViewDataSource, UITableViewDe
     guard let table = renderedView as? UITableView else {
       return
     }
-    table.estimatedRowHeight = 64;
+    table.estimatedRowHeight = -1;
     table.rowHeight = UITableViewAutomaticDimension
     table.dataSource = self
 
     if shouldUseDiff {
-      let set = Set( __children.map { $0.key })
-      guard set.count == __children.count else {
+      let set = Set( internalChildren.map { $0.key })
+      guard set.count == internalChildren.count else {
         print("Unable to apply diff when table nodes don't all have a distinct key.")
         table.reloadData()
         return
       }
-      let old = __oldChildren.map { AnyNode(node: $0) }
-      let new = __children.map { AnyNode(node: $0) }
+      let old = internalOldChildren.map { AnyNode(node: $0) }
+      let new = internalChildren.map { AnyNode(node: $0) }
       let threshold = maximumNuberOfDiffUpdates
       let diff = old.diff(new)
       if diff.insertions.count < threshold  && diff.deletions.count < threshold  {
@@ -158,13 +158,13 @@ public class TableNode: NSObject, NodeType, UITableViewDataSource, UITableViewDe
 
   /// Tells the data source to return the number of rows in a given section of a table view.
   public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return __children.count
+    return internalChildren.count
   }
 
   /// Asks the data source for a cell to insert in a particular location of the table view.
   public func tableView(_ tableView: UITableView,
                         cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-    let node = __children[indexPath.row]
+    let node = internalChildren[indexPath.row]
     var identifier = node.key.reuseIdentifier
     if disableCellReuse {
       identifier = node.key.stringValue
