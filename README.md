@@ -80,7 +80,7 @@ struct HelloWorldState: StateType {
 class HelloWorldComponentView: ComponentView<HelloWorldState> {(
 
   init() {
-    self.state = HelloWorldState(name: "", image: UIImage());
+    self.state = HelloWorldState(count: 0, image: UIImage());
   }
 
   override func render() -> NodeType {
@@ -91,7 +91,7 @@ class HelloWorldComponentView: ComponentView<HelloWorldState> {(
     }
    
     let text = Node<UILabel> { view, layout, size in
-      view.text = "Hello \(state.count)"
+      view.text = "Tap Me: \(state.count)"
       view.textAlignment = .center
       layout.margin = 16
     }
@@ -117,18 +117,18 @@ class HelloWorldComponentView: ComponentView<HelloWorldState> {(
 // ...
 
 let component = HelloWorldComponentView()
-component.update(in: self.view.bounds.size)
+self.view.addSubview(component)
 ```
 
-The view description is defined by the `render(state:size:)` method.
+The view description is defined by the `render()` method.
 
 `Node<T>` is an abstraction around views of any sort that knows how to build, configure and layout the view when necessary.
 
-Every time `update(in:options:)` is called, a new tree is constructed, compared to the existing tree and only the required changes to the actual view hierarchy are performed - *if you have a static view hierarchy, you might want pass the '.preventViewHierarchyDiff' option to skip this part of the rendering* . Also the `configure` closure passed as argument is re-applied to every view defined in the `render()` method and the layout is re-computed based on the nodes' flexbox attributes. 
+Every time `update(options:)` is called, a new tree is constructed, compared to the existing tree and only the required changes to the actual view hierarchy are performed - *if you have a static view hierarchy, you might want pass the '.preventViewHierarchyDiff' option to skip this part of the rendering* . Also the `configure` closure passed as argument is re-applied to every view defined in the `render()` method and the layout is re-computed based on the nodes' flexbox attributes. 
 
 The component above would render to:
 
-<img src="docs/render.png" width="300">
+<img src="docs/component.gid" width="300">
 
 **Check the demo project for more examples**
 
@@ -143,7 +143,7 @@ The framework doesn't force you to use the Component abstraction. You can use no
 
 ### Performance & Thread Model
 
-**Render**'s `update(in:options:)` function is performed on the main thread. Diff+Reconciliation+Layout+Configuration runs usually under 16ms for a component with a complex view hierarchy on a iPhone 4S, which makes it suitable for cells implementation (with a smooth scrolling).
+**Render**'s `update(options:)` function is performed on the main thread. Diff+Reconciliation+Layout+Configuration runs usually under 16ms for a component with a complex view hierarchy on a iPhone 4S, which makes it suitable for cells implementation (with a smooth scrolling).
 
 
 ### Components embedded in cells
@@ -170,6 +170,7 @@ In this way the node's subnodes will be wrapped inside UITableViewCollectionCell
       // Another one.
       Node<UIView>,
       // ComponentViews can also be added as child-nodes.
+			// The 'key' argument is important for collection stability.
       ComponentNode(MyComponent(), state: state.bar, size: size),
     ])
   }
@@ -182,44 +183,6 @@ In this way the node's subnodes will be wrapped inside UITableViewCollectionCell
 
  - Todolist app
 
-<img src="docs/render_todo.gif" width="414">
-
-
-#### Use with Buffer
-
-[Buffer](https://github.com/alexdrone/Buffer) is a μ-framework for efficient array diffs, collection observation and data source implementation.
-It exposes a declarative API for UITableView and UICollectionView.
-This is an example of how to use Buffer with Render's ComponentViews.
-
-```swift
-
-import Buffer
-import Render
-
-class ViewController: UIViewController {
-
-  let tableView =  TableView<FooModel>()
-
-  lazy var elements: [AnyListItem<FooState>] = {
-    return (0...100).map { _ in
-      // AnyListItem wraps the data and the configuration for every row in the tableview.
-      let item = AnyListItem(type: ComponentTableViewCell<FooState>.self, state: FooState(text: "Foo")) { cell, state in
-        cell.mountComponentIfNecessary(FooComponentView())
-        cell.state = state
-        cell.update(in: self.tableView.bounds.size)
-      }
-    }
-  }()
-
-  override func viewDidLoad() {
-    super.viewDidLoad()
-    self.view.addSubview(self.tableView)
-
-    // Simply set the elements for the table view.
-    self.tableView.elements = self.elements
-  }
-}
-
 ```
 
 #### Use with Dispatch or Reswift
@@ -228,8 +191,6 @@ class ViewController: UIViewController {
 In this architecture views are simple function of your state - this works especially well with Render's declarative programming style.
 
 Checkout the **TodoApp** example to see how to get the best out of **Dispatch** and **Render**.
-
-
 
 
 * [ReSwift](https://github.com/ReSwift/ReSwift) is a Redux-like implementation of the unidirectional data flow architecture in Swift. 
