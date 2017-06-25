@@ -49,11 +49,6 @@ Manually:
 Drag `bin/Render.framework` in your project and add it as an embedded binary.
 
 
-``` swift
-import UIKit
-import Render
-```
-
 # TL;DR
 
 **Render**'s building blocks are *Components* (described in the protocol `ComponentViewType`) and its layout engine is based on [Yoga](https://facebook.github.io/yoga/).
