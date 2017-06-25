@@ -83,23 +83,24 @@ class HelloWorldComponentView: ComponentView<HelloWorldState> {(
     self.state = HelloWorldState(name: "", image: UIImage());
   }
 
-  override func render(size: CGSize = CGSize.undefined) -> NodeType {
-    let avatar = Node<UIImageView> { (view, layout, size) in
+  override func render() -> NodeType {
+    let avatar = Node<UIImageView> { view, layout, size in
       view.image = state.image
       layout.alignSelf = .center
       (layout.width, layout.height) = (128, 128) 
     }
    
-    let text = Node<UILabel> { (view, layout, size) in
+    let text = Node<UILabel> { view, layout, size in
       view.text = "Hello \(state.count)"
       view.textAlignment = .center
       layout.margin = 16
     }
 		
-    let container = Node<UIImageView> { (view, layout, size) in
+    let container = Node<UIImageView> { view, layout, size in
       view.backgroundColor = Color.black
       view.onTap { [weak self] _ in
-        self?.setState { // When the state changes the component is automatically re-rendered.
+      	// When the state changes the component is automatically re-rendered.
+        self?.setState { 
           $0.count += 1
         }
       }
@@ -156,18 +157,18 @@ In this way the node's subnodes will be wrapped inside UITableViewCollectionCell
 
 ```swift
 
- override func render(size: CGSize) -> NodeType {
-    let table = TableNode() { (_, layout, _) in
+ override func render() -> NodeType {
+    let table = TableNode { _, layout, _ in
       // Size, margins and padding can now be expressed as a % of the parent.
       (layout.percent.height, layout.percent.width) = (100%, 100%)
     }
     return table.add(children: [
       // Any node definition will be wrapped inside a UITableViewCell.
-      Node<UIView> { (_, layout, _) in
+      Node<UIView> { _, layout, _ in
         (layout.width, layout.height) = (size.width, 128)
       },
       // Another one.
-      Node<UIView>(),
+      Node<UIView>,
       // ComponentViews can also be added as child-nodes.
       ComponentNode(MyComponent(), state: state.bar, size: size),
     ])
