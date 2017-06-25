@@ -128,7 +128,7 @@ Every time `update(options:)` is called, a new tree is constructed, compared to 
 
 The component above would render to:
 
-<img src="docs/component.gid" width="300">
+<img src="docs/component.gif" width="300">
 
 **Check the demo project for more examples**
 
