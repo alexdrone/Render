@@ -38,14 +38,7 @@ pod 'Render'
 If you are using **Carthage**:
 
 
-To install Carthage, run (using Homebrew):
-
-```bash
-$ brew update
-$ brew install carthage
-```
-
-Then add the following line to your `Cartfile`:
+Add the following line to your `Cartfile`:
 
 ```
 github "alexdrone/Render" "master"    
@@ -53,9 +46,7 @@ github "alexdrone/Render" "master"
 
 Manually:
 
-Download and drop ```/Render``` folder in your project.  
-
-Remember to import the Render framework in your source files.
+Drag `bin/Render.framework` in your project and add it as an embedded binary.
 
 
 ``` swift
