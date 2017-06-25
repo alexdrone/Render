@@ -183,7 +183,6 @@ In this way the node's subnodes will be wrapped inside UITableViewCollectionCell
 
  - Todolist app
 
-```
 
 #### Use with Dispatch or Reswift
 
