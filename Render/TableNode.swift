@@ -34,7 +34,7 @@ public class TableNode: NSObject, NodeType, UITableViewDataSource, UITableViewDe
 
   /// Computes and applies the diff to the collection by adding and removing rows rather then
   /// calling reloadData.
-  public var shouldUseDiff: Bool = true
+  public var shouldUseDiff: Bool = false
   public var maximumNuberOfDiffUpdates: Int = 50
 
   /// This component is the n-th children.

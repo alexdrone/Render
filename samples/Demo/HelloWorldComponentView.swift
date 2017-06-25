@@ -16,11 +16,9 @@ class HelloWorldComponentViewState: StateType {
 
 class HelloWorldComponentView: ComponentView<HelloWorldComponentViewState> {
 
+  // Nodes identifiers.
   enum Key: String {
-    case avatar
-    case container
-    case circle
-    case text
+    case avatar, container, circle, text
   }
 
   required init() {
@@ -38,7 +36,7 @@ class HelloWorldComponentView: ComponentView<HelloWorldComponentViewState> {
   override func render() -> NodeType {
 
     // A square image placeholder.
-    let avatar = Node<UIImageView>(key: Key.avatar.rawValue) { (view, layout, size) in
+    let avatar = Node<UIImageView>(key: Key.avatar.rawValue) { view, layout, _ in
       var radius: CGFloat = 16 * CGFloat(self.state.count + 1)
       radius = radius > 128 ? 128 : radius
       view.backgroundColor = Color.green
@@ -48,7 +46,7 @@ class HelloWorldComponentView: ComponentView<HelloWorldComponentViewState> {
     }
 
     // The text node (a label).
-    let text = Node<UILabel>(key: Key.text.rawValue) { (view, layout, size) in
+    let text = Node<UILabel>(key: Key.text.rawValue) { view, layout, _ in
       view.text = "Tap Me: \(self.state.count)"
       view.textAlignment = .center
       view.textColor = Color.green
@@ -59,22 +57,22 @@ class HelloWorldComponentView: ComponentView<HelloWorldComponentViewState> {
     // You can opt-out the view from the flexbox layout engine by
     // setting 'yoga.isIncludedInLayout' to 'false'.
     // Remember to lay out the view manually in the 'didUpdate' method.
-    let circle = Node<UILabel>(key: Key.circle.rawValue) {  (view, layout, size) in
+    let circle = Node<UIView>(key: Key.circle.rawValue) { view, _, _ in
       view.yoga.isIncludedInLayout = false
       view.backgroundColor = Color.red
       view.clipsToBounds = true
     }
 
     // Returns the container node (a simple UIView) wrapping the other elements.
-    return Node<UIView>(key: Key.container.rawValue) { (view, layout, size) in
+    return Node<UIView>(key: Key.container.rawValue) { view, layout, size in
       view.backgroundColor = Color.black
       view.onTap { [weak self] _ in
         self?.setState(options: [.animated(duration: 0.5, options: [], alongside: nil)]) {
           $0.count += 1
         }
       }
-      let dim =  min(size.height.maxIfZero, size.width.maxIfZero)
-      (layout.height, layout.width) = (dim, dim)
+      layout.width = min(size.height.maxIfZero, size.width.maxIfZero)
+      layout.aspectRatio = 1
       layout.justifyContent = .center
     }.add(children: [
       avatar,
@@ -84,7 +82,7 @@ class HelloWorldComponentView: ComponentView<HelloWorldComponentViewState> {
   }
 
   override func onLayout(duration: TimeInterval) {
-    guard let circle = views(type: UILabel.self, key: Key.circle.rawValue).first,
+    guard let circle = views(type: UIView.self, key: Key.circle.rawValue).first,
           let avatar = views(type: UIImageView.self, key: Key.avatar.rawValue).first else  {
       return
     }

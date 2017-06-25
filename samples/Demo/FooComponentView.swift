@@ -20,17 +20,17 @@ class FooComponentView: ComponentView<FooComponentViewState> {
 
   override func render() -> NodeType {
     // Main wrapper.
-    let wrapper = Node<UIView>() { (view, layout, size) in
+    let wrapper = Node<UIView> { view, layout, size in
       layout.width = size.width
       view.backgroundColor = Color.black
     }
 
     // Container view that simply changes the flex direction.
-    let column = Node<UIView> { (_, layout, _) in
+    let column = Node<UIView> { _, layout, _ in
       layout.flexDirection = .row
     }
 
-    let rightWrapper = Node<UIView>(){ (_, layout, _) in
+    let rightWrapper = Node<UIView> { _, layout, _ in
       // Makes sure the right column covers all of the remaining space.
       layout.flexShrink = 1
       layout.flexGrow = 1

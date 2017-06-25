@@ -33,20 +33,20 @@ class TableComponentView: ComponentView<TableComponentViewState> {
       // Any node definition will be wrapped inside a UITableViewCell.
       Node<UIView>(key: "green") { (view, layout, size) in
         layout.width = size.width
-        layout.height = 300
+        layout.height = 100
         view.backgroundColor = Color.green
       },
 
       Node<UIView>(key: "red") { (view, layout, size) in
         layout.width = size.width
-        layout.height = 100
+        layout.height = 50
         view.backgroundColor = Color.red
       },
 
       // A node definition.
       Node<UIView>(key: "darkerGreen") { (view, layout, size) in
         layout.width = size.width
-        layout.height = 300
+        layout.height = 100
         view.backgroundColor = Color.darkerGreen
       }
     ]
@@ -61,18 +61,13 @@ class TableComponentView: ComponentView<TableComponentViewState> {
 
 }
 
-class Example4ViewController: ViewController, ComponentViewDelegate {
+class Example4ViewController: ViewController, ComponentController {
 
-  private let component = TableComponentView()
+  var  component = TableComponentView()
 
   override func viewDidLoad() {
     super.viewDidLoad()
-    view.addSubview(component)
-    component.delegate = self
-  }
-
-  func componentDidRender(_ component: AnyComponentView) {
-    component.center = view.center
+    componentControllerViewDidLoad()
   }
 }
 

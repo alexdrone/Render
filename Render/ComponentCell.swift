@@ -38,14 +38,6 @@ extension ComponentCellType where Self: UIView {
     clipsToBounds = true
   }
 
-  /// Called whenever the component finished to be rendered and updated its size.
-  public func componentDidRender(_ component: AnyComponentView) {
-    if let componentView = componentView as? UIView {
-      contentView.frame.size = componentView.frame.size
-      componentView.center = contentView.center
-    }
-  }
-
   /// Forward the invokation to update to the owned component view.
   public func update(options: [RenderOption] = []) {
     if let tableViewCell = self as? UITableViewCell {
@@ -53,7 +45,42 @@ extension ComponentCellType where Self: UIView {
     }
     componentView?.update(options: options)
   }
+
+  fileprivate func commonComponentDidRender(_ component: AnyComponentView) {
+    if let componentView = componentView as? UIView {
+      contentView.frame.size = componentView.frame.size
+      componentView.center = contentView.center
+    }
+    backgroundColor = component.rootView.backgroundColor
+    contentView.backgroundColor = backgroundColor
+  }
 }
+
+extension ComponentCellType where Self: UITableViewCell {
+
+  /// Called whenever the component finished to be rendered and updated its size.
+  public func componentDidRender(_ component: AnyComponentView) {
+    commonComponentDidRender(component)
+    let table = superview as? UITableView
+    guard component.bounds.size.height != self.bounds.size.height else {
+      return
+    }
+    if let indexPath = table?.indexPath(for: self) {
+      UIView.performWithoutAnimation {
+        table?.reloadRows(at: [indexPath], with: .none)
+      }
+    }
+  }
+}
+
+extension ComponentCellType where Self: UICollectionViewCell {
+
+  /// Called whenever the component finished to be rendered and updated its size.
+  public func componentDidRender(_ component: AnyComponentView) {
+    commonComponentDidRender(component)
+  }
+}
+
 
 // MARK: - UITableViewCell
 

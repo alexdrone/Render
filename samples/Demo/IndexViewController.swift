@@ -2,53 +2,29 @@ import Foundation
 import UIKit
 import Render
 
-class IndexViewController: UITableViewController {
-  let states: [IndexState] = [
-    IndexState(
-      title: "Example 1 - Hello world",
-      subtitle: "A simple component with static view hierarchy."),
-    IndexState(
-      title: "Example 2 - Nested Component",
-      subtitle: "A component with a complex dynamic view hierarchy comprising of a nested component."),
-    IndexState(
-      title: "Example 3 - Scrolling Component",
-      subtitle:  "The contentsize for the wrapping scrollview component is automatically determined."),
-    IndexState(
-        title: "Example 4 - TableNode",
-        subtitle: "Wraps the children nodes in UITableViewCells."),
-    IndexState(
-        title: "Example 5 - Layout values with %",
-        subtitle: "You can express size, margins and padding as %."),
-  ]
+class IndexViewController: ViewController, ComponentController, IndexComponentViewDelegate {
+
+  typealias C =  IndexComponentView
+  lazy var component = IndexComponentView()
 
   override func viewDidLoad() {
     super.viewDidLoad()
-    tableView.estimatedRowHeight = 100
-    tableView.rowHeight = UITableViewAutomaticDimension
-    tableView.separatorStyle = .none
-    tableView.backgroundColor = Color.black
-    tableView.dataSource = self
-    tableView.reloadData()
-    ViewController.styleNavigationBar(viewController: self)
-    title = "INDEX"
+    component.controller = self
+    componentControllerViewDidLoad()
   }
 
-  override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return states.count
+  struct State: StateType {
+    let titles: [(Int, String, String)] = [
+      (0, "#1: Counter", "A simple component with static view hierarchy."),
+      (1, "#2: Nested components", "A component with a complex dynamic view hierarchy comprising of a nested component."),
+      (2, "#3: Scrolling components", "The contentsize for the wrapping scrollview component is automatically determined."),
+      (4, "#4: Table node", "Wraps the children nodes in UITableViewCells."),
+      (5, "#5: Layout %", "You can express size, margins and padding as %."),
+    ]
   }
 
-  override func tableView(_ tableView: UITableView,
-                          cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-    let cell = tableView.dequeueReusableCell(withIdentifier: "Cell") ?? ComponentTableViewCell()
-    if let cell = cell as? ComponentTableViewCell {
-      cell.mountComponentIfNecessary(IndexItemComponentView())
-      cell.set(state: self.states[indexPath.row], options: [])
-    }
-    return cell
-  }
-
-  override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-    switch indexPath.row {
+  func indexComponentDidSelectRow(index: Int) {
+    switch index {
     case 0: self.navigationController?.pushViewController(Example1ViewController(), animated: true)
     case 1: self.navigationController?.pushViewController(Example2ViewController(), animated: true)
     case 2: self.navigationController?.pushViewController(Example3ViewController(), animated: true)
@@ -59,33 +35,49 @@ class IndexViewController: UITableViewController {
   }
 }
 
-//MARK: - Index cells
+protocol IndexComponentViewDelegate: class {
 
-struct IndexState: StateType {
-  let title: String
-  let subtitle: String
-  init() {
-    self.title = ""
-    self.subtitle = ""
-  }
-  init(title: String, subtitle: String) {
-    self.title = title
-    self.subtitle = subtitle
-  }
+  /// Delegates the selection of a specific cell back to the controller.
+  func indexComponentDidSelectRow(index: Int)
 }
 
-class IndexItemComponentView: ComponentView<IndexState> {
+class IndexComponentView: ComponentView<IndexViewController.State> {
+
+  weak var controller: IndexComponentViewDelegate?
+
+  required init() {
+    super.init()
+    defaultOptions = [.preventViewHierarchyDiff]
+    state = IndexViewController.State()
+  }
+
+  required init?(coder aDecoder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
 
   override func render() -> NodeType {
-    return Node<UIView>() { (view, layout, size) in
+    let children = self.state.titles.map { item in
+      indexCell(title: item.1, subtitle: item.2, onTap: { [weak self] _ in
+        self?.controller?.indexComponentDidSelectRow(index: item.0)
+      })
+    }
+    return TableNode(parent: self) { view, layout, size in 
+      layout.width = size.width
+      layout.height = size.height
+      view.backgroundColor = Color.black
+      view.separatorStyle = .none
+    }.add(children: children)
+  }
+
+  func indexCell(title: String, subtitle: String, onTap: @escaping () -> ()) -> NodeType {
+    return Node<UIView> { view, layout, size in
+      view.onTap { _ in onTap() }
       view.backgroundColor = Color.black
       layout.padding = 8
       layout.width = size.width
-    }.add(children: [
-        Fragments.paddedLabel(text: self.state.title),
-        Fragments.subtitleLabel(text: self.state.subtitle)
-    ])
+      }.add(children: [
+        Fragments.paddedLabel(text: title),
+        Fragments.subtitleLabel(text: subtitle)
+      ])
   }
-
 }
-

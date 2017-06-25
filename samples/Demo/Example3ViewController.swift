@@ -1,13 +1,13 @@
 import UIKit
 import Render
 
-class Example3ViewController: ViewController {
+class Example3ViewController: ViewController, ComponentController {
 
-  private let scrollableComponent = ScrollableDemoComponentView()
+  var component = ScrollableDemoComponentView()
 
   override func viewDidLoad() {
     super.viewDidLoad()
-    view.addSubview(scrollableComponent)
+    componentControllerViewDidLoad()
   }
 
 }

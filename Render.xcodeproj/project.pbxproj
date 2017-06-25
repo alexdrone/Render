@@ -31,6 +31,7 @@
 		168007D21EFE674600B4EA85 /* LCS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 168007D11EFE674600B4EA85 /* LCS.swift */; };
 		169D0E221EFC63F9002C700A /* Gestures.swift in Sources */ = {isa = PBXBuildFile; fileRef = 169D0E211EFC63F9002C700A /* Gestures.swift */; };
 		16C59F811E75BE9900D9E297 /* TableNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16C59F801E75BE9900D9E297 /* TableNode.swift */; };
+		16EAD3D71EFFE9B90021513D /* ComponentController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16EAD3D61EFFE9B90021513D /* ComponentController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -60,6 +61,7 @@
 		168007D11EFE674600B4EA85 /* LCS.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LCS.swift; sourceTree = "<group>"; };
 		169D0E211EFC63F9002C700A /* Gestures.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gestures.swift; sourceTree = "<group>"; };
 		16C59F801E75BE9900D9E297 /* TableNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableNode.swift; sourceTree = "<group>"; };
+		16EAD3D61EFFE9B90021513D /* ComponentController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComponentController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -98,11 +100,12 @@
 				164C11441E59ECB200766914 /* Info.plist */,
 				164C11A71E5E2F4400766914 /* ComponentCell.swift */,
 				164C116A1E5A257300766914 /* ComponentView.swift */,
+				16EAD3D61EFFE9B90021513D /* ComponentController.swift */,
+				169D0E211EFC63F9002C700A /* Gestures.swift */,
 				164C11641E5A190000766914 /* Extensions.swift */,
 				164C11621E59ECEC00766914 /* Node.swift */,
 				164C11681E5A203100766914 /* Reset.swift */,
 				16C59F801E75BE9900D9E297 /* TableNode.swift */,
-				169D0E211EFC63F9002C700A /* Gestures.swift */,
 			);
 			path = Render;
 			sourceTree = "<group>";
@@ -235,6 +238,7 @@
 				164C11631E59ECEC00766914 /* Node.swift in Sources */,
 				164C11581E59ECC600766914 /* UIView+Yoga.m in Sources */,
 				164C11651E5A190000766914 /* Extensions.swift in Sources */,
+				16EAD3D71EFFE9B90021513D /* ComponentController.swift in Sources */,
 				164C116B1E5A257300766914 /* ComponentView.swift in Sources */,
 				164C11A81E5E2F4400766914 /* ComponentCell.swift in Sources */,
 				164C115C1E59ECC600766914 /* YGLayout.m in Sources */,

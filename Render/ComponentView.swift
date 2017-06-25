@@ -86,6 +86,7 @@ public protocol AnyComponentView: class {
   var size: () -> CGSize { get set }
 
   /// Geometry
+  var rootView: UIView! { get }
   var frame: CGRect { get set }
   var center: CGPoint { get set }
   var bounds: CGRect { get set }
@@ -172,7 +173,7 @@ open class ComponentView<S: StateType>: UIView, ComponentViewType {
   private var root: NodeType = NilNode()
 
   /// The (current) view associated to the root node.
-  private var rootView: UIView!
+  public private(set) var rootView: UIView!
   private lazy var contentView: UIView = {
     return UIView()
   }()

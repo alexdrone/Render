@@ -4,6 +4,11 @@ import Render
 
 class DotComponentView: ComponentView<NilState> {
 
+  // Nodes identifiers.
+  enum Key: String {
+    case dot
+  }
+
   // Components can expose props.
   var numberOfDots: Int = 0
 
@@ -19,7 +24,7 @@ class DotComponentView: ComponentView<NilState> {
       }
     }
     let n = self.numberOfDots
-    return Node<UIView>(key: "dot") { (_, layout, _) in
+    return Node<UIView>(reuseIdentifier: Key.dot.rawValue) { _, layout, _ in
       layout.margin = 4
       layout.flexDirection = .row
       layout.flexWrap = .wrap

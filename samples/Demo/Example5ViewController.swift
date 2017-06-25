@@ -1,18 +1,13 @@
 import UIKit
 import Render
 
-class Example5ViewController: ViewController, ComponentViewDelegate {
+class Example5ViewController: ViewController, ComponentController {
 
-  private let component = PercentComponentView()
+  var component = PercentComponentView()
 
   override func viewDidLoad() {
     super.viewDidLoad()
-    self.view.addSubview(component)
-    component.delegate = self
-  }
-
-  func componentDidRender(_ component: AnyComponentView) {
-    component.center = self.view.center
+    componentControllerViewDidLoad()
   }
 }
 
