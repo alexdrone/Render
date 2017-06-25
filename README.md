@@ -156,7 +156,7 @@ In this way the node's subnodes will be wrapped inside UITableViewCollectionCell
       // Another one.
       Node<UIView>,
       // ComponentViews can also be added as child-nodes.
-			// The 'key' argument is important for collection stability.
+      // The 'key' argument is important for collection stability.
       ComponentNode(MyComponent(), state: state.bar, size: size),
     ])
   }
