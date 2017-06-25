@@ -125,6 +125,12 @@ static YGConfigRef globalConfig;
   YGNodeFree(self.node);
 }
 
+- (void)flex
+{
+  self.flexGrow = 1;
+  self.flexShrink = 1;
+}
+
 - (BOOL)isDirty
 {
   return YGNodeIsDirty(self.node);

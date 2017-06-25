@@ -183,6 +183,5 @@ public class TableNode: NSObject, NodeType, UITableViewDataSource, UITableViewDe
     node.associatedComponent?.didUpdate()
     return cell
   }
-
 }
 
