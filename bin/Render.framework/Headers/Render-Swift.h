@@ -132,17 +132,39 @@ typedef unsigned int swift_uint4  __attribute__((__ext_vector_type__(4)));
 # define SWIFT_DEPRECATED_MSG(...) __attribute__((deprecated(__VA_ARGS__)))
 #endif
 #if defined(__has_feature) && __has_feature(modules)
-@import ObjectiveC;
 @import UIKit;
 @import CoreGraphics;
+@import ObjectiveC;
 @import Foundation;
+@import CoreFoundation;
 #endif
 
 #pragma clang diagnostic ignored "-Wproperty-attribute-mismatch"
 #pragma clang diagnostic ignored "-Wduplicate-method-arg"
+@class NSCoder;
+
+/// Wraps a component in a UICollectionViewCell.
+SWIFT_CLASS("_TtC6Render27ComponentCollectionViewCell")
+@interface ComponentCollectionViewCell : UICollectionViewCell
+- (CGSize)sizeThatFits:(CGSize)size SWIFT_WARN_UNUSED_RESULT;
+@property (nonatomic, readonly) CGSize intrinsicContentSize;
+- (nonnull instancetype)initWithFrame:(CGRect)frame OBJC_DESIGNATED_INITIALIZER;
+- (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)aDecoder OBJC_DESIGNATED_INITIALIZER;
+@end
+
+
+/// Wraps a component in a UITableViewCell.
+SWIFT_CLASS("_TtC6Render22ComponentTableViewCell")
+@interface ComponentTableViewCell : UITableViewCell
+- (nonnull instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString * _Nullable)reuseIdentifier OBJC_DESIGNATED_INITIALIZER;
+- (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)aDecoder OBJC_DESIGNATED_INITIALIZER;
+/// Asks the view to calculate and return the size that best fits the specified size.
+- (CGSize)sizeThatFits:(CGSize)size SWIFT_WARN_UNUSED_RESULT;
+@property (nonatomic, readonly) CGSize intrinsicContentSize;
+@end
+
 @class UIView;
 @class UITableView;
-@class UITableViewCell;
 
 /// Wraps a UITableView in a node definition.
 /// TableNode.children will be wrapped into UITableViewCell.
@@ -152,23 +174,25 @@ SWIFT_CLASS("_TtC6Render9TableNode")
 @interface TableNode : NSObject <UITableViewDataSource, UITableViewDelegate>
 /// The UITableView associated to this node.
 @property (nonatomic, readonly, strong) UIView * _Nullable renderedView;
-/// The unique identifier for this node is its hierarchy.
-@property (nonatomic, readonly, copy) NSString * _Nonnull identifier;
 /// Set this property to ‘true’ if you want to disable the built-in cell reuse mechanism.
 /// This could be beneficial when the number of items is limited and you wish to improve the
 /// overall scroll performance.
 @property (nonatomic) BOOL disableCellReuse;
+/// Computes and applies the diff to the collection by adding and removing rows rather then
+/// calling reloadData.
+@property (nonatomic) BOOL shouldUseDiff;
+@property (nonatomic) NSInteger maximumNuberOfDiffUpdates;
 /// This component is the n-th children.
 @property (nonatomic) NSInteger index;
 /// Re-applies the configuration closures to the UITableView and reload the data source.
-- (void)renderIn:(CGSize)bounds;
+- (void)layoutIn:(CGSize)bounds;
 /// Internal use only.
 /// The configuration block for this node.
 - (void)configureIn:(CGSize)bounds;
-/// ‘willRender’ is not yet supported for TableNode.
-- (void)willRender;
-/// ‘didRender’ is not yet supported for TableNode.
-- (void)didRender;
+/// ‘willMount’ is not yet supported for TableNode.
+- (void)willLayout;
+/// ‘didMount’ is not yet supported for TableNode.
+- (void)didLayout;
 /// Asks the node to build the backing view for this node.
 - (void)buildWith:(UIView * _Nullable)reusable;
 /// Tells the data source to return the number of rows in a given section of a table view.
@@ -185,10 +209,19 @@ SWIFT_CLASS("_TtC6Render9TableNode")
 
 @interface UICollectionView (SWIFT_EXTENSION(Render))
 /// Refreshes the component at the given index path.
-- (void)renderAt:(NSIndexPath * _Nonnull)indexPath;
+- (void)updateAt:(NSIndexPath * _Nonnull)indexPath;
 /// Re-renders all the compoents currently visible on screen.
 /// Call this method whenever the collecrion view changes its bounds/size.
-- (void)renderVisibleComponents;
+- (void)updateVisibleComponents;
+@end
+
+
+@interface UIControl (SWIFT_EXTENSION(Render))
+- (void)onEvent:(UIControlEvents)event :(void (^ _Nonnull)(void))closure;
+@end
+
+
+@interface UIGestureRecognizer (SWIFT_EXTENSION(Render))
 @end
 
 
@@ -200,16 +233,51 @@ SWIFT_CLASS("_TtC6Render9TableNode")
 @end
 
 
+@interface UILongPressGestureRecognizer (SWIFT_EXTENSION(Render))
+- (nonnull instancetype)initWithHandler:(void (^ _Nonnull)(UILongPressGestureRecognizer * _Nonnull))handler;
+@end
+
+
+@interface UIPanGestureRecognizer (SWIFT_EXTENSION(Render))
+- (nonnull instancetype)initWithHandler:(void (^ _Nonnull)(UIPanGestureRecognizer * _Nonnull))handler;
+@end
+
+
+@interface UIPinchGestureRecognizer (SWIFT_EXTENSION(Render))
+- (nonnull instancetype)initWithHandler:(void (^ _Nonnull)(UIPinchGestureRecognizer * _Nonnull))handler;
+@end
+
+
+@interface UIRotationGestureRecognizer (SWIFT_EXTENSION(Render))
+- (nonnull instancetype)initWithHandler:(void (^ _Nonnull)(UIRotationGestureRecognizer * _Nonnull))handler;
+@end
+
+
+@interface UIScreenEdgePanGestureRecognizer (SWIFT_EXTENSION(Render))
+- (nonnull instancetype)initWithHandler:(void (^ _Nonnull)(UIScreenEdgePanGestureRecognizer * _Nonnull))handler;
+@end
+
+
 @interface UIScrollView (SWIFT_EXTENSION(Render))
+@end
+
+
+@interface UISwipeGestureRecognizer (SWIFT_EXTENSION(Render))
+- (nonnull instancetype)initWithDirection:(UISwipeGestureRecognizerDirection)direction handler:(void (^ _Nonnull)(UISwipeGestureRecognizer * _Nonnull))handler;
 @end
 
 
 @interface UITableView (SWIFT_EXTENSION(Render))
 /// Refreshes the component at the given index path.
-- (void)renderAt:(NSIndexPath * _Nonnull)indexPath;
+- (void)updateAt:(NSIndexPath * _Nonnull)indexPath;
 /// Re-renders all the compoents currently visible on screen.
 /// Call this method whenever the table view changes its bounds/size.
-- (void)renderVisibleComponents;
+- (void)updateVisibleComponents;
+@end
+
+
+@interface UITapGestureRecognizer (SWIFT_EXTENSION(Render))
+- (nonnull instancetype)initWithTaps:(NSInteger)taps touches:(NSInteger)touches handler:(void (^ _Nonnull)(UITapGestureRecognizer * _Nonnull))handler;
 @end
 
 
@@ -226,7 +294,27 @@ SWIFT_CLASS("_TtC6Render9TableNode")
 
 
 @interface UIView (SWIFT_EXTENSION(Render))
+- (void)onTap:(void (^ _Nonnull)(UITapGestureRecognizer * _Nonnull))handler;
+- (void)onDoubleTap:(void (^ _Nonnull)(UITapGestureRecognizer * _Nonnull))handler;
+- (void)onLongPress:(void (^ _Nonnull)(UILongPressGestureRecognizer * _Nonnull))handler;
+- (void)onSwipeLeft:(void (^ _Nonnull)(UISwipeGestureRecognizer * _Nonnull))handler;
+- (void)onSwipeRight:(void (^ _Nonnull)(UISwipeGestureRecognizer * _Nonnull))handler;
+- (void)onSwipeUp:(void (^ _Nonnull)(UISwipeGestureRecognizer * _Nonnull))handler;
+- (void)onSwipeDown:(void (^ _Nonnull)(UISwipeGestureRecognizer * _Nonnull))handler;
+- (void)onPan:(void (^ _Nonnull)(UIPanGestureRecognizer * _Nonnull))handler;
+- (void)onPinch:(void (^ _Nonnull)(UIPinchGestureRecognizer * _Nonnull))handler;
+- (void)onRotate:(void (^ _Nonnull)(UIRotationGestureRecognizer * _Nonnull))handler;
+- (void)onScreenEdgePan:(void (^ _Nonnull)(UIScreenEdgePanGestureRecognizer * _Nonnull))handler;
+@end
+
+
+@interface UIView (SWIFT_EXTENSION(Render))
 @property (nonatomic) BOOL isAnimatable;
+@property (nonatomic) BOOL hasNode;
+@property (nonatomic) BOOL isNewlyCreated;
+@property (nonatomic) CGFloat cornerRadius;
+@property (nonatomic) CGFloat oldCornerRadius;
+- (void)animateCornerRadiusInHierarchyIfNecessaryWithDuration:(CFTimeInterval)duration;
 @end
 
 #pragma clang diagnostic pop
