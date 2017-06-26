@@ -138,9 +138,9 @@ In this way you can better manage and complexity of your component and efficentl
     ])
   }
   
-  class MyComponentView: ComponentView<MyState> {
-  	func render() -> NodeType {
-  	  return Node<UIScrollView>.add(children: [
+class MyComponentView: ComponentView<MyState> {
+  func render() -> NodeType {
+    return Node<UIScrollView>.add(children: [
         paddedLabel(text: "foo"),
         paddedLabel(text: "bar"),
         paddedLabel(text: "baz"),
@@ -160,7 +160,7 @@ class ExampleComponentView: ComponentView<NilState> {(
 
   override func render() -> NodeType {
   
-  	// Nodes with flex layout defined 
+    // Nodes with flex layout defined 
     let avatar = Node<UIImageView>(key: "avatar") ...
     let text = Node<UILabel>(key: "text") ..
     let container = Node<UIImageView>(key: "container") ...
