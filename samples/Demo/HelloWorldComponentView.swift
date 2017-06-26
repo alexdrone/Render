@@ -93,3 +93,36 @@ class HelloWorldComponentView: ComponentView<HelloWorldComponentViewState> {
     circle.animateCornerRadiusInHierarchyIfNecessary(duration: duration)
   }
 }
+
+class ExampleComponentView: ComponentView<NilState> {(
+  
+  override func render() -> NodeType {
+  
+  // Nodes with flex layout defined 
+  let avatar = Node<UIImageView>(key: "avatar") ...
+  let text = Node<UILabel>(key: "text") ..
+  let container = Node<UIImageView>(key: "container") ...
+  
+  let viewWithManualLayout = Node<UIView>(key: "circle") { view, _, _ in
+  view.yoga.isIncludedInLayout = false
+  view.backgroundColor = UIColor.red
+  }
+  
+  return container.add(children: [
+  avatar,
+  text,
+  circle
+  ])
+  }
+  
+  override func onLayout(duration: TimeInterval) {
+  guard let circle = views(type: UIView.self, key: Key.circle.rawValue).first,
+  let avatar = views(type: UIImageView.self, key: Key.avatar.rawValue).first else  {
+  return
+  }
+  let size: CGFloat = avatar.bounds.size.width/2
+  circle.frame.size =  CGSize(width: size, height: size)
+  circle.center = avatar.center
+  }
+}
+

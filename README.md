@@ -114,9 +114,81 @@ Every time `update(options:)` is called, a new tree is constructed, compared to 
 
 The component above would render to:
 
-<img src="docs/component.gif" width="300">
+<img src="docs/component.gif" width="140">
 
 **Check the demo project for more examples**
+
+Components in *Render* are designed to be **stateful** *(although you can have a `ComponentView<NilState>` if you wish)* - Often is easier to simplify you render logic by having simple pure functions returning a `NodeType`.
+In this way you can better manage and complexity of your component and efficently share logic between those.
+
+```swift
+
+ func paddedLabel(text: String) -> NodeType {
+    // A box around the label with a little padding.
+    return Node<UIView>(key: "paddedLabel") { view, layout, _ in
+      layout.padding = 4
+      view.backgroundColor = Color.green
+      }.add(children: [
+        Node<UILabel> { view, _, _ in
+          view.text = text
+          view.numberOfLines = 0
+          view.textColor = Color.darkerGreen
+          view.font = Typography.small
+        }
+    ])
+  }
+  
+  class MyComponentView: ComponentView<MyState> {
+  	func render() -> NodeType {
+  		return Node<UIScrollView>.add(children: [
+  			paddedLabel(text: "foo"),
+  			paddedLabel(text: "bar"),
+  			paddedLabel(text: "baz"),
+  		])
+  	}
+  }
+  
+```
+
+*Render* strongly reccomend to use flexbox (**Yoga**) to layout views but you can opt out any node from the layout engine and layout the view in the `onLayout(duration:)` method.
+
+```swift
+
+
+
+class ExampleComponentView: ComponentView<NilState> {(
+
+  override func render() -> NodeType {
+  
+  	// Nodes with flex layout defined 
+    let avatar = Node<UIImageView>(key: "avatar") ...
+    let text = Node<UILabel>(key: "text") ..
+    let container = Node<UIImageView>(key: "container") ...
+    
+    let viewWithManualLayout = Node<UIView>(key: "circle") { view, _, _ in
+    	view.yoga.isIncludedInLayout = false
+      	view.backgroundColor = UIColor.red
+    }
+
+    return container.add(children: [
+      avatar,
+      text,
+      circle
+    ])
+  }
+  
+  override func onLayout(duration: TimeInterval) {
+    guard let circle = views(type: UIView.self, key: Key.circle.rawValue).first,
+          let avatar = views(type: UIImageView.self, key: Key.avatar.rawValue).first else  {
+      return
+    }
+    let size: CGFloat = avatar.bounds.size.width/2
+    circle.frame.size =  CGSize(width: size, height: size)
+    circle.center = avatar.center
+  }
+}
+
+// ...
 
 
 ### Lightweight Integration with UIKit
@@ -139,7 +211,9 @@ You can wrap your components in `ComponentTableViewCell` or `ComponentCollection
 ### Declarative UITableView implementation
 
 You can quickly leverage the efficiency of UITableView and its cell reuse capabilities by using **TableNode** as the container node for your children.
-In this way the node's subnodes will be wrapped inside UITableViewCollectionCells.
+In this way the node's subnodes will be wrapped inside `UITableViewCollectionCell`.
+
+Changes in the collection results in fine grain table changes (add/remove/move cells) as long as every children node in the collection has a unique `key`.
 
 ```swift
 
@@ -162,6 +236,8 @@ In this way the node's subnodes will be wrapped inside UITableViewCollectionCell
   }
 
 ```
+
+
 
 ### Samples
 
