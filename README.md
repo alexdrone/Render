@@ -140,12 +140,12 @@ In this way you can better manage and complexity of your component and efficentl
   
   class MyComponentView: ComponentView<MyState> {
   	func render() -> NodeType {
-  		return Node<UIScrollView>.add(children: [
-  			paddedLabel(text: "foo"),
-  			paddedLabel(text: "bar"),
-  			paddedLabel(text: "baz"),
-  		])
-  	}
+  	  return Node<UIScrollView>.add(children: [
+        paddedLabel(text: "foo"),
+        paddedLabel(text: "bar"),
+        paddedLabel(text: "baz"),
+      ])
+    }
   }
   
 ```
@@ -187,8 +187,7 @@ class ExampleComponentView: ComponentView<NilState> {(
     circle.center = avatar.center
   }
 }
-
-// ...
+```
 
 
 ### Lightweight Integration with UIKit
