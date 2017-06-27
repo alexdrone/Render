@@ -244,10 +244,12 @@ public func ComponentNode<T: ComponentViewType>(_ component: @autoclosure () -> 
   let component = (parent.childrenComponent[childKey] as? T) ?? component()
   let componentState = (state as? T.StateType) ?? component.state
   component.state = componentState
-  component.size = size ?? parent.size
+  component.referenceSize = size ?? parent.referenceSize
   props?(component, parent.childrenComponent[childKey] == nil)
-  parent.childrenComponent[childKey] = component
 
+  if !component.isStateless {
+    parent.childrenComponent[childKey] = component
+  }
   let node = component.render()
   node.key = childKey
   node.associatedComponent = component

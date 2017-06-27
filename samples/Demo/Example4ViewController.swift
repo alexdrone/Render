@@ -5,7 +5,7 @@ import Render
 // from https://github.com/alexdrone/Render/issues/34
 
 struct TableComponentViewState: StateType {
-  let number: Int = 6
+  let number: Int = 100
 }
 
 class TableComponentView: ComponentView<TableComponentViewState> {
@@ -25,28 +25,27 @@ class TableComponentView: ComponentView<TableComponentViewState> {
       layout.width = size.width
       layout.height = size.height
       view.backgroundColor = Color.black
-      view.separatorStyle = .none
     }
 
     let basicNodeFragments = [
 
       // Any node definition will be wrapped inside a UITableViewCell.
       Node<UIView>(key: "green") { (view, layout, size) in
-        layout.width = size.width
-        layout.height = 100
+        layout.width = size.width/3
+        layout.height = size.width/3
         view.backgroundColor = Color.green
       },
 
       Node<UIView>(key: "red") { (view, layout, size) in
-        layout.width = size.width
-        layout.height = 50
+        layout.width = size.width/3
+        layout.height = layout.width
         view.backgroundColor = Color.red
       },
 
       // A node definition.
       Node<UIView>(key: "darkerGreen") { (view, layout, size) in
-        layout.width = size.width
-        layout.height = 100
+        layout.width = size.width/3
+        layout.height = layout.width
         view.backgroundColor = Color.darkerGreen
       }
     ]

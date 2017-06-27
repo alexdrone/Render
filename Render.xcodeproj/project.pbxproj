@@ -31,7 +31,10 @@
 		168007D21EFE674600B4EA85 /* LCS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 168007D11EFE674600B4EA85 /* LCS.swift */; };
 		169D0E221EFC63F9002C700A /* Gestures.swift in Sources */ = {isa = PBXBuildFile; fileRef = 169D0E211EFC63F9002C700A /* Gestures.swift */; };
 		16C59F811E75BE9900D9E297 /* TableNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16C59F801E75BE9900D9E297 /* TableNode.swift */; };
+		16D2B0C21F01517400640800 /* IGListCollectionViewLayout.mm in Sources */ = {isa = PBXBuildFile; fileRef = 16D2B0C11F01517400640800 /* IGListCollectionViewLayout.mm */; };
+		16D2B0C41F01521C00640800 /* IGListCollectionViewLayout.h in Headers */ = {isa = PBXBuildFile; fileRef = 16D2B0C31F01518400640800 /* IGListCollectionViewLayout.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		16EAD3D71EFFE9B90021513D /* ComponentController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16EAD3D61EFFE9B90021513D /* ComponentController.swift */; };
+		16F270BD1F0149BA00E49F2B /* CollectionNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F270BC1F0149BA00E49F2B /* CollectionNode.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -61,7 +64,10 @@
 		168007D11EFE674600B4EA85 /* LCS.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LCS.swift; sourceTree = "<group>"; };
 		169D0E211EFC63F9002C700A /* Gestures.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gestures.swift; sourceTree = "<group>"; };
 		16C59F801E75BE9900D9E297 /* TableNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableNode.swift; sourceTree = "<group>"; };
+		16D2B0C11F01517400640800 /* IGListCollectionViewLayout.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = IGListCollectionViewLayout.mm; sourceTree = "<group>"; };
+		16D2B0C31F01518400640800 /* IGListCollectionViewLayout.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IGListCollectionViewLayout.h; sourceTree = "<group>"; };
 		16EAD3D61EFFE9B90021513D /* ComponentController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComponentController.swift; sourceTree = "<group>"; };
+		16F270BC1F0149BA00E49F2B /* CollectionNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionNode.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -94,18 +100,13 @@
 		164C11421E59ECB200766914 /* Render */ = {
 			isa = PBXGroup;
 			children = (
+				16F270BF1F014A9700E49F2B /* core */,
 				168007D01EFE674600B4EA85 /* deps */,
+				16F270C01F014AA500E49F2B /* helpers */,
+				16F270BE1F014A8200E49F2B /* lists */,
 				164C114B1E59ECC600766914 /* objc */,
 				164C11431E59ECB200766914 /* Render.h */,
 				164C11441E59ECB200766914 /* Info.plist */,
-				164C11A71E5E2F4400766914 /* ComponentCell.swift */,
-				164C116A1E5A257300766914 /* ComponentView.swift */,
-				16EAD3D61EFFE9B90021513D /* ComponentController.swift */,
-				164C11641E5A190000766914 /* Extensions.swift */,
-				169D0E211EFC63F9002C700A /* Gestures.swift */,
-				164C11621E59ECEC00766914 /* Node.swift */,
-				164C11681E5A203100766914 /* Reset.swift */,
-				16C59F801E75BE9900D9E297 /* TableNode.swift */,
 			);
 			path = Render;
 			sourceTree = "<group>";
@@ -128,6 +129,8 @@
 				167272031EC330C000906746 /* YGPercentLayout.h */,
 				167272041EC330C000906746 /* YGPercentLayout.m */,
 				167272071EC3340600906746 /* YGPercentLayoutExtension.swift */,
+				16D2B0C31F01518400640800 /* IGListCollectionViewLayout.h */,
+				16D2B0C11F01517400640800 /* IGListCollectionViewLayout.mm */,
 			);
 			path = objc;
 			sourceTree = "<group>";
@@ -140,6 +143,36 @@
 			path = deps;
 			sourceTree = "<group>";
 		};
+		16F270BE1F014A8200E49F2B /* lists */ = {
+			isa = PBXGroup;
+			children = (
+				16F270BC1F0149BA00E49F2B /* CollectionNode.swift */,
+				164C11A71E5E2F4400766914 /* ComponentCell.swift */,
+				16C59F801E75BE9900D9E297 /* TableNode.swift */,
+			);
+			path = lists;
+			sourceTree = "<group>";
+		};
+		16F270BF1F014A9700E49F2B /* core */ = {
+			isa = PBXGroup;
+			children = (
+				164C116A1E5A257300766914 /* ComponentView.swift */,
+				164C11621E59ECEC00766914 /* Node.swift */,
+			);
+			path = core;
+			sourceTree = "<group>";
+		};
+		16F270C01F014AA500E49F2B /* helpers */ = {
+			isa = PBXGroup;
+			children = (
+				16EAD3D61EFFE9B90021513D /* ComponentController.swift */,
+				164C11641E5A190000766914 /* Extensions.swift */,
+				169D0E211EFC63F9002C700A /* Gestures.swift */,
+				164C11681E5A203100766914 /* Reset.swift */,
+			);
+			path = helpers;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -150,6 +183,7 @@
 				164C115A1E59ECC600766914 /* YGLayout+Private.h in Headers */,
 				164C11451E59ECB200766914 /* Render.h in Headers */,
 				164C11571E59ECC600766914 /* UIView+Yoga.h in Headers */,
+				16D2B0C41F01521C00640800 /* IGListCollectionViewLayout.h in Headers */,
 				164C11591E59ECC600766914 /* YGEnums.h in Headers */,
 				164C11611E59ECC600766914 /* Yoga.h in Headers */,
 				164C115B1E59ECC600766914 /* YGLayout.h in Headers */,
@@ -229,6 +263,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				167272081EC3340600906746 /* YGPercentLayoutExtension.swift in Sources */,
+				16F270BD1F0149BA00E49F2B /* CollectionNode.swift in Sources */,
 				165649D71EAF82EB00E02BC1 /* YGEnums.c in Sources */,
 				164C11691E5A203100766914 /* Reset.swift in Sources */,
 				16C59F811E75BE9900D9E297 /* TableNode.swift in Sources */,
@@ -239,6 +274,7 @@
 				164C11581E59ECC600766914 /* UIView+Yoga.m in Sources */,
 				164C11651E5A190000766914 /* Extensions.swift in Sources */,
 				16EAD3D71EFFE9B90021513D /* ComponentController.swift in Sources */,
+				16D2B0C21F01517400640800 /* IGListCollectionViewLayout.mm in Sources */,
 				164C116B1E5A257300766914 /* ComponentView.swift in Sources */,
 				164C11A81E5E2F4400766914 /* ComponentCell.swift in Sources */,
 				164C115C1E59ECC600766914 /* YGLayout.m in Sources */,
@@ -360,6 +396,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = Render/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.alexdrone.Render;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -380,6 +417,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = Render/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.alexdrone.Render;
 				PRODUCT_NAME = "$(TARGET_NAME)";

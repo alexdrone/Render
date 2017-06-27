@@ -70,7 +70,7 @@ class IndexComponentView: ComponentView<IndexViewController.State> {
   }
 
   func indexCell(no: Int, title: String, subtitle: String, onTap: @escaping () -> ()) -> NodeType {
-    let container = Node<UIView> { view, layout, size in
+    let container = Node<UIView>(reuseIdentifier: "index") { view, layout, size in
       view.onTap { _ in onTap() }
       view.backgroundColor = Color.black
       layout.padding = 8

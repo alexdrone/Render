@@ -67,10 +67,11 @@ class HelloWorldComponentView: ComponentView<HelloWorldComponentViewState> {
     return Node<UIView>(key: Key.container.rawValue) { view, layout, size in
       view.backgroundColor = Color.black
       view.onTap { [weak self] _ in
-        self?.setState(options: [.animated(duration: 0.5, options: [], alongside: nil)]) {
+        self?.setState {
           $0.count += 1
         }
       }
+      layout.padding = 8
       layout.width = min(size.height.maxIfZero, size.width.maxIfZero)
       layout.aspectRatio = 1
       layout.justifyContent = .center
@@ -94,35 +95,4 @@ class HelloWorldComponentView: ComponentView<HelloWorldComponentViewState> {
   }
 }
 
-class ExampleComponentView: ComponentView<NilState> {(
-  
-  override func render() -> NodeType {
-  
-  // Nodes with flex layout defined 
-  let avatar = Node<UIImageView>(key: "avatar") ...
-  let text = Node<UILabel>(key: "text") ..
-  let container = Node<UIImageView>(key: "container") ...
-  
-  let viewWithManualLayout = Node<UIView>(key: "circle") { view, _, _ in
-  view.yoga.isIncludedInLayout = false
-  view.backgroundColor = UIColor.red
-  }
-  
-  return container.add(children: [
-  avatar,
-  text,
-  circle
-  ])
-  }
-  
-  override func onLayout(duration: TimeInterval) {
-  guard let circle = views(type: UIView.self, key: Key.circle.rawValue).first,
-  let avatar = views(type: UIImageView.self, key: Key.avatar.rawValue).first else  {
-  return
-  }
-  let size: CGFloat = avatar.bounds.size.width/2
-  circle.frame.size =  CGSize(width: size, height: size)
-  circle.center = avatar.center
-  }
-}
 

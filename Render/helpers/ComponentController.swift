@@ -2,7 +2,7 @@ import Foundation
 import UIKit
 
 /// A lightweight wrapper controller over a component.
-public protocol ComponentController: ComponentViewDelegate {
+public protocol ComponentController {
 
   associatedtype C: ComponentViewType
 
@@ -14,7 +14,7 @@ public extension ComponentController where Self: UIViewController {
 
   // Adds the component to the view hierarchy.
  public func componentControllerViewDidLoad() {
-    component.delegate = self
+    component.onLayoutCallback = onLayout
     if let componentView = component as? UIView {
       view.addSubview(componentView)
     }
@@ -22,7 +22,7 @@ public extension ComponentController where Self: UIViewController {
 
   /// By default the component is centered in the view controller main view.
   /// Overrid this method for a custom layout.
- public func componentDidRender(_ component: AnyComponentView) {
+ public func onLayout(duration: TimeInterval) {
     component.center = view.center
   }
 }

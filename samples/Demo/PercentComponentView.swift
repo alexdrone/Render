@@ -2,7 +2,7 @@ import Foundation
 import UIKit
 import Render
 
-class PercentComponentView: ComponentView<NilState> {
+class PercentComponentView: StatelessComponent {
 
   required init() {
     super.init()

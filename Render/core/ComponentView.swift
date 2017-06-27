@@ -36,6 +36,7 @@ public enum RenderOption {
   case preventUpdate
 
   // Internal use only.
+  case __preventOnLayoutCallback
   case __animated
   case __none
 }
@@ -44,7 +45,12 @@ public enum RenderOption {
 
 public protocol AnyComponentView: class {
 
-  weak var delegate: ComponentViewDelegate? { get set }
+  /// Stateless component are components that are expected to be fully configured from the outside
+  /// without mantaining an internal state.
+  /// Stateless components offers better performance and memory footprint because they can be more
+  /// easily recycled.
+  /// See 'StatelessComponentView'.
+  var isStateless: Bool { get }
 
   /// Internal use only.
   /// Used a store for nested component view refs.
@@ -52,6 +58,11 @@ public protocol AnyComponentView: class {
 
   /// Internal use only.
   var childrenComponentAutoIncrementKey: Int  { get set }
+
+  /// Called whenever the component is laying out iteself.
+  /// Usually you'd want your UIViewController to position the component view in its view
+  /// hierarchy.
+  var onLayoutCallback: (TimeInterval) -> () { get set }
 
   /// This will run 'render' that generates a new virtual-tree for this component.
   /// The tree is then diffed against the current one and the changes are applied to current
@@ -83,7 +94,7 @@ public protocol AnyComponentView: class {
   func didUpdate()
 
   /// The component bounds.
-  var size: () -> CGSize { get set }
+  var referenceSize: () -> CGSize { get set }
 
   /// Geometry
   var rootView: UIView! { get }
@@ -118,12 +129,6 @@ public extension ComponentViewType {
   }
 }
 
-public protocol ComponentViewDelegate: class {
-
-  /// Called whenever the component finished to be rendered and updated its size.
-  func componentDidRender(_ component: AnyComponentView)
-}
-
 // MARK: - Implementation
 
 /// Components let you split the UI into independent, reusable pieces, and think about each
@@ -136,19 +141,20 @@ open class ComponentView<S: StateType>: UIView, ComponentViewType {
   public typealias StateType = S
   public typealias RenderBlock = (S, CGSize) -> NodeType
 
-  public weak var delegate: ComponentViewDelegate?
-
   /// The state of the component. Call 'render' on this component after the new state is set.
   public var state: S = S()
 
+  public fileprivate(set) var isStateless: Bool = false
+
   /// The bounding rect of the component (the maximum size).
-  public lazy var size: () -> CGSize = {
+  public lazy var referenceSize: () -> CGSize = {
     return self.boundingRect
   }()
 
-  private var lastSizeThatFits: CGSize?
+  public var onLayoutCallback: (TimeInterval) -> () = { _ in }
+
   private func boundingRect() -> CGSize {
-    return (lastSizeThatFits ?? self.superview?.bounds.size) ?? CGSize.zero
+    return self.superview?.bounds.size ?? CGSize.zero
   }
 
   public func setState(options: [RenderOption] = [], change: (inout S) -> (Void)) {
@@ -215,9 +221,8 @@ open class ComponentView<S: StateType>: UIView, ComponentViewType {
   /// This method is called every time 'render' is invoked.
   open func render() -> NodeType {
     if let renderBlock = renderBlock {
-      return renderBlock(state, size())
+      return renderBlock(state, referenceSize())
     } else {
-      print("Subclasses should override this method.")
       return NilNode()
     }
   }
@@ -231,8 +236,7 @@ open class ComponentView<S: StateType>: UIView, ComponentViewType {
     if RenderOption.contains(options, .preventUpdate) {
       return
     }
-    let size = self.size()
-
+    let size = self.referenceSize()
     willUpdate()
     let startTime = CFAbsoluteTimeGetCurrent()
 
@@ -296,7 +300,9 @@ open class ComponentView<S: StateType>: UIView, ComponentViewType {
       frame = contentView.bounds
 
       onLayout(duration: duration)
-      delegate?.componentDidRender(self)
+      if !RenderOption.contains(options, .__preventOnLayoutCallback) {
+        onLayoutCallback(duration)
+      }
     }
 
     // Lays out the views with an animation.
@@ -377,8 +383,7 @@ open class ComponentView<S: StateType>: UIView, ComponentViewType {
 
   open override func sizeThatFits(_ size: CGSize) -> CGSize {
     assert(Thread.isMainThread)
-    lastSizeThatFits = (size != CGSize.zero ? size : nil)
-    update()
+    update(options: [.preventViewHierarchyDiff, .__preventOnLayoutCallback])
     return rootView.yoga.intrinsicSize
   }
 
@@ -427,6 +432,30 @@ open class ComponentView<S: StateType>: UIView, ComponentViewType {
   }
 }
 
+/// Stateless component are components that are expected to be fully configured from the outside
+/// without mantaining an internal state.
+/// You're expected to pass the events to the owner (ideally a UIViewController or a non-stateless
+/// ComponentView).
+/// Stateless components offers better performance and memory footprint because they can be more
+/// easily recycled.
+open class StatelessComponent: ComponentView<NilState> {
+
+  public required init() {
+    super.init()
+    isStateless = true
+  }
+
+  required public init?(coder aDecoder: NSCoder) {
+    super.init(coder: aDecoder)
+    isStateless = true
+  }
+
+  public convenience init(render: @escaping RenderBlock) {
+    self.init()
+    self.renderBlock = render
+  }
+}
+
 // MARK: - Utilities
 
 func debugReconcileTime(_ label: String, startTime: CFAbsoluteTime, threshold: CFAbsoluteTime = 16){
@@ -451,6 +480,7 @@ extension RenderOption: Equatable {
     case .flexibleWidth: return 1 << 3
     case .flexibleHeigth: return 1 << 4
     case .preventUpdate: return 1 << 5
+    case .__preventOnLayoutCallback: return 1 << 6
     case .__none: return 1 << 7
     }
   }
@@ -479,6 +509,3 @@ extension RenderOption: Equatable {
   }
 }
 
-// MARK: Equatable Options
-
-public class NilStateComponentView: ComponentView<NilState> { }

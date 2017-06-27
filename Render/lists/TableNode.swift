@@ -1,58 +1,63 @@
 import Foundation
 import UIKit
 
-struct AnyNode: Equatable {
-  let node: NodeType
-  static func ==(lhs: AnyNode, rhs: AnyNode) -> Bool {
-    return lhs.node.key == rhs.node.key
-  }
-}
+public protocol ListNodeType: NodeType {
 
-/// Wraps a UITableView in a node definition.
-/// TableNode.children will be wrapped into UITableViewCell.
-/// Consider using TableNode over Node<ScrollView> where you have a big number of items to be
-/// displayed.
-public class TableNode: NSObject, NodeType, UITableViewDataSource, UITableViewDelegate {
-
-  /// TableNode redirects all of the layout calls to a Node<TableView>.
-  /// Essentially this class is just a proxy in oder to hide the 'children' collection to the
-  /// node hierarchy and to implement the UITableView's datasource.
-  private let node: Node<UITableView>
-
-  /// The UITableView associated to this node.
-  public var renderedView: UIView? {
-    return node.renderedView
-  }
-
-  /// The unique identifier for this node is its hierarchy.
-  public var key: Key
+  /// The component that is owning this table.
+  weak var parentComponent: AnyComponentView? { get }
 
   /// Set this property to 'true' if you want to disable the built-in cell reuse mechanism.
   /// This could be beneficial when the number of items is limited and you wish to improve the
   /// overall scroll performance.
-  public var disableCellReuse: Bool = false
+  var disableCellReuse: Bool { get set }
 
   /// Computes and applies the diff to the collection by adding and removing rows rather then
   /// calling reloadData.
-  public var shouldUseDiff: Bool = false
-  public var maximumNuberOfDiffUpdates: Int = 50
+  var shouldUseDiff: Bool { get set }
+  var maximumNuberOfDiffUpdates: Int { get set }
 
-  /// This component is the n-th children.
-  public var index: Int = 0 {
-    didSet { node.index = index }
+  // Internal use only.
+  var internalChildren: [NodeType] { get set }
+  var internalOldChildren: [NodeType] { get set }
+  var internalNode: NodeType { get }
+}
+
+public extension ListNodeType {
+
+  /// The UITableView associated to this node.
+  public var renderedView: UIView? {
+    return internalNode.renderedView
   }
 
   /// The associated component (if applicable).
   public weak var associatedComponent: AnyComponentView? {
-    get { return node.associatedComponent }
-    set { node.associatedComponent = newValue }
+    get { return internalNode.associatedComponent }
+    set { internalNode.associatedComponent = newValue }
   }
 
-  /// The component that is owning this table.
-  private weak var parentComponent: AnyComponentView?
+  /// The reference size for the cells.
+  public func referenceSize() -> CGSize {
+    let width = self.renderedView?.bounds.size.width ?? 0
+    let height = CGFloat.max
+    return CGSize(width: width, height: height)
+  }
 
-  private var internalChildren: [NodeType] = []
-  private var internalOldChildren: [NodeType] = []
+  public func node(for indexPath: IndexPath) -> (String, NodeType) {
+    let node = internalChildren[indexPath.row]
+    let identifier = disableCellReuse ? node.key.stringValue : node.key.reuseIdentifier
+    return (identifier, node)
+  }
+
+  public func mount(node: NodeType, cell: ComponentCellType, parent: AnyComponentView?) {
+    if let component = parent?.childrenComponent[node.key] {
+      cell.mountComponentIfNecessary(isStateful: true, component)
+    } else {
+      cell.mountComponentIfNecessary(isStateful: true, StatelessComponent { _ in node })
+    }
+    cell.componentView?.referenceSize = referenceSize
+    cell.update(options: [.preventViewHierarchyDiff])
+    node.associatedComponent?.didUpdate()
+  }
 
   /// The children are bypassed and used to implement the UITableView's datasource.
   public var children: [NodeType] {
@@ -83,6 +88,56 @@ public class TableNode: NSObject, NodeType, UITableViewDataSource, UITableViewDe
     return self
   }
 
+  /// Internal use only.
+  /// The configuration block for this node.
+  public func configure(in bounds: CGSize) {
+    internalNode.configure(in: bounds)
+  }
+
+  /// 'willMount' is not yet supported for ListNode.
+  public func willLayout() { }
+
+  /// 'didMount' is not yet supported for ListNode.
+  public func didLayout() { }
+
+  /// Asks the node to build the backing view for this node.
+  public func build(with reusable: UIView?) {
+    internalNode.build(with: reusable)
+  }
+}
+
+/// Wraps a UITableView in a node definition.
+/// TableNode.children will be wrapped into UITableViewCell.
+/// Consider using TableNode over Node<ScrollView> where you have a big number of items to be
+/// displayed.
+public class TableNode: NSObject, ListNodeType, UITableViewDataSource, UITableViewDelegate {
+
+  /// TableNode redirects all of the layout calls to a Node<TableView>.
+  /// Essentially this class is just a proxy in oder to hide the 'children' collection to the
+  /// node hierarchy and to implement the UITableView's datasource.
+  private let node: Node<UITableView>
+  public var internalNode: NodeType {
+    return node
+  }
+
+  /// The unique identifier for this node is its hierarchy.
+  public var key: Key
+
+  public var disableCellReuse: Bool = false
+  public var shouldUseDiff: Bool = false
+  public var maximumNuberOfDiffUpdates: Int = 50
+
+  /// This component is the n-th children.
+  public var index: Int = 0 {
+    didSet { node.index = index }
+  }
+
+  /// The component that is owning this table.
+  public weak private(set) var parentComponent: AnyComponentView?
+
+  public var internalChildren: [NodeType] = []
+  public var internalOldChildren: [NodeType] = []
+
   public init(reuseIdentifier: String = String(describing: UITableView.self),
               key: String = "",
               parent: AnyComponentView,
@@ -107,9 +162,10 @@ public class TableNode: NSObject, NodeType, UITableViewDataSource, UITableViewDe
     guard let table = renderedView as? UITableView else {
       return
     }
-    table.estimatedRowHeight = -1;
+    table.estimatedRowHeight = 100;
     table.rowHeight = UITableViewAutomaticDimension
     table.dataSource = self
+    table.separatorStyle = .none
 
     if shouldUseDiff {
       let set = Set( internalChildren.map { $0.key })
@@ -137,23 +193,6 @@ public class TableNode: NSObject, NodeType, UITableViewDataSource, UITableViewDe
     }
   }
 
-  /// Internal use only.
-  /// The configuration block for this node.
-  public func configure(in bounds: CGSize) {
-    node.configure(in: bounds)
-  }
-
-  /// 'willMount' is not yet supported for TableNode.
-  public func willLayout() { }
-
-  /// 'didMount' is not yet supported for TableNode.
-  public func didLayout() { }
-
-  /// Asks the node to build the backing view for this node.
-  public func build(with reusable: UIView?) {
-    node.build(with: reusable)
-  }
-
   //MARK: - UITableViewDataSource
 
   /// Tells the data source to return the number of rows in a given section of a table view.
@@ -164,24 +203,21 @@ public class TableNode: NSObject, NodeType, UITableViewDataSource, UITableViewDe
   /// Asks the data source for a cell to insert in a particular location of the table view.
   public func tableView(_ tableView: UITableView,
                         cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-    let node = internalChildren[indexPath.row]
-    var identifier = node.key.reuseIdentifier
-    if disableCellReuse {
-      identifier = node.key.stringValue
-    }
+
+    let (identifier, node) = self.node(for: indexPath)
     let cell = tableView.dequeueReusableCell(withIdentifier: identifier) as? ComponentTableViewCell
                ?? ComponentTableViewCell()
-
-    if let component = parentComponent?.childrenComponent[node.key] {
-      cell.mountComponentIfNecessary(forceMount: true, component)
-    } else {
-      let component = NilStateComponentView()
-      cell.mountComponentIfNecessary(component)
-      component.renderBlock = { _, _ in return node }
-    }
-    cell.update(options: [.preventViewHierarchyDiff])
-    node.associatedComponent?.didUpdate()
+    mount(node: node, cell: cell, parent: parentComponent)
     return cell
+  }
+}
+
+//MARK : - AnyNode wrapper
+
+private struct AnyNode: Equatable {
+  let node: NodeType
+  static func ==(lhs: AnyNode, rhs: AnyNode) -> Bool {
+    return lhs.node.key == rhs.node.key
   }
 }
 
