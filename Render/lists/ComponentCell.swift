@@ -61,7 +61,7 @@ extension ComponentCellType where Self: UIView {
     guard let component = self.componentView, let view = self.componentView as? UIView else {
       return
     }
-    contentView.frame.size = view.intrinsicContentSize
+    contentView.frame.size = component.rootView.bounds.size
     view.center = contentView.center
     backgroundColor = component.rootView.backgroundColor
     contentView.backgroundColor = backgroundColor
@@ -101,18 +101,12 @@ extension ComponentCellType where Self: UICollectionViewCell {
 
   /// Called whenever the component finished to be rendered and updated its size.
   public func onLayout(duration: TimeInterval) {
-    guard let component = componentView else {
-      return
-    }
-    commonOnLayout(duration: duration)
     let collectionView = superview as? UICollectionView
-    guard component.bounds.size.height != self.bounds.size.height else {
-      return
-    }
+    commonOnLayout(duration: duration)
     if let indexPath = collectionView?.indexPath(for: self) {
-      UIView.performWithoutAnimation {
-        collectionView?.reloadItems(at: [indexPath])
-      }
+      collectionView?.reloadItems(at: [indexPath])
+    } else {
+      print("A component cell just got updated but the indexpath doesn't seem to be available.")
     }
   }
 }
@@ -165,11 +159,11 @@ open class ComponentCollectionViewCell: UICollectionViewCell, ComponentCellType 
   public var componentView: AnyComponentView?
 
   open override func sizeThatFits(_ size: CGSize) -> CGSize {
-    return commonSizeThatFits(size)
+    return componentView?.bounds.size ?? CGSize.zero
   }
 
   open override var intrinsicContentSize: CGSize {
-    return commonIntrinsicContentSize
+    return  componentView?.bounds.size ?? CGSize.zero
   }
 }
 

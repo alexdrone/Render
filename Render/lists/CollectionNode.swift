@@ -54,11 +54,10 @@ public class CollectionNode: NSObject, ListNodeType, UICollectionViewDataSource,
 
   public static func createView() -> UICollectionView {
     let collectionLayout = ListCollectionViewLayout(stickyHeaders: false,
-                                                      topContentInset: 0,
-                                                      stretchToEdge: false)
+                                                    topContentInset: 0,
+                                                    stretchToEdge: false)
     let collectionView = UICollectionView(frame: CGRect.zero,
                                           collectionViewLayout: collectionLayout)
-    collectionView.collectionViewLayout = collectionLayout
     return collectionView
   }
 
@@ -88,7 +87,7 @@ public class CollectionNode: NSObject, ListNodeType, UICollectionViewDataSource,
     let component = parentComponent?.childrenComponent[node.key]
                     ?? StatelessComponent { _ in  node }
 
-    component.update(options: [.preventViewHierarchyDiff, .__preventOnLayoutCallback])
+
     return component.intrinsicContentSize
   }
 

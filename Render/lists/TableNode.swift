@@ -1,6 +1,7 @@
 import Foundation
 import UIKit
 
+
 public protocol ListNodeType: NodeType {
 
   /// The component that is owning this table.

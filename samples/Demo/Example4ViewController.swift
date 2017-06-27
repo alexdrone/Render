@@ -27,25 +27,27 @@ class TableComponentView: ComponentView<TableComponentViewState> {
       view.backgroundColor = Color.black
     }
 
+    let width = referenceSize().width
+
     let basicNodeFragments = [
 
       // Any node definition will be wrapped inside a UITableViewCell.
       Node<UIView>(key: "green") { (view, layout, size) in
-        layout.width = size.width/3
-        layout.height = size.width/3
+        layout.width = width/2
+        layout.height = width/2
         view.backgroundColor = Color.green
       },
 
       Node<UIView>(key: "red") { (view, layout, size) in
-        layout.width = size.width/3
-        layout.height = layout.width
+        layout.width = width/2
+        layout.height = width/2
         view.backgroundColor = Color.red
       },
 
       // A node definition.
       Node<UIView>(key: "darkerGreen") { (view, layout, size) in
-        layout.width = size.width/3
-        layout.height = layout.width
+        layout.width = width/2
+        layout.height = width/2
         view.backgroundColor = Color.darkerGreen
       }
     ]
