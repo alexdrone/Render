@@ -118,8 +118,8 @@ The component above would render to:
 
 **Check the demo project for more examples**
 
-Components in *Render* are designed to be **stateful** *(although you can have a `ComponentView<NilState>` if you wish)* - Often is easier to simplify you render logic by having simple pure functions returning a `NodeType`.
-In this way you can better manage and complexity of your component and efficently share logic between those.
+Components in *Render* are designed to be **stateful** *(although you can have a `ComponentView<NilState>` if you wish)* but often is easier to simplify you render logic by having simple pure functions returning a `NodeType`.
+In this way you can better manage the complexity of your component and efficently share logic between those.
 
 ```swift
 
