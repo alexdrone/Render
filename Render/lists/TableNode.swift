@@ -122,7 +122,7 @@ public class TableNode: NSObject, ListNodeType, UITableViewDataSource, UITableVi
   public var key: Key
 
   public var disableCellReuse: Bool = false
-  public var shouldUseDiff: Bool = true
+  public var shouldUseDiff: Bool = false
   public var maximumNuberOfDiffUpdates: Int = 50
 
   /// This component is the n-th children.
