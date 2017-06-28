@@ -60,8 +60,12 @@ public class CollectionNode: NSObject, ListNodeType, UICollectionViewDataSource,
     return collectionView
   }
 
-  /// Re-applies the configuration closures to the UICollectionView and reload the data source.
   public func layout(in bounds: CGSize) {
+    configure(in: bounds)
+  }
+
+  /// Re-applies the configuration closures to the UITableView and reload the data source.
+  public func configure(in bounds: CGSize) {
     node.layout(in: bounds)
     guard let collectionView = renderedView as? UICollectionView else {
       return

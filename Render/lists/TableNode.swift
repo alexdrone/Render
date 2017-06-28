@@ -154,8 +154,12 @@ public class TableNode: NSObject, ListNodeType, UITableViewDataSource, UITableVi
     self.parentComponent = parent
   }
 
-  /// Re-applies the configuration closures to the UITableView and reload the data source.
   public func layout(in bounds: CGSize) {
+    configure(in: bounds)
+  }
+
+  /// Re-applies the configuration closures to the UITableView and reload the data source.
+  public func configure(in bounds: CGSize) {
     node.layout(in: bounds)
     guard let table = renderedView as? UITableView else {
       return
