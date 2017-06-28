@@ -20,6 +20,8 @@ class IndexViewController: ViewController, ComponentController, IndexComponentVi
       (2, "Scrolling components", "The contentsize for the wrapping scrollview component is automatically determined."),
       (3, "Table node", "Wraps the children nodes in UITableViewCells."),
       (4, "Layout %", "You can express size, margins and padding as %."),
+      (5, "Table diffs", "Enable TableNode for fine grain diffs."),
+
     ]
   }
 
@@ -30,6 +32,7 @@ class IndexViewController: ViewController, ComponentController, IndexComponentVi
     case 2: self.navigationController?.pushViewController(Example3ViewController(), animated: true)
     case 3: self.navigationController?.pushViewController(Example4ViewController(), animated: true)
     case 4: self.navigationController?.pushViewController(Example5ViewController(), animated: true)
+    case 5: self.navigationController?.pushViewController(Example6ViewController(), animated: true)
     default: break
     }
   }
@@ -61,7 +64,7 @@ class IndexComponentView: ComponentView<IndexViewController.State> {
         self?.controller?.indexComponentDidSelectRow(index: item.0)
       })
     }
-    return TableNode(parent: self) { view, layout, size in 
+    return TableNode(key: "indexList", parent: self) { view, layout, size in 
       layout.width = size.width
       layout.height = size.height
       view.backgroundColor = Color.black

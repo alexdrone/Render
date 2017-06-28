@@ -32,10 +32,9 @@ public class CollectionNode: NSObject, ListNodeType, UICollectionViewDataSource,
   public weak private(set) var parentComponent: AnyComponentView?
 
   public var internalChildren: [NodeType] = []
-  public var internalOldChildren: [NodeType] = []
 
   public init(reuseIdentifier: String = String(describing: UICollectionView.self),
-              key: String = "",
+              key: String,
               parent: AnyComponentView,
               children: [NodeType] = [],
               create: @escaping Node<UICollectionView>.CreateBlock = CollectionNode.createView,

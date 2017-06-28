@@ -1,7 +1,6 @@
 import Foundation
 import UIKit
 
-
 public protocol ListNodeType: NodeType {
 
   /// The component that is owning this table.
@@ -15,11 +14,10 @@ public protocol ListNodeType: NodeType {
   /// Computes and applies the diff to the collection by adding and removing rows rather then
   /// calling reloadData.
   var shouldUseDiff: Bool { get set }
-  var maximumNuberOfDiffUpdates: Int { get set }
 
   // Internal use only.
   var internalChildren: [NodeType] { get set }
-  var internalOldChildren: [NodeType] { get set }
+
   var internalNode: NodeType { get }
 }
 
@@ -63,7 +61,6 @@ public extension ListNodeType {
   /// The children are bypassed and used to implement the UITableView's datasource.
   public var children: [NodeType] {
     set {
-      internalOldChildren = internalChildren
       var index = 0
       let children = newValue.filter { child in !(child is NilNode) }
       for child in children where !(child is NilNode) {
@@ -125,7 +122,7 @@ public class TableNode: NSObject, ListNodeType, UITableViewDataSource, UITableVi
   public var key: Key
 
   public var disableCellReuse: Bool = false
-  public var shouldUseDiff: Bool = false
+  public var shouldUseDiff: Bool = true
   public var maximumNuberOfDiffUpdates: Int = 50
 
   /// This component is the n-th children.
@@ -140,7 +137,7 @@ public class TableNode: NSObject, ListNodeType, UITableViewDataSource, UITableVi
   public var internalOldChildren: [NodeType] = []
 
   public init(reuseIdentifier: String = String(describing: UITableView.self),
-              key: String = "",
+              key: String,
               parent: AnyComponentView,
               children: [NodeType] = [],
               create: @escaping Node<UITableView>.CreateBlock = { return UITableView() },
@@ -168,23 +165,22 @@ public class TableNode: NSObject, ListNodeType, UITableViewDataSource, UITableVi
     table.dataSource = self
     table.separatorStyle = .none
 
-    if shouldUseDiff {
+    if shouldUseDiff, let old = parentComponent?.internalListNodeCollection[key] {
       let set = Set( internalChildren.map { $0.key })
       guard set.count == internalChildren.count else {
         print("Unable to apply diff when table nodes don't all have a distinct key.")
         table.reloadData()
         return
       }
-      let old = internalOldChildren.map { AnyNode(node: $0) }
-      let new = internalChildren.map { AnyNode(node: $0) }
+      let new = internalChildren.map { $0.key }
       let threshold = maximumNuberOfDiffUpdates
       let diff = old.diff(new)
       if diff.insertions.count < threshold  && diff.deletions.count < threshold  {
         table.beginUpdates()
         table.deleteRows(at: diff.deletions.map { IndexPath(row: Int($0.idx), section: 0) },
-                         with: .automatic)
+                         with: .fade)
         table.insertRows(at: diff.insertions.map { IndexPath(row: Int($0.idx), section: 0) },
-                         with: .automatic)
+                         with: .fade)
         table.endUpdates()
       } else {
         table.reloadData()
@@ -192,6 +188,8 @@ public class TableNode: NSObject, ListNodeType, UITableViewDataSource, UITableVi
     } else {
       table.reloadData()
     }
+    parentComponent?.internalListNodeCollection[key] = internalChildren.map { $0.key }
+
   }
 
   //MARK: - UITableViewDataSource
@@ -213,12 +211,4 @@ public class TableNode: NSObject, ListNodeType, UITableViewDataSource, UITableVi
   }
 }
 
-//MARK : - AnyNode wrapper
-
-private struct AnyNode: Equatable {
-  let node: NodeType
-  static func ==(lhs: AnyNode, rhs: AnyNode) -> Bool {
-    return lhs.node.key == rhs.node.key
-  }
-}
 

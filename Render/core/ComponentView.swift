@@ -101,6 +101,9 @@ public protocol AnyComponentView: class {
   var frame: CGRect { get set }
   var center: CGPoint { get set }
   var bounds: CGRect { get set }
+
+  // Internal
+  var internalListNodeCollection: [Key: [Key]] { get set }
 }
 
 public protocol ComponentViewType: AnyComponentView {
@@ -194,6 +197,8 @@ open class ComponentView<S: StateType>: UIView, ComponentViewType {
 
   /// Internal use only.
   public var childrenComponentAutoIncrementKey: Int = 0
+
+  public var internalListNodeCollection: [Key: [Key]] = [:]
 
   public required init() {
     super.init(frame: CGRect.zero)
@@ -378,7 +383,6 @@ open class ComponentView<S: StateType>: UIView, ComponentViewType {
 
   open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
     super.traitCollectionDidChange(previousTraitCollection)
-    update()
   }
 
   open override func sizeThatFits(_ size: CGSize) -> CGSize {

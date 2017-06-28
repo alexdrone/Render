@@ -26,6 +26,7 @@
 		164C11B01E5EC3F400766914 /* ScrollableComponentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164C11AF1E5EC3F400766914 /* ScrollableComponentView.swift */; };
 		164C11B31E5ECEC000766914 /* Example1ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164C11B21E5ECEC000766914 /* Example1ViewController.swift */; };
 		164C11B51E5ECF0400766914 /* HelloWorldComponentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164C11B41E5ECF0400766914 /* HelloWorldComponentView.swift */; };
+		16AEA40F1F03868A005CD4EE /* Example6ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16AEA40E1F03868A005CD4EE /* Example6ViewController.swift */; };
 		16C59F841E76FDCA00D9E297 /* Example4ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16C59F831E76FDCA00D9E297 /* Example4ViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -81,6 +82,7 @@
 		164C11AF1E5EC3F400766914 /* ScrollableComponentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScrollableComponentView.swift; sourceTree = "<group>"; };
 		164C11B21E5ECEC000766914 /* Example1ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Example1ViewController.swift; sourceTree = "<group>"; };
 		164C11B41E5ECF0400766914 /* HelloWorldComponentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HelloWorldComponentView.swift; sourceTree = "<group>"; };
+		16AEA40E1F03868A005CD4EE /* Example6ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Example6ViewController.swift; sourceTree = "<group>"; };
 		16C59F831E76FDCA00D9E297 /* Example4ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Example4ViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -138,6 +140,7 @@
 				164C11AC1E5EC19100766914 /* example3 */,
 				16C59F861E76FDCE00D9E297 /* example4 */,
 				161B4D841EC33C6800007E8A /* example5 */,
+				16AEA40D1F038678005CD4EE /* example6 */,
 				164C119D1E5C840D00766914 /* external */,
 				164C11781E5B31E900766914 /* AppDelegate.swift */,
 				164C117F1E5B31E900766914 /* Assets.xcassets */,
@@ -185,6 +188,14 @@
 				164C11B41E5ECF0400766914 /* HelloWorldComponentView.swift */,
 			);
 			name = example1;
+			sourceTree = "<group>";
+		};
+		16AEA40D1F038678005CD4EE /* example6 */ = {
+			isa = PBXGroup;
+			children = (
+				16AEA40E1F03868A005CD4EE /* Example6ViewController.swift */,
+			);
+			name = example6;
 			sourceTree = "<group>";
 		};
 		16C59F861E76FDCE00D9E297 /* example4 */ = {
@@ -296,6 +307,7 @@
 				161CCCAF1ED85E600095E54A /* ViewController.swift in Sources */,
 				164C11B51E5ECF0400766914 /* HelloWorldComponentView.swift in Sources */,
 				164C117B1E5B31E900766914 /* Example2ViewController.swift in Sources */,
+				16AEA40F1F03868A005CD4EE /* Example6ViewController.swift in Sources */,
 				164C11791E5B31E900766914 /* AppDelegate.swift in Sources */,
 				161B4D861EC33C7F00007E8A /* PercentComponentView.swift in Sources */,
 				164C11A61E5E2EBA00766914 /* IndexViewController.swift in Sources */,
