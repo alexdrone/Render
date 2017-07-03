@@ -47,13 +47,19 @@ public extension ListNodeType {
     return (identifier, node)
   }
 
-  public func mount(node: NodeType, cell: ComponentCellType, parent: AnyComponentView?) {
+  public func mount(node: NodeType,
+                    cell: ComponentCellType,
+                    parent: AnyComponentView?,
+                    in listView: UIView,
+                    at indexPath: IndexPath) {
     if let component = parent?.childrenComponent[node.key] {
       cell.mountComponentIfNecessary(isStateful: true, component)
     } else {
       cell.mountComponentIfNecessary(isStateful: true, StatelessComponent { _ in node })
     }
-    cell.componentView?.referenceSize = referenceSize
+    cell.componentView?.associatedCell = cell
+    cell.listView = listView
+    cell.currentIndexPath = indexPath
     cell.update(options: [.preventViewHierarchyDiff])
     node.associatedComponent?.didUpdate()
   }
@@ -140,14 +146,13 @@ public class TableNode: NSObject, ListNodeType, UITableViewDataSource, UITableVi
               key: String,
               parent: AnyComponentView,
               children: [NodeType] = [],
-              create: @escaping Node<UITableView>.CreateBlock = { return UITableView() },
               configure: @escaping Node<UITableView>.ConfigureBlock = { _ in }) {
 
     self.node = Node(reuseIdentifier: reuseIdentifier,
                      key: key,
                      resetBeforeReuse: false,
                      children: [],
-                     create: create,
+                     create: { return UITableView() },
                      configure: configure)
     self.internalChildren = children
     self.key = Key(reuseIdentifier: reuseIdentifier, key: key)
@@ -164,9 +169,15 @@ public class TableNode: NSObject, ListNodeType, UITableViewDataSource, UITableVi
     guard let table = renderedView as? UITableView else {
       return
     }
-    table.estimatedRowHeight = 100;
+    if #available(iOS 11, *) {
+      table.estimatedRowHeight = -1;
+    } else {
+      table.estimatedRowHeight = 64;
+    }
+    table.estimatedRowHeight = 64;
     table.rowHeight = UITableViewAutomaticDimension
     table.dataSource = self
+    //table.delegate = self
     table.separatorStyle = .none
 
     if shouldUseDiff, let old = parentComponent?.internalListNodeCollection[key] {
@@ -198,6 +209,19 @@ public class TableNode: NSObject, ListNodeType, UITableViewDataSource, UITableVi
 
   //MARK: - UITableViewDataSource
 
+//  public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+//    let (_, node) = self.node(for: indexPath)
+//    let component = parentComponent?.childrenComponent[node.key] ?? StatelessComponent { _ in node }
+//    guard let view = component as? UIView else {
+//      return 0
+//    }
+//    let result =  view.sizeThatFits(CGSize(
+//        width: renderedView?.bounds.size.width ?? UIScreen.main.bounds.size.width,
+//        height: CGFloat.max)).height
+//    print(result)
+//    return result
+//  }
+
   /// Tells the data source to return the number of rows in a given section of a table view.
   public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     return internalChildren.count
@@ -210,7 +234,7 @@ public class TableNode: NSObject, ListNodeType, UITableViewDataSource, UITableVi
     let (identifier, node) = self.node(for: indexPath)
     let cell = tableView.dequeueReusableCell(withIdentifier: identifier) as? ComponentTableViewCell
                ?? ComponentTableViewCell()
-    mount(node: node, cell: cell, parent: parentComponent)
+    mount(node: node, cell: cell, parent: parentComponent, in: tableView, at: indexPath)
     return cell
   }
 }

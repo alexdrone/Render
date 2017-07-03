@@ -8,6 +8,12 @@ public protocol ComponentCellType: class  {
   /// The cell contentview.
   var contentView: UIView { get }
 
+  /// The associated UITableView or UICollectionView.
+  weak var listView: UIView? { get set }
+
+  /// The indexpath for this cell.
+  var currentIndexPath: IndexPath { get set }
+
   /// The component view wrapped by this cell.
   var componentView: AnyComponentView? { get set }
 
@@ -18,7 +24,7 @@ public protocol ComponentCellType: class  {
   func update(options: [RenderOption])
 
   /// Invoked whenever the component is being laid out.
-  func onLayout(duration: TimeInterval)
+ func onLayout(duration: TimeInterval, component: AnyComponentView, size: CGSize)
 
   /// Mount the component passed as argument in the cell.
   func mountComponentIfNecessary(isStateful: Bool,
@@ -29,15 +35,6 @@ extension ComponentCellType where Self: UIView {
 
   public func mountComponentIfNecessary(isStateful: Bool = true,
                                         _ component: @autoclosure () -> AnyComponentView) {
-    func configure(component: AnyComponentView?) {
-      component?.referenceSize = { [weak self] in
-        let width = self?.bounds.size.width ?? UIScreen.main.bounds.size.width
-        let height: CGFloat = CGFloat.max
-        return CGSize(width: width, height: height)
-      }
-      component?.onLayoutCallback = onLayout
-    }
-    configure(component: componentView)
     guard componentView == nil || isStateful else {
       return
     }
@@ -45,7 +42,6 @@ extension ComponentCellType where Self: UIView {
     if let componentView = componentView as? UIView {
       contentView.addSubview(componentView)
     }
-    configure(component: componentView)
     clipsToBounds = true
   }
 
@@ -74,25 +70,23 @@ extension ComponentCellType where Self: UIView {
   var commonIntrinsicContentSize: CGSize {
     return componentView?.intrinsicContentSize ?? CGSize.zero
   }
-
 }
 
 extension ComponentCellType where Self: UITableViewCell {
 
   /// Called whenever the component finished to be rendered and updated its size.
-  public func onLayout(duration: TimeInterval) {
-    guard let component = componentView else {
+  public func onLayout(duration: TimeInterval, component: AnyComponentView, size: CGSize) {
+    guard component === componentView, let table = listView as? UITableView else {
+      print("No table or component available for this cell.")
       return
     }
     commonOnLayout(duration: duration)
-    let table = superview as? UITableView
-    guard component.bounds.size.height != self.bounds.size.height else {
+    guard let indexPath = table.indexPath(for: self),
+          table.rectForRow(at: indexPath).height != component.bounds.size.height else {
       return
     }
-    if let indexPath = table?.indexPath(for: self) {
-      UIView.performWithoutAnimation {
-        table?.reloadRows(at: [indexPath], with: .none)
-      }
+    UIView.performWithoutAnimation {
+      table.reloadRows(at: [indexPath], with: .none)
     }
   }
 }
@@ -100,13 +94,18 @@ extension ComponentCellType where Self: UITableViewCell {
 extension ComponentCellType where Self: UICollectionViewCell {
 
   /// Called whenever the component finished to be rendered and updated its size.
-  public func onLayout(duration: TimeInterval) {
-    let collectionView = superview as? UICollectionView
+  public func onLayout(duration: TimeInterval, component: AnyComponentView, size: CGSize) {
+    guard component === componentView, let collectionView = listView as? UICollectionView else {
+        print("No table or component available for this cell.")
+        return
+    }
     commonOnLayout(duration: duration)
-    if let indexPath = collectionView?.indexPath(for: self) {
-      collectionView?.reloadItems(at: [indexPath])
-    } else {
-      print("A component cell just got updated but the indexpath doesn't seem to be available.")
+    guard let indexPath = collectionView.indexPath(for: self),
+          bounds.size.height != component.bounds.size.height else {
+        return
+    }
+    UIView.performWithoutAnimation {
+      collectionView.reloadItems(at: [indexPath])
     }
   }
 }
@@ -115,6 +114,9 @@ extension ComponentCellType where Self: UICollectionViewCell {
 
 /// Wraps a component in a UITableViewCell.
 open class ComponentTableViewCell: UITableViewCell, ComponentCellType  {
+
+  public weak var listView: UIView?
+  public var currentIndexPath = IndexPath(row: 0, section: 0)
 
   /// Sets the component state.
   public func set(state: Render.StateType, options: [RenderOption] = []) {
@@ -148,6 +150,9 @@ open class ComponentTableViewCell: UITableViewCell, ComponentCellType  {
 /// Wraps a component in a UICollectionViewCell.
 open class ComponentCollectionViewCell: UICollectionViewCell, ComponentCellType  {
 
+  public weak var listView: UIView?
+  public var currentIndexPath = IndexPath(item: 0, section: 0)
+
   /// Sets the component state.
   public func set(state: Render.StateType,
                   options: [RenderOption] = []) {
@@ -163,8 +168,9 @@ open class ComponentCollectionViewCell: UICollectionViewCell, ComponentCellType 
   }
 
   open override var intrinsicContentSize: CGSize {
-    return  componentView?.bounds.size ?? CGSize.zero
+    return componentView?.bounds.size ?? CGSize.zero
   }
+
 }
 
 //MARK: - Extensions

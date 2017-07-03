@@ -62,7 +62,7 @@ public protocol AnyComponentView: class {
   /// Called whenever the component is laying out iteself.
   /// Usually you'd want your UIViewController to position the component view in its view
   /// hierarchy.
-  var onLayoutCallback: (TimeInterval) -> () { get set }
+  var onLayoutCallback: (TimeInterval, AnyComponentView, CGSize) -> () { get set }
 
   /// This will run 'render' that generates a new virtual-tree for this component.
   /// The tree is then diffed against the current one and the changes are applied to current
@@ -101,6 +101,9 @@ public protocol AnyComponentView: class {
   var frame: CGRect { get set }
   var center: CGPoint { get set }
   var bounds: CGRect { get set }
+
+  /// If the component is wrapped into a cell this will have a ref to it.
+  weak var associatedCell: ComponentCellType? { get set }
 
   // Internal
   var internalListNodeCollection: [Key: [Key]] { get set }
@@ -154,10 +157,14 @@ open class ComponentView<S: StateType>: UIView, ComponentViewType {
     return self.boundingRect
   }()
 
-  public var onLayoutCallback: (TimeInterval) -> () = { _ in }
+  public var onLayoutCallback: (TimeInterval, AnyComponentView, CGSize) -> () = { _ in }
 
   private func boundingRect() -> CGSize {
-    return self.superview?.bounds.size ?? CGSize.zero
+    if let cell = associatedCell {
+      return cell.listView?.bounds.size ?? UIScreen.main.bounds.size
+    } else {
+      return self.superview?.bounds.size ?? CGSize.zero
+    }
   }
 
   public func setState(options: [RenderOption] = [], change: (inout S) -> (Void)) {
@@ -199,6 +206,7 @@ open class ComponentView<S: StateType>: UIView, ComponentViewType {
   public var childrenComponentAutoIncrementKey: Int = 0
 
   public var internalListNodeCollection: [Key: [Key]] = [:]
+  public weak var associatedCell: ComponentCellType? 
 
   public required init() {
     super.init(frame: CGRect.zero)
@@ -306,7 +314,11 @@ open class ComponentView<S: StateType>: UIView, ComponentViewType {
 
       onLayout(duration: duration)
       if !RenderOption.contains(options, .__preventOnLayoutCallback) {
-        onLayoutCallback(duration)
+        onLayoutCallback(duration, self, frame.size)
+        // Propagates the callback to the cell if necessary.
+        if let cell = associatedCell {
+          cell.onLayout(duration: duration, component: self, size: frame.size)
+        }
       }
     }
 

@@ -102,7 +102,7 @@ public class CollectionNode: NSObject, ListNodeType, UICollectionViewDataSource,
                             forCellWithReuseIdentifier: identifier)
     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: identifier,
                                                   for: indexPath) as! ComponentCollectionViewCell
-    mount(node: node, cell: cell, parent: parentComponent)
+    mount(node: node, cell: cell, parent: parentComponent, in: collectionView, at: indexPath)
     return cell
   }
 }

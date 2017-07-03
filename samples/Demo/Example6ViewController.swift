@@ -3,7 +3,7 @@ import UIKit
 import Render
 
 class Example6ViewController: ViewController, ComponentController {
-  var component = WrappingComponent()
+  var component = NumberListComponent()
   override func viewDidLoad() {
     super.viewDidLoad()
     componentControllerViewDidLoad()
@@ -65,7 +65,6 @@ class NumberListComponent: ComponentView<RandomCollectionState> {
       layout.height = size.height
       view.backgroundColor = Color.black
     }
-    table.shouldUseDiff = true
     return table.add(children: children)
   }
 }

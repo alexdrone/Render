@@ -22,7 +22,7 @@ public extension ComponentController where Self: UIViewController {
 
   /// By default the component is centered in the view controller main view.
   /// Overrid this method for a custom layout.
- public func onLayout(duration: TimeInterval) {
+  public func onLayout(duration: TimeInterval, component: AnyComponentView, size: CGSize) {
     component.center = view.center
   }
 }

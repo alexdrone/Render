@@ -14,6 +14,10 @@ public extension CGSize {
   public static let undefined: CGSize = CGSize(width: CGFloat.undefined, height: CGFloat.undefined)
   public static let max: CGSize =  CGSize(width: CGFloat.max, height: CGFloat.max)
   public static let epsilon: CGSize =  CGSize(width: CGFloat.epsilon, height: CGFloat.epsilon)
+  public static func ===(lhs: CGSize, rhs: CGSize) -> Bool {
+    return fabs(lhs.width - rhs.width) < CGFloat.epsilon &&
+           fabs(lhs.height - rhs.height) < CGFloat.epsilon
+  }
 }
 
 public extension CGRect {
