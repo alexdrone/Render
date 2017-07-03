@@ -11,6 +11,10 @@ class Example2ViewController: ViewController, ComponentController {
     newState()
   }
 
+  override func viewDidLayoutSubviews() {
+    component.update(options: [])
+  }
+
   private func newState() {
     component.set(state: FooComponentViewState(), options: [
       // Renders the component with an animation.

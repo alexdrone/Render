@@ -28,5 +28,4 @@ class ScrollableDemoComponentView: ComponentView<ScrollableDemoComponentViewStat
       ComponentNode(FooComponentView(), in: self, state: foo)
     })
   }
-
 }

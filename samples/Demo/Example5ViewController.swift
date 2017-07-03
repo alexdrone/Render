@@ -9,5 +9,9 @@ class Example5ViewController: ViewController, ComponentController {
     super.viewDidLoad()
     componentControllerViewDidLoad()
   }
+
+  override func viewDidLayoutSubviews() {
+    component.update(options: [])
+  }
 }
 

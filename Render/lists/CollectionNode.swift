@@ -90,7 +90,6 @@ public class CollectionNode: NSObject, ListNodeType, UICollectionViewDataSource,
     let component = parentComponent?.childrenComponent[node.key]
                     ?? StatelessComponent { _ in  node }
 
-
     return component.intrinsicContentSize
   }
 

@@ -161,7 +161,7 @@ open class ComponentView<S: StateType>: UIView, ComponentViewType {
 
   private func boundingRect() -> CGSize {
     if let cell = associatedCell {
-      return cell.listView?.bounds.size ?? UIScreen.main.bounds.size
+      return cell.referenceSize()
     } else {
       return self.superview?.bounds.size ?? CGSize.zero
     }

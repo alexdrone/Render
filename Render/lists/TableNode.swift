@@ -58,6 +58,7 @@ public extension ListNodeType {
       cell.mountComponentIfNecessary(isStateful: true, StatelessComponent { _ in node })
     }
     cell.componentView?.associatedCell = cell
+    cell.componentView?.referenceSize = referenceSize
     cell.listView = listView
     cell.currentIndexPath = indexPath
     cell.update(options: [.preventViewHierarchyDiff])
@@ -208,19 +209,6 @@ public class TableNode: NSObject, ListNodeType, UITableViewDataSource, UITableVi
   }
 
   //MARK: - UITableViewDataSource
-
-//  public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-//    let (_, node) = self.node(for: indexPath)
-//    let component = parentComponent?.childrenComponent[node.key] ?? StatelessComponent { _ in node }
-//    guard let view = component as? UIView else {
-//      return 0
-//    }
-//    let result =  view.sizeThatFits(CGSize(
-//        width: renderedView?.bounds.size.width ?? UIScreen.main.bounds.size.width,
-//        height: CGFloat.max)).height
-//    print(result)
-//    return result
-//  }
 
   /// Tells the data source to return the number of rows in a given section of a table view.
   public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

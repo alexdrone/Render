@@ -36,6 +36,10 @@ class IndexViewController: ViewController, ComponentController, IndexComponentVi
     default: break
     }
   }
+
+  override func viewDidLayoutSubviews() {
+    component.update(options: [])
+  }
 }
 
 protocol IndexComponentViewDelegate: class {

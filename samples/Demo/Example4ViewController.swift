@@ -64,11 +64,15 @@ class TableComponentView: ComponentView<TableComponentViewState> {
 
 class Example4ViewController: ViewController, ComponentController {
 
-  var  component = TableComponentView()
+  var component = TableComponentView()
 
   override func viewDidLoad() {
     super.viewDidLoad()
     componentControllerViewDidLoad()
+  }
+
+  override func viewDidLayoutSubviews() {
+    component.update(options: [])
   }
 }
 

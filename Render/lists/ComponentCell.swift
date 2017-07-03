@@ -29,16 +29,21 @@ public protocol ComponentCellType: class  {
   /// Mount the component passed as argument in the cell.
   func mountComponentIfNecessary(isStateful: Bool,
                                  _ component: @autoclosure () -> AnyComponentView)
+
+  /// Returns the bounding rect for the component.
+  func referenceSize() -> CGSize
 }
 
 extension ComponentCellType where Self: UIView {
 
   public func mountComponentIfNecessary(isStateful: Bool = true,
                                         _ component: @autoclosure () -> AnyComponentView) {
+    componentView?.referenceSize = referenceSize
     guard componentView == nil || isStateful else {
       return
     }
     componentView = component()
+    componentView?.referenceSize = referenceSize
     if let componentView = componentView as? UIView {
       contentView.addSubview(componentView)
     }
@@ -69,6 +74,11 @@ extension ComponentCellType where Self: UIView {
 
   var commonIntrinsicContentSize: CGSize {
     return componentView?.intrinsicContentSize ?? CGSize.zero
+  }
+
+  public func referenceSize() -> CGSize {
+    return CGSize(width: listView?.bounds.size.width ?? UIScreen.main.bounds.size.width,
+                  height: CGFloat.max)
   }
 }
 
