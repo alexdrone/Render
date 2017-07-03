@@ -175,7 +175,6 @@ public class TableNode: NSObject, ListNodeType, UITableViewDataSource, UITableVi
     } else {
       table.estimatedRowHeight = 64;
     }
-    table.estimatedRowHeight = 64;
     table.rowHeight = UITableViewAutomaticDimension
     table.dataSource = self
     //table.delegate = self
