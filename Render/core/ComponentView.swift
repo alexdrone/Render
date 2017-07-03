@@ -106,7 +106,7 @@ public protocol AnyComponentView: class {
   weak var associatedCell: ComponentCellType? { get set }
 
   // Internal
-  var internalListNodeCollection: [Key: [Key]] { get set }
+  var childrenKeyMap: [Key: [Key]] { get set }
 }
 
 public protocol ComponentViewType: AnyComponentView {
@@ -205,7 +205,7 @@ open class ComponentView<S: StateType>: UIView, ComponentViewType {
   /// Internal use only.
   public var childrenComponentAutoIncrementKey: Int = 0
 
-  public var internalListNodeCollection: [Key: [Key]] = [:]
+  public var childrenKeyMap: [Key: [Key]] = [:]
   public weak var associatedCell: ComponentCellType? 
 
   public required init() {
