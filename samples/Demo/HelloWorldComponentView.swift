@@ -71,8 +71,7 @@ class HelloWorldComponentView: ComponentView<HelloWorldComponentViewState> {
         }
       }
       layout.padding = 8
-      layout.width = min(size.height.maxIfZero, size.width.maxIfZero)
-      layout.aspectRatio = 1
+      layout.width = size.width
       layout.justifyContent = .center
     }.add(children: [
       avatar,

@@ -22,6 +22,7 @@ class ScrollableDemoComponentView: ComponentView<ScrollableDemoComponentViewStat
   override func render() -> NodeType {
     return Node<UIScrollView> { (view, layout, size) in
       (layout.width, layout.height)  = (size.width, size.height)
+      layout.paddingTop = 64
     }.add(children: state.foos.map { foo in
         // We create a component for every item in the state collection and we add it as a 
         // child for the main UIScrollView node.
