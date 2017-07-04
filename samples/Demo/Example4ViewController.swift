@@ -21,7 +21,7 @@ class TableComponentView: ComponentView<TableComponentViewState> {
   
   override func render() -> NodeType {
 
-    let list = CollectionNode(key: "table", parent: self) { (view, layout, size) in
+    let list = TableNode(key: "table", in: self) { (view, layout, size) in
       layout.width = size.width
       layout.height = size.height
       view.backgroundColor = Color.black

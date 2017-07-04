@@ -60,7 +60,7 @@ class NumberListComponent: ComponentView<RandomCollectionState> {
         }
       }.add(child: Fragments.subtitleLabel(text: item))
     }
-    let table = TableNode(key: "numberList", parent: self) { view, layout, size in
+    let table = TableNode(key: "numberList", in: self) { view, layout, size in
       layout.width = size.width
       layout.height = size.height
       view.backgroundColor = Color.black

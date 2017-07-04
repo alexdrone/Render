@@ -29,26 +29,42 @@ public class CollectionNode: NSObject, ListNodeType, UICollectionViewDataSource,
   }
 
   /// The component that is owning this table.
-  public weak private(set) var parentComponent: AnyComponentView?
+  public weak private(set) var rootComponent: AnyComponentView?
 
   public var internalChildren: [NodeType] = []
 
   public init(reuseIdentifier: String = String(describing: UICollectionView.self),
               key: String,
-              parent: AnyComponentView,
-              children: [NodeType] = [],
-              create: @escaping Node<UICollectionView>.CreateBlock = CollectionNode.createView,
-              configure: @escaping Node<UICollectionView>.ConfigureBlock = { _ in }) {
-
+              in rootComponent: AnyComponentView,
+              cellReuseEnabled: Bool = true,
+              props: @escaping Node<UICollectionView>.PropsBlock = { _ in }) {
     self.node = Node(reuseIdentifier: reuseIdentifier,
                      key: key,
                      resetBeforeReuse: false,
                      children: [],
-                     create: create,
-                     configure: configure)
-    self.internalChildren = children
+                     create: CollectionNode.createView,
+                     props: props)
+    self.disableCellReuse = !cellReuseEnabled
+    self.internalChildren = []
     self.key = Key(reuseIdentifier: reuseIdentifier, key: key)
-    self.parentComponent = parent
+    self.rootComponent = rootComponent
+  }
+
+  @available(*, unavailable)
+  public init(reuseIdentifier: String = String(describing: UICollectionView.self),
+              key: String = "",
+              resetBeforeReuse: Bool = false,
+              children: [NodeType] = [],
+              create: @escaping Node<UICollectionView>.CreateBlock = CollectionNode.createView,
+              props: @escaping Node<UICollectionView>.PropsBlock = { _ in }) {
+    self.node = Node(reuseIdentifier: reuseIdentifier,
+                     key: key,
+                     resetBeforeReuse: resetBeforeReuse,
+                     children: children,
+                     create: create,
+                     props: props)
+    self.key = Key(reuseIdentifier: reuseIdentifier, key: key)
+    self.rootComponent = nil
   }
 
   public static func createView() -> UICollectionView {
@@ -87,7 +103,7 @@ public class CollectionNode: NSObject, ListNodeType, UICollectionViewDataSource,
                              layout collectionViewLayout: UICollectionViewLayout,
                              sizeForItemAt indexPath: IndexPath) -> CGSize {
     let (_, node) = self.node(for: indexPath)
-    let component = parentComponent?.childrenComponent[node.key]
+    let component = rootComponent?.childrenComponent[node.key]
                     ?? StatelessComponent { _ in  node }
 
     return component.intrinsicContentSize
@@ -101,7 +117,7 @@ public class CollectionNode: NSObject, ListNodeType, UICollectionViewDataSource,
                             forCellWithReuseIdentifier: identifier)
     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: identifier,
                                                   for: indexPath) as! ComponentCollectionViewCell
-    mount(node: node, cell: cell, parent: parentComponent, in: collectionView, at: indexPath)
+    mount(node: node, cell: cell, rootComponent: rootComponent, for: (collectionView, indexPath))
     return cell
   }
 }

@@ -18,7 +18,7 @@ class Example2ViewController: ViewController, ComponentController {
   private func newState() {
     component.set(state: FooComponentViewState(), options: [
       // Renders the component with an animation.
-      .animated(duration: 0.5, options: .curveEaseInOut, alongside: nil)
+      .animated(duration: 0.5, options: .curveEaseInOut)
     ])
 
     // Generates a new random state every 2 seconds.

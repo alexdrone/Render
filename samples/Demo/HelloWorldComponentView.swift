@@ -40,7 +40,6 @@ class HelloWorldComponentView: ComponentView<HelloWorldComponentViewState> {
       var radius: CGFloat = 16 * CGFloat(self.state.count + 1)
       radius = radius > 128 ? 128 : radius
       view.backgroundColor = Color.green
-      view.cornerRadius = radius
       (layout.height, layout.width) = (radius * 2, radius * 2)
       layout.alignSelf = .center
     }
@@ -67,7 +66,7 @@ class HelloWorldComponentView: ComponentView<HelloWorldComponentViewState> {
     return Node<UIView>(key: Key.container.rawValue) { view, layout, size in
       view.backgroundColor = Color.black
       view.onTap { [weak self] _ in
-        self?.setState {
+        self?.setState(options: [.animated(duration: 0.3, options: [])]) {
           $0.count += 1
         }
       }
@@ -90,7 +89,6 @@ class HelloWorldComponentView: ComponentView<HelloWorldComponentViewState> {
     let size: CGFloat = avatar.bounds.size.width/2
     circle.frame.size =  CGSize(width: size, height: size)
     circle.center = avatar.center
-    circle.cornerRadius = size/2
     circle.animateCornerRadiusInHierarchyIfNecessary(duration: duration)
   }
 }

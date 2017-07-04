@@ -180,7 +180,6 @@ open class ComponentCollectionViewCell: UICollectionViewCell, ComponentCellType 
   open override var intrinsicContentSize: CGSize {
     return componentView?.bounds.size ?? CGSize.zero
   }
-
 }
 
 //MARK: - Extensions

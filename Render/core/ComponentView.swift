@@ -26,8 +26,7 @@ public enum RenderOption {
 
   /// Animates the layout changes.
   case animated(duration: TimeInterval,
-                options: UIViewAnimationOptions,
-                alongside: (() -> Void)?)
+                options: UIViewAnimationOptions)
 
   case flexibleWidth
   case flexibleHeigth
@@ -106,7 +105,7 @@ public protocol AnyComponentView: class {
   weak var associatedCell: ComponentCellType? { get set }
 
   // Internal
-  var childrenKeyMap: [Key: [Key]] { get set }
+  var identityMapForListNode: [Key: [Key]] { get set }
 }
 
 public protocol ComponentViewType: AnyComponentView {
@@ -205,7 +204,7 @@ open class ComponentView<S: StateType>: UIView, ComponentViewType {
   /// Internal use only.
   public var childrenComponentAutoIncrementKey: Int = 0
 
-  public var childrenKeyMap: [Key: [Key]] = [:]
+  public var identityMapForListNode: [Key: [Key]] = [:]
   public weak var associatedCell: ComponentCellType? 
 
   public required init() {
@@ -335,10 +334,9 @@ open class ComponentView<S: StateType>: UIView, ComponentViewType {
       }
 
       switch animation {
-        case .animated(let duration, let options, let alongside):
+        case .animated(let duration, let options):
           UIView.animate(withDuration: duration, delay: 0, options: options, animations: {
             layout(duration: duration)
-            alongside?()
             self.rootView.animateCornerRadiusInHierarchyIfNecessary(duration: duration)
           }) { _ in
             UIView.animate(withDuration: duration/2) {

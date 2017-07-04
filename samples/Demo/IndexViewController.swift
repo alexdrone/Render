@@ -68,7 +68,7 @@ class IndexComponentView: ComponentView<IndexViewController.State> {
         self?.controller?.indexComponentDidSelectRow(index: item.0)
       })
     }
-    return TableNode(key: "indexList", parent: self) { view, layout, size in 
+    return TableNode(key: "indexList", in: self) { view, layout, size in 
       layout.width = size.width
       layout.height = size.height
       view.backgroundColor = Color.black

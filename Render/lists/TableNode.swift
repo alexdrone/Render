@@ -4,7 +4,7 @@ import UIKit
 public protocol ListNodeType: NodeType {
 
   /// The component that is owning this table.
-  weak var parentComponent: AnyComponentView? { get }
+  weak var rootComponent: AnyComponentView? { get }
 
   /// Set this property to 'true' if you want to disable the built-in cell reuse mechanism.
   /// This could be beneficial when the number of items is limited and you wish to improve the
@@ -17,7 +17,6 @@ public protocol ListNodeType: NodeType {
 
   // Internal use only.
   var internalChildren: [NodeType] { get set }
-
   var internalNode: NodeType { get }
 }
 
@@ -49,18 +48,17 @@ public extension ListNodeType {
 
   public func mount(node: NodeType,
                     cell: ComponentCellType,
-                    parent: AnyComponentView?,
-                    in listView: UIView,
-                    at indexPath: IndexPath) {
-    if let component = parent?.childrenComponent[node.key] {
+                    rootComponent: AnyComponentView?,
+                    for collection: (UIView, IndexPath)) {
+    if let component = rootComponent?.childrenComponent[node.key] {
       cell.mountComponentIfNecessary(isStateful: true, component)
     } else {
       cell.mountComponentIfNecessary(isStateful: true, StatelessComponent { _ in node })
     }
     cell.componentView?.associatedCell = cell
     cell.componentView?.referenceSize = referenceSize
-    cell.listView = listView
-    cell.currentIndexPath = indexPath
+    cell.listView = collection.0
+    cell.currentIndexPath = collection.1
     cell.update(options: [.preventViewHierarchyDiff])
     node.associatedComponent?.didUpdate()
   }
@@ -138,26 +136,45 @@ public class TableNode: NSObject, ListNodeType, UITableViewDataSource, UITableVi
   }
 
   /// The component that is owning this table.
-  public weak private(set) var parentComponent: AnyComponentView?
+  public weak private(set) var rootComponent: AnyComponentView?
 
   public var internalChildren: [NodeType] = []
   public var internalOldChildren: [NodeType] = []
 
   public init(reuseIdentifier: String = String(describing: UITableView.self),
               key: String,
-              parent: AnyComponentView,
-              children: [NodeType] = [],
-              configure: @escaping Node<UITableView>.ConfigureBlock = { _ in }) {
-
+              in rootComponent: AnyComponentView,
+              cellReuseEnabled: Bool = true,
+              autoDiffEnabled: Bool = false,
+              props: @escaping Node<UITableView>.PropsBlock = { _ in }) {
     self.node = Node(reuseIdentifier: reuseIdentifier,
                      key: key,
                      resetBeforeReuse: false,
                      children: [],
                      create: { return UITableView() },
-                     configure: configure)
-    self.internalChildren = children
+                     props: props)
+    self.disableCellReuse = !cellReuseEnabled
+    self.shouldUseDiff = autoDiffEnabled
+    self.internalChildren = []
     self.key = Key(reuseIdentifier: reuseIdentifier, key: key)
-    self.parentComponent = parent
+    self.rootComponent = rootComponent
+  }
+
+  @available(*, unavailable)
+  public init(reuseIdentifier: String = String(describing: UICollectionView.self),
+              key: String = "",
+              resetBeforeReuse: Bool = false,
+              children: [NodeType] = [],
+              create: @escaping Node<UITableView>.CreateBlock = { return UITableView() },
+              props: @escaping Node<UITableView>.PropsBlock = { _ in }) {
+    self.node = Node(reuseIdentifier: reuseIdentifier,
+                     key: key,
+                     resetBeforeReuse: resetBeforeReuse,
+                     children: children,
+                     create: create,
+                     props: props)
+    self.key = Key(reuseIdentifier: reuseIdentifier, key: key)
+    self.rootComponent = nil
   }
 
   public func layout(in bounds: CGSize) {
@@ -180,7 +197,7 @@ public class TableNode: NSObject, ListNodeType, UITableViewDataSource, UITableVi
     //table.delegate = self
     table.separatorStyle = .none
 
-    if shouldUseDiff, let old = parentComponent?.childrenKeyMap[key] {
+    if shouldUseDiff, let old = rootComponent?.identityMapForListNode[key] {
       let set = Set(internalChildren.map { $0.key })
       guard set.count == internalChildren.count else {
         print("Unable to apply diff when table nodes don't all have a distinct key.")
@@ -203,8 +220,7 @@ public class TableNode: NSObject, ListNodeType, UITableViewDataSource, UITableVi
     } else {
       table.reloadData()
     }
-    parentComponent?.childrenKeyMap[key] = internalChildren.map { $0.key }
-
+    rootComponent?.identityMapForListNode[key] = internalChildren.map { $0.key }
   }
 
   //MARK: - UITableViewDataSource
@@ -221,9 +237,8 @@ public class TableNode: NSObject, ListNodeType, UITableViewDataSource, UITableVi
     let (identifier, node) = self.node(for: indexPath)
     let cell = tableView.dequeueReusableCell(withIdentifier: identifier) as? ComponentTableViewCell
                ?? ComponentTableViewCell()
-    mount(node: node, cell: cell, parent: parentComponent, in: tableView, at: indexPath)
+    mount(node: node, cell: cell, rootComponent: rootComponent, for: (tableView, indexPath))
     return cell
   }
 }
-
 

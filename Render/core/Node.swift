@@ -50,7 +50,7 @@ public protocol NodeType: class {
 public class Node<V: UIView>: NodeType {
 
   public typealias CreateBlock = () -> V
-  public typealias ConfigureBlock = (V, YGLayout, CGSize) -> (Void)
+  public typealias PropsBlock = (V, YGLayout, CGSize) -> (Void)
   public typealias OnLayoutBlock = (V?) -> (Void)
 
   /// The underlying view rendered from the node.
@@ -74,7 +74,7 @@ public class Node<V: UIView>: NodeType {
   public var onRender: (will: OnLayoutBlock?, did: OnLayoutBlock?) = (nil, nil)
 
   /// The configuration block for this node.
-  private let configure: ConfigureBlock
+  private let props: PropsBlock
 
   /// The initialization block for this node.
   /// This is the perfect entry point for the configuration code that is intended to be run
@@ -134,11 +134,11 @@ public class Node<V: UIView>: NodeType {
               resetBeforeReuse: Bool = false,
               children: [NodeType] = [],
               create: @escaping CreateBlock = { V() },
-              configure: @escaping ConfigureBlock = { _ in }) {
+              props: @escaping PropsBlock = { _ in }) {
     self.key = Key(reuseIdentifier: reuseIdentifier, key: key)
     self.resetBeforeReuse = resetBeforeReuse
     self.create = create
-    self.configure = configure
+    self.props = props
     self.children = children
   }
 
@@ -167,7 +167,7 @@ public class Node<V: UIView>: NodeType {
     guard let view = view else {
       return
     }
-    configure(view, view.yoga, bounds)
+    props(view, view.yoga, bounds)
     if view.yoga.isEnabled, view.yoga.isLeaf, view.yoga.isIncludedInLayout {
       if !(view is AnyComponentView) {
         // UIView reports its current size as the content size.
@@ -221,7 +221,9 @@ public class Node<V: UIView>: NodeType {
 
 /// Used to wrap nested components in the Node hierarchy.
 /// - parameter type: The component class for this node.
-/// - parameter parent: Likely the component that is calling the 'render' method.
+/// - parameter root: Likely the component that is calling the 'render' method.
+/// - parameter baseKey: The key of the parent node. (Important if you have several components of
+/// the same kind at different level of your hierarchy).
 /// - parameter key: Keys help Render identify which items have changed, are added, or are removed.
 /// Keys should be given to the elements inside the array to give the elements a stable identity
 /// - parameter state: The state for the component. (If nil is passed as argument the previous state
@@ -229,28 +231,34 @@ public class Node<V: UIView>: NodeType {
 /// - paramenter size: The bounds for the parent component.
 /// - paramenter props: Configuration closure for the component proprieties.
 public func ComponentNode<T: ComponentViewType>(_ component: @autoclosure () -> T,
-                                                in parent: AnyComponentView,
+                                                in rootComponent: AnyComponentView,
                                                 reuseIdentifier: String = String(describing:T.self),
                                                 key: String? = nil,
                                                 state: StateType? = nil,
                                                 size: (() -> CGSize)? = nil,
                                                 props: ((T, Bool) -> Void)? = nil) -> NodeType {
 
-  var _key = "\(parent.childrenComponentAutoIncrementKey)"
+  // If no key get passed as argument a new autoincrement key is generated.
+  // This autoincrement key is calculated by enumerating (at every render pass) the component
+  // of the same kind for the same parent component.
+  var _key = "\(rootComponent.childrenComponentAutoIncrementKey)"
   if let key = key {
     _key = key
   } else {
-    parent.childrenComponentAutoIncrementKey += 1
+    rootComponent.childrenComponentAutoIncrementKey += 1
   }
   let childKey = Key(reuseIdentifier: reuseIdentifier, key: _key)
-  let component = (parent.childrenComponent[childKey] as? T) ?? component()
+  let component = (rootComponent.childrenComponent[childKey] as? T) ?? component()
   let componentState = (state as? T.StateType) ?? component.state
   component.state = componentState
-  component.referenceSize = size ?? parent.referenceSize
-  props?(component, parent.childrenComponent[childKey] == nil)
+  component.referenceSize = size ?? rootComponent.referenceSize
 
+  // Applies the component configuration (this would be the props in the react world).
+  props?(component, rootComponent.childrenComponent[childKey] == nil)
+
+  // Stateless components don't get stored away.
   if !component.isStateless {
-    parent.childrenComponent[childKey] = component
+    rootComponent.childrenComponent[childKey] = component
   }
   let node = component.render()
   node.key = childKey
