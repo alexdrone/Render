@@ -28,14 +28,13 @@ public enum RenderOption {
   case animated(duration: TimeInterval,
                 options: UIViewAnimationOptions)
 
-  case flexibleWidth
-  case flexibleHeigth
-
   /// Prevents the component from render.
   case preventUpdate
 
+  /// Prevents the onLayout registered callback to be invoked at this very render pass.
+  case preventOnLayoutCallback
+
   // Internal use only.
-  case __preventOnLayoutCallback
   case __animated
   case __none
 }
@@ -286,22 +285,8 @@ open class ComponentView<S: StateType>: UIView, ComponentViewType {
       // Applies the configuration closures and recursively computes the layout.
       root.layout(in: bounds)
 
-      let preservingOrigin = false
       let yoga = rootView.yoga
-
-      if RenderOption.contains(opts, [.flexibleWidth, .flexibleHeigth]) {
-        yoga.applyLayout(preservingOrigin: preservingOrigin,
-                         dimensionFlexibility: [.flexibleWidth, .flexibleHeigth])
-
-      } else if RenderOption.contains(opts, .flexibleWidth) {
-        yoga.applyLayout(preservingOrigin: preservingOrigin, dimensionFlexibility: .flexibleWidth)
-
-      } else if RenderOption.contains(opts, .flexibleHeigth) {
-        yoga.applyLayout(preservingOrigin: preservingOrigin, dimensionFlexibility: .flexibleHeigth)
-
-      } else {
-        yoga.applyLayout(preservingOrigin: false)
-      }
+      yoga.applyLayout(preservingOrigin: false)
 
       // Applies the frame to the host view.
       rootView.frame.normalize()
@@ -312,7 +297,7 @@ open class ComponentView<S: StateType>: UIView, ComponentViewType {
       frame = contentView.bounds
 
       onLayout(duration: duration)
-      if !RenderOption.contains(options, .__preventOnLayoutCallback) {
+      if !RenderOption.contains(options, .preventOnLayoutCallback) {
         onLayoutCallback(duration, self, frame.size)
         // Propagates the callback to the cell if necessary.
         if let cell = associatedCell {
@@ -397,7 +382,7 @@ open class ComponentView<S: StateType>: UIView, ComponentViewType {
 
   open override func sizeThatFits(_ size: CGSize) -> CGSize {
     assert(Thread.isMainThread)
-    update(options: [.preventViewHierarchyDiff, .__preventOnLayoutCallback])
+    update(options: [.preventViewHierarchyDiff, .preventOnLayoutCallback])
     return rootView.yoga.intrinsicSize
   }
 
@@ -491,10 +476,8 @@ extension RenderOption: Equatable {
     switch self {
     case .preventViewHierarchyDiff: return 1 << 0
     case .animated(_), .__animated: return 1 << 1
-    case .flexibleWidth: return 1 << 3
-    case .flexibleHeigth: return 1 << 4
     case .preventUpdate: return 1 << 5
-    case .__preventOnLayoutCallback: return 1 << 6
+    case .preventOnLayoutCallback: return 1 << 6
     case .__none: return 1 << 7
     }
   }
