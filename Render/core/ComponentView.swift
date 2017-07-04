@@ -25,8 +25,7 @@ public enum RenderOption {
   case preventViewHierarchyDiff
 
   /// Animates the layout changes.
-  case animated(duration: TimeInterval,
-                options: UIViewAnimationOptions)
+  case animated(duration: TimeInterval, options: UIViewAnimationOptions)
 
   /// Prevents the component from render.
   case preventUpdate
@@ -476,9 +475,9 @@ extension RenderOption: Equatable {
     switch self {
     case .preventViewHierarchyDiff: return 1 << 0
     case .animated(_), .__animated: return 1 << 1
-    case .preventUpdate: return 1 << 5
-    case .preventOnLayoutCallback: return 1 << 6
-    case .__none: return 1 << 7
+    case .preventUpdate: return 1 << 2
+    case .preventOnLayoutCallback: return 1 << 3
+    case .__none: return 1 << 4
     }
   }
 
