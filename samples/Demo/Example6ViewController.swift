@@ -3,7 +3,7 @@ import UIKit
 import Render
 
 class Example6ViewController: ViewController, ComponentController {
-  var component = NumberListComponent()
+  var component = WrappingComponent()
   
   override func viewDidLoad() {
     super.viewDidLoad()

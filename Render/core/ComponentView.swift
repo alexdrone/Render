@@ -99,8 +99,14 @@ public protocol AnyComponentView: class {
   var center: CGPoint { get set }
   var bounds: CGRect { get set }
 
+  /// Internal only.
   /// If the component is wrapped into a cell this will have a ref to it.
   weak var associatedCell: ComponentCellType? { get set }
+
+  /// Internal only.
+  /// If the component is wrapped inside a root component some of the callbacks should be
+  /// forwarded.
+  weak var rootComponent: AnyComponentView? { get set }
 
   // Internal
   var identityMapForListNode: [Key: [Key]] { get set }
@@ -204,7 +210,8 @@ open class ComponentView<S: StateType>: UIView, ComponentViewType {
 
   /// Internal use only.
   public var identityMapForListNode: [Key: [Key]] = [:]
-  public weak var associatedCell: ComponentCellType? 
+  public weak var associatedCell: ComponentCellType?
+  public weak var rootComponent: AnyComponentView?
 
   public required init() {
     super.init(frame: CGRect.zero)
@@ -245,6 +252,14 @@ open class ComponentView<S: StateType>: UIView, ComponentViewType {
   public func update(options: [RenderOption] = []) {
     assert(Thread.isMainThread)
     if RenderOption.contains(options, .preventUpdate) {
+      return
+    }
+    // If this component is nested inside another one, calling update on this component
+    // will invoke 'update' on the root component.
+    // (This doesn't apply when the component is actually wrapped inside a cell - because the
+    // event forwarding is hanlded by 'TableNode' and 'CollectionNode'.
+    if rootComponent != nil && associatedCell == nil {
+      rootComponent?.update(options: options)
       return
     }
     let size = self.referenceSize()

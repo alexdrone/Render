@@ -250,6 +250,7 @@ public func ComponentNode<T: ComponentViewType>(_ component: @autoclosure () -> 
   let childKey = Key(reuseIdentifier: reuseIdentifier, key: _key)
   let component = (rootComponent.childrenComponent[childKey] as? T) ?? component()
   let componentState = (state as? T.StateType) ?? component.state
+  component.rootComponent = rootComponent
   component.state = componentState
   component.referenceSize = size ?? rootComponent.referenceSize
 
