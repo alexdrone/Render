@@ -25,7 +25,7 @@ public extension ComponentController where Self: UIViewController {
 
   /// Update the component.
   /// The 'configureComponentProps' callback is called before the reder pass.
-  public func renderComponent(options: [RenderOption]) {
+  public func renderComponent(options: [RenderOption] = []) {
     configureComponentProps()
     component.update(options: options)
   }
