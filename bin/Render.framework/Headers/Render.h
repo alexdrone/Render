@@ -13,6 +13,7 @@
 #import <Render/YGPercentLayout.h>
 #import <Render/YGNodeList.h>
 #import <Render/Yoga.h>
+#import <Render/IGListCollectionViewLayout.h>
 
 //! Project version number for Render.
 FOUNDATION_EXPORT double RenderVersionNumber;

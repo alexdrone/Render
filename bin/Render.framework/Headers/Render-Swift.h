@@ -132,20 +132,50 @@ typedef unsigned int swift_uint4  __attribute__((__ext_vector_type__(4)));
 # define SWIFT_DEPRECATED_MSG(...) __attribute__((deprecated(__VA_ARGS__)))
 #endif
 #if defined(__has_feature) && __has_feature(modules)
+@import ObjectiveC;
 @import UIKit;
 @import CoreGraphics;
-@import ObjectiveC;
 @import Foundation;
 @import CoreFoundation;
 #endif
 
 #pragma clang diagnostic ignored "-Wproperty-attribute-mismatch"
 #pragma clang diagnostic ignored "-Wduplicate-method-arg"
+@class UICollectionView;
+@class UICollectionViewLayout;
+@class UICollectionViewCell;
+
+/// Wraps a UICollectionView in a node definition.
+/// CollectionNode.children will be wrapped into UICollectionView.
+/// Consider using TableNode over Node<ScrollView> where you have a big number of items to be
+/// displayed.
+SWIFT_CLASS("_TtC6Render14CollectionNode")
+@interface CollectionNode : NSObject <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
+@property (nonatomic) BOOL disableCellReuse;
+@property (nonatomic) BOOL shouldUseDiff;
+@property (nonatomic) NSInteger maximumNuberOfDiffUpdates;
+/// This component is the n-th children.
+@property (nonatomic) NSInteger index;
++ (UICollectionView * _Nonnull)createView SWIFT_WARN_UNUSED_RESULT;
+- (void)layoutIn:(CGSize)bounds;
+/// Re-applies the configuration closures to the UITableView and reload the data source.
+- (void)configureIn:(CGSize)bounds;
+/// Tells the data source to return the number of rows in a given section of a collection view.
+- (NSInteger)collectionView:(UICollectionView * _Nonnull)collectionView numberOfItemsInSection:(NSInteger)section SWIFT_WARN_UNUSED_RESULT;
+- (CGSize)collectionView:(UICollectionView * _Nonnull)collectionView layout:(UICollectionViewLayout * _Nonnull)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath * _Nonnull)indexPath SWIFT_WARN_UNUSED_RESULT;
+/// Asks the data source for a cell to insert in a particular location of the collection view.
+- (UICollectionViewCell * _Nonnull)collectionView:(UICollectionView * _Nonnull)collectionView cellForItemAtIndexPath:(NSIndexPath * _Nonnull)indexPath SWIFT_WARN_UNUSED_RESULT;
+- (nonnull instancetype)init SWIFT_UNAVAILABLE;
+@end
+
+@class UIView;
 @class NSCoder;
 
 /// Wraps a component in a UICollectionViewCell.
 SWIFT_CLASS("_TtC6Render27ComponentCollectionViewCell")
 @interface ComponentCollectionViewCell : UICollectionViewCell
+@property (nonatomic, weak) UIView * _Nullable listView;
+@property (nonatomic, copy) NSIndexPath * _Nonnull currentIndexPath;
 - (CGSize)sizeThatFits:(CGSize)size SWIFT_WARN_UNUSED_RESULT;
 @property (nonatomic, readonly) CGSize intrinsicContentSize;
 - (nonnull instancetype)initWithFrame:(CGRect)frame OBJC_DESIGNATED_INITIALIZER;
@@ -156,14 +186,14 @@ SWIFT_CLASS("_TtC6Render27ComponentCollectionViewCell")
 /// Wraps a component in a UITableViewCell.
 SWIFT_CLASS("_TtC6Render22ComponentTableViewCell")
 @interface ComponentTableViewCell : UITableViewCell
+@property (nonatomic, weak) UIView * _Nullable listView;
+@property (nonatomic, copy) NSIndexPath * _Nonnull currentIndexPath;
 - (nonnull instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString * _Nullable)reuseIdentifier OBJC_DESIGNATED_INITIALIZER;
 - (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)aDecoder OBJC_DESIGNATED_INITIALIZER;
-/// Asks the view to calculate and return the size that best fits the specified size.
 - (CGSize)sizeThatFits:(CGSize)size SWIFT_WARN_UNUSED_RESULT;
 @property (nonatomic, readonly) CGSize intrinsicContentSize;
 @end
 
-@class UIView;
 @class UITableView;
 
 /// Wraps a UITableView in a node definition.
@@ -172,29 +202,14 @@ SWIFT_CLASS("_TtC6Render22ComponentTableViewCell")
 /// displayed.
 SWIFT_CLASS("_TtC6Render9TableNode")
 @interface TableNode : NSObject <UITableViewDataSource, UITableViewDelegate>
-/// The UITableView associated to this node.
-@property (nonatomic, readonly, strong) UIView * _Nullable renderedView;
-/// Set this property to ‘true’ if you want to disable the built-in cell reuse mechanism.
-/// This could be beneficial when the number of items is limited and you wish to improve the
-/// overall scroll performance.
 @property (nonatomic) BOOL disableCellReuse;
-/// Computes and applies the diff to the collection by adding and removing rows rather then
-/// calling reloadData.
 @property (nonatomic) BOOL shouldUseDiff;
 @property (nonatomic) NSInteger maximumNuberOfDiffUpdates;
 /// This component is the n-th children.
 @property (nonatomic) NSInteger index;
-/// Re-applies the configuration closures to the UITableView and reload the data source.
 - (void)layoutIn:(CGSize)bounds;
-/// Internal use only.
-/// The configuration block for this node.
+/// Re-applies the configuration closures to the UITableView and reload the data source.
 - (void)configureIn:(CGSize)bounds;
-/// ‘willMount’ is not yet supported for TableNode.
-- (void)willLayout;
-/// ‘didMount’ is not yet supported for TableNode.
-- (void)didLayout;
-/// Asks the node to build the backing view for this node.
-- (void)buildWith:(UIView * _Nullable)reusable;
 /// Tells the data source to return the number of rows in a given section of a table view.
 - (NSInteger)tableView:(UITableView * _Nonnull)tableView numberOfRowsInSection:(NSInteger)section SWIFT_WARN_UNUSED_RESULT;
 /// Asks the data source for a cell to insert in a particular location of the table view.
