@@ -259,7 +259,7 @@ open class ComponentView<S: StateType>: UIView, ComponentViewType {
     // (This doesn't apply when the component is actually wrapped inside a cell - because the
     // event forwarding is hanlded by 'TableNode' and 'CollectionNode'.
     if rootComponent != nil && associatedCell == nil {
-      rootComponent?.update(options: options)
+      rootComponent?.update(options: options + defaultOptions)
       return
     }
     let size = self.referenceSize()

@@ -25,7 +25,9 @@ class ScrollableDemoComponentView: ComponentView<ScrollableDemoComponentViewStat
     }.add(children: state.foos.map { foo in
         // We create a component for every item in the state collection and we add it as a 
         // child for the main UIScrollView node.
-      ComponentNode(FooComponentView(), in: self, state: foo)
+      Node<UIView>(children:[
+        ComponentNode(FooComponentView(), in: self, state: foo),
+        ComponentNode(HelloWorldComponentView(), in: self)])
     })
   }
 }
