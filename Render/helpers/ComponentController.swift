@@ -3,21 +3,31 @@ import UIKit
 
 /// A lightweight wrapper controller over a component.
 public protocol ComponentController {
-
   associatedtype C: ComponentViewType
 
   /// The wrapped component.
   var component: C { get set }
+
+  /// Invoked before 'renderComponent'. Configure your root component properties here.
+  func configureComponentProps()
 }
 
 public extension ComponentController where Self: UIViewController {
 
-  // Adds the component to the view hierarchy.
- public func componentControllerViewDidLoad() {
+ /// Adds the component to the view hierarchy.
+ public func addComponentToViewControllerHierarchy() {
     component.onLayoutCallback = onLayout
     if let componentView = component as? UIView {
       view.addSubview(componentView)
     }
+    configureComponentProps()
+  }
+
+  /// Update the component.
+  /// The 'configureComponentProps' callback is called before the reder pass.
+  public func renderComponent(options: [RenderOption]) {
+    configureComponentProps()
+    component.update(options: options)
   }
 
   /// By default the component is centered in the view controller main view.

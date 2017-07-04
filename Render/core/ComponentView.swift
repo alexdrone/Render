@@ -202,6 +202,7 @@ open class ComponentView<S: StateType>: UIView, ComponentViewType {
   /// Internal use only.
   public var childrenComponentAutoIncrementKey: Int = 0
 
+  /// Internal use only.
   public var identityMapForListNode: [Key: [Key]] = [:]
   public weak var associatedCell: ComponentCellType? 
 

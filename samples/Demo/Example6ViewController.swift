@@ -4,9 +4,18 @@ import Render
 
 class Example6ViewController: ViewController, ComponentController {
   var component = NumberListComponent()
+  
   override func viewDidLoad() {
     super.viewDidLoad()
-    componentControllerViewDidLoad()
+    addComponentToViewControllerHierarchy()
+  }
+
+  override func viewDidLayoutSubviews() {
+    renderComponent(options: [.preventViewHierarchyDiff])
+  }
+
+  func configureComponentProps() {
+    // No props to pass down to the component.
   }
 }
 

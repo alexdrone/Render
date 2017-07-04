@@ -7,22 +7,27 @@ class IndexViewController: ViewController, ComponentController, IndexComponentVi
   typealias C =  IndexComponentView
   lazy var component = IndexComponentView()
 
+  let titles: [(Int, String, String)] = [
+    (0, "Counter", "A simple component with static view hierarchy."),
+    (1, "Nested components", "A component with a complex dynamic view hierarchy comprising of a nested component."),
+    (2, "Scrolling components", "The contentsize for the wrapping scrollview component is automatically determined."),
+    (3, "Table node", "Wraps the children nodes in UITableViewCells."),
+    (4, "Layout %", "You can express size, margins and padding as %."),
+    (5, "Table diffs", "Enable TableNode for fine grain diffs."),
+  ]
+
   override func viewDidLoad() {
     super.viewDidLoad()
-    component.controller = self
-    componentControllerViewDidLoad()
+    addComponentToViewControllerHierarchy()
   }
 
-  struct State: StateType {
-    let titles: [(Int, String, String)] = [
-      (0, "Counter", "A simple component with static view hierarchy."),
-      (1, "Nested components", "A component with a complex dynamic view hierarchy comprising of a nested component."),
-      (2, "Scrolling components", "The contentsize for the wrapping scrollview component is automatically determined."),
-      (3, "Table node", "Wraps the children nodes in UITableViewCells."),
-      (4, "Layout %", "You can express size, margins and padding as %."),
-      (5, "Table diffs", "Enable TableNode for fine grain diffs."),
+  override func viewDidLayoutSubviews() {
+    renderComponent(options: [.preventViewHierarchyDiff])
+  }
 
-    ]
+  func configureComponentProps() {
+    component.titles = titles
+    component.controller = self
   }
 
   func indexComponentDidSelectRow(index: Int) {
@@ -36,10 +41,6 @@ class IndexViewController: ViewController, ComponentController, IndexComponentVi
     default: break
     }
   }
-
-  override func viewDidLayoutSubviews() {
-    component.update(options: [])
-  }
 }
 
 protocol IndexComponentViewDelegate: class {
@@ -48,14 +49,14 @@ protocol IndexComponentViewDelegate: class {
   func indexComponentDidSelectRow(index: Int)
 }
 
-class IndexComponentView: ComponentView<IndexViewController.State> {
+class IndexComponentView: StatelessComponent {
 
   weak var controller: IndexComponentViewDelegate?
+  var titles: [(Int, String, String)] = []
 
   required init() {
     super.init()
     defaultOptions = [.preventViewHierarchyDiff]
-    state = IndexViewController.State()
   }
 
   required init?(coder aDecoder: NSCoder) {
@@ -63,7 +64,7 @@ class IndexComponentView: ComponentView<IndexViewController.State> {
   }
 
   override func render() -> NodeType {
-    let children = self.state.titles.map { item in
+    let children = titles.map { item in
       indexCell(no: item.0, title: item.1, subtitle: item.2, onTap: { [weak self] _ in
         self?.controller?.indexComponentDidSelectRow(index: item.0)
       })

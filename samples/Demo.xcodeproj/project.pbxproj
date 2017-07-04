@@ -109,8 +109,8 @@
 		161B4D841EC33C6800007E8A /* example5 */ = {
 			isa = PBXGroup;
 			children = (
-				161B4D851EC33C7F00007E8A /* PercentComponentView.swift */,
 				161B4D8C1EC33ED600007E8A /* Example5ViewController.swift */,
+				161B4D851EC33C7F00007E8A /* PercentComponentView.swift */,
 			);
 			name = example5;
 			sourceTree = "<group>";

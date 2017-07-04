@@ -7,11 +7,15 @@ class Example5ViewController: ViewController, ComponentController {
 
   override func viewDidLoad() {
     super.viewDidLoad()
-    componentControllerViewDidLoad()
+    addComponentToViewControllerHierarchy()
   }
 
   override func viewDidLayoutSubviews() {
-    component.update(options: [])
+    renderComponent(options: [.preventViewHierarchyDiff])
+  }
+
+  func configureComponentProps() {
+    // No props to pass down to the component.
   }
 }
 
