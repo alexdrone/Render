@@ -22,6 +22,9 @@ public protocol NodeType: class {
   /// This component is the n-th children.
   var index: Int { get set }
 
+  /// The generic type as string.
+  var debugType: String { get }
+
   /// Re-applies the configuration closures recursively and compute the new layout for the
   /// derived associated view hierarchy.
   /// - note: The rencociliation is perfomed from ComponentView owning this node hierarchy.
@@ -86,6 +89,9 @@ public class Node<V: UIView>: NodeType {
   /// This is the n-th child.
   public var index: Int = 0
 
+  /// The generic type as string.
+  public let debugType: String
+
   /// The associated component (if applicable).
   public weak var associatedComponent: AnyComponentView?
 
@@ -140,6 +146,7 @@ public class Node<V: UIView>: NodeType {
     self.create = create
     self.props = props
     self.children = children
+    self.debugType = String(describing: V.self)
   }
 
   /// Re-applies the configuration closures recursively and compute the new layout for the
@@ -285,6 +292,7 @@ public final class NilNode: NodeType {
     return self
   }
   public var index: Int = 0
+  public let debugType: String = "Nil"
   public weak var associatedComponent: AnyComponentView?
 
   public init() { }
@@ -298,8 +306,8 @@ public final class NilNode: NodeType {
 // MARK: - Key
 
 public struct Key: Hashable, Equatable {
-  public let reuseIdentifier: String
-  public let key: String
+  public internal(set) var reuseIdentifier: String
+  public internal(set) var key: String
 
   public var stringValue: String {
     return "\(reuseIdentifier)_\(key)"

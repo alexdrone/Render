@@ -27,6 +27,7 @@ public class CollectionNode: NSObject, ListNodeType, UICollectionViewDataSource,
   public var index: Int = 0 {
     didSet { node.index = index }
   }
+  public let debugType: String = String(describing: UICollectionView.self)
 
   /// The component that is owning this table.
   public weak private(set) var rootComponent: AnyComponentView?
