@@ -75,7 +75,7 @@ public extension ListNodeType {
       internalChildren = children;
     }
     get {
-      return []
+      return internalChildren
     }
   }
 
@@ -134,6 +134,7 @@ public class TableNode: NSObject, ListNodeType, UITableViewDataSource, UITableVi
   public var index: Int = 0 {
     didSet { node.index = index }
   }
+  public let debugType: String = String(describing: UITableView.self)
 
   /// The component that is owning this table.
   public weak private(set) var rootComponent: AnyComponentView?
@@ -200,7 +201,7 @@ public class TableNode: NSObject, ListNodeType, UITableViewDataSource, UITableVi
     if shouldUseDiff, let old = rootComponent?.identityMapForListNode[key] {
       let set = Set(internalChildren.map { $0.key })
       guard set.count == internalChildren.count else {
-        print("Unable to apply diff when table nodes don't all have a distinct key.")
+        log("Unable to apply diff when table nodes don't all have a distinct key.")
         table.reloadData()
         return
       }

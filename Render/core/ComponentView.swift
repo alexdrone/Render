@@ -1,22 +1,6 @@
 import Foundation
 import UIKit
 
-// MARK: - State protocol
-
-/// There are two types of data that control a component: props and state.
-/// props are simply the component proprieties,  set by the parent and they are fixed throughout the
-/// lifetime of a component.
-/// For data that is going to change, we have to use state.
-public protocol StateType {
-  /// Returns the initial state for this current state type.
-  init()
-}
-
-/// Represent a empty state (for components that don't need a state).
-public struct NilState: StateType {
-  public init() { }
-}
-
 public enum RenderOption {
   /// The 'render' method is called just once.
   /// This means that render will simply re-apply the existing configuration for the nodes
@@ -108,8 +92,11 @@ public protocol AnyComponentView: class {
   /// forwarded.
   weak var rootComponent: AnyComponentView? { get set }
 
-  // Internal
+  /// Internal only.
   var identityMapForListNode: [Key: [Key]] { get set }
+
+  /// Internal only.
+  var anyState: StateType { get }
 }
 
 public protocol ComponentViewType: AnyComponentView {
@@ -152,6 +139,9 @@ open class ComponentView<S: StateType>: UIView, ComponentViewType {
 
   /// The state of the component. Call 'render' on this component after the new state is set.
   public var state: S = S()
+  public var anyState: Render.StateType {
+    return state
+  }
 
   public fileprivate(set) var isStateless: Bool = false
 
@@ -232,6 +222,18 @@ open class ComponentView<S: StateType>: UIView, ComponentViewType {
                                            queue: nil) { [weak self] _ in
       self?.update()
     }
+    NotificationCenter.default.addObserver(forName: DebugNotification.dumpViewHierarchyDescription,
+                                           object: nil,
+                                           queue: nil) { [weak self] _ in
+      guard let `self` = self, self.rootComponent == nil, self.associatedCell == nil  else {
+        return
+      }
+      Console.shared.add(description: self.root.debugDescription())
+    }
+  }
+
+  deinit {
+    NotificationCenter.default.removeObserver(self)
   }
 
   /// The 'render' method is required for subclasses.
@@ -274,6 +276,7 @@ open class ComponentView<S: StateType>: UIView, ComponentViewType {
 
     debugReconcileTime("\(type(of: self)).render", startTime: startTime)
     didUpdate()
+    Console.shared.markDirty()
   }
 
   open func onLayout(duration: TimeInterval) { }
@@ -291,6 +294,8 @@ open class ComponentView<S: StateType>: UIView, ComponentViewType {
     if !initialized || !RenderOption.contains(opts, .preventViewHierarchyDiff) {
       self.childrenComponentAutoIncrementKey = 0
       root = render()
+      root.key.reuseIdentifier = String(describing: type(of: self))
+      root.associatedComponent = self
       reconcile(new: root, size: bounds, view: rootView, parent: contentView)
       rootView = root.renderedView!
     }
@@ -478,7 +483,7 @@ func debugReconcileTime(_ label: String, startTime: CFAbsoluteTime, threshold: C
   // - Note: 60fps means you need to render a frame every ~16ms to not drop any frames.
   // This is even more important when used inside a cell.
   if timeElapsed > threshold  {
-    print(String(format: "\(label) (%2f) ms.", arguments: [timeElapsed]))
+    log(String(format: "\(label) (%2f) ms.", arguments: [timeElapsed]))
   }
 }
 

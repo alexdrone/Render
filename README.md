@@ -63,7 +63,7 @@ struct HelloWorldState: StateType {
   let image: UIImage
 }
 
-class HelloWorldComponentView: ComponentView<HelloWorldState> {(
+class HelloWorldComponentView: ComponentView<HelloWorldState> {
 
   init() {
     self.state = HelloWorldState(count: 0, image: UIImage());
@@ -156,7 +156,7 @@ class MyComponentView: ComponentView<MyState> {
 
 
 
-class ExampleComponentView: ComponentView<NilState> {(
+class ExampleComponentView: ComponentView<NilState> {
 
   override func render() -> NodeType {
   
