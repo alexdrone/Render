@@ -121,7 +121,6 @@ public final class Console: ConsoleType {
     // Runs it in the next run loop.
     DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.1) {
       center.post(name: DebugNotification.viewHierarchyDescriptionDidUpdate, object: nil)
-      print(self.viewHierarchyDescriptions)
     }
   }
 }
