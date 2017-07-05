@@ -156,7 +156,7 @@ class MyComponentView: ComponentView<MyState> {
 
 
 
-class ExampleComponentView: ComponentView<NilState> {(
+class ExampleComponentView: ComponentView<NilState> {
 
   override func render() -> NodeType {
   
