@@ -452,7 +452,7 @@ open class ComponentView<S: StateType>: UIView, ComponentViewType {
 /// ComponentView).
 /// Stateless components offers better performance and memory footprint because they can be more
 /// easily recycled.
-open class StatelessComponent: ComponentView<NilState> {
+open class StatelessComponentView: ComponentView<NilState> {
 
   public required init() {
     super.init()

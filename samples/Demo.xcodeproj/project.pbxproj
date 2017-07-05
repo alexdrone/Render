@@ -7,30 +7,22 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		161B4D861EC33C7F00007E8A /* PercentComponentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 161B4D851EC33C7F00007E8A /* PercentComponentView.swift */; };
 		161B4D871EC33D3400007E8A /* Render.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1618D0991E7EDC9C00CD984C /* Render.framework */; };
 		161B4D881EC33D3400007E8A /* Render.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 1618D0991E7EDC9C00CD984C /* Render.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		161B4D8D1EC33ED600007E8A /* Example5ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 161B4D8C1EC33ED600007E8A /* Example5ViewController.swift */; };
 		161CCCAF1ED85E600095E54A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 161CCCAE1ED85E600095E54A /* ViewController.swift */; };
 		164C11791E5B31E900766914 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164C11781E5B31E900766914 /* AppDelegate.swift */; };
-		164C117B1E5B31E900766914 /* Example2ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164C117A1E5B31E900766914 /* Example2ViewController.swift */; };
 		164C11801E5B31E900766914 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 164C117F1E5B31E900766914 /* Assets.xcassets */; };
 		164C11831E5B31E900766914 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 164C11811E5B31E900766914 /* LaunchScreen.storyboard */; };
-		164C11981E5C7E9D00766914 /* FooComponentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164C11971E5C7E9D00766914 /* FooComponentView.swift */; };
 		164C11A01E5C840D00766914 /* Random.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164C119E1E5C840D00766914 /* Random.swift */; };
 		164C11A11E5C840D00766914 /* Style.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164C119F1E5C840D00766914 /* Style.swift */; };
-		164C11A41E5DC86A00766914 /* DotComponentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164C11A31E5DC86A00766914 /* DotComponentView.swift */; };
-		164C11A61E5E2EBA00766914 /* IndexViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164C11A51E5E2EBA00766914 /* IndexViewController.swift */; };
-		164C11AB1E5EC17B00766914 /* Example3ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164C11AA1E5EC17B00766914 /* Example3ViewController.swift */; };
-		164C11AE1E5EC29600766914 /* SharedFragments.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164C11AD1E5EC29600766914 /* SharedFragments.swift */; };
-		164C11B01E5EC3F400766914 /* ScrollableComponentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164C11AF1E5EC3F400766914 /* ScrollableComponentView.swift */; };
-		164C11B31E5ECEC000766914 /* Example1ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164C11B21E5ECEC000766914 /* Example1ViewController.swift */; };
-		164C11B51E5ECF0400766914 /* HelloWorldComponentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164C11B41E5ECF0400766914 /* HelloWorldComponentView.swift */; };
 		168884BB1F0BCE73002B9CC7 /* NewIndexViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 168884BA1F0BCE73002B9CC7 /* NewIndexViewController.swift */; };
-		16AEA40F1F03868A005CD4EE /* Example6ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16AEA40E1F03868A005CD4EE /* Example6ViewController.swift */; };
-		16C4EF7A1F0BD4CB0038EBA9 /* StatelessControllerExample.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16C4EF791F0BD4CB0038EBA9 /* StatelessControllerExample.swift */; };
+		16C4EF7A1F0BD4CB0038EBA9 /* StatelessExample.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16C4EF791F0BD4CB0038EBA9 /* StatelessExample.swift */; };
 		16C4EF7C1F0BE00C0038EBA9 /* CounterExample.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16C4EF7B1F0BE00C0038EBA9 /* CounterExample.swift */; };
-		16C59F841E76FDCA00D9E297 /* Example4ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16C59F831E76FDCA00D9E297 /* Example4ViewController.swift */; };
+		16E000401F0C2F3000D4C5F9 /* DynamicViewHierarchyExample.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16E0003F1F0C2F3000D4C5F9 /* DynamicViewHierarchyExample.swift */; };
+		16E000421F0C33DF00D4C5F9 /* NestedComponentsExample.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16E000411F0C33DF00D4C5F9 /* NestedComponentsExample.swift */; };
+		16E000441F0D642A00D4C5F9 /* ScrollViewExample.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16E000431F0D642A00D4C5F9 /* ScrollViewExample.swift */; };
+		16E000461F0D693100D4C5F9 /* TableNodeExample.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16E000451F0D693100D4C5F9 /* TableNodeExample.swift */; };
+		16E000481F0D742500D4C5F9 /* SharedFragments.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16E000471F0D740B00D4C5F9 /* SharedFragments.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -66,30 +58,22 @@
 
 /* Begin PBXFileReference section */
 		1618D0941E7EDC9C00CD984C /* Render.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Render.xcodeproj; path = ../Render.xcodeproj; sourceTree = "<group>"; };
-		161B4D851EC33C7F00007E8A /* PercentComponentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PercentComponentView.swift; sourceTree = "<group>"; };
-		161B4D8C1EC33ED600007E8A /* Example5ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Example5ViewController.swift; sourceTree = "<group>"; };
 		161CCCAE1ED85E600095E54A /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		164C11751E5B31E900766914 /* Demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Demo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		164C11781E5B31E900766914 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		164C117A1E5B31E900766914 /* Example2ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Example2ViewController.swift; sourceTree = "<group>"; };
 		164C117F1E5B31E900766914 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		164C11821E5B31E900766914 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		164C11841E5B31E900766914 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		164C11971E5C7E9D00766914 /* FooComponentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FooComponentView.swift; sourceTree = "<group>"; };
 		164C119E1E5C840D00766914 /* Random.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Random.swift; sourceTree = "<group>"; };
 		164C119F1E5C840D00766914 /* Style.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Style.swift; sourceTree = "<group>"; };
-		164C11A31E5DC86A00766914 /* DotComponentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DotComponentView.swift; path = Demo/DotComponentView.swift; sourceTree = SOURCE_ROOT; };
-		164C11A51E5E2EBA00766914 /* IndexViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IndexViewController.swift; sourceTree = "<group>"; };
-		164C11AA1E5EC17B00766914 /* Example3ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Example3ViewController.swift; sourceTree = "<group>"; };
-		164C11AD1E5EC29600766914 /* SharedFragments.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SharedFragments.swift; sourceTree = "<group>"; };
-		164C11AF1E5EC3F400766914 /* ScrollableComponentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScrollableComponentView.swift; sourceTree = "<group>"; };
-		164C11B21E5ECEC000766914 /* Example1ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Example1ViewController.swift; sourceTree = "<group>"; };
-		164C11B41E5ECF0400766914 /* HelloWorldComponentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HelloWorldComponentView.swift; sourceTree = "<group>"; };
 		168884BA1F0BCE73002B9CC7 /* NewIndexViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewIndexViewController.swift; sourceTree = "<group>"; };
-		16AEA40E1F03868A005CD4EE /* Example6ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Example6ViewController.swift; sourceTree = "<group>"; };
-		16C4EF791F0BD4CB0038EBA9 /* StatelessControllerExample.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatelessControllerExample.swift; sourceTree = "<group>"; };
+		16C4EF791F0BD4CB0038EBA9 /* StatelessExample.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatelessExample.swift; sourceTree = "<group>"; };
 		16C4EF7B1F0BE00C0038EBA9 /* CounterExample.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CounterExample.swift; sourceTree = "<group>"; };
-		16C59F831E76FDCA00D9E297 /* Example4ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Example4ViewController.swift; sourceTree = "<group>"; };
+		16E0003F1F0C2F3000D4C5F9 /* DynamicViewHierarchyExample.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DynamicViewHierarchyExample.swift; sourceTree = "<group>"; };
+		16E000411F0C33DF00D4C5F9 /* NestedComponentsExample.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NestedComponentsExample.swift; sourceTree = "<group>"; };
+		16E000431F0D642A00D4C5F9 /* ScrollViewExample.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollViewExample.swift; sourceTree = "<group>"; };
+		16E000451F0D693100D4C5F9 /* TableNodeExample.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableNodeExample.swift; sourceTree = "<group>"; };
+		16E000471F0D740B00D4C5F9 /* SharedFragments.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedFragments.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -112,15 +96,6 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		161B4D841EC33C6800007E8A /* example5 */ = {
-			isa = PBXGroup;
-			children = (
-				161B4D8C1EC33ED600007E8A /* Example5ViewController.swift */,
-				161B4D851EC33C7F00007E8A /* PercentComponentView.swift */,
-			);
-			name = example5;
-			sourceTree = "<group>";
-		};
 		164C116C1E5B31E900766914 = {
 			isa = PBXGroup;
 			children = (
@@ -141,20 +116,12 @@
 		164C11771E5B31E900766914 /* Demo */ = {
 			isa = PBXGroup;
 			children = (
-				168884B91F0BCE59002B9CC7 /* New */,
-				164C11B11E5ECEA400766914 /* example1 */,
-				164C11A91E5E45F900766914 /* example2 */,
-				164C11AC1E5EC19100766914 /* example3 */,
-				16C59F861E76FDCE00D9E297 /* example4 */,
-				161B4D841EC33C6800007E8A /* example5 */,
-				16AEA40D1F038678005CD4EE /* example6 */,
+				168884B91F0BCE59002B9CC7 /* examples */,
 				164C119D1E5C840D00766914 /* external */,
 				164C11781E5B31E900766914 /* AppDelegate.swift */,
 				164C117F1E5B31E900766914 /* Assets.xcassets */,
 				164C11811E5B31E900766914 /* LaunchScreen.storyboard */,
 				164C11841E5B31E900766914 /* Info.plist */,
-				164C11A51E5E2EBA00766914 /* IndexViewController.swift */,
-				164C11AD1E5EC29600766914 /* SharedFragments.swift */,
 			);
 			path = Demo;
 			sourceTree = "<group>";
@@ -162,6 +129,7 @@
 		164C119D1E5C840D00766914 /* external */ = {
 			isa = PBXGroup;
 			children = (
+				16E000471F0D740B00D4C5F9 /* SharedFragments.swift */,
 				164C119E1E5C840D00766914 /* Random.swift */,
 				164C119F1E5C840D00766914 /* Style.swift */,
 				161CCCAE1ED85E600095E54A /* ViewController.swift */,
@@ -169,58 +137,18 @@
 			path = external;
 			sourceTree = "<group>";
 		};
-		164C11A91E5E45F900766914 /* example2 */ = {
-			isa = PBXGroup;
-			children = (
-				164C117A1E5B31E900766914 /* Example2ViewController.swift */,
-				164C11971E5C7E9D00766914 /* FooComponentView.swift */,
-				164C11A31E5DC86A00766914 /* DotComponentView.swift */,
-			);
-			name = example2;
-			sourceTree = "<group>";
-		};
-		164C11AC1E5EC19100766914 /* example3 */ = {
-			isa = PBXGroup;
-			children = (
-				164C11AA1E5EC17B00766914 /* Example3ViewController.swift */,
-				164C11AF1E5EC3F400766914 /* ScrollableComponentView.swift */,
-			);
-			name = example3;
-			sourceTree = "<group>";
-		};
-		164C11B11E5ECEA400766914 /* example1 */ = {
-			isa = PBXGroup;
-			children = (
-				164C11B21E5ECEC000766914 /* Example1ViewController.swift */,
-				164C11B41E5ECF0400766914 /* HelloWorldComponentView.swift */,
-			);
-			name = example1;
-			sourceTree = "<group>";
-		};
-		168884B91F0BCE59002B9CC7 /* New */ = {
+		168884B91F0BCE59002B9CC7 /* examples */ = {
 			isa = PBXGroup;
 			children = (
 				168884BA1F0BCE73002B9CC7 /* NewIndexViewController.swift */,
-				16C4EF791F0BD4CB0038EBA9 /* StatelessControllerExample.swift */,
+				16C4EF791F0BD4CB0038EBA9 /* StatelessExample.swift */,
 				16C4EF7B1F0BE00C0038EBA9 /* CounterExample.swift */,
+				16E0003F1F0C2F3000D4C5F9 /* DynamicViewHierarchyExample.swift */,
+				16E000411F0C33DF00D4C5F9 /* NestedComponentsExample.swift */,
+				16E000431F0D642A00D4C5F9 /* ScrollViewExample.swift */,
+				16E000451F0D693100D4C5F9 /* TableNodeExample.swift */,
 			);
-			path = New;
-			sourceTree = "<group>";
-		};
-		16AEA40D1F038678005CD4EE /* example6 */ = {
-			isa = PBXGroup;
-			children = (
-				16AEA40E1F03868A005CD4EE /* Example6ViewController.swift */,
-			);
-			name = example6;
-			sourceTree = "<group>";
-		};
-		16C59F861E76FDCE00D9E297 /* example4 */ = {
-			isa = PBXGroup;
-			children = (
-				16C59F831E76FDCA00D9E297 /* Example4ViewController.swift */,
-			);
-			name = example4;
+			path = examples;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -313,25 +241,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				164C11B31E5ECEC000766914 /* Example1ViewController.swift in Sources */,
-				16C59F841E76FDCA00D9E297 /* Example4ViewController.swift in Sources */,
-				164C11AB1E5EC17B00766914 /* Example3ViewController.swift in Sources */,
-				164C11981E5C7E9D00766914 /* FooComponentView.swift in Sources */,
+				16E000481F0D742500D4C5F9 /* SharedFragments.swift in Sources */,
+				16E000461F0D693100D4C5F9 /* TableNodeExample.swift in Sources */,
+				16E000441F0D642A00D4C5F9 /* ScrollViewExample.swift in Sources */,
 				164C11A01E5C840D00766914 /* Random.swift in Sources */,
-				164C11AE1E5EC29600766914 /* SharedFragments.swift in Sources */,
-				164C11A41E5DC86A00766914 /* DotComponentView.swift in Sources */,
-				161B4D8D1EC33ED600007E8A /* Example5ViewController.swift in Sources */,
 				161CCCAF1ED85E600095E54A /* ViewController.swift in Sources */,
-				164C11B51E5ECF0400766914 /* HelloWorldComponentView.swift in Sources */,
-				164C117B1E5B31E900766914 /* Example2ViewController.swift in Sources */,
 				168884BB1F0BCE73002B9CC7 /* NewIndexViewController.swift in Sources */,
-				16AEA40F1F03868A005CD4EE /* Example6ViewController.swift in Sources */,
+				16E000401F0C2F3000D4C5F9 /* DynamicViewHierarchyExample.swift in Sources */,
 				164C11791E5B31E900766914 /* AppDelegate.swift in Sources */,
-				16C4EF7A1F0BD4CB0038EBA9 /* StatelessControllerExample.swift in Sources */,
-				161B4D861EC33C7F00007E8A /* PercentComponentView.swift in Sources */,
-				164C11A61E5E2EBA00766914 /* IndexViewController.swift in Sources */,
+				16C4EF7A1F0BD4CB0038EBA9 /* StatelessExample.swift in Sources */,
+				16E000421F0C33DF00D4C5F9 /* NestedComponentsExample.swift in Sources */,
 				164C11A11E5C840D00766914 /* Style.swift in Sources */,
-				164C11B01E5EC3F400766914 /* ScrollableComponentView.swift in Sources */,
 				16C4EF7C1F0BE00C0038EBA9 /* CounterExample.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

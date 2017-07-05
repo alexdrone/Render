@@ -53,7 +53,7 @@ public extension ListNodeType {
     if let component = rootComponent?.childrenComponent[node.key] {
       cell.mountComponentIfNecessary(isStateful: true, component)
     } else {
-      cell.mountComponentIfNecessary(isStateful: true, StatelessComponent { _ in node })
+      cell.mountComponentIfNecessary(isStateful: true, StatelessComponentView { _ in node })
     }
     cell.componentView?.associatedCell = cell
     cell.componentView?.referenceSize = referenceSize
@@ -194,7 +194,7 @@ public class TableNode: NSObject, ListNodeType, UITableViewDataSource, UITableVi
     }
     table.rowHeight = UITableViewAutomaticDimension
     table.dataSource = self
-    //table.delegate = self
+    table.delegate = self
     table.separatorStyle = .none
 
     if shouldUseDiff, let old = rootComponent?.identityMapForListNode[key] {
@@ -207,7 +207,7 @@ public class TableNode: NSObject, ListNodeType, UITableViewDataSource, UITableVi
       let new = internalChildren.map { $0.key }
       let threshold = maximumNuberOfDiffUpdates
       let diff = old.diff(new)
-      if diff.insertions.count < threshold  && diff.deletions.count < threshold  {
+      if diff.insertions.count < threshold && diff.deletions.count < threshold  {
         table.beginUpdates()
         table.deleteRows(at: diff.deletions.map { IndexPath(row: Int($0.idx), section: 0) },
                          with: .fade)

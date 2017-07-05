@@ -104,7 +104,7 @@ public class CollectionNode: NSObject, ListNodeType, UICollectionViewDataSource,
                              sizeForItemAt indexPath: IndexPath) -> CGSize {
     let (_, node) = self.node(for: indexPath)
     let component = rootComponent?.childrenComponent[node.key]
-                    ?? StatelessComponent { _ in  node }
+                    ?? StatelessComponentView { _ in  node }
 
     return component.intrinsicContentSize
   }

@@ -256,11 +256,8 @@ public func ComponentNode<T: ComponentViewType>(_ component: @autoclosure () -> 
 
   // Applies the component configuration (this would be the props in the react world).
   props?(component, rootComponent.childrenComponent[childKey] == nil)
+  rootComponent.childrenComponent[childKey] = component
 
-  // Stateless components don't get stored away.
-  if !component.isStateless {
-    rootComponent.childrenComponent[childKey] = component
-  }
   let node = component.render()
   node.key = childKey
   node.associatedComponent = component

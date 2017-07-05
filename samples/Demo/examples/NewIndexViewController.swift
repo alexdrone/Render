@@ -2,15 +2,19 @@ import Foundation
 import UIKit
 import Render
 
-class NewIndexViewController: ViewController, ComponentController, IndexComponentViewDelegate {
+class NewIndexViewController: ViewController, ComponentController, NewIndexComponentViewDelegate {
 
-  typealias C =  IndexComponentView
-  lazy var component = IndexComponentView()
+  typealias C =  NewIndexComponentView
+  lazy var component = NewIndexComponentView()
 
   let titles: [(Int, String, String)] = [
     (0, "Stateless Components", "A simple stateless component with a static view hierarchy."),
-
-    ]
+    (1, "Stateful Component", "A counter that changes its internal state."),
+    (2, "Dynamic View Hierarchy", "The view hierarchy changes at every render pass."),
+    (3, "Nested Components", "ComponentViews can be used as nodes inside the render function."),
+    (4, "ScrollView Container", "The simplest way to make a list of components."),
+    (5, "TableNode and CollectionNode", "UITableView and UICollectionView wrappers with auto diff for row changes."),
+  ]
 
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -29,6 +33,12 @@ class NewIndexViewController: ViewController, ComponentController, IndexComponen
   func indexComponentDidSelectRow(index: Int) {
     switch index {
     case 0: self.navigationController?.pushViewController(StatelessComponentExampleViewController(), animated: true)
+    case 1: self.navigationController?.pushViewController(CounterExampleViewController(), animated: true)
+    case 2: self.navigationController?.pushViewController(DynamicViewHierarchyExampleViewController(), animated: true)
+    case 3: self.navigationController?.pushViewController(NestedComponentsExampleViewController(), animated: true)
+    case 4: self.navigationController?.pushViewController(ScrollExampleViewController(), animated: true)
+    case 5: self.navigationController?.pushViewController(TableNodeExampleViewController(), animated: true)
+
     default: break
     }
   }
@@ -40,7 +50,7 @@ protocol NewIndexComponentViewDelegate: class {
   func indexComponentDidSelectRow(index: Int)
 }
 
-class NewIndexComponentView: StatelessComponent {
+class NewIndexComponentView: StatelessComponentView {
 
   weak var controller: NewIndexComponentViewDelegate?
   var titles: [(Int, String, String)] = []

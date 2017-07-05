@@ -1,4 +1,4 @@
-import Foundation
+import UIKit
 import Render
 
 // The simplest way to define a component is to write a pure Swift function.
@@ -9,18 +9,21 @@ func PaddedLabel(text: String,
                  background: UIColor = Color.green,
                  foreground: UIColor = Color.black) -> NodeType {
   // A box around the label with a little margin.
-  return Node<UIView> { (view, layout, size) in
+  // ReuseIdentifiers in nodes helps the infra to pick the best view to recycle during
+  // the reconciliation phase.
+  return Node<UIView>(reuseIdentifier: "paddedLabel") { (view, layout, size) in
     layout.margin = 4
-    layout.padding = 4
+    layout.padding = 6
     layout.alignSelf = .flexStart
     view.backgroundColor = background
+    view.cornerRadius = 4
     }.add(children: [
       // The actual label.
       Node<UILabel> { view, layout, size in
         view.text = text
         view.numberOfLines = 0
         view.textColor = foreground
-        view.font = Typography.smallBold
+        view.font = Typography.smallLight
       }
     ])
 }
@@ -28,7 +31,7 @@ func PaddedLabel(text: String,
 // Another way to have a simple purely functional way to define a component is through a
 // StatelessComponent subclass.
 // In this case the 'props' will simply be the object properties exposed.
-class HelloComponentView: StatelessComponent {
+class HelloComponentView: StatelessComponentView {
 
   // Render is pretty flexible but it has a single strict rule:
   // All components must act like pure functions with respect to their props (and their state).
