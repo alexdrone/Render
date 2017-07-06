@@ -33,6 +33,7 @@
 		16B847CC1F0CF0BB004EDDEE /* Console.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16B847CB1F0CF0BB004EDDEE /* Console.swift */; };
 		16B847CE1F0CF753004EDDEE /* State.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16B847CD1F0CF753004EDDEE /* State.swift */; };
 		16C59F811E75BE9900D9E297 /* TableNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16C59F801E75BE9900D9E297 /* TableNode.swift */; };
+		16D0E3F31F0E6C7200A80DBF /* HttpServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D0E3F21F0E6C7200A80DBF /* HttpServer.swift */; };
 		16D2B0C21F01517400640800 /* IGListCollectionViewLayout.mm in Sources */ = {isa = PBXBuildFile; fileRef = 16D2B0C11F01517400640800 /* IGListCollectionViewLayout.mm */; };
 		16D2B0C41F01521C00640800 /* IGListCollectionViewLayout.h in Headers */ = {isa = PBXBuildFile; fileRef = 16D2B0C31F01518400640800 /* IGListCollectionViewLayout.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		16EAD3D71EFFE9B90021513D /* ComponentController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16EAD3D61EFFE9B90021513D /* ComponentController.swift */; };
@@ -68,6 +69,7 @@
 		16B847CB1F0CF0BB004EDDEE /* Console.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Console.swift; sourceTree = "<group>"; };
 		16B847CD1F0CF753004EDDEE /* State.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = State.swift; sourceTree = "<group>"; };
 		16C59F801E75BE9900D9E297 /* TableNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableNode.swift; sourceTree = "<group>"; };
+		16D0E3F21F0E6C7200A80DBF /* HttpServer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HttpServer.swift; sourceTree = "<group>"; };
 		16D2B0C11F01517400640800 /* IGListCollectionViewLayout.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = IGListCollectionViewLayout.mm; sourceTree = "<group>"; };
 		16D2B0C31F01518400640800 /* IGListCollectionViewLayout.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IGListCollectionViewLayout.h; sourceTree = "<group>"; };
 		16EAD3D61EFFE9B90021513D /* ComponentController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComponentController.swift; sourceTree = "<group>"; };
@@ -143,6 +145,7 @@
 			isa = PBXGroup;
 			children = (
 				168007D11EFE674600B4EA85 /* LCS.swift */,
+				16D0E3F21F0E6C7200A80DBF /* HttpServer.swift */,
 			);
 			path = deps;
 			sourceTree = "<group>";
@@ -285,6 +288,7 @@
 				16D2B0C21F01517400640800 /* IGListCollectionViewLayout.mm in Sources */,
 				164C116B1E5A257300766914 /* ComponentView.swift in Sources */,
 				164C11A81E5E2F4400766914 /* ComponentCell.swift in Sources */,
+				16D0E3F31F0E6C7200A80DBF /* HttpServer.swift in Sources */,
 				164C115C1E59ECC600766914 /* YGLayout.m in Sources */,
 				164C115E1E59ECC600766914 /* YGNodeList.c in Sources */,
 				164C11601E59ECC600766914 /* Yoga.c in Sources */,

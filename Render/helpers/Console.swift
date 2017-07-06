@@ -53,6 +53,7 @@ public final class Console: ConsoleType {
   public private(set) var viewHierarchyDescriptions: [Description] = []
   private var timer: Timer?
   private var isDirty: Bool = false
+  private var server: HttpServer?
 
   public func log(_ text: String) {
     print(text)
@@ -69,7 +70,17 @@ public final class Console: ConsoleType {
                        selector: #selector(didEnterBackground),
                        name: NSNotification.Name.UIApplicationDidEnterBackground,
                        object: nil)
-    startTimer()
+    //startTimer()
+    //startServer()
+  }
+
+  public func startServer() {
+    let server = HttpServer()
+    server["/inspect"] = { _ in
+      HttpResponse.ok(.xml(self.viewHierarchyDescriptions.first?.description ?? ""))
+    }
+    try? server.start()
+    self.server = server
   }
 
   public func add(description: Description) {
