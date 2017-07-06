@@ -84,9 +84,7 @@ enum HttpParserError: Error {
 }
 
 class HttpParser {
-
   init() { }
-
   func readHttpRequest(_ socket: Socket) throws -> HttpRequest {
     let statusLine = try socket.readLine()
     let statusLineTokens = statusLine.components(separatedBy: " ")
@@ -161,7 +159,6 @@ class HttpParser {
 }
 
 class HttpRequest {
-
   var path: String = ""
   var queryParams: [(String, String)] = []
   var method: String = ""
@@ -534,7 +531,7 @@ class HttpRouter {
     inflate(&rootNode, generator: &pathSegmentsGenerator).handler = handler
   }
 
-  func route(_ method: String?, path: String) -> ([String: String], (HttpRequest) -> HttpResponse)? {
+  func route(_ method: String?, path: String) ->([String: String], (HttpRequest) -> HttpResponse)? {
     if let method = method {
       let pathSegments = (method + "/" + stripQuery(path)).split("/")
       var pathSegmentsGenerator = pathSegments.makeIterator()
@@ -638,7 +635,6 @@ class HttpServer: HttpServerIO {
     self.POST   = MethodRoute(method: "POST", router: router)
     self.GET    = MethodRoute(method: "GET", router: router)
     self.PUT    = MethodRoute(method: "PUT", router: router)
-
     self.delete = MethodRoute(method: "DELETE", router: router)
     self.update = MethodRoute(method: "UPDATE", router: router)
     self.head   = MethodRoute(method: "HEAD", router: router)
@@ -1231,8 +1227,6 @@ var ScopesBuffer = [UInt64: String]()
 
 private func evaluate(_ node: String, _ attrs: [String: String?] = [:], _ c: Closure) {
 
-    // Push the attributes.
-
     let stackid = idd
     let stackdir = dir
     let stackrel = rel
@@ -1355,8 +1349,6 @@ private func evaluate(_ node: String, _ attrs: [String: String?] = [:], _ c: Clo
     let stackmarginheight = marginheight
     let stackacceptCharset = acceptCharset
     let stackinner = inner
-
-    // Reset the values before a nested scope evalutation.
 
     idd = nil
     dir = nil
@@ -1482,21 +1474,9 @@ private func evaluate(_ node: String, _ attrs: [String: String?] = [:], _ c: Clo
     inner = nil
 
     ScopesBuffer[Process.tid] = (ScopesBuffer[Process.tid] ?? "") + "<" + node
-
-    // Save the current output before the nested scope evalutation.
-
     var output = ScopesBuffer[Process.tid] ?? ""
-
-    // Clear the output buffer for the evalutation.
-
     ScopesBuffer[Process.tid] = ""
-
-    // Evaluate the nested scope.
-
     c()
-
-    // Render attributes set by the evalutation.
-
     var mergedAttributes = [String: String?]()
 
     if let idd = idd { mergedAttributes["id"] = idd }
@@ -1620,11 +1600,9 @@ private func evaluate(_ node: String, _ attrs: [String: String?] = [:], _ c: Clo
     if let placeholder = placeholder { mergedAttributes["placeholder"] = placeholder }
     if let marginheight = marginheight { mergedAttributes["marginheight"] = marginheight }
     if let acceptCharset = acceptCharset { mergedAttributes["accept-charset"] = acceptCharset }
-
     for item in attrs.enumerated() {
         mergedAttributes.updateValue(item.element.1, forKey: item.element.0)
     }
-
     output = output + mergedAttributes.reduce("") {
         if let value = $0.1.1 {
             return $0.0 + " \($0.1.0)=\"\(value)\""
@@ -1632,15 +1610,12 @@ private func evaluate(_ node: String, _ attrs: [String: String?] = [:], _ c: Clo
             return $0.0
         }
     }
-
     if let inner = inner {
         ScopesBuffer[Process.tid] = output + ">" + (inner) + "</" + node + ">"
     } else {
         let current = ScopesBuffer[Process.tid]  ?? ""
         ScopesBuffer[Process.tid] = output + ">" + current + "</" + node + ">"
     }
-
-    // Pop the attributes.
 
     idd = stackid
     dir = stackdir
@@ -1763,7 +1738,6 @@ private func evaluate(_ node: String, _ attrs: [String: String?] = [:], _ c: Clo
     cellspacing = stackcellspacing
     marginheight = stackmarginheight
     acceptCharset = stackacceptCharset
-
     inner = stackinner
 }
 
@@ -1813,8 +1787,6 @@ extension Socket {
 }
 
 extension Socket {
-
-
     class func tcpSocketForListen(_ port: in_port_t,
                                   _ forceIPv4: Bool = false,
                                   _ maxPendingConnection: Int32 = SOMAXCONN,
