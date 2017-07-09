@@ -22,21 +22,22 @@ extension ReflectedStringConvertible {
 
   /// Returns a representation of the state in the form:
   /// Type(prop1: 'value', prop2: 'value'..)
-  public var description: String {
+  func reflectionDescription(delimiters: String = "") -> String {
     let mirror = Mirror(reflecting: self)
     var str = "{"
     var first = true
     for (label, value) in mirror.children {
       if let label = label {
-        if first { first = false
-        } else {  str += ", "  }
-        str += label
-        str += ": "
-        str += "\(value)"
+        if first { first = false } else {  str += ", "  }
+        str += "\(delimiters)\(label)\(delimiters): \(delimiters)\(value)\(delimiters)"
       }
     }
     str += "}"
     return str
+  }
+
+  public var description: String {
+    return reflectionDescription()
   }
 }
 

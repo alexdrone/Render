@@ -24,7 +24,7 @@ public enum RenderOption {
 
 // MARK: - ComponentView protocol
 
-public protocol AnyComponentView: class {
+public protocol AnyComponentView: class, ReflectedStringConvertible {
 
   /// Stateless component are components that are expected to be fully configured from the outside
   /// without mantaining an internal state.
@@ -474,6 +474,8 @@ open class StatelessComponentView: ComponentView<NilState> {
     self.renderBlock = render
   }
 }
+
+open class StatelessCellComponentView: StatelessComponentView { }
 
 // MARK: - Utilities
 

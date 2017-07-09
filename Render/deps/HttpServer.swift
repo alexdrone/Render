@@ -1,6 +1,7 @@
 // Forked from httpswift/swifter.
 // See LICENSE file for details.
 
+#if DEBUG && (arch(i386) || arch(x86_64)) && os(iOS)
 import Foundation
 import Dispatch
 
@@ -2660,4 +2661,5 @@ class WebSocketSession: Hashable, Equatable  {
 func ==(webSocketSession1: WebSocketSession, webSocketSession2: WebSocketSession) -> Bool {
     return webSocketSession1.socket == webSocketSession2.socket
 }
+#endif
 

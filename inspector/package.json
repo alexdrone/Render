@@ -1,0 +1,11 @@
+{
+  "name": "render-inspector",
+  "version": "0.1.0",
+  "main": "main.js",
+  "build": {
+    "appId": "io.render.inspector",
+    "mac": {
+      "category": "development"
+    }
+  }
+}

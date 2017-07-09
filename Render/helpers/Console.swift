@@ -14,8 +14,9 @@ public final class Console: ConsoleType {
     public let key: String
     public let type: String
     public let viewRef: String
-    public let size: String
+    public let frame: String
     public let state: String
+    public let props: String
     public internal(set) var children: [Console.Description] = []
 
     /// XML description of the node hierarchy.
@@ -26,8 +27,9 @@ public final class Console: ConsoleType {
         for _ in 0...level { buffer += "\t"  }
         buffer += "<\(obj.id)"
         if !obj.key.isEmpty { buffer += " key=\"\(obj.key)\"" }
-        buffer += " size=\"\(obj.size)\" type=\"\(obj.type)\" ref=\"\(obj.viewRef)\""
+        buffer += " frame=\"\(obj.frame)\" type=\"\(obj.type)\" ref=\"\(obj.viewRef)\""
         if !obj.state.isEmpty { buffer += " state=\"\(obj.state)\"" }
+        if !obj.props.isEmpty { buffer += " props=\"\(obj.props)\"" }
         if !obj.children.isEmpty {
           buffer += ">"
           for child in obj.children { desc(child, level: level+1) }
@@ -44,16 +46,27 @@ public final class Console: ConsoleType {
   }
 
   /// The shared debug instance.
-  #if DEBUG
+  #if DEBUG && (arch(i386) || arch(x86_64)) && os(iOS)
   static let shared: ConsoleType = Console()
   #else
   static let shared: ConsoleType = NilConsole()
   #endif
 
   public private(set) var viewHierarchyDescriptions: [Description] = []
+  public var viewHierarchyDescriptionString: String {
+    var buffer = "<Application>"
+    for desc in viewHierarchyDescriptions.reversed() {
+      buffer += desc.description
+    }
+    buffer += "</Application>"
+    return buffer
+  }
+
   private var timer: Timer?
   private var isDirty: Bool = false
+  #if DEBUG && (arch(i386) || arch(x86_64)) && os(iOS)
   private var server: HttpServer?
+  #endif
 
   public func log(_ text: String) {
     print(text)
@@ -70,17 +83,19 @@ public final class Console: ConsoleType {
                        selector: #selector(didEnterBackground),
                        name: NSNotification.Name.UIApplicationDidEnterBackground,
                        object: nil)
-    //startTimer()
-    //startServer()
+    startTimer()
+    startServer()
   }
 
   public func startServer() {
+    #if DEBUG && (arch(i386) || arch(x86_64)) && os(iOS)
     let server = HttpServer()
-    server["/inspect"] = { _ in
-      HttpResponse.ok(.xml(self.viewHierarchyDescriptions.first?.description ?? ""))
+    server["/inspect"] = { [weak self] _ in
+      HttpResponse.ok(.xml(self?.viewHierarchyDescriptionString ?? ""))
     }
     try? server.start()
     self.server = server
+    #endif
   }
 
   public func add(description: Description) {
@@ -107,11 +122,13 @@ public final class Console: ConsoleType {
 
   /// Starts the polling timer.
   private func startTimer() {
+    #if DEBUG && (arch(i386) || arch(x86_64)) && os(iOS)
     timer = Timer.scheduledTimer(timeInterval: 2,
                                  target: self,
                                  selector: #selector(timerDidFire(timer:)),
                                  userInfo: nil,
                                  repeats: true)
+    #endif
   }
 
   /// Stops the polling timer.
@@ -121,6 +138,7 @@ public final class Console: ConsoleType {
 
   /// Check it the console is dirty and in that case asks components to dump their description.
   private dynamic func timerDidFire(timer: Timer) {
+    #if DEBUG && (arch(i386) || arch(x86_64)) && os(iOS)
     assert(Thread.isMainThread)
     guard isDirty else {
       return
@@ -133,6 +151,7 @@ public final class Console: ConsoleType {
     DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.1) {
       center.post(name: DebugNotification.viewHierarchyDescriptionDidUpdate, object: nil)
     }
+    #endif
   }
 }
 
@@ -144,7 +163,7 @@ public protocol ConsoleType {
 }
 
 /// 'ConsoleType' implementation in production - no op.
-public final class NilConsole {
+public final class NilConsole: ConsoleType {
   public func markDirty() { }
   public func add(description: Console.Description) { }
   public func log(_ text: String) { }
@@ -162,12 +181,26 @@ extension NodeType {
     if let view = renderedView {
       address = "\(Unmanaged<AnyObject>.passUnretained(view as AnyObject).toOpaque())"
     }
+    func escapeDescription(_ string: String) -> String {
+      var result = string
+      result = result.replacingOccurrences(of: "<", with: "")
+      result = result.replacingOccurrences(of: ">", with: "")
+      result = result.replacingOccurrences(of: "\"", with: "'")
+      result = result.replacingOccurrences(of: "Optional", with: "'")
+      return result
+    }
+    let delimiters = "__"
+    let state = escapeDescription(
+        associatedComponent?.anyState.reflectionDescription(delimiters: delimiters) ?? "")
+    let props = escapeDescription (
+        associatedComponent?.reflectionDescription(delimiters: delimiters) ?? "")
     return Console.Description(id: key.reuseIdentifier,
                                key: key.key,
                                type: debugType,
                                viewRef: address,
-                               size: "\(renderedView?.frame.size ?? CGSize.zero)",
-                               state: associatedComponent?.anyState.description ?? "",
+                               frame: "\(renderedView?.frame ?? CGRect.zero)",
+                               state: state,
+                               props :props,
                                children: children.map { $0.debugDescription() })
   }
 }

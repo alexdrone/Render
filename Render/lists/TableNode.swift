@@ -53,7 +53,7 @@ public extension ListNodeType {
     if let component = rootComponent?.childrenComponent[node.key] {
       cell.mountComponentIfNecessary(isStateful: true, component)
     } else {
-      cell.mountComponentIfNecessary(isStateful: true, StatelessComponentView { _ in node })
+      cell.mountComponentIfNecessary(isStateful: true, StatelessCellComponentView { _ in node })
     }
     cell.componentView?.associatedCell = cell
     cell.componentView?.referenceSize = referenceSize
