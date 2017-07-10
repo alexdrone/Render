@@ -75,7 +75,7 @@ public extension ListNodeType {
       internalChildren = children;
     }
     get {
-      return internalChildren
+      return []
     }
   }
 
