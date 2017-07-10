@@ -141,6 +141,8 @@ typedef NS_OPTIONS(NSInteger, YGDimensionFlexibility) {
  */
 @property (nonatomic, readonly, assign) BOOL isDirty;
 
+- (void)flex;
+
 /**
  Mark that a view's layout needs to be recalculated. Only works for leaf views.
  */

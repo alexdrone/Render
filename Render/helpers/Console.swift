@@ -189,6 +189,12 @@ extension NodeType {
       result = result.replacingOccurrences(of: "Optional", with: "'")
       return result
     }
+
+    var children: [NodeType] = self.children
+    if let listNode = self as? ListNodeType {
+      children = listNode.internalChildren
+    }
+
     let delimiters = "__"
     let state = escapeDescription(
         associatedComponent?.anyState.reflectionDescription(delimiters: delimiters) ?? "")

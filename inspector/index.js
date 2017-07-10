@@ -3,9 +3,6 @@ class InspectorController {
     this.host = `http://localhost:8080`
     this.nodes = {}
     this.selectedId = null
-    setInterval(function() {
-      Inspector.fetchPayload()
-    }, 1000)
   }
   fetchPayload() {
     let parseXml = function (xmlStr) {
@@ -38,6 +35,7 @@ class InspectorController {
       result += endElement(`span`)
       return result
     }
+    let nil_id = 0
     // Traverse the xml nodes.
     const traverse = (nodes, level) => {
       if (nodes == null) {
@@ -48,7 +46,6 @@ class InspectorController {
         if (node.nodeName == '#text') {
           continue;
         }
-        let nil_id = 0
         // Store the node.
         const refStr = attr(node, `ref`)
         let ref = refStr.length > 0 ? refStr : `nil`
@@ -178,7 +175,7 @@ function inspectorValue(key, value) {
     return buffer
   }
   buffer += element({
-    type: `span`,    
+    type: `span`,
     className: `inspector-label`
   })
   buffer += key + `: `

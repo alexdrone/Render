@@ -22,7 +22,7 @@ class DynamicViewHierarchyComponentView: ComponentView<DynamicViewHierarchyState
       layout.flexWrap = .wrap
       layout.flex()
     }
-    let children = state.text.split(separator: " ").map {
+    let children = state.text.components(separatedBy: " ").map {
       return PaddedLabel(text: String($0))
     }
     return container.add(children: children)

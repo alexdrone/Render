@@ -11,10 +11,10 @@ class TableNodeExampleComponentView: ComponentView<TableNodeExampleState> {
     // A simple component expressed as pure function.
     func RemoveButton(idx: Int) -> NodeType {
       return Node<UIButton> { view, layout, size in
-        view.setTitle("Remove", for: .normal)
-        view.setTitleColor(Color.white, for: .normal)
+        view.setTitle("Remove \(idx)", for: .normal)
+        view.setTitleColor(Color.red, for: .normal)
         view.titleLabel?.font = Typography.smallBold
-        view.backgroundColor = Color.red
+        view.backgroundColor = Color.black
         view.onTap { [weak self] _ in
           self?.setState { state in
             // When the button is pressed we remove the idem at the given index.
@@ -29,7 +29,7 @@ class TableNodeExampleComponentView: ComponentView<TableNodeExampleState> {
     // CollectionNode is also available ('UICollectionView' wrapper) with the same API.
     // The prop 'autoDiffEnabled' for TableNode performs a diff on the collection and execute the
     // right insertions/deletions rather then calling reloadData on the
-    return TableNode(key: "cards", in: self, autoDiffEnabled: false) { view, layout, size in
+    return TableNode(key: "cards", in: self, autoDiffEnabled: true) { view, layout, size in
       layout.width = size.width
       layout.height = size.height
       }.add(children: self.state.items.map {
