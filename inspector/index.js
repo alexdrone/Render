@@ -3,6 +3,9 @@ class InspectorController {
     this.host = `http://localhost:8080`
     this.nodes = {}
     this.selectedId = null
+    setInterval(function() {
+      Inspector.fetchPayload()
+    }, 1000)
   }
   fetchPayload() {
     let parseXml = function (xmlStr) {
@@ -45,9 +48,11 @@ class InspectorController {
         if (node.nodeName == '#text') {
           continue;
         }
+        let nil_id = 0
         // Store the node.
         const refStr = attr(node, `ref`)
-        let ref = refStr.length > 0 ? refStr : `0x0000000000000000`
+        let ref = refStr.length > 0 ? refStr : `nil`
+        ref = ref == `nil` ? `${ref}_${nil_id++}` : `0x…` + ref.substr(ref.length - 8)
         this.nodes[ref] = node
         // Recursively prints the representation.
         buffer += element({
@@ -70,7 +75,7 @@ class InspectorController {
         })
         buffer += node.nodeName
         buffer += endElement(`span`)
-        buffer += nodeAttribute(`ref`, `0x…` + ref.substr(ref.length - 4))
+        buffer += nodeAttribute(`ref`, ref)
         buffer += nodeAttribute(`key`, attr(node, `key`))
         // Children nodes.
         buffer += element({
@@ -176,7 +181,6 @@ function inspectorValue(key, value) {
     type: `span`,    
     className: `inspector-label`
   })
-  
   buffer += key + `: `
   buffer += endElement(`span`)
   buffer += element({

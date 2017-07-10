@@ -15,8 +15,10 @@ public protocol ComponentController {
 public extension ComponentController where Self: UIViewController {
 
  /// Adds the component to the view hierarchy.
- public func addComponentToViewControllerHierarchy() {
-    component.onLayoutCallback = onLayout
+  public func addComponentToViewControllerHierarchy() {
+    component.onLayoutCallback = { [weak self] duration, component, size in
+      self?.onLayout(duration: duration, component: component, size: size)
+    }
     if let componentView = component as? UIView {
       view.addSubview(componentView)
     }
