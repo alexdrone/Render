@@ -198,7 +198,7 @@ public class TableNode: NSObject, ListNodeType, UITableViewDataSource, UITableVi
     table.delegate = self
     table.separatorStyle = .none
 
-    if shouldUseDiff, let old = rootComponent?.identityMapForListNode[key] {
+    if false /*auto-diff is temp disabled*/, let old = rootComponent?.identityMapForListNode[key] {
       let set = Set(internalChildren.map { $0.key })
       guard set.count == internalChildren.count else {
         log("Unable to apply diff when table nodes don't all have a distinct key.")

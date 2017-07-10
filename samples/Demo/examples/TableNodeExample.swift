@@ -29,7 +29,7 @@ class TableNodeExampleComponentView: ComponentView<TableNodeExampleState> {
     // CollectionNode is also available ('UICollectionView' wrapper) with the same API.
     // The prop 'autoDiffEnabled' for TableNode performs a diff on the collection and execute the
     // right insertions/deletions rather then calling reloadData on the
-    return TableNode(key: "cards", in: self, autoDiffEnabled: false) { view, layout, size in
+    return TableNode(key: "cards", in: self, autoDiffEnabled: true) { view, layout, size in
       layout.width = size.width
       layout.height = size.height
       }.add(children: self.state.items.map {
