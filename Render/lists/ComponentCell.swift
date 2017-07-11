@@ -44,9 +44,6 @@ extension ComponentCellType where Self: UIView {
     }
     componentView = component()
     componentView?.referenceSize = referenceSize
-    if let subview = contentView.subviews.first {
-      componentView?.injectRootView(view: subview)
-    }
     if let componentView = componentView as? UIView {
       contentView.addSubview(componentView)
     }
