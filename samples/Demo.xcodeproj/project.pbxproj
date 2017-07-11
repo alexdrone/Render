@@ -10,6 +10,7 @@
 		161B4D871EC33D3400007E8A /* Render.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1618D0991E7EDC9C00CD984C /* Render.framework */; };
 		161B4D881EC33D3400007E8A /* Render.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 1618D0991E7EDC9C00CD984C /* Render.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		161CCCAF1ED85E600095E54A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 161CCCAE1ED85E600095E54A /* ViewController.swift */; };
+		16329DA51F14BA0C00938517 /* AbsoluteLayoutExample.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16329DA41F14BA0C00938517 /* AbsoluteLayoutExample.swift */; };
 		164C11791E5B31E900766914 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164C11781E5B31E900766914 /* AppDelegate.swift */; };
 		164C11801E5B31E900766914 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 164C117F1E5B31E900766914 /* Assets.xcassets */; };
 		164C11831E5B31E900766914 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 164C11811E5B31E900766914 /* LaunchScreen.storyboard */; };
@@ -59,6 +60,7 @@
 /* Begin PBXFileReference section */
 		1618D0941E7EDC9C00CD984C /* Render.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Render.xcodeproj; path = ../Render.xcodeproj; sourceTree = "<group>"; };
 		161CCCAE1ED85E600095E54A /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		16329DA41F14BA0C00938517 /* AbsoluteLayoutExample.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AbsoluteLayoutExample.swift; sourceTree = "<group>"; };
 		164C11751E5B31E900766914 /* Demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Demo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		164C11781E5B31E900766914 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		164C117F1E5B31E900766914 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -147,6 +149,7 @@
 				16E000411F0C33DF00D4C5F9 /* NestedComponentsExample.swift */,
 				16E000431F0D642A00D4C5F9 /* ScrollViewExample.swift */,
 				16E000451F0D693100D4C5F9 /* TableNodeExample.swift */,
+				16329DA41F14BA0C00938517 /* AbsoluteLayoutExample.swift */,
 			);
 			path = examples;
 			sourceTree = "<group>";
@@ -249,6 +252,7 @@
 				168884BB1F0BCE73002B9CC7 /* NewIndexViewController.swift in Sources */,
 				16E000401F0C2F3000D4C5F9 /* DynamicViewHierarchyExample.swift in Sources */,
 				164C11791E5B31E900766914 /* AppDelegate.swift in Sources */,
+				16329DA51F14BA0C00938517 /* AbsoluteLayoutExample.swift in Sources */,
 				16C4EF7A1F0BD4CB0038EBA9 /* StatelessExample.swift in Sources */,
 				16E000421F0C33DF00D4C5F9 /* NestedComponentsExample.swift in Sources */,
 				164C11A11E5C840D00766914 /* Style.swift in Sources */,

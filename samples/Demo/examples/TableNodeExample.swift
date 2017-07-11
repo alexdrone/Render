@@ -30,8 +30,10 @@ class TableNodeExampleComponentView: ComponentView<TableNodeExampleState> {
     // The prop 'autoDiffEnabled' for TableNode performs a diff on the collection and execute the
     // right insertions/deletions rather then calling reloadData on the
     return TableNode(key: "cards", in: self, autoDiffEnabled: true) { view, layout, size in
+      view.backgroundColor = Color.black
       layout.width = size.width
       layout.height = size.height
+      layout.paddingTop = 64
       }.add(children: self.state.items.map {
         // Is important that every item in the list has his own unique key.
         // Keys should be given to the elements inside the array to give the

@@ -195,8 +195,11 @@ public class TableNode: NSObject, ListNodeType, UITableViewDataSource, UITableVi
     }
     table.rowHeight = UITableViewAutomaticDimension
     table.dataSource = self
-    table.delegate = self
     table.separatorStyle = .none
+    table.contentInset.bottom = table.yoga.paddingBottom.normal
+    table.contentInset.top = table.yoga.paddingTop.normal
+    table.contentInset.left = table.yoga.paddingLeft.normal
+    table.contentInset.right = table.yoga.paddingRight.normal
 
     if false /*auto-diff is temp disabled*/, let old = rootComponent?.identityMapForListNode[key] {
       let set = Set(internalChildren.map { $0.key })

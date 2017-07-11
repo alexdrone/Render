@@ -90,6 +90,11 @@ public class CollectionNode: NSObject, ListNodeType, UICollectionViewDataSource,
     collectionView.dataSource = self
     collectionView.delegate = self
     collectionView.reloadData()
+    collectionView.contentInset.bottom = collectionView.yoga.paddingBottom.normal
+    collectionView.contentInset.top = collectionView.yoga.paddingTop.normal
+    collectionView.contentInset.left = collectionView.yoga.paddingLeft.normal
+    collectionView.contentInset.right = collectionView.yoga.paddingRight.normal
+
   }
 
   //MARK: - UICollectionViewDatasource

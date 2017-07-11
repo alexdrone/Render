@@ -14,6 +14,8 @@ class NewIndexViewController: ViewController, ComponentController, NewIndexCompo
     (3, "Nested Components", "ComponentViews can be used as nodes inside the render function."),
     (4, "ScrollView Container", "The simplest way to make a list of components."),
     (5, "TableNode and CollectionNode", "UITableView and UICollectionView wrappers with auto diff for row changes."),
+    (6, "Absolute layouts", "Advanced layout through absolute-positioned children."),
+
   ]
 
   override func viewDidLoad() {
@@ -38,6 +40,7 @@ class NewIndexViewController: ViewController, ComponentController, NewIndexCompo
     case 3: self.navigationController?.pushViewController(NestedComponentsExampleViewController(), animated: true)
     case 4: self.navigationController?.pushViewController(ScrollExampleViewController(), animated: true)
     case 5: self.navigationController?.pushViewController(TableNodeExampleViewController(), animated: true)
+    case 6: self.navigationController?.pushViewController(AbsoluteLayoutExampleViewController(), animated: true)
 
     default: break
     }

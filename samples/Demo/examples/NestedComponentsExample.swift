@@ -6,12 +6,12 @@ class CardComponentView: StatelessComponentView {
   var displayBlock: Bool = true
 
   override func render() -> NodeType {
-    return Node<UIView> { view, layout, size in
+    return Node<UIView> { [weak self] view, layout, size in
       view.backgroundColor = Color.black
       layout.padding = 8
       layout.flexDirection = .row
       layout.alignSelf = .stretch
-      if self.displayBlock {
+      if self?.displayBlock ?? false {
         layout.width = size.width
       } else {
         layout.flex()
