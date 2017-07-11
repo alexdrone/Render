@@ -190,7 +190,7 @@ public class Node<V: UIView>: NodeType {
   public func willLayout() {
     if resetBeforeReuse {
       view?.prepareForComponentReuse()
-      view?.tag = key.hashValue
+      view?.tag = key.reuseIdentifier.hashValue
     }
     if let view = self.view {
 
@@ -218,7 +218,7 @@ public class Node<V: UIView>: NodeType {
     } else {
       view = create()
       view?.yoga.isEnabled = true
-      view?.tag = key.hashValue
+      view?.tag = key.reuseIdentifier.hashValue
       view?.hasNode = true
     }
   }
@@ -280,7 +280,7 @@ public final class NilNode: NodeType {
   public lazy var renderedView: UIView? = {
     let view = UIView(frame: CGRect.zero)
     view.hasNode = true
-    view.tag = self.key.hashValue
+    view.tag = self.key.reuseIdentifier.hashValue
     return view;
   }()
   public var key: Key = Key(reuseIdentifier: String(describing: NilNode.self))

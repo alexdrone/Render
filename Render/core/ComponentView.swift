@@ -388,7 +388,7 @@ open class ComponentView<S: StateType>: UIView, ComponentViewType {
 
   public func views<T: UIView>(type: T.Type, key: String) -> [T] {
     let _key = Key(reuseIdentifier: String(describing: type), key: key)
-    return views { $0.tag == _key.hashValue }.flatMap { $0 as? T }
+    return views { $0.tag == _key.reuseIdentifier.hashValue }.flatMap { $0 as? T }
   }
 
   open override func layoutSubviews() {
@@ -416,7 +416,7 @@ open class ComponentView<S: StateType>: UIView, ComponentViewType {
     assert(Thread.isMainThread)
 
     // The candidate view is a good match for reuse.
-    if let view = view, view.hasNode && view.tag == new.key.hashValue {
+    if let view = view, view.hasNode && view.tag == new.key.reuseIdentifier.hashValue {
       new.build(with: view)
       view.isNewlyCreated = false
     // The view for this node needs to be created.
@@ -434,7 +434,7 @@ open class ComponentView<S: StateType>: UIView, ComponentViewType {
     for subnode in new.children {
       // Look for a candidate view matching the node.
       let candidateView = oldSubviews?.filter { view in
-        return view.tag == subnode.key.hashValue
+        return view.tag == subnode.key.reuseIdentifier.hashValue
       }.first
       // Pops the candidate view from the collection.
       oldSubviews = oldSubviews?.filter {
