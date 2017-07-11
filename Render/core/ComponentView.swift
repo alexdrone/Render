@@ -388,7 +388,7 @@ open class ComponentView<S: StateType>: UIView, ComponentViewType {
 
   public func views<T: UIView>(type: T.Type, key: String) -> [T] {
     let _key = Key(reuseIdentifier: String(describing: type), key: key)
-    return views { $0.tag == _key.stringValue.hashValue }.flatMap { $0 as? T }
+    return views { $0.tag == _key.hashValue }.flatMap { $0 as? T }
   }
 
   open override func layoutSubviews() {

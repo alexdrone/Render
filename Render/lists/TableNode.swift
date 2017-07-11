@@ -124,7 +124,11 @@ public class TableNode: NSObject, ListNodeType, UITableViewDataSource, UITableVi
   }
 
   /// The unique identifier for this node is its hierarchy.
-  public var key: Key
+  public var key: Key {
+    didSet {
+      internalNode.key = key
+    }
+  }
 
   public var disableCellReuse: Bool = false
   public var shouldUseDiff: Bool = false
@@ -201,16 +205,19 @@ public class TableNode: NSObject, ListNodeType, UITableViewDataSource, UITableVi
     table.contentInset.left = table.yoga.paddingLeft.normal
     table.contentInset.right = table.yoga.paddingRight.normal
 
-    if false /*auto-diff is temp disabled*/, let old = rootComponent?.identityMapForListNode[key] {
-      let set = Set(internalChildren.map { $0.key })
-      guard set.count == internalChildren.count else {
-        log("Unable to apply diff when table nodes don't all have a distinct key.")
+    if shouldUseDiff, let oldKeys = rootComponent?.identityMapForListNode[key] {
+      let set = Set(internalChildren.map { $0.key.key })
+      guard set.count == internalChildren.count, oldKeys.count != set.count else {
         table.reloadData()
+        rootComponent?.identityMapForListNode[key] = internalChildren.map { $0.key }
         return
       }
-      let new = internalChildren.map { $0.key }
+      let old = oldKeys.map { $0.key }
+      let new = internalChildren.map { $0.key.key }
       let threshold = maximumNuberOfDiffUpdates
       let diff = old.diff(new)
+      assert(new.count == old.count + diff.insertions.count - diff.deletions.count)
+
       if diff.insertions.count < threshold && diff.deletions.count < threshold  {
         table.beginUpdates()
         table.deleteRows(at: diff.deletions.map { IndexPath(row: Int($0.idx), section: 0) },

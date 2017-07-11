@@ -190,7 +190,7 @@ public class Node<V: UIView>: NodeType {
   public func willLayout() {
     if resetBeforeReuse {
       view?.prepareForComponentReuse()
-      view?.tag = key.stringValue.hashValue
+      view?.tag = key.hashValue
     }
     if let view = self.view {
 
@@ -218,7 +218,7 @@ public class Node<V: UIView>: NodeType {
     } else {
       view = create()
       view?.yoga.isEnabled = true
-      view?.tag = key.stringValue.hashValue
+      view?.tag = key.hashValue
       view?.hasNode = true
     }
   }
