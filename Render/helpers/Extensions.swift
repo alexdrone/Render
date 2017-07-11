@@ -85,6 +85,11 @@ public extension UIView {
       subview.animateCornerRadiusInHierarchyIfNecessary(duration: duration)
     }
   }
+
+  func debugBoudingRect() {
+    layer.borderColor = UIColor.red.cgColor
+    layer.borderWidth = 2
+  }
 }
 
 fileprivate func getBool(_ handle: UnsafeRawPointer!, _ object: UIView, defaultIfNil: Bool) -> Bool {

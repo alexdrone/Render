@@ -4,13 +4,15 @@ import UIKit
 class CardComponentView: StatelessComponentView {
 
   var displayBlock: Bool = true
+  var isGridLayout: Bool = false
   var isBeingDeleted: Bool = false
 
   override func render() -> NodeType {
+    let shouldDisplayColumn = isGridLayout
     return Node<UIView> { [weak self] view, layout, size in
       view.backgroundColor = Color.black
       layout.padding = 8
-      layout.flexDirection = .row
+      layout.flexDirection = shouldDisplayColumn ? .column : .row
       layout.alignSelf = .stretch
       layout.alignItems = .center
       layout.justifyContent = .center

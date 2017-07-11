@@ -401,11 +401,6 @@ open class ComponentView<S: StateType>: UIView, ComponentViewType {
     return views { $0.tag == _key.reuseIdentifier.hashValue }.flatMap { $0 as? T }
   }
 
-  open override func layoutSubviews() {
-    super.layoutSubviews()
-    update()
-  }
-
   open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
     super.traitCollectionDidChange(previousTraitCollection)
   }
