@@ -100,6 +100,7 @@ public protocol AnyComponentView: class, ReflectedStringConvertible {
 
   /// Internal only.
   var anyState: StateType { get }
+  var key: Key { get set }
 }
 
 public protocol ComponentViewType: AnyComponentView {
@@ -173,9 +174,15 @@ open class ComponentView<S: StateType>: UIView, ComponentViewType {
   /// The component's default options.
   public var defaultOptions: [RenderOption] = []
 
-  /// The reuse identifier of the root node for this component.
+  private var _key: Key? = nil
   public var key: Key {
-    return root.key
+    get {
+      return _key ?? root.key
+    }
+    set {
+      _key = newValue
+      root.key = newValue
+    }
   }
 
   /// Alternative to subclassing ComponentView.
@@ -305,6 +312,7 @@ open class ComponentView<S: StateType>: UIView, ComponentViewType {
       self.childrenComponentAutoIncrementKey = 0
       root = render()
       root.key.reuseIdentifier = String(describing: type(of: self))
+      root.key.key = key.key
       root.associatedComponent = self
       reconcile(new: root, size: bounds, view: rootView, parent: contentView)
       rootView = root.renderedView!

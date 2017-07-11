@@ -260,7 +260,8 @@ public func ComponentNode<T: ComponentViewType>(_ component: @autoclosure () -> 
   component.rootComponent = rootComponent
   component.state = componentState
   component.referenceSize = size ?? rootComponent.referenceSize
-
+  component.key = childKey
+  
   // Applies the component configuration (this would be the props in the react world).
   props?(component, rootComponent.childrenComponent[childKey] == nil)
   rootComponent.childrenComponent[childKey] = component

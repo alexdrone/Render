@@ -36,7 +36,7 @@ class TableNodeExampleComponentView: ComponentView<TableNodeExampleState> {
       // Is important that every item in the list has his own unique key.
       // Keys should be given to the elements inside the array to give the
       // elements a stable identity.
-      return Node<UIView>(key: "cell_\(index)") { view, layout, size in
+      return Node<UIView>(key: "cell_\(idx)") { view, layout, size in
         layout.width = shouldUseTableView ? size.width : size.width/2
         layout.flexDirection = .column
       }
