@@ -34,7 +34,7 @@ class CounterComponentView: ComponentView<CounterComponentViewState> {
 
   override func render() -> NodeType {
     let containter = Node<UIView> { view, layout, size in
-      view.backgroundColor = Color.red
+      view.backgroundColor = Color.green
       view.transform = CGAffineTransform.identity
       view.onTap { [weak self] _ in
         // Render gives you a reference to every view you're building in the render method.
@@ -64,7 +64,7 @@ class CounterComponentView: ComponentView<CounterComponentViewState> {
   private func popView(view: UIView, completion: @escaping () -> ()) {
     func animateIn() {
       view.transform = CGAffineTransform(scaleX: 1.1, y: 1.1)
-      view.backgroundColor = Color.darkerRed
+      view.backgroundColor = Color.darkerGreen
     }
     func animateOut(finished: Bool) {
       view.transform = CGAffineTransform.identity

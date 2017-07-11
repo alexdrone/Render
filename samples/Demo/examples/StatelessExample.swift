@@ -7,7 +7,7 @@ import Render
 // Functions are great to have very fine grain code reuse.
 func PaddedLabel(text: String,
                  background: UIColor = Color.green,
-                 foreground: UIColor = Color.black) -> NodeType {
+                 foreground: UIColor = Color.white) -> NodeType {
   // A box around the label with a little margin.
   // ReuseIdentifiers in nodes helps the infra to pick the best view to recycle during
   // the reconciliation phase.
@@ -15,15 +15,20 @@ func PaddedLabel(text: String,
     layout.margin = 4
     layout.padding = 6
     layout.alignSelf = .flexStart
-    view.backgroundColor = background
-    view.cornerRadius = 4
+    view.backgroundColor = background.withAlphaComponent(0.7)
+    view.layer.borderColor = background.cgColor
+    view.layer.borderWidth = 1
     }.add(children: [
       // The actual label.
       Node<UILabel> { view, layout, size in
-        view.text = text
+        let attr = NSMutableAttributedString(string: text.uppercased())
+        attr.addAttribute(NSKernAttributeName,
+                          value: 1.25,
+                          range: NSMakeRange(0, attr.length))
+        view.attributedText = attr
         view.numberOfLines = 0
         view.textColor = foreground
-        view.font = Typography.smallLight
+        view.font = Typography.extraSmallLight
       }
     ])
 }

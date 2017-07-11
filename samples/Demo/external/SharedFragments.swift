@@ -15,7 +15,7 @@ struct Fragments {
         Node<UILabel>() { (view, layout, size) in
           view.text = text ?? "N/A"
           view.numberOfLines = 0
-          view.textColor = Color.darkerGreen
+          view.textColor = Color.black
           view.font = Typography.small
         }
     ])

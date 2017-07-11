@@ -44,6 +44,9 @@ extension ComponentCellType where Self: UIView {
     }
     componentView = component()
     componentView?.referenceSize = referenceSize
+    for subview in contentView.subviews {
+      subview.removeFromSuperview()
+    }
     if let componentView = componentView as? UIView {
       contentView.addSubview(componentView)
     }

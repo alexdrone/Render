@@ -2,7 +2,7 @@ import Render
 import UIKit
 
 struct DynamicViewHierarchyState: StateType {
-  var text: String = "Tap me"
+  var text: String = randomString()
 }
 
 // One of the most interesting features of 'Render' is that the description for your view

@@ -4,6 +4,7 @@ import UIKit
 class CardComponentView: StatelessComponentView {
 
   var displayBlock: Bool = true
+  var isBeingDeleted: Bool = false
 
   override func render() -> NodeType {
     return Node<UIView> { [weak self] view, layout, size in
@@ -11,10 +12,22 @@ class CardComponentView: StatelessComponentView {
       layout.padding = 8
       layout.flexDirection = .row
       layout.alignSelf = .stretch
+      layout.alignItems = .center
+      layout.justifyContent = .center
       if self?.displayBlock ?? false {
         layout.width = size.width
       } else {
         layout.flex()
+      }
+      let deleted = self?.isBeingDeleted ?? false
+      if deleted {
+        view.alpha = 0.1
+        view.isUserInteractionEnabled = false
+        view.startShimmering()
+      } else {
+        view.isUserInteractionEnabled = true
+        view.alpha = 1
+        view.stopShimmering()
       }
     }.add(children: [
       // The function 'ComponentNode' is used to wrap a component inside a node.
