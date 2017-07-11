@@ -2,7 +2,7 @@ import Render
 import UIKit
 
 struct TableNodeExampleState: StateType {
-  var items = Array(0..<32)
+  var items = Array(0..<532)
 }
 
 class TableNodeExampleComponentView: ComponentView<TableNodeExampleState> {

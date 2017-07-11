@@ -246,10 +246,19 @@ public class TableNode: NSObject, ListNodeType, UITableViewDataSource, UITableVi
                         cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
     let (identifier, node) = self.node(for: indexPath)
-    let cell = tableView.dequeueReusableCell(withIdentifier: identifier) as? ComponentTableViewCell
-               ?? ComponentTableViewCell()
+
+    tableView.register(ComponentTableViewCell.self, forCellReuseIdentifier: identifier)
+    let cell = tableView.dequeueReusableCell(withIdentifier: identifier)
+               as? ComponentTableViewCell
+               ?? ComponentTableViewCell(style: .default, reuseIdentifier: identifier)
+
+//    var address = "nil"
+//    address = "\(Unmanaged<AnyObject>.passUnretained(cell as AnyObject).toOpaque())"
+//    __createdCells.insert(address)
+
     mount(node: node, cell: cell, rootComponent: rootComponent, for: (tableView, indexPath))
     return cell
   }
 }
 
+fileprivate var __createdCells: Set<String> = Set<String>()

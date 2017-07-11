@@ -74,6 +74,9 @@ public protocol AnyComponentView: class, ReflectedStringConvertible {
   /// Called whenever the component has been rendered and installed on the screen.
   func didUpdate()
 
+  /// Used to force the component to re-use a particular view tree.
+  func injectRootView(view: UIView)
+
   /// The component bounds.
   var referenceSize: () -> CGSize { get set }
 
@@ -234,6 +237,13 @@ open class ComponentView<S: StateType>: UIView, ComponentViewType {
 
   deinit {
     NotificationCenter.default.removeObserver(self)
+  }
+
+  /// Used to force the component to re-use a particular view tree.
+  public func injectRootView(view: UIView) {
+    view.removeFromSuperview()
+    rootView = view
+    contentView.addSubview(view)
   }
 
   /// The 'render' method is required for subclasses.

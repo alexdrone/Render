@@ -2,7 +2,8 @@ class InspectorController {
   constructor() {
     this.host = `http://localhost:8080`
     this.nodes = {}
-    this.selectedId = null
+    this.selectedRef = null
+    this.refs = []
   }
   fetchPayload() {
     let parseXml = function (xmlStr) {
@@ -36,6 +37,7 @@ class InspectorController {
       return result
     }
     let nil_id = 0
+    let newRefs = []
     // Traverse the xml nodes.
     const traverse = (nodes, level) => {
       if (nodes == null) {
@@ -49,14 +51,19 @@ class InspectorController {
         // Store the node.
         const refStr = attr(node, `ref`)
         let ref = refStr.length > 0 ? refStr : `nil`
-        ref = ref == `nil` ? `${ref}_${nil_id++}` : `0x…` + ref.substr(ref.length - 8)
+        ref = ref == `nil` ? `${ref} (${nil_id++})` : ref
+        if (refStr.length > 0) {
+          newRefs.push(ref)
+        }
+        const key = attr(node, `key`)
         this.nodes[ref] = node
+        this.nodes[key] = node
         // Recursively prints the representation.
         buffer += element({
           type: `div`,
           className: `node-container`,
           style: `margin-left:${level*8}px`,
-          other: `data-id="${ref}"`
+          other: ` data-ref="${ref}"`
         })
         buffer += element({
           type: `span`,
@@ -73,7 +80,7 @@ class InspectorController {
         buffer += node.nodeName
         buffer += endElement(`span`)
         buffer += nodeAttribute(`ref`, ref)
-        buffer += nodeAttribute(`key`, attr(node, `key`))
+        buffer += nodeAttribute(`key`, key)
         // Children nodes.
         buffer += element({
           type: `div`,
@@ -87,28 +94,38 @@ class InspectorController {
     }
     traverse(this.data.getElementsByTagName(`Application`), 0)
     document.getElementById(`components-tree`).innerHTML = buffer
-    if (this.selectedId != null) {
-      this.onNodeContainerClick(this.selectedId)
+    if (this.selectedRef != null) {
+      this.onNodeContainerClick(this.selectedRef)
     }
+
+    let added = 0
+    let removed = 0
+    for (let ref of newRefs) {
+      if (this.refs.indexOf(ref) == -1) added++
+    }
+    for (let ref of this.refs) {
+      if (newRefs.indexOf(ref) == -1) removed++
+    }
+    this.refs = newRefs
+    console.log(`${added} view added, ${removed} view removed from the hierarchy.`);
   }
-  onToggleCollapse(id) {
-    console.log(id)
+  onToggleCollapse(ref) {
     const collapsed = `collapsed`
-    const div = document.querySelectorAll(`div[data-id='${id}'] .children`)[0]
+    const div = document.querySelectorAll(`div[data-ref='${ref}'] .children`)[0]
     div.classList.toggle(collapsed)
     const arrow = document.querySelectorAll(
-      `div[data-id='${id}'] .node-arrow`)[0]
+      `div[data-ref='${ref}'] .node-arrow`)[0]
     arrow.classList.toggle(collapsed)
   }
-  onNodeContainerClick(id) {
+  onNodeContainerClick(ref) {
     const selected = `selected`
     for (let el of document.querySelectorAll(`.node-title`)) {
       el.classList.remove(selected)
     }
-    let div = document.querySelectorAll(`div[data-id='${id}'] .node-title`)[0]
+    let div = document.querySelectorAll(`div[data-ref='${ref}'] .node-title`)[0]
     div.classList.add(selected)
-    const node = this.nodes[id]
-    this.selectedId = id
+    const node = this.nodes[ref]
+    this.selectedRef = ref
     let buffer = ``
     buffer += element({
       type: `span`,
