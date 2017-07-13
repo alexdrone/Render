@@ -1,58 +1,59 @@
 import Render
 import UIKit
 
-struct TableNodeExampleState: StateType {
+struct CollectionNodeExampleState: StateType {
   var indexBeingDeleted: [Int] = []
   var items = Array(0..<32)
+  var colors: [Int: UIColor] = [:]
+  init() {
+    for idx in items {
+      colors[idx] = Color.darkerRed.withAlphaComponent(CGFloat.random())
+    }
+  }
 }
 
-class TableNodeExampleComponentView: ComponentView<TableNodeExampleState> {
+class CollectionNodeExampleComponentView: ComponentView<CollectionNodeExampleState> {
 
   override func render() -> NodeType {
 
-    // A simple component expressed as pure function.
-    func RemoveButton(idx: Int) -> NodeType {
-      return Node<UIButton> { [weak self] view, layout, size in
-        view.setTitle("DEL", for: .normal)
-        view.setTitleColor(Color.white, for: .normal)
-        view.titleLabel?.font = Typography.smallBold
-        view.backgroundColor = Color.red
-        view.isHidden = self?.state.indexBeingDeleted.contains(idx) ?? false
-        view.onTap { [weak self] _ in self?.remove(at: idx) }
-        layout.alignSelf = .stretch
-        layout.justifyContent = .center
-        layout.width = 32
-        layout.margin = 2
-      }
+    func cellSize(size: CGSize, idx: Int) -> (CGFloat, CGFloat) {
+      let width = UIScreen.main.bounds.width
+      return (width/2, width/2)
     }
 
     // The main wrapper view (another pure function).
     func Cell(idx: Int) -> NodeType {
+
+      let spinner = Node<UIActivityIndicatorView> { view, layout, size in
+        layout.alignSelf = .center
+        view.startAnimating()
+      }
+
+      let isBeingDeleted = self.state.indexBeingDeleted.contains(idx)
+
       // Is important that every item in the list has his own unique key.
       // Keys should be given to the elements inside the array to give the
       // elements a stable identity.
-      return Node<UIView>(key: "cell_\(idx)") { view, layout, size in
-        layout.width = size.width
-        layout.flexDirection = .row
+      let cell = Node<UILabel>(key: "cell_\(idx)") { [weak self] view, layout, size in
+        (layout.width, layout.height) = cellSize(size: size, idx: idx)
+        layout.justifyContent = .center
+        view.backgroundColor = self?.state.colors[idx] ?? Color.black
+        view.text = "\(idx)"
+        view.textAlignment = .center
+        view.font = Typography.smallBold
+        view.textColor = isBeingDeleted ? Color.white.withAlphaComponent(0.2) : Color.white
+        view.isUserInteractionEnabled = !isBeingDeleted
+        view.onTap { [weak self] _ in self?.remove(at: idx) }
       }
+      if isBeingDeleted {
+        cell.add(child: spinner)
+      }
+      return cell
     }
 
-    let cells = state.items.map { idx in
-      Cell(idx: idx).add(children: [
-        // Nested components should also have a unique key otherwise it won't be
-        // possible to store their state.
-        // Keys are not necessary if the component is stateless.
-        ComponentNode(CardComponentView(), in: self, key: "card_\(idx)") { component, _ in
-          component.displayBlock = false
-          component.isBeingDeleted = self.state.indexBeingDeleted.contains(idx)
-        },
-        RemoveButton(idx: idx),
-      ])
-    }
+    let cells = state.items.map { idx in  Cell(idx: idx) }
 
-    // TableNode wraps a 'UITableView' and implements its children through a datasource
-    // with cell reuse.
-    let tableView = TableNode(key: "table_cards", in: self) { view, layout, size in
+    let collectionView = CollectionNode(key: "colors", in: self) { view, layout, size in
       view.backgroundColor = Color.black
       layout.width = size.width
       layout.height = size.height - 64
@@ -64,7 +65,7 @@ class TableNodeExampleComponentView: ComponentView<TableNodeExampleState> {
       layout.width = size.width
       layout.height = size.height
       layout.paddingTop = 64
-    }.add(child: tableView)
+    }.add(child: collectionView)
 
     return container
   }
@@ -91,10 +92,10 @@ class TableNodeExampleComponentView: ComponentView<TableNodeExampleState> {
 
 }
 
-class TableNodeExampleViewController: ViewController, ComponentController {
+class CollectionNodeExampleViewController: ViewController, ComponentController {
 
   // Our root component.
-  var component = TableNodeExampleComponentView()
+  var component = CollectionNodeExampleComponentView()
 
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -110,6 +111,6 @@ class TableNodeExampleViewController: ViewController, ComponentController {
   func configureComponentProps() {
     // No props to configure
   }
-
+  
 }
 

@@ -8,13 +8,15 @@ class NewIndexViewController: ViewController, ComponentController, NewIndexCompo
   lazy var component = NewIndexComponentView()
 
   let titles: [(Int, String, String)] = [
-    (0, "Stateless Components", "A simple stateless component with a static view hierarchy."),
-    (1, "Stateful Component", "A counter that changes its internal state."),
-    (2, "Dynamic View Hierarchy", "The view hierarchy changes at every render pass."),
-    (3, "Nested Components", "ComponentViews can be used as nodes inside the render function."),
-    (4, "ScrollView Container", "The simplest way to make a list of components."),
-    (5, "TableNode and CollectionNode", "UITableView and UICollectionView wrappers with auto diff for row changes."),
-    (6, "Absolute layouts", "Advanced layout through absolute-positioned children."),
+    (10, "Stateless Components", "A simple stateless component with a static view hierarchy."),
+    (20, "Stateful Component", "A counter that changes its internal state."),
+    (30, "Dynamic View Hierarchy", "The view hierarchy changes at every render pass."),
+    (40, "Nested Components", "ComponentViews can be used as nodes inside the render function."),
+    (50, "ScrollView Container", "The simplest way to make a list of components."),
+    (60, "TableNode", "Declarative UITableView wrappers with auto diff for row changes."),
+    (61, "CollectionNode", "Declarative UITableView wrappers with auto diff for row changes."),
+    (62, "Components embedded in Cells", "If you wish to use UITableView in the most traditional way."),
+    (70, "Absolute layouts", "Advanced layout through absolute-positioned children."),
 
   ]
 
@@ -34,13 +36,15 @@ class NewIndexViewController: ViewController, ComponentController, NewIndexCompo
 
   func indexComponentDidSelectRow(index: Int) {
     switch index {
-    case 0: self.navigationController?.pushViewController(StatelessComponentExampleViewController(), animated: true)
-    case 1: self.navigationController?.pushViewController(CounterExampleViewController(), animated: true)
-    case 2: self.navigationController?.pushViewController(DynamicViewHierarchyExampleViewController(), animated: true)
-    case 3: self.navigationController?.pushViewController(NestedComponentsExampleViewController(), animated: true)
-    case 4: self.navigationController?.pushViewController(ScrollExampleViewController(), animated: true)
-    case 5: self.navigationController?.pushViewController(TableNodeExampleViewController(), animated: true)
-    case 6: self.navigationController?.pushViewController(AbsoluteLayoutExampleViewController(), animated: true)
+    case 10: self.navigationController?.pushViewController(StatelessComponentExampleViewController(), animated: true)
+    case 20: self.navigationController?.pushViewController(CounterExampleViewController(), animated: true)
+    case 30: self.navigationController?.pushViewController(DynamicViewHierarchyExampleViewController(), animated: true)
+    case 40: self.navigationController?.pushViewController(NestedComponentsExampleViewController(), animated: true)
+    case 50: self.navigationController?.pushViewController(ScrollExampleViewController(), animated: true)
+    case 60: self.navigationController?.pushViewController(TableNodeExampleViewController(), animated: true)
+    case 61: self.navigationController?.pushViewController(CollectionNodeExampleViewController(), animated: true)
+    case 62: self.navigationController?.pushViewController(ComponentEmbeddedInCellExampleViewController(), animated: true)
+    case 70: self.navigationController?.pushViewController(AbsoluteLayoutExampleViewController(), animated: true)
 
     default: break
     }
@@ -102,7 +106,7 @@ class NewIndexComponentView: StatelessComponentView {
       view.font = UIFont.boldSystemFont(ofSize: 16)
       view.textAlignment = .center
       view.textColor = Color.white
-      view.text = "\(no+1)"
+      view.text = "\(no)"
     }
     return container.add(children: [
       numberLabel,

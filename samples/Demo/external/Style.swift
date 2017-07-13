@@ -22,6 +22,10 @@ struct Typography {
 }
 
 extension UIView {
+  var isShimmering: Bool {
+    return layer.mask != nil
+  }
+
   func startShimmering() {
     stopShimmering()
     let light: CGColor = UIColor(white: CGFloat(0), alpha: CGFloat(0.1)).cgColor
@@ -46,5 +50,17 @@ extension UIView {
   }
   func stopShimmering() {
     layer.mask = nil
+  }
+}
+
+extension CGFloat {
+  static func random() -> CGFloat {
+    return CGFloat(arc4random()) / CGFloat(UInt32.max)
+  }
+}
+
+extension UIColor {
+  static var random: UIColor {
+    return UIColor(red: .random(), green: .random(), blue: .random(), alpha: 1.0)
   }
 }

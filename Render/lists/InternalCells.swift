@@ -3,7 +3,7 @@ import UIKit
 
 // MARK: - Cell protocol
 
-public protocol ComponentCellType: class  {
+public protocol InternalComponentCellType: class  {
 
   /// The cell contentview.
   var contentView: UIView { get }
@@ -34,10 +34,10 @@ public protocol ComponentCellType: class  {
   func referenceSize() -> CGSize
 }
 
-extension ComponentCellType where Self: UIView {
+extension InternalComponentCellType where Self: UIView {
 
   public func mountComponentIfNecessary(isStateful: Bool = true,
-                                        _ component: @autoclosure () -> AnyComponentView) {
+                                 _ component: @autoclosure () -> AnyComponentView) {
     componentView?.referenceSize = referenceSize
     guard componentView == nil || isStateful else {
       return
@@ -80,12 +80,13 @@ extension ComponentCellType where Self: UIView {
   }
 
   public func referenceSize() -> CGSize {
-    return CGSize(width: listView?.bounds.size.width ?? UIScreen.main.bounds.size.width,
+    let container = listView ?? superview
+    return CGSize(width: container?.bounds.size.width ?? UIScreen.main.bounds.size.width,
                   height: CGFloat.max)
   }
 }
 
-extension ComponentCellType where Self: UITableViewCell {
+extension InternalComponentCellType where Self: UITableViewCell {
 
   /// Called whenever the component finished to be rendered and updated its size.
   public func onLayout(duration: TimeInterval, component: AnyComponentView, size: CGSize) {
@@ -104,7 +105,7 @@ extension ComponentCellType where Self: UITableViewCell {
   }
 }
 
-extension ComponentCellType where Self: UICollectionViewCell {
+extension InternalComponentCellType where Self: UICollectionViewCell {
 
   /// Called whenever the component finished to be rendered and updated its size.
   public func onLayout(duration: TimeInterval, component: AnyComponentView, size: CGSize) {
@@ -126,7 +127,7 @@ extension ComponentCellType where Self: UICollectionViewCell {
 // MARK: - UITableViewCell
 
 /// Wraps a component in a UITableViewCell.
-open class ComponentTableViewCell: UITableViewCell, ComponentCellType  {
+open class InternalComponentTableViewCell: UITableViewCell, InternalComponentCellType  {
 
   public weak var listView: UIView?
   public var currentIndexPath = IndexPath(row: 0, section: 0)
@@ -161,7 +162,7 @@ open class ComponentTableViewCell: UITableViewCell, ComponentCellType  {
 // MARK: - UICollectionViewCell
 
 /// Wraps a component in a UICollectionViewCell.
-open class ComponentCollectionViewCell: UICollectionViewCell, ComponentCellType  {
+open class InternalComponentCollectionViewCell: UICollectionViewCell, InternalComponentCellType  {
 
   public weak var listView: UIView?
   public var currentIndexPath = IndexPath(item: 0, section: 0)
@@ -200,7 +201,7 @@ extension UITableView {
   /// Call this method whenever the table view changes its bounds/size.
   public func updateVisibleComponents() {
     visibleCells
-      .flatMap { cell in cell as? ComponentCellType }
+      .flatMap { cell in cell as? InternalComponentCellType }
       .forEach { cell in cell.update(options: [])}
   }
 }
@@ -216,7 +217,7 @@ extension UICollectionView {
   /// Call this method whenever the collecrion view changes its bounds/size.
   public func updateVisibleComponents() {
     visibleCells
-      .flatMap { cell in cell as? ComponentCellType }
+      .flatMap { cell in cell as? InternalComponentCellType }
       .forEach { cell in cell.update(options: []) }
   }
 }

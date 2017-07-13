@@ -88,7 +88,7 @@ public protocol AnyComponentView: class, ReflectedStringConvertible {
 
   /// Internal only.
   /// If the component is wrapped into a cell this will have a ref to it.
-  weak var associatedCell: ComponentCellType? { get set }
+  weak var associatedCell: InternalComponentCellType? { get set }
 
   /// Internal only.
   /// If the component is wrapped inside a root component some of the callbacks should be
@@ -210,7 +210,7 @@ open class ComponentView<S: StateType>: UIView, ComponentViewType {
 
   /// Internal use only.
   public var identityMapForListNode: [Key: [Key]] = [:]
-  public weak var associatedCell: ComponentCellType?
+  public weak var associatedCell: InternalComponentCellType?
   public weak var rootComponent: AnyComponentView?
 
   public required init() {

@@ -47,7 +47,7 @@ public extension ListNodeType {
   }
 
   public func mount(node: NodeType,
-                    cell: ComponentCellType,
+                    cell: InternalComponentCellType,
                     rootComponent: AnyComponentView?,
                     for collection: (UIView, IndexPath)) {
     if let component = rootComponent?.childrenComponent[node.key] {
@@ -56,6 +56,7 @@ public extension ListNodeType {
       cell.mountComponentIfNecessary(isStateful: true, StatelessCellComponentView { _ in node })
     }
     cell.componentView?.associatedCell = cell
+    
     cell.componentView?.referenceSize = referenceSize
     cell.listView = collection.0
     cell.currentIndexPath = collection.1
@@ -247,10 +248,9 @@ public class TableNode: NSObject, ListNodeType, UITableViewDataSource, UITableVi
 
     let (identifier, node) = self.node(for: indexPath)
 
-    tableView.register(ComponentTableViewCell.self, forCellReuseIdentifier: identifier)
     let cell = tableView.dequeueReusableCell(withIdentifier: identifier)
-               as? ComponentTableViewCell
-               ?? ComponentTableViewCell(style: .default, reuseIdentifier: identifier)
+               as? InternalComponentTableViewCell
+               ?? InternalComponentTableViewCell(style: .default, reuseIdentifier: identifier)
 
 //    var address = "nil"
 //    address = "\(Unmanaged<AnyObject>.passUnretained(cell as AnyObject).toOpaque())"
