@@ -208,6 +208,19 @@ class CounterComponentView: ComponentView<CounterState> {
 
 ```
 
+_When stateful component are added as child components it is necessary to specify a unique key for them
+so that the infra will be able to store their internal states:_
+
+```swift
+class ParentComponentView: StatelessComponent {
+  func render() -> NodeType {
+    return Node<UIScrollView>.add(children: [
+        ComponentNode(CounterComponentView(), in: self, key:"counter") { $0.text = "foo" }
+      ])
+    }
+  }
+```
+
 #### Should this Component have _state_? 
 
 _state_ is optional. Since _state_ increases complexity and reduces predictability, a Component without _state_ is preferable. Even though you clearly can't do without state in an interactive app, you should avoid having too many _Stateful Components._
@@ -215,7 +228,15 @@ _state_ is optional. Since _state_ increases complexity and reduces predictabili
  _Recap_
 
 * **Stateless Component** — Only _props_, no _state._ There's not much going on besides the `render()` function and all their logic revolves around the _props_ they receive. This makes them very easy to follow (and test for that matter).
-* **Stateful Component** — Both _props_ and _state._. They should take care of user interaction and some of the complex business logic, while all visualization and formatting logic should move downstream into as many _Stateless Components_ as possible.
+* **Stateful Component** — Both _props_ and _state._ They should take care of user interaction and some of the complex business logic, while all visualization and formatting logic should move downstream into as many _Stateless Components_ as possible.
+
+### reuseIdentifier vs key
+
+Every node exposes these 2 properties and even if it could be confusing at first, their role is very different.
+
+* **reuseIdentifier** - Mainly for performance optimisation reasons only - it's a way to flag a way for optimal reuse. **Mandatory** when your node has a custom creation closure.
+* **key** - Used to give the node a unique identity for state storing purposes - every child component must be constructed with a unique key. [Extremely useful in lists.](https://facebook.github.io/react/docs/lists-and-keys.html)
+
 
 # Lightweight Integration with UIKit
 
@@ -234,10 +255,10 @@ The framework doesn't force you to use the Component abstraction. You can use no
 
 You can wrap your components in `ComponentTableViewCell` or `ComponentCollectionViewCell` and use the classic dataSource/delegate pattern for you view controller.
 
-### Declarative UITableView implementation
+### Declarative UI(Table/Collection)View implementation
 
-You can quickly leverage the efficiency of UITableView and its cell reuse capabilities by using **TableNode** as the container node for your children.
-In this way the node's subnodes will be wrapped inside `UITableViewCollectionCell`.
+You can quickly leverage the efficiency of UITableView and UICollectionView and their cell reuse capabilities by using **TableNode** or **CollectionNode** as the container node for your children.
+In this way the node's subnodes will be wrapped inside `UITableViewCollectionCell` or `UICollectionNode`.
 
 Changes in the collection results in fine grain table changes (add/remove/move cells) as long as every children node in the collection has a unique `key`.
 
@@ -245,31 +266,20 @@ Changes in the collection results in fine grain table changes (add/remove/move c
 
  override func render() -> NodeType {
     let table = TableNode { _, layout, _ in
-      // Size, margins and padding can now be expressed as a % of the parent.
+      // Size, margins and padding can also be expressed as a % of the parent.
       (layout.percent.height, layout.percent.width) = (100%, 100%)
     }
     return table.add(children: [
       // Any node definition will be wrapped inside a UITableViewCell.
-      Node<UIView> { _, layout, _ in
-        (layout.width, layout.height) = (size.width, 128)
-      },
-      // Another one.
-      Node<UIView>,
+      PaddedLabel(text: "foo"),
+      PaddedLabel(text: "bar"),
       // ComponentViews can also be added as child-nodes.
-      // The 'key' argument is important for collection stability.
-      ComponentNode(MyComponent(), state: state.bar, size: size),
+      ComponentNode(MyComponent(), state: state.bar) { $0.props = ... }
     ])
   }
 
 ```
 
-
-
-### Samples
-
- - Catalogue app 
-
- - Todolist app
 
 
 #### Use with Dispatch or Reswift
@@ -288,6 +298,3 @@ Checkout the **TodoApp** example to see how to get the best out of **Dispatch** 
 
 - [Yoga](https://facebook.github.io/yoga/)
 - [React](https://github.com/facebook/react): The React github page
-
-
-w
