@@ -47,8 +47,6 @@ Drag `bin/Render.framework` in your project and add it as an embedded binary.
 This is what a component looks like:
 
 
-<img src="docs/simple_component.gif" width=140 align=right>
-
 ```swift
 
 struct CounterState: StateType {
@@ -83,7 +81,7 @@ class CounterComponentView: ComponentView<CounterState> {
 
 ```
 
-The view description is defined by the `render()` method.
+<img src="docs/simple_component.gif" width=140>
 
 # Components
 
