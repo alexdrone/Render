@@ -246,7 +246,7 @@ The framework doesn't force you to use the Component abstraction. You can use no
 
 ### Performance & Thread Model
 
-**Render**'s `update(options:)` function is performed on the main thread. Diff+Reconciliation+Layout+Configuration runs usually under 16ms for a component with a complex view hierarchy on a iPhone 4S, which makes it suitable for cells implementation (with a smooth scrolling).
+**Render**'s `update(options:)` function is performed on the main thread. Diff+Reconciliation+Layout+Configuration runs usually under 16ms for a component with a complex view hierarchy on a iPhone 4S, which makes it suitable for cells implementation (with smooth scrolling).
 
 
 ### Components embedded in cells
