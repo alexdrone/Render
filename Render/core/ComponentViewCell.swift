@@ -9,7 +9,7 @@ public protocol ComponentViewCellDelegate: class {
   func componentOnLayout(component: AnyComponentView, indexPath: IndexPath)
 }
 
-public class ComponentTableViewCell<C: ComponentViewType>: UITableViewCell {
+final public class ComponentTableViewCell<C: ComponentViewType>: UITableViewCell {
 
   /// The wrapped component.
   public let component = C()

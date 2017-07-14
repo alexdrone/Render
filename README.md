@@ -1,12 +1,12 @@
-# <img src="https://raw.githubusercontent.com/alexdrone/Render/master/docs/logo.png" width="387" alt="Render" />
+#Render [![Swift](https://img.shields.io/badge/swift-3.1-orange.svg?style=flat)](#) [![Platform](https://img.shields.io/badge/platform-iOS-lightgrey.svg?style=flat)](#) [![License](https://img.shields.io/badge/license-MIT-blue.svg?style=flat)](https://opensource.org/licenses/MIT)
 
-[![Swift](https://img.shields.io/badge/swift-3.1-orange.svg?style=flat)](#)
-[![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
-[![Platform](https://img.shields.io/badge/platform-iOS-lightgrey.svg?style=flat)](#)
-[![License](https://img.shields.io/badge/license-MIT-blue.svg?style=flat)](https://opensource.org/licenses/MIT)
-[![Gitter](https://badges.gitter.im/alexdrone/Render.svg)](https://gitter.im/alexdrone/Render?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
+# <img src="https://raw.githubusercontent.com/alexdrone/Render/master/docs/logo_small.png" width="150" alt="Render" align=right />
 
-*React-inspired Swift library for writing UIKit UIs.*
+Render is a declarative library for building efficient UIs on iOS inspired by React.
+
+* **Declarative:** Render uses a declarative API to define UI components. You simply describe the layout for your UI based on a set of inputs and the framework takes care of the rest.
+* **Flexbox layout:** Render includes the robust and battle-tested Facebook's [Yoga](https://facebook.github.io/yoga/) as default layout engine.
+* **Fine-grained recycling:** Any component such as a text or image can be recycled and reused anywhere in the UI.
 
 
 
