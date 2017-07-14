@@ -48,54 +48,42 @@ Drag `bin/Render.framework` in your project and add it as an embedded binary.
 This is what a component looks like:
 
 
+<img src="docs/simple_component.gif" width="140" align=right>
+
 ```swift
 
-struct HelloWorldState: StateType {
-  let count: Int
-  let image: UIImage
+struct CounterState: StateType {
+  let count: Int = 0
 }
 
-class HelloWorldComponentView: ComponentView<HelloWorldState> {
-
-  init() {
-    self.state = HelloWorldState(count: 0, image: UIImage());
-  }
+class CounterComponentView: ComponentView<CounterState> {
 
   override func render() -> NodeType {
-    let avatar = Node<UIImageView> { view, layout, size in
-      view.image = state.image
+    let circle = Node<UIView> { view, layout, size in
+      view.backgroundColor = UIColor.green
       layout.alignSelf = .center
-      (layout.width, layout.height) = (128, 128) 
+      layout.width = 128
+      layout.aspectRatio = 1
     }
    
     let text = Node<UILabel> { view, layout, size in
-      view.text = "Tap Me: \(state.count)"
+      view.text = "\(state.count)"
       view.textAlignment = .center
       layout.margin = 16
     }
 		
-    let container = Node<UIImageView> { view, layout, size in
-      view.backgroundColor = Color.black
+    let container = Node<UIView> { view, layout, size in
+      view.backgroundColor = UIColor.black
       view.onTap { [weak self] _ in
       	// When the state changes the component is automatically re-rendered.
-        self?.setState { 
-          $0.count += 1
-        }
+        self?.setState { state in state.count += 1 }
       }
       layout.justifyContent = .center
     }
-
-    return container.add(children: [
-      avatar,
-      text
-    ])
+    return container.add(children: [avatar, text])
   }
 }
 
-// ...
-
-let component = HelloWorldComponentView()
-self.view.addSubview(component)
 ```
 
 The view description is defined by the `render()` method.
@@ -106,7 +94,6 @@ Every time `update(options:)` is called, a new tree is constructed, compared to 
 
 The component above would render to:
 
-<img src="docs/component.gif" width="140">
 
 **Check the demo project for more examples**
 
