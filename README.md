@@ -4,17 +4,9 @@
 
 Render is a declarative library for building efficient UIs on iOS inspired by [React](https://github.com/facebook/react).
 
-* **Declarative:** Render uses a declarative API to define UI components. You simply describe the layout for your UI based on a set of inputs and the framework takes care of the rest.
+* **Declarative:** Render uses a declarative API to define UI components. You simply describe the layout for your UI based on a set of inputs and the framework takes care of the rest (*diff* and *reconciliation* from virtual view hierarchy to the actual one under the hood).
 * **Flexbox layout:** Render includes the robust and battle-tested Facebook's [Yoga](https://facebook.github.io/yoga/) as default layout engine.
 * **Fine-grained recycling:** Any component such as a text or image can be recycled and reused anywhere in the UI.
-
-
-
-## Why
-
-- In render a view is a simple function of the application state inspired from React/Elm architectures.
-- Diff and reconciliation from the virtual view hierarchy to the actual one under the hood.
-- Battle tested flexbox layout engine ([Yoga](https://facebook.github.io/yoga/)) from Facebook (used in popular frameworks like React Native).
 
 From [Why React matters](http://joshaber.github.io/2015/01/30/why-react-native-matters/):
 
