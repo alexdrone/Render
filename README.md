@@ -85,7 +85,7 @@ class CounterComponentView: ComponentView<CounterState> {
 
 The view description is defined by the `render()` method.
 
-### Components
+# Components
 
 `Node<T>` is an abstraction around views of any sort that knows how to build, configure and layout the view when necessary.
 
@@ -153,7 +153,7 @@ class ParentComponentView: StatelessComponent {
 
 As opposed to **stateless** components, **stateful** components don't rely uniquely on *props* to render but they mantain an internal state.
 
-### Props vs State
+### [Props vs State](https://github.com/uberVU/react-guide/edit/master/props-vs-state.md)
 
 > What's the exact difference between _props_ and _state_?
 
@@ -208,7 +208,16 @@ class CounterComponentView: ComponentView<CounterState> {
 
 ```
 
-### Lightweight Integration with UIKit
+#### Should this Component have _state_? 
+
+_state_ is optional. Since _state_ increases complexity and reduces predictability, a Component without _state_ is preferable. Even though you clearly can't do without state in an interactive app, you should avoid having too many _Stateful Components._
+
+ _Recap_
+
+* **Stateless Component** — Only _props_, no _state._ There's not much going on besides the `render()` function and all their logic revolves around the _props_ they receive. This makes them very easy to follow (and test for that matter).
+* **Stateful Component** — Both _props_ and _state._. They should take care of user interaction and some of the complex business logic, while all visualization and formatting logic should move downstream into as many _Stateless Components_ as possible.
+
+# Lightweight Integration with UIKit
 
 *Components* are plain UIViews, so they can be used inside a vanilla view hierarchy with *autolayout* or *layoutSubviews*.
 Similarly plain vanilla UIViews (UIKit components or custom ones) can be wrapped in a `Node`.
