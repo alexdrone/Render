@@ -206,7 +206,7 @@ class CounterComponentView: ComponentView<CounterState> {
 
 ```
 
-_When stateful component are added as child components it is necessary to specify a unique key for them
+_When stateful components are added as children components it is necessary to specify a unique key for them
 so that the infra will be able to store their internal states:_
 
 ```swift
