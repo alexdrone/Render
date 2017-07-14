@@ -45,6 +45,6 @@
     <key>NSHumanReadableCopyright</key>
     <string>Copyright © 2017 render-inspector</string>
     <key>AsarIntegrity</key>
-    <string>{"checksums":{"app.asar":"i3/fIQu3ZrjFy8pfiy/poAMcNEAstIAaf92B8wtUJjEWhZpKKQf6madthhcnAp087rW+FRbfYboRkV+eTGCyqQ==","electron.asar":"E0VzOFDGl10vUSrbYHZmEmLZx1jQKCUPWF+JLngj8lbgihQCML3iAz2ITqK1UhrYEV5lm/xLrs7h8RgAD0pgpw=="}}</string>
+    <string>{"checksums":{"app.asar":"pNAK7RbQdInoCaX5ZGzzIqaeQSSbI9zCP7ZkGBFBpZ1R0QUtJ4j3S0WcEUSHYTbA7NzTYxmhNgcpKB9X/IruSA==","electron.asar":"E0VzOFDGl10vUSrbYHZmEmLZx1jQKCUPWF+JLngj8lbgihQCML3iAz2ITqK1UhrYEV5lm/xLrs7h8RgAD0pgpw=="}}</string>
   </dict>
 </plist>

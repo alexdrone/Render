@@ -278,6 +278,17 @@ Changes in the collection results in fine grain table changes (add/remove/move c
 
 ```
 
+# Example projects
+
+The [_Render catalogue app_](https://github.com/alexdrone/Render/tree/master/samples) contains a number of complex components and layouts.
+
+<img src="docs/catalog.gif" width=360>
+
+# Inspector (Experimental)
+
+When the app is run in the simulator it is possible to inspect Render components, their properties and state with the [inspector companion mac app](https://github.com/alexdrone/Render/tree/master/inspector/dist).
+
+<img src="docs/inspector.png" width=960>
 
 
 #### Use with Dispatch or Reswift

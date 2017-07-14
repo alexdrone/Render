@@ -15,7 +15,7 @@ class NewIndexViewController: ViewController, ComponentController, NewIndexCompo
     (50, "ScrollView Container", "The simplest way to make a list of components."),
     (60, "TableNode", "Declarative UITableView wrappers with auto diff for row changes."),
     (61, "CollectionNode", "Declarative UITableView wrappers with auto diff for row changes."),
-    (62, "Components embedded in Cells", "If you wish to use UITableView in the most traditional way."),
+    //(62, "Components embedded in Cells", "If you wish to use UITableView in the most traditional way."),
     (70, "Absolute layouts", "Advanced layout through absolute-positioned children."),
 
   ]
