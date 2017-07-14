@@ -294,5 +294,4 @@ Checkout the **TodoApp** example to see how to get the best out of **Dispatch** 
 
 # LICENSE
 
-- [Yoga](https://facebook.github.io/yoga/)
-- [React](https://github.com/facebook/react): The React github page
+See the LICENSE file for license details.
