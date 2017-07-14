@@ -1,6 +1,6 @@
 # Render [![Swift](https://img.shields.io/badge/swift-3.1-orange.svg?style=flat)](#) [![Platform](https://img.shields.io/badge/platform-iOS-lightgrey.svg?style=flat)](#) [![License](https://img.shields.io/badge/license-MIT-blue.svg?style=flat)](https://opensource.org/licenses/MIT)
 
-<img src="https://raw.githubusercontent.com/alexdrone/Render/master/docs/logo_small.png" width="150" alt="Render" align=right />
+<img src="https://raw.githubusercontent.com/alexdrone/Render/master/docs/logo_small.png" width=150 alt="Render" align=right />
 
 Render is a declarative library for building efficient UIs on iOS inspired by [React](https://github.com/facebook/react).
 
@@ -16,7 +16,7 @@ From [Why React matters](http://joshaber.github.io/2015/01/30/why-react-native-m
 > 
 > [The framework] lets us describe our entire UI for a given state, and then it does the hard work of figuring out what needs to change. It abstracts all the fragile, error-prone code out away from us. 
 
-## Installation
+### Installation
 
 If you are using **CocoaPods**:
 
@@ -43,12 +43,11 @@ Drag `bin/Render.framework` in your project and add it as an embedded binary.
 
 # TL;DR
 
-**Render**'s building blocks are *Components* (described in the protocol `ComponentViewType`) and its layout engine is based on [Yoga](https://facebook.github.io/yoga/).
-
+**Render**'s building blocks are *Components* (described in the protocol `ComponentViewType`).
 This is what a component looks like:
 
 
-<img src="docs/simple_component.gif" width="140" align=right>
+<img src="docs/simple_component.gif" width=140 align=right>
 
 ```swift
 
@@ -65,14 +64,12 @@ class CounterComponentView: ComponentView<CounterState> {
       layout.width = 128
       layout.aspectRatio = 1
     }
-   
     let text = Node<UILabel> { view, layout, size in
       view.text = "\(state.count)"
       view.textAlignment = .center
       layout.margin = 16
     }
-		
-    let container = Node<UIView> { view, layout, size in
+    let container = Node<UIView> { view, layout, _ in
       view.backgroundColor = UIColor.black
       view.onTap { [weak self] _ in
       	// When the state changes the component is automatically re-rendered.
@@ -88,86 +85,126 @@ class CounterComponentView: ComponentView<CounterState> {
 
 The view description is defined by the `render()` method.
 
+### Components
+
 `Node<T>` is an abstraction around views of any sort that knows how to build, configure and layout the view when necessary.
 
 Every time `update(options:)` is called, a new tree is constructed, compared to the existing tree and only the required changes to the actual view hierarchy are performed - *if you have a static view hierarchy, you might want pass the '.preventViewHierarchyDiff' option to skip this part of the rendering* . Also the `configure` closure passed as argument is re-applied to every view defined in the `render()` method and the layout is re-computed based on the nodes' flexbox attributes. 
 
-The component above would render to:
-
-
 **Check the demo project for more examples**
 
-Components in *Render* are designed to be **stateful** *(although you can have a `ComponentView<NilState>` if you wish)* but often is easier to simplify you render logic by having simple pure functions returning a `NodeType`.
-In this way you can better manage the complexity of your component and efficently share logic between those.
+Components in *Render* can be **stateless** or **stateful**.
+
+**Stateless** components are essentialy pure functions returning a view hierarchy description from the current component properties value (*props*) 
+
+*You can define a statelss component by simply having a function returning a node tree.*
 
 ```swift
-
- func paddedLabel(text: String) -> NodeType {
-    // A box around the label with a little padding.
-    return Node<UIView>(key: "paddedLabel") { view, layout, _ in
+ func PaddedLabel(text: String) -> NodeType {
+    return Node<UIView>(resueIdentifier: "PaddedLabel") { view, layout, size in
       layout.padding = 4
-      view.backgroundColor = Color.green
+      view.backgroundColor = ...
       }.add(children: [
         Node<UILabel> { view, _, _ in
           view.text = text
-          view.numberOfLines = 0
-          view.textColor = Color.darkerGreen
-          view.font = Typography.small
+          view.font = ...
+        }
+    ])
+  }  
+```
+*Or by defining a `StatelessComponent` subclass with some properties.*
+
+  
+```swift
+class PaddedLabelComponentView: StatelessComponent {
+  var text: String = ""
+
+  func render() -> NodeType {
+    return Node<UIView>(resueIdentifier: "PaddedLabel") { view, layout, size in
+      layout.padding = 4
+      view.backgroundColor = ...
+      }.add(children: [
+        Node<UILabel> { view, _, _ in
+          view.text = text
+          view.font = ...
         }
     ])
   }
-  
-class MyComponentView: ComponentView<MyState> {
+```
+
+*Components can be composed in hierarchies:*
+
+```swift
+class ParentComponentView: StatelessComponent {
+
   func render() -> NodeType {
     return Node<UIScrollView>.add(children: [
-        paddedLabel(text: "foo"),
-        paddedLabel(text: "bar"),
-        paddedLabel(text: "baz"),
+        // A pure function returning a node can be be simply added to the node desciption.
+        PaddedLabel(text: "foo"),
+        // While a component define as a class needs to be added as a child
+        // using the ComponentNode function.
+        // N.B. Stateful components need to provide a unique 'key' as well in the 
+        // ComponentNode function - see the stateful components section.
+        ComponentNode(PaddedLabelComponentView(), in: self) { $0.text = "foo" }
       ])
     }
   }
-  
 ```
 
-*Render* strongly reccomend to use flexbox (**Yoga**) to layout views but you can opt out any node from the layout engine and layout the view in the `onLayout(duration:)` method.
+As opposed to **stateless** components, **stateful** components don't rely uniquely on *props* to render but they mantain an internal state.
+
+### Props vs State
+
+> What's the exact difference between _props_ and _state_?
+
+It's fairly easy to understand how they work—especially when seen in context—but it's also a bit difficult to grasp them conceptually. It's confusing at first because they both have abstract terms and their values look the same, but they also have very different _roles._ 
+
+You could say _props_ + _state_ is the input data for the `render()` function of a Component, so we need to zoom in and see what each data type represents and where does it come from.
+
+#### _props_
+
+_props_ are a Component's **configuration,** its _options_ if you may. They are received from above and **immutable** as far as the Component receiving them is concerned.
+
+A Component cannot change its _props,_ but it is responsible for putting together the _props_ of its child Components.
+
+#### _state_
+
+The _state_ starts with a default value when a Component mounts and then **suffers from mutations in time (mostly generated from user events).** It's a representation of one point in time—a snapshot.
+
+A Component manages its own _state_ internally, but—besides setting an initial state—has no business fiddling with the _state_ of its children. You could say the state is **private.**
 
 ```swift
+struct CounterState: StateType {
+  let count: Int = 0
+}
+class CounterComponentView: ComponentView<CounterState> {
 
-
-
-class ExampleComponentView: ComponentView<NilState> {
+  // A property configurable from the outside.
+  // The component will increment on tap if this is true, decrement otherwise.
+  var shouldIncrement: Bool = true
+  // Another simple property.
+  var background: UIColor = UIColor.black
 
   override func render() -> NodeType {
-  
-    // Nodes with flex layout defined 
-    let avatar = Node<UIImageView>(key: "avatar") ...
-    let text = Node<UILabel>(key: "text") ..
-    let container = Node<UIImageView>(key: "container") ...
-    
-    let viewWithManualLayout = Node<UIView>(key: "circle") { view, _, _ in
-    	view.yoga.isIncludedInLayout = false
-      	view.backgroundColor = UIColor.red
+    let circle = ...    
+    let text = ...
+    let container = Node<UIView> { view, layout, _ in
+      view.backgroundColor = self.background
+      view.onTap { _ in
+      	// When the state changes the component is automatically re-rendered.
+        self.setState { state in 
+          if self.shouldIncrement {
+            state.count += 1 
+          } else {
+            state.count -= 1
+          }
+      }
     }
-
-    return container.add(children: [
-      avatar,
-      text,
-      circle
-    ])
-  }
-  
-  override func onLayout(duration: TimeInterval) {
-    guard let circle = views(type: UIView.self, key: Key.circle.rawValue).first,
-          let avatar = views(type: UIImageView.self, key: Key.avatar.rawValue).first else  {
-      return
-    }
-    let size: CGFloat = avatar.bounds.size.width/2
-    circle.frame.size =  CGSize(width: size, height: size)
-    circle.center = avatar.center
+    return container.add(children: [avatar, text])
   }
 }
-```
 
+```
 
 ### Lightweight Integration with UIKit
 
