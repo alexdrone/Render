@@ -173,6 +173,8 @@ The _state_ starts with a default value when a Component mounts and then **suffe
 
 A Component manages its own _state_ internally, but—besides setting an initial state—has no business fiddling with the _state_ of its children. You could say the state is **private.**
 
+_In Render a component can change its internal state by calling the `setState(options:change:)` function_
+
 ```swift
 struct CounterState: StateType {
   let count: Int = 0
