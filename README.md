@@ -2,7 +2,7 @@
 
 <img src="https://raw.githubusercontent.com/alexdrone/Render/master/docs/logo_small.png" width="150" alt="Render" align=right />
 
-Render is a declarative library for building efficient UIs on iOS inspired by React.
+Render is a declarative library for building efficient UIs on iOS inspired by [React](https://github.com/facebook/react).
 
 * **Declarative:** Render uses a declarative API to define UI components. You simply describe the layout for your UI based on a set of inputs and the framework takes care of the rest.
 * **Flexbox layout:** Render includes the robust and battle-tested Facebook's [Yoga](https://facebook.github.io/yoga/) as default layout engine.
