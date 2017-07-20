@@ -54,6 +54,9 @@ class TableNodeExampleComponentView: ComponentView<TableNodeExampleState> {
     // with cell reuse.
     let tableView = TableNode(key: "table_cards", in: self) { view, layout, size in
       view.backgroundColor = Color.black
+      if #available(iOS 10.0, *), view.refreshControl == nil {
+        view.refreshControl = UIRefreshControl()
+      }
       layout.width = size.width
       layout.height = size.height - 64
     }.add(children: cells)
