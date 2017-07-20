@@ -37,15 +37,14 @@ public class CollectionNode: NSObject, ListNodeType, UICollectionViewDataSource,
   public init(reuseIdentifier: String = String(describing: UICollectionView.self),
               key: String,
               in rootComponent: AnyComponentView,
-              cellReuseEnabled: Bool = true,
+              layout: UICollectionViewLayout = CollectionNode.defaultCollectionViewLayout(),
               props: @escaping Node<UICollectionView>.PropsBlock = { _ in }) {
     self.node = Node(reuseIdentifier: reuseIdentifier,
                      key: key,
                      resetBeforeReuse: false,
                      children: [],
-                     create: CollectionNode.createView,
+                     create: { UICollectionView(frame: CGRect.zero, collectionViewLayout: layout) },
                      props: props)
-    self.disableCellReuse = !cellReuseEnabled
     self.internalChildren = []
     self.key = Key(reuseIdentifier: reuseIdentifier, key: key)
     self.rootComponent = rootComponent
@@ -56,7 +55,7 @@ public class CollectionNode: NSObject, ListNodeType, UICollectionViewDataSource,
               key: String = "",
               resetBeforeReuse: Bool = false,
               children: [NodeType] = [],
-              create: @escaping Node<UICollectionView>.CreateBlock = CollectionNode.createView,
+              create: @escaping Node<UICollectionView>.CreateBlock = { UICollectionView() },
               props: @escaping Node<UICollectionView>.PropsBlock = { _ in }) {
     self.node = Node(reuseIdentifier: reuseIdentifier,
                      key: key,
@@ -68,13 +67,10 @@ public class CollectionNode: NSObject, ListNodeType, UICollectionViewDataSource,
     self.rootComponent = nil
   }
 
-  public static func createView() -> UICollectionView {
-    let collectionLayout = ListCollectionViewLayout(stickyHeaders: false,
-                                                    topContentInset: 0,
-                                                    stretchToEdge: false)
-    let collectionView = UICollectionView(frame: CGRect.zero,
-                                          collectionViewLayout: collectionLayout)
-    return collectionView
+  public static func defaultCollectionViewLayout() -> UICollectionViewLayout {
+    return ListCollectionViewLayout(stickyHeaders: false,
+                                    topContentInset: 0,
+                                    stretchToEdge: false)
   }
 
   public func layout(in bounds: CGSize) {

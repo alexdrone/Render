@@ -82,6 +82,4 @@ final public class ComponentTableViewCell<C: ComponentViewType>: UITableViewCell
       }
     }
   }
-
-
 }
