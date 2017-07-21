@@ -50,7 +50,6 @@ extension InternalComponentCellType where Self: UIView {
     if let componentView = componentView as? UIView {
       contentView.addSubview(componentView)
     }
-    clipsToBounds = true
   }
 
   /// Forward the invokation to update to the owned component view.
