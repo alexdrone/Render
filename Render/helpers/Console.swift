@@ -63,6 +63,7 @@ public final class Console: ConsoleType {
   }
 
   private var timer: Timer?
+  private var serverStarted: Bool = false
   private var isDirty: Bool = false
   #if DEBUG && (arch(i386) || arch(x86_64)) && os(iOS)
   private var server: HttpServer?
@@ -84,11 +85,11 @@ public final class Console: ConsoleType {
                        name: NSNotification.Name.UIApplicationDidEnterBackground,
                        object: nil)
     startTimer()
-    startServer()
   }
 
   public func startServer() {
     #if DEBUG && (arch(i386) || arch(x86_64)) && os(iOS)
+    serverStarted = true
     let server = HttpServer()
     server["/inspect"] = { [weak self] _ in
       HttpResponse.ok(.xml(self?.viewHierarchyDescriptionString ?? ""))
@@ -123,6 +124,7 @@ public final class Console: ConsoleType {
   /// Starts the polling timer.
   private func startTimer() {
     #if DEBUG && (arch(i386) || arch(x86_64)) && os(iOS)
+    guard serverStarted else { return }
     timer = Timer.scheduledTimer(timeInterval: 2,
                                  target: self,
                                  selector: #selector(timerDidFire(timer:)),
@@ -175,6 +177,7 @@ func log(_ text: String) {
 }
 
 extension NodeType {
+
   /// Returns a 'Console.Description' for this node.
   public func debugDescription() -> Console.Description {
     var address = "nil"
@@ -183,18 +186,15 @@ extension NodeType {
     }
     func escapeDescription(_ string: String) -> String {
       var result = string
-      result = result.replacingOccurrences(of: "<", with: "")
-      result = result.replacingOccurrences(of: ">", with: "")
-      result = result.replacingOccurrences(of: "\"", with: "'")
-      result = result.replacingOccurrences(of: "Optional", with: "'")
+      for c in ["<", ">", "\"",  "Optional"] {
+        result = result.replacingOccurrences(of: c, with:  "'")
+      }
       return result
     }
-
     var children: [NodeType] = self.children
     if let listNode = self as? ListNodeType {
       children = listNode.internalChildren
     }
-
     let delimiters = "__"
     let state = escapeDescription(
         associatedComponent?.anyState.reflectionDescription(delimiters: delimiters) ?? "")
