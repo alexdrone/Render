@@ -9,7 +9,7 @@
     <key>CFBundleExecutable</key>
     <string>render-inspector</string>
     <key>CFBundleIconFile</key>
-    <string>electron.icns</string>
+    <string>render-inspector.icns</string>
     <key>CFBundleIdentifier</key>
     <string>io.render.inspector</string>
     <key>CFBundleInfoDictionaryVersion</key>
