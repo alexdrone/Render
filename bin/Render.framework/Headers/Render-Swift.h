@@ -141,8 +141,8 @@ typedef unsigned int swift_uint4  __attribute__((__ext_vector_type__(4)));
 
 #pragma clang diagnostic ignored "-Wproperty-attribute-mismatch"
 #pragma clang diagnostic ignored "-Wduplicate-method-arg"
-@class UICollectionView;
 @class UICollectionViewLayout;
+@class UICollectionView;
 @class UICollectionViewCell;
 
 /// Wraps a UICollectionView in a node definition.
@@ -157,7 +157,7 @@ SWIFT_CLASS("_TtC6Render14CollectionNode")
 /// This component is the n-th children.
 @property (nonatomic) NSInteger index;
 @property (nonatomic, readonly, copy) NSString * _Nonnull debugType;
-+ (UICollectionView * _Nonnull)createView SWIFT_WARN_UNUSED_RESULT;
++ (UICollectionViewLayout * _Nonnull)defaultCollectionViewLayout SWIFT_WARN_UNUSED_RESULT;
 - (void)layoutIn:(CGSize)bounds;
 /// Re-applies the configuration closures to the UITableView and reload the data source.
 - (void)configureIn:(CGSize)bounds;
@@ -173,8 +173,8 @@ SWIFT_CLASS("_TtC6Render14CollectionNode")
 @class NSCoder;
 
 /// Wraps a component in a UICollectionViewCell.
-SWIFT_CLASS("_TtC6Render27ComponentCollectionViewCell")
-@interface ComponentCollectionViewCell : UICollectionViewCell
+SWIFT_CLASS("_TtC6Render35InternalComponentCollectionViewCell")
+@interface InternalComponentCollectionViewCell : UICollectionViewCell
 @property (nonatomic, weak) UIView * _Nullable listView;
 @property (nonatomic, copy) NSIndexPath * _Nonnull currentIndexPath;
 - (CGSize)sizeThatFits:(CGSize)size SWIFT_WARN_UNUSED_RESULT;
@@ -185,8 +185,8 @@ SWIFT_CLASS("_TtC6Render27ComponentCollectionViewCell")
 
 
 /// Wraps a component in a UITableViewCell.
-SWIFT_CLASS("_TtC6Render22ComponentTableViewCell")
-@interface ComponentTableViewCell : UITableViewCell
+SWIFT_CLASS("_TtC6Render30InternalComponentTableViewCell")
+@interface InternalComponentTableViewCell : UITableViewCell
 @property (nonatomic, weak) UIView * _Nullable listView;
 @property (nonatomic, copy) NSIndexPath * _Nonnull currentIndexPath;
 - (nonnull instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString * _Nullable)reuseIdentifier OBJC_DESIGNATED_INITIALIZER;
@@ -332,6 +332,7 @@ SWIFT_CLASS("_TtC6Render9TableNode")
 @property (nonatomic) CGFloat cornerRadius;
 @property (nonatomic) CGFloat oldCornerRadius;
 - (void)animateCornerRadiusInHierarchyIfNecessaryWithDuration:(CFTimeInterval)duration;
+- (void)debugBoudingRect;
 @end
 
 #pragma clang diagnostic pop
