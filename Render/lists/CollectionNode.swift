@@ -105,7 +105,7 @@ public class CollectionNode: NSObject, ListNodeType, UICollectionViewDataSource,
                              sizeForItemAt indexPath: IndexPath) -> CGSize {
     let (_, node) = self.node(for: indexPath)
     let component = rootComponent?.childrenComponent[node.key]
-                    ?? StatelessComponentView { _ in  node }
+                    ?? StatelessPrototypeCellComponentView { _ in  node }
     component.referenceSize = {
       return CGSize(width: collectionView.bounds.size.width, height: CGFloat.max)
     }
@@ -119,7 +119,8 @@ public class CollectionNode: NSObject, ListNodeType, UICollectionViewDataSource,
     collectionView.register(InternalComponentCollectionViewCell.self,
                             forCellWithReuseIdentifier: identifier)
     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: identifier,
-                                                  for: indexPath) as! InternalComponentCollectionViewCell
+                                                  for: indexPath)
+               as! InternalComponentCollectionViewCell
     mount(node: node, cell: cell, rootComponent: rootComponent, for: (collectionView, indexPath))
     return cell
   }

@@ -489,6 +489,7 @@ open class StatelessComponentView: ComponentView<NilState> {
 }
 
 open class StatelessCellComponentView: StatelessComponentView { }
+open class StatelessPrototypeCellComponentView: StatelessComponentView { }
 
 // MARK: - Utilities
 

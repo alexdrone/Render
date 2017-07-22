@@ -4,6 +4,8 @@ class InspectorController {
     this.nodes = {}
     this.selectedRef = null
     this.refs = []
+    this.collapsed = {}
+    //window.setInterval(() => { this.fetchPayload() }, 1000)
   }
   fetchPayload() {
     let parseXml = function (xmlStr) {
@@ -67,7 +69,7 @@ class InspectorController {
         })
         buffer += element({
           type: `span`,
-          className: `node-arrow`,
+          className:  this.collapsed[ref] ? `node-arrow collapsed` : `node-arrow`,
           onclick: `Inspector.onToggleCollapse('${ref}')`
         })
         buffer += endElement('span')
@@ -79,12 +81,14 @@ class InspectorController {
         })
         buffer += node.nodeName
         buffer += endElement(`span`)
-        buffer += nodeAttribute(`ref`, ref)
+        if (!ref.startsWith(`nil`)) {
+          buffer += nodeAttribute(`ref`, `0x…` + ref.substr(ref.length - 4))
+        }
         buffer += nodeAttribute(`key`, key)
         // Children nodes.
         buffer += element({
           type: `div`,
-          className: `children`
+          className: this.collapsed[ref] ? `children collapsed` : `children`
         })
         const children = node.childNodes;
         traverse(children, level + 1)
@@ -107,7 +111,8 @@ class InspectorController {
       if (newRefs.indexOf(ref) == -1) removed++
     }
     this.refs = newRefs
-    console.log(`${added} view added, ${removed} view removed from the hierarchy.`);
+    let reused = newRefs.length - added
+    document.getElementById(`status`).innerHTML = `${reused} REUSED, ${added}+, ${removed}-`
   }
   onToggleCollapse(ref) {
     const collapsed = `collapsed`
@@ -115,7 +120,8 @@ class InspectorController {
     div.classList.toggle(collapsed)
     const arrow = document.querySelectorAll(
       `div[data-ref='${ref}'] .node-arrow`)[0]
-    arrow.classList.toggle(collapsed)
+    arrow.classList.toggle(collapsed)    
+    this.collapsed[ref] = !(this.collapsed[ref] || false)
   }
   onNodeContainerClick(ref) {
     const selected = `selected`
