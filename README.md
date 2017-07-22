@@ -287,7 +287,21 @@ The [_Render catalogue app_](https://github.com/alexdrone/Render/tree/master/sam
 
 # Inspector (Experimental)
 
-When the app is run in the simulator it is possible to inspect Render components, their properties and state with the [inspector companion mac app](https://github.com/alexdrone/Render/tree/master/inspector/dist).
+When the app is run in the simulator it is possible to inspect Render components, their properties and state with the [inspector companion mac app](https://github.com/alexdrone/Render/tree/master/inspector/dist/mac).
+
+To enable the debug server in your app you simply have to call `startDebugServer()` in your AppDelegate `application(_:didFinishLaunchingWithOptions)`.
+
+```swift
+
+class AppDelegate: UIResponder, UIApplicationDelegate {
+
+  func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+    /// Starts the debug server at localhost:8080/inspect
+    startDebugServer()
+    ...
+ }
+```
+
 
 <img src="docs/inspector.png" width=960>
 
