@@ -1,167 +1,160 @@
 import UIKit
 
-public extension UIControl {
-  public func on(event: UIControlEvents, _ closure: @escaping ()->()) {
-    let sleeve = ClosureSleeve(for: self, closure)
-    addTarget(sleeve, action: #selector(ClosureSleeve.invoke), for: event)
+class WeakGestureRecognizer: NSObject {
+  weak var object: UIGestureRecognizer?
+  var handler: ((UIGestureRecognizer) -> Void)? = nil
+
+  @objc func handle(sender: UIGestureRecognizer) {
+    handler?(sender)
+  }
+}
+
+fileprivate var __handler: UInt8 = 0
+extension UIView {
+
+  /// All of the gesture recognizers registered through the closure based api.
+  var gestureRecognizerProxyDictionary: NSMutableDictionary {
+    get {
+      if let obj = objc_getAssociatedObject(self, &__handler) as? NSMutableDictionary {
+        return obj
+      }
+      let obj = NSMutableDictionary()
+      objc_setAssociatedObject(self, &__handler, obj, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+      return obj
+    }
+    set {
+      objc_setAssociatedObject(self, &__handler, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+    }
+  }
+
+  /// Flush all of the existing gesture recognizers registered through the closure based api.
+  public func flushGestureRecognizers() {
+    guard let array = gestureRecognizerProxyDictionary.allValues as? [WeakGestureRecognizer] else {
+      return
+    }
+    for obj in array {
+      obj.handler = nil
+      if let gesture = obj.object {
+        gesture.removeTarget(nil, action: nil)
+        gesture.view?.removeGestureRecognizer(gesture)
+      }
+      obj.object = nil
+    }
+    gestureRecognizerProxyDictionary = NSMutableDictionary()
+  }
+
+  /// Flush all of the existing gesture recognizers registered through the closure based api.
+  public func flushGestureRecognizersRecursively() {
+    flushGestureRecognizers()
+    for subview in subviews {
+      subview.flushGestureRecognizersRecursively()
+    }
   }
 }
 
 public extension UIView {
 
-  public func onTap(_ handler: @escaping (UITapGestureRecognizer) -> Void) {
-    addGestureRecognizer(UITapGestureRecognizer(taps: 1, handler: handler))
-  }
+  public func onGestureRecognizer<T: UIGestureRecognizer>(
+      type: T.Type,
+      key: NSString,
+      numberOfTapsRequired: Int = 1,
+      numberOfTouchesRequired: Int = 1,
+      direction: UISwipeGestureRecognizerDirection = .down,
+      _ handler: @escaping (UIGestureRecognizer) -> Void) {
 
-  public func onDoubleTap(_ handler: @escaping (UITapGestureRecognizer) -> Void) {
-    addGestureRecognizer(UITapGestureRecognizer(taps: 2, handler: handler))
-  }
-
-  public func onLongPress(_ handler: @escaping (UILongPressGestureRecognizer) -> Void) {
-    addGestureRecognizer(UILongPressGestureRecognizer(handler: handler))
-  }
-
-  public func onSwipeLeft(_ handler: @escaping (UISwipeGestureRecognizer) -> Void) {
-    addGestureRecognizer(UISwipeGestureRecognizer(direction: .left, handler: handler))
-  }
-
-  public func onSwipeRight(_ handler: @escaping (UISwipeGestureRecognizer) -> Void) {
-    addGestureRecognizer(UISwipeGestureRecognizer(direction: .right, handler: handler))
-  }
-
-  public func onSwipeUp(_ handler: @escaping (UISwipeGestureRecognizer) -> Void) {
-    addGestureRecognizer(UISwipeGestureRecognizer(direction: .up, handler: handler))
-  }
-
-  public func onSwipeDown(_ handler: @escaping (UISwipeGestureRecognizer) -> Void) {
-    addGestureRecognizer(UISwipeGestureRecognizer(direction: .down, handler: handler))
-  }
-
-  public func onPan(_ handler: @escaping (UIPanGestureRecognizer) -> Void) {
-    addGestureRecognizer(UIPanGestureRecognizer(handler: handler))
-  }
-
-  public func onPinch(_ handler: @escaping (UIPinchGestureRecognizer) -> Void) {
-    addGestureRecognizer(UIPinchGestureRecognizer(handler: handler))
-  }
-
-  public func onRotate(_ handler: @escaping (UIRotationGestureRecognizer) -> Void) {
-    addGestureRecognizer(UIRotationGestureRecognizer(handler: handler))
-  }
-
-  public func onScreenEdgePan(_ handler: @escaping (UIScreenEdgePanGestureRecognizer) -> Void) {
-    addGestureRecognizer(UIScreenEdgePanGestureRecognizer(handler: handler))
-  }
-}
-
-// MARK: - Private
-
-private class ClosureSleeve {
-  let closure: () -> Void
-  init(for object: AnyObject, _ closure: @escaping () -> Void) {
-    self.closure = closure
-    objc_setAssociatedObject(object,
-                             String(format: "[%d]", arc4random()),
-                             self,
-                             objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN
-    )
-  }
-  @objc func invoke () {
-    closure()
-  }
-}
-
-private let ClosureHandlerSelector = Selector(("handle"))
-private class ClosureHandler<T: AnyObject>: NSObject {
-  var handler: ((T) -> Void)?
-  weak var control: T?
-
-  init(handler: @escaping (T) -> Void, control: T? = nil) {
-    self.handler = handler
-    self.control = control
-  }
-
-  func handle() {
-    if let control = self.control {
-      handler?(control)
+    let wrapper = WeakGestureRecognizer()
+    wrapper.handler = handler
+    let selector = #selector(WeakGestureRecognizer.handle(sender:))
+    let gesture = T(target: wrapper, action: selector)
+    wrapper.object = gesture
+    if let tapGesture = gesture as? UITapGestureRecognizer {
+      tapGesture.numberOfTapsRequired = numberOfTapsRequired
+      tapGesture.numberOfTouchesRequired = numberOfTouchesRequired
     }
+    if let swipeGesture = gesture as? UISwipeGestureRecognizer {
+      swipeGesture.direction = direction
+    }
+    // Safely remove the old gesture recognizer.
+    if let old = gestureRecognizerProxyDictionary.object(forKey: key) as? WeakGestureRecognizer,
+      let oldGesture = old.object {
+      old.handler = nil
+      old.object = nil
+      oldGesture.removeTarget(nil, action: nil)
+      oldGesture.view?.removeGestureRecognizer(oldGesture)
+    }
+    gestureRecognizerProxyDictionary.setObject(wrapper, forKey: key)
+    addGestureRecognizer(gesture)
+  }
+
+  public func onTap(_ handler: @escaping (UIGestureRecognizer) -> Void) {
+    onGestureRecognizer(type: UITapGestureRecognizer.self,
+                        key: "\(#function)" as NSString,
+                        handler)
+  }
+
+  public func onDoubleTap(_ handler: @escaping (UIGestureRecognizer) -> Void) {
+    onGestureRecognizer(type: UITapGestureRecognizer.self,
+                        key: "\(#function)" as NSString,
+                        numberOfTapsRequired: 2,
+                        handler)
+  }
+
+  public func onLongPress(_ handler: @escaping (UIGestureRecognizer) -> Void) {
+    onGestureRecognizer(type: UILongPressGestureRecognizer.self,
+                        key: "\(#function)" as NSString,
+                        handler)
+  }
+
+  public func onSwipeLeft(_ handler: @escaping (UIGestureRecognizer) -> Void) {
+    onGestureRecognizer(type: UISwipeGestureRecognizer.self,
+                        key: "\(#function)" as NSString,
+                        direction: .left,
+                        handler)
+  }
+
+  public func onSwipeRight(_ handler: @escaping (UIGestureRecognizer) -> Void) {
+    onGestureRecognizer(type: UISwipeGestureRecognizer.self,
+                        key: "\(#function)" as NSString,
+                        direction: .right,
+                        handler)
+  }
+
+  public func onSwipeUp(_ handler: @escaping (UIGestureRecognizer) -> Void) {
+    onGestureRecognizer(type: UISwipeGestureRecognizer.self,
+                        key: "\(#function)" as NSString,
+                        direction: .up,
+                        handler)
+  }
+
+  public func onSwipeDown(_ handler: @escaping (UIGestureRecognizer) -> Void) {
+    onGestureRecognizer(type: UISwipeGestureRecognizer.self,
+                        key: "\(#function)" as NSString,
+                        direction: .down,
+                        handler)
+  }
+
+  public func onPan(_ handler: @escaping (UIGestureRecognizer) -> Void) {
+    onGestureRecognizer(type: UIPanGestureRecognizer.self,
+                        key: "\(#function)" as NSString,
+                        handler)
+  }
+
+  public func onPinch(_ handler: @escaping (UIGestureRecognizer) -> Void) {
+    onGestureRecognizer(type: UIPinchGestureRecognizer.self,
+                        key: "\(#function)" as NSString,
+                        handler)
+  }
+
+  public func onRotate(_ handler: @escaping (UIGestureRecognizer) -> Void) {
+    onGestureRecognizer(type: UIRotationGestureRecognizer.self,
+                        key: "\(#function)" as NSString,
+                        handler)
+  }
+
+  public func onScreenEdgePan(_ handler: @escaping (UIGestureRecognizer) -> Void) {
+    onGestureRecognizer(type: UIScreenEdgePanGestureRecognizer.self,
+                        key: "\(#function)" as NSString,
+                        handler)
   }
 }
-
-fileprivate var HandlerKey: UInt8 = 0
-fileprivate extension UIGestureRecognizer {
-
-  fileprivate func setHandler<T: UIGestureRecognizer>(_ instance: T, handler: ClosureHandler<T>) {
-    objc_setAssociatedObject(self, &HandlerKey, handler, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
-    handler.control = instance
-  }
-
-  fileprivate func handler<T>() -> ClosureHandler<T> {
-    return objc_getAssociatedObject(self, &HandlerKey) as! ClosureHandler
-  }
-}
-
-extension UITapGestureRecognizer {
-  public convenience init(taps: Int = 1,
-                          touches: Int = 1,
-                          handler: @escaping (UITapGestureRecognizer) -> Void) {
-    let handler = ClosureHandler<UITapGestureRecognizer>(handler: handler)
-    self.init(target: handler, action: ClosureHandlerSelector)
-    setHandler(self, handler: handler)
-    numberOfTapsRequired = taps
-    numberOfTouchesRequired = touches
-  }
-}
-
-extension UILongPressGestureRecognizer {
-  public convenience init(handler: @escaping (UILongPressGestureRecognizer) -> Void) {
-    let handler = ClosureHandler<UILongPressGestureRecognizer>(handler: handler)
-    self.init(target: handler, action: ClosureHandlerSelector)
-    setHandler(self, handler: handler)
-  }
-}
-
-extension UISwipeGestureRecognizer {
-  public convenience init(direction: UISwipeGestureRecognizerDirection,
-                          handler: @escaping (UISwipeGestureRecognizer) -> Void) {
-    let handler = ClosureHandler<UISwipeGestureRecognizer>(handler: handler)
-    self.init(target: handler, action: ClosureHandlerSelector)
-    setHandler(self, handler: handler)
-    self.direction = direction
-  }
-}
-
-extension UIPanGestureRecognizer {
-  public convenience init(handler: @escaping (UIPanGestureRecognizer) -> Void) {
-    let handler = ClosureHandler<UIPanGestureRecognizer>(handler: handler)
-    self.init(target: handler, action: ClosureHandlerSelector)
-    setHandler(self, handler: handler)
-  }
-}
-
-extension UIPinchGestureRecognizer {
-  public convenience init(handler: @escaping (UIPinchGestureRecognizer) -> Void) {
-    let handler = ClosureHandler<UIPinchGestureRecognizer>(handler: handler)
-    self.init(target: handler, action: ClosureHandlerSelector)
-    setHandler(self, handler: handler)
-  }
-}
-
-extension UIRotationGestureRecognizer {
-  public convenience init(handler: @escaping (UIRotationGestureRecognizer) -> Void) {
-    let handler = ClosureHandler<UIRotationGestureRecognizer>(handler: handler)
-    self.init(target: handler, action: ClosureHandlerSelector)
-    setHandler(self, handler: handler)
-  }
-}
-
-extension UIScreenEdgePanGestureRecognizer {
-  public convenience init(handler: @escaping (UIScreenEdgePanGestureRecognizer) -> Void) {
-    let handler = ClosureHandler<UIScreenEdgePanGestureRecognizer>(handler: handler)
-    self.init(target: handler, action: ClosureHandlerSelector)
-    setHandler(self, handler: handler)
-  }
-}
-
-
 

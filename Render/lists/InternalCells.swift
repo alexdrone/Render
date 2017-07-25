@@ -31,13 +31,13 @@ public protocol InternalComponentCellType: class  {
                                  _ component: @autoclosure () -> AnyComponentView)
 
   /// Returns the bounding rect for the component.
-  func referenceSize() -> CGSize
+  func referenceSize(_ component: AnyComponentView?) -> CGSize
 }
 
 extension InternalComponentCellType where Self: UIView {
 
   public func mountComponentIfNecessary(isStateful: Bool = true,
-                                 _ component: @autoclosure () -> AnyComponentView) {
+                                        _ component: @autoclosure () -> AnyComponentView){
     componentView?.referenceSize = referenceSize
     guard componentView == nil || isStateful else {
       return
@@ -78,7 +78,7 @@ extension InternalComponentCellType where Self: UIView {
     return componentView?.intrinsicContentSize ?? CGSize.zero
   }
 
-  public func referenceSize() -> CGSize {
+  public func referenceSize(_ component: AnyComponentView?) -> CGSize {
     let container = listView ?? superview
     return CGSize(width: container?.bounds.size.width ?? UIScreen.main.bounds.size.width,
                   height: CGFloat.max)

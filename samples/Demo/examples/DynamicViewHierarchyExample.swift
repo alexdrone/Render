@@ -12,7 +12,7 @@ struct DynamicViewHierarchyState: StateType {
 class DynamicViewHierarchyComponentView: ComponentView<DynamicViewHierarchyState> {
 
   override func render() -> NodeType {
-    let container = Node<UIView> { view, layout, size in
+    let container = Node<UIView> { [weak self] view, layout, size in
       view.backgroundColor = UIColor.clear
       view.onTap { [weak self] _ in
         self?.setState { state in state.text = randomString() }

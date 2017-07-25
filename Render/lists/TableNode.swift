@@ -33,13 +33,6 @@ public extension ListNodeType {
     set { internalNode.associatedComponent = newValue }
   }
 
-  /// The reference size for the cells.
-  public func referenceSize() -> CGSize {
-    let width = self.renderedView?.bounds.size.width ?? 0
-    let height = CGFloat.max
-    return CGSize(width: width, height: height)
-  }
-
   public func node(for indexPath: IndexPath) -> (String, NodeType) {
     let node = internalChildren[indexPath.row]
     let identifier = disableCellReuse ? node.key.stringValue : node.key.reuseIdentifier
@@ -56,8 +49,12 @@ public extension ListNodeType {
       cell.mountComponentIfNecessary(isStateful: true, StatelessCellComponentView { _ in node })
     }
     cell.componentView?.associatedCell = cell
-    
-    cell.componentView?.referenceSize = referenceSize
+
+    cell.componentView?.referenceSize = { [weak self] _ in
+      let width = self?.renderedView?.bounds.size.width ?? 0
+      let height = CGFloat.max
+      return CGSize(width: width, height: height)
+    }
     cell.listView = collection.0
     cell.currentIndexPath = collection.1
     cell.update(options: [.preventViewHierarchyDiff])

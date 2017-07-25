@@ -52,7 +52,9 @@ final public class ComponentTableViewCell<C: ComponentViewType>: UITableViewCell
       component.state = state
     }
     props(component)
-    component.referenceSize = { CGSize(width: tableView.bounds.size.width, height: CGFloat.max) }
+    component.referenceSize = { _ in
+      CGSize(width: tableView.bounds.size.width, height: CGFloat.max)
+    }
     component.onLayoutCallback = { [weak self] _ in
       self?.onLayout()
       if let component = self?.component {

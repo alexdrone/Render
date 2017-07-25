@@ -78,7 +78,7 @@ public protocol AnyComponentView: class, ReflectedStringConvertible {
   func injectRootView(view: UIView)
 
   /// The component bounds.
-  var referenceSize: () -> CGSize { get set }
+  var referenceSize: (AnyComponentView?) -> CGSize { get set }
 
   /// Geometry
   var rootView: UIView! { get }
@@ -101,6 +101,9 @@ public protocol AnyComponentView: class, ReflectedStringConvertible {
   /// Internal only.
   var anyState: StateType { get }
   var key: Key { get set }
+
+  /// Flush all of the existing gesture recognizers registered through the closure based api.
+  func flushGestureRecognizersRecursively()
 }
 
 public protocol ComponentViewType: AnyComponentView {
@@ -150,17 +153,17 @@ open class ComponentView<S: StateType>: UIView, ComponentViewType {
   public fileprivate(set) var isStateless: Bool = false
 
   /// The bounding rect of the component (the maximum size).
-  public lazy var referenceSize: () -> CGSize = {
-    return self.boundingRect
+  public lazy var referenceSize: (AnyComponentView?) -> CGSize = { [weak self] in
+    return defaultReferenceSize
   }()
 
   public var onLayoutCallback: (TimeInterval, AnyComponentView, CGSize) -> () = { _ in }
 
   private func boundingRect() -> CGSize {
     if let cell = associatedCell {
-      return cell.referenceSize()
+      return cell.referenceSize(self)
     } else {
-      return self.superview?.bounds.size ?? CGSize.zero
+      return superview?.bounds.size ?? CGSize.zero
     }
   }
 
@@ -235,15 +238,17 @@ open class ComponentView<S: StateType>: UIView, ComponentViewType {
     NotificationCenter.default.addObserver(forName: DebugNotification.dumpViewHierarchyDescription,
                                            object: nil,
                                            queue: nil) { [weak self] _ in
-      guard let `self` = self, self.rootComponent == nil, self.associatedCell == nil  else {
+      guard let `self` = self, self.rootComponent == nil, self.associatedCell == nil else {
         return
       }
       Console.shared.add(description: self.root.debugDescription())
     }
+    //Console.shared.log("\(String(describing: type(of: self))) init.")
   }
 
   deinit {
     NotificationCenter.default.removeObserver(self)
+    //Console.shared.log("\(String(describing: type(of: self))) deinit.")
   }
 
   /// Used to force the component to re-use a particular view tree.
@@ -258,7 +263,7 @@ open class ComponentView<S: StateType>: UIView, ComponentViewType {
   /// This method is called every time 'render' is invoked.
   open func render() -> NodeType {
     if let renderBlock = renderBlock {
-      return renderBlock(state, referenceSize())
+      return renderBlock(state, referenceSize(self))
     } else {
       return NilNode()
     }
@@ -281,7 +286,7 @@ open class ComponentView<S: StateType>: UIView, ComponentViewType {
       rootComponent?.update(options: options + defaultOptions)
       return
     }
-    let size = self.referenceSize()
+    let size = referenceSize(self)
     willUpdate()
     let startTime = CFAbsoluteTimeGetCurrent()
 
@@ -329,7 +334,6 @@ open class ComponentView<S: StateType>: UIView, ComponentViewType {
       // Applies the frame to the host view.
       rootView.frame.normalize()
       contentView.frame.size = rootView.bounds.size
-
       contentView.frame.size.height += yoga.marginTop.normal + yoga.marginBottom.normal
       contentView.frame.size.width +=  yoga.marginLeft.normal + yoga.marginRight.normal
       frame = contentView.bounds
@@ -359,8 +363,9 @@ open class ComponentView<S: StateType>: UIView, ComponentViewType {
       switch animation {
         case .animated(let duration, let options):
           UIView.animate(withDuration: duration, delay: 0, options: options, animations: {
+            [weak self] in
             layout(duration: duration)
-            self.rootView.animateCornerRadiusInHierarchyIfNecessary(duration: duration)
+            self?.rootView.animateCornerRadiusInHierarchyIfNecessary(duration: duration)
           }) { _ in
             UIView.animate(withDuration: duration/2) {
               for (view, alpha) in newViews {
@@ -542,3 +547,15 @@ extension RenderOption: Equatable {
   }
 }
 
+// MARK: - Helpers
+
+fileprivate func defaultReferenceSize(_ component: AnyComponentView?) -> CGSize {
+  guard let component = component, let view = component as? UIView else {
+    return CGSize.zero
+  }
+  if let cell = component.associatedCell {
+    return cell.referenceSize(component)
+  } else {
+    return view.superview?.bounds.size ?? CGSize.zero
+  }
+}

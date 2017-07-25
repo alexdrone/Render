@@ -106,7 +106,7 @@ public class CollectionNode: NSObject, ListNodeType, UICollectionViewDataSource,
     let (_, node) = self.node(for: indexPath)
     let component = rootComponent?.childrenComponent[node.key]
                     ?? StatelessPrototypeCellComponentView { _ in  node }
-    component.referenceSize = {
+    component.referenceSize = {_ in 
       return CGSize(width: collectionView.bounds.size.width, height: CGFloat.max)
     }
     return component.intrinsicContentSize

@@ -24,6 +24,7 @@ struct Reset {
     view.layer.shadowOpacity = proto.layer.shadowOpacity
     view.layer.cornerRadius = proto.layer.cornerRadius
     view.layer.masksToBounds = proto.layer.masksToBounds
+    view.flushGestureRecognizersRecursively()
     Reset.resetTargets(view)
     Reset.resetCssView(view)
   }
@@ -266,6 +267,7 @@ struct Reset {
 
   static func resetTargets(_ view: UIView?) {
     guard let view = view else { return }
+    // and targets.
     if let control = view as? UIControl {
       for target in control.allTargets {
         control.removeTarget(target, action: nil, for: .allEvents)

@@ -189,11 +189,11 @@ public class Node<V: UIView>: NodeType {
   /// Pre-render callback.
   public func willLayout() {
     if resetBeforeReuse {
+      view?.flushGestureRecognizersRecursively()
       view?.prepareForComponentReuse()
       view?.tag = key.reuseIdentifier.hashValue
     }
     if let view = self.view {
-
       // If the view passed as argument is a UIControl this resets all the pre-existents targets.
       Reset.resetTargets(view)
       onRender.will?(view)
@@ -242,7 +242,7 @@ public func ComponentNode<T: ComponentViewType>(_ component: @autoclosure () -> 
                                                 reuseIdentifier: String = String(describing:T.self),
                                                 key: String? = nil,
                                                 state: StateType? = nil,
-                                                size: (() -> CGSize)? = nil,
+                                                size: ((AnyComponentView?) -> CGSize)? = nil,
                                                 props: ((T, Bool) -> Void)? = nil) -> NodeType {
 
   // If no key get passed as argument a new autoincrement key is generated.

@@ -33,7 +33,7 @@ class CounterComponentView: ComponentView<CounterComponentViewState> {
   }
 
   override func render() -> NodeType {
-    let containter = Node<UIView> { view, layout, size in
+    let containter = Node<UIView> { [weak self] view, layout, size in
       view.backgroundColor = Color.green
       view.transform = CGAffineTransform.identity
       view.onTap { [weak self] _ in
@@ -51,11 +51,11 @@ class CounterComponentView: ComponentView<CounterComponentViewState> {
       layout.alignSelf = .center
       layout.margin = 16
     }
-    let label = Node<UILabel> { view, layout, size in
+    let label = Node<UILabel> { [weak self] view, layout, size in
       view.font = Typography.mediumBold
       view.textColor = Color.white
       // The label renders from the state.
-      view.text = "\(self.state.numberOfTaps)"
+      view.text = "\(self?.state.numberOfTaps ?? 0)"
       layout.alignSelf = .center
     }
     return containter.add(child: label)
@@ -93,5 +93,4 @@ class CounterExampleViewController: ViewController, ComponentController {
   func configureComponentProps() {
     // No props to configure
   }
-  
 }
