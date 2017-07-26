@@ -64,6 +64,14 @@ final public class ComponentTableViewCell<C: ComponentViewType>: UITableViewCell
     component.update(options: options)
   }
 
+  open override func sizeThatFits(_ size: CGSize) -> CGSize {
+    return component.bounds.size
+  }
+
+  open override var intrinsicContentSize: CGSize {
+    return component.bounds.size
+  }
+
   func onLayout() {
     contentView.frame.size = component.rootView.bounds.size
     contentView.center = contentView.center
@@ -83,5 +91,51 @@ final public class ComponentTableViewCell<C: ComponentViewType>: UITableViewCell
         tableView.reloadRows(at: [indexPath], with: .none)
       }
     }
+  }
+}
+
+public extension UITableView {
+
+  /// Configure this table view for automatic cell calculation.
+  public func withAutomaticDimension(dataSource ds: UITableViewDataSource? = nil) {
+    separatorStyle = .none
+    rowHeight = UITableViewAutomaticDimension
+    if #available(iOS 11, *) {
+      estimatedRowHeight = -1;
+    } else {
+      estimatedRowHeight = 64;
+    }
+    if let ds = ds {
+      dataSource = ds
+      reloadData()
+    }
+  }
+
+  /// Shorthand to return a properly type ComponentTableViewCell.
+  public func dequeueReusableComponentCell<T: ComponentViewType>(
+      withIdentifier identifier: String = String(describing: type(of: T.self)))
+      -> ComponentTableViewCell<T> {
+
+    // ComponentTableViewCell is a wrapper cell around any given component type.
+    // We dequeue the cell as it is usually done.
+    let cell = dequeueReusableCell(withIdentifier: identifier)
+      as? ComponentTableViewCell<T>
+      ?? ComponentTableViewCell<T>(style: .default, reuseIdentifier: identifier)
+    return cell
+  }
+
+  /// Refreshes the component at the given index path.
+  public func update(at indexPath: IndexPath) {
+    beginUpdates()
+    reloadRows(at: [indexPath], with: .fade)
+    endUpdates()
+  }
+
+  /// Re-renders all the compoents currently visible on screen.
+  /// Call this method whenever the table view changes its bounds/size.
+  public func updateVisibleComponents() {
+    visibleCells
+      .flatMap { cell in cell as? InternalComponentCellType }
+      .forEach { cell in cell.update(options: [])}
   }
 }

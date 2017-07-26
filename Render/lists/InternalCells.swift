@@ -187,24 +187,6 @@ open class InternalComponentCollectionViewCell: UICollectionViewCell, InternalCo
 
 //MARK: - Extensions
 
-extension UITableView {
-
-  /// Refreshes the component at the given index path.
-  public func update(at indexPath: IndexPath) {
-    beginUpdates()
-    reloadRows(at: [indexPath], with: .fade)
-    endUpdates()
-  }
-
-  /// Re-renders all the compoents currently visible on screen.
-  /// Call this method whenever the table view changes its bounds/size.
-  public func updateVisibleComponents() {
-    visibleCells
-      .flatMap { cell in cell as? InternalComponentCellType }
-      .forEach { cell in cell.update(options: [])}
-  }
-}
-
 extension UICollectionView {
 
   ///  Refreshes the component at the given index path.

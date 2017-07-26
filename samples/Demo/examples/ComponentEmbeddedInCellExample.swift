@@ -3,7 +3,9 @@ import Render
 
 class ComponentEmbeddedInCellExampleViewController: UITableViewController {
 
-  private var strings: [String] = Array(0..<32).map { _ in randomString() }
+  private var strings: [String] = Array(0..<32).map { _ in
+    Array(0...randomInt(1, max: 10)).map({ _ in randomString() }).reduce("") { $0 + $1 }
+  }
 
   override var preferredStatusBarStyle: UIStatusBarStyle {
     return .lightContent
@@ -12,14 +14,16 @@ class ComponentEmbeddedInCellExampleViewController: UITableViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     ViewController.styleNavigationBar(viewController: self)
+
     view.backgroundColor = Color.black
-    tableView.backgroundColor = Color.black
     title = String(describing: type(of: self)).replacingOccurrences(of: "ViewController", with: "")
-    tableView.rowHeight = UITableViewAutomaticDimension
-    tableView.estimatedRowHeight = 64
-    tableView.separatorStyle = .none
-    tableView.dataSource = self
-    tableView.reloadData()
+
+    tableView.withAutomaticDimension(dataSource: self)
+    tableView.backgroundColor = Color.black
+  }
+
+  override func viewDidLayoutSubviews() {
+    tableView.updateVisibleComponents()
   }
 
   override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -30,14 +34,7 @@ class ComponentEmbeddedInCellExampleViewController: UITableViewController {
   override func tableView(_ tableView: UITableView,
                           cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
-    let identifier = String(describing: ComponentTableViewCell<ComponentEmbeddedInCell>.self)
-
-    // ComponentTableViewCell is a wrapper cell around any given component type.
-    // We dequeue the cell as it is usually done.
-    let cell = tableView.dequeueReusableCell(withIdentifier: identifier)
-      as? ComponentTableViewCell<ComponentEmbeddedInCell>
-       ?? ComponentTableViewCell<ComponentEmbeddedInCell>(style: .default,
-                                                         reuseIdentifier: identifier)
+    let cell: ComponentTableViewCell<ComponentInCell> = tableView.dequeueReusableComponentCell()
 
     // ComponentTableViewCell exposes 'configureComponent' that allows for component configuration.
     cell.configureComponent(in: tableView, indexPath: indexPath) {
@@ -45,20 +42,25 @@ class ComponentEmbeddedInCellExampleViewController: UITableViewController {
     }
     return cell
   }
+
+
 }
 
-class ComponentEmbeddedInCell: StatelessComponentView {
+class ComponentInCell: StatelessComponentView {
 
   var text: String = ""
 
   override func render() -> NodeType {
-    return Node<UILabel> { view, layout, size in
+    let container = Node<UIView> { view, layout, size in
+      layout.padding = 16
       layout.width = size.width
+    }
+    return container.add(child: Node<UILabel> { view, layout, size in
       view.backgroundColor = Color.black
       view.text = self.text
       view.font = Typography.smallLight
       view.textColor = Color.white
       view.numberOfLines = 0
-    }
+    })
   }
 }

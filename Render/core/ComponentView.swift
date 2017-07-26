@@ -275,6 +275,7 @@ open class ComponentView<S: StateType>: UIView, ComponentViewType {
   /// The layout for the resulting view hierarchy is then re-computed.
   public func update(options: [RenderOption] = []) {
     assert(Thread.isMainThread)
+    let shouldInvokeDidMount = superview != nil && !initialized
     if RenderOption.contains(options, .preventUpdate) {
       return
     }
@@ -298,6 +299,9 @@ open class ComponentView<S: StateType>: UIView, ComponentViewType {
 
     debugReconcileTime("\(type(of: self)).render", startTime: startTime)
     didUpdate()
+    if shouldInvokeDidMount {
+      didMount()
+    }
     Console.shared.markDirty()
   }
 
@@ -394,6 +398,19 @@ open class ComponentView<S: StateType>: UIView, ComponentViewType {
     for (_, child) in childrenComponent {
       child.didUpdate()
     }
+  }
+
+  /// Tells the view that its superview changed.
+  override open func didMoveToSuperview() {
+    guard let _ = superview, initialized else {
+      return
+    }
+    didMount()
+  }
+
+  /// Invoked immediately after a component is mounted.
+  open func didMount() {
+
   }
 
   /// Returns all views (descending recursively through the view hierarchy) that matches the

@@ -286,9 +286,7 @@ public final class NilNode: NodeType {
   }()
   public var key: Key = Key(reuseIdentifier: String(describing: NilNode.self))
   public var children: [NodeType] = []
-  public func add(children: [NodeType]) -> NodeType {
-    return self
-  }
+  public func add(children: [NodeType]) -> NodeType { return self }
   public var index: Int = 0
   public let debugType: String = "Nil"
   public weak var associatedComponent: AnyComponentView?

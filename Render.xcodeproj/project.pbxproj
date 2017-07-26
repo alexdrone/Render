@@ -30,7 +30,6 @@
 		167272081EC3340600906746 /* YGPercentLayoutExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167272071EC3340600906746 /* YGPercentLayoutExtension.swift */; };
 		168007D21EFE674600B4EA85 /* LCS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 168007D11EFE674600B4EA85 /* LCS.swift */; };
 		16971EE91F17AC3000AEAF87 /* ComponentViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16971EE81F17AC3000AEAF87 /* ComponentViewCell.swift */; };
-		169D0E221EFC63F9002C700A /* Gestures.swift in Sources */ = {isa = PBXBuildFile; fileRef = 169D0E211EFC63F9002C700A /* Gestures.swift */; };
 		16B847CC1F0CF0BB004EDDEE /* Console.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16B847CB1F0CF0BB004EDDEE /* Console.swift */; };
 		16B847CE1F0CF753004EDDEE /* State.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16B847CD1F0CF753004EDDEE /* State.swift */; };
 		16C59F811E75BE9900D9E297 /* TableNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16C59F801E75BE9900D9E297 /* TableNode.swift */; };
@@ -67,7 +66,6 @@
 		167272071EC3340600906746 /* YGPercentLayoutExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YGPercentLayoutExtension.swift; sourceTree = "<group>"; };
 		168007D11EFE674600B4EA85 /* LCS.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LCS.swift; sourceTree = "<group>"; };
 		16971EE81F17AC3000AEAF87 /* ComponentViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComponentViewCell.swift; sourceTree = "<group>"; };
-		169D0E211EFC63F9002C700A /* Gestures.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gestures.swift; sourceTree = "<group>"; };
 		16B847CB1F0CF0BB004EDDEE /* Console.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Console.swift; sourceTree = "<group>"; };
 		16B847CD1F0CF753004EDDEE /* State.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = State.swift; sourceTree = "<group>"; };
 		16C59F801E75BE9900D9E297 /* TableNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableNode.swift; sourceTree = "<group>"; };
@@ -178,7 +176,6 @@
 			children = (
 				16EAD3D61EFFE9B90021513D /* ComponentController.swift */,
 				164C11641E5A190000766914 /* Extensions.swift */,
-				169D0E211EFC63F9002C700A /* Gestures.swift */,
 				164C11681E5A203100766914 /* Reset.swift */,
 				16B847CB1F0CF0BB004EDDEE /* Console.swift */,
 			);
@@ -283,7 +280,6 @@
 				16C59F811E75BE9900D9E297 /* TableNode.swift in Sources */,
 				168007D21EFE674600B4EA85 /* LCS.swift in Sources */,
 				167272061EC330C000906746 /* YGPercentLayout.m in Sources */,
-				169D0E221EFC63F9002C700A /* Gestures.swift in Sources */,
 				164C11631E59ECEC00766914 /* Node.swift in Sources */,
 				164C11581E59ECC600766914 /* UIView+Yoga.m in Sources */,
 				164C11651E5A190000766914 /* Extensions.swift in Sources */,
