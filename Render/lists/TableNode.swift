@@ -57,7 +57,7 @@ public extension ListNodeType {
     }
     cell.listView = collection.0
     cell.currentIndexPath = collection.1
-    cell.update(options: [.preventViewHierarchyDiff])
+    cell.update(options: [])
     node.associatedComponent?.didUpdate()
   }
 

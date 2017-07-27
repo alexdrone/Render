@@ -1,7 +1,7 @@
 // Forked from httpswift/swifter.
 // See LICENSE file for details.
 
-#if DEBUG && (arch(i386) || arch(x86_64)) && os(iOS)
+#if (arch(i386) || arch(x86_64)) && os(iOS)
 import Foundation
 import Dispatch
 

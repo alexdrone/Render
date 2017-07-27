@@ -55,7 +55,7 @@ final class Console: ConsoleType {
     }
   }
 
-  #if DEBUG && (arch(i386) || arch(x86_64)) && os(iOS)
+  #if (arch(i386) || arch(x86_64)) && os(iOS)
   /// The console / debug server is instantiated only in the simulator for the time being.
   static let shared: ConsoleType = Console()
   #else
@@ -79,7 +79,7 @@ final class Console: ConsoleType {
   private var timer: Timer?
   private var serverStarted: Bool = false
   private var isDirty: Bool = false
-  #if DEBUG && (arch(i386) || arch(x86_64)) && os(iOS)
+  #if (arch(i386) || arch(x86_64)) && os(iOS)
   private var server: HttpServer?
   #endif
 
@@ -102,7 +102,7 @@ final class Console: ConsoleType {
 
   /// Starts the server on localhost:8080/inspect.
   func startServer() {
-    #if DEBUG && (arch(i386) || arch(x86_64)) && os(iOS)
+    #if (arch(i386) || arch(x86_64)) && os(iOS)
     serverStarted = true
     let server = HttpServer()
     server["/inspect"] = { [weak self] _ in
@@ -138,7 +138,7 @@ final class Console: ConsoleType {
 
   /// Starts the polling timer.
   private func startTimer() {
-    #if DEBUG && (arch(i386) || arch(x86_64)) && os(iOS)
+    #if (arch(i386) || arch(x86_64)) && os(iOS)
     guard serverStarted else { return }
     timer = Timer.scheduledTimer(timeInterval: 2,
                                  target: self,
@@ -155,7 +155,7 @@ final class Console: ConsoleType {
 
   /// Check it the console is dirty and in that case asks components to dump their description.
   private dynamic func timerDidFire(timer: Timer) {
-    #if DEBUG && (arch(i386) || arch(x86_64)) && os(iOS)
+    #if (arch(i386) || arch(x86_64)) && os(iOS)
     assert(Thread.isMainThread)
     guard isDirty else {
       return
