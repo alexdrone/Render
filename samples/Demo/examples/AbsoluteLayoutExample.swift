@@ -37,6 +37,7 @@ class AbsoluteLayoutComponent: StatelessComponentView {
 
   /// Invoked immediately after a component is mounted.
   override func didMount() {
+    super.didMount()
     alpha = 0
     UIView.animate(withDuration: 1) { [weak self] in
       self?.alpha = 1

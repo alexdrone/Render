@@ -32,7 +32,8 @@ public extension CGRect {
 fileprivate var handleAnimatable: UInt8 = 0
 fileprivate var handleHasNode: UInt8 = 0
 fileprivate var handleNewlyCreated: UInt8 = 0
-fileprivate var oldCornerRadiusHandle: UInt8 = 0
+fileprivate var hadleOldCornerRadius: UInt8 = 0
+fileprivate var handleOldAlpha: UInt8 = 0
 
 public extension UIView {
 
@@ -41,17 +42,17 @@ public extension UIView {
     set { setBool(&handleAnimatable, self, newValue) }
   }
 
-  var hasNode: Bool {
+  public var hasNode: Bool {
     get { return getBool(&handleHasNode, self, defaultIfNil: false) }
     set { setBool(&handleHasNode, self, newValue) }
   }
 
-  var isNewlyCreated: Bool {
+  public var isNewlyCreated: Bool {
     get { return getBool(&handleNewlyCreated, self, defaultIfNil: false) }
     set { setBool(&handleNewlyCreated, self, newValue) }
   }
 
-  var cornerRadius: CGFloat {
+  public var cornerRadius: CGFloat {
     get { return layer.cornerRadius }
     set {
       oldCornerRadius = layer.cornerRadius
@@ -60,9 +61,14 @@ public extension UIView {
     }
   }
 
-  var oldCornerRadius: CGFloat {
-    get { return getFloat(&handleNewlyCreated, self) }
-    set { setFloat(&handleNewlyCreated, self, newValue) }
+  public var oldCornerRadius: CGFloat {
+    get { return getFloat(&hadleOldCornerRadius, self) }
+    set { setFloat(&hadleOldCornerRadius, self, newValue) }
+  }
+
+  public var oldAlpha: CGFloat {
+    get { return getFloat(&handleOldAlpha, self) }
+    set { setFloat(&handleOldAlpha, self, newValue) }
   }
 
   private func animateCornerRadius(duration: CFTimeInterval) {
@@ -79,14 +85,14 @@ public extension UIView {
     self.layer.cornerRadius = layer.cornerRadius
   }
 
-  func animateCornerRadiusInHierarchyIfNecessary(duration: CFTimeInterval) {
+  public func animateCornerRadiusInHierarchyIfNecessary(duration: CFTimeInterval) {
     animateCornerRadius(duration: duration)
     for subview in subviews where subview.hasNode {
       subview.animateCornerRadiusInHierarchyIfNecessary(duration: duration)
     }
   }
 
-  func debugBoudingRect() {
+  public func debugBoudingRect() {
     layer.borderColor = UIColor.red.cgColor
     layer.borderWidth = 2
   }

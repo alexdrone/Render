@@ -74,6 +74,15 @@ public protocol AnyComponentView: class, ReflectedStringConvertible {
   /// Called whenever the component has been rendered and installed on the screen.
   func didUpdate()
 
+  /// The component will be added to the view hierarchy.
+  func componentWillMount()
+
+  /// The component has been added to the view hiearchy.
+  func componentDidMount()
+
+  /// The component will be removed from the view hierarchy.
+  func componentWillUnmount()
+
   /// Used to force the component to re-use a particular view tree.
   func injectRootView(view: UIView)
 
@@ -300,7 +309,7 @@ open class ComponentView<S: StateType>: UIView, ComponentViewType {
     debugReconcileTime("\(type(of: self)).render", startTime: startTime)
     didUpdate()
     if shouldInvokeDidMount {
-      didMount()
+      componentDidMount()
     }
     Console.shared.markDirty()
   }
@@ -405,11 +414,21 @@ open class ComponentView<S: StateType>: UIView, ComponentViewType {
     guard let _ = superview, initialized else {
       return
     }
-    didMount()
   }
 
-  /// Invoked immediately after a component is mounted.
-  open func didMount() {
+  /// The view associated to the component is about to be added to the view hiearchy.
+  /// This is the perfect entry point for configuring the view for any animation that you wish
+  /// to perfrom in 'componentDidMount'.
+  open func componentWillMount() {
+
+  }
+
+  /// The view associated to this component has just been added to the view hiearchy.
+  open func componentDidMount() {
+  }
+
+  /// Invoked before the component gets removed from the view hiearchy.
+  open func componentWillUnmount() {
 
   }
 
@@ -574,5 +593,18 @@ fileprivate func defaultReferenceSize(_ component: AnyComponentView?) -> CGSize 
     return cell.referenceSize(component)
   } else {
     return view.superview?.bounds.size ?? CGSize.zero
+  }
+}
+
+fileprivate func defaultComponentWillMount(view: UIView)  {
+  view.oldAlpha = view.alpha
+  view.alpha = 0
+}
+
+fileprivate func defaultComponentDidMount(view: UIView) {
+  let duration: TimeInterval = 0.3
+  UIView.animate(withDuration: duration) {
+    view.alpha = view.oldAlpha
+    view.animateCornerRadiusInHierarchyIfNecessary(duration: duration)
   }
 }
