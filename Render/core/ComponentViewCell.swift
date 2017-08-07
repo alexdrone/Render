@@ -9,7 +9,7 @@ public protocol ComponentViewCellDelegate: class {
   func componentOnLayout(component: AnyComponentView, indexPath: IndexPath)
 }
 
-final public class ComponentTableViewCell<C: ComponentViewType>: UITableViewCell {
+final public class ComponentTableViewCell<C: ComponentViewType & UIView>: UITableViewCell {
 
   /// The wrapped component.
   public let component = C()
@@ -25,18 +25,12 @@ final public class ComponentTableViewCell<C: ComponentViewType>: UITableViewCell
 
   public override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
     super.init(style: style, reuseIdentifier: reuseIdentifier)
-    guard let view = component as? UIView else {
-      return
-    }
-    contentView.addSubview(view)
+    contentView.addSubview(component)
   }
   
   required public init?(coder aDecoder: NSCoder) {
     super.init(coder: aDecoder)
-    guard let view = component as? UIView else {
-      return
-    }
-    contentView.addSubview(view)
+    contentView.addSubview(component)
   }
 
   /// Configure the cell with the component props and state.
@@ -112,7 +106,7 @@ public extension UITableView {
   }
 
   /// Shorthand to return a properly type ComponentTableViewCell.
-  public func dequeueReusableComponentCell<T: ComponentViewType>(
+  public func dequeueReusableComponentCell<T: ComponentViewType & UIView>(
       withIdentifier identifier: String = String(describing: type(of: T.self)))
       -> ComponentTableViewCell<T> {
 
