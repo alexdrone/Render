@@ -233,15 +233,6 @@ SWIFT_CLASS("_TtC6Render9TableNode")
 @end
 
 
-@interface UIControl (SWIFT_EXTENSION(Render))
-- (void)onEvent:(UIControlEvents)event :(void (^ _Nonnull)(void))closure;
-@end
-
-
-@interface UIGestureRecognizer (SWIFT_EXTENSION(Render))
-@end
-
-
 @interface UIImageView (SWIFT_EXTENSION(Render))
 @end
 
@@ -250,51 +241,18 @@ SWIFT_CLASS("_TtC6Render9TableNode")
 @end
 
 
-@interface UILongPressGestureRecognizer (SWIFT_EXTENSION(Render))
-- (nonnull instancetype)initWithHandler:(void (^ _Nonnull)(UILongPressGestureRecognizer * _Nonnull))handler;
-@end
-
-
-@interface UIPanGestureRecognizer (SWIFT_EXTENSION(Render))
-- (nonnull instancetype)initWithHandler:(void (^ _Nonnull)(UIPanGestureRecognizer * _Nonnull))handler;
-@end
-
-
-@interface UIPinchGestureRecognizer (SWIFT_EXTENSION(Render))
-- (nonnull instancetype)initWithHandler:(void (^ _Nonnull)(UIPinchGestureRecognizer * _Nonnull))handler;
-@end
-
-
-@interface UIRotationGestureRecognizer (SWIFT_EXTENSION(Render))
-- (nonnull instancetype)initWithHandler:(void (^ _Nonnull)(UIRotationGestureRecognizer * _Nonnull))handler;
-@end
-
-
-@interface UIScreenEdgePanGestureRecognizer (SWIFT_EXTENSION(Render))
-- (nonnull instancetype)initWithHandler:(void (^ _Nonnull)(UIScreenEdgePanGestureRecognizer * _Nonnull))handler;
-@end
-
-
 @interface UIScrollView (SWIFT_EXTENSION(Render))
 @end
 
 
-@interface UISwipeGestureRecognizer (SWIFT_EXTENSION(Render))
-- (nonnull instancetype)initWithDirection:(UISwipeGestureRecognizerDirection)direction handler:(void (^ _Nonnull)(UISwipeGestureRecognizer * _Nonnull))handler;
-@end
-
-
 @interface UITableView (SWIFT_EXTENSION(Render))
+/// Configure this table view for automatic cell calculation.
+- (void)withAutomaticDimensionWithDataSource:(id <UITableViewDataSource> _Nullable)ds;
 /// Refreshes the component at the given index path.
 - (void)updateAt:(NSIndexPath * _Nonnull)indexPath;
 /// Re-renders all the compoents currently visible on screen.
 /// Call this method whenever the table view changes its bounds/size.
 - (void)updateVisibleComponents;
-@end
-
-
-@interface UITapGestureRecognizer (SWIFT_EXTENSION(Render))
-- (nonnull instancetype)initWithTaps:(NSInteger)taps touches:(NSInteger)touches handler:(void (^ _Nonnull)(UITapGestureRecognizer * _Nonnull))handler;
 @end
 
 
@@ -311,17 +269,26 @@ SWIFT_CLASS("_TtC6Render9TableNode")
 
 
 @interface UIView (SWIFT_EXTENSION(Render))
-- (void)onTap:(void (^ _Nonnull)(UITapGestureRecognizer * _Nonnull))handler;
-- (void)onDoubleTap:(void (^ _Nonnull)(UITapGestureRecognizer * _Nonnull))handler;
-- (void)onLongPress:(void (^ _Nonnull)(UILongPressGestureRecognizer * _Nonnull))handler;
-- (void)onSwipeLeft:(void (^ _Nonnull)(UISwipeGestureRecognizer * _Nonnull))handler;
-- (void)onSwipeRight:(void (^ _Nonnull)(UISwipeGestureRecognizer * _Nonnull))handler;
-- (void)onSwipeUp:(void (^ _Nonnull)(UISwipeGestureRecognizer * _Nonnull))handler;
-- (void)onSwipeDown:(void (^ _Nonnull)(UISwipeGestureRecognizer * _Nonnull))handler;
-- (void)onPan:(void (^ _Nonnull)(UIPanGestureRecognizer * _Nonnull))handler;
-- (void)onPinch:(void (^ _Nonnull)(UIPinchGestureRecognizer * _Nonnull))handler;
-- (void)onRotate:(void (^ _Nonnull)(UIRotationGestureRecognizer * _Nonnull))handler;
-- (void)onScreenEdgePan:(void (^ _Nonnull)(UIScreenEdgePanGestureRecognizer * _Nonnull))handler;
+/// Flush all of the existing gesture recognizers registered through the closure based api.
+- (void)flushGestureRecognizers;
+/// Flush all of the existing gesture recognizers registered through the closure based api.
+- (void)flushGestureRecognizersRecursively;
+@end
+
+@class UIGestureRecognizer;
+
+@interface UIView (SWIFT_EXTENSION(Render))
+- (void)onTap:(void (^ _Nonnull)(UIGestureRecognizer * _Nonnull))handler;
+- (void)onDoubleTap:(void (^ _Nonnull)(UIGestureRecognizer * _Nonnull))handler;
+- (void)onLongPress:(void (^ _Nonnull)(UIGestureRecognizer * _Nonnull))handler;
+- (void)onSwipeLeft:(void (^ _Nonnull)(UIGestureRecognizer * _Nonnull))handler;
+- (void)onSwipeRight:(void (^ _Nonnull)(UIGestureRecognizer * _Nonnull))handler;
+- (void)onSwipeUp:(void (^ _Nonnull)(UIGestureRecognizer * _Nonnull))handler;
+- (void)onSwipeDown:(void (^ _Nonnull)(UIGestureRecognizer * _Nonnull))handler;
+- (void)onPan:(void (^ _Nonnull)(UIGestureRecognizer * _Nonnull))handler;
+- (void)onPinch:(void (^ _Nonnull)(UIGestureRecognizer * _Nonnull))handler;
+- (void)onRotate:(void (^ _Nonnull)(UIGestureRecognizer * _Nonnull))handler;
+- (void)onScreenEdgePan:(void (^ _Nonnull)(UIGestureRecognizer * _Nonnull))handler;
 @end
 
 
@@ -331,6 +298,7 @@ SWIFT_CLASS("_TtC6Render9TableNode")
 @property (nonatomic) BOOL isNewlyCreated;
 @property (nonatomic) CGFloat cornerRadius;
 @property (nonatomic) CGFloat oldCornerRadius;
+@property (nonatomic) CGFloat oldAlpha;
 - (void)animateCornerRadiusInHierarchyIfNecessaryWithDuration:(CFTimeInterval)duration;
 - (void)debugBoudingRect;
 @end

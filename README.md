@@ -281,8 +281,8 @@ Changes in the collection results in fine grain table changes (add/remove/move c
 
 # Example projects
 
-The [_Render catalogue app_](https://github.com/alexdrone/Render/tree/master/samples) contains a number of complex components and layouts.
-
+* The [_Render catalogue app_](https://github.com/alexdrone/Render/tree/master/samples) contains a number of complex components and layouts.
+* [_RenderDemos_](https://github.com/alexdrone/RenderDemos) is a github repo with more complex applications built with Render.
 <img src="docs/catalog.gif" width=360>
 
 # Inspector (Experimental)
