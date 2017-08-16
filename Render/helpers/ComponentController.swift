@@ -23,6 +23,7 @@ public extension ComponentController where Self: UIViewController {
       view.addSubview(componentView)
     }
     configureComponentProps()
+    component.update(options: [.preventOnLayoutCallback])
   }
 
   /// Update the component.
