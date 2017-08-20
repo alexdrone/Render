@@ -74,6 +74,11 @@ public protocol AnyComponentView: NSObjectProtocol, ReflectedStringConvertible {
   /// The component has been added to the view hiearchy.
   func componentDidMount()
 
+  /// Used when the component is mutating the view hierarchy manually (e.g. animating a view).
+  /// This prevents any call to 'update(options:)' to trigger the to component render.
+  func beginPreventComponentUpdate()
+  func endPreventComponentUpdate()
+
   /// The component bounds.
   var referenceSize: (AnyComponentView?) -> CGSize { get set }
 
@@ -177,6 +182,7 @@ open class ComponentView<S: StateType>: UIView, ComponentViewType {
 
   /// Wether the 'root' node has been rendered yet.
   private var initialized: Bool = false
+  private var preventComponentUpdate: Bool = false
 
   /// Store for the chilren component view.
   /// Keys in the store help identify which items have changed, are added, or are removed.
@@ -226,6 +232,16 @@ open class ComponentView<S: StateType>: UIView, ComponentViewType {
     //Console.shared.log("\(String(describing: type(of: self))) deinit.")
   }
 
+  /// Used when the component is mutating the view hierarchy manually (e.g. animating a view).
+  /// This prevents any call to 'update(options:)' to trigger the to component render.
+  public func beginPreventComponentUpdate() {
+    preventComponentUpdate = true
+  }
+
+  public func endPreventComponentUpdate() {
+    preventComponentUpdate = false
+  }
+
   /// The 'render' method is required for subclasses.
   /// When called, it should examine the component properties and the state  and return a Node tree.
   /// This method is called every time 'render' is invoked.
@@ -244,7 +260,7 @@ open class ComponentView<S: StateType>: UIView, ComponentViewType {
   public func update(options: [RenderOption] = []) {
     assert(Thread.isMainThread)
     let shouldInvokeDidMount = superview != nil && !initialized
-    if RenderOption.contains(options, .preventUpdate) {
+    if RenderOption.contains(options, .preventUpdate) || preventComponentUpdate {
       return
     }
     // If this component is nested inside another one, calling update on this component
