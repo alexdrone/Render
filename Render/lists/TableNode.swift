@@ -249,10 +249,6 @@ public class TableNode: NSObject, ListNodeType, UITableViewDataSource, UITableVi
                as? InternalComponentTableViewCell
                ?? InternalComponentTableViewCell(style: .default, reuseIdentifier: identifier)
 
-//    var address = "nil"
-//    address = "\(Unmanaged<AnyObject>.passUnretained(cell as AnyObject).toOpaque())"
-//    __createdCells.insert(address)
-
     mount(node: node, cell: cell, rootComponent: rootComponent, for: (tableView, indexPath))
     return cell
   }

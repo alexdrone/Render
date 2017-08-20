@@ -24,7 +24,7 @@ public enum RenderOption {
 
 // MARK: - ComponentView protocol
 
-public protocol AnyComponentView: class, ReflectedStringConvertible {
+public protocol AnyComponentView: NSObjectProtocol, ReflectedStringConvertible {
 
   /// Stateless component are components that are expected to be fully configured from the outside
   /// without mantaining an internal state.
@@ -57,9 +57,6 @@ public protocol AnyComponentView: class, ReflectedStringConvertible {
   /// The natural size for the receiving view, considering only properties of the view itself.
   var intrinsicContentSize : CGSize { get }
 
-  /// Sets the component state.
-  func set(state: Render.StateType, options: [RenderOption])
-
   init()
 
   /// This method is called during the layout transaction.
@@ -74,17 +71,8 @@ public protocol AnyComponentView: class, ReflectedStringConvertible {
   /// Called whenever the component has been rendered and installed on the screen.
   func didUpdate()
 
-  /// The component will be added to the view hierarchy.
-  func componentWillMount()
-
   /// The component has been added to the view hiearchy.
   func componentDidMount()
-
-  /// The component will be removed from the view hierarchy.
-  func componentWillUnmount()
-
-  /// Used to force the component to re-use a particular view tree.
-  func injectRootView(view: UIView)
 
   /// The component bounds.
   var referenceSize: (AnyComponentView?) -> CGSize { get set }
@@ -127,20 +115,6 @@ public protocol ComponentViewType: AnyComponentView {
   func render() -> NodeType
 }
 
-public extension ComponentViewType {
-
-  /// Sets the component state.
-  func set(state: Render.StateType, options: [RenderOption] = []) {
-    guard let state = state as? Self.StateType else {
-      return
-    }
-    self.state = state
-    if !RenderOption.contains(options, .preventUpdate) {
-      update(options: options)
-    }
-  }
-}
-
 // MARK: - Implementation
 
 /// Components let you split the UI into independent, reusable pieces, and think about each
@@ -167,14 +141,6 @@ open class ComponentView<S: StateType>: UIView, ComponentViewType {
   }()
 
   public var onLayoutCallback: (TimeInterval, AnyComponentView, CGSize) -> () = { _ in }
-
-  private func boundingRect() -> CGSize {
-    if let cell = associatedCell {
-      return cell.referenceSize(self)
-    } else {
-      return superview?.bounds.size ?? CGSize.zero
-    }
-  }
 
   public func setState(options: [RenderOption] = [], change: (inout S) -> (Void)) {
     change(&self.state)
@@ -258,13 +224,6 @@ open class ComponentView<S: StateType>: UIView, ComponentViewType {
   deinit {
     NotificationCenter.default.removeObserver(self)
     //Console.shared.log("\(String(describing: type(of: self))) deinit.")
-  }
-
-  /// Used to force the component to re-use a particular view tree.
-  public func injectRootView(view: UIView) {
-    view.removeFromSuperview()
-    rootView = view
-    contentView.addSubview(view)
   }
 
   /// The 'render' method is required for subclasses.
@@ -416,21 +375,10 @@ open class ComponentView<S: StateType>: UIView, ComponentViewType {
     }
   }
 
-  /// The view associated to the component is about to be added to the view hiearchy.
-  /// This is the perfect entry point for configuring the view for any animation that you wish
-  /// to perfrom in 'componentDidMount'.
-  open func componentWillMount() {
-
-  }
-
   /// The view associated to this component has just been added to the view hiearchy.
   open func componentDidMount() {
   }
 
-  /// Invoked before the component gets removed from the view hiearchy.
-  open func componentWillUnmount() {
-
-  }
 
   /// Returns all views (descending recursively through the view hierarchy) that matches the
   /// condition passed as argument.

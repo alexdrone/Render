@@ -17,9 +17,6 @@ public protocol InternalComponentCellType: class  {
   /// The component view wrapped by this cell.
   var componentView: AnyComponentView? { get set }
 
-  /// Sets the component state.
-  func set(state: Render.StateType, options: [RenderOption])
-
   /// Calls render on the underlying component view. See: 'render(in:options)' in ComponentView.
   func update(options: [RenderOption])
 
@@ -131,11 +128,6 @@ open class InternalComponentTableViewCell: UITableViewCell, InternalComponentCel
   public weak var listView: UIView?
   public var currentIndexPath = IndexPath(row: 0, section: 0)
 
-  /// Sets the component state.
-  public func set(state: Render.StateType, options: [RenderOption] = []) {
-    componentView?.set(state: state, options: options)
-  }
-
   /// The component view wrapped by this cell.
   /// Internal use only. Use 'mountComponentIfNecessary' to add a component to this cell.
   public var componentView: AnyComponentView?
@@ -166,11 +158,6 @@ open class InternalComponentCollectionViewCell: UICollectionViewCell, InternalCo
   public weak var listView: UIView?
   public var currentIndexPath = IndexPath(item: 0, section: 0)
 
-  /// Sets the component state.
-  public func set(state: Render.StateType,
-                  options: [RenderOption] = []) {
-    componentView?.set(state: state, options: options)
-  }
 
   /// The component view wrapped by this cell.
   /// Internal use only. Use 'mountComponentIfNecessary' to add a component to this cell.
