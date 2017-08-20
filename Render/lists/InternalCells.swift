@@ -75,7 +75,7 @@ extension InternalComponentCellType where Self: UIView {
   }
 
   var commonIntrinsicContentSize: CGSize {
-    return componentView?.intrinsicContentSize ?? CGSize.zero
+    return componentView?.sizeThatFits(CGSize.undefined) ?? CGSize.zero
   }
 
   public func referenceSize(_ component: AnyComponentView?) -> CGSize {

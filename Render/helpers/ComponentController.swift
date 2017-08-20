@@ -21,9 +21,9 @@ public extension ComponentController where Self: UIViewController {
     }
     if let componentView = component as? UIView {
       view.addSubview(componentView)
+      configureComponentProps()
+      component.update(options: [])
     }
-    configureComponentProps()
-    component.update(options: [.preventOnLayoutCallback])
   }
 
   /// Update the component.

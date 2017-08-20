@@ -17,6 +17,8 @@ class NewIndexViewController: ViewController, ComponentController, NewIndexCompo
     (61, "CollectionNode", "Declarative UITableView wrappers with auto diff for row changes."),
     (62, "Components embedded in Cells", "If you wish to use UITableView in the most traditional way."),
     (70, "Absolute layouts", "Advanced layout through absolute-positioned children."),
+    (80, "AutoLayout Integration", "Insert a component inside a auto-layout managed view hierarchy"),
+
   ]
 
   override func viewDidLoad() {
@@ -44,7 +46,7 @@ class NewIndexViewController: ViewController, ComponentController, NewIndexCompo
     case 61: self.navigationController?.pushViewController(CollectionNodeExampleViewController(), animated: true)
     case 62: self.navigationController?.pushViewController(ComponentEmbeddedInCellExampleViewController(), animated: true)
     case 70: self.navigationController?.pushViewController(AbsoluteLayoutExampleViewController(), animated: true)
-
+    case 80: self.navigationController?.pushViewController(AutoLayoutIntegrationExample(), animated: true)
     default: break
     }
   }

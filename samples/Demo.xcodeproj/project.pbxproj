@@ -19,6 +19,7 @@
 		168884BB1F0BCE73002B9CC7 /* NewIndexViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 168884BA1F0BCE73002B9CC7 /* NewIndexViewController.swift */; };
 		16971EE31F17907900AEAF87 /* CollectionNodeExample.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16971EE21F17907900AEAF87 /* CollectionNodeExample.swift */; };
 		16971EE71F17A63400AEAF87 /* ComponentEmbeddedInCellExample.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16971EE61F17A63400AEAF87 /* ComponentEmbeddedInCellExample.swift */; };
+		16BE5FD61F48BEE200CDFF94 /* AutoLayoutIntegrationExample.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16BE5FD51F48BEE200CDFF94 /* AutoLayoutIntegrationExample.swift */; };
 		16C4EF7A1F0BD4CB0038EBA9 /* StatelessExample.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16C4EF791F0BD4CB0038EBA9 /* StatelessExample.swift */; };
 		16C4EF7C1F0BE00C0038EBA9 /* CounterExample.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16C4EF7B1F0BE00C0038EBA9 /* CounterExample.swift */; };
 		16E000401F0C2F3000D4C5F9 /* DynamicViewHierarchyExample.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16E0003F1F0C2F3000D4C5F9 /* DynamicViewHierarchyExample.swift */; };
@@ -73,6 +74,7 @@
 		168884BA1F0BCE73002B9CC7 /* NewIndexViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewIndexViewController.swift; sourceTree = "<group>"; };
 		16971EE21F17907900AEAF87 /* CollectionNodeExample.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionNodeExample.swift; sourceTree = "<group>"; };
 		16971EE61F17A63400AEAF87 /* ComponentEmbeddedInCellExample.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComponentEmbeddedInCellExample.swift; sourceTree = "<group>"; };
+		16BE5FD51F48BEE200CDFF94 /* AutoLayoutIntegrationExample.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoLayoutIntegrationExample.swift; sourceTree = "<group>"; };
 		16C4EF791F0BD4CB0038EBA9 /* StatelessExample.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatelessExample.swift; sourceTree = "<group>"; };
 		16C4EF7B1F0BE00C0038EBA9 /* CounterExample.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CounterExample.swift; sourceTree = "<group>"; };
 		16E0003F1F0C2F3000D4C5F9 /* DynamicViewHierarchyExample.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DynamicViewHierarchyExample.swift; sourceTree = "<group>"; };
@@ -156,6 +158,7 @@
 				16971EE21F17907900AEAF87 /* CollectionNodeExample.swift */,
 				16971EE61F17A63400AEAF87 /* ComponentEmbeddedInCellExample.swift */,
 				16329DA41F14BA0C00938517 /* AbsoluteLayoutExample.swift */,
+				16BE5FD51F48BEE200CDFF94 /* AutoLayoutIntegrationExample.swift */,
 			);
 			path = examples;
 			sourceTree = "<group>";
@@ -254,6 +257,7 @@
 				16E000461F0D693100D4C5F9 /* TableNodeExample.swift in Sources */,
 				16E000441F0D642A00D4C5F9 /* ScrollViewExample.swift in Sources */,
 				164C11A01E5C840D00766914 /* Random.swift in Sources */,
+				16BE5FD61F48BEE200CDFF94 /* AutoLayoutIntegrationExample.swift in Sources */,
 				16971EE71F17A63400AEAF87 /* ComponentEmbeddedInCellExample.swift in Sources */,
 				161CCCAF1ED85E600095E54A /* ViewController.swift in Sources */,
 				168884BB1F0BCE73002B9CC7 /* NewIndexViewController.swift in Sources */,

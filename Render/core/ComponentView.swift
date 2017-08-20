@@ -462,7 +462,7 @@ open class ComponentView<S: StateType>: UIView, ComponentViewType {
 
   open override var intrinsicContentSize : CGSize {
     assert(Thread.isMainThread)
-    return sizeThatFits(CGSize.max)
+    return sizeThatFits(CGSize.undefined)
   }
 
   /// Reconciliation algorithm for the view hierarchy.

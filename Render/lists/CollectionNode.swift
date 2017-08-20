@@ -109,7 +109,7 @@ public class CollectionNode: NSObject, ListNodeType, UICollectionViewDataSource,
     component.referenceSize = {_ in 
       return CGSize(width: collectionView.bounds.size.width, height: CGFloat.max)
     }
-    return component.intrinsicContentSize
+    return component.sizeThatFits(CGSize.undefined)
   }
 
   /// Asks the data source for a cell to insert in a particular location of the collection view.
