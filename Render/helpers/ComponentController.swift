@@ -1,6 +1,8 @@
 import Foundation
 import UIKit
 
+//MARK: - ViewController integration helper
+
 /// A lightweight wrapper controller over a component.
 public protocol ComponentController {
   associatedtype C: ComponentViewType
@@ -39,3 +41,41 @@ public extension ComponentController where Self: UIViewController {
     component.center = view.center
   }
 }
+
+//MARK: - Autolayout integration helper
+
+/// A simple wrapper view that allows for ComponentViews to be used in a AutoLayout managed
+/// view hierarchy.
+open class AutoLayoutComponentAnchorView<C: AnyComponentView>: UIView {
+
+  /// The wrapped component view.
+  public let componentView: C
+
+  /// Initialize the view with the given component.
+  public init(component: C) {
+    componentView = component
+    super.init(frame: CGRect.zero)
+    componentView.onLayoutCallback = { [weak self] duration, component, size in
+      self?.onLayout(duration: duration, component: component, size: size)
+    }
+    if let view = componentView as? UIView {
+      addSubview(view)
+    }
+    isOpaque = true
+    translatesAutoresizingMaskIntoConstraints = false
+  }
+
+  required public init?(coder aDecoder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
+
+  open override func layoutSubviews() {
+    super.layoutSubviews()
+    componentView.update(options: [])
+  }
+
+  open func onLayout(duration: TimeInterval, component: AnyComponentView, size: CGSize) {
+    component.frame = bounds
+  }
+}
+
