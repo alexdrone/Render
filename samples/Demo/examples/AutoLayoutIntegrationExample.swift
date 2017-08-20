@@ -10,7 +10,7 @@ class AutoLayoutIntegrationExample: ViewController  {
     view.addSubview(avatar)
     avatar.translatesAutoresizingMaskIntoConstraints = false
 
-    // Render component's view implement 'intrinsicContentSize'.
+    // Render ComponentViews implement 'intrinsicContentSize'.
     // To constrain them to a specific size you have to set  use 'referenceSize' proprerty.
     // N.B: You can do this also in 'viewDidLayoutSubviews' if the size of the component is not
     // static (e.g. could depend on another view layed out with autolayout).
