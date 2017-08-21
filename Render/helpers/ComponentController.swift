@@ -78,3 +78,35 @@ open class AutoLayoutComponentAnchorView<C: AnyComponentView>: UIView {
   }
 }
 
+@IBDesignable @objc open class InspectableComponentAnchorView: UIView {
+
+  public var componentView: AnyComponentView? {
+    willSet {
+      guard let view = componentView as? UIView else {
+        return
+      }
+      view.removeFromSuperview()
+    }
+    didSet {
+      componentView?.onLayoutCallback = { [weak self] duration, component, size in
+        self?.onLayout(duration: duration, component: component, size: size)
+      }
+      if let view = componentView as? UIView {
+        addSubview(view)
+      }
+      isOpaque = true
+      translatesAutoresizingMaskIntoConstraints = false
+      setNeedsLayout()
+    }
+  }
+
+  open override func layoutSubviews() {
+    super.layoutSubviews()
+    componentView?.update(options: [])
+  }
+
+  open func onLayout(duration: TimeInterval, component: AnyComponentView, size: CGSize) {
+    component.frame = bounds
+  }
+}
+
