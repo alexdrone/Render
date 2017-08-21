@@ -21,6 +21,7 @@ class ScrollExampleViewController: ViewController, ComponentController {
     super.viewDidLoad()
     // Adds the component to the view hierarchy.
     addComponentToViewControllerHierarchy()
+    renderComponent()
   }
 
   // Whenever the view controller changes bounds we want to re-render the component.
