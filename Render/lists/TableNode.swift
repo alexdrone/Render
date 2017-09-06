@@ -40,7 +40,7 @@ public extension ListNodeType {
   }
 
   public func mount(node: NodeType,
-                    cell: InternalComponentCellType,
+                    cell: InternalComponentViewCellType,
                     rootComponent: AnyComponentView?,
                     for collection: (UIView, IndexPath)) {
     if let component = rootComponent?.childrenComponent[node.key] {

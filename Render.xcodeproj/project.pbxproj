@@ -20,17 +20,16 @@
 		164C11601E59ECC600766914 /* Yoga.c in Sources */ = {isa = PBXBuildFile; fileRef = 164C11551E59ECC600766914 /* Yoga.c */; };
 		164C11611E59ECC600766914 /* Yoga.h in Headers */ = {isa = PBXBuildFile; fileRef = 164C11561E59ECC600766914 /* Yoga.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		164C11631E59ECEC00766914 /* Node.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164C11621E59ECEC00766914 /* Node.swift */; };
-		164C11651E5A190000766914 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164C11641E5A190000766914 /* Extensions.swift */; };
 		164C11691E5A203100766914 /* Reset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164C11681E5A203100766914 /* Reset.swift */; };
 		164C116B1E5A257300766914 /* ComponentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164C116A1E5A257300766914 /* ComponentView.swift */; };
-		164C11A81E5E2F4400766914 /* InternalCells.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164C11A71E5E2F4400766914 /* InternalCells.swift */; };
+		164C11A81E5E2F4400766914 /* InternalComponentViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164C11A71E5E2F4400766914 /* InternalComponentViewCell.swift */; };
 		165649D71EAF82EB00E02BC1 /* YGEnums.c in Sources */ = {isa = PBXBuildFile; fileRef = 165649D61EAF82EB00E02BC1 /* YGEnums.c */; };
 		167272051EC330C000906746 /* YGPercentLayout.h in Headers */ = {isa = PBXBuildFile; fileRef = 167272031EC330C000906746 /* YGPercentLayout.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		167272061EC330C000906746 /* YGPercentLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 167272041EC330C000906746 /* YGPercentLayout.m */; };
 		167272081EC3340600906746 /* YGPercentLayoutExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167272071EC3340600906746 /* YGPercentLayoutExtension.swift */; };
 		168007D21EFE674600B4EA85 /* LCS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 168007D11EFE674600B4EA85 /* LCS.swift */; };
 		16971EE91F17AC3000AEAF87 /* ComponentViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16971EE81F17AC3000AEAF87 /* ComponentViewCell.swift */; };
-		16B847CC1F0CF0BB004EDDEE /* Console.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16B847CB1F0CF0BB004EDDEE /* Console.swift */; };
+		16B847CC1F0CF0BB004EDDEE /* DebugConsole.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16B847CB1F0CF0BB004EDDEE /* DebugConsole.swift */; };
 		16B847CE1F0CF753004EDDEE /* State.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16B847CD1F0CF753004EDDEE /* State.swift */; };
 		16C59F811E75BE9900D9E297 /* TableNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16C59F801E75BE9900D9E297 /* TableNode.swift */; };
 		16D0E3F31F0E6C7200A80DBF /* HttpServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D0E3F21F0E6C7200A80DBF /* HttpServer.swift */; };
@@ -56,17 +55,16 @@
 		164C11551E59ECC600766914 /* Yoga.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Yoga.c; sourceTree = "<group>"; };
 		164C11561E59ECC600766914 /* Yoga.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Yoga.h; sourceTree = "<group>"; };
 		164C11621E59ECEC00766914 /* Node.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Node.swift; sourceTree = "<group>"; };
-		164C11641E5A190000766914 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		164C11681E5A203100766914 /* Reset.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reset.swift; sourceTree = "<group>"; };
 		164C116A1E5A257300766914 /* ComponentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComponentView.swift; sourceTree = "<group>"; };
-		164C11A71E5E2F4400766914 /* InternalCells.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InternalCells.swift; sourceTree = "<group>"; };
+		164C11A71E5E2F4400766914 /* InternalComponentViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InternalComponentViewCell.swift; sourceTree = "<group>"; };
 		165649D61EAF82EB00E02BC1 /* YGEnums.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = YGEnums.c; sourceTree = "<group>"; };
 		167272031EC330C000906746 /* YGPercentLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YGPercentLayout.h; sourceTree = "<group>"; };
 		167272041EC330C000906746 /* YGPercentLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YGPercentLayout.m; sourceTree = "<group>"; };
 		167272071EC3340600906746 /* YGPercentLayoutExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YGPercentLayoutExtension.swift; sourceTree = "<group>"; };
 		168007D11EFE674600B4EA85 /* LCS.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LCS.swift; sourceTree = "<group>"; };
 		16971EE81F17AC3000AEAF87 /* ComponentViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComponentViewCell.swift; sourceTree = "<group>"; };
-		16B847CB1F0CF0BB004EDDEE /* Console.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Console.swift; sourceTree = "<group>"; };
+		16B847CB1F0CF0BB004EDDEE /* DebugConsole.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugConsole.swift; sourceTree = "<group>"; };
 		16B847CD1F0CF753004EDDEE /* State.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = State.swift; sourceTree = "<group>"; };
 		16C59F801E75BE9900D9E297 /* TableNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableNode.swift; sourceTree = "<group>"; };
 		16D0E3F21F0E6C7200A80DBF /* HttpServer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HttpServer.swift; sourceTree = "<group>"; };
@@ -146,6 +144,7 @@
 			children = (
 				168007D11EFE674600B4EA85 /* LCS.swift */,
 				16D0E3F21F0E6C7200A80DBF /* HttpServer.swift */,
+				16B847CB1F0CF0BB004EDDEE /* DebugConsole.swift */,
 			);
 			path = deps;
 			sourceTree = "<group>";
@@ -153,9 +152,9 @@
 		16F270BE1F014A8200E49F2B /* lists */ = {
 			isa = PBXGroup;
 			children = (
-				16F270BC1F0149BA00E49F2B /* CollectionNode.swift */,
-				164C11A71E5E2F4400766914 /* InternalCells.swift */,
 				16C59F801E75BE9900D9E297 /* TableNode.swift */,
+				16F270BC1F0149BA00E49F2B /* CollectionNode.swift */,
+				164C11A71E5E2F4400766914 /* InternalComponentViewCell.swift */,
 			);
 			path = lists;
 			sourceTree = "<group>";
@@ -164,9 +163,9 @@
 			isa = PBXGroup;
 			children = (
 				164C116A1E5A257300766914 /* ComponentView.swift */,
+				16971EE81F17AC3000AEAF87 /* ComponentViewCell.swift */,
 				164C11621E59ECEC00766914 /* Node.swift */,
 				16B847CD1F0CF753004EDDEE /* State.swift */,
-				16971EE81F17AC3000AEAF87 /* ComponentViewCell.swift */,
 			);
 			path = core;
 			sourceTree = "<group>";
@@ -175,9 +174,7 @@
 			isa = PBXGroup;
 			children = (
 				16EAD3D61EFFE9B90021513D /* ComponentController.swift */,
-				164C11641E5A190000766914 /* Extensions.swift */,
 				164C11681E5A203100766914 /* Reset.swift */,
-				16B847CB1F0CF0BB004EDDEE /* Console.swift */,
 			);
 			path = helpers;
 			sourceTree = "<group>";
@@ -272,7 +269,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				167272081EC3340600906746 /* YGPercentLayoutExtension.swift in Sources */,
-				16B847CC1F0CF0BB004EDDEE /* Console.swift in Sources */,
+				16B847CC1F0CF0BB004EDDEE /* DebugConsole.swift in Sources */,
 				16F270BD1F0149BA00E49F2B /* CollectionNode.swift in Sources */,
 				16B847CE1F0CF753004EDDEE /* State.swift in Sources */,
 				165649D71EAF82EB00E02BC1 /* YGEnums.c in Sources */,
@@ -282,11 +279,10 @@
 				167272061EC330C000906746 /* YGPercentLayout.m in Sources */,
 				164C11631E59ECEC00766914 /* Node.swift in Sources */,
 				164C11581E59ECC600766914 /* UIView+Yoga.m in Sources */,
-				164C11651E5A190000766914 /* Extensions.swift in Sources */,
 				16EAD3D71EFFE9B90021513D /* ComponentController.swift in Sources */,
 				16D2B0C21F01517400640800 /* IGListCollectionViewLayout.mm in Sources */,
 				164C116B1E5A257300766914 /* ComponentView.swift in Sources */,
-				164C11A81E5E2F4400766914 /* InternalCells.swift in Sources */,
+				164C11A81E5E2F4400766914 /* InternalComponentViewCell.swift in Sources */,
 				16D0E3F31F0E6C7200A80DBF /* HttpServer.swift in Sources */,
 				16971EE91F17AC3000AEAF87 /* ComponentViewCell.swift in Sources */,
 				164C115C1E59ECC600766914 /* YGLayout.m in Sources */,

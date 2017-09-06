@@ -6,7 +6,7 @@ class AutoLayoutIntegrationExample: ViewController  {
   override func loadView() {
     super.loadView()
 
-    let avatar = AutoLayoutComponentAnchorView(component: AutoLayoutNestedComponentExample())
+    let avatar = ComponentAnchorView(component: AutoLayoutNestedComponentExample())
     view.addSubview(avatar)
 
     let cts = [

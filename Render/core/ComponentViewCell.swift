@@ -133,7 +133,7 @@ public extension UITableView {
   /// Call this method whenever the table view changes its bounds/size.
   public func updateVisibleComponents() {
     visibleCells
-      .flatMap { cell in cell as? InternalComponentCellType }
+      .flatMap { cell in cell as? InternalComponentViewCellType }
       .forEach { cell in cell.update(options: [])}
   }
 }

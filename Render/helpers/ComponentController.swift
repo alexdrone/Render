@@ -45,7 +45,7 @@ public extension ComponentController where Self: UIViewController {
 
 /// A simple wrapper view that allows for ComponentViews to be used in a AutoLayout managed
 /// view hierarchy.
-open class AutoLayoutComponentAnchorView<C: AnyComponentView>: UIView {
+open class ComponentAnchorView<C: AnyComponentView>: UIView {
 
   /// The wrapped component view.
   public let componentView: C
@@ -77,36 +77,3 @@ open class AutoLayoutComponentAnchorView<C: AnyComponentView>: UIView {
     component.frame = bounds
   }
 }
-
-@IBDesignable @objc open class InspectableComponentAnchorView: UIView {
-
-  public var componentView: AnyComponentView? {
-    willSet {
-      guard let view = componentView as? UIView else {
-        return
-      }
-      view.removeFromSuperview()
-    }
-    didSet {
-      componentView?.onLayoutCallback = { [weak self] duration, component, size in
-        self?.onLayout(duration: duration, component: component, size: size)
-      }
-      if let view = componentView as? UIView {
-        addSubview(view)
-      }
-      isOpaque = true
-      translatesAutoresizingMaskIntoConstraints = false
-      setNeedsLayout()
-    }
-  }
-
-  open override func layoutSubviews() {
-    super.layoutSubviews()
-    componentView?.update(options: [])
-  }
-
-  open func onLayout(duration: TimeInterval, component: AnyComponentView, size: CGSize) {
-    component.frame = bounds
-  }
-}
-

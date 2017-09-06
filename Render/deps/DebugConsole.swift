@@ -204,7 +204,7 @@ extension NodeType {
     func escapeDescription(_ string: String) -> String {
       var result = string
       for c in ["<", ">", "\"",  "Optional"] {
-        result = result.replacingOccurrences(of: c, with:  "'")
+        result = result.replacingOccurrences(of: c, with:  "")
       }
       return result
     }
