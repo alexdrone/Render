@@ -99,7 +99,7 @@ Components in *Render* can be **stateless** or **stateful**.
 
 ```swift
  func PaddedLabel(text: String) -> NodeType {
-    return Node<UIView>(resueIdentifier: "PaddedLabel") { view, layout, size in
+    return Node<UIView>(reuseIdentifier: "PaddedLabel") { view, layout, size in
       layout.padding = 4
       view.backgroundColor = ...
       }.add(children: [
@@ -118,7 +118,7 @@ class PaddedLabelComponentView: StatelessComponent {
   var text: String = ""
 
   func render() -> NodeType {
-    return Node<UIView>(resueIdentifier: "PaddedLabel") { view, layout, size in
+    return Node<UIView>(reuseIdentifier: "PaddedLabel") { view, layout, size in
       layout.padding = 4
       view.backgroundColor = ...
       }.add(children: [
