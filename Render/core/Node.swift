@@ -4,24 +4,18 @@ import UIKit
 // MARK: - Node protocol
 
 public protocol NodeType: class {
-
   /// The underlying view rendered from the node.
   var renderedView: UIView? { get }
-
   /// The reuse identifier for this node is its hierarchy.
   /// Identifiers help Render understand which items have changed, are added, or are removed.
   var key: Key { get set }
-
   /// The subnodes of this node.
   var children: [NodeType] { get set }
-
   /// Adds the nodes passed as argument as subnodes.
   @discardableResult func add(children: [NodeType]) -> NodeType
-
   /// Internal use only.
   /// This component is the n-th children.
   var index: Int { get set }
-
   /// The generic type as string.
   var debugType: String { get }
 
@@ -51,7 +45,6 @@ public protocol NodeType: class {
 // MARK: - Implementation
 
 public class Node<V: UIView>: NodeType {
-
   public typealias CreateBlock = () -> V
   public typealias PropsBlock = (V, YGLayout, CGSize) -> (Void)
   public typealias OnLayoutBlock = (V?) -> (Void)
@@ -62,39 +55,30 @@ public class Node<V: UIView>: NodeType {
     set { view = newValue as? V }
   }
   public private(set) var view: V?
-
   /// The unique identifier of this node is its hierarchy.
   /// Choosing a good identifier is foundamental for good and performant view recycling.
   /// Identifiers help Render understand which items have changed, are added, or are removed.
   public var key: Key
-
   /// When this property is true the associated view will get reset to its original state before
   /// being reconfigured.
   /// Targets for UIControl get reset anyway.
   public let resetBeforeReuse: Bool
-
   /// Pre/Post render callbacks.
   public var onRender: (will: OnLayoutBlock?, did: OnLayoutBlock?) = (nil, nil)
-
   /// The configuration block for this node.
   private let props: PropsBlock
-
   /// The initialization block for this node.
   /// This is the perfect entry point for the configuration code that is intended to be run
   /// exactly once (at view creation time).
   /// - note: Remember to have a unique reuse identifier set for this node if you have a custom
   /// initialization closure.
   private let create: CreateBlock
-
   /// This is the n-th child.
   public var index: Int = 0
-
   /// The generic type as string.
   public let debugType: String
-
   /// The associated component (if applicable).
   public weak var associatedComponent: AnyComponentView?
-
   /// The current children for this node.
   public var children: [NodeType] = [] {
     didSet {
@@ -277,7 +261,6 @@ public func ComponentNode<T: ComponentViewType>(_ component: @autoclosure () -> 
 
 /// A node withouth a backing view.
 public final class NilNode: NodeType {
-
   public lazy var renderedView: UIView? = {
     let view = UIView(frame: CGRect.zero)
     view.hasNode = true
@@ -322,5 +305,3 @@ public struct Key: Hashable, Equatable {
     self.key = key
   }
 }
-
-

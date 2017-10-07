@@ -9,7 +9,6 @@ struct DebugNotification {
 
 /// Internal console and debug server.
 final class Console: ConsoleType {
-
   /// Represent the description of a given node at a given point of time.
   struct Description: CustomStringConvertible {
     /// The node reuse identifier.
@@ -28,7 +27,6 @@ final class Console: ConsoleType {
     let props: String
     /// Children description nodes.
     internal(set) var children: [Console.Description] = []
-
     /// xml description of the node hierarchy.
     var description: String {
       var buffer = ""
@@ -233,5 +231,3 @@ extension NodeType {
 public func startDebugServer() {
   Console.shared.startServer()
 }
-
-

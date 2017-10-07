@@ -2,31 +2,25 @@ import Foundation
 import UIKit
 
 public protocol ListNodeType: NodeType {
-
   /// The component that is owning this table.
   weak var rootComponent: AnyComponentView? { get }
-
   /// Set this property to 'true' if you want to disable the built-in cell reuse mechanism.
   /// This could be beneficial when the number of items is limited and you wish to improve the
   /// overall scroll performance.
   var disableCellReuse: Bool { get set }
-
   /// Computes and applies the diff to the collection by adding and removing rows rather then
   /// calling reloadData.
   var shouldUseDiff: Bool { get set }
-
   // Internal use only.
   var internalChildren: [NodeType] { get set }
   var internalNode: NodeType { get }
 }
 
 public extension ListNodeType {
-
   /// The UITableView associated to this node.
   public var renderedView: UIView? {
     return internalNode.renderedView
   }
-
   /// The associated component (if applicable).
   public weak var associatedComponent: AnyComponentView? {
     get { return internalNode.associatedComponent }
@@ -112,7 +106,6 @@ public extension ListNodeType {
 /// Consider using TableNode over Node<ScrollView> where you have a big number of items to be
 /// displayed.
 public class TableNode: NSObject, ListNodeType, UITableViewDataSource, UITableViewDelegate {
-
   /// TableNode redirects all of the layout calls to a Node<TableView>.
   /// Essentially this class is just a proxy in oder to hide the 'children' collection to the
   /// node hierarchy and to implement the UITableView's datasource.
@@ -120,27 +113,22 @@ public class TableNode: NSObject, ListNodeType, UITableViewDataSource, UITableVi
   public var internalNode: NodeType {
     return node
   }
-
   /// The unique identifier for this node is its hierarchy.
   public var key: Key {
     didSet {
       internalNode.key = key
     }
   }
-
   public var disableCellReuse: Bool = false
   public var shouldUseDiff: Bool = false
   public var maximumNuberOfDiffUpdates: Int = 50
-
   /// This component is the n-th children.
   public var index: Int = 0 {
     didSet { node.index = index }
   }
   public let debugType: String = String(describing: UITableView.self)
-
   /// The component that is owning this table.
   public weak private(set) var rootComponent: AnyComponentView?
-
   public var internalChildren: [NodeType] = []
   public var internalOldChildren: [NodeType] = []
 

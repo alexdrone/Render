@@ -6,16 +6,13 @@ import UIKit
 /// A lightweight wrapper controller over a component.
 public protocol ComponentController {
   associatedtype C: ComponentViewType
-
   /// The wrapped component.
   var component: C { get set }
-
   /// Invoked before 'renderComponent'. Configure your root component properties here.
   func configureComponentProps()
 }
 
 public extension ComponentController where Self: UIViewController {
-
  /// Adds the component to the view hierarchy.
   public func addComponentToViewControllerHierarchy() {
     component.onLayoutCallback = { [weak self] duration, component, size in
@@ -46,7 +43,6 @@ public extension ComponentController where Self: UIViewController {
 /// A simple wrapper view that allows for ComponentViews to be used in a AutoLayout managed
 /// view hierarchy.
 open class ComponentAnchorView<C: AnyComponentView>: UIView {
-
   /// The wrapped component view.
   public let componentView: C
 

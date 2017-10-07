@@ -1,25 +1,19 @@
 import UIKit
 
 public protocol ComponentViewCellDelegate: class {
-
   /// The component changed its bounds as a result of an internal update.
   func componentDidChangeSize(component: AnyComponentView, indexPath: IndexPath)
-
   /// Called whenever the component is being layed out.
   func componentOnLayout(component: AnyComponentView, indexPath: IndexPath)
 }
 
 final public class ComponentTableViewCell<C: ComponentViewType>: UITableViewCell {
-
   /// The wrapped component.
   public let component = C()
-
   /// The current index path for this cell (if applicable).
   public var indexPath: IndexPath?
-
   /// The tableview associated to this cell.
   public weak var tableView: UITableView?
-
   /// (Optional) delegate.
   public weak var delegate: ComponentViewCellDelegate?
 
@@ -93,7 +87,6 @@ final public class ComponentTableViewCell<C: ComponentViewType>: UITableViewCell
 }
 
 public extension UITableView {
-
   /// Configure this table view for automatic cell calculation.
   public func withAutomaticDimension(dataSource ds: UITableViewDataSource? = nil) {
     separatorStyle = .none

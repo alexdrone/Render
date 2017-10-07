@@ -7,7 +7,6 @@ import UIKit
 /// displayed.
 public class CollectionNode: NSObject, ListNodeType, UICollectionViewDataSource,
                              UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
-
   /// CollectionNode redirects all of the layout calls to a Node<UICollectionView>.
   /// Essentially this class is just a proxy in oder to hide the 'children' collection to the
   /// node hierarchy and to implement the UICollectionView's datasource.
@@ -15,23 +14,18 @@ public class CollectionNode: NSObject, ListNodeType, UICollectionViewDataSource,
   public var internalNode: NodeType {
     return node
   }
-
   /// The unique identifier for this node is its hierarchy.
   public var key: Key
-
   public var disableCellReuse: Bool = false
   public var shouldUseDiff: Bool = false
   public var maximumNuberOfDiffUpdates: Int = 50
-
   /// This component is the n-th children.
   public var index: Int = 0 {
     didSet { node.index = index }
   }
   public let debugType: String = String(describing: UICollectionView.self)
-
   /// The component that is owning this table.
   public weak private(set) var rootComponent: AnyComponentView?
-
   public var internalChildren: [NodeType] = []
 
   public init(reuseIdentifier: String = String(describing: UICollectionView.self),

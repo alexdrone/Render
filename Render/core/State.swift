@@ -19,7 +19,6 @@ public struct NilState: StateType {
 
 public protocol ReflectedStringConvertible : CustomStringConvertible {}
 extension ReflectedStringConvertible {
-
   /// Returns a representation of the state in the form:
   /// Type(prop1: 'value', prop2: 'value'..)
   func reflectionDescription(delimiters: String = "") -> String {
@@ -40,4 +39,3 @@ extension ReflectedStringConvertible {
     return reflectionDescription()
   }
 }
-

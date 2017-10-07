@@ -4,25 +4,18 @@ import UIKit
 // MARK: - Cell protocol
 
 public protocol InternalComponentViewCellType: class  {
-
   /// The cell contentview.
   var contentView: UIView { get }
-
   /// The associated UITableView or UICollectionView.
   weak var listView: UIView? { get set }
-
   /// The indexpath for this cell.
   var currentIndexPath: IndexPath { get set }
-
   /// The component view wrapped by this cell.
   var componentView: AnyComponentView? { get set }
-
   /// Calls render on the underlying component view. See: 'render(in:options)' in ComponentView.
   func update(options: [RenderOption])
-
   /// Invoked whenever the component is being laid out.
  func onLayout(duration: TimeInterval, component: AnyComponentView, size: CGSize)
-
   /// Mount the component passed as argument in the cell.
   func mountComponentIfNecessary(isStateful: Bool,
                                  _ component: @autoclosure () -> AnyComponentView)
@@ -102,7 +95,6 @@ extension InternalComponentViewCellType where Self: UITableViewCell {
 }
 
 extension InternalComponentViewCellType where Self: UICollectionViewCell {
-
   /// Called whenever the component finished to be rendered and updated its size.
   public func onLayout(duration: TimeInterval, component: AnyComponentView, size: CGSize) {
     guard component === componentView, let collectionView = listView as? UICollectionView else {
@@ -124,10 +116,8 @@ extension InternalComponentViewCellType where Self: UICollectionViewCell {
 
 /// Wraps a component in a UITableViewCell.
 open class InternalComponentTableViewCell: UITableViewCell, InternalComponentViewCellType  {
-
   public weak var listView: UIView?
   public var currentIndexPath = IndexPath(row: 0, section: 0)
-
   /// The component view wrapped by this cell.
   /// Internal use only. Use 'mountComponentIfNecessary' to add a component to this cell.
   public var componentView: AnyComponentView?
@@ -155,11 +145,8 @@ open class InternalComponentTableViewCell: UITableViewCell, InternalComponentVie
 /// Wraps a component in a UICollectionViewCell.
 open class InternalComponentCollectionViewCell: UICollectionViewCell,
                                                 InternalComponentViewCellType {
-
   public weak var listView: UIView?
   public var currentIndexPath = IndexPath(item: 0, section: 0)
-
-
   /// The component view wrapped by this cell.
   /// Internal use only. Use 'mountComponentIfNecessary' to add a component to this cell.
   public var componentView: AnyComponentView?
@@ -176,7 +163,6 @@ open class InternalComponentCollectionViewCell: UICollectionViewCell,
 //MARK: - Extensions
 
 extension UICollectionView {
-
   ///  Refreshes the component at the given index path.
   public func update(at indexPath: IndexPath) {
     performBatchUpdates({ self.reloadItems(at: [indexPath]) }, completion: nil)
@@ -190,4 +176,3 @@ extension UICollectionView {
       .forEach { cell in cell.update(options: []) }
   }
 }
-

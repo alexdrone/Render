@@ -2,44 +2,36 @@ import Foundation
 import UIKit
 
 public enum RenderOption {
-  /// The 'render' method is called just once.
+  /// Prevents view hierarchy diffing.
   /// This means that render will simply re-apply the existing configuration for the nodes
   /// and compute the new layout accordingly.
-  ///  This is a very useful optimisation for components with a static view hierarchy.
+  /// This is a very useful optimisation for components with a static view hierarchy.
   case preventViewHierarchyDiff
-
   /// Animates the layout changes.
   case animated(duration: TimeInterval, options: UIViewAnimationOptions)
-
   /// Prevents the component from render.
   case preventUpdate
-
-  /// Prevents the onLayout registered callback to be invoked at this very render pass.
+  /// Prevents the onLayout registered callback to be invoked at this  render pass.
   case preventOnLayoutCallback
-
   // Internal use only.
-  case __animated
-  case __none
+  case _animated
+  case _none
 }
 
 // MARK: - ComponentView protocol
 
 public protocol AnyComponentView: NSObjectProtocol, ReflectedStringConvertible {
-
   /// Stateless component are components that are expected to be fully configured from the outside
   /// without mantaining an internal state.
   /// Stateless components offers better performance and memory footprint because they can be more
   /// easily recycled.
   /// See 'StatelessComponentView'.
   var isStateless: Bool { get }
-
   /// Internal use only.
   /// Used a store for nested component view refs.
   var childrenComponent: [Key: AnyComponentView] { get set }
-
   /// Internal use only.
   var childrenComponentAutoIncrementKey: Int  { get set }
-
   /// Called whenever the component is laying out iteself.
   /// Usually you'd want your UIViewController to position the component view in its view
   /// hierarchy.
@@ -61,7 +53,7 @@ public protocol AnyComponentView: NSObjectProtocol, ReflectedStringConvertible {
 
   /// This method is called during the layout transaction.
   /// If an animation is ongoing the duration is going to be > 0.
-  /// This is the entry point for custom manual layout of node that have 'yoga.isIncludedInLayout'
+  /// This is the entry point for custom manual layout of node that have 'layout.isIncludedInLayout'
   /// set to 'false'.
   func onLayout(duration: TimeInterval)
 
@@ -75,7 +67,7 @@ public protocol AnyComponentView: NSObjectProtocol, ReflectedStringConvertible {
   func componentDidMount()
 
   /// Used when the component is mutating the view hierarchy manually (e.g. animating a view).
-  /// This prevents any call to 'update(options:)' to trigger the to component render.
+  /// This prevents any call to 'update(options:)' to trigger the component to render.
   func beginPreventComponentUpdate()
   func endPreventComponentUpdate()
 
@@ -88,33 +80,26 @@ public protocol AnyComponentView: NSObjectProtocol, ReflectedStringConvertible {
   var center: CGPoint { get set }
   var bounds: CGRect { get set }
 
-  /// Internal only.
   /// If the component is wrapped into a cell this will have a ref to it.
   weak var associatedCell: InternalComponentViewCellType? { get set }
-
-  /// Internal only.
   /// If the component is wrapped inside a root component some of the callbacks should be
   /// forwarded.
   weak var rootComponent: AnyComponentView? { get set }
-
   /// Internal only.
   var identityMapForListNode: [Key: [Key]] { get set }
-
   /// Internal only.
   var anyState: StateType { get }
   var key: Key { get set }
-
   /// Flush all of the existing gesture recognizers registered through the closure based api.
   func flushGestureRecognizersRecursively()
 }
 
 public protocol ComponentViewType: AnyComponentView {
-
   associatedtype StateType
-
+  /// The current state of the component.
   var state: StateType { get set }
 
-  /// The 'render' method is required.
+  /// Required method.
   /// When called, it should examine the component properties and the state  and return a Node tree.
   /// This method is called every time 'render' is invoked.
   func render() -> NodeType
@@ -128,7 +113,6 @@ public protocol ComponentViewType: AnyComponentView {
 /// The infrastructure below takes care of applying the minimal set of diffs whenever it is
 /// necessary.
 open class ComponentView<S: StateType>: UIView, ComponentViewType {
-
   public typealias StateType = S
   public typealias RenderBlock = (S, CGSize) -> NodeType
 
@@ -224,12 +208,10 @@ open class ComponentView<S: StateType>: UIView, ComponentViewType {
       }
       Console.shared.add(description: self.root.debugDescription())
     }
-    //Console.shared.log("\(String(describing: type(of: self))) init.")
   }
 
   deinit {
     NotificationCenter.default.removeObserver(self)
-    //Console.shared.log("\(String(describing: type(of: self))) deinit.")
   }
 
   /// Used when the component is mutating the view hierarchy manually (e.g. animating a view).
@@ -297,7 +279,7 @@ open class ComponentView<S: StateType>: UIView, ComponentViewType {
 
     // At the first execution of 'render' the view cannot be animated.
     if !initialized {
-      opts = RenderOption.filter(opts, .__animated)
+      opts = RenderOption.filter(opts, ._animated)
     }
 
     // Rerenders the tree and computes the diff.
@@ -337,8 +319,7 @@ open class ComponentView<S: StateType>: UIView, ComponentViewType {
     }
 
     // Lays out the views with an animation.
-    if let animation = RenderOption.first(opts, .__animated) {
-
+    if let animation = RenderOption.first(opts, ._animated) {
       // Hides all of the newly created views.
       let newViews: [(UIView, CGFloat)] = views() { view in
         return view.isNewlyCreated && !RenderOption.contains(opts, .preventViewHierarchyDiff)
@@ -516,10 +497,10 @@ extension RenderOption: Equatable {
   public var kind: Int {
     switch self {
     case .preventViewHierarchyDiff: return 1 << 0
-    case .animated(_), .__animated: return 1 << 1
+    case .animated(_), ._animated: return 1 << 1
     case .preventUpdate: return 1 << 2
     case .preventOnLayoutCallback: return 1 << 3
-    case .__none: return 1 << 4
+    case ._none: return 1 << 4
     }
   }
 
