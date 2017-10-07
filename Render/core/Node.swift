@@ -140,7 +140,7 @@ public class Node<V: UIView>: NodeType {
               resetBeforeReuse: Bool = false,
               children: [NodeType] = [],
               create: @escaping CreateBlock = { V() },
-              props: @escaping PropsBlock = { _ in }) {
+              props: @escaping PropsBlock = { _,_,_  in }) {
     self.key = Key(reuseIdentifier: reuseIdentifier, key: key)
     self.resetBeforeReuse = resetBeforeReuse
     self.create = create

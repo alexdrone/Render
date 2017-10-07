@@ -38,7 +38,7 @@ public class CollectionNode: NSObject, ListNodeType, UICollectionViewDataSource,
               key: String,
               in rootComponent: AnyComponentView,
               layout: UICollectionViewLayout = CollectionNode.defaultCollectionViewLayout(),
-              props: @escaping Node<UICollectionView>.PropsBlock = { _ in }) {
+              props: @escaping Node<UICollectionView>.PropsBlock = { _,_,_  in }) {
     self.node = Node(reuseIdentifier: reuseIdentifier,
                      key: key,
                      resetBeforeReuse: false,
@@ -56,7 +56,7 @@ public class CollectionNode: NSObject, ListNodeType, UICollectionViewDataSource,
               resetBeforeReuse: Bool = false,
               children: [NodeType] = [],
               create: @escaping Node<UICollectionView>.CreateBlock = { UICollectionView() },
-              props: @escaping Node<UICollectionView>.PropsBlock = { _ in }) {
+              props: @escaping Node<UICollectionView>.PropsBlock = { _,_,_  in }) {
     self.node = Node(reuseIdentifier: reuseIdentifier,
                      key: key,
                      resetBeforeReuse: resetBeforeReuse,
@@ -105,7 +105,7 @@ public class CollectionNode: NSObject, ListNodeType, UICollectionViewDataSource,
                              sizeForItemAt indexPath: IndexPath) -> CGSize {
     let (_, node) = self.node(for: indexPath)
     let component = rootComponent?.childrenComponent[node.key]
-                    ?? StatelessPrototypeCellComponentView { _ in  node }
+                    ?? StatelessPrototypeCellComponentView { _,_  in  node }
     component.referenceSize = {_ in 
       return CGSize(width: collectionView.bounds.size.width, height: CGFloat.max)
     }

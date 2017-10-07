@@ -124,11 +124,11 @@ final class Console: ConsoleType {
     isDirty = true
   }
 
-  private dynamic func willEnterForeground() {
+  @objc private dynamic func willEnterForeground() {
     startTimer()
   }
 
-  private dynamic func didEnterBackground() {
+  @objc private dynamic func didEnterBackground() {
     stopTimer()
   }
 
@@ -154,7 +154,7 @@ final class Console: ConsoleType {
   }
 
   /// Check it the console is dirty and in that case asks components to dump their description.
-  private dynamic func timerDidFire(timer: Timer) {
+  @objc private dynamic func timerDidFire(timer: Timer) {
     #if (arch(i386) || arch(x86_64)) && os(iOS)
     assert(Thread.isMainThread)
     guard isDirty else {

@@ -145,7 +145,7 @@ open class ComponentView<S: StateType>: UIView, ComponentViewType {
     return defaultReferenceSize
   }()
 
-  public var onLayoutCallback: (TimeInterval, AnyComponentView, CGSize) -> () = { _ in }
+  public var onLayoutCallback: (TimeInterval, AnyComponentView, CGSize) -> () = { _,_,_  in }
 
   public func setState(options: [RenderOption] = [], change: (inout S) -> (Void)) {
     change(&self.state)
@@ -281,7 +281,7 @@ open class ComponentView<S: StateType>: UIView, ComponentViewType {
       internalUpdate(in: size, options: passOptions)
     }
 
-    debugReconcileTime("\(type(of: self)).render", startTime: startTime)
+    debugReconcileTime("\(Swift.type(of: self)).render", startTime: startTime)
     didUpdate()
     if shouldInvokeDidMount {
       componentDidMount()
@@ -304,7 +304,7 @@ open class ComponentView<S: StateType>: UIView, ComponentViewType {
     if !initialized || !RenderOption.contains(opts, .preventViewHierarchyDiff) {
       self.childrenComponentAutoIncrementKey = 0
       root = render()
-      root.key.reuseIdentifier = String(describing: type(of: self))
+      root.key.reuseIdentifier = String(describing: Swift.type(of: self))
       root.key.key = key.key
       root.associatedComponent = self
       reconcile(new: root, size: bounds, view: rootView, parent: contentView)

@@ -27,7 +27,6 @@
 		167272051EC330C000906746 /* YGPercentLayout.h in Headers */ = {isa = PBXBuildFile; fileRef = 167272031EC330C000906746 /* YGPercentLayout.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		167272061EC330C000906746 /* YGPercentLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 167272041EC330C000906746 /* YGPercentLayout.m */; };
 		167272081EC3340600906746 /* YGPercentLayoutExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167272071EC3340600906746 /* YGPercentLayoutExtension.swift */; };
-		168007D21EFE674600B4EA85 /* LCS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 168007D11EFE674600B4EA85 /* LCS.swift */; };
 		16971EE91F17AC3000AEAF87 /* ComponentViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16971EE81F17AC3000AEAF87 /* ComponentViewCell.swift */; };
 		16B847CC1F0CF0BB004EDDEE /* DebugConsole.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16B847CB1F0CF0BB004EDDEE /* DebugConsole.swift */; };
 		16B847CE1F0CF753004EDDEE /* State.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16B847CD1F0CF753004EDDEE /* State.swift */; };
@@ -62,7 +61,6 @@
 		167272031EC330C000906746 /* YGPercentLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YGPercentLayout.h; sourceTree = "<group>"; };
 		167272041EC330C000906746 /* YGPercentLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YGPercentLayout.m; sourceTree = "<group>"; };
 		167272071EC3340600906746 /* YGPercentLayoutExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YGPercentLayoutExtension.swift; sourceTree = "<group>"; };
-		168007D11EFE674600B4EA85 /* LCS.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LCS.swift; sourceTree = "<group>"; };
 		16971EE81F17AC3000AEAF87 /* ComponentViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComponentViewCell.swift; sourceTree = "<group>"; };
 		16B847CB1F0CF0BB004EDDEE /* DebugConsole.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugConsole.swift; sourceTree = "<group>"; };
 		16B847CD1F0CF753004EDDEE /* State.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = State.swift; sourceTree = "<group>"; };
@@ -142,7 +140,6 @@
 		168007D01EFE674600B4EA85 /* deps */ = {
 			isa = PBXGroup;
 			children = (
-				168007D11EFE674600B4EA85 /* LCS.swift */,
 				16D0E3F21F0E6C7200A80DBF /* HttpServer.swift */,
 				16B847CB1F0CF0BB004EDDEE /* DebugConsole.swift */,
 			);
@@ -226,12 +223,12 @@
 		164C11371E59ECB100766914 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0820;
+				LastUpgradeCheck = 0900;
 				ORGANIZATIONNAME = "Alex Usbergo";
 				TargetAttributes = {
 					164C113F1E59ECB100766914 = {
 						CreatedOnToolsVersion = 8.2.1;
-						LastSwiftMigration = 0820;
+						LastSwiftMigration = 0900;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -275,7 +272,6 @@
 				165649D71EAF82EB00E02BC1 /* YGEnums.c in Sources */,
 				164C11691E5A203100766914 /* Reset.swift in Sources */,
 				16C59F811E75BE9900D9E297 /* TableNode.swift in Sources */,
-				168007D21EFE674600B4EA85 /* LCS.swift in Sources */,
 				167272061EC330C000906746 /* YGPercentLayout.m in Sources */,
 				164C11631E59ECEC00766914 /* Node.swift in Sources */,
 				164C11581E59ECC600766914 /* UIView+Yoga.m in Sources */,
@@ -303,7 +299,9 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
@@ -311,7 +309,11 @@
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -356,7 +358,9 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
@@ -364,7 +368,11 @@
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -410,7 +418,8 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Debug;
 		};
@@ -430,7 +439,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.alexdrone.Render;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Release;
 		};

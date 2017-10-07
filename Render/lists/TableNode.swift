@@ -46,7 +46,7 @@ public extension ListNodeType {
     if let component = rootComponent?.childrenComponent[node.key] {
       cell.mountComponentIfNecessary(isStateful: true, component)
     } else {
-      cell.mountComponentIfNecessary(isStateful: true, StatelessCellComponentView { _ in node })
+      cell.mountComponentIfNecessary(isStateful: true, StatelessCellComponentView { _,_  in node })
     }
     cell.componentView?.associatedCell = cell
 
@@ -149,7 +149,7 @@ public class TableNode: NSObject, ListNodeType, UITableViewDataSource, UITableVi
               in rootComponent: AnyComponentView,
               cellReuseEnabled: Bool = true,
               autoDiffEnabled: Bool = false,
-              props: @escaping Node<UITableView>.PropsBlock = { _ in }) {
+              props: @escaping Node<UITableView>.PropsBlock = { _,_,_  in }) {
     self.node = Node(reuseIdentifier: reuseIdentifier,
                      key: key,
                      resetBeforeReuse: false,
@@ -169,7 +169,7 @@ public class TableNode: NSObject, ListNodeType, UITableViewDataSource, UITableVi
               resetBeforeReuse: Bool = false,
               children: [NodeType] = [],
               create: @escaping Node<UITableView>.CreateBlock = { return UITableView() },
-              props: @escaping Node<UITableView>.PropsBlock = { _ in }) {
+              props: @escaping Node<UITableView>.PropsBlock = { _,_,_  in }) {
     self.node = Node(reuseIdentifier: reuseIdentifier,
                      key: key,
                      resetBeforeReuse: resetBeforeReuse,
@@ -202,33 +202,8 @@ public class TableNode: NSObject, ListNodeType, UITableViewDataSource, UITableVi
     table.contentInset.top = table.yoga.paddingTop.normal
     table.contentInset.left = table.yoga.paddingLeft.normal
     table.contentInset.right = table.yoga.paddingRight.normal
-
-    if shouldUseDiff, let oldKeys = rootComponent?.identityMapForListNode[key] {
-      let set = Set(internalChildren.map { $0.key.key })
-      guard set.count == internalChildren.count, oldKeys.count != set.count else {
-        table.reloadData()
-        rootComponent?.identityMapForListNode[key] = internalChildren.map { $0.key }
-        return
-      }
-      let old = oldKeys.map { $0.key }
-      let new = internalChildren.map { $0.key.key }
-      let threshold = maximumNuberOfDiffUpdates
-      let diff = old.diff(new)
-      assert(new.count == old.count + diff.insertions.count - diff.deletions.count)
-
-      if diff.insertions.count < threshold && diff.deletions.count < threshold  {
-        table.beginUpdates()
-        table.deleteRows(at: diff.deletions.map { IndexPath(row: Int($0.idx), section: 0) },
-                         with: .fade)
-        table.insertRows(at: diff.insertions.map { IndexPath(row: Int($0.idx), section: 0) },
-                         with: .fade)
-        table.endUpdates()
-      } else {
-        table.reloadData()
-      }
-    } else {
-      table.reloadData()
-    }
+    table.reloadData()
+    
     rootComponent?.identityMapForListNode[key] = internalChildren.map { $0.key }
   }
 

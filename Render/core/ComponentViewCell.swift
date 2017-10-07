@@ -53,7 +53,7 @@ final public class ComponentTableViewCell<C: ComponentViewType>: UITableViewCell
     component.referenceSize = { _ in
       CGSize(width: tableView.bounds.size.width, height: CGFloat.max)
     }
-    component.onLayoutCallback = { [weak self] _ in
+    component.onLayoutCallback = { [weak self] _, _, _ in
       self?.onLayout()
       if let component = self?.component {
         self?.delegate?.componentOnLayout(component: component, indexPath: indexPath )
@@ -111,7 +111,7 @@ public extension UITableView {
 
   /// Shorthand to return a properly type ComponentTableViewCell.
   public func dequeueReusableComponentCell<T: ComponentViewType>(
-      withIdentifier identifier: String = String(describing: type(of: T.self)))
+      withIdentifier identifier: String = String(describing: Swift.type(of: T.self)))
       -> ComponentTableViewCell<T> {
 
     // ComponentTableViewCell is a wrapper cell around any given component type.
