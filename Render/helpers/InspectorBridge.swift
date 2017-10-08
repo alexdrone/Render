@@ -1,21 +1,17 @@
 import UIKit
 
-// MARK: - InspectorHooks
-
 extension ComponentView {
   // Listen to the inspector requests.
   func hookInspectorIfAvailable() {
-    let notification = Notification.Name("INJECTION_BUNDLE_NOTIFICATION")
-    NotificationCenter.default.addObserver(forName: notification,
-                                           object: nil,
-                                           queue: nil) { [weak self] _ in
-                                            self?.update()
-    }
+    let injectionRequest = Notification.Name("INJECTION_BUNDLE_NOTIFICATION")
     let inspectorRequest = Notification.Name("RENDER_INSPECTOR_REQUEST")
     let inspectorResponse =  Notification.Name("RENDER_INSPECTOR_RESPONSE")
-    NotificationCenter.default.addObserver(forName: inspectorRequest,
-                                           object: nil,
-                                           queue: nil) { [weak self] _ in
+
+    let center = NotificationCenter.default
+    center.addObserver(forName: injectionRequest, object: nil, queue: nil) { [weak self] _ in
+       self?.update()
+    }
+    center.addObserver(forName: inspectorRequest, object: nil, queue: nil) { [weak self] _ in
       guard let `self` = self, self.rootComponent == nil, self.associatedCell == nil else {
         return
       }
@@ -51,6 +47,7 @@ extension ReflectedStringConvertible {
     return str
   }
 
+  /// A textual description of the object.
   public var description: String {
     return reflectionDescription()
   }

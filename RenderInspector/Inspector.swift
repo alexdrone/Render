@@ -147,8 +147,8 @@ final class Inspector: InspectorType {
   /// Adds the nodes description posted by a component view to the list of descriptions.
   @objc public dynamic func addDescription(notification: Notification) {
     assert(Thread.isMainThread)
-    guard let userInfo = notification.userInfo as? [String: Any],
-          let description = Description.init(dictionary: userInfo) else { return }
+    guard let object = notification.object as? [String: Any],
+          let description = Description.init(dictionary: object) else { return }
     viewHierarchyDescriptions.append(description)
   }
 

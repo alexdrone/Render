@@ -194,7 +194,7 @@ open class ComponentView<S: StateType>: UIView, ComponentViewType {
   private func commonInit() {
     rootView = root.renderedView
     addSubview(contentView)
-
+    hookInspectorIfAvailable()
   }
 
   deinit {
