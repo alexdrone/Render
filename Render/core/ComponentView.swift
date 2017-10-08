@@ -81,7 +81,7 @@ public protocol AnyComponentView: NSObjectProtocol, ReflectedStringConvertible {
   var bounds: CGRect { get set }
 
   /// If the component is wrapped into a cell this will have a ref to it.
-  weak var associatedCell: InternalComponentViewCellType? { get set }
+  weak var associatedCell: CellNodeType? { get set }
   /// If the component is wrapped inside a root component some of the callbacks should be
   /// forwarded.
   weak var rootComponent: AnyComponentView? { get set }
@@ -122,7 +122,7 @@ open class ComponentView<S: StateType>: UIView, ComponentViewType {
     return state
   }
 
-  public fileprivate(set) var isStateless: Bool = false
+  public internal(set) var isStateless: Bool = false
 
   /// The bounding rect of the component (the maximum size).
   public lazy var referenceSize: (AnyComponentView?) -> CGSize = { [weak self] in
@@ -178,7 +178,7 @@ open class ComponentView<S: StateType>: UIView, ComponentViewType {
 
   /// Internal use only.
   public var identityMapForListNode: [Key: [Key]] = [:]
-  public weak var associatedCell: InternalComponentViewCellType?
+  public weak var associatedCell: CellNodeType?
   public weak var rootComponent: AnyComponentView?
 
   public required init() {
@@ -517,7 +517,7 @@ extension RenderOption: Equatable {
 
 // MARK: - Helpers
 
-fileprivate func defaultReferenceSize(_ component: AnyComponentView?) -> CGSize {
+private func defaultReferenceSize(_ component: AnyComponentView?) -> CGSize {
   guard let component = component, let view = component as? UIView else {
     return CGSize.zero
   }
@@ -528,12 +528,12 @@ fileprivate func defaultReferenceSize(_ component: AnyComponentView?) -> CGSize 
   }
 }
 
-fileprivate func defaultComponentWillMount(view: UIView)  {
+private func defaultComponentWillMount(view: UIView)  {
   view.oldAlpha = view.alpha
   view.alpha = 0
 }
 
-fileprivate func defaultComponentDidMount(view: UIView) {
+private func defaultComponentDidMount(view: UIView) {
   let duration: TimeInterval = 0.3
   UIView.animate(withDuration: duration) {
     view.alpha = view.oldAlpha

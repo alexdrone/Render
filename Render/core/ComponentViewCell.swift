@@ -109,9 +109,8 @@ public extension UITableView {
 
     // ComponentTableViewCell is a wrapper cell around any given component type.
     // We dequeue the cell as it is usually done.
-    let cell = dequeueReusableCell(withIdentifier: identifier)
-      as? ComponentTableViewCell<T>
-      ?? ComponentTableViewCell<T>(style: .default, reuseIdentifier: identifier)
+    let cell = dequeueReusableCell(withIdentifier: identifier) as? ComponentTableViewCell<T>
+               ?? ComponentTableViewCell<T>(style: .default, reuseIdentifier: identifier)
     return cell
   }
 
@@ -126,7 +125,7 @@ public extension UITableView {
   /// Call this method whenever the table view changes its bounds/size.
   public func updateVisibleComponents() {
     visibleCells
-      .flatMap { cell in cell as? InternalComponentViewCellType }
+      .flatMap { cell in cell as? CellNodeType }
       .forEach { cell in cell.update(options: [])}
   }
 }

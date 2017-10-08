@@ -34,7 +34,7 @@ public extension ListNodeType {
   }
 
   public func mount(node: NodeType,
-                    cell: InternalComponentViewCellType,
+                    cell: CellNodeType,
                     rootComponent: AnyComponentView?,
                     for collection: (UIView, IndexPath)) {
     if let component = rootComponent?.childrenComponent[node.key] {
@@ -209,12 +209,10 @@ public class TableNode: NSObject, ListNodeType, UITableViewDataSource, UITableVi
     let (identifier, node) = self.node(for: indexPath)
 
     let cell = tableView.dequeueReusableCell(withIdentifier: identifier)
-               as? InternalComponentTableViewCell
-               ?? InternalComponentTableViewCell(style: .default, reuseIdentifier: identifier)
+               as? TableCellNode
+               ?? TableCellNode(style: .default, reuseIdentifier: identifier)
 
     mount(node: node, cell: cell, rootComponent: rootComponent, for: (tableView, indexPath))
     return cell
   }
 }
-
-fileprivate var __createdCells: Set<String> = Set<String>()

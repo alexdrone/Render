@@ -3,8 +3,8 @@ import UIKit
 
 /// Wraps a UICollectionView in a node definition.
 /// CollectionNode.children will be wrapped into UICollectionView.
-/// Consider using TableNode over Node<ScrollView> where you have a big number of items to be
-/// displayed.
+/// Consider using CollectionNode/TableNode over Node<ScrollView> where you have a big number
+/// of items to be displayed.
 public class CollectionNode: NSObject, ListNodeType, UICollectionViewDataSource,
                              UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
   /// CollectionNode redirects all of the layout calls to a Node<UICollectionView>.
@@ -110,11 +110,11 @@ public class CollectionNode: NSObject, ListNodeType, UICollectionViewDataSource,
   public func collectionView(_ collectionView: UICollectionView,
                              cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     let (identifier, node) = self.node(for: indexPath)
-    collectionView.register(InternalComponentCollectionViewCell.self,
+    collectionView.register(CollectionNodeCell.self,
                             forCellWithReuseIdentifier: identifier)
     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: identifier,
                                                   for: indexPath)
-               as! InternalComponentCollectionViewCell
+               as! CollectionNodeCell
     mount(node: node, cell: cell, rootComponent: rootComponent, for: (collectionView, indexPath))
     return cell
   }

@@ -32,5 +32,4 @@ class ScrollExampleViewController: ViewController, ComponentController {
   func configureComponentProps() {
     // No props to configure
   }
-
 }

@@ -3,7 +3,7 @@ import UIKit
 
 // MARK: - Cell protocol
 
-public protocol InternalComponentViewCellType: class  {
+public protocol CellNodeType: class  {
   /// The cell contentview.
   var contentView: UIView { get }
   /// The associated UITableView or UICollectionView.
@@ -19,12 +19,11 @@ public protocol InternalComponentViewCellType: class  {
   /// Mount the component passed as argument in the cell.
   func mountComponentIfNecessary(isStateful: Bool,
                                  _ component: @autoclosure () -> AnyComponentView)
-
   /// Returns the bounding rect for the component.
   func referenceSize(_ component: AnyComponentView?) -> CGSize
 }
 
-extension InternalComponentViewCellType where Self: UIView {
+extension CellNodeType where Self: UIView {
 
   public func mountComponentIfNecessary(isStateful: Bool = true,
                                         _ component: @autoclosure () -> AnyComponentView){
@@ -75,7 +74,7 @@ extension InternalComponentViewCellType where Self: UIView {
   }
 }
 
-extension InternalComponentViewCellType where Self: UITableViewCell {
+extension CellNodeType where Self: UITableViewCell {
 
   /// Called whenever the component finished to be rendered and updated its size.
   public func onLayout(duration: TimeInterval, component: AnyComponentView, size: CGSize) {
@@ -94,7 +93,7 @@ extension InternalComponentViewCellType where Self: UITableViewCell {
   }
 }
 
-extension InternalComponentViewCellType where Self: UICollectionViewCell {
+extension CellNodeType where Self: UICollectionViewCell {
   /// Called whenever the component finished to be rendered and updated its size.
   public func onLayout(duration: TimeInterval, component: AnyComponentView, size: CGSize) {
     guard component === componentView, let collectionView = listView as? UICollectionView else {
@@ -115,13 +114,14 @@ extension InternalComponentViewCellType where Self: UICollectionViewCell {
 // MARK: - UITableViewCell
 
 /// Wraps a component in a UITableViewCell.
-open class InternalComponentTableViewCell: UITableViewCell, InternalComponentViewCellType  {
+open class TableCellNode: UITableViewCell, CellNodeType  {
   public weak var listView: UIView?
   public var currentIndexPath = IndexPath(row: 0, section: 0)
   /// The component view wrapped by this cell.
   /// Internal use only. Use 'mountComponentIfNecessary' to add a component to this cell.
   public var componentView: AnyComponentView?
 
+  /// Initializes a table cell with a style and a reuse identifier and returns it to the caller.
   public override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
     super.init(style: style, reuseIdentifier: reuseIdentifier)
     selectionStyle = .none
@@ -131,10 +131,12 @@ open class InternalComponentTableViewCell: UITableViewCell, InternalComponentVie
     super.init(coder: aDecoder)
   }
 
+  /// Asks the control to calculate and return the size that best fits the specified size.
   open override func sizeThatFits(_ size: CGSize) -> CGSize {
     return commonSizeThatFits(size)
   }
 
+  /// The natural size for the receiving view, considering only properties of the view itself.
   open override var intrinsicContentSize: CGSize {
     return commonIntrinsicContentSize
   }
@@ -143,18 +145,20 @@ open class InternalComponentTableViewCell: UITableViewCell, InternalComponentVie
 // MARK: - UICollectionViewCell
 
 /// Wraps a component in a UICollectionViewCell.
-open class InternalComponentCollectionViewCell: UICollectionViewCell,
-                                                InternalComponentViewCellType {
+open class CollectionNodeCell: UICollectionViewCell,
+                                                CellNodeType {
   public weak var listView: UIView?
   public var currentIndexPath = IndexPath(item: 0, section: 0)
   /// The component view wrapped by this cell.
   /// Internal use only. Use 'mountComponentIfNecessary' to add a component to this cell.
   public var componentView: AnyComponentView?
 
+  /// Asks the control to calculate and return the size that best fits the specified size.
   open override func sizeThatFits(_ size: CGSize) -> CGSize {
     return componentView?.bounds.size ?? CGSize.zero
   }
 
+  /// The natural size for the receiving view, considering only properties of the view itself.
   open override var intrinsicContentSize: CGSize {
     return componentView?.bounds.size ?? CGSize.zero
   }
@@ -172,7 +176,7 @@ extension UICollectionView {
   /// Call this method whenever the collecrion view changes its bounds/size.
   public func updateVisibleComponents() {
     visibleCells
-      .flatMap { cell in cell as? InternalComponentViewCellType }
+      .flatMap { cell in cell as? CellNodeType }
       .forEach { cell in cell.update(options: []) }
   }
 }

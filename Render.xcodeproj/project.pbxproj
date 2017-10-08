@@ -22,7 +22,7 @@
 		164C11631E59ECEC00766914 /* Node.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164C11621E59ECEC00766914 /* Node.swift */; };
 		164C11691E5A203100766914 /* Reset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164C11681E5A203100766914 /* Reset.swift */; };
 		164C116B1E5A257300766914 /* ComponentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164C116A1E5A257300766914 /* ComponentView.swift */; };
-		164C11A81E5E2F4400766914 /* InternalComponentViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164C11A71E5E2F4400766914 /* InternalComponentViewCell.swift */; };
+		164C11A81E5E2F4400766914 /* CellNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164C11A71E5E2F4400766914 /* CellNode.swift */; };
 		165649D71EAF82EB00E02BC1 /* YGEnums.c in Sources */ = {isa = PBXBuildFile; fileRef = 165649D61EAF82EB00E02BC1 /* YGEnums.c */; };
 		167272051EC330C000906746 /* YGPercentLayout.h in Headers */ = {isa = PBXBuildFile; fileRef = 167272031EC330C000906746 /* YGPercentLayout.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		167272061EC330C000906746 /* YGPercentLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 167272041EC330C000906746 /* YGPercentLayout.m */; };
@@ -58,7 +58,7 @@
 		164C11621E59ECEC00766914 /* Node.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Node.swift; sourceTree = "<group>"; };
 		164C11681E5A203100766914 /* Reset.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reset.swift; sourceTree = "<group>"; };
 		164C116A1E5A257300766914 /* ComponentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComponentView.swift; sourceTree = "<group>"; };
-		164C11A71E5E2F4400766914 /* InternalComponentViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InternalComponentViewCell.swift; sourceTree = "<group>"; };
+		164C11A71E5E2F4400766914 /* CellNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CellNode.swift; sourceTree = "<group>"; };
 		165649D61EAF82EB00E02BC1 /* YGEnums.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = YGEnums.c; sourceTree = "<group>"; };
 		167272031EC330C000906746 /* YGPercentLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YGPercentLayout.h; sourceTree = "<group>"; };
 		167272041EC330C000906746 /* YGPercentLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YGPercentLayout.m; sourceTree = "<group>"; };
@@ -117,9 +117,9 @@
 		164C11421E59ECB200766914 /* Render */ = {
 			isa = PBXGroup;
 			children = (
+				16F270BE1F014A8200E49F2B /* collections */,
 				16F270BF1F014A9700E49F2B /* core */,
-				16F270C01F014AA500E49F2B /* helpers */,
-				16F270BE1F014A8200E49F2B /* lists */,
+				16F270C01F014AA500E49F2B /* debug */,
 				164C114B1E59ECC600766914 /* objc */,
 				164C11431E59ECB200766914 /* Render.h */,
 				164C11441E59ECB200766914 /* Info.plist */,
@@ -163,19 +163,20 @@
 			path = RenderInspector;
 			sourceTree = "<group>";
 		};
-		16F270BE1F014A8200E49F2B /* lists */ = {
+		16F270BE1F014A8200E49F2B /* collections */ = {
 			isa = PBXGroup;
 			children = (
-				16C59F801E75BE9900D9E297 /* TableNode.swift */,
+				164C11A71E5E2F4400766914 /* CellNode.swift */,
 				16F270BC1F0149BA00E49F2B /* CollectionNode.swift */,
-				164C11A71E5E2F4400766914 /* InternalComponentViewCell.swift */,
+				16C59F801E75BE9900D9E297 /* TableNode.swift */,
 			);
-			path = lists;
+			path = collections;
 			sourceTree = "<group>";
 		};
 		16F270BF1F014A9700E49F2B /* core */ = {
 			isa = PBXGroup;
 			children = (
+				16EAD3D61EFFE9B90021513D /* ComponentController.swift */,
 				164C116A1E5A257300766914 /* ComponentView.swift */,
 				16971EE81F17AC3000AEAF87 /* ComponentViewCell.swift */,
 				164C11621E59ECEC00766914 /* Node.swift */,
@@ -184,14 +185,13 @@
 			path = core;
 			sourceTree = "<group>";
 		};
-		16F270C01F014AA500E49F2B /* helpers */ = {
+		16F270C01F014AA500E49F2B /* debug */ = {
 			isa = PBXGroup;
 			children = (
-				16EAD3D61EFFE9B90021513D /* ComponentController.swift */,
 				16C152C51F897E0900B3975F /* InspectorBridge.swift */,
 				164C11681E5A203100766914 /* Reset.swift */,
 			);
-			path = helpers;
+			path = debug;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -334,7 +334,7 @@
 				16EAD3D71EFFE9B90021513D /* ComponentController.swift in Sources */,
 				16D2B0C21F01517400640800 /* IGListCollectionViewLayout.mm in Sources */,
 				164C116B1E5A257300766914 /* ComponentView.swift in Sources */,
-				164C11A81E5E2F4400766914 /* InternalComponentViewCell.swift in Sources */,
+				164C11A81E5E2F4400766914 /* CellNode.swift in Sources */,
 				16C152C61F897E0900B3975F /* InspectorBridge.swift in Sources */,
 				16971EE91F17AC3000AEAF87 /* ComponentViewCell.swift in Sources */,
 				164C115C1E59ECC600766914 /* YGLayout.m in Sources */,
