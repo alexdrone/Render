@@ -289,15 +289,18 @@ Changes in the collection results in fine grain table changes (add/remove/move c
 
 When the app is run in the simulator it is possible to inspect Render components, their properties and state with the [inspector companion mac app](https://github.com/alexdrone/Render/raw/master/inspector/dist/render-inspector.zip).
 
-To enable the debug server in your app you simply have to call `startDebugServer()` in your AppDelegate `application(_:didFinishLaunchingWithOptions)`.
+To enable the debug server in your app you simply have to  import the  `RenderInspector` framework and  call `startRenderInspectorServer()` in your AppDelegate `application(_:didFinishLaunchingWithOptions)`.
 
 ```swift
+
+import Render
+import RenderInspector
 
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
     /// Starts the debug server at localhost:8080/inspect
-    startDebugServer()
+    startRenderInspectorServer()
     ...
  }
 ```

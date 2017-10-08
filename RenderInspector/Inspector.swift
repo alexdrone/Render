@@ -216,6 +216,6 @@ public final class NilInspector: InspectorType {
 
 /// Starts the debug server on localhost:8080/inspect.
 /// - Note: The debug server is only available in the simulator.
-public func startDebugServer() {
+public func startRenderInspectorServer() {
   Inspector.shared.startServer()
 }
