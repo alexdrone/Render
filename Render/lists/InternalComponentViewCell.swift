@@ -80,7 +80,7 @@ extension InternalComponentViewCellType where Self: UITableViewCell {
   /// Called whenever the component finished to be rendered and updated its size.
   public func onLayout(duration: TimeInterval, component: AnyComponentView, size: CGSize) {
     guard component === componentView, let table = listView as? UITableView else {
-      log("No table or component available for this cell.")
+      print("No table or component available for this cell.")
       return
     }
     commonOnLayout(duration: duration)
@@ -98,7 +98,7 @@ extension InternalComponentViewCellType where Self: UICollectionViewCell {
   /// Called whenever the component finished to be rendered and updated its size.
   public func onLayout(duration: TimeInterval, component: AnyComponentView, size: CGSize) {
     guard component === componentView, let collectionView = listView as? UICollectionView else {
-        log("No table or component available for this cell.")
+        print("No table or component available for this cell.")
         return
     }
     commonOnLayout(duration: duration)

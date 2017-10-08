@@ -16,26 +16,3 @@ public struct NilState: StateType {
   public init() { }
   public var description: String { return "" }
 }
-
-public protocol ReflectedStringConvertible : CustomStringConvertible {}
-extension ReflectedStringConvertible {
-  /// Returns a representation of the state in the form:
-  /// Type(prop1: 'value', prop2: 'value'..)
-  func reflectionDescription(delimiters: String = "") -> String {
-    let mirror = Mirror(reflecting: self)
-    var str = "{"
-    var first = true
-    for (label, value) in mirror.children {
-      if let label = label {
-        if first { first = false } else {  str += ", "  }
-        str += "\(delimiters)\(label)\(delimiters): \(delimiters)\(value)\(delimiters)"
-      }
-    }
-    str += "}"
-    return str
-  }
-
-  public var description: String {
-    return reflectionDescription()
-  }
-}

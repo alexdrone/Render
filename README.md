@@ -287,7 +287,7 @@ Changes in the collection results in fine grain table changes (add/remove/move c
 
 # Inspector (Experimental)
 
-When the app is run in the simulator it is possible to inspect Render components, their properties and state with the [inspector companion mac app](https://github.com/alexdrone/Render/raw/master/inspector/dist/render-inspector-0.1.0-mac.zip).
+When the app is run in the simulator it is possible to inspect Render components, their properties and state with the [inspector companion mac app](https://github.com/alexdrone/Render/raw/master/inspector/dist/render-inspector.zip).
 
 To enable the debug server in your app you simply have to call `startDebugServer()` in your AppDelegate `application(_:didFinishLaunchingWithOptions)`.
 

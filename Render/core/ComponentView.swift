@@ -156,7 +156,7 @@ open class ComponentView<S: StateType>: UIView, ComponentViewType {
   public var renderBlock: RenderBlock?
 
   /// The (current) root node.
-  private var root: NodeType = NilNode()
+  var root: NodeType = NilNode()
 
   /// The (current) view associated to the root node.
   public private(set) var rootView: UIView!
@@ -194,20 +194,7 @@ open class ComponentView<S: StateType>: UIView, ComponentViewType {
   private func commonInit() {
     rootView = root.renderedView
     addSubview(contentView)
-    let notification = Notification.Name("INJECTION_BUNDLE_NOTIFICATION")
-    NotificationCenter.default.addObserver(forName: notification,
-                                           object: nil,
-                                           queue: nil) { [weak self] _ in
-      self?.update()
-    }
-    NotificationCenter.default.addObserver(forName: DebugNotification.dumpViewHierarchyDescription,
-                                           object: nil,
-                                           queue: nil) { [weak self] _ in
-      guard let `self` = self, self.rootComponent == nil, self.associatedCell == nil else {
-        return
-      }
-      Console.shared.add(description: self.root.debugDescription())
-    }
+
   }
 
   deinit {
@@ -268,7 +255,7 @@ open class ComponentView<S: StateType>: UIView, ComponentViewType {
     if shouldInvokeDidMount {
       componentDidMount()
     }
-    Console.shared.markDirty()
+    inspectorMarkDirty()
   }
 
   open func onLayout(duration: TimeInterval) { }
@@ -485,7 +472,7 @@ func debugReconcileTime(_ label: String, startTime: CFAbsoluteTime, threshold: C
   // - Note: 60fps means you need to render a frame every ~16ms to not drop any frames.
   // This is even more important when used inside a cell.
   if timeElapsed > threshold  {
-    log(String(format: "\(label) (%2f) ms.", arguments: [timeElapsed]))
+    print(String(format: "\(label) (%2f) ms.", arguments: [timeElapsed]))
   }
 }
 

@@ -27,6 +27,8 @@
 		16E000441F0D642A00D4C5F9 /* ScrollViewExample.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16E000431F0D642A00D4C5F9 /* ScrollViewExample.swift */; };
 		16E000461F0D693100D4C5F9 /* TableNodeExample.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16E000451F0D693100D4C5F9 /* TableNodeExample.swift */; };
 		16E000481F0D742500D4C5F9 /* SharedFragments.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16E000471F0D740B00D4C5F9 /* SharedFragments.swift */; };
+		16EF21EA1F8A1DC500A6EC62 /* RenderInspector.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16EF21E91F8A1DC500A6EC62 /* RenderInspector.framework */; };
+		16EF21EB1F8A1DC500A6EC62 /* RenderInspector.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 16EF21E91F8A1DC500A6EC62 /* RenderInspector.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,6 +46,20 @@
 			remoteGlobalIDString = 164C113F1E59ECB100766914;
 			remoteInfo = Render;
 		};
+		16EF21E81F8A1DC500A6EC62 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1618D0941E7EDC9C00CD984C /* Render.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 16C152CC1F8A14FD00B3975F;
+			remoteInfo = RenderInspector;
+		};
+		16EF21EC1F8A1DC500A6EC62 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1618D0941E7EDC9C00CD984C /* Render.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 16C152CB1F8A14FD00B3975F;
+			remoteInfo = RenderInspector;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -53,6 +69,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				16EF21EB1F8A1DC500A6EC62 /* RenderInspector.framework in Embed Frameworks */,
 				161B4D881EC33D3400007E8A /* Render.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
@@ -89,6 +106,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				16EF21EA1F8A1DC500A6EC62 /* RenderInspector.framework in Frameworks */,
 				161B4D871EC33D3400007E8A /* Render.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -100,6 +118,7 @@
 			isa = PBXGroup;
 			children = (
 				1618D0991E7EDC9C00CD984C /* Render.framework */,
+				16EF21E91F8A1DC500A6EC62 /* RenderInspector.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -179,6 +198,7 @@
 			);
 			dependencies = (
 				161B4D8A1EC33D3400007E8A /* PBXTargetDependency */,
+				16EF21ED1F8A1DC500A6EC62 /* PBXTargetDependency */,
 			);
 			name = Demo;
 			productName = Demo;
@@ -234,6 +254,13 @@
 			remoteRef = 1618D0981E7EDC9C00CD984C /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		16EF21E91F8A1DC500A6EC62 /* RenderInspector.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = RenderInspector.framework;
+			remoteRef = 16EF21E81F8A1DC500A6EC62 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 /* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
@@ -279,6 +306,11 @@
 			isa = PBXTargetDependency;
 			name = Render;
 			targetProxy = 161B4D891EC33D3400007E8A /* PBXContainerItemProxy */;
+		};
+		16EF21ED1F8A1DC500A6EC62 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = RenderInspector;
+			targetProxy = 16EF21EC1F8A1DC500A6EC62 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -400,7 +432,7 @@
 				INFOPLIST_FILE = Demo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.alexdrone.Demo;
+				PRODUCT_BUNDLE_IDENTIFIER = io.render.Demo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 			};
@@ -419,7 +451,7 @@
 				INFOPLIST_FILE = Demo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.alexdrone.Demo;
+				PRODUCT_BUNDLE_IDENTIFIER = io.render.Demo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 			};

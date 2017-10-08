@@ -1,6 +1,6 @@
-
 import UIKit
 import Render
+import RenderInspector
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
