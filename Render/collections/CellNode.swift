@@ -145,8 +145,7 @@ open class TableCellNode: UITableViewCell, CellNodeType  {
 // MARK: - UICollectionViewCell
 
 /// Wraps a component in a UICollectionViewCell.
-open class CollectionNodeCell: UICollectionViewCell,
-                                                CellNodeType {
+open class CollectionNodeCell: UICollectionViewCell, CellNodeType {
   public weak var listView: UIView?
   public var currentIndexPath = IndexPath(item: 0, section: 0)
   /// The component view wrapped by this cell.
