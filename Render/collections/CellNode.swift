@@ -74,7 +74,6 @@ extension CellNodeType where Self: UIView {
 }
 
 extension CellNodeType where Self: UITableViewCell {
-
   /// Called whenever the component finished to be rendered and updated its size.
   public func onLayout(duration: TimeInterval, component: AnyComponentView, size: CGSize) {
     guard component === componentView, let table = listView as? UITableView else {
