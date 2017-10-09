@@ -24,7 +24,6 @@ public protocol CellNodeType: class  {
 }
 
 extension CellNodeType where Self: UIView {
-
   public func mountComponentIfNecessary(isStateful: Bool = true,
                                         _ component: @autoclosure () -> AnyComponentView){
     componentView?.referenceSize = referenceSize
