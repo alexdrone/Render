@@ -1,11 +1,11 @@
 import Foundation
-import RenderMicro
+import RenderNeutrino
 
 struct PaddedLabel {
 
   class Props: UINodePropsProtocol {
     var isImportant: Bool = true
-    var text: String = "Untitled"
+    var text: String = "A neutrino (/nuːˈtriːnoʊ/ or /njuːˈtriːnoʊ/) (denoted by the Greek letter ν) is a fermion (an elementary particle with half-integer spin) that interacts only via the weak subatomic force and gravity. The mass of the neutrino is much smaller than that of the other known elementary particles."
     required init() { }
   }
 
@@ -23,6 +23,7 @@ struct PaddedLabel {
       set(\.backgroundColor) { props, size in props.isImportant ? .orange : .gray }
       set(\.yoga.padding, value: 50)
       set(\.yoga.alignSelf, value: .center)
+      set(\.yoga.maxWidth) { _, size in size.width }
 
       bindView(target: self, keyPath: \.wrapperView)
 
