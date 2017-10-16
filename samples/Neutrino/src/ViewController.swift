@@ -1,9 +1,10 @@
 import UIKit
 import RenderNeutrino
+import UI
 
-class ViewController: UINodeViewController<PaddedLabel.Node> {
+class ViewController: UINodeViewController {
 
-  override func constructNode() -> PaddedLabel.Node {
+  override func constructNode() -> UINodeProtocol {
     return PaddedLabel.Node(key: "main-label")
   }
 

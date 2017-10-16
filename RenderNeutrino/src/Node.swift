@@ -34,11 +34,14 @@ public protocol UINodeProtocol: class, UINodeDelegateProtocol {
   @discardableResult func set(children: [UINodeProtocol]) -> UINodeProtocol
   /// This component is the n-th children.
   var index: Int { get set }
+  /// Subclasses should override this method.
+  /// Construct your subtree here.
+  func render()
   /// Re-applies the configuration for the node and compute its layout.
   func layout(in bounds: CGSize, options: [UINodeOption])
   /// Mount the component in the view hierarchy by running its reconciliation algorithm.
   /// This means that only the required changes to the view hierarchy are going to be applied.
-  func reconcile(in view: UIView, size: CGSize?, options: [UINodeOption])
+  func reconcile(in view: UIView?, size: CGSize?, options: [UINodeOption])
 
   // Internal.
 
@@ -64,7 +67,13 @@ open class UINode<V: UIView, S: UIStateProtocol, P: UINodePropsProtocol>: UINode
 
   /// The current node props.
   public var props: P {
-    return _props as! P
+    get {
+      return _props as! P
+    }
+    set {
+      _props = newValue
+      render()
+    }
   }
 
   public let isStateless: Bool = true
@@ -94,6 +103,19 @@ open class UINode<V: UIView, S: UIStateProtocol, P: UINodePropsProtocol>: UINode
     self.reuseIdentifier = reuseIdentifier
     self._props = props
     self.create = create
+    render()
+  }
+
+  /// Subclasses should override this method.
+  /// Construct your subtree here.
+  open func render() {
+    reconcile()
+  }
+
+  /// Tears down the existing node hierarchy and its configuration.
+  open func resetNode() {
+    children = []
+    viewProperties = [:]
   }
 
   /// Sets the subnodes of this node.
@@ -221,12 +243,10 @@ open class UINode<V: UIView, S: UIStateProtocol, P: UINodePropsProtocol>: UINode
 
   /// Reconciliation algorithm for the view hierarchy.
   private func _reconcile(node: UINodeProtocol, size: CGSize, view: UIView?, parent: UIView) {
-
     // The candidate view is a good match for reuse.
     if let view = view, view.hasNode && view.tag == node.reuseIdentifier.hashValue {
       node._build(with: view)
       view.configuration.isNewlyCreated = false
-
     } else {
       // The view for this node needs to be created.
       view?.removeFromSuperview()
@@ -263,14 +283,15 @@ open class UINode<V: UIView, S: UIStateProtocol, P: UINodePropsProtocol>: UINode
 
   /// Mount the component in the view hierarchy by running its reconciliation algorithm.
   /// This means that only the required changes to the view hierarchy are going to be applied.
-  public func reconcile(in view: UIView, size: CGSize? = nil, options: [UINodeOption] = []) {
+  public func reconcile(in view: UIView? = nil, size: CGSize? = nil, options: [UINodeOption] = []) {
     assert(Thread.isMainThread)
-
+    guard let view = view ?? renderedView?.superview else {
+      return
+    }
     let size = size ?? view.bounds.size
-
     let startTime = CFAbsoluteTimeGetCurrent()
-    layout(in: size, options: [.preventDelegateCallbacks])
     _reconcile(node: self, size: size, view: view.subviews.first, parent: view)
+    layout(in: size, options: [.preventDelegateCallbacks])
     layout(in: size)
 
     debugReconcileTime("\(Swift.type(of: self)).reconcile", startTime: startTime)
@@ -327,7 +348,13 @@ open class UIStatefulNode<V: UIView, S: UIStateProtocol, P: UINodePropsProtocol>
 
   /// The state for this node.
   public var state: S {
-    return self._state as! S
+    get {
+      return self._state as! S
+    }
+    set {
+      self._state = newValue
+      render()
+    }
   }
 
   @available(*, unavailable)

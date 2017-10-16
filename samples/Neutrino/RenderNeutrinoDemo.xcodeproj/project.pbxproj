@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		162B71FF1F8F85D900E14264 /* PaddedLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 162B71FE1F8F85D900E14264 /* PaddedLabel.swift */; };
 		168FA6D71F8F856D00A12585 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 168FA6D61F8F856D00A12585 /* AppDelegate.swift */; };
 		168FA6D91F8F856D00A12585 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 168FA6D81F8F856D00A12585 /* ViewController.swift */; };
 		168FA6DC1F8F856D00A12585 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 168FA6DA1F8F856D00A12585 /* Main.storyboard */; };
@@ -15,6 +14,7 @@
 		168FA6E11F8F856D00A12585 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 168FA6DF1F8F856D00A12585 /* LaunchScreen.storyboard */; };
 		169DC8D01F934DD800625FA6 /* RenderNeutrino.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 169DC8CD1F934DC500625FA6 /* RenderNeutrino.framework */; };
 		169DC8D11F934DD800625FA6 /* RenderNeutrino.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 169DC8CD1F934DC500625FA6 /* RenderNeutrino.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		169DC8EF1F93A66100625FA6 /* Padded.swift in Sources */ = {isa = PBXBuildFile; fileRef = 169DC8ED1F93A65C00625FA6 /* Padded.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,7 +49,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		162B71FE1F8F85D900E14264 /* PaddedLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaddedLabel.swift; sourceTree = "<group>"; };
 		168FA6D31F8F856D00A12585 /* RenderNeutrinoDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RenderNeutrinoDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		168FA6D61F8F856D00A12585 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		168FA6D81F8F856D00A12585 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -58,6 +57,7 @@
 		168FA6E01F8F856D00A12585 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		168FA6E21F8F856D00A12585 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		169DC8C81F934DC500625FA6 /* RenderNeutrino.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RenderNeutrino.xcodeproj; path = ../../RenderNeutrino/RenderNeutrino.xcodeproj; sourceTree = "<group>"; };
+		169DC8ED1F93A65C00625FA6 /* Padded.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Padded.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -78,6 +78,7 @@
 				169DC8C81F934DC500625FA6 /* RenderNeutrino.xcodeproj */,
 				168FA6D51F8F856D00A12585 /* src */,
 				168FA6D41F8F856D00A12585 /* Products */,
+				169DC8E61F93A4A000625FA6 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -93,12 +94,12 @@
 			isa = PBXGroup;
 			children = (
 				168FA6D61F8F856D00A12585 /* AppDelegate.swift */,
-				162B71FE1F8F85D900E14264 /* PaddedLabel.swift */,
 				168FA6D81F8F856D00A12585 /* ViewController.swift */,
 				168FA6DA1F8F856D00A12585 /* Main.storyboard */,
 				168FA6DD1F8F856D00A12585 /* Assets.xcassets */,
 				168FA6DF1F8F856D00A12585 /* LaunchScreen.storyboard */,
 				168FA6E21F8F856D00A12585 /* Info.plist */,
+				169DC8ED1F93A65C00625FA6 /* Padded.swift */,
 			);
 			path = src;
 			sourceTree = "<group>";
@@ -109,6 +110,13 @@
 				169DC8CD1F934DC500625FA6 /* RenderNeutrino.framework */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		169DC8E61F93A4A000625FA6 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -201,9 +209,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				162B71FF1F8F85D900E14264 /* PaddedLabel.swift in Sources */,
 				168FA6D91F8F856D00A12585 /* ViewController.swift in Sources */,
 				168FA6D71F8F856D00A12585 /* AppDelegate.swift in Sources */,
+				169DC8EF1F93A66100625FA6 /* Padded.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

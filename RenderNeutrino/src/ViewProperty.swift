@@ -1,4 +1,4 @@
-import UIKit
+ import UIKit
 
 // MARK: - UIViewPropertyProtocol
 
@@ -62,13 +62,13 @@ public extension UINode {
     public convenience init<T>(keyPath: ReferenceWritableKeyPath<V, T>,
                                value: T,
                                animator: UIViewPropertyAnimator? = nil) {
-      self.init(keyPath: keyPath, value: { _, _, _ in value}, animator: animator)
+      self.init(keyPath: keyPath, value: { _, _, _ in value }, animator: animator)
     }
 
     public convenience init<T: Equatable>(keyPath: ReferenceWritableKeyPath<V, T>,
                                           value: T,
                                           animator: UIViewPropertyAnimator? = nil) {
-      self.init(keyPath: keyPath, value: { _, _, _ in value}, animator: animator)
+      self.init(keyPath: keyPath, value: { _, _, _ in value }, animator: animator)
     }
 
     private func apply<T>(view: V, keyPath: ReferenceWritableKeyPath<V, T>, value: T) {

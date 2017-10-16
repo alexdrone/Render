@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		16020A201F92AE8C00C893C2 /* Props.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16020A1F1F92AE8C00C893C2 /* Props.swift */; };
-		16020A221F92B28A00C893C2 /* NodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16020A211F92B28A00C893C2 /* NodeViewController.swift */; };
+		16020A221F92B28A00C893C2 /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16020A211F92B28A00C893C2 /* View.swift */; };
 		16F36BE71F8E197A00A04BE6 /* RenderNeutrino.h in Headers */ = {isa = PBXBuildFile; fileRef = 16F36BE51F8E197A00A04BE6 /* RenderNeutrino.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		16F36BEE1F8E198B00A04BE6 /* Node.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F36BED1F8E198B00A04BE6 /* Node.swift */; };
 		16F36BF01F8E1A4700A04BE6 /* State.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F36BEF1F8E1A4700A04BE6 /* State.swift */; };
@@ -34,7 +34,7 @@
 
 /* Begin PBXFileReference section */
 		16020A1F1F92AE8C00C893C2 /* Props.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Props.swift; sourceTree = "<group>"; };
-		16020A211F92B28A00C893C2 /* NodeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NodeViewController.swift; sourceTree = "<group>"; };
+		16020A211F92B28A00C893C2 /* View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = View.swift; sourceTree = "<group>"; };
 		16F36BE21F8E197A00A04BE6 /* RenderNeutrino.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = RenderNeutrino.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		16F36BE51F8E197A00A04BE6 /* RenderNeutrino.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RenderNeutrino.h; sourceTree = "<group>"; };
 		16F36BE61F8E197A00A04BE6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -98,7 +98,7 @@
 				16020A1F1F92AE8C00C893C2 /* Props.swift */,
 				16F36C181F8E4BA600A04BE6 /* ViewProperty.swift */,
 				16F36BF11F8E2B2800A04BE6 /* Extensions.swift */,
-				16020A211F92B28A00C893C2 /* NodeViewController.swift */,
+				16020A211F92B28A00C893C2 /* View.swift */,
 			);
 			path = src;
 			sourceTree = "<group>";
@@ -225,7 +225,7 @@
 				16F36C121F8E2C1E00A04BE6 /* YGPercentLayout.m in Sources */,
 				16F36C141F8E2C1E00A04BE6 /* Yoga.c in Sources */,
 				16F36BF21F8E2B2800A04BE6 /* Extensions.swift in Sources */,
-				16020A221F92B28A00C893C2 /* NodeViewController.swift in Sources */,
+				16020A221F92B28A00C893C2 /* View.swift in Sources */,
 				16F36BEE1F8E198B00A04BE6 /* Node.swift in Sources */,
 				16F36BF01F8E1A4700A04BE6 /* State.swift in Sources */,
 			);
