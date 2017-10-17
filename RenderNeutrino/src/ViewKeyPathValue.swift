@@ -2,50 +2,52 @@
 
 // MARK: - UIViewPropertyProtocol
 
-public protocol UIViewPropertyProtocol {
+public protocol UIViewKeyPathProtocol {
   /// A unique identifier for the keyPath being assigned.
   var keyPathIdentifier: Int { get }
   /// Apply the computed property value to the view.
-  func assign(view: UIView, state: UIStateProtocol, props: UINodePropsProtocol, size: CGSize)
+  func assign(view: UIView)
   /// Restore the property original value.
   func restore(view: UIView)
 }
 
-public extension UINode {
+public extension _UINode {
 
-  public final class UIViewProperty: UIViewPropertyProtocol {
+  typealias `$` = UIViewKeyPathValue
+
+  public final class UIViewKeyPathValue: UIViewKeyPathProtocol {
     /// A unique identifier for the keyPath being assigned.
     public let keyPathIdentifier: Int
     /// The application closure.
-    private var applyClosure: ((V, S, P, CGSize) -> Void)? = nil
+    private var applyClosure: ((V) -> Void)? = nil
     /// The removal closure.
     private var removeClosure: ((V) -> Void)? = nil
     /// An optional animator for the property.
     private var animator: UIViewPropertyAnimator?
 
-    public init<T>(keyPath: ReferenceWritableKeyPath<V, T>,
-                   value: @escaping (S, P, CGSize) -> T,
-                   animator: UIViewPropertyAnimator? = nil) {
+    init<T>(keyPath: ReferenceWritableKeyPath<V, T>,
+            value: @escaping () -> T,
+            animator: UIViewPropertyAnimator? = nil) {
       self.keyPathIdentifier = keyPath.identifier
       self.animator = animator
 
-      self.applyClosure = { [weak self] view, state, props, size in
-        self?.apply(view: view, keyPath: keyPath, value: value(state, props, size))
+      self.applyClosure = { [weak self] (view: V) in
+        self?.apply(view: view, keyPath: keyPath, value: value())
       }
-      self.removeClosure = { [weak self] view in
+      self.removeClosure = { [weak self] (view: V) in
         self?.remove(view: view, keyPath: keyPath)
       }
     }
 
-    public init<T: Equatable>(keyPath: ReferenceWritableKeyPath<V, T>,
-                              value: @escaping (S, P, CGSize) -> T,
-                              animator: UIViewPropertyAnimator? = nil) {
+    init<T: Equatable>(keyPath: ReferenceWritableKeyPath<V, T>,
+                       value: @escaping () -> T,
+                       animator: UIViewPropertyAnimator? = nil) {
       self.keyPathIdentifier = keyPath.identifier
       self.animator = animator
 
-      self.applyClosure = { [weak self] view, state, props, size in
+      self.applyClosure = { [weak self] (view: V) in
         let oldValue = view[keyPath: keyPath]
-        let newValue = value(state, props, size)
+        let newValue = value()
         if oldValue != newValue {
           self?.apply(view: view, keyPath: keyPath, value: newValue)
         }
@@ -62,13 +64,13 @@ public extension UINode {
     public convenience init<T>(keyPath: ReferenceWritableKeyPath<V, T>,
                                value: T,
                                animator: UIViewPropertyAnimator? = nil) {
-      self.init(keyPath: keyPath, value: { _, _, _ in value }, animator: animator)
+      self.init(keyPath: keyPath, value: { value }, animator: animator)
     }
 
     public convenience init<T: Equatable>(keyPath: ReferenceWritableKeyPath<V, T>,
                                           value: T,
                                           animator: UIViewPropertyAnimator? = nil) {
-      self.init(keyPath: keyPath, value: { _, _, _ in value }, animator: animator)
+      self.init(keyPath: keyPath, value: { value }, animator: animator)
     }
 
     private func apply<T>(view: V, keyPath: ReferenceWritableKeyPath<V, T>, value: T) {
@@ -86,15 +88,12 @@ public extension UINode {
     }
 
     /// Apply the computed property value to the view.
-    public func assign(view: UIView,
-                       state: UIStateProtocol,
-                       props: UINodePropsProtocol,
-                       size: CGSize) {
-      guard let view = view as? V, let state = state as? S, let props = props as? P else {
+    public func assign(view: UIView) {
+      guard let view = view as? V else {
         print("Unable to assign the property \(keyPathIdentifier): invalid state supplied.")
         return
       }
-      applyClosure?(view, state, props, size)
+      applyClosure?(view)
     }
 
     /// Restore the property original value.
@@ -118,7 +117,7 @@ extension AnyKeyPath {
   /// The node that originated this.
   public weak var node: UINodeProtocol?
   /// The initial value of the configuration that are going to be assigned.
-  public let appliedConfiguration: [Int: UIViewPropertyProtocol] = [:]
+  public let appliedConfiguration: [Int: UIViewKeyPathProtocol] = [:]
   /// The initial value of the configuration that are going to be assigned.
   public let initialConfiguration: UIViewPropertyInitalContainer
   /// Whether the view has been created at the last render pass.
@@ -177,45 +176,4 @@ extension AnyKeyPath {
   }
 }
 
-// MARK: - Node Extension
 
-public extension UINode {
-  /// Set the property 'property' for the backing view by running the closure passed as argument
-  /// whenever the layout method is called on this node.
-  public func set<T>(_ property: ReferenceWritableKeyPath<V, T>,
-                     animator: UIViewPropertyAnimator? = nil,
-                     value: @escaping (P, CGSize) -> T) {
-    self.viewProperties[property.hashValue] =
-      UIViewProperty(keyPath: property,
-                     value: { state, props, size in return value(props, size) },
-                     animator: animator)
-  }
-
-  /// Set the property 'property' for the backing view to the value passed as argument.
-  public func set<T>(_ property: ReferenceWritableKeyPath<V, T>,
-                     animator: UIViewPropertyAnimator? = nil,
-                     value: T) {
-    self.viewProperties[property.hashValue] =
-      UIViewProperty(keyPath: property, value: value, animator: animator)
-  }
-}
-
-public extension UIProplessNode {
-  public func set<T>(_ property: ReferenceWritableKeyPath<V, T>,
-                     animator: UIViewPropertyAnimator? = nil,
-                     value: @escaping (CGSize) -> T) {
-    self.viewProperties[property.hashValue] =
-      UIViewProperty(keyPath: property,
-                     value: { _, _, size in value(size) },
-                     animator: animator)
-  }
-}
-
-public extension UIStatefulNode {
-  public func set<T>(_ property: ReferenceWritableKeyPath<V, T>,
-                     animator: UIViewPropertyAnimator? = nil,
-                     value: @escaping (S, P, CGSize) -> T) {
-    self.viewProperties[property.hashValue] =
-      UIViewProperty(keyPath: property, value: value, animator: animator)
-  }
-}

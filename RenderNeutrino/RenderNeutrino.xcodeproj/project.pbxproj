@@ -29,7 +29,7 @@
 		16F36C121F8E2C1E00A04BE6 /* YGPercentLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 16F36C011F8E2BEE00A04BE6 /* YGPercentLayout.m */; };
 		16F36C141F8E2C1E00A04BE6 /* Yoga.c in Sources */ = {isa = PBXBuildFile; fileRef = 16F36C031F8E2BEE00A04BE6 /* Yoga.c */; };
 		16F36C151F8E2D2700A04BE6 /* YGLayout+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 16F36BFA1F8E2BEE00A04BE6 /* YGLayout+Private.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		16F36C191F8E4BA600A04BE6 /* ViewProperty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F36C181F8E4BA600A04BE6 /* ViewProperty.swift */; };
+		16F36C191F8E4BA600A04BE6 /* ViewKeyPathValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F36C181F8E4BA600A04BE6 /* ViewKeyPathValue.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -57,7 +57,7 @@
 		16F36C011F8E2BEE00A04BE6 /* YGPercentLayout.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YGPercentLayout.m; sourceTree = "<group>"; };
 		16F36C031F8E2BEE00A04BE6 /* Yoga.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = Yoga.c; sourceTree = "<group>"; };
 		16F36C041F8E2BEE00A04BE6 /* Yoga.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Yoga.h; sourceTree = "<group>"; };
-		16F36C181F8E4BA600A04BE6 /* ViewProperty.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewProperty.swift; sourceTree = "<group>"; };
+		16F36C181F8E4BA600A04BE6 /* ViewKeyPathValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewKeyPathValue.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -96,7 +96,7 @@
 				16F36BED1F8E198B00A04BE6 /* Node.swift */,
 				16F36BEF1F8E1A4700A04BE6 /* State.swift */,
 				16020A1F1F92AE8C00C893C2 /* Props.swift */,
-				16F36C181F8E4BA600A04BE6 /* ViewProperty.swift */,
+				16F36C181F8E4BA600A04BE6 /* ViewKeyPathValue.swift */,
 				16F36BF11F8E2B2800A04BE6 /* Extensions.swift */,
 				16020A211F92B28A00C893C2 /* View.swift */,
 			);
@@ -220,7 +220,7 @@
 				16F36C0E1F8E2C1E00A04BE6 /* UIView+Yoga.m in Sources */,
 				16F36C0F1F8E2C1E00A04BE6 /* YGEnums.c in Sources */,
 				16F36C101F8E2C1E00A04BE6 /* YGLayout.m in Sources */,
-				16F36C191F8E4BA600A04BE6 /* ViewProperty.swift in Sources */,
+				16F36C191F8E4BA600A04BE6 /* ViewKeyPathValue.swift in Sources */,
 				16F36C111F8E2C1E00A04BE6 /* YGNodeList.c in Sources */,
 				16F36C121F8E2C1E00A04BE6 /* YGPercentLayout.m in Sources */,
 				16F36C141F8E2C1E00A04BE6 /* Yoga.c in Sources */,

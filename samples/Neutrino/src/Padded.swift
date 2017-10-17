@@ -16,59 +16,54 @@ public struct PaddedLabel {
   }
 
   public class Node: UIStatefulNode<UIView, State, Props> {
-    weak var wrapperView: UILabel?
 
-    public override func render() {
-      resetNode()
-
-      set(\.backgroundColor) { props, size in props.isImportant ? #colorLiteral(red: 0.1870646477, green: 0.2185702622, blue: 0.2767287493, alpha: 1) : #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1) }
-      set(\.yoga.padding, value: 50)
-      set(\.yoga.alignSelf, value: .center)
-      set(\.yoga.maxWidth) { _, size in size.width }
-
-      let label = UIProplessNode<UILabel>()
-      label.set(\.text, value: props.text)
-      label.set(\.numberOfLines, value: 0)
-      label.set(\.textColor) { size in self.props.isImportant ? .white : .black }
-      label.set(\.font) { size in
-        size.width > size.height ? UIFont.boldSystemFont(ofSize: 14) : UIFont.systemFont(ofSize: 11)
+    public override func build(rootCtx: _UINode<UIView, State, Props>.Context) {
+      configure { ctx in
+        ctx.set(\UIView.backgroundColor, value: ctx.props.isImportant ? .orange : .gray)
+        ctx.set(\UIView.yoga.padding, value: 50)
+        ctx.set(\UIView.yoga.alignSelf, value: .center)
+        ctx.set(\UIView.yoga.maxWidth, value: ctx.size.width)
       }
-      label.set(\.backgroundColor, value: .clear)
 
-      let count = UIProplessNode<UILabel>()
-      count.set(\.text) { _, size in "counter: \(self.state.count)" }
-      count.set(\.backgroundColor, value: .clear)
+      let label = UINode<UILabel>() { ctx in
+        ctx.set(\UILabel.text, value: rootCtx.props.text)
+        ctx.set(\UILabel.numberOfLines, value: 0)
+        ctx.set(\UILabel.textColor, value: rootCtx.props.isImportant ? .white : .black)
+        ctx.set(\UILabel.font, value: UIFont.boldSystemFont(ofSize: 14))
+      }
 
-      let button = UIProplessNode<UIButton>(reuseIdentifier: "increase", create: {
+      let count = UINode<UILabel>() { ctx in
+        ctx.set(\UILabel.text, value: "counter: \(rootCtx.state.count)")
+        ctx.set(\UILabel.backgroundColor, value: .clear)
+        ctx.set(\UILabel.textColor, value: .white)
+      }
+
+      func createIncreaseButton() -> UIButton {
         let button = UIButton(type: .custom)
         button.setTitle("INCREASE", for: .normal)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 14)
         button.onTap { _ in
-          self.state.count += 1
-          self.render()
+          rootCtx.state.count += 1
+          rootCtx.node.reconcile()
         }
         return button
-      })
+      }
 
-      button.set(\.yoga.marginTop, value: 10)
-      button.set(\.backgroundColor, value: #colorLiteral(red: 0.7450980544, green: 0.1568627506, blue: 0.07450980693, alpha: 1))
-      set(children: [label, count, button])
+      let button = UINode<UIButton>(reuseIdentifier: "increase",
+                                    create: createIncreaseButton) { ctx in
+        ctx.set(\UIButton.yoga.marginTop, value: 10)
+        ctx.set(\UIButton.backgroundColor, value: #colorLiteral(red: 0.7450980544, green: 0.1568627506, blue: 0.07450980693, alpha: 1))
+      }
 
-      super.render()
+      children([label, count, button])
     }
-
-    /// The view just got layed out.
-    public override func nodeDidLayout(_ node: UINodeProtocol, view: UIView) {
-    }
-
   }
 }
 
 @IBDesignable @objc public class PaddedLabelView: UINodeView {
 
   public override func constructNode() -> UINodeProtocol {
-    print("hej")
-    return PaddedLabel.Node(key: "a")
+    return PaddedLabel.Node(key: "Test")
   }
 }
 
