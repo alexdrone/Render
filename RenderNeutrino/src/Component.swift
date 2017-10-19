@@ -44,15 +44,15 @@ open class UIComponent<S: UIStateProtocol, P: UIPropsProtocol>: UIComponentProto
   public var props: P = P()
   /// A unique key for the component (necessary if the component is stateful).
   public let key: String?
+  /// Forwards delegates method calls.
+  public weak var delegate: UINodeDelegateProtocol?
 
   public weak var context: UIContextProtocol?
-
   public weak var containerView: UIView? {
     didSet {
       assert(parent == nil, "Unable to set a target view on a non-root component.")
     }
   }
-
   public var canvasSize: () -> CGSize = {
     return CGSize(width: UIScreen.main.bounds.width, height: CGFloat.max)
   }
@@ -86,8 +86,6 @@ open class UIComponent<S: UIStateProtocol, P: UIPropsProtocol>: UIComponentProto
       if let key = node.key { keys.insert(key) }
       node.children.forEach { node in retrieveAllKeys(node: node) }
     }
-
-    context.pool.flushObsoleteStates(validKeys: keys)
   }
 
   /// Builds the node hierarchy for this component.
@@ -98,22 +96,22 @@ open class UIComponent<S: UIStateProtocol, P: UIPropsProtocol>: UIComponentProto
 
   /// The view got rendered and added to the view hierarchy.
   open func nodeDidMount(_ node: UINodeProtocol, view: UIView) {
-
+    delegate?.nodeDidMount(node, view: view)
   }
   /// The view is about to be layed out.
   open func nodeWillLayout(_ node: UINodeProtocol, view: UIView) {
-
+    delegate?.nodeWillLayout(node, view: view)
   }
   /// The view just got layed out.
   open func nodeDidLayout(_ node: UINodeProtocol, view: UIView) {
-
+    delegate?.nodeDidLayout(node, view: view)
   }
 }
 
 // MARK: - Props
 
 /// Represents the component props.
-public protocol UIPropsProtocol {
+public protocol UIPropsProtocol: Codable {
   init()
 }
 
@@ -121,4 +119,3 @@ public class UINilProps: UIPropsProtocol {
   static let `nil` = UINilProps()
   public required init() { }
 }
-

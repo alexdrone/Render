@@ -20,7 +20,7 @@ public struct PaddedLabel {
     public override func render(context: UIContextProtocol,
                                 state: State,
                                 props: Props) -> UINodeProtocol {
-
+      print(state)
       let root = UINode<UIView> { layout in
           layout.set(\UIView.backgroundColor, value: props.isImportant ? .orange : .gray)
           layout.set(\UIView.yoga.padding, value: 50)
@@ -41,21 +41,15 @@ public struct PaddedLabel {
         ctx.set(\UILabel.textColor, value: .white)
       }
 
-      func makeButton() -> UIButton {
-        let button = UIButton(type: .custom)
-        button.setTitle("INCREASE", for: .normal)
-        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 14)
-
-        return button
-      }
-
-      let button = UINode<UIButton>(reuseIdentifier: "increase", create: makeButton) { layout in
+      let button = UINode<UIButton>(reuseIdentifier: "increase") { layout in
         layout.set(\UIButton.yoga.marginTop, value: 10)
         layout.set(\UIButton.backgroundColor, value: #colorLiteral(red: 0.7450980544, green: 0.1568627506, blue: 0.07450980693, alpha: 1))
         layout.view?.onTap { [weak self] _ in
           self?.state.count += 1
           self?.setNeedsRender()
         }
+        layout.view?.setTitle("INCREASE", for: .normal)
+        layout.view?.titleLabel?.font = UIFont.boldSystemFont(ofSize: 14)
       }
 
       root.children([label, count, button])

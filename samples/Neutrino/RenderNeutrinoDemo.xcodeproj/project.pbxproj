@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		168777AE1F99446200273561 /* Property List.plist in Resources */ = {isa = PBXBuildFile; fileRef = 168777AD1F99446200273561 /* Property List.plist */; };
 		168FA6D71F8F856D00A12585 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 168FA6D61F8F856D00A12585 /* AppDelegate.swift */; };
 		168FA6D91F8F856D00A12585 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 168FA6D81F8F856D00A12585 /* ViewController.swift */; };
 		168FA6DC1F8F856D00A12585 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 168FA6DA1F8F856D00A12585 /* Main.storyboard */; };
@@ -49,6 +50,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		168777AD1F99446200273561 /* Property List.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Property List.plist"; sourceTree = "<group>"; };
 		168FA6D31F8F856D00A12585 /* RenderNeutrinoDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RenderNeutrinoDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		168FA6D61F8F856D00A12585 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		168FA6D81F8F856D00A12585 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -100,6 +102,7 @@
 				168FA6DF1F8F856D00A12585 /* LaunchScreen.storyboard */,
 				168FA6E21F8F856D00A12585 /* Info.plist */,
 				169DC8ED1F93A65C00625FA6 /* Padded.swift */,
+				168777AD1F99446200273561 /* Property List.plist */,
 			);
 			path = src;
 			sourceTree = "<group>";
@@ -198,6 +201,7 @@
 			files = (
 				168FA6E11F8F856D00A12585 /* LaunchScreen.storyboard in Resources */,
 				168FA6DE1F8F856D00A12585 /* Assets.xcassets in Resources */,
+				168777AE1F99446200273561 /* Property List.plist in Resources */,
 				168FA6DC1F8F856D00A12585 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

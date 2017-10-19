@@ -6,7 +6,7 @@ import Foundation
 /// configuration are simply the component proprieties, set by the parent and they are fixed
 ///  throughout the lifetime of a component.
 /// For data that is going to change, we have to use state.
-public protocol UIStateProtocol: class, ReflectedStringConvertible {
+public protocol UIStateProtocol: class, ReflectedStringConvertible, Codable {
   /// Returns the initial state for this current state type.
   init()
 }
