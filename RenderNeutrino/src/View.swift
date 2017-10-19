@@ -4,7 +4,7 @@ public protocol UINodeViewProtocol: class, UINodeDelegateProtocol {
   /// The root node of this view.
   var _node: UINodeProtocol! { get set }
   /// The node props.
-  var _props: UINodePropsProtocol? { get set }
+  var _props: UIPropsProtocol? { get set }
   /// Your view subclass must instantiate and configure your node hierarchy here.
  func constructNode() -> UINodeProtocol
   /// Reconcile and re-layout the view hierarchy.
@@ -13,7 +13,7 @@ public protocol UINodeViewProtocol: class, UINodeDelegateProtocol {
 
 @IBDesignable open class UINodeView: UIView, UINodeViewProtocol {
   public var _node: UINodeProtocol!
-  public var _props: UINodePropsProtocol?
+  public var _props: UIPropsProtocol?
 
   override public init(frame: CGRect) {
     super.init(frame: frame)

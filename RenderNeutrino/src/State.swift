@@ -20,42 +20,6 @@ open class UIState: UIStateProtocol {
   public required init() { }
 }
 
-public final class UIStatePool {
-  /// The global pool.
-  static let `default` = UIStatePool()
-  // Map from key to state currently allocated.
-  private var states: [String: UIStateReferenceContainer] = [:]
-  // Map from key to the delegate associated to it (if available).
-  private var delegates: [String: UINodeDelegateProtocol] = [:]
-
-  /// Fetches or create a new UI state.
-  func state<S: UIStateProtocol>(key: String) -> S {
-    assert(Thread.isMainThread)
-    // Removed the entries that are no longer.
-    states = states.filter { _, container in container.state != nil }
-
-    if let container = states[key] {
-      if let state = container.state as? S {
-        return state
-      } else {
-        fatalError("Another state with the same key has already been allocated.")
-      }
-    }
-    let state = S()
-    states[key] = UIStateReferenceContainer(state: state)
-    return state
-  }
-
-}
-
-final class UIStateReferenceContainer {
-  private(set) weak var state: UIStateProtocol?
-
-  init(state: UIStateProtocol) {
-    self.state = state
-  }
-}
-
 // MARK: - ReflectedStringConvertible
 
 public protocol ReflectedStringConvertible : CustomStringConvertible {}

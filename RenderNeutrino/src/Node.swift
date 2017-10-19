@@ -13,9 +13,7 @@ public protocol UINodeDelegateProtocol: class {
 
 // MARK: - Protocol
 
-public protocol UINodeProtocol: class, UINodeDelegateProtocol {
-  /// Whether this is a stateless node or not.
-  var isStateless: Bool { get }
+public protocol UINodeProtocol: class {
   /// The underlying rendered view.
   var renderedView: UIView? { get }
   /// The optional delegate for this node.
@@ -24,7 +22,7 @@ public protocol UINodeProtocol: class, UINodeDelegateProtocol {
   weak var parent: UINodeProtocol? { get set }
   /// This must be defined if the node is a stateful node.
   /// It uniquely defines a node.
-  var key: String? { get }
+  var key: String? { get set }
   /// The reuse identifier for this node is its hierarchy.
   /// Identifiers help Render understand which items have changed.
   var reuseIdentifier: String { get }
@@ -40,10 +38,6 @@ public protocol UINodeProtocol: class, UINodeDelegateProtocol {
 
   // Internal.
 
-  /// Internal only - The node properties.
-  var _props: UINodePropsProtocol { get }
-  /// Internal only - Type erased state.
-  var _state: UIStateProtocol { get }
   /// Asks the node to build the backing view for this node.
   func _constructView(with reusableView: UIView?)
   /// Configure the backing view of this node.
@@ -52,25 +46,19 @@ public protocol UINodeProtocol: class, UINodeDelegateProtocol {
 
 // MARK: - Implementation
 
-open class _UINode<V: UIView, S: UIStateProtocol, P: UINodePropsProtocol>: UINodeProtocol {
+public class UINode<V: UIView>: UINodeProtocol {
 
-  public struct Context {
-    /// The associated node.
-    public internal(set) var node: _UINode<V, S, P>
-    /// The associated view.
+  public struct Layout {
+    /// The associated node for this layout pass.
+    public internal(set) var node: UINode<V>
+    /// The concrete view associated to this node.
     public internal(set) var view: V?
-    /// The node state (if applicable, 'UINilState' otherwise).
-    public internal(set) var state: S
-    /// The node props (if applicable, 'UINilProps' otherwise).
-    public internal(set) var props: P
-    /// The canvas size for the root component (likely to be the view controller bounds).
+    /// The canvas size for the root componens.
     public internal(set) var size: CGSize
 
-    init(node: _UINode<V, S, P>, view: V?, state: S, props: P, size: CGSize) {
+    init(node: UINode<V>, view: V?, size: CGSize) {
       self.node = node
       self.view = view
-      self.state = state
-      self.props = props
       self.size = size
     }
 
@@ -82,23 +70,9 @@ open class _UINode<V: UIView, S: UIStateProtocol, P: UINodePropsProtocol>: UINod
     }
   }
 
-  // The node base class is stateless.
-  public fileprivate(set) var _state: UIStateProtocol = S()
-  public fileprivate(set) var _props: UINodePropsProtocol = P()
-
   public typealias UINodeCreationClosure = () -> V
-  public typealias UINodeConfigurationClosure = (Context) -> Void
-  public typealias UINodeChildrenCreationClosure = (Context) -> [UINodeProtocol]
-
-  /// The current node props.
-  public var props: P {
-    get {
-      return _props as! P
-    }
-    set {
-      _props = newValue
-    }
-  }
+  public typealias UINodeConfigurationClosure = (Layout) -> Void
+  public typealias UINodeChildrenCreationClosure = (Layout) -> [UINodeProtocol]
 
   public let isStateless: Bool = true
 
@@ -107,7 +81,7 @@ open class _UINode<V: UIView, S: UIStateProtocol, P: UINodePropsProtocol>: UINod
   public weak var parent: UINodeProtocol?
 
   // Since there's no state, there's no key for this component.
-  public fileprivate(set) var key: String? = nil
+  public var key: String? = nil
   public fileprivate(set) var reuseIdentifier: String
 
   public fileprivate(set) var children: [UINodeProtocol] = []
@@ -125,23 +99,15 @@ open class _UINode<V: UIView, S: UIStateProtocol, P: UINodePropsProtocol>: UINod
   var viewProperties: [Int: UIViewKeyPathValue] = [:]
 
   public init(reuseIdentifier: String = String(describing: V.self),
+              key: String? = nil,
               create: @escaping () -> V = { V() },
-              props: P = P(),
               configure: UINodeConfigurationClosure? = nil) {
     self.reuseIdentifier = reuseIdentifier
-    self._props = props
     self.createClosure = create
+    self.key = key
     if let configure = configure {
       self.configClosure = configure
     }
-
-    let state = _state as! S
-    let context = Context(node: self, view: nil, state: state, props: props, size: CGSize.zero)
-    build(rootCtx: context)
-  }
-
-  open func build(rootCtx: Context) {
-    // Subclasses to override this.
   }
 
   open func configure(_ configClosure: @escaping UINodeConfigurationClosure) {
@@ -169,19 +135,19 @@ open class _UINode<V: UIView, S: UIStateProtocol, P: UINodePropsProtocol>: UINod
     willLayout(options: options)
 
     let view = requireRenderedView()
-    guard let renderedView = view as? V, let state = _state as? S, let props = _props as? P else {
+    guard let renderedView = view as? V else {
       print("Unexpected error: View/State/Props type mismatch.")
       return
     }
-    let context = Context(node: self, view: renderedView, state: state, props: props, size: bounds)
-    configClosure(context)
+    let layout = Layout(node: self, view: renderedView, size: bounds)
+    configClosure(layout)
 
     // Configure the children recursively.
     for child in children {
       child._setup(in: bounds, options: options)
     }
 
-    let config = view.configuration
+    let config = view.renderContext
     let oldConfigurationKeys = Set(config.appliedConfiguration.keys)
     let newConfigurationKeys = Set(viewProperties.keys)
 
@@ -196,10 +162,8 @@ open class _UINode<V: UIView, S: UIStateProtocol, P: UINodePropsProtocol>: UINod
     }
 
     if view.yoga.isEnabled, view.yoga.isLeaf, view.yoga.isIncludedInLayout {
-      //if !(view is AnyUIComponentView) {
-        view.frame.size = .zero
-        view.yoga.markDirty()
-      //}
+      view.frame.size = .zero
+      view.yoga.markDirty()
     }
     didLayout(options: options)
   }
@@ -234,7 +198,6 @@ open class _UINode<V: UIView, S: UIStateProtocol, P: UINodePropsProtocol>: UINod
     if options.contains(.preventDelegateCallbacks) {
       // Notify the delegate.
       delegate?.nodeWillLayout(self, view: view)
-      nodeWillLayout(self, view: view)
     }
   }
 
@@ -247,14 +210,12 @@ open class _UINode<V: UIView, S: UIStateProtocol, P: UINodePropsProtocol>: UINod
     if options.contains(.preventDelegateCallbacks) {
       // Notify the delegate.
       delegate?.nodeDidLayout(self, view: view)
-      nodeDidLayout(self, view: view)
     }
 
     /// The view has been newly created.
     if shouldInvokeDidMount {
       shouldInvokeDidMount = false
       delegate?.nodeDidMount(self, view: view)
-      self.nodeDidMount(self, view: view)
     }
   }
 
@@ -266,7 +227,7 @@ open class _UINode<V: UIView, S: UIStateProtocol, P: UINodePropsProtocol>: UINod
     }
     guard renderedView == nil else { return }
     if let reusableView = reusableView as? V {
-      reusableView.configuration.node = self
+      reusableView.renderContext.node = self
       renderedView = reusableView
     } else {
       let view = createClosure()
@@ -274,7 +235,7 @@ open class _UINode<V: UIView, S: UIStateProtocol, P: UINodePropsProtocol>: UINod
       view.yoga.isEnabled = true
       view.tag = reuseIdentifier.hashValue
       view.hasNode = true
-      view.configuration.node = self
+      view.renderContext.node = self
       renderedView = view
     }
   }
@@ -284,12 +245,12 @@ open class _UINode<V: UIView, S: UIStateProtocol, P: UINodePropsProtocol>: UINod
     // The candidate view is a good match for reuse.
     if let view = view, view.hasNode && view.tag == node.reuseIdentifier.hashValue {
       node._constructView(with: view)
-      view.configuration.isNewlyCreated = false
+      view.renderContext.isNewlyCreated = false
     } else {
       // The view for this node needs to be created.
       view?.removeFromSuperview()
       node._constructView(with: nil)
-      node.renderedView!.configuration.isNewlyCreated = true
+      node.renderedView!.renderContext.isNewlyCreated = true
       parent.insertSubview(node.renderedView!, at: node.index)
     }
 
@@ -340,79 +301,25 @@ open class _UINode<V: UIView, S: UIStateProtocol, P: UINodePropsProtocol>: UINod
   private var bindIfNecessary: (UIView) -> Void = { _ in }
 
   /// Binds the node rendered view to a target property.
-  public func bindView<N: UINodeProtocol, V>(target: N,
-                                             keyPath: ReferenceWritableKeyPath<N, V>) {
+  public func bindView<O: AnyObject, V>(target: O,
+                                        keyPath: ReferenceWritableKeyPath<O, V>) {
     assert(Thread.isMainThread)
     bindTarget = target
     bindIfNecessary = { [weak self] (view: UIView) in
-      guard let view = view as? V, let target = self?.bindTarget as? N else {
+      guard let object = self?.bindTarget as? O, let view = view as? V else {
         return
       }
-      target[keyPath: keyPath] = view
+      object[keyPath: keyPath] = view
     }
-  }
-
-  /// The view got rendered and added to the view hierarchy.
-  open func nodeDidMount(_ node: UINodeProtocol, view: UIView) {
-
-  }
-
-  /// The view is about to be layed out.
-  open func nodeWillLayout(_ node: UINodeProtocol, view: UIView) {
-
-  }
-
-  /// The view just got layed out.
-  open func nodeDidLayout(_ node: UINodeProtocol, view: UIView) {
-
   }
 }
-
-open class UINode<V: UIView>: _UINode<V, UINilState, UINilNodeProps> { }
-
-open class UIPropNode<V: UIView, P: UINodePropsProtocol>: _UINode<V, UINilState, P> { }
-
-open class UIStatefulNode<V: UIView, S: UIStateProtocol, P: UINodePropsProtocol>: _UINode<V, S, P> {
-  /// The state for this node.
-  public var state: S {
-    get {
-      return self._state as! S
-    }
-    set {
-      self._state = newValue
-    }
-  }
-
-  // The default initializer is not available because it doesn't require a key.
-  @available(*, unavailable)
-  public override init(reuseIdentifier: String = String(describing: V.self),
-                       create: @escaping () -> V = { V() },
-                       props: P = P(),
-                       configure: UINodeConfigurationClosure?) {
-    fatalError("Initialization not supported.")
-  }
-
-  // Ad-hoc initializer with mandatory key argument.
-  public init(reuseIdentifier: String = String(describing: V.self),
-              key: String,
-              create: @escaping () -> V = { V() },
-              props: P = P(),
-              configure: UINodeConfigurationClosure? = nil) {
-    super.init(reuseIdentifier: reuseIdentifier,
-               create: create,
-               props: props,
-               configure: configure)
-    self.key = key
-    let state: S = UIStatePool.default.state(key: key)
-    self._state = state
-  }
-
-}
-
 // MARK: - Empty Node
 
-public class UINilNode: _UINode<UIView, UINilState, UINilNodeProps> {
+/// Represent an empty node.
+public class UINilNode: UINode<UIView> {
+  /// Static shared instance.
   static let `nil` = UINilNode()
+
   public init() {
     super.init(reuseIdentifier: "nil_node")
   }

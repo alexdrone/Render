@@ -11,9 +11,7 @@ public protocol UIViewKeyPathProtocol {
   func restore(view: UIView)
 }
 
-public extension _UINode {
-
-  typealias `$` = UIViewKeyPathValue
+ public extension UINode {
 
   public final class UIViewKeyPathValue: UIViewKeyPathProtocol {
     /// A unique identifier for the keyPath being assigned.
@@ -54,7 +52,7 @@ public extension _UINode {
       }
       self.removeClosure = { [weak self] (view: V) in
         let oldValue = view[keyPath: keyPath]
-        let newValue = view.configuration.initialConfiguration.initialValue(keyPath: keyPath)
+        let newValue = view.renderContext.initialConfiguration.initialValue(keyPath: keyPath)
         if oldValue != newValue {
           self?.remove(view: view, keyPath: keyPath)
         }
@@ -75,13 +73,13 @@ public extension _UINode {
 
     private func apply<T>(view: V, keyPath: ReferenceWritableKeyPath<V, T>, value: T) {
       // Caches the initial value.
-      view.configuration.initialConfiguration.storeInitialValue(keyPath: keyPath)
+      view.renderContext.initialConfiguration.storeInitialValue(keyPath: keyPath)
       // TODO: add animator support.
       view[keyPath: keyPath] = value
     }
 
     private func remove<T>(view: V, keyPath: ReferenceWritableKeyPath<V, T>) {
-      guard let value = view.configuration.initialConfiguration.initialValue(keyPath: keyPath) else{
+      guard let value = view.renderContext.initialConfiguration.initialValue(keyPath: keyPath) else{
         return
       }
       view[keyPath: keyPath] = value
@@ -107,11 +105,9 @@ public extension _UINode {
 }
 
 extension AnyKeyPath {
-  
   /// Returns a unique identifier for the keyPath.
   public var identifier: Int { return hashValue }
 }
-
 
 @objc public final class UIRenderConfigurationContainer: NSObject {
   /// The node that originated this.
@@ -124,10 +120,6 @@ extension AnyKeyPath {
   public var isNewlyCreated: Bool = false;
   /// The original value of the alpha at creation time.
   public var alphaBeforeTransition: CGFloat = 1
-  /// Returns the state for the node associated to this view.
-  public func state<S: UIStateProtocol>() -> S? {
-    return node?._state as? S
-  }
 
   init(view: UIView) {
     initialConfiguration = UIViewPropertyInitalContainer(view: view)
@@ -175,5 +167,3 @@ extension AnyKeyPath {
     return view
   }
 }
-
-

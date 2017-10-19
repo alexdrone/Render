@@ -73,13 +73,13 @@ extension UIScrollView: UIPostRendering {
 private var handleHasNode: UInt8 = 0
 private var hadleOldCornerRadius: UInt8 = 0
 private var handleOldAlpha: UInt8 = 0
-private var handlePropInitialContainer: UInt8 = 0
+private var handleRenderContext: UInt8 = 0
 
 public extension UIView {
 
-  var configuration: UIRenderConfigurationContainer {
+  var renderContext: UIRenderConfigurationContainer {
     get {
-      var handle = handlePropInitialContainer
+      var handle = handleRenderContext
       guard let obj = objc_getAssociatedObject(self, &handle)
             as? UIRenderConfigurationContainer else {
         let container = UIRenderConfigurationContainer(view: self)
@@ -89,7 +89,7 @@ public extension UIView {
       return obj
     }
     set {
-      var handle = handlePropInitialContainer
+      var handle = handleRenderContext
       objc_setAssociatedObject(self, &handle, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
     }
   }
