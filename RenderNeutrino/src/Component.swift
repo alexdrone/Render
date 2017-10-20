@@ -77,6 +77,7 @@ open class UIComponent<S: UIStateProtocol, P: UIPropsProtocol>: UIComponentProto
     assert(context._componentInitFromContext, "Explicit init call is prohibited.")
     self.key = key
     self.context = context
+    hookInspectorIfAvailable()
   }
 
   public func setCanvas(view: UIView,
