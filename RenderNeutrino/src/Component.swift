@@ -17,6 +17,12 @@ public protocol UIComponentProtocol: class, UINodeDelegateProtocol {
                  renderOnCanvasSizeChange: Bool)
   /// Mark the component for rendering.
   func setNeedsRender()
+  /// Type-erased state associated to this component.
+  /// - note: *Internal only.*
+  var anyState: UIStateProtocol { get }
+  /// Type-erased props associated to this component.
+  /// - note: *Internal only.*
+  var anyProps: UIPropsProtocol { get }
 }
 
 // MARK: - UIComponent
@@ -50,6 +56,8 @@ open class UIComponent<S: UIStateProtocol, P: UIPropsProtocol>: UIComponentProto
   }
   /// Use props to pass data & event handlers down to your child components.
   public var props: P = P()
+  public var anyProps: UIPropsProtocol { return props }
+  public var anyState: UIStateProtocol { return state }
   /// A unique key for the component (necessary if the component is stateful).
   public let key: String?
   /// Forwards node layout method callbacks.
@@ -96,6 +104,7 @@ open class UIComponent<S: UIStateProtocol, P: UIPropsProtocol>: UIComponentProto
       fatalError("Attempting to render a component without a canvas view and/or a context.")
     }
     let node = render(context: context)
+    node.associatedComponent = self
     if let key = key {
       if let nodeKey = node.key, nodeKey != key {
         print("warning: The root node has a key \(nodeKey) that differs from the component \(key).")
@@ -112,6 +121,7 @@ open class UIComponent<S: UIStateProtocol, P: UIPropsProtocol>: UIComponentProto
     retrieveAllKeys(node: node)
 
     context.pool.flushObsoleteStates(validKeys: keys)
+    inspectorMarkDirty()
   }
 
   /// Builds the node hierarchy for this component.

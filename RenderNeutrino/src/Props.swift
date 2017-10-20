@@ -7,7 +7,7 @@ import UIKit
 /// A Component cannot change its props, but it is responsible for putting together the props of
 /// its child Components.
 /// Props do not have to just be data -- callback functions may be passed in as props.
-public protocol UIPropsProtocol: Codable {
+public protocol UIPropsProtocol: Codable, ReflectedStringConvertible {
   init()
 }
 

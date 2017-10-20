@@ -31,6 +31,7 @@
 		16F36C141F8E2C1E00A04BE6 /* Yoga.c in Sources */ = {isa = PBXBuildFile; fileRef = 16F36C031F8E2BEE00A04BE6 /* Yoga.c */; };
 		16F36C151F8E2D2700A04BE6 /* YGLayout+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 16F36BFA1F8E2BEE00A04BE6 /* YGLayout+Private.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		16F36C191F8E4BA600A04BE6 /* KeyPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F36C181F8E4BA600A04BE6 /* KeyPath.swift */; };
+		16F7B55B1F9A322C00583082 /* Inspector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F7B55A1F9A322C00583082 /* Inspector.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -60,6 +61,7 @@
 		16F36C031F8E2BEE00A04BE6 /* Yoga.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = Yoga.c; sourceTree = "<group>"; };
 		16F36C041F8E2BEE00A04BE6 /* Yoga.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Yoga.h; sourceTree = "<group>"; };
 		16F36C181F8E4BA600A04BE6 /* KeyPath.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyPath.swift; sourceTree = "<group>"; };
+		16F7B55A1F9A322C00583082 /* Inspector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Inspector.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -80,6 +82,7 @@
 				16F36BE61F8E197A00A04BE6 /* Info.plist */,
 				16F36BF31F8E2BEE00A04BE6 /* objc */,
 				16F36BE41F8E197A00A04BE6 /* src */,
+				16F7B5591F9A321200583082 /* exts */,
 				16F36BE31F8E197A00A04BE6 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -101,7 +104,6 @@
 				16F36BED1F8E198B00A04BE6 /* Node.swift */,
 				16CEC0151F9A125C003D3D21 /* Props.swift */,
 				16F36BEF1F8E1A4700A04BE6 /* State.swift */,
-				16F36BF11F8E2B2800A04BE6 /* Extensions.swift */,
 			);
 			path = src;
 			sourceTree = "<group>";
@@ -127,6 +129,15 @@
 				16F36C041F8E2BEE00A04BE6 /* Yoga.h */,
 			);
 			path = objc;
+			sourceTree = "<group>";
+		};
+		16F7B5591F9A321200583082 /* exts */ = {
+			isa = PBXGroup;
+			children = (
+				16F36BF11F8E2B2800A04BE6 /* Extensions.swift */,
+				16F7B55A1F9A322C00583082 /* Inspector.swift */,
+			);
+			path = exts;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -228,6 +239,7 @@
 				16F36C111F8E2C1E00A04BE6 /* YGNodeList.c in Sources */,
 				16F36C121F8E2C1E00A04BE6 /* YGPercentLayout.m in Sources */,
 				16F36C141F8E2C1E00A04BE6 /* Yoga.c in Sources */,
+				16F7B55B1F9A322C00583082 /* Inspector.swift in Sources */,
 				16F36BF21F8E2B2800A04BE6 /* Extensions.swift in Sources */,
 				16F36BEE1F8E198B00A04BE6 /* Node.swift in Sources */,
 				16F36BF01F8E1A4700A04BE6 /* State.swift in Sources */,

@@ -53,7 +53,6 @@ protocol UIPostRendering {
 }
 
 extension UIScrollView: UIPostRendering {
-
   func postRender() {
     if let _ = self as? UITableView { return }
     if let _ = self as? UICollectionView { return }
@@ -76,7 +75,6 @@ private var handleOldAlpha: UInt8 = 0
 private var handleRenderContext: UInt8 = 0
 
 public extension UIView {
-
   var renderContext: UIRenderConfigurationContainer {
     get {
       var handle = handleRenderContext

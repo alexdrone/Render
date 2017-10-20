@@ -23,6 +23,8 @@ public protocol UINodeProtocol: class {
   weak var delegate: UINodeDelegateProtocol? { get set }
   /// The parent node (if this is not the root node in the hierarchy).
   weak var parent: UINodeProtocol? { get set }
+  /// The component that manages this subtree (if applicable).
+  weak var associatedComponent: UIComponentProtocol? { get set }
   /// A unique key for the component/node (necessary if the component is stateful).
   var key: String? { get set }
   /// The reuse identifier for this node is its hierarchy.
@@ -42,6 +44,9 @@ public protocol UINodeProtocol: class {
   /// This component is the n-th children.
   /// - note: *Internal use only*.
   var index: Int { get set }
+  /// String representation of the underlying view type.
+  /// - note: *Internal use only*.
+  var debugType: String { get }
   /// Asks the node to build the backing view for this node.
   /// - note: *Internal use only*.
   func _constructView(with reusableView: UIView?)
@@ -84,8 +89,10 @@ public class UINode<V: UIView>: UINodeProtocol {
   public fileprivate(set) var reuseIdentifier: String
   public fileprivate(set) var renderedView: UIView? = nil
   public fileprivate(set) var children: [UINodeProtocol] = []
+  public fileprivate(set) var debugType: String
   public weak var delegate: UINodeDelegateProtocol?
   public weak var parent: UINodeProtocol?
+  public weak var associatedComponent: UIComponentProtocol?
   public var key: String? = nil
   public var index: Int = 0
 
@@ -125,8 +132,9 @@ public class UINode<V: UIView>: UINodeProtocol {
               create: (() -> V)? = nil,
               configure: UINodeConfigurationClosure? = nil) {
     self.reuseIdentifier = reuseIdentifier
+    self.debugType =  String(describing: V.self)
     self.createClosure = create ??  { V() }
-    if create != nil && reuseIdentifier == String(describing: V.self) {
+    if create != nil && reuseIdentifier == debugType {
       fatalError("Always specify a reuse identifier whenever a custom create closure is provided.")
     }
     self.key = key
