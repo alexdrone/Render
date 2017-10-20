@@ -126,7 +126,7 @@ extension AnyKeyPath {
   }
 }
 
-// MARK: - configuration initial values
+// MARK: - UIViewPropertyInitalContainer
 
 @objc public final class UIViewPropertyInitalContainer: NSObject {
   /// The associated view.

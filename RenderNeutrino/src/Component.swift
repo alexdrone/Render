@@ -4,18 +4,20 @@ public protocol UIComponentProtocol: class, UINodeDelegateProtocol {
   /// The component-tree context.
   weak var context: UIContextProtocol? { get }
   /// The target container view.
-  weak var containerView: UIView? { get set }
+  weak var canvasView: UIView? { get }
   /// The canvas boundaries for the component.
   var canvasSize: () -> CGSize { get set }
+  /// Set the view this component is going to be rendered in.
+  func setCanvas(view: UIView,
+                 useBoundsAsCanvasSize: Bool,
+                 automaticallyRenderOnCanvasSizeChange: Bool)
   /// Mark the component for rendering.
   func setNeedsRender()
 }
 
+// MARK: - UIComponent
+
 open class UIComponent<S: UIStateProtocol, P: UIPropsProtocol>: UIComponentProtocol {
-
-  public typealias PropsType = P
-  public typealias StateType = S
-
   /// The root node.
   public var root: UINodeProtocol = UINilNode.nil
   /// The component parent (if applicable).
@@ -48,7 +50,7 @@ open class UIComponent<S: UIStateProtocol, P: UIPropsProtocol>: UIComponentProto
   public weak var delegate: UINodeDelegateProtocol?
 
   public weak var context: UIContextProtocol?
-  public weak var containerView: UIView? {
+  public private(set) weak var canvasView: UIView? {
     didSet {
       assert(parent == nil, "Unable to set a target view on a non-root component.")
     }
@@ -56,11 +58,27 @@ open class UIComponent<S: UIStateProtocol, P: UIPropsProtocol>: UIComponentProto
   public var canvasSize: () -> CGSize = {
     return CGSize(width: UIScreen.main.bounds.width, height: CGFloat.max)
   }
+  private var boundsObserver: UIContextViewBoundsObserver? = nil
 
   required public init(context: UIContextProtocol, key: String? = nil) {
     assert(context._componentInitFromContext, "Explicit init call is prohibited.")
     self.key = key
     self.context = context
+  }
+
+  public func setCanvas(view: UIView,
+                        useBoundsAsCanvasSize: Bool = true,
+                        automaticallyRenderOnCanvasSizeChange: Bool = true) {
+    canvasView = view
+    if useBoundsAsCanvasSize {
+      canvasSize = { [weak self] in return self?.canvasView?.bounds.size ?? CGSize.zero }
+    }
+    boundsObserver = nil
+    if automaticallyRenderOnCanvasSizeChange {
+      boundsObserver = UIContextViewBoundsObserver(view: view) { [weak self] _ in
+        self?.setNeedsRender()
+      }
+    }
   }
 
   public func setNeedsRender() {
@@ -69,7 +87,7 @@ open class UIComponent<S: UIStateProtocol, P: UIPropsProtocol>: UIComponentProto
       parent?.setNeedsRender()
       return
     }
-    guard let context = context, let view = containerView else {
+    guard let context = context, let view = canvasView else {
       fatalError("Attempting to render a component without a target view and/or a context.")
     }
     let node = render(context: context, state: state, props: props)
@@ -86,6 +104,9 @@ open class UIComponent<S: UIStateProtocol, P: UIPropsProtocol>: UIComponentProto
       if let key = node.key { keys.insert(key) }
       node.children.forEach { node in retrieveAllKeys(node: node) }
     }
+    retrieveAllKeys(node: node)
+
+    context.pool.flushObsoleteStates(validKeys: keys)
   }
 
   /// Builds the node hierarchy for this component.
@@ -108,7 +129,7 @@ open class UIComponent<S: UIStateProtocol, P: UIPropsProtocol>: UIComponentProto
   }
 }
 
-// MARK: - Props
+// MARK: - UIProps
 
 /// Represents the component props.
 public protocol UIPropsProtocol: Codable {
@@ -118,4 +139,31 @@ public protocol UIPropsProtocol: Codable {
 public class UINilProps: UIPropsProtocol {
   static let `nil` = UINilProps()
   public required init() { }
+}
+
+// MARK: - UIContextViewBoundsObserver
+
+private final class UIContextViewBoundsObserver: NSObject {
+  // The observed view.
+  private weak var view: UIView?
+  // The desired callback.
+  private let callback: (CGSize) -> Void
+  // KVO observation token.
+  private var token: NSKeyValueObservation?
+  // The last recorded size.
+  private var size = CGSize.zero
+
+  init(view: UIView, callback: @escaping (CGSize) -> Void) {
+    self.view = view
+    self.callback = callback
+    super.init()
+    self.token = view.observe(\UIView.bounds,
+                              options: [.initial, .new, .old]) { [weak self] (view, change) in
+      let oldSize = self?.size ?? CGSize.zero
+      if view.bounds.size != oldSize {
+        self?.size = view.bounds.size
+        self?.callback(view.bounds.size)
+      }
+    }
+  }
 }

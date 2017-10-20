@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		16020A221F92B28A00C893C2 /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16020A211F92B28A00C893C2 /* View.swift */; };
-		168777AC1F99444200273561 /* PlistNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 168777AB1F99444200273561 /* PlistNode.swift */; };
 		16DDA95D1F9799D200CDBCF5 /* Component.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16DDA95C1F9799D200CDBCF5 /* Component.swift */; };
 		16DDA95F1F98C6CC00CDBCF5 /* Context.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16DDA95E1F98C6CC00CDBCF5 /* Context.swift */; };
 		16F36BE71F8E197A00A04BE6 /* RenderNeutrino.h in Headers */ = {isa = PBXBuildFile; fileRef = 16F36BE51F8E197A00A04BE6 /* RenderNeutrino.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -36,7 +35,6 @@
 
 /* Begin PBXFileReference section */
 		16020A211F92B28A00C893C2 /* View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = View.swift; sourceTree = "<group>"; };
-		168777AB1F99444200273561 /* PlistNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlistNode.swift; sourceTree = "<group>"; };
 		16DDA95C1F9799D200CDBCF5 /* Component.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Component.swift; sourceTree = "<group>"; };
 		16DDA95E1F98C6CC00CDBCF5 /* Context.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Context.swift; sourceTree = "<group>"; };
 		16F36BE21F8E197A00A04BE6 /* RenderNeutrino.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = RenderNeutrino.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -104,7 +102,6 @@
 				16F36C181F8E4BA600A04BE6 /* KeyPath.swift */,
 				16F36BF11F8E2B2800A04BE6 /* Extensions.swift */,
 				16020A211F92B28A00C893C2 /* View.swift */,
-				168777AB1F99444200273561 /* PlistNode.swift */,
 			);
 			path = src;
 			sourceTree = "<group>";
@@ -229,7 +226,6 @@
 				16F36C101F8E2C1E00A04BE6 /* YGLayout.m in Sources */,
 				16F36C191F8E4BA600A04BE6 /* KeyPath.swift in Sources */,
 				16F36C111F8E2C1E00A04BE6 /* YGNodeList.c in Sources */,
-				168777AC1F99444200273561 /* PlistNode.swift in Sources */,
 				16F36C121F8E2C1E00A04BE6 /* YGPercentLayout.m in Sources */,
 				16F36C141F8E2C1E00A04BE6 /* Yoga.c in Sources */,
 				16F36BF21F8E2B2800A04BE6 /* Extensions.swift in Sources */,

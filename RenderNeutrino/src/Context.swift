@@ -14,10 +14,11 @@ public protocol UIContextProtocol: class {
   func transientComponent<S, P, C: UIComponent<S, P>>(_ type: C.Type,
                                                       props: P,
                                                       parent: UIComponentProtocol?) -> C
-
   // Internal sanity check.
   var _componentInitFromContext: Bool { get}
 }
+
+// MARK: - UIContext
 
 public class UIContext: UIContextProtocol {
   public let pool = UIContextPool()
@@ -54,6 +55,8 @@ public class UIContext: UIContextProtocol {
     return result
   }
 }
+
+// MARK: - UIContextPool
 
 public final class UIContextPool {
   private var states: [String: UIStateProtocol] = [:]
@@ -96,7 +99,13 @@ public final class UIContextPool {
   // Gets rid of the obsolete states.
   func flushObsoleteStates(validKeys: Set<String>) {
     assert(Thread.isMainThread)
-    states = states.filter { key, _ in validKeys.contains(key)}
-    components = components.filter { key, _ in validKeys.contains(key)}
+    states = states.filter { key, _ in validKeys.contains(key) }
+    components = components.filter { key, _ in validKeys.contains(key) }
   }
+}
+
+// MARK: - UIContextRegistrar
+
+public final class UIContextRegistrar {
+
 }

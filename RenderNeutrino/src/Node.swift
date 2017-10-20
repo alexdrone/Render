@@ -1,6 +1,6 @@
 import UIKit
 
-// MARK: - Delegate
+// MARK: - UINodeDelegateProtocol
 
 public protocol UINodeDelegateProtocol: class {
   /// The view got rendered and added to the view hierarchy.
@@ -11,7 +11,7 @@ public protocol UINodeDelegateProtocol: class {
   func nodeDidLayout(_ node: UINodeProtocol, view: UIView)
 }
 
-// MARK: - Protocol
+// MARK: - UINodeProtocol
 
 public protocol UINodeProtocol: class {
   /// The underlying rendered view.
@@ -44,7 +44,7 @@ public protocol UINodeProtocol: class {
   func _setup(in bounds: CGSize, options: [UINodeOption])
 }
 
-// MARK: - Implementation
+// MARK: - UINode
 
 public class UINode<V: UIView>: UINodeProtocol {
 
@@ -52,14 +52,14 @@ public class UINode<V: UIView>: UINodeProtocol {
     /// The associated node for this layout pass.
     public internal(set) var node: UINode<V>
     /// The concrete view associated to this node.
-    public internal(set) var view: V?
+    public internal(set) var view: V
     /// The canvas size for the root componens.
-    public internal(set) var size: CGSize
+    public internal(set) var canvasSize: CGSize
 
-    init(node: UINode<V>, view: V?, size: CGSize) {
+    init(node: UINode<V>, view: V, size: CGSize) {
       self.node = node
       self.view = view
-      self.size = size
+      self.canvasSize = size
     }
 
     public func set<T>(_ keyPath: ReferenceWritableKeyPath<V, T>,
@@ -100,10 +100,13 @@ public class UINode<V: UIView>: UINodeProtocol {
 
   public init(reuseIdentifier: String = String(describing: V.self),
               key: String? = nil,
-              create: @escaping () -> V = { V() },
+              create: (() -> V)? = nil,
               configure: UINodeConfigurationClosure? = nil) {
     self.reuseIdentifier = reuseIdentifier
-    self.createClosure = create
+    self.createClosure = create ??  { V() }
+    if create != nil && reuseIdentifier == String(describing: V.self) {
+      fatalError("Always specify a reuse identifier whenever a custom create closure is provided.")
+    }
     self.key = key
     if let configure = configure {
       self.configClosure = configure
@@ -313,7 +316,8 @@ public class UINode<V: UIView>: UINodeProtocol {
     }
   }
 }
-// MARK: - Empty Node
+
+// MARK: - UINilNode
 
 /// Represent an empty node.
 public class UINilNode: UINode<UIView> {
@@ -325,7 +329,7 @@ public class UINilNode: UINode<UIView> {
   }
 }
 
-// MARK: - Options
+// MARK: - UINodeOption
 
 public enum UINodeOption: Int {
   case none
