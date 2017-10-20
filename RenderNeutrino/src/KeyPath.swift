@@ -3,7 +3,7 @@
 // MARK: - UIViewPropertyProtocol
 
 public protocol UIViewKeyPathProtocol {
-  /// A unique identifier for the keyPath being assigned.
+  /// A unique identifier for the keyPath that is being assigned.
   var keyPathIdentifier: Int { get }
   /// Apply the computed property value to the view.
   func assign(view: UIView)
@@ -12,13 +12,12 @@ public protocol UIViewKeyPathProtocol {
 }
 
  public extension UINode {
-
   public final class UIViewKeyPathValue: UIViewKeyPathProtocol {
     /// A unique identifier for the keyPath being assigned.
     public let keyPathIdentifier: Int
-    /// The application closure.
+    /// The [property] application closure.
     private var applyClosure: ((V) -> Void)? = nil
-    /// The removal closure.
+    /// The [property] removal closure.
     private var removeClosure: ((V) -> Void)? = nil
     /// An optional animator for the property.
     private var animator: UIViewPropertyAnimator?
@@ -110,11 +109,11 @@ extension AnyKeyPath {
 }
 
 @objc public final class UIRenderConfigurationContainer: NSObject {
-  /// The node that originated this.
+  /// The node that originated this view.
   public weak var node: UINodeProtocol?
-  /// The initial value of the configuration that are going to be assigned.
-  public let appliedConfiguration: [Int: UIViewKeyPathProtocol] = [:]
-  /// The initial value of the configuration that are going to be assigned.
+  /// The current mutated properties.
+  let appliedConfiguration: [Int: UIViewKeyPathProtocol] = [:]
+  /// The initial value for the propeties that are currenly assigned.
   public let initialConfiguration: UIViewPropertyInitalContainer
   /// Whether the view has been created at the last render pass.
   public var isNewlyCreated: Bool = false;
@@ -129,9 +128,7 @@ extension AnyKeyPath {
 // MARK: - UIViewPropertyInitalContainer
 
 @objc public final class UIViewPropertyInitalContainer: NSObject {
-  /// The associated view.
   weak var view: UIView?
-  /// Stores the initial values for a view.
   @nonobjc var initialValues: [Int: Any] = [:]
 
   /// Initialize the container with its associated view.

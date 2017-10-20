@@ -1,21 +1,33 @@
 import UIKit
 
 public protocol UIContextProtocol: class {
-  /// Identity map for the components states.
-  var pool: UIContextPool { get }
   /// Retrieves the state for the key passed as argument.
+  /// If no state is registered yet, a new one will be allocated and returned.
+  /// - parameter type: The desired *UIState* subclass.
+  /// - parameter key: The unique key associated with this state.
   func state<S: UIStateProtocol>(_ type: S.Type, key: String) -> S
   /// Retrieves the component for the key passed as argument.
+  /// If no component is registered yet, a new one will be allocated and returned.
+  /// - parameter type: The desired *UIComponent* subclass.
+  /// - parameter key: The unique key associated with this component.
+  /// - parameter props: Configurations and callbacks passed down to the component.
+  /// - parameter parent: Optional if the component is not the root node.
   func component<S, P, C: UIComponent<S, P>>(_ type: C.Type,
                                              key: String,
                                              props: P,
                                              parent: UIComponentProtocol?) -> C
-  /// Builds a new volatile stateless component.
+  /// Creates a new volatile stateless component.
+  /// - parameter type: The desired *UIComponent* subclass.
+  /// - parameter props: Configurations and callbacks passed down to the component.
+  /// - parameter parent: Optional if the component is not the root node.
   func transientComponent<S, P, C: UIComponent<S, P>>(_ type: C.Type,
                                                       props: P,
                                                       parent: UIComponentProtocol?) -> C
-  // Internal sanity check.
+  // Internal component construction sanity check.
   var _componentInitFromContext: Bool { get}
+  /// States and component object pool that guarantees uniqueness of 'UIState' and 'UIComponent'
+  /// instances within the same context.
+  var pool: UIContextPool { get }
 }
 
 // MARK: - UIContext
@@ -63,6 +75,7 @@ public final class UIContextPool {
   private var components: [String: UIComponentProtocol] = [:]
 
   /// Retrieves or create a new UI state.
+  /// - parameter key: The unique key associated with the new state.
   func state<S: UIStateProtocol>(key: String) -> S {
     assert(Thread.isMainThread)
     if let state = states[key] as? S {
@@ -77,12 +90,19 @@ public final class UIContextPool {
   }
 
   /// Registers a new state in the pool.
+  /// - parameter key: The unique key associated with the new state.
+  /// - parameter state: The state that is going to be stored in this object pool.
+  /// - note: If a state with the same key is already memeber of this object pool, it will be
+  /// overriden with the new *state* object passed as argument.
   func store(key: String, state: UIStateProtocol) {
     assert(Thread.isMainThread)
     states[key] = state
   }
 
   /// Retrieves or create a new UI component.
+  /// - parameter key: The unique key associated with this component.
+  /// - parameter construct: Instructs the pool on how to instantiate the new component in case
+  /// this is not already available in this object pool.
   func component<C: UIComponentProtocol>(key: String, construct: @autoclosure () -> C) -> C {
     assert(Thread.isMainThread)
     if let component = components[key] as? C {

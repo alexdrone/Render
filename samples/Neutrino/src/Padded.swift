@@ -17,9 +17,10 @@ public struct PaddedLabel {
 
   public class Component: UIComponent<State, Props> {
 
-    public override func render(context: UIContextProtocol,
-                                state: State,
-                                props: Props) -> UINodeProtocol {
+    public override func render(context: UIContextProtocol) -> UINodeProtocol {
+      let props = self.props
+      let state = self.state
+  
       let root = UINode<UIView> { layout in
         layout.set(\UIView.backgroundColor, value: props.isImportant ? .orange : .gray)
         layout.set(\UIView.yoga.padding, value: 50)

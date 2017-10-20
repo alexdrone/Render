@@ -3,44 +3,51 @@ import UIKit
 // MARK: - UINodeDelegateProtocol
 
 public protocol UINodeDelegateProtocol: class {
-  /// The view got rendered and added to the view hierarchy.
+  /// The backing view of *node* just got rendered and added to the view hierarchy.
+  /// - parameter view: The view that just got installed in the view hierarchy.
   func nodeDidMount(_ node: UINodeProtocol, view: UIView)
-  /// The view is about to be layed out.
+  /// The backing view of *node* is about to be layed out.
+  /// - parameter view: The view that is about to be configured and layed out.
   func nodeWillLayout(_ node: UINodeProtocol, view: UIView)
-  /// The view just got layed out.
+  /// The backing view of *node* just got layed out.
+  /// - parameter view: The view that has just been configured and layed out.
   func nodeDidLayout(_ node: UINodeProtocol, view: UIView)
 }
 
 // MARK: - UINodeProtocol
 
 public protocol UINodeProtocol: class {
-  /// The underlying rendered view.
+  /// Backing view for this node.
   var renderedView: UIView? { get }
-  /// The optional delegate for this node.
+  /// *Optional* delegate.
   weak var delegate: UINodeDelegateProtocol? { get set }
-  /// The parent node (if applicable).
+  /// The parent node (if this is not the root node in the hierarchy).
   weak var parent: UINodeProtocol? { get set }
-  /// This must be defined if the node is a stateful node.
-  /// It uniquely defines a node.
+  /// A unique key for the component/node (necessary if the component is stateful).
   var key: String? { get set }
   /// The reuse identifier for this node is its hierarchy.
   /// Identifiers help Render understand which items have changed.
+  /// A custom *reuseIdentifier* is mandatory if the node has a custom creation closure.
   var reuseIdentifier: String { get }
   /// The subnodes of this node.
   var children: [UINodeProtocol] { get }
-  /// This component is the n-th children.
-  var index: Int { get set }
-  /// Re-applies the configuration for the node and compute its layout.
+  /// Re-applies the configuration closure for this node and compute its layout.
   func layout(in bounds: CGSize, options: [UINodeOption])
-  /// Mount the component in the view hierarchy by running its reconciliation algorithm.
+  /// Mount the component in the view hierarchy by running the *reconciliation algorithm*.
   /// This means that only the required changes to the view hierarchy are going to be applied.
   func reconcile(in view: UIView?, size: CGSize?, options: [UINodeOption])
 
   // Internal.
 
+  /// This component is the n-th children.
+  /// - note: *Internal use only*.
+  var index: Int { get set }
   /// Asks the node to build the backing view for this node.
+  /// - note: *Internal use only*.
   func _constructView(with reusableView: UIView?)
-  /// Configure the backing view of this node.
+  /// Configure the backing view of this node by running the configuration closure provided in the
+  /// init method.
+  /// - note: *Internal use only*.
   func _setup(in bounds: CGSize, options: [UINodeOption])
 }
 
@@ -48,10 +55,10 @@ public protocol UINodeProtocol: class {
 
 public class UINode<V: UIView>: UINodeProtocol {
 
-  public struct Layout {
-    /// The associated node for this layout pass.
+  public struct UILayout {
+    /// The target node for this layout pass.
     public internal(set) var node: UINode<V>
-    /// The concrete view associated to this node.
+    /// The concrete backing view.
     public internal(set) var view: V
     /// The canvas size for the root componens.
     public internal(set) var canvasSize: CGSize
@@ -71,33 +78,48 @@ public class UINode<V: UIView>: UINodeProtocol {
   }
 
   public typealias UINodeCreationClosure = () -> V
-  public typealias UINodeConfigurationClosure = (Layout) -> Void
-  public typealias UINodeChildrenCreationClosure = (Layout) -> [UINodeProtocol]
+  public typealias UINodeConfigurationClosure = (UILayout) -> Void
+  public typealias UINodeChildrenCreationClosure = (UILayout) -> [UINodeProtocol]
 
-  public let isStateless: Bool = true
-
-  public fileprivate(set) var renderedView: UIView? = nil
-  public var delegate: UINodeDelegateProtocol?
-  public weak var parent: UINodeProtocol?
-
-  // Since there's no state, there's no key for this component.
-  public var key: String? = nil
   public fileprivate(set) var reuseIdentifier: String
-
+  public fileprivate(set) var renderedView: UIView? = nil
   public fileprivate(set) var children: [UINodeProtocol] = []
+  public weak var delegate: UINodeDelegateProtocol?
+  public weak var parent: UINodeProtocol?
+  public var key: String? = nil
   public var index: Int = 0
 
-  // The creation closure for the view.
+  // Private.
+
   private let createClosure: UINodeCreationClosure
   private var configClosure: UINodeConfigurationClosure = { _ in }
   private var childrenClosure: UINodeConfigurationClosure = { _ in }
-
+  // 'true' whenever view just got created and added to the view hierarchy.
   private var shouldInvokeDidMount: Bool = false
+  // The target object for the view binding method.
   private weak var bindTarget: AnyObject?
-
   // The properties for this node.
   var viewProperties: [Int: UIViewKeyPathValue] = [:]
 
+  /// Creates a new immutable UI description node.
+  /// - parameter reuseIdentifier: Mandatory if the node has a custom creation closure.
+  /// - parameter key: A unique key for the node (necessary if the component is stateful).
+  /// - parameter create: Custom view initialization closure.
+  /// - parameter configure: This closure is invoked whenever the 'layout' method is invoked.
+  /// Configure your backing view by using the *UILayout* object (e.g.):
+  /// ```
+  /// ... { layout in
+  ///   layout.set(\UIView.backgroundColor, value: .green)
+  ///   layout.set(\UIView.layer.borderWidth, value: 1)
+  /// ```
+  /// You can also access to the view directly (this is less performant because the infrastructure
+  /// can't keep tracks of these view changes, but necessary when coping with more complex view
+  /// configuration methods).
+  /// ```
+  /// ... { layout in
+  ///   layout.view.backgroundColor = .green
+  ///   layout.view.setTitle("FOO", for: .normal)
+  /// ```
   public init(reuseIdentifier: String = String(describing: V.self),
               key: String? = nil,
               create: (() -> V)? = nil,
@@ -118,10 +140,12 @@ public class UINode<V: UIView>: UINodeProtocol {
   }
 
   /// Sets the subnodes of this node.
+  /// - note: Instances of *UINilNode* are excluded from the node hierarchy.
   @discardableResult public func children(_ children: [UINodeProtocol]) -> Self {
     var nodes = children
     var index = 0
     for child in children {
+      if child is UINilNode { continue }
       child.index = index
       child.parent = self
       nodes.append(child)
@@ -131,7 +155,6 @@ public class UINode<V: UIView>: UINodeProtocol {
     return self
   }
 
-  /// Configure the backing view of this node.
   public func _setup(in bounds: CGSize, options: [UINodeOption]) {
     assert(Thread.isMainThread)
     _constructView()
@@ -142,7 +165,7 @@ public class UINode<V: UIView>: UINodeProtocol {
       print("Unexpected error: View/State/Props type mismatch.")
       return
     }
-    let layout = Layout(node: self, view: renderedView, size: bounds)
+    let layout = UILayout(node: self, view: renderedView, size: bounds)
     configClosure(layout)
 
     // Configure the children recursively.
@@ -267,24 +290,19 @@ public class UINode<V: UIView>: UINodeProtocol {
       let candidateView = oldSubviews?.filter { view in
         return view.tag == subnode.reuseIdentifier.hashValue
       }.first
-
       // Pops the candidate view from the collection.
       oldSubviews = oldSubviews?.filter {
         view in view !== candidateView
       }
-
       // Recursively reconcile the subnode.
       _reconcile(node: subnode, size: size, view: candidateView, parent: node.renderedView!)
     }
-
     // Remove all of the obsolete old views that couldn't be recycled.
     for view in oldSubviews ?? [] {
       view.removeFromSuperview()
     }
   }
 
-  /// Mount the component in the view hierarchy by running its reconciliation algorithm.
-  /// This means that only the required changes to the view hierarchy are going to be applied.
   public func reconcile(in view: UIView? = nil, size: CGSize? = nil, options: [UINodeOption] = []) {
     assert(Thread.isMainThread)
     guard let view = view ?? renderedView?.superview else {
@@ -303,7 +321,10 @@ public class UINode<V: UIView>: UINodeProtocol {
   // Binding closure.
   private var bindIfNecessary: (UIView) -> Void = { _ in }
 
-  /// Binds the node rendered view to a target property.
+  /// Binds the rendered view to a property in the target object.
+  /// - parameter target: The target object for the binding.
+  /// - parameter keyPath: The property path in the target object.
+  /// - note: Declare the property in your target as *weak* in order to prevent retain ciclyes.
   public func bindView<O: AnyObject, V>(target: O,
                                         keyPath: ReferenceWritableKeyPath<O, V>) {
     assert(Thread.isMainThread)
@@ -320,11 +341,10 @@ public class UINode<V: UIView>: UINodeProtocol {
 // MARK: - UINilNode
 
 /// Represent an empty node.
+/// - note: Use this when you want to return an empty child in some conditions.
 public class UINilNode: UINode<UIView> {
-  /// Static shared instance.
   static let `nil` = UINilNode()
-
-  public init() {
+  private init() {
     super.init(reuseIdentifier: "nil_node")
   }
 }
@@ -332,14 +352,13 @@ public class UINilNode: UINode<UIView> {
 // MARK: - UINodeOption
 
 public enum UINodeOption: Int {
-  case none
+  /// Prevent the delegate to be notified at this layout pass.
   case preventDelegateCallbacks
 }
 
 func debugReconcileTime(_ label: String, startTime: CFAbsoluteTime, threshold: CFAbsoluteTime = 16){
   let timeElapsed = (CFAbsoluteTimeGetCurrent() - startTime) * 1000
-
-  // - Note: 60fps means you need to render a frame every ~16ms to not drop any frames.
+  // - note: 60fps means you need to render a frame every ~16ms to not drop any frames.
   // This is even more important when used inside a cell.
   if timeElapsed > threshold  {
     print(String(format: "\(label) (%2f) ms.", arguments: [timeElapsed]))

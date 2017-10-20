@@ -2,10 +2,11 @@ import Foundation
 
 // MARK: - State protocol
 
-/// There are two types of data that control a component: configuration and state.
-/// configuration are simply the component proprieties, set by the parent and they are fixed
-///  throughout the lifetime of a component.
-/// For data that is going to change, we have to use state.
+/// The state is a data structure that starts with a default value when a Component mounts.
+/// It may be mutated across time, mostly as a result of user events.
+/// A Component manages its own state internally.
+/// Besides setting an initial state, it has no business fiddling with the state of its children.
+/// You might conceptualize state as private to that component.
 public protocol UIStateProtocol: class, ReflectedStringConvertible, Codable {
   /// Returns the initial state for this current state type.
   init()

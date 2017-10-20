@@ -3,14 +3,18 @@ import UIKit
 public protocol UIComponentProtocol: class, UINodeDelegateProtocol {
   /// The component-tree context.
   weak var context: UIContextProtocol? { get }
-  /// The target container view.
+  /// The view in which the component is going to be rendered.
   weak var canvasView: UIView? { get }
-  /// The canvas boundaries for the component.
+  /// Canvas bounding rect.
   var canvasSize: () -> CGSize { get set }
-  /// Set the view this component is going to be rendered in.
+  /// Set the canvas view for this component.
+  /// - parameter view: The view in which the component is going to be rendered.
+  /// - parameter useBoundsAsCanvasSize: if 'true' the canvas size will return the view bounds.
+  /// - parameter renderOnCanvasSizeChange: if 'true' the components will automatically
+  /// trigger 'setNeedsRender' whenever the canvas view changes its bounds.
   func setCanvas(view: UIView,
                  useBoundsAsCanvasSize: Bool,
-                 automaticallyRenderOnCanvasSizeChange: Bool)
+                 renderOnCanvasSizeChange: Bool)
   /// Mark the component for rendering.
   func setNeedsRender()
 }
@@ -18,11 +22,13 @@ public protocol UIComponentProtocol: class, UINodeDelegateProtocol {
 // MARK: - UIComponent
 
 open class UIComponent<S: UIStateProtocol, P: UIPropsProtocol>: UIComponentProtocol {
-  /// The root node.
+  /// The root node (built as a result of the 'render' method).
   public var root: UINodeProtocol = UINilNode.nil
-  /// The component parent (if applicable).
+  /// The component parent (nil for root components).
   public weak var parent: UIComponentProtocol?
-  /// The state associated to this component.
+  /// The state associated with this component.
+  /// A state is always associated to a unique component key and it's a unique instance living
+  /// in the context identity map.
   public var state: S {
     get {
       guard let key = key, !(S() is UINilState) else {
@@ -42,17 +48,16 @@ open class UIComponent<S: UIStateProtocol, P: UIPropsProtocol>: UIComponentProto
       setNeedsRender()
     }
   }
-  /// The props currently associated to this component.
+  /// Use props to pass data & event handlers down to your child components.
   public var props: P = P()
   /// A unique key for the component (necessary if the component is stateful).
   public let key: String?
-  /// Forwards delegates method calls.
+  /// Forwards node layout method callbacks.
   public weak var delegate: UINodeDelegateProtocol?
-
   public weak var context: UIContextProtocol?
   public private(set) weak var canvasView: UIView? {
     didSet {
-      assert(parent == nil, "Unable to set a target view on a non-root component.")
+      assert(parent == nil, "Unable to set a canvas view on a non-root component.")
     }
   }
   public var canvasSize: () -> CGSize = {
@@ -68,13 +73,13 @@ open class UIComponent<S: UIStateProtocol, P: UIPropsProtocol>: UIComponentProto
 
   public func setCanvas(view: UIView,
                         useBoundsAsCanvasSize: Bool = true,
-                        automaticallyRenderOnCanvasSizeChange: Bool = true) {
+                        renderOnCanvasSizeChange: Bool = true) {
     canvasView = view
     if useBoundsAsCanvasSize {
       canvasSize = { [weak self] in return self?.canvasView?.bounds.size ?? CGSize.zero }
     }
     boundsObserver = nil
-    if automaticallyRenderOnCanvasSizeChange {
+    if renderOnCanvasSizeChange {
       boundsObserver = UIContextViewBoundsObserver(view: view) { [weak self] _ in
         self?.setNeedsRender()
       }
@@ -88,9 +93,9 @@ open class UIComponent<S: UIStateProtocol, P: UIPropsProtocol>: UIComponentProto
       return
     }
     guard let context = context, let view = canvasView else {
-      fatalError("Attempting to render a component without a target view and/or a context.")
+      fatalError("Attempting to render a component without a canvas view and/or a context.")
     }
-    let node = render(context: context, state: state, props: props)
+    let node = render(context: context)
     if let key = key {
       if let nodeKey = node.key, nodeKey != key {
         print("warning: The root node has a key \(nodeKey) that differs from the component \(key).")
@@ -110,43 +115,33 @@ open class UIComponent<S: UIStateProtocol, P: UIPropsProtocol>: UIComponentProto
   }
 
   /// Builds the node hierarchy for this component.
-  /// Subclasses to override this method.
-  open func render(context: UIContextProtocol, state: S, props: P) -> UINodeProtocol {
+  /// The render() function should be pure, meaning that it does not modify component state,
+  /// it returns the same result each time it’s invoked.
+  /// - note: Subclasses *must* override this method.
+  /// - parameter context: The component-tree context.
+  open func render(context: UIContextProtocol) -> UINodeProtocol {
     return UINilNode.nil
   }
 
-  /// The view got rendered and added to the view hierarchy.
   open func nodeDidMount(_ node: UINodeProtocol, view: UIView) {
     delegate?.nodeDidMount(node, view: view)
   }
-  /// The view is about to be layed out.
+
   open func nodeWillLayout(_ node: UINodeProtocol, view: UIView) {
     delegate?.nodeWillLayout(node, view: view)
   }
-  /// The view just got layed out.
+
   open func nodeDidLayout(_ node: UINodeProtocol, view: UIView) {
     delegate?.nodeDidLayout(node, view: view)
   }
 }
 
-// MARK: - UIProps
-
-/// Represents the component props.
-public protocol UIPropsProtocol: Codable {
-  init()
-}
-
-public class UINilProps: UIPropsProtocol {
-  static let `nil` = UINilProps()
-  public required init() { }
-}
-
 // MARK: - UIContextViewBoundsObserver
 
 private final class UIContextViewBoundsObserver: NSObject {
-  // The observed view.
+  // The observed canvas view.
   private weak var view: UIView?
-  // The desired callback.
+  // The callback that is going to be invoked whenever the observed view changes its bounds.
   private let callback: (CGSize) -> Void
   // KVO observation token.
   private var token: NSKeyValueObservation?
