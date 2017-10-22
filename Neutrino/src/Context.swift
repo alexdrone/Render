@@ -23,6 +23,12 @@ public protocol UIContextProtocol: class {
   func transientComponent<S, P, C: UIComponent<S, P>>(_ type: C.Type,
                                                       props: P,
                                                       parent: UIComponentProtocol?) -> C
+  /// *Optional* the property animator that is going to be used for frame changes in the component
+  /// subtree.
+  /// - note: This field is auotmatically reset to 'nil' at the end of every 'render' pass.
+  var layoutAnimator: UIViewPropertyAnimator? { get set }
+  /// The canvas view in which the component will be rendered in.
+  weak var canvasView: UIView? { get set }
   // Internal component construction sanity check.
   var _componentInitFromContext: Bool { get}
   /// States and component object pool that guarantees uniqueness of 'UIState' and 'UIComponent'
@@ -34,7 +40,11 @@ public protocol UIContextProtocol: class {
 
 public class UIContext: UIContextProtocol {
   public let pool = UIContextPool()
+  public weak var canvasView: UIView?
   public var _componentInitFromContext: Bool = false
+
+  // The property animator that is going to be used for frame changes in the subtree.
+  public var layoutAnimator: UIViewPropertyAnimator?
 
   public init() { }
 

@@ -73,8 +73,14 @@ public protocol UIViewKeyPathProtocol {
     private func apply<T>(view: V, keyPath: ReferenceWritableKeyPath<V, T>, value: T) {
       // Caches the initial value.
       view.renderContext.initialConfiguration.storeInitialValue(keyPath: keyPath)
-      // TODO: add animator support.
-      view[keyPath: keyPath] = value
+      if let animator = animator {
+        animator.addAnimations {
+          view[keyPath: keyPath] = value
+        }
+        animator.startAnimation()
+      } else {
+        view[keyPath: keyPath] = value
+      }
     }
 
     private func remove<T>(view: V, keyPath: ReferenceWritableKeyPath<V, T>) {

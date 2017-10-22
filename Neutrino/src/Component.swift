@@ -12,17 +12,26 @@ public protocol UIComponentProtocol: class, UINodeDelegateProtocol {
   /// - parameter useBoundsAsCanvasSize: if 'true' the canvas size will return the view bounds.
   /// - parameter renderOnCanvasSizeChange: if 'true' the components will automatically
   /// trigger 'setNeedsRender' whenever the canvas view changes its bounds.
-  func setCanvas(view: UIView,
-                 useBoundsAsCanvasSize: Bool,
-                 renderOnCanvasSizeChange: Bool)
+  func setCanvas(view: UIView, options: [UIComponentCanvasOption])
   /// Mark the component for rendering.
-  func setNeedsRender()
+  func setNeedsRender(layoutAnimator: UIViewPropertyAnimator?)
   /// Type-erased state associated to this component.
   /// - note: *Internal only.*
   var anyState: UIStateProtocol { get }
   /// Type-erased props associated to this component.
   /// - note: *Internal only.*
   var anyProps: UIPropsProtocol { get }
+}
+
+public enum UIComponentCanvasOption: Int {
+  // The canvas size will return the view bounds.
+  case useBoundsAsCanvasSize
+  /// Triggers 'setNeedsRender' whenever the canvas view changes its bounds.
+  case renderOnCanvasSizeChange
+  /// If the component can overflow in the horizontal axis.
+  case flexibleWidth
+  /// If the component can overflow in the vertical axis.
+  case flexibleHeight
 }
 
 // MARK: - UIComponent
@@ -80,29 +89,39 @@ open class UIComponent<S: UIStateProtocol, P: UIPropsProtocol>: UIComponentProto
     hookInspectorIfAvailable()
   }
 
-  public func setCanvas(view: UIView,
-                        useBoundsAsCanvasSize: Bool = true,
-                        renderOnCanvasSizeChange: Bool = true) {
+  public func setCanvas(view: UIView, options: [UIComponentCanvasOption] =
+    [.useBoundsAsCanvasSize, .renderOnCanvasSizeChange, .flexibleHeight]) {
     canvasView = view
-    if useBoundsAsCanvasSize {
-      canvasSize = { [weak self] in return self?.canvasView?.bounds.size ?? CGSize.zero }
+    context?.canvasView = canvasView
+    if options.contains(.useBoundsAsCanvasSize) {
+      canvasSize = { [weak self] in
+        var size = self?.canvasView?.bounds.size ?? CGSize.zero
+        size.height = options.contains(.flexibleHeight) ? CGFloat.max : size.height
+        size.width = options.contains(.flexibleWidth) ? CGFloat.max : size.width
+        return size
+      }
     }
     boundsObserver = nil
-    if renderOnCanvasSizeChange {
+    if options.contains(.renderOnCanvasSizeChange) {
       boundsObserver = UIContextViewBoundsObserver(view: view) { [weak self] _ in
         self?.setNeedsRender()
       }
     }
   }
 
-  public func setNeedsRender() {
+  public func setNeedsRender(layoutAnimator: UIViewPropertyAnimator? = nil) {
     assert(Thread.isMainThread)
     guard parent == nil else {
-      parent?.setNeedsRender()
+      parent?.setNeedsRender(layoutAnimator: layoutAnimator)
       return
     }
     guard let context = context, let view = canvasView else {
       fatalError("Attempting to render a component without a canvas view and/or a context.")
+    }
+    // *Optional* the property animator that is going to be used for frame changes in the component
+    // subtree. This field is auotmatically reset to 'nil' at the end of every 'render' pass.
+    if let layoutAnimator = layoutAnimator {
+      context.layoutAnimator = layoutAnimator
     }
     let node = render(context: context)
     node.associatedComponent = self
@@ -123,6 +142,9 @@ open class UIComponent<S: UIStateProtocol, P: UIPropsProtocol>: UIComponentProto
 
     context.pool.flushObsoleteStates(validKeys: keys)
     inspectorMarkDirty()
+
+    // Reset the animatable frame changes to default.
+    context.layoutAnimator = nil
   }
 
   /// Builds the node hierarchy for this component.

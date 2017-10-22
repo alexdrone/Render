@@ -7,28 +7,28 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		165399231F9A73B6006DFE5D /* RenderNeutrino.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 165399171F9A737B006DFE5D /* RenderNeutrino.framework */; };
+		165399241F9A73B6006DFE5D /* RenderNeutrino.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 165399171F9A737B006DFE5D /* RenderNeutrino.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		168777AE1F99446200273561 /* Property List.plist in Resources */ = {isa = PBXBuildFile; fileRef = 168777AD1F99446200273561 /* Property List.plist */; };
 		168FA6D71F8F856D00A12585 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 168FA6D61F8F856D00A12585 /* AppDelegate.swift */; };
 		168FA6D91F8F856D00A12585 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 168FA6D81F8F856D00A12585 /* ViewController.swift */; };
 		168FA6DC1F8F856D00A12585 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 168FA6DA1F8F856D00A12585 /* Main.storyboard */; };
 		168FA6DE1F8F856D00A12585 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 168FA6DD1F8F856D00A12585 /* Assets.xcassets */; };
 		168FA6E11F8F856D00A12585 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 168FA6DF1F8F856D00A12585 /* LaunchScreen.storyboard */; };
-		169DC8D01F934DD800625FA6 /* RenderNeutrino.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 169DC8CD1F934DC500625FA6 /* RenderNeutrino.framework */; };
-		169DC8D11F934DD800625FA6 /* RenderNeutrino.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 169DC8CD1F934DC500625FA6 /* RenderNeutrino.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		169DC8EF1F93A66100625FA6 /* Padded.swift in Sources */ = {isa = PBXBuildFile; fileRef = 169DC8ED1F93A65C00625FA6 /* Padded.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		169DC8CC1F934DC500625FA6 /* PBXContainerItemProxy */ = {
+		165399161F9A737B006DFE5D /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 169DC8C81F934DC500625FA6 /* RenderNeutrino.xcodeproj */;
+			containerPortal = 165399121F9A737B006DFE5D /* RenderNeutrino.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 16F36BE21F8E197A00A04BE6;
 			remoteInfo = RenderNeutrino;
 		};
-		169DC8D21F934DD800625FA6 /* PBXContainerItemProxy */ = {
+		165399251F9A73B6006DFE5D /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 169DC8C81F934DC500625FA6 /* RenderNeutrino.xcodeproj */;
+			containerPortal = 165399121F9A737B006DFE5D /* RenderNeutrino.xcodeproj */;
 			proxyType = 1;
 			remoteGlobalIDString = 16F36BE11F8E197A00A04BE6;
 			remoteInfo = RenderNeutrino;
@@ -42,7 +42,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				169DC8D11F934DD800625FA6 /* RenderNeutrino.framework in Embed Frameworks */,
+				165399241F9A73B6006DFE5D /* RenderNeutrino.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -50,6 +50,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		165399121F9A737B006DFE5D /* RenderNeutrino.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RenderNeutrino.xcodeproj; path = ../../Neutrino/RenderNeutrino.xcodeproj; sourceTree = "<group>"; };
 		168777AD1F99446200273561 /* Property List.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Property List.plist"; sourceTree = "<group>"; };
 		168FA6D31F8F856D00A12585 /* RenderNeutrinoDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RenderNeutrinoDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		168FA6D61F8F856D00A12585 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -58,7 +59,6 @@
 		168FA6DD1F8F856D00A12585 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		168FA6E01F8F856D00A12585 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		168FA6E21F8F856D00A12585 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		169DC8C81F934DC500625FA6 /* RenderNeutrino.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RenderNeutrino.xcodeproj; path = ../../RenderNeutrino/RenderNeutrino.xcodeproj; sourceTree = "<group>"; };
 		169DC8ED1F93A65C00625FA6 /* Padded.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Padded.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -67,17 +67,25 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				169DC8D01F934DD800625FA6 /* RenderNeutrino.framework in Frameworks */,
+				165399231F9A73B6006DFE5D /* RenderNeutrino.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		165399131F9A737B006DFE5D /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				165399171F9A737B006DFE5D /* RenderNeutrino.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		168FA6CA1F8F856D00A12585 = {
 			isa = PBXGroup;
 			children = (
-				169DC8C81F934DC500625FA6 /* RenderNeutrino.xcodeproj */,
+				165399121F9A737B006DFE5D /* RenderNeutrino.xcodeproj */,
 				168FA6D51F8F856D00A12585 /* src */,
 				168FA6D41F8F856D00A12585 /* Products */,
 				169DC8E61F93A4A000625FA6 /* Frameworks */,
@@ -107,14 +115,6 @@
 			path = src;
 			sourceTree = "<group>";
 		};
-		169DC8C91F934DC500625FA6 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				169DC8CD1F934DC500625FA6 /* RenderNeutrino.framework */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		169DC8E61F93A4A000625FA6 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -137,7 +137,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				169DC8D31F934DD800625FA6 /* PBXTargetDependency */,
+				165399261F9A73B6006DFE5D /* PBXTargetDependency */,
 			);
 			name = RenderNeutrinoDemo;
 			productName = PureDemo;
@@ -173,8 +173,8 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = 169DC8C91F934DC500625FA6 /* Products */;
-					ProjectRef = 169DC8C81F934DC500625FA6 /* RenderNeutrino.xcodeproj */;
+					ProductGroup = 165399131F9A737B006DFE5D /* Products */;
+					ProjectRef = 165399121F9A737B006DFE5D /* RenderNeutrino.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -185,11 +185,11 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		169DC8CD1F934DC500625FA6 /* RenderNeutrino.framework */ = {
+		165399171F9A737B006DFE5D /* RenderNeutrino.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
 			path = RenderNeutrino.framework;
-			remoteRef = 169DC8CC1F934DC500625FA6 /* PBXContainerItemProxy */;
+			remoteRef = 165399161F9A737B006DFE5D /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -222,10 +222,10 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		169DC8D31F934DD800625FA6 /* PBXTargetDependency */ = {
+		165399261F9A73B6006DFE5D /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = RenderNeutrino;
-			targetProxy = 169DC8D21F934DD800625FA6 /* PBXContainerItemProxy */;
+			targetProxy = 165399251F9A73B6006DFE5D /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 

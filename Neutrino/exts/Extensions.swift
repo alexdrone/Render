@@ -54,16 +54,23 @@ protocol UIPostRendering {
 
 extension UIScrollView: UIPostRendering {
   func postRender() {
-    if let _ = self as? UITableView { return }
-    if let _ = self as? UICollectionView { return }
-    var x: CGFloat = 0
-    var y: CGFloat = 0
-    for subview in self.subviews {
-      x = subview.frame.maxX > x ? subview.frame.maxX : x
-      y = subview.frame.maxY > y ? subview.frame.maxY : y
+    // Performs the change on the next runloop.
+    DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0) {
+      if let _ = self as? UITableView { return }
+      if let _ = self as? UICollectionView { return }
+      var x: CGFloat = 0
+      var y: CGFloat = 0
+      for subview in self.subviews {
+        x = subview.frame.maxX > x ? subview.frame.maxX : x
+        y = subview.frame.maxY > y ? subview.frame.maxY : y
+      }
+      if self.yoga.flexDirection == .column {
+        self.contentSize = CGSize(width: self.contentSize.width, height: y)
+      } else {
+        self.contentSize = CGSize(width: x, height: self.contentSize.height)
+      }
+      self.isScrollEnabled = true
     }
-    contentSize = CGSize(width: x, height: y)
-    isScrollEnabled = true
   }
 }
 

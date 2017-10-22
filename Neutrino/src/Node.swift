@@ -105,6 +105,9 @@ public class UINode<V: UIView>: UINodeProtocol {
   private var shouldInvokeDidMount: Bool = false
   // The target object for the view binding method.
   private weak var bindTarget: AnyObject?
+
+  // Internal.
+
   // The properties for this node.
   var viewProperties: [Int: UIViewKeyPathValue] = [:]
 
@@ -196,7 +199,6 @@ public class UINode<V: UIView>: UINodeProtocol {
     }
 
     if view.yoga.isEnabled, view.yoga.isLeaf, view.yoga.isIncludedInLayout {
-      view.frame.size = .zero
       view.yoga.markDirty()
     }
     didLayout(options: options)
@@ -210,13 +212,25 @@ public class UINode<V: UIView>: UINodeProtocol {
     let view = requireRenderedView()
     viewProperties = [:]
 
-    // Compute the flexbox layout for the node.
-    view.bounds.size = bounds
-    view.yoga.applyLayout(preservingOrigin: false)
-    view.bounds.size = view.yoga.intrinsicSize
+    func computeLayout() {
+      // Compute the flexbox layout for the node.
+      view.bounds.size = bounds
+      view.yoga.applyLayout(preservingOrigin: false)
+      view.bounds.size = view.yoga.intrinsicSize
 
-    view.yoga.applyLayout(preservingOrigin: false)
-    view.frame.normalize()
+      view.yoga.applyLayout(preservingOrigin: false)
+      view.frame.normalize()
+    }
+
+    if let frameChangeAnimator = associatedComponent?.context?.layoutAnimator {
+      frameChangeAnimator.stopAnimation(false)
+      frameChangeAnimator.addAnimations {
+        computeLayout()
+      }
+      frameChangeAnimator.startAnimation()
+    } else {
+      computeLayout()
+    }
   }
 
   private func requireRenderedView() -> UIView {
@@ -320,7 +334,6 @@ public class UINode<V: UIView>: UINodeProtocol {
 
     let startTime = CFAbsoluteTimeGetCurrent()
     _reconcile(node: self, size: size, view: view.subviews.first, parent: view)
-    layout(in: size, options: [.preventDelegateCallbacks])
     layout(in: size)
 
     debugReconcileTime("\(Swift.type(of: self)).reconcile", startTime: startTime)
