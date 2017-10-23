@@ -16,6 +16,8 @@
 		168FA6DE1F8F856D00A12585 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 168FA6DD1F8F856D00A12585 /* Assets.xcassets */; };
 		168FA6E11F8F856D00A12585 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 168FA6DF1F8F856D00A12585 /* LaunchScreen.storyboard */; };
 		169DC8EF1F93A66100625FA6 /* Padded.swift in Sources */ = {isa = PBXBuildFile; fileRef = 169DC8ED1F93A65C00625FA6 /* Padded.swift */; };
+		16AEE51F1F9D2758004798A8 /* RenderInspector.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16AEE51E1F9D2748004798A8 /* RenderInspector.framework */; };
+		16AEE5201F9D2758004798A8 /* RenderInspector.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 16AEE51E1F9D2748004798A8 /* RenderInspector.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -33,6 +35,20 @@
 			remoteGlobalIDString = 16F36BE11F8E197A00A04BE6;
 			remoteInfo = RenderNeutrino;
 		};
+		16AEE51D1F9D2748004798A8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 16AEE5191F9D2748004798A8 /* RenderInspector.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 16B89BBE1F9D2513001CF649;
+			remoteInfo = RenderInspector;
+		};
+		16AEE5211F9D2758004798A8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 16AEE5191F9D2748004798A8 /* RenderInspector.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 16B89BBD1F9D2513001CF649;
+			remoteInfo = RenderInspector;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -42,6 +58,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				16AEE5201F9D2758004798A8 /* RenderInspector.framework in Embed Frameworks */,
 				165399241F9A73B6006DFE5D /* RenderNeutrino.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
@@ -60,6 +77,7 @@
 		168FA6E01F8F856D00A12585 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		168FA6E21F8F856D00A12585 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		169DC8ED1F93A65C00625FA6 /* Padded.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Padded.swift; sourceTree = "<group>"; };
+		16AEE5191F9D2748004798A8 /* RenderInspector.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RenderInspector.xcodeproj; path = ../../inspector/ios/RenderInspector.xcodeproj; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -67,6 +85,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				16AEE51F1F9D2758004798A8 /* RenderInspector.framework in Frameworks */,
 				165399231F9A73B6006DFE5D /* RenderNeutrino.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -85,6 +104,7 @@
 		168FA6CA1F8F856D00A12585 = {
 			isa = PBXGroup;
 			children = (
+				16AEE5191F9D2748004798A8 /* RenderInspector.xcodeproj */,
 				165399121F9A737B006DFE5D /* RenderNeutrino.xcodeproj */,
 				168FA6D51F8F856D00A12585 /* src */,
 				168FA6D41F8F856D00A12585 /* Products */,
@@ -122,6 +142,14 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		16AEE51A1F9D2748004798A8 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				16AEE51E1F9D2748004798A8 /* RenderInspector.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -138,6 +166,7 @@
 			);
 			dependencies = (
 				165399261F9A73B6006DFE5D /* PBXTargetDependency */,
+				16AEE5221F9D2758004798A8 /* PBXTargetDependency */,
 			);
 			name = RenderNeutrinoDemo;
 			productName = PureDemo;
@@ -173,6 +202,10 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
+					ProductGroup = 16AEE51A1F9D2748004798A8 /* Products */;
+					ProjectRef = 16AEE5191F9D2748004798A8 /* RenderInspector.xcodeproj */;
+				},
+				{
 					ProductGroup = 165399131F9A737B006DFE5D /* Products */;
 					ProjectRef = 165399121F9A737B006DFE5D /* RenderNeutrino.xcodeproj */;
 				},
@@ -190,6 +223,13 @@
 			fileType = wrapper.framework;
 			path = RenderNeutrino.framework;
 			remoteRef = 165399161F9A737B006DFE5D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		16AEE51E1F9D2748004798A8 /* RenderInspector.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = RenderInspector.framework;
+			remoteRef = 16AEE51D1F9D2748004798A8 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -226,6 +266,11 @@
 			isa = PBXTargetDependency;
 			name = RenderNeutrino;
 			targetProxy = 165399251F9A73B6006DFE5D /* PBXContainerItemProxy */;
+		};
+		16AEE5221F9D2758004798A8 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = RenderInspector;
+			targetProxy = 16AEE5211F9D2758004798A8 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -363,6 +408,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = src/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.alexdrone.PureDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -378,6 +424,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = src/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.alexdrone.PureDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";

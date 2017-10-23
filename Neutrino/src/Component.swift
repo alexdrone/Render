@@ -15,6 +15,11 @@ public protocol UIComponentProtocol: class, UINodeDelegateProtocol {
   func setCanvas(view: UIView, options: [UIComponentCanvasOption])
   /// Mark the component for rendering.
   func setNeedsRender(layoutAnimator: UIViewPropertyAnimator?)
+  /// Trigger a render pass if the component was set dirty after 'suspendComponentRendering'
+  /// has been invoked on the context.
+  /// - note: In most scenarios you don't have to manually call this method - the context will
+  /// automatically resume rendering on invalidated components when the suspension is terminated.
+  func resumeFromSuspendedRenderingIfNecessary()
   /// Type-erased state associated to this component.
   /// - note: *Internal only.*
   var anyState: UIStateProtocol { get }
@@ -32,6 +37,10 @@ public enum UIComponentCanvasOption: Int {
   case flexibleWidth
   /// If the component can overflow in the vertical axis.
   case flexibleHeight
+
+  public static func defaults() -> [UIComponentCanvasOption] {
+    return [.useBoundsAsCanvasSize, .renderOnCanvasSizeChange, .flexibleHeight]
+  }
 }
 
 // MARK: - UIComponent
@@ -81,6 +90,7 @@ open class UIComponent<S: UIStateProtocol, P: UIPropsProtocol>: UIComponentProto
     return CGSize(width: UIScreen.main.bounds.width, height: CGFloat.max)
   }
   private var boundsObserver: UIContextViewBoundsObserver? = nil
+  private var setNeedsRenderCalledDuringSuspension: Bool = false
 
   required public init(context: UIContextProtocol, key: String? = nil) {
     assert(context._componentInitFromContext, "Explicit init call is prohibited.")
@@ -89,8 +99,8 @@ open class UIComponent<S: UIStateProtocol, P: UIPropsProtocol>: UIComponentProto
     hookInspectorIfAvailable()
   }
 
-  public func setCanvas(view: UIView, options: [UIComponentCanvasOption] =
-    [.useBoundsAsCanvasSize, .renderOnCanvasSizeChange, .flexibleHeight]) {
+  public func setCanvas(view: UIView,
+                        options: [UIComponentCanvasOption] = UIComponentCanvasOption.defaults()) {
     canvasView = view
     context?.canvasView = canvasView
     if options.contains(.useBoundsAsCanvasSize) {
@@ -118,6 +128,13 @@ open class UIComponent<S: UIStateProtocol, P: UIPropsProtocol>: UIComponentProto
     guard let context = context, let view = canvasView else {
       fatalError("Attempting to render a component without a canvas view and/or a context.")
     }
+    // Rendering is suspended for this context for the time being.
+    // 'resumeFromSuspendedRenderingIfNecessary' will automatically be called when the render
+    // context will be resumed.
+    if context._isRenderSuspended {
+      setNeedsRenderCalledDuringSuspension = true
+      return
+    }
     // *Optional* the property animator that is going to be used for frame changes in the component
     // subtree. This field is auotmatically reset to 'nil' at the end of every 'render' pass.
     if let layoutAnimator = layoutAnimator {
@@ -125,6 +142,7 @@ open class UIComponent<S: UIStateProtocol, P: UIPropsProtocol>: UIComponentProto
     }
     let node = render(context: context)
     node.associatedComponent = self
+    node.delegate = self
     if let key = key {
       if let nodeKey = node.key, nodeKey != key {
         print("warning: The root node has a key \(nodeKey) that differs from the component \(key).")
@@ -145,6 +163,15 @@ open class UIComponent<S: UIStateProtocol, P: UIPropsProtocol>: UIComponentProto
 
     // Reset the animatable frame changes to default.
     context.layoutAnimator = nil
+  }
+
+  public func resumeFromSuspendedRenderingIfNecessary() {
+    assert(Thread.isMainThread)
+    guard setNeedsRenderCalledDuringSuspension else {
+      return
+    }
+    setNeedsRenderCalledDuringSuspension = false
+    setNeedsRender()
   }
 
   /// Builds the node hierarchy for this component.

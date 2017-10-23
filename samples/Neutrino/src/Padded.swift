@@ -17,6 +17,8 @@ public struct PaddedLabel {
 
   public class Component: UIComponent<State, Props> {
 
+    private weak var counterLabel: UILabel?
+
     public override func render(context: UIContextProtocol) -> UINodeProtocol {
       let props = self.props
       let state = self.state
@@ -34,15 +36,16 @@ public struct PaddedLabel {
         layout.set(\UILabel.textColor, value: props.isImportant ? .white : .black)
         layout.set(\UILabel.font, value: UIFont.boldSystemFont(ofSize: 14))
 
-        var text = Array(0+6...state.count+6).reduce("", { str, _ in str + props.text })
+        var text = Array(0...state.count).reduce("", { str, _ in str + props.text })
         layout.set(\UILabel.text, value: text)
       }
 
       let count = UINode<UILabel>() { layout in
-        layout.set(\UILabel.text, value: "counter: \(state.count)")
+        layout.set(\UILabel.text, value: "\(state.count)")
         layout.set(\UILabel.backgroundColor, value: .clear)
         layout.set(\UILabel.textColor, value: .white)
-        layout.set(\UILabel.yoga.padding, value: CGFloat(state.count*40))
+        layout.set(\UILabel.yoga.padding, value: CGFloat(state.count*2))
+        layout.node.bindView(target: self, keyPath: \PaddedLabel.Component.counterLabel)
       }
 
       let button = UINode<UIButton>(reuseIdentifier: "increase") { layout in
@@ -52,14 +55,14 @@ public struct PaddedLabel {
         layout.set(\UIButton.alpha, animator: animator, value: randomCGFloat())
         layout.view.onTap { [weak self] _ in
           self?.state.count += 1
-          let animator = UIViewPropertyAnimator(duration: 3, dampingRatio: 0.3, animations: nil)
+          let animator = UIViewPropertyAnimator(duration: 0.5, dampingRatio: 1, animations: nil)
           self?.setNeedsRender(layoutAnimator: animator)
         }
         layout.view.setTitle("INCREASE", for: .normal)
         layout.view.titleLabel?.font = UIFont.boldSystemFont(ofSize: 14)
       }
 
-      root.children([label, count, button])
+      root.children([button, label, count])
       return root
     }
   }

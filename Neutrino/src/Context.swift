@@ -23,17 +23,25 @@ public protocol UIContextProtocol: class {
   func transientComponent<S, P, C: UIComponent<S, P>>(_ type: C.Type,
                                                       props: P,
                                                       parent: UIComponentProtocol?) -> C
+  /// Prevents any calls to 'setNeedRender' to trigger the component relayout.
+  /// Useful when a manual manipulation of the view hierarchy is ongoing (e.g. interactable
+  /// animation).
+  func suspendComponentRendering()
+  /// Restore the normal 'setNeedRender' behaviour.
+  func resumeComponentRendering()
+  /// The canvas view in which the component will be rendered in.
+  weak var canvasView: UIView? { get set }
   /// *Optional* the property animator that is going to be used for frame changes in the component
   /// subtree.
   /// - note: This field is auotmatically reset to 'nil' at the end of every 'render' pass.
   var layoutAnimator: UIViewPropertyAnimator? { get set }
-  /// The canvas view in which the component will be rendered in.
-  weak var canvasView: UIView? { get set }
-  // Internal component construction sanity check.
-  var _componentInitFromContext: Bool { get}
   /// States and component object pool that guarantees uniqueness of 'UIState' and 'UIComponent'
   /// instances within the same context.
   var pool: UIContextPool { get }
+  // *Internal only* component construction sanity check.
+  var _componentInitFromContext: Bool { get}
+  // *Internal only* true is suspendComponentRendering has been called on this context.
+  var _isRenderSuspended: Bool { get }
 }
 
 // MARK: - UIContext
@@ -42,7 +50,7 @@ public class UIContext: UIContextProtocol {
   public let pool = UIContextPool()
   public weak var canvasView: UIView?
   public var _componentInitFromContext: Bool = false
-
+  public private(set) var _isRenderSuspended: Bool = false
   // The property animator that is going to be used for frame changes in the subtree.
   public var layoutAnimator: UIViewPropertyAnimator?
 
@@ -76,6 +84,17 @@ public class UIContext: UIContextProtocol {
     _componentInitFromContext = false
     return result
   }
+
+  public func suspendComponentRendering() {
+    assert(Thread.isMainThread)
+    _isRenderSuspended = true
+  }
+
+  public func resumeComponentRendering() {
+    assert(Thread.isMainThread)
+    _isRenderSuspended = false
+  }
+
 }
 
 // MARK: - UIContextPool
@@ -124,6 +143,12 @@ public final class UIContextPool {
     let component = construct()
     components[key] = component
     return component
+  }
+
+  /// Returns all of the components currently available in the object pool.
+  func allComponents() -> [UIComponentProtocol] {
+    assert(Thread.isMainThread)
+    return components.values.map { $0 }
   }
 
   // Gets rid of the obsolete states.
