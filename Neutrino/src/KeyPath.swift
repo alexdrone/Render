@@ -123,8 +123,10 @@ extension AnyKeyPath {
   public let initialConfiguration: UIViewPropertyInitalContainer
   /// Whether the view has been created at the last render pass.
   public var isNewlyCreated: Bool = false;
-  /// The original value of the alpha at creation time.
-  public var alphaBeforeTransition: CGFloat = 1
+  /// The frame from the previous layout pass.
+  public var oldFrame: CGRect = CGRect.zero
+  /// The frame after the current layout pass.
+  public var newFrame: CGRect = CGRect.zero
 
   init(view: UIView) {
     initialConfiguration = UIViewPropertyInitalContainer(view: view)

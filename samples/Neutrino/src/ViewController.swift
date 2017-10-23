@@ -4,12 +4,12 @@ import RenderNeutrino
 class ViewController: UIViewController {
 
   let context = UIContext()
-  var component: PaddedLabel.Component!
+  var component: Foo.Component!
   let safeAreaView = UIView()
 
   override func viewDidLoad() {
     super.viewDidLoad()
-    component = context.component(PaddedLabel.Component.self, key: "main")
+    component = context.component(Foo.Component.self, key: "main")
 
     safeAreaView.translatesAutoresizingMaskIntoConstraints = false
     safeAreaView.backgroundColor = UIColor.blue

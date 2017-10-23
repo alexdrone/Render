@@ -200,6 +200,7 @@ public class UINode<V: UIView>: UINodeProtocol {
     }
 
     if view.yoga.isEnabled, view.yoga.isLeaf, view.yoga.isIncludedInLayout {
+      view.frame = CGRect.zero
       view.yoga.markDirty()
     }
     didLayout(options: options)
@@ -223,14 +224,16 @@ public class UINode<V: UIView>: UINodeProtocol {
       view.frame.normalize()
     }
 
+    computeLayout()
+
     if let frameChangeAnimator = associatedComponent?.context?.layoutAnimator {
       frameChangeAnimator.stopAnimation(false)
       frameChangeAnimator.addAnimations {
-        computeLayout()
+        // TOFIX: Layout animations are currently broken due to aggressive layout invalidation
+        // UINode:203
+        //computeLayout()
       }
       frameChangeAnimator.startAnimation()
-    } else {
-      computeLayout()
     }
   }
 

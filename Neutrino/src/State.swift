@@ -7,7 +7,7 @@ import Foundation
 /// A Component manages its own state internally.
 /// Besides setting an initial state, it has no business fiddling with the state of its children.
 /// You might conceptualize state as private to that component.
-public protocol UIStateProtocol: class, ReflectedStringConvertible, Codable {
+public protocol UIStateProtocol: class, ReflectedStringConvertible {
   /// Returns the initial state for this current state type.
   init()
 }
