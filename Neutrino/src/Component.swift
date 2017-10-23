@@ -150,6 +150,7 @@ open class UIComponent<S: UIStateProtocol, P: UIPropsProtocol>: UIComponentProto
       node.key = key
     }
     node.reconcile(in: view, size: canvasSize(), options: [])
+    root = node
 
     var keys = Set<String>()
     func retrieveAllKeys(node: UINodeProtocol) {

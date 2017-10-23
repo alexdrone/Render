@@ -130,11 +130,11 @@ public class UINode<V: UIView>: UINodeProtocol {
   ///   layout.view.backgroundColor = .green
   ///   layout.view.setTitle("FOO", for: .normal)
   /// ```
-  public init(reuseIdentifier: String = String(describing: V.self),
+  public init(reuseIdentifier: String? = nil,
               key: String? = nil,
               create: (() -> V)? = nil,
               configure: UINodeConfigurationClosure? = nil) {
-    self.reuseIdentifier = reuseIdentifier
+    self.reuseIdentifier = UINodeReuseIdentifierMake(type: V.self, identifier: reuseIdentifier)
     self.debugType =  String(describing: V.self)
     self.createClosure = create ??  { V() }
     if create != nil && reuseIdentifier == debugType {
@@ -152,17 +152,18 @@ public class UINode<V: UIView>: UINodeProtocol {
 
   /// Sets the subnodes of this node.
   /// - note: Instances of *UINilNode* are excluded from the node hierarchy.
-  @discardableResult public func children(_ children: [UINodeProtocol]) -> Self {
-    var nodes = children
+  @discardableResult public func children(_ nodes: [UINodeProtocol]) -> Self {
+    children = []
     var index = 0
-    for child in children {
+    var newChildren: [UINodeProtocol] = []
+    for child in nodes {
       if child is UINilNode { continue }
       child.index = index
       child.parent = self
-      nodes.append(child)
+      newChildren.append(child)
       index += 1
     }
-    self.children = nodes
+    children = newChildren
     return self
   }
 
@@ -357,6 +358,15 @@ public class UINode<V: UIView>: UINodeProtocol {
       object[keyPath: keyPath] = view
     }
   }
+}
+
+/// Make a reuse identifier string given a type and a custom marker.
+public func UINodeReuseIdentifierMake<V>(type: V.Type, identifier: String? = nil) -> String {
+  let prefix = String(describing: V.self)
+  if let identifier = identifier {
+    return "\(prefix)_\(identifier)"
+  }
+  return prefix
 }
 
 // MARK: - UINilNode
