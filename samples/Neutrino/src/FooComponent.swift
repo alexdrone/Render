@@ -29,12 +29,12 @@ struct Foo {
                                                          curve: .easeIn,
                                                          animations: nil)
 
-      let root = UINode<UIScrollView> { config in
-        config.set(\UIScrollView.backgroundColor, Color.black)
-        config.set(\UIScrollView.yoga.padding, 8)
-        config.set(\UIScrollView.yoga.alignSelf, .center)
-        config.set(\UIScrollView.yoga.width, config.canvasSize.width)
-        config.set(\UIScrollView.yoga.height, context.canvasView?.bounds.size.height ?? 0)
+      let root = UINode<UIView> { config in
+        config.set(\UIView.backgroundColor, Color.black)
+        config.set(\UIView.yoga.padding, 8)
+        config.set(\UIView.yoga.alignSelf, .center)
+        config.set(\UIView.yoga.width, config.canvasSize.width)
+        config.set(\UIView.yoga.height, context.canvasView?.bounds.size.height ?? 0)
       }
 
       let label = UINode<UILabel>() { config in
@@ -42,25 +42,24 @@ struct Foo {
         config.set(\UILabel.textColor, .white)
         config.set(\UILabel.text, props.text)
         config.set(\UILabel.font,
-                   UIFont.systemFont(ofSize: 12 + CGFloat(state.count)/2,
-                                     weight: UIFont.Weight.light))
+                   UIFont.systemFont(ofSize: 13, weight: UIFont.Weight.light))
       }
 
       let counterProps = Counter.Props(count: state.count)
       let counter = context.transientComponent(Counter.Component.self,
                                                props: counterProps,
-                                               parent: nil).render(context: context)
+                                               parent: nil).asNode()
 
-      let increaseButtonProps = Button.Props(title: "INCREASE") {
+      let increaseButtonProps = Button.Props(title: "ADD") {
         self.state.count += 1
         self.setNeedsRender(layoutAnimator: defaultLayoutAnimator)
       }
       let increaseButton = context.component(Button.Component.self,
                                              key: "increase",
                                              props: increaseButtonProps,
-                                             parent: self).render(context: context)
+                                             parent: self).asNode()
 
-      let decreaseButtonProps = Button.Props(title: "DECREASE") {
+      let decreaseButtonProps = Button.Props(title: "REMOVE") {
         guard self.state.count > 0 else { return }
         self.state.count -= 1
         self.setNeedsRender(layoutAnimator: defaultLayoutAnimator)
@@ -68,7 +67,12 @@ struct Foo {
       let decreaseButton = context.component(Button.Component.self,
                                              key: "decrease",
                                              props: decreaseButtonProps,
-                                             parent: self).render(context: context)
+                                             parent: self).asNode()
+
+      let buttonsWrapper = UINode<UIView>(reuseIdentifier: "ButtonWrapper") { config in
+        config.set(\UIView.yoga.flexDirection, .row)
+      }
+      buttonsWrapper.children([increaseButton, decreaseButton])
 
       let badgesWrapper = UINode<UIView>(reuseIdentifier: "BadgesWrapper") { config in
         config.set(\UIView.yoga.flexDirection, .row)
@@ -78,11 +82,11 @@ struct Foo {
       let badges: [UINodeProtocol] = Array(0..<state.count).map { _ in
         context.transientComponent(Badge.Component.self,
                                    props: UINilProps.nil,
-                                   parent: self).render(context: context)
+                                   parent: self).asNode()
       }
       badgesWrapper.children(badges)
 
-      root.children([increaseButton, decreaseButton, counter, badgesWrapper, label])
+      root.children([label, buttonsWrapper, counter, badgesWrapper])
       return root
     }
   }

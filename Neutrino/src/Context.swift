@@ -29,6 +29,13 @@ public protocol UIContextProtocol: class {
   func suspendComponentRendering()
   /// Restore the normal 'setNeedRender' behaviour.
   func resumeComponentRendering()
+  /// Register a new delegate for this context.
+  /// - note: Many delegates can be registered at the same time and the context hold only weak
+  /// references to them.
+  func registerDelegate(_ delegate: UIContextDelegate)
+  /// A root component registered this context just got rendered.
+  /// - note: This is automatically called from *UIComponent* subclasses.
+  func didRenderRootComponent(_ component: UIComponentProtocol)
   /// The canvas view in which the component will be rendered in.
   weak var canvasView: UIView? { get set }
   /// *Optional* the property animator that is going to be used for frame changes in the component
@@ -44,15 +51,25 @@ public protocol UIContextProtocol: class {
   var _isRenderSuspended: Bool { get }
 }
 
+public protocol UIContextDelegate: class {
+  /// Called whenever *setNeedRender* is called on any of the compoenets belonging to this context.
+  func setNeedRenderInvoked(on context: UIContextProtocol)
+}
+
 // MARK: - UIContext
 
 public class UIContext: UIContextProtocol {
   public let pool = UIContextPool()
+  // The canvas view in which the component will be rendered in.
   public weak var canvasView: UIView?
+  // Sanity check for context initialization.
   public var _componentInitFromContext: Bool = false
+  // suspendComponentRendering has been called on this context.
   public private(set) var _isRenderSuspended: Bool = false
   // The property animator that is going to be used for frame changes in the subtree.
   public var layoutAnimator: UIViewPropertyAnimator?
+  // All the delegates registered for this object.
+  private var delegates: [UIContextDelegateWeakRef] = []
 
   public init() { }
 
@@ -95,6 +112,24 @@ public class UIContext: UIContextProtocol {
     _isRenderSuspended = false
   }
 
+  /// Many delegates can be registered at the same time and the context hold only weak
+  /// references to them.
+  public func registerDelegate(_ delegate: UIContextDelegate) {
+    assert(Thread.isMainThread)
+    delegates.append(UIContextDelegateWeakRef(delegate: delegate))
+  }
+
+  /// Propagates the notification to all of the registered delegates.
+  public func didRenderRootComponent(_ component: UIComponentProtocol) {
+    for delegate in delegates.flatMap({ $0.delegate }) {
+      delegate.setNeedRenderInvoked(on: self)
+    }
+  }
+
+  /// Holding struct for a delegate.
+  struct UIContextDelegateWeakRef {
+    weak var delegate: UIContextDelegate?
+  }
 }
 
 // MARK: - UIContextPool

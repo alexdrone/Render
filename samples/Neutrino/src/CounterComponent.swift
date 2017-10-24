@@ -26,6 +26,7 @@ struct Counter {
         config.set(\UILabel.layer.cornerRadius, 16)
         config.set(\UILabel.clipsToBounds, true)
         config.set(\UILabel.yoga.alignSelf, .center)
+        config.set(\UILabel.yoga.justifyContent, .center)
         config.set(\UILabel.yoga.margin, 16)
       }
       return node

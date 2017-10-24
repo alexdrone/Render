@@ -37,17 +37,25 @@ public enum UIComponentCanvasOption: Int {
   case flexibleWidth
   /// If the component can overflow in the vertical axis.
   case flexibleHeight
-
+  /// Default canvas option.
   public static func defaults() -> [UIComponentCanvasOption] {
-    return [.useBoundsAsCanvasSize, .renderOnCanvasSizeChange, .flexibleHeight]
+    return [.useBoundsAsCanvasSize,
+            .renderOnCanvasSizeChange,
+            .flexibleHeight]
   }
 }
 
 // MARK: - UIComponent
 
-open class UIComponent<S: UIStateProtocol, P: UIPropsProtocol>: UIComponentProtocol {
+open class UIComponent<S: UIStateProtocol, P: UIPropsProtocol>: NSObject, UIComponentProtocol {
   /// The root node (built as a result of the 'render' method).
-  public var root: UINodeProtocol = UINilNode.nil
+  public var root: UINodeProtocol = UINilNode.nil {
+    didSet {
+      root.associatedComponent = self
+      root.delegate = self
+      setKey(node: root)
+    }
+  }
   /// The component parent (nil for root components).
   public weak var parent: UIComponentProtocol?
   /// The state associated with this component.
@@ -55,7 +63,11 @@ open class UIComponent<S: UIStateProtocol, P: UIPropsProtocol>: UIComponentProto
   /// in the context identity map.
   public var state: S {
     get {
-      guard let key = key, !(S() is UINilState) else {
+      let newInstance = S()
+      if newInstance is UINilState {
+        return UINilState.nil as! S
+      }
+      guard let key = key, !(newInstance is UINilState) else {
         fatalError("Key not defined for a non-nil state.")
       }
       guard let context = context else {
@@ -96,6 +108,7 @@ open class UIComponent<S: UIStateProtocol, P: UIPropsProtocol>: UIComponentProto
     assert(context._componentInitFromContext, "Explicit init call is prohibited.")
     self.key = key
     self.context = context
+    super.init()
     hookInspectorIfAvailable()
   }
 
@@ -140,17 +153,10 @@ open class UIComponent<S: UIStateProtocol, P: UIPropsProtocol>: UIComponentProto
     if let layoutAnimator = layoutAnimator {
       context.layoutAnimator = layoutAnimator
     }
-    let node = render(context: context)
-    node.associatedComponent = self
-    node.delegate = self
-    if let key = key {
-      if let nodeKey = node.key, nodeKey != key {
-        print("warning: The root node has a key \(nodeKey) that differs from the component \(key).")
-      }
-      node.key = key
-    }
-    node.reconcile(in: view, size: canvasSize(), options: [])
-    root = node
+    root = render(context: context)
+    root.reconcile(in: view, size: canvasSize(), options: [])
+
+    context.didRenderRootComponent(self)
 
     context.pool.flushObsoleteStates(validKeys: root._retrieveKeysRecursively())
     inspectorMarkDirty()
@@ -166,6 +172,30 @@ open class UIComponent<S: UIStateProtocol, P: UIPropsProtocol>: UIComponentProto
     }
     setNeedsRenderCalledDuringSuspension = false
     setNeedsRender()
+  }
+
+  private func setKey(node: UINodeProtocol) {
+    if let key = key {
+      if let nodeKey = node.key, nodeKey != key {
+        print("warning: The node has a key \(nodeKey) that differs from the component \(key).")
+      }
+      node.key = key
+    }
+    #if DEBUG
+    node._debugPropsDescription = props.reflectionDescription(del: UINodeInspectorDefaultDelimiters)
+    node._debugStateDescription = state.reflectionDescription(del: UINodeInspectorDefaultDelimiters)
+    #endif
+  }
+
+  /// Builds the component node.
+  /// - note: Use this function to insert the node as a child of a pre-existent node hierarchy.
+  public func asNode() -> UINodeProtocol {
+    guard let context = context else {
+      fatalError("Attempting to render a component without a valid context.")
+    }
+    let node = render(context: context)
+    setKey(node: node)
+    return node
   }
 
   /// Builds the node hierarchy for this component.

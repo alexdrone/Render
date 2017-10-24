@@ -39,15 +39,8 @@ extension UINodeProtocol {
       }
       return result
     }
-    // Legacy Render delimiter.
-    let delimiters = "__"
-    var stateDescription = ""
-    var propsDescription = ""
-    if let stateObject = associatedComponent?.anyState {
-      stateDescription = stateObject.reflectionDescription(del: delimiters)
-    }
-    if let propsObject = associatedComponent?.anyProps {
-      propsDescription = propsObject.reflectionDescription(del: delimiters)
+    let childrenDescription = (children + unmanagedChildren).filter { !($0 is UINilNode) }.map {
+      $0.inspectorDescription()
     }
     return [
       "id": reuseIdentifier,
@@ -55,8 +48,11 @@ extension UINodeProtocol {
       "type": _debugType,
       "viewRef": address,
       "frame": "\(renderedView?.frame ?? CGRect.zero)",
-      "state": stateDescription,
-      "props": propsDescription,
-      "children": children.map { $0.inspectorDescription() }]
+      "state": _debugStateDescription,
+      "props": _debugPropsDescription,
+      "children": childrenDescription]
   }
 }
+
+public let UINodeInspectorDefaultDelimiters: String = "__"
+

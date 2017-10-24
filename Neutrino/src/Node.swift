@@ -30,7 +30,7 @@ public protocol UINodeProtocol: class {
   /// The reuse identifier for this node is its hierarchy.
   /// Identifiers help Render understand which items have changed.
   /// A custom *reuseIdentifier* is mandatory if the node has a custom creation closure.
-  var reuseIdentifier: String { get }
+  var reuseIdentifier: String { get set }
   /// The subnodes of this node.
   var children: [UINodeProtocol] { get }
   /// Re-applies the configuration closure for this node and compute its layout.
@@ -52,6 +52,12 @@ public protocol UINodeProtocol: class {
   /// String representation of the underlying view type.
   /// - note: *Internal use only*.
   var _debugType: String { get }
+  /// String representation of the current state.
+  /// - note: *Internal use only*.
+  var _debugStateDescription: String { get set }
+  /// String representation of the current props.
+  /// - note: *Internal use only*.
+  var _debugPropsDescription: String { get set }
   /// Asks the node to build the backing view for this node.
   /// - note: *Internal use only*.
   func _constructView(with reusableView: UIView?)
@@ -92,10 +98,12 @@ public class UINode<V: UIView>: UINodeProtocol {
   public typealias UINodeConfigurationClosure = (UIViewConfiguration) -> Void
   public typealias UINodeChildrenCreationClosure = (UIViewConfiguration) -> [UINodeProtocol]
 
-  public fileprivate(set) var reuseIdentifier: String
+  public var reuseIdentifier: String
   public fileprivate(set) var renderedView: UIView? = nil
   public fileprivate(set) var children: [UINodeProtocol] = []
   public fileprivate(set) var _debugType: String
+  public var _debugStateDescription: String = ""
+  public var _debugPropsDescription: String = ""
   public weak var delegate: UINodeDelegateProtocol?
   public weak var parent: UINodeProtocol?
   public weak var associatedComponent: UIComponentProtocol?
@@ -410,7 +418,8 @@ public func UINodeReuseIdentifierMake<V>(type: V.Type, identifier: String? = nil
 public class UINilNode: UINode<UIView> {
   static let `nil` = UINilNode()
   private init() {
-    super.init(reuseIdentifier: "nil_node")
+    super.init(reuseIdentifier: "NilNode")
+    NotificationCenter.default.removeObserver(self)
   }
 }
 

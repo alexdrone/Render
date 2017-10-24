@@ -12,6 +12,20 @@ public protocol UIStateProtocol: class, ReflectedStringConvertible {
   init()
 }
 
+public extension UIStateProtocol {
+  /// Always false for non *UINilState* states.
+  static func isNilState() -> Bool {
+    return false
+  }
+}
+
+public extension UIStateProtocol where Self: UINilState {
+  /// True for *UINilState* instances.
+  static func isNilState() -> Bool {
+    return true
+  }
+}
+
 public final class UINilState: UIStateProtocol {
   static let `nil` = UINilState()
   public init() { }

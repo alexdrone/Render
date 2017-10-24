@@ -20,7 +20,9 @@ struct Button {
     override func render(context: UIContextProtocol) -> UINodeProtocol {
       let props = self.props
       let root = UINode<UIButton>(reuseIdentifier: "Button") { config in
-        config.set(\UIButton.yoga.margin, 16)
+        config.set(\UIButton.yoga.margin, 8)
+        config.set(\UIButton.yoga.flexGrow, 0.5)
+        config.set(\UIButton.yoga.flexBasis, 0.5)
         config.set(\UIButton.backgroundColor, Color.green)
         config.view.onTap { _ in
           props.action()
