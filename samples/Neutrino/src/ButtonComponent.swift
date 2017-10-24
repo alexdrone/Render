@@ -19,14 +19,14 @@ struct Button {
 
     override func render(context: UIContextProtocol) -> UINodeProtocol {
       let props = self.props
-      let root = UINode<UIButton>(reuseIdentifier: "Button") { layout in
-        layout.set(\UIButton.yoga.margin, value: 16)
-        layout.set(\UIButton.backgroundColor, value: Color.green)
-        layout.view.onTap { _ in
+      let root = UINode<UIButton>(reuseIdentifier: "Button") { config in
+        config.set(\UIButton.yoga.margin, 16)
+        config.set(\UIButton.backgroundColor, Color.green)
+        config.view.onTap { _ in
           props.action()
         }
-        layout.view.setTitle(props.title, for: .normal)
-        layout.view.titleLabel?.font = UIFont.boldSystemFont(ofSize: 14)
+        config.view.setTitle(props.title, for: .normal)
+        config.view.titleLabel?.font = UIFont.boldSystemFont(ofSize: 14)
       }
       return root
     }

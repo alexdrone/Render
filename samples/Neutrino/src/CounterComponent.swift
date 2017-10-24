@@ -15,18 +15,18 @@ struct Counter {
 
     override func render(context: UIContextProtocol) -> UINodeProtocol {
       let props = self.props
-      let node = UINode<UILabel>(reuseIdentifier: "Count") { layout in
-        layout.set(\UILabel.text, value: "\(props.count)")
-        layout.set(\UILabel.backgroundColor, value: Color.red)
-        layout.set(\UILabel.textColor, value: .white)
-        layout.set(\UILabel.font, value: Typography.mediumBold)
-        layout.set(\UILabel.textAlignment, value: .center)
-        layout.set(\UILabel.yoga.width, value: 32)
-        layout.set(\UILabel.yoga.height, value: 32)
-        layout.set(\UILabel.layer.cornerRadius, value: 16)
-        layout.set(\UILabel.clipsToBounds, value: true)
-        layout.set(\UILabel.yoga.alignSelf, value: .center)
-        layout.set(\UILabel.yoga.margin, value: 16)
+      let node = UINode<UILabel>(reuseIdentifier: "Count") { config in
+        config.set(\UILabel.text, "\(props.count)")
+        config.set(\UILabel.backgroundColor, Color.red)
+        config.set(\UILabel.textColor, .white)
+        config.set(\UILabel.font, Typography.mediumBold)
+        config.set(\UILabel.textAlignment, .center)
+        config.set(\UILabel.yoga.width, 32)
+        config.set(\UILabel.yoga.height, 32)
+        config.set(\UILabel.layer.cornerRadius, 16)
+        config.set(\UILabel.clipsToBounds, true)
+        config.set(\UILabel.yoga.alignSelf, .center)
+        config.set(\UILabel.yoga.margin, 16)
       }
       return node
     }

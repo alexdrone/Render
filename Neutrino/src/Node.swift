@@ -60,7 +60,7 @@ public protocol UINodeProtocol: class {
 
 public class UINode<V: UIView>: UINodeProtocol {
 
-  public struct UILayout {
+  public struct UIViewConfiguration {
     /// The target node for this layout pass.
     public internal(set) var node: UINode<V>
     /// The concrete backing view.
@@ -75,16 +75,16 @@ public class UINode<V: UIView>: UINodeProtocol {
     }
 
     public func set<T>(_ keyPath: ReferenceWritableKeyPath<V, T>,
-                       animator: UIViewPropertyAnimator? = nil,
-                       value: T) {
+                       _ value: T,
+                       animator: UIViewPropertyAnimator? = nil) {
       node.viewProperties[keyPath.hashValue] =
           UIViewKeyPathValue(keyPath: keyPath, value: value, animator: animator)
     }
   }
 
   public typealias UINodeCreationClosure = () -> V
-  public typealias UINodeConfigurationClosure = (UILayout) -> Void
-  public typealias UINodeChildrenCreationClosure = (UILayout) -> [UINodeProtocol]
+  public typealias UINodeConfigurationClosure = (UIViewConfiguration) -> Void
+  public typealias UINodeChildrenCreationClosure = (UIViewConfiguration) -> [UINodeProtocol]
 
   public fileprivate(set) var reuseIdentifier: String
   public fileprivate(set) var renderedView: UIView? = nil
@@ -177,8 +177,8 @@ public class UINode<V: UIView>: UINodeProtocol {
       print("Unexpected error: View/State/Props type mismatch.")
       return
     }
-    let layout = UILayout(node: self, view: renderedView, size: bounds)
-    configClosure(layout)
+    let viewConfiguration = UIViewConfiguration(node: self, view: renderedView, size: bounds)
+    configClosure(viewConfiguration)
 
     // Configure the children recursively.
     for child in children {

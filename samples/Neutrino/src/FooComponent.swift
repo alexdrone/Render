@@ -26,21 +26,21 @@ struct Foo {
       let props = self.props
       let state = self.state
 
-      let root = UINode<UIScrollView> { layout in
-        layout.set(\UIScrollView.backgroundColor, value: Color.black)
-        layout.set(\UIScrollView.yoga.padding, value: 8)
-        layout.set(\UIScrollView.yoga.alignSelf, value: .center)
-        layout.set(\UIScrollView.yoga.width, value: layout.canvasSize.width)
-        layout.set(\UIScrollView.yoga.height, value: context.canvasView?.bounds.size.height ?? 0)
+      let root = UINode<UIScrollView> { config in
+        config.set(\UIScrollView.backgroundColor, .black)
+        config.set(\UIScrollView.yoga.padding, 8)
+        config.set(\UIScrollView.yoga.alignSelf, .center)
+        config.set(\UIScrollView.yoga.width, config.canvasSize.width)
+        config.set(\UIScrollView.yoga.height, context.canvasView?.bounds.size.height ?? 0)
       }
 
-      let label = UINode<UILabel>() { layout in
-        layout.set(\UILabel.numberOfLines, value: 0)
-        layout.set(\UILabel.textColor, value: Color.white)
-        layout.set(\UILabel.text, value: props.text)
-        layout.set(\UILabel.font,
-                   value: UIFont.systemFont(ofSize: 12 + CGFloat(state.count)/2,
-                                            weight: UIFont.Weight.light))
+      let label = UINode<UILabel>() { config in
+        config.set(\UILabel.numberOfLines, 0)
+        config.set(\UILabel.textColor, .white)
+        config.set(\UILabel.text, props.text)
+        config.set(\UILabel.font,
+                   UIFont.systemFont(ofSize: 12 + CGFloat(state.count)/2,
+                                     weight: UIFont.Weight.light))
       }
 
       let animator = UIViewPropertyAnimator(duration: 1, dampingRatio: 0.8, animations: nil)
@@ -69,9 +69,9 @@ struct Foo {
                                              props: decreaseButtonProps,
                                              parent: self).render(context: context)
 
-      let badgesWrapper = UINode<UIView>(reuseIdentifier: "BadgesWrapper") { layout in
-        layout.set(\UIView.yoga.flexDirection, value: .row)
-        layout.set(\UIView.yoga.flexWrap, value: .wrap)
+      let badgesWrapper = UINode<UIView>(reuseIdentifier: "BadgesWrapper") { config in
+        config.set(\UIView.yoga.flexDirection, .row)
+        config.set(\UIView.yoga.flexWrap, .wrap)
       }
 
       let badges: [UINodeProtocol] = Array(0..<state.count).map { _ in
