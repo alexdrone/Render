@@ -108,72 +108,9 @@ public extension UIView {
     set { setBool(&handleHasNode, self, newValue) }
   }
 
-  public var cornerRadius: CGFloat {
-    get { return layer.cornerRadius }
-    set {
-      oldCornerRadius = layer.cornerRadius
-      clipsToBounds = true
-      layer.cornerRadius = newValue
-    }
-  }
-
-  public var oldCornerRadius: CGFloat {
-    get { return getFloat(&hadleOldCornerRadius, self) }
-    set { setFloat(&hadleOldCornerRadius, self, newValue) }
-  }
-
-  private func animateCornerRadius(duration: CFTimeInterval) {
-    if fabs(oldCornerRadius - oldCornerRadius) < CGFloat.epsilon {
-      return
-    }
-    let key = "cornerRadius"
-    let animation = CABasicAnimation(keyPath: key)
-    animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionLinear)
-    animation.fromValue = oldCornerRadius
-    animation.toValue = layer.cornerRadius
-    animation.duration = duration
-    self.layer.add(animation, forKey: key)
-    self.layer.cornerRadius = layer.cornerRadius
-  }
-
-  public func animateCornerRadiusInHierarchyIfNecessary(duration: CFTimeInterval) {
-    animateCornerRadius(duration: duration)
-    for subview in subviews where subview.hasNode {
-      subview.animateCornerRadiusInHierarchyIfNecessary(duration: duration)
-    }
-  }
-
   public func debugBoudingRect() {
     layer.borderColor = UIColor.red.cgColor
     layer.borderWidth = 2
-  }
-
-  func storeOldGeometryRecursively() {
-    renderContext.oldFrame = frame
-    for subview in subviews {
-      subview.storeOldGeometryRecursively()
-    }
-  }
-
-  func applyOldGeometryRecursively() {
-    frame = renderContext.oldFrame
-    for subview in subviews {
-      subview.applyOldGeometryRecursively()
-    }
-  }
-
-  func storeNewGeometryRecursively() {
-    renderContext.newFrame = frame
-    for subview in subviews {
-      subview.storeNewGeometryRecursively()
-    }
-  }
-
-  func applyNewGeometryRecursively() {
-    frame = renderContext.newFrame
-    for subview in subviews {
-      subview.applyNewGeometryRecursively()
-    }
   }
 }
 

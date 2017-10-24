@@ -25,6 +25,10 @@ struct Foo {
       let props = self.props
       let state = self.state
 
+      let defaultLayoutAnimator = UIViewPropertyAnimator(duration: 0.32,
+                                                         curve: .easeInOut,
+                                                         animations: nil)
+
       let root = UINode<UIScrollView> { config in
         config.set(\UIScrollView.backgroundColor, Color.black)
         config.set(\UIScrollView.yoga.padding, 8)
@@ -42,8 +46,6 @@ struct Foo {
                                      weight: UIFont.Weight.light))
       }
 
-      let animator = UIViewPropertyAnimator(duration: 1, dampingRatio: 0.8, animations: nil)
-
       let counterProps = Counter.Props(count: state.count)
       let counter = context.transientComponent(Counter.Component.self,
                                                props: counterProps,
@@ -51,7 +53,7 @@ struct Foo {
 
       let increaseButtonProps = Button.Props(title: "INCREASE") {
         self.state.count += 1
-        self.setNeedsRender(layoutAnimator: animator)
+        self.setNeedsRender(layoutAnimator: defaultLayoutAnimator)
       }
       let increaseButton = context.component(Button.Component.self,
                                              key: "increase",
@@ -61,7 +63,7 @@ struct Foo {
       let decreaseButtonProps = Button.Props(title: "DECREASE") {
         guard self.state.count > 0 else { return }
         self.state.count -= 1
-        self.setNeedsRender(layoutAnimator: animator)
+        self.setNeedsRender(layoutAnimator: defaultLayoutAnimator)
       }
       let decreaseButton = context.component(Button.Component.self,
                                              key: "decrease",

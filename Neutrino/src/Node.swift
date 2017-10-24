@@ -177,7 +177,7 @@ public class UINode<V: UIView>: UINodeProtocol {
       print("Unexpected error: View/State/Props type mismatch.")
       return
     }
-    view.storeOldGeometryRecursively()
+    view.renderContext.storeOldGeometryRecursively()
     let viewConfiguration = UIViewConfiguration(node: self, view: renderedView, size: bounds)
     configClosure(viewConfiguration)
 
@@ -226,15 +226,16 @@ public class UINode<V: UIView>: UINodeProtocol {
     }
 
     computeLayout()
-    view.storeNewGeometryRecursively()
+    view.renderContext.storeNewGeometryRecursively()
 
     if let frameChangeAnimator = associatedComponent?.context?.layoutAnimator {
-      view.applyOldGeometryRecursively()
+      view.renderContext.applyOldGeometryRecursively()
       frameChangeAnimator.stopAnimation(false)
       frameChangeAnimator.addAnimations {
-        view.applyNewGeometryRecursively()
+        view.renderContext.applyNewGeometryRecursively()
       }
       frameChangeAnimator.startAnimation()
+      view.renderContext.fadeInNewlyCreatedViews(delay: frameChangeAnimator.duration)
     }
   }
 
