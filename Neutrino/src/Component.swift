@@ -152,14 +152,7 @@ open class UIComponent<S: UIStateProtocol, P: UIPropsProtocol>: UIComponentProto
     node.reconcile(in: view, size: canvasSize(), options: [])
     root = node
 
-    var keys = Set<String>()
-    func retrieveAllKeys(node: UINodeProtocol) {
-      if let key = node.key { keys.insert(key) }
-      node.children.forEach { node in retrieveAllKeys(node: node) }
-    }
-    retrieveAllKeys(node: node)
-
-    context.pool.flushObsoleteStates(validKeys: keys)
+    context.pool.flushObsoleteStates(validKeys: root._retrieveKeysRecursively())
     inspectorMarkDirty()
 
     // Reset the animatable frame changes to default.

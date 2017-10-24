@@ -52,7 +52,7 @@ extension UINodeProtocol {
     return [
       "id": reuseIdentifier,
       "key": key ?? "",
-      "type": debugType,
+      "type": _debugType,
       "viewRef": address,
       "frame": "\(renderedView?.frame ?? CGRect.zero)",
       "state": stateDescription,

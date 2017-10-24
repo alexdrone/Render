@@ -25,8 +25,8 @@ struct Foo {
       let props = self.props
       let state = self.state
 
-      let defaultLayoutAnimator = UIViewPropertyAnimator(duration: 0.32,
-                                                         curve: .easeInOut,
+      let defaultLayoutAnimator = UIViewPropertyAnimator(duration: 0.16,
+                                                         curve: .easeIn,
                                                          animations: nil)
 
       let root = UINode<UIScrollView> { config in

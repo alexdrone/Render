@@ -41,12 +41,17 @@ public protocol UINodeProtocol: class {
 
   // Internal.
 
+  /// Components that builds components in non-traditional fashion (e.g. table/collection views)
+  /// needs to keep track of their children by updating their root nodes 'unmanagedChildren'
+  /// at every render pass.
+  /// - note: *Internal use only*.
+  var unmanagedChildren: [UINodeProtocol] { get set }
   /// This component is the n-th children.
   /// - note: *Internal use only*.
   var index: Int { get set }
   /// String representation of the underlying view type.
   /// - note: *Internal use only*.
-  var debugType: String { get }
+  var _debugType: String { get }
   /// Asks the node to build the backing view for this node.
   /// - note: *Internal use only*.
   func _constructView(with reusableView: UIView?)
@@ -54,8 +59,9 @@ public protocol UINodeProtocol: class {
   /// init method.
   /// - note: *Internal use only*.
   func _setup(in bounds: CGSize, options: [UINodeOption])
+  /// Returns all of the keys found in this subtree.
+  func _retrieveKeysRecursively() -> Set<String>
 }
-
 // MARK: - UINode
 
 public class UINode<V: UIView>: UINodeProtocol {
@@ -89,12 +95,13 @@ public class UINode<V: UIView>: UINodeProtocol {
   public fileprivate(set) var reuseIdentifier: String
   public fileprivate(set) var renderedView: UIView? = nil
   public fileprivate(set) var children: [UINodeProtocol] = []
-  public fileprivate(set) var debugType: String
+  public fileprivate(set) var _debugType: String
   public weak var delegate: UINodeDelegateProtocol?
   public weak var parent: UINodeProtocol?
   public weak var associatedComponent: UIComponentProtocol?
   public var key: String? = nil
   public var index: Int = 0
+  public var unmanagedChildren: [UINodeProtocol] = []
 
   // Private.
 
@@ -135,9 +142,9 @@ public class UINode<V: UIView>: UINodeProtocol {
               create: (() -> V)? = nil,
               configure: UINodeConfigurationClosure? = nil) {
     self.reuseIdentifier = UINodeReuseIdentifierMake(type: V.self, identifier: reuseIdentifier)
-    self.debugType =  String(describing: V.self)
+    self._debugType =  String(describing: V.self)
     self.createClosure = create ??  { V() }
-    if create != nil && reuseIdentifier == debugType {
+    if create != nil && reuseIdentifier == _debugType {
       fatalError("Always specify a reuse identifier whenever a custom create closure is provided.")
     }
     self.key = key
@@ -226,8 +233,12 @@ public class UINode<V: UIView>: UINodeProtocol {
     }
 
     computeLayout()
-    view.renderContext.storeNewGeometryRecursively()
+    animateLayoutChangesIfNecessary()
+  }
 
+  private func animateLayoutChangesIfNecessary() {
+    let view = requireRenderedView()
+    view.renderContext.storeNewGeometryRecursively()
     if let frameChangeAnimator = associatedComponent?.context?.layoutAnimator {
       view.renderContext.applyOldGeometryRecursively()
       frameChangeAnimator.stopAnimation(false)
@@ -331,6 +342,12 @@ public class UINode<V: UIView>: UINodeProtocol {
     }
   }
 
+  /// Finding the minimal number of modifications between two arbitrary trees is a *O(n^3)* problem.
+  /// This isn’t tractable for our use case. Render uses a simple and yet powerful heuristics
+  /// to find a very good approximation in *O(n)*.
+  /// It only tries to reconcile trees level by level. This drastically reduces the complexity
+  /// and isn’t a big loss as it is very rare in applications to have a component being moved
+  /// to a different level in the tree.
   public func reconcile(in view: UIView? = nil, size: CGSize? = nil, options: [UINodeOption] = []) {
     assert(Thread.isMainThread)
     guard let view = view ?? renderedView?.superview else {
@@ -362,6 +379,18 @@ public class UINode<V: UIView>: UINodeProtocol {
       }
       object[keyPath: keyPath] = view
     }
+  }
+
+  /// Returns all of the keys found in this subtree.
+  public func _retrieveKeysRecursively() -> Set<String> {
+    var keys = Set<String>()
+    func retrieveAllKeys(node: UINodeProtocol) {
+      if let key = node.key { keys.insert(key) }
+      node.children.forEach { node in retrieveAllKeys(node: node) }
+      node.unmanagedChildren.forEach {  node in retrieveAllKeys(node: node) }
+    }
+    retrieveAllKeys(node: self)
+    return keys
   }
 }
 
