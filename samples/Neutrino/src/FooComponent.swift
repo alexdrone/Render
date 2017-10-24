@@ -19,7 +19,6 @@ struct Foo {
     required init() { }
   }
 
-
   final class Component: UIComponent<State, Props> {
     override func render(context: UIContextProtocol) -> UINodeProtocol {
 
@@ -27,7 +26,7 @@ struct Foo {
       let state = self.state
 
       let root = UINode<UIScrollView> { config in
-        config.set(\UIScrollView.backgroundColor, .black)
+        config.set(\UIScrollView.backgroundColor, Color.black)
         config.set(\UIScrollView.yoga.padding, 8)
         config.set(\UIScrollView.yoga.alignSelf, .center)
         config.set(\UIScrollView.yoga.width, config.canvasSize.width)
@@ -86,7 +85,3 @@ struct Foo {
     }
   }
 }
-
-
-
-

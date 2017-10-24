@@ -49,7 +49,6 @@ extension UINodeProtocol {
     if let propsObject = associatedComponent?.anyProps {
       propsDescription = propsObject.reflectionDescription(del: delimiters)
     }
-    print(children.count)
     return [
       "id": reuseIdentifier,
       "key": key ?? "",

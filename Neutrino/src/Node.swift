@@ -177,6 +177,7 @@ public class UINode<V: UIView>: UINodeProtocol {
       print("Unexpected error: View/State/Props type mismatch.")
       return
     }
+    view.storeOldGeometryRecursively()
     let viewConfiguration = UIViewConfiguration(node: self, view: renderedView, size: bounds)
     configClosure(viewConfiguration)
 
@@ -200,7 +201,7 @@ public class UINode<V: UIView>: UINodeProtocol {
     }
 
     if view.yoga.isEnabled, view.yoga.isLeaf, view.yoga.isIncludedInLayout {
-      view.frame = CGRect.zero
+      view.frame.size = CGSize.zero
       view.yoga.markDirty()
     }
     didLayout(options: options)
@@ -225,13 +226,13 @@ public class UINode<V: UIView>: UINodeProtocol {
     }
 
     computeLayout()
+    view.storeNewGeometryRecursively()
 
     if let frameChangeAnimator = associatedComponent?.context?.layoutAnimator {
+      view.applyOldGeometryRecursively()
       frameChangeAnimator.stopAnimation(false)
       frameChangeAnimator.addAnimations {
-        // TOFIX: Layout animations are currently broken due to aggressive layout invalidation
-        // UINode:203
-        //computeLayout()
+        view.applyNewGeometryRecursively()
       }
       frameChangeAnimator.startAnimation()
     }

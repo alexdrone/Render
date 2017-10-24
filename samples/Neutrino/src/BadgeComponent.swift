@@ -17,6 +17,4 @@ struct Badge {
       return node
     }
   }
-
 }
-

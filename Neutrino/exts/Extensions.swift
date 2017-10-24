@@ -84,18 +84,22 @@ private var handleRenderContext: UInt8 = 0
 public extension UIView {
   var renderContext: UIRenderConfigurationContainer {
     get {
-      var handle = handleRenderContext
-      guard let obj = objc_getAssociatedObject(self, &handle)
+      guard let obj = objc_getAssociatedObject(self, &handleRenderContext)
             as? UIRenderConfigurationContainer else {
         let container = UIRenderConfigurationContainer(view: self)
-        objc_setAssociatedObject(self, &handle, container, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+        objc_setAssociatedObject(self,
+                                 &handleRenderContext,
+                                 container,
+                                 .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         return container
       }
       return obj
     }
     set {
-      var handle = handleRenderContext
-      objc_setAssociatedObject(self, &handle, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+      objc_setAssociatedObject(self,
+                               &handleRenderContext,
+                               newValue,
+                               .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
     }
   }
 
@@ -142,6 +146,34 @@ public extension UIView {
   public func debugBoudingRect() {
     layer.borderColor = UIColor.red.cgColor
     layer.borderWidth = 2
+  }
+
+  func storeOldGeometryRecursively() {
+    renderContext.oldFrame = frame
+    for subview in subviews {
+      subview.storeOldGeometryRecursively()
+    }
+  }
+
+  func applyOldGeometryRecursively() {
+    frame = renderContext.oldFrame
+    for subview in subviews {
+      subview.applyOldGeometryRecursively()
+    }
+  }
+
+  func storeNewGeometryRecursively() {
+    renderContext.newFrame = frame
+    for subview in subviews {
+      subview.storeNewGeometryRecursively()
+    }
+  }
+
+  func applyNewGeometryRecursively() {
+    frame = renderContext.newFrame
+    for subview in subviews {
+      subview.applyNewGeometryRecursively()
+    }
   }
 }
 
