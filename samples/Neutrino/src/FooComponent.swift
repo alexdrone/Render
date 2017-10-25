@@ -34,7 +34,6 @@ struct Foo {
         config.set(\UIView.yoga.padding, 8)
         config.set(\UIView.yoga.alignSelf, .center)
         config.set(\UIView.yoga.width, config.canvasSize.width)
-        config.set(\UIView.yoga.height, context.canvasView?.bounds.size.height ?? 0)
       }
 
       let label = UINode<UILabel>() { config in
@@ -46,28 +45,24 @@ struct Foo {
       }
 
       let counterProps = Counter.Props(count: state.count)
-      let counter = context.transientComponent(Counter.Component.self,
-                                               props: counterProps,
-                                               parent: nil).asNode()
+      let counter = childComponent(Counter.Component.self, props: counterProps).asNode()
 
       let increaseButtonProps = Button.Props(title: "ADD") {
         self.state.count += 1
         self.setNeedsRender(layoutAnimator: defaultLayoutAnimator)
       }
-      let increaseButton = context.component(Button.Component.self,
-                                             key: "increase",
-                                             props: increaseButtonProps,
-                                             parent: self).asNode()
+      let increaseButton = childComponent(Button.Component.self,
+                                          key: "increase",
+                                          props: increaseButtonProps).asNode()
 
       let decreaseButtonProps = Button.Props(title: "REMOVE") {
         guard self.state.count > 0 else { return }
         self.state.count -= 1
         self.setNeedsRender(layoutAnimator: defaultLayoutAnimator)
       }
-      let decreaseButton = context.component(Button.Component.self,
-                                             key: "decrease",
-                                             props: decreaseButtonProps,
-                                             parent: self).asNode()
+      let decreaseButton = childComponent(Button.Component.self,
+                                          key: "decrease",
+                                          props: decreaseButtonProps).asNode()
 
       let buttonsWrapper = UINode<UIView>(reuseIdentifier: "ButtonWrapper") { config in
         config.set(\UIView.yoga.flexDirection, .row)
@@ -80,9 +75,7 @@ struct Foo {
       }
 
       let badges: [UINodeProtocol] = Array(0..<state.count).map { _ in
-        context.transientComponent(Badge.Component.self,
-                                   props: UINilProps.nil,
-                                   parent: self).asNode()
+        childComponent(Badge.Component.self).asNode()
       }
       badgesWrapper.children(badges)
 

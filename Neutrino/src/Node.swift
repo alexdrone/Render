@@ -33,6 +33,9 @@ public protocol UINodeProtocol: class {
   var reuseIdentifier: String { get set }
   /// The subnodes of this node.
   var children: [UINodeProtocol] { get }
+  /// An additional configuration closure meant to override some of the original configuration
+  /// of the node.
+  var overrides: ((UIView) -> Void)? { get set }
   /// Re-applies the configuration closure for this node and compute its layout.
   func layout(in bounds: CGSize, options: [UINodeOption])
   /// Mount the component in the view hierarchy by running the *reconciliation algorithm*.
@@ -110,6 +113,7 @@ public class UINode<V: UIView>: UINodeProtocol {
   public var key: String? = nil
   public var index: Int = 0
   public var unmanagedChildren: [UINodeProtocol] = []
+  public var overrides: ((UIView) -> Void)? = nil
 
   // Private.
 
@@ -195,6 +199,7 @@ public class UINode<V: UIView>: UINodeProtocol {
     view.renderContext.storeOldGeometryRecursively()
     let viewConfiguration = UIViewConfiguration(node: self, view: renderedView, size: bounds)
     configClosure(viewConfiguration)
+    overrides?(view)
 
     // Configure the children recursively.
     for child in children {
@@ -417,6 +422,12 @@ public func UINodeReuseIdentifierMake<V>(type: V.Type, identifier: String? = nil
 /// - note: Use this when you want to return an empty child in some conditions.
 public class UINilNode: UINode<UIView> {
   static let `nil` = UINilNode()
+
+  public override var reuseIdentifier: String {
+    get { return "NilNode" }
+    set { }
+  }
+
   private init() {
     super.init(reuseIdentifier: "NilNode")
     NotificationCenter.default.removeObserver(self)

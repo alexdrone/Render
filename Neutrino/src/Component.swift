@@ -194,8 +194,26 @@ open class UIComponent<S: UIStateProtocol, P: UIPropsProtocol>: NSObject, UIComp
       fatalError("Attempting to render a component without a valid context.")
     }
     let node = render(context: context)
-    setKey(node: node)
+    self.root = node
     return node
+  }
+
+  /// Retrieves the component from the context for the key passed as argument.
+  /// If no component is registered yet, a new one will be allocated and returned.
+  /// - parameter type: The desired *UIComponent* subclass.
+  /// - parameter key: The unique key ('nil' for a transient component).
+  /// - parameter props: Configurations and callbacks passed down to the component.
+  public func childComponent<S, P, C: UIComponent<S, P>>(_ type: C.Type,
+                                                         key: String? = nil,
+                                                         props: P = P()) -> C {
+    guard let context = context else {
+      fatalError("Attempting to create a component without a valid context.")
+    }
+    if let key = key {
+      return context.component(type, key: key, props: props, parent: self)
+    } else {
+      return context.transientComponent(type, props: props, parent: self)
+    }
   }
 
   /// Builds the node hierarchy for this component.

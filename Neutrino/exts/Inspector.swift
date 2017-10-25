@@ -11,6 +11,9 @@ extension UIComponent {
       self?.setNeedsRender()
     }
     center.addObserver(forName: inspectorRequest, object: nil, queue: nil) { [weak self] _ in
+      guard self?.parent == nil else {
+        return
+      }
       if let description = self?.root.inspectorDescription() {
         NotificationCenter.default.post(name: inspectorResponse, object: description)
       }
@@ -27,7 +30,7 @@ extension UIComponent {
 
 extension UINodeProtocol {
   /// Builds a XML description of the node.
-  func inspectorDescription() -> [String: Any] {
+  func inspectorDescription() -> [String: Any]? {
     var address = "nil"
     if let view = renderedView {
       address = "\(Unmanaged<AnyObject>.passUnretained(view as AnyObject).toOpaque())"

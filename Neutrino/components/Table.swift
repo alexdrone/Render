@@ -2,7 +2,7 @@ import UIKit
 
 // MARK: - UITableViewComponentProps
 
-public class UITableViewComponentProps: UIPropsProtocol {
+public class UITableComponentProps: UIPropsProtocol {
   /// Represents a table view section.
   public struct Section {
     /// The list of components that are going to be shown in this section.
@@ -15,6 +15,11 @@ public class UITableViewComponentProps: UIPropsProtocol {
       let set: Set<String> = Set(nodes.flatMap { $0.key })
       return set.count == nodes.count
     }
+
+    public init(nodes: [UINodeProtocol], header: UINodeProtocol? = nil) {
+      self.nodes = nodes
+      self.header = header
+    }
   }
   /// The sections that will be presented by this table view instance.
   public var sections: [Section] = []
@@ -26,7 +31,10 @@ public class UITableViewComponentProps: UIPropsProtocol {
   }
   /// Additional *UITableView* configuration closure.
   /// - note: Use this to configure layout properties such as padding, margin and such.
-  public var tableViewConfiguration: (UITableView) -> Void = { _ in }
+  public var layout: (YGLayout, CGSize) -> Void = { layout, canvasSize in
+    layout.width = canvasSize.width
+    layout.height = canvasSize.height
+  }
 
   public required init() { }
 }
@@ -34,7 +42,7 @@ public class UITableViewComponentProps: UIPropsProtocol {
 // MARK: - UITableComponent
 
 /// Wraps a *UITableView* into a Render component.
-public class UITableComponent<S: UIStateProtocol, P: UITableViewComponentProps>:
+public class UITableComponent<S: UIStateProtocol, P: UITableComponentProps>:
   UIComponent<S, P>, UIContextDelegate, UITableViewDataSource {
 
   /// The concrete backing view.
@@ -54,7 +62,7 @@ public class UITableComponent<S: UIStateProtocol, P: UITableViewComponentProps>:
     func makeTable() -> UITableView {
       let table = UITableView()
       table.dataSource = self
-      table.rowHeight = UITableViewAutomaticDimension
+      table.rowHeight = 235
       if #available(iOS 11, *) {
         table.estimatedRowHeight = -1;
       } else {
@@ -70,7 +78,7 @@ public class UITableComponent<S: UIStateProtocol, P: UITableViewComponentProps>:
         return
       }
       let table = config.view
-      self.props.tableViewConfiguration(table)
+      self.props.layout(table.yoga, context.canvasView?.bounds.size ?? .zero)
       /// Implements padding as content insets.
       table.contentInset.bottom = table.yoga.paddingBottom.normal
       table.contentInset.top = table.yoga.paddingTop.normal
@@ -139,7 +147,8 @@ public class UITableComponentCell: UITableViewCell {
   private func mountNode(size: CGSize) {
     let size = CGSize(width: size.width, height: CGFloat.max)
     node.reconcile(in: contentView, size: size, options: [])
-    contentView.sizeToFit()
+    contentView.frame = contentView.subviews.first?.bounds ?? CGRect.zero
+    contentView.subviews.first?.center = contentView.center
   }
 
   /// Asks the view to calculate and return the size that best fits the specified size.
@@ -148,9 +157,5 @@ public class UITableComponentCell: UITableViewCell {
     return contentView.bounds.size
   }
 
-  /// The bounds rectangle, which describes the view’s location and size in its own coordinate
-  /// system.
-  public override var intrinsicContentSize: CGSize {
-    return contentView.bounds.size
-  }
+
 }
