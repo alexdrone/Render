@@ -276,6 +276,7 @@ public class UINode<V: UIView>: UINodeProtocol {
     if options.contains(.preventDelegateCallbacks) {
       // Notify the delegate.
       delegate?.nodeWillLayout(self, view: view)
+      associatedComponent?.nodeWillLayout(self, view: view)
     }
   }
 
@@ -288,12 +289,14 @@ public class UINode<V: UIView>: UINodeProtocol {
     if options.contains(.preventDelegateCallbacks) {
       // Notify the delegate.
       delegate?.nodeDidLayout(self, view: view)
+      associatedComponent?.nodeDidLayout(self, view: view)
     }
 
     /// The view has been newly created.
     if shouldInvokeDidMount {
       shouldInvokeDidMount = false
       delegate?.nodeDidMount(self, view: view)
+      associatedComponent?.nodeDidMount(self, view: view)
     }
   }
 

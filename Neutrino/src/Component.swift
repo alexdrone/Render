@@ -3,6 +3,12 @@ import UIKit
 public protocol UIComponentProtocol: class, UINodeDelegateProtocol {
   /// The component-tree context.
   weak var context: UIContextProtocol? { get }
+  /// A unique key for the component (necessary if the component is stateful).
+  var key: String? { get }
+  /// The root node (built as a result of the 'render' method).
+  var root: UINodeProtocol { get }
+  /// *Optional* node delegate.
+  weak var delegate: UINodeDelegateProtocol? { get set }
   /// The view in which the component is going to be rendered.
   weak var canvasView: UIView? { get }
   /// Canvas bounding rect.
@@ -26,6 +32,9 @@ public protocol UIComponentProtocol: class, UINodeDelegateProtocol {
   /// Type-erased props associated to this component.
   /// - note: *Internal only.*
   var anyProps: UIPropsProtocol { get }
+  /// Builds the component node.
+  /// - note: Use this function to insert the node as a child of a pre-existent node hierarchy.
+  func asNode() -> UINodeProtocol
 }
 
 public enum UIComponentCanvasOption: Int {
@@ -52,7 +61,6 @@ open class UIComponent<S: UIStateProtocol, P: UIPropsProtocol>: NSObject, UIComp
   public var root: UINodeProtocol = UINilNode.nil {
     didSet {
       root.associatedComponent = self
-      root.delegate = self
       setKey(node: root)
     }
   }
@@ -101,9 +109,9 @@ open class UIComponent<S: UIStateProtocol, P: UIPropsProtocol>: NSObject, UIComp
   public var canvasSize: () -> CGSize = {
     return CGSize(width: UIScreen.main.bounds.width, height: CGFloat.max)
   }
+
   private var boundsObserver: UIContextViewBoundsObserver? = nil
   private var setNeedsRenderCalledDuringSuspension: Bool = false
-
   required public init(context: UIContextProtocol, key: String? = nil) {
     assert(context._componentInitFromContext, "Explicit init call is prohibited.")
     self.key = key
@@ -158,7 +166,7 @@ open class UIComponent<S: UIStateProtocol, P: UIPropsProtocol>: NSObject, UIComp
 
     context.didRenderRootComponent(self)
 
-    context.pool.flushObsoleteStates(validKeys: root._retrieveKeysRecursively())
+    //context.pool.flushObsoleteStates(validKeys: root._retrieveKeysRecursively())
     inspectorMarkDirty()
 
     // Reset the animatable frame changes to default.

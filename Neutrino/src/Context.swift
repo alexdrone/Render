@@ -33,6 +33,8 @@ public protocol UIContextProtocol: class {
   /// - note: Many delegates can be registered at the same time and the context hold only weak
   /// references to them.
   func registerDelegate(_ delegate: UIContextDelegate)
+  /// Remove a delegate for this context.
+  func unregister(_ delegate: UIContextDelegate)
   /// A root component registered this context just got rendered.
   /// - note: This is automatically called from *UIComponent* subclasses.
   func didRenderRootComponent(_ component: UIComponentProtocol)
@@ -53,7 +55,7 @@ public protocol UIContextProtocol: class {
 
 public protocol UIContextDelegate: class {
   /// Called whenever *setNeedRender* is called on any of the compoenets belonging to this context.
-  func setNeedRenderInvoked(on context: UIContextProtocol)
+  func setNeedRenderInvoked(on context: UIContextProtocol, component: UIComponentProtocol)
 }
 
 // MARK: - UIContext
@@ -119,10 +121,15 @@ public class UIContext: UIContextProtocol {
     delegates.append(UIContextDelegateWeakRef(delegate: delegate))
   }
 
+  public func unregister(_ delegate: UIContextDelegate) {
+    assert(Thread.isMainThread)
+    delegates = delegates.filter { $0.delegate !== delegate }
+  }
+
   /// Propagates the notification to all of the registered delegates.
   public func didRenderRootComponent(_ component: UIComponentProtocol) {
     for delegate in delegates.flatMap({ $0.delegate }) {
-      delegate.setNeedRenderInvoked(on: self)
+      delegate.setNeedRenderInvoked(on: self, component: component)
     }
   }
 

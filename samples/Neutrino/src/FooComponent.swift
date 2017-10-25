@@ -49,7 +49,7 @@ struct Foo {
 
       let increaseButtonProps = Button.Props(title: "ADD") {
         self.state.count += 1
-        self.setNeedsRender(layoutAnimator: defaultLayoutAnimator)
+        self.setNeedsRender(layoutAnimator: nil)
       }
       let increaseButton = childComponent(Button.Component.self,
                                           key: "increase",
@@ -58,7 +58,7 @@ struct Foo {
       let decreaseButtonProps = Button.Props(title: "REMOVE") {
         guard self.state.count > 0 else { return }
         self.state.count -= 1
-        self.setNeedsRender(layoutAnimator: defaultLayoutAnimator)
+        self.setNeedsRender(layoutAnimator: nil)
       }
       let decreaseButton = childComponent(Button.Component.self,
                                           key: "decrease",
