@@ -5,19 +5,14 @@ class ExampleTableComponent: UIComponent<UINilState, UINilProps> {
 
   override func render(context: UIContextProtocol) -> UINodeProtocol {
 
-    let props = UITableComponentProps()
-    let root = context.component(UITableComponent<UINilState, UITableComponentProps>.self,
-                                 key: "table-example",
-                                 props: props,
-                                 parent: self)
+    let root = childComponent(UIDefaultTableComponent.self, key: childKey("table"))
 
     var nodes: [UINodeProtocol] = []
     for idx in 0...100 {
-      let node = context.component(Foo.Component.self, key: "cell-\(idx)", props: Foo.Props(), parent: self).asNode()
+      let node = root.childComponent(Foo.Component.self, key: childKey("cell-\(idx)")).asNode()
       nodes.append(node)
     }
-    let section = UITableComponentProps.Section(nodes: nodes)
-    props.sections.append(section)
+    root.props.sections.append(UITableComponentProps.Section(nodes: nodes))
 
     let rootNode = root.asNode()
     return rootNode

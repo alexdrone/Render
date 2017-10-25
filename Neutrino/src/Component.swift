@@ -176,15 +176,17 @@ open class UIComponent<S: UIStateProtocol, P: UIPropsProtocol>: NSObject, UIComp
 
   private func setKey(node: UINodeProtocol) {
     if let key = key {
-      if let nodeKey = node.key, nodeKey != key {
-        print("warning: The node has a key \(nodeKey) that differs from the component \(key).")
-      }
       node.key = key
     }
     #if DEBUG
     node._debugPropsDescription = props.reflectionDescription(del: UINodeInspectorDefaultDelimiters)
     node._debugStateDescription = state.reflectionDescription(del: UINodeInspectorDefaultDelimiters)
     #endif
+  }
+
+  /// Returns the desired child key prefixed with the key of the father.
+  public func childKey(_ postfix: String) -> String {
+    return "\(key ?? "")-\(postfix)"
   }
 
   /// Builds the component node.

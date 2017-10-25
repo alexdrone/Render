@@ -41,6 +41,8 @@ public class UITableComponentProps: UIPropsProtocol {
 
 // MARK: - UITableComponent
 
+public typealias UIDefaultTableComponent = UITableComponent<UINilState, UITableComponentProps>
+
 /// Wraps a *UITableView* into a Render component.
 public class UITableComponent<S: UIStateProtocol, P: UITableComponentProps>:
   UIComponent<S, P>, UIContextDelegate, UITableViewDataSource {
@@ -62,7 +64,7 @@ public class UITableComponent<S: UIStateProtocol, P: UITableComponentProps>:
     func makeTable() -> UITableView {
       let table = UITableView()
       table.dataSource = self
-      table.rowHeight = 235
+      table.rowHeight = 275
       if #available(iOS 11, *) {
         table.estimatedRowHeight = -1;
       } else {
@@ -127,9 +129,8 @@ public class UITableComponent<S: UIStateProtocol, P: UITableComponentProps>:
       tableView.dequeueReusableCell(withIdentifier: reuseIdentifier) as? UITableComponentCell
       ?? UITableComponentCell(style: .default, reuseIdentifier: reuseIdentifier)
     // Mounts the new node.
-    if cell.node !== node {
-      cell.node = node
-    }
+    cell.mountNode(node: node, width: tableView.bounds.size.width)
+
     return cell
   }
 }
@@ -138,14 +139,20 @@ public class UITableComponent<S: UIStateProtocol, P: UITableComponentProps>:
 
 public class UITableComponentCell: UITableViewCell {
   /// The node currently associated to this view.
-  public var node: UINodeProtocol = UINilNode.nil {
-    didSet {
-      mountNode(size: contentView.bounds.size)
-    }
+  public var node: UINodeProtocol = UINilNode.nil
+
+  public override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+    super.init(style: style, reuseIdentifier: reuseIdentifier)
+    selectionStyle = .none
   }
 
-  private func mountNode(size: CGSize) {
-    let size = CGSize(width: size.width, height: CGFloat.max)
+  public required init?(coder aDecoder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
+
+  public func mountNode(node: UINodeProtocol, width: CGFloat) {
+    self.node = node
+    let size = CGSize(width: width, height: CGFloat.max)
     node.reconcile(in: contentView, size: size, options: [])
     contentView.frame = contentView.subviews.first?.bounds ?? CGRect.zero
     contentView.subviews.first?.center = contentView.center
@@ -153,9 +160,7 @@ public class UITableComponentCell: UITableViewCell {
 
   /// Asks the view to calculate and return the size that best fits the specified size.
   public override func sizeThatFits(_ size: CGSize) -> CGSize {
-    mountNode(size: size)
+    mountNode(node: self.node, width: size.width)
     return contentView.bounds.size
   }
-
-
 }

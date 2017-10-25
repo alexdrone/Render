@@ -29,7 +29,7 @@ struct Foo {
                                                          curve: .easeIn,
                                                          animations: nil)
 
-      let root = UINode<UIView> { config in
+      let root = UINode<UIView>(reuseIdentifier: "Foo") { config in
         config.set(\UIView.backgroundColor, Color.black)
         config.set(\UIView.yoga.padding, 8)
         config.set(\UIView.yoga.alignSelf, .center)
