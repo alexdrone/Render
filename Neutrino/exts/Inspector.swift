@@ -11,10 +11,10 @@ extension UIComponent {
       self?.setNeedsRender()
     }
     center.addObserver(forName: inspectorRequest, object: nil, queue: nil) { [weak self] _ in
-      guard self?.parent == nil else {
+      guard let `self` = self, self.parent == nil, !self.isEmbeddedInCell else {
         return
       }
-      if let description = self?.root.inspectorDescription() {
+      if let description = self.root.inspectorDescription() {
         NotificationCenter.default.post(name: inspectorResponse, object: description)
       }
     }

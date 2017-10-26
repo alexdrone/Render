@@ -6,18 +6,18 @@ public class UITableComponentProps: UIPropsProtocol {
   /// Represents a table view section.
   public struct Section {
     /// The list of components that are going to be shown in this section.
-    public var components: [UIComponentProtocol]
+    public var cells: [UICell]
     /// A node able to render this section header.
     /// - note: Optional.
-    public var header: UIComponentProtocol?
+    public var header: UICell?
     /// 'true' if all of the root nodes in this section have a unique key.
     public var hasDistinctKeys: Bool {
-      let set: Set<String> = Set(components.flatMap { $0.key })
-      return set.count == components.count
+      let set: Set<String> = Set(cells.flatMap { $0.component.key })
+      return set.count == cells.count
     }
 
-    public init(components: [UIComponentProtocol], header: UIComponentProtocol? = nil) {
-      self.components = components
+    public init(cells: [UICell], header: UICell? = nil) {
+      self.cells = cells
       self.header = header
     }
   }
@@ -33,7 +33,7 @@ public class UITableComponentProps: UIPropsProtocol {
   public var allComponents: [UIComponentProtocol] {
     var components: [UIComponentProtocol] = []
     for section in sections {
-      components.append(contentsOf: section.components)
+      components.append(contentsOf: section.cells.flatMap { $0.component })
     }
     return components
   }
@@ -50,8 +50,6 @@ public class UITableComponentProps: UIPropsProtocol {
 
 // MARK: - UITableComponent
 
-private let prototypeCell = UITableComponentCell(style: .default, reuseIdentifier: "")
-
 public typealias UIDefaultTableComponent = UITableComponent<UINilState, UITableComponentProps>
 
 /// Wraps a *UITableView* into a Render component.
@@ -62,17 +60,26 @@ public class UITableComponent<S: UIStateProtocol, P: UITableComponentProps>:
   private var tableView: UITableView? {
     return root.renderedView as? UITableView
   }
+  private var tableNode: UINodeProtocol!
+  private var cellContext: UIContext!
 
   public required init(context: UIContextProtocol, key: String?) {
-    super.init(context: context, key: key)
-    context.registerDelegate(self)
-  }
-
-  /// Construct the *UITableView* root node.
-  public override func render(context: UIContextProtocol) -> UINodeProtocol {
     guard let key = key else {
       fatalError("UITableComponent's *key* property is mandatory.")
     }
+    super.init(context: context, key: key)
+    tableNode = buildTable(context: context)
+    cellContext = UICellContext()
+    cellContext.registerDelegate(self)
+    context.registerDelegate(self)
+  }
+
+  public override func render(context: UIContextProtocol) -> UINodeProtocol {
+    return tableNode
+  }
+
+  /// Construct the *UITableView* root node.
+  private func buildTable(context: UIContextProtocol) -> UINodeProtocol {
     // Init closure.
     func makeTable() -> UITableView {
       let table = UITableView()
@@ -88,7 +95,7 @@ public class UITableComponent<S: UIStateProtocol, P: UITableComponentProps>:
         return
       }
       let table = config.view
-      self.props.configuration(table, UIScreen.main.bounds.size)
+      self.props.configuration(table, self.context?.canvasView?.bounds.size ?? .zero)
       /// Implements padding as content insets.
       table.contentInset.bottom = table.yoga.paddingBottom.normal
       table.contentInset.top = table.yoga.paddingTop.normal
@@ -98,24 +105,17 @@ public class UITableComponent<S: UIStateProtocol, P: UITableComponentProps>:
   }
 
   public func setNeedRenderInvoked(on context: UIContextProtocol, component: UIComponentProtocol) {
-    guard context === self.context else {
-      fatalError("This component is registered as a delegate for a different context.")
-    }
-    // If a children changed updates the table view layout.
-    guard !componentIsChild(component) else {
+    cellContext.canvasView = tableView
+    root.unmanagedChildren = props.allComponents.map { $0.asNode() }
+    // Change comes from one of the parent components.
+    if context === self.context {
+      // TODO: Integrate IGListDiff algorithm.
+      tableView?.reloadData()
+    // Change come from one of the children component.
+    } else if context === self.cellContext {
       tableView?.beginUpdates()
       tableView?.endUpdates()
-      return
     }
-    // Registers the nodes as unamanged children.
-    var nodes: [UINodeProtocol] = []
-    for section in props.sections {
-      nodes.append(contentsOf: section.components.map { $0.asNode() })
-    }
-    root.unmanagedChildren = nodes
-
-    // TODO: Integrate IGListDiff algorithm.
-    tableView?.reloadData()
   }
 
   // Returns 'true' if the component passed as argument is a child of this table.
@@ -144,13 +144,13 @@ public class UITableComponent<S: UIStateProtocol, P: UITableComponentProps>:
     guard section < props.sections.count else {
       fatalError("Attempts to access to a section out of bounds.")
     }
-    return props.sections[section].components.count
+    return props.sections[section].cells.count
   }
 
   /// Asks the data source for a cell to insert in a particular location of the table view.
   public func tableView(_ tableView: UITableView,
                         cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-    let component = props.sections[indexPath.section].components[indexPath.row]
+    let component = props.sections[indexPath.section].cells[indexPath.row].component
     component.delegate = self
     let node = component.asNode()
     let reuseIdentifier = node.reuseIdentifier
@@ -165,11 +165,11 @@ public class UITableComponent<S: UIStateProtocol, P: UITableComponentProps>:
   }
 
   public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-    let node = props.sections[indexPath.section].components[indexPath.row].asNode()
-    node.reconcile(in: prototypeCell.contentView,
+    let node = props.sections[indexPath.section].cells[indexPath.row].component.asNode()
+    node.reconcile(in: UICell.prototype.contentView,
                    size: CGSize(width: tableView.bounds.size.width, height: CGFloat.max),
                    options: [.preventDelegateCallbacks])
-    return prototypeCell.contentView.subviews.first?.bounds.size.height ?? 0
+    return UICell.prototype.contentView.subviews.first?.bounds.size.height ?? 0
   }
 
   /// Retrieves the component from the context for the key passed as argument.
@@ -179,17 +179,46 @@ public class UITableComponent<S: UIStateProtocol, P: UITableComponentProps>:
   /// - parameter props: Configurations and callbacks passed down to the component.
   public func cell<S, P, C: UIComponent<S, P>>(_ type: C.Type,
                                                key: String? = nil,
-                                               props: P = P()) -> C {
-    guard let context = context else {
-      fatalError("Attempting to create a component without a valid context.")
-    }
+                                               props: P = P()) -> UICell {
+    var component: UIComponentProtocol!
     if let key = key {
-      return context.component(type, key: key, props: props, parent: nil)
+      component = cellContext.component(type, key: key, props: props, parent: nil)
     } else {
-      return context.transientComponent(type, props: props, parent: nil)
+      component = cellContext.transientComponent(type, props: props, parent: nil)
     }
+    return UICell(component: component)
   }
 }
+
+// MARK: - UICell
+
+public final class UICell {
+  /// The constructed component.
+  public let component: UIComponentProtocol
+  // Internal constructor.
+  init(component: UIComponentProtocol) {
+    self.component = component
+  }
+  // Static internal prototype cell used to calculated components dimensions.
+  static let prototype = UITableComponentCell(style: .default, reuseIdentifier: "")
+}
+
+/// Components that are embedded in cells have a different context.
+public final class UICellContext: UIContext {
+  /// Layout animator is not available for cells.
+  public override var layoutAnimator: UIViewPropertyAnimator? {
+    get { return nil }
+    set { }
+  }
+}
+
+extension UIComponent {
+  /// 'true' if this component is being used in a tableview or a collection view.
+  var isEmbeddedInCell: Bool {
+    return self.context is UICellContext
+  }
+}
+
 
 // MARK: - UITableViewComponentCell
 
