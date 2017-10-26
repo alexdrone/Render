@@ -2,10 +2,10 @@
 import UIKit
 import RenderNeutrino
 
-struct Foo {
-
-  final class Props: UIPropsProtocol {
-   var text: String = """
+extension UI.Props {
+  /// Props for the *Foo* component.
+  final class Foo: UIPropsProtocol {
+    var text: String = """
       A neutrino (/nuːˈtriːnoʊ/ or /njuːˈtriːnoʊ/) (denoted by the Greek letter ν) is a fermion
       (an elementary particle with half-integer spin) that interacts only via the weak subatomic
       force and gravity. The mass of the neutrino is much smaller than that of the other known
@@ -13,74 +13,96 @@ struct Foo {
     """
     required init() { }
   }
+}
 
-  final class State: UIStateProtocol {
+extension UI.States {
+  /// State for the *Foo* component.
+  final class Foo: UIStateProtocol {
     var count: Int = 0
     required init() { }
   }
+}
 
-  final class Component: UIComponent<State, Props> {
+extension UI.Components {
+  /// The *Foo* component subclass.
+  final class Foo: UIComponent<UI.States.Foo, UI.Props.Foo> {
+
+    /// Builds the node hierarchy for this component.
     override func render(context: UIContextProtocol) -> UINodeProtocol {
-
       let props = self.props
       let state = self.state
 
-      let defaultLayoutAnimator = UIViewPropertyAnimator(duration: 0.16,
-                                                         curve: .easeIn,
-                                                         animations: nil)
+      let rootNode = UI.Fragments.Foo_rootNode()
+      let label = UI.Fragments.bodyLabel(text: props.text)
 
-      let root = UINode<UIView>(reuseIdentifier: "Foo") { config in
-        config.set(\UIView.backgroundColor, Color.black)
-        config.set(\UIView.yoga.padding, 8)
-        config.set(\UIView.yoga.alignSelf, .center)
-        config.set(\UIView.yoga.width, config.canvasSize.width)
-      }
+      let counter = childComponent(UI.Components.Counter.self,
+                                   props: UI.Props.Counter(count: state.count)).asNode()
 
-      let label = UINode<UILabel>() { config in
-        config.set(\UILabel.numberOfLines, 0)
-        config.set(\UILabel.textColor, .white)
-        config.set(\UILabel.text, props.text)
-        config.set(\UILabel.font,
-                   UIFont.systemFont(ofSize: 13, weight: UIFont.Weight.light))
-      }
+      let increaseButton = childComponent(UI.Components.Button.self,
+                                          key: childKey("increase"),
+                                          props: UI.Props.Button(title: "ADD",
+                                                                 action: increaseCounter)).asNode()
 
-      let counterProps = Counter.Props(count: state.count)
-      let counter = childComponent(Counter.Component.self, props: counterProps).asNode()
+      let decreaseButton = childComponent(UI.Components.Button.self,
+                                          key: childKey("decrease"),
+                                          props: UI.Props.Button(title: "REMOVE",
+                                                                 action: decreaseCounter)).asNode()
 
-      let increaseButtonProps = Button.Props(title: "ADD") {
-        self.state.count += 1
-        self.setNeedsRender(options: [.animateLayoutChanges(animator: defaultLayoutAnimator)])
-      }
-      let increaseButton = childComponent(Button.Component.self,
-                                          key: "increase",
-                                          props: increaseButtonProps).asNode()
+      let buttonsContainer = UI.Fragments.Foo_buttonsContainer(buttons: [
+        increaseButton,
+        decreaseButton
+      ])
 
-      let decreaseButtonProps = Button.Props(title: "REMOVE") {
-        guard self.state.count > 0 else { return }
-        self.state.count -= 1
-        self.setNeedsRender(options: [.animateLayoutChanges(animator: defaultLayoutAnimator)])
-      }
-      let decreaseButton = childComponent(Button.Component.self,
-                                          key: "decrease",
-                                          props: decreaseButtonProps).asNode()
+      let badges = UI.Fragments.Foo_badgeContainer(count: state.count)
 
-      let buttonsWrapper = UINode<UIView>(reuseIdentifier: "ButtonWrapper") { config in
-        config.set(\UIView.yoga.flexDirection, .row)
-      }
-      buttonsWrapper.children([increaseButton, decreaseButton])
+      rootNode.children([label, buttonsContainer, counter, badges])
+      return rootNode
+    }
 
-      let badgesWrapper = UINode<UIView>(reuseIdentifier: "BadgesWrapper") { config in
-        config.set(\UIView.yoga.flexDirection, .row)
-        config.set(\UIView.yoga.flexWrap, .wrap)
-      }
+    let defaultLayoutAnimator =
+      UIViewPropertyAnimator(duration: 0.16, curve: .easeIn, animations: nil)
 
-      let badges: [UINodeProtocol] = Array(0..<state.count).map { _ in
-        childComponent(Badge.Component.self).asNode()
-      }
-      badgesWrapper.children(badges)
+    private func increaseCounter() {
+      self.state.count += 1
+      self.setNeedsRender(options: [.animateLayoutChanges(animator: defaultLayoutAnimator)])
+    }
 
-      root.children([label, buttonsWrapper, counter, badgesWrapper])
-      return root
+    private func decreaseCounter() {
+      guard self.state.count > 0 else { return }
+      self.state.count -= 1
+      self.setNeedsRender(options: [.animateLayoutChanges(animator: defaultLayoutAnimator)])
     }
   }
+}
+
+fileprivate extension UI.Fragments {
+
+  static func Foo_rootNode() -> UINode<UIView> {
+    return UINode<UIView>(reuseIdentifier: "Foo") { config in
+      config.set(\UIView.backgroundColor, Color.black)
+      config.set(\UIView.yoga.padding, 8)
+      config.set(\UIView.yoga.alignSelf, .center)
+      config.set(\UIView.yoga.width, config.canvasSize.width)
+    }
+  }
+
+  static func Foo_buttonsContainer(buttons: [UINodeProtocol]) -> UINode<UIView> {
+    let container = UINode<UIView>(reuseIdentifier: "ButtonsContainer") { config in
+      config.set(\UIView.yoga.flexDirection, .row)
+    }
+    container.children(buttons)
+    return container
+  }
+
+  static func Foo_badgeContainer(count: Int) -> UINodeProtocol {
+    let container = UINode<UIView>(reuseIdentifier: "BadgesContainer") { config in
+      config.set(\UIView.yoga.flexDirection, .row)
+      config.set(\UIView.yoga.flexWrap, .wrap)
+    }
+
+    let badges: [UINodeProtocol] = Array(0..<count).map { _ in UI.Fragments.badge() }
+    container.children(badges)
+    return container
+  }
+
 }

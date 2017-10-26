@@ -69,6 +69,7 @@ public enum UIComponentRenderOption {
 
 // MARK: - UIComponent
 
+/// Component baseclass.
 open class UIComponent<S: UIStateProtocol, P: UIPropsProtocol>: NSObject, UIComponentProtocol {
   /// The root node (built as a result of the 'render' method).
   public var root: UINodeProtocol = UINilNode.nil {
@@ -125,6 +126,8 @@ open class UIComponent<S: UIStateProtocol, P: UIPropsProtocol>: NSObject, UIComp
 
   private var boundsObserver: UIContextViewBoundsObserver? = nil
   private var setNeedsRenderCalledDuringSuspension: Bool = false
+
+  /// Never construct your component directly but do it through the *UIContext* factory methods.
   required public init(context: UIContextProtocol, key: String? = nil) {
     assert(context._componentInitFromContext, "Explicit init call is prohibited.")
     self.key = key
@@ -225,7 +228,18 @@ open class UIComponent<S: UIStateProtocol, P: UIPropsProtocol>: NSObject, UIComp
 
   /// Returns the desired child key prefixed with the key of the father.
   public func childKey(_ postfix: String) -> String {
-    return "\(key ?? "")-\(postfix)"
+    // Searche
+    var parentKey: String = ""
+    func findParentKeyRecursively(component: UIComponentProtocol) {
+      if let key = component.key {
+        parentKey = key
+      } else if let parent = component.parent {
+        findParentKeyRecursively(component: parent)
+      }
+    }
+    findParentKeyRecursively(component: self)
+
+    return "\(parentKey)-\(postfix)"
   }
 
   /// Builds the component node.
@@ -305,3 +319,11 @@ private final class UIContextViewBoundsObserver: NSObject {
     }
   }
 }
+
+// MARK: - UIComponentSubclasses
+
+/// A component without *props* nor *state*.
+public typealias UIPureComponent = UIComponent<UINilState, UINilProps>
+
+/// A component without any *state* but with *props* configured from the outside.
+open class UIStatelessComponent<P: UIPropsProtocol>: UIComponent<UINilState, P> { }
