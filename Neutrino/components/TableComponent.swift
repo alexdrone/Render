@@ -9,14 +9,14 @@ public class UITableComponentProps: UIPropsProtocol {
     public var cells: [UICell]
     /// A node able to render this section header.
     /// - note: Optional.
-    public var header: UICell?
+    public var header: UISectionHeader?
     /// 'true' if all of the root nodes in this section have a unique key.
     public var hasDistinctKeys: Bool {
       let set: Set<String> = Set(cells.flatMap { $0.component.key })
       return set.count == cells.count
     }
 
-    public init(cells: [UICell], header: UICell? = nil) {
+    public init(cells: [UICell], header: UISectionHeader? = nil) {
       self.cells = cells
       self.header = header
     }
@@ -173,6 +173,32 @@ public class UITableComponent<S: UIStateProtocol, P: UITableComponentProps>:
     return UICell.prototype.contentView.subviews.first?.bounds.size.height ?? 0
   }
 
+  public func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+    guard let header = props.sections[section].header else {
+      return UIView()
+    }
+    let view = UIView()
+    let width = tableView.bounds.size.width
+    header.component.asNode().reconcile(in: view,
+                                        size: CGSize(width: width, height: CGFloat.max),
+                                        options: [.preventDelegateCallbacks])
+    view.sizeToFit()
+    return view
+  }
+
+  public func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat{
+    guard let header = props.sections[section].header else {
+      return 0
+    }
+    let view = UICell.prototypeHeader
+    let width = tableView.bounds.size.width
+    header.component.asNode().reconcile(in: view,
+                                        size: CGSize(width: width, height: CGFloat.max),
+                                        options: [.preventDelegateCallbacks])
+
+    return view.subviews.first?.bounds.size.height ?? 0
+  }
+
   /// Retrieves the component from the context for the key passed as argument.
   /// If no component is registered yet, a new one will be allocated and returned.
   /// - parameter type: The desired *UIComponent* subclass.
@@ -189,6 +215,12 @@ public class UITableComponent<S: UIStateProtocol, P: UITableComponentProps>:
     }
     return UICell(component: component)
   }
+
+  public func header<S, P, C: UIComponent<S, P>>(_ type: C.Type,
+                                                 key: String? = nil,
+                                                 props: P = P()) -> UISectionHeader {
+    return cell(type, key: key, props: props)
+  }
 }
 
 // MARK: - UICell
@@ -202,7 +234,10 @@ public final class UICell {
   }
   // Static internal prototype cell used to calculated components dimensions.
   static let prototype = UITableComponentCell(style: .default, reuseIdentifier: "")
+  static let prototypeHeader = UIView()
 }
+
+public typealias UISectionHeader = UICell
 
 /// Components that are embedded in cells have a different context.
 public final class UICellContext: UIContext {
