@@ -9,6 +9,8 @@ public protocol UIComponentProtocol: class, UINodeDelegateProtocol {
   var root: UINodeProtocol { get }
   /// *Optional* node delegate.
   weak var delegate: UINodeDelegateProtocol? { get set }
+  /// The component parent (nil for root components).
+  weak var parent: UIComponentProtocol? { get }
   /// The view in which the component is going to be rendered.
   weak var canvasView: UIView? { get }
   /// Canvas bounding rect.
@@ -20,7 +22,7 @@ public protocol UIComponentProtocol: class, UINodeDelegateProtocol {
   /// trigger 'setNeedsRender' whenever the canvas view changes its bounds.
   func setCanvas(view: UIView, options: [UIComponentCanvasOption])
   /// Mark the component for rendering.
-  func setNeedsRender(layoutAnimator: UIViewPropertyAnimator?)
+  func setNeedsRender(options: [UIComponentRenderOption])
   /// Trigger a render pass if the component was set dirty after 'suspendComponentRendering'
   /// has been invoked on the context.
   /// - note: In most scenarios you don't have to manually call this method - the context will
@@ -52,6 +54,17 @@ public enum UIComponentCanvasOption: Int {
             .renderOnCanvasSizeChange,
             .flexibleHeight]
   }
+}
+
+public enum UIComponentRenderOption {
+  /// Provide an animator that will transition the frame change caused by the new computed layout.
+  case animateLayoutChanges(animator: UIViewPropertyAnimator)
+  /// Useful whenever a component in an inner context (e.g. a component embedded in a cell)
+  /// wants to trigger a re-render from the top down on the parent context.
+  /// - note: Nested context are pretty rare and adopted for performance optimisation reasons only,
+  /// like for example in *UITableComponent* or *UICollectionComponent*.
+  /// Creating your own nested contexts is discouraged.
+  case propagateToParentContext
 }
 
 // MARK: - UIComponent
@@ -140,10 +153,10 @@ open class UIComponent<S: UIStateProtocol, P: UIPropsProtocol>: NSObject, UIComp
     }
   }
 
-  public func setNeedsRender(layoutAnimator: UIViewPropertyAnimator? = nil) {
+  public func setNeedsRender(options: [UIComponentRenderOption] = []) {
     assert(Thread.isMainThread)
     guard parent == nil else {
-      parent?.setNeedsRender(layoutAnimator: layoutAnimator)
+      parent?.setNeedsRender(options: options)
       return
     }
     guard let context = context, let view = canvasView else {
@@ -156,6 +169,18 @@ open class UIComponent<S: UIStateProtocol, P: UIPropsProtocol>: NSObject, UIComp
       setNeedsRenderCalledDuringSuspension = true
       return
     }
+
+    var layoutAnimator: UIViewPropertyAnimator? = nil
+    var propagateToParentContext: Bool = false
+    for option in options {
+      switch option {
+      case .animateLayoutChanges(let animator):
+        layoutAnimator = animator
+      case .propagateToParentContext:
+        propagateToParentContext = true
+      }
+    }
+
     // *Optional* the property animator that is going to be used for frame changes in the component
     // subtree. This field is auotmatically reset to 'nil' at the end of every 'render' pass.
     if let layoutAnimator = layoutAnimator {
@@ -171,6 +196,12 @@ open class UIComponent<S: UIStateProtocol, P: UIPropsProtocol>: NSObject, UIComp
 
     // Reset the animatable frame changes to default.
     context.layoutAnimator = nil
+
+    if propagateToParentContext, let parentContext = context._parentContext {
+      parentContext.pool.allComponents().filter { $0.parent == nil }.forEach {
+        $0.setNeedsRender(options: [.propagateToParentContext])
+      }
+    }
   }
 
   public func resumeFromSuspendedRenderingIfNecessary() {

@@ -71,6 +71,7 @@ public class UITableComponent<S: UIStateProtocol, P: UITableComponentProps>:
     tableNode = buildTable(context: context)
     cellContext = UICellContext()
     cellContext.registerDelegate(self)
+    cellContext._parentContext = context
     context.registerDelegate(self)
   }
 
@@ -218,7 +219,6 @@ extension UIComponent {
     return self.context is UICellContext
   }
 }
-
 
 // MARK: - UITableViewComponentCell
 

@@ -51,6 +51,8 @@ public protocol UIContextProtocol: class {
   var _componentInitFromContext: Bool { get}
   // *Internal only* true is suspendComponentRendering has been called on this context.
   var _isRenderSuspended: Bool { get }
+  /// *Internal only* Associate a parent context.
+  weak var _parentContext: UIContextProtocol? { get set }
 }
 
 public protocol UIContextDelegate: class {
@@ -66,6 +68,8 @@ public class UIContext: UIContextProtocol {
   public weak var canvasView: UIView?
   // Sanity check for context initialization.
   public var _componentInitFromContext: Bool = false
+  // Associated a parent context.
+  public weak var _parentContext: UIContextProtocol?
   // suspendComponentRendering has been called on this context.
   public private(set) var _isRenderSuspended: Bool = false
   // The property animator that is going to be used for frame changes in the subtree.
