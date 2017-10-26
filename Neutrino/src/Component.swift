@@ -214,7 +214,7 @@ open class UIComponent<S: UIStateProtocol, P: UIPropsProtocol>: NSObject, UIComp
   }
 
   private func setKey(node: UINodeProtocol) {
-    if let key = key {
+    if let key = key, node.key == nil {
       node.key = key
     }
     #if DEBUG
@@ -297,6 +297,7 @@ private final class UIContextViewBoundsObserver: NSObject {
     super.init()
     self.token = view.observe(\UIView.bounds,
                               options: [.initial, .new, .old]) { [weak self] (view, change) in
+                                print("called")
       let oldSize = self?.size ?? CGSize.zero
       if view.bounds.size != oldSize {
         self?.size = view.bounds.size

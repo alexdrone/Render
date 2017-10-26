@@ -38,14 +38,27 @@ public class UITableComponentProps: UIPropsProtocol {
     return components
   }
 
-  /// Additional *UITableView* configuration closure.
+  public typealias UITableNodeConfigurationClosure = UINode<UITableView>.UINodeConfigurationClosure
+
+  /// *UITableView* configuration closure.
   /// - note: Use this to configure layout properties such as padding, margin and such.
-  public var configuration: (UITableView, CGSize) -> Void = { view, canvasSize in
-    view.yoga.width = canvasSize.width
-    view.yoga.height = canvasSize.height
-  }
+  public var configuration: UITableNodeConfigurationClosure = { _ in }
 
   public required init() { }
+
+  public convenience init(sections: [Section], configure: UITableNodeConfigurationClosure? = nil) {
+    self.init()
+    self.sections = sections
+    configuration = configure ?? configuration
+  }
+
+  public convenience init(cells: [UICell],
+                          header: UISectionHeader? = nil,
+                          configure: UITableNodeConfigurationClosure? = nil) {
+    self.init()
+    sections.append(Section(cells: cells, header: header))
+    configuration = configure ?? configuration
+  }
 }
 
 // MARK: - UITableComponent
@@ -87,6 +100,7 @@ public class UITableComponent<S: UIStateProtocol, P: UITableComponentProps>:
       table.dataSource = self
       table.delegate = self
       table.separatorStyle = .none
+      table.estimatedRowHeight = 64
       return table
     }
     return UINode<UITableView>(reuseIdentifier: "UITableComponent",
@@ -96,7 +110,11 @@ public class UITableComponent<S: UIStateProtocol, P: UITableComponentProps>:
         return
       }
       let table = config.view
-      self.props.configuration(table, self.context?.canvasView?.bounds.size ?? .zero)
+      // Default configuration.
+      config.set(\UITableView.yoga.width, self.context?.canvasView?.bounds.size.width ?? 0)
+      config.set(\UITableView.yoga.height, self.context?.canvasView?.bounds.size.height ?? 0)
+      // Custom configuration.
+      self.props.configuration(config)
       /// Implements padding as content insets.
       table.contentInset.bottom = table.yoga.paddingBottom.normal
       table.contentInset.top = table.yoga.paddingTop.normal
@@ -168,10 +186,11 @@ public class UITableComponent<S: UIStateProtocol, P: UITableComponentProps>:
   /// Asks the delegate for the height to use for a row in a specified location.
   public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
     let node = props.sections[indexPath.section].cells[indexPath.row].component.asNode()
-    node.reconcile(in: UICell.prototype.contentView,
+    let prototypeView = UIView()
+    node.reconcile(in: prototypeView,
                    size: CGSize(width: tableView.bounds.size.width, height: CGFloat.max),
                    options: [.preventDelegateCallbacks])
-    return UICell.prototype.contentView.subviews.first?.bounds.size.height ?? 0
+    return prototypeView.subviews.first?.bounds.size.height ?? 0
   }
 
   /// Asks the delegate for a view object to display in the header of the specified section of
@@ -194,7 +213,7 @@ public class UITableComponent<S: UIStateProtocol, P: UITableComponentProps>:
     guard let header = props.sections[section].header else {
       return 0
     }
-    let view = UICell.prototypeHeader
+    let view = UIView()
     let width = tableView.bounds.size.width
     header.component.asNode().reconcile(in: view,
                                         size: CGSize(width: width, height: CGFloat.max),
@@ -237,9 +256,6 @@ public final class UICell {
   init(component: UIComponentProtocol) {
     self.component = component
   }
-  // Static internal prototype cell used to calculated components dimensions.
-  static let prototype = UITableComponentCell(style: .default, reuseIdentifier: "")
-  static let prototypeHeader = UIView()
 }
 
 public typealias UISectionHeader = UICell
