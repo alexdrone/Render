@@ -12,7 +12,7 @@ class ExampleTableComponent: UIComponent<UINilState, UINilProps> {
     }
     // Builds a section with 100 'Foo.Component' cells and a header.
     let section = UITableComponentProps.Section(
-      cells: Array(0..<100).map { idx in
+      cells: Array(0..<20).map { idx in
         table.cell(Foo.Component.self, key: childKey("cell-\(idx)"))
       },
       header: table.header(HeaderComponent.self))

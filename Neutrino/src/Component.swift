@@ -297,7 +297,6 @@ private final class UIContextViewBoundsObserver: NSObject {
     super.init()
     self.token = view.observe(\UIView.bounds,
                               options: [.initial, .new, .old]) { [weak self] (view, change) in
-                                print("called")
       let oldSize = self?.size ?? CGSize.zero
       if view.bounds.size != oldSize {
         self?.size = view.bounds.size
