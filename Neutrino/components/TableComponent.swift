@@ -165,6 +165,7 @@ public class UITableComponent<S: UIStateProtocol, P: UITableComponentProps>:
     return cell
   }
 
+  /// Asks the delegate for the height to use for a row in a specified location.
   public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
     let node = props.sections[indexPath.section].cells[indexPath.row].component.asNode()
     node.reconcile(in: UICell.prototype.contentView,
@@ -173,6 +174,8 @@ public class UITableComponent<S: UIStateProtocol, P: UITableComponentProps>:
     return UICell.prototype.contentView.subviews.first?.bounds.size.height ?? 0
   }
 
+  /// Asks the delegate for a view object to display in the header of the specified section of
+  /// the table view.
   public func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
     guard let header = props.sections[section].header else {
       return UIView()
@@ -186,6 +189,7 @@ public class UITableComponent<S: UIStateProtocol, P: UITableComponentProps>:
     return view
   }
 
+  /// Asks the delegate for the height to use for the header of a particular section.
   public func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat{
     guard let header = props.sections[section].header else {
       return 0
@@ -216,6 +220,7 @@ public class UITableComponent<S: UIStateProtocol, P: UITableComponentProps>:
     return UICell(component: component)
   }
 
+  /// Retieves a component that is suitable as a table header.
   public func header<S, P, C: UIComponent<S, P>>(_ type: C.Type,
                                                  key: String? = nil,
                                                  props: P = P()) -> UISectionHeader {
@@ -276,6 +281,9 @@ public class UITableComponentCell: UITableViewCell {
     component.canvasSize = {
       return CGSize(width: width, height: CGFloat.max)
     }
+    // We purposely wont re-generate the node (by calling *asNode()*) because this has already
+    // been called in the 'heightForRowAt' delegate method.
+    // We just install the node in the right view hierarchy.
     component.root.reconcile(in: contentView,
                              size: CGSize(width: width, height: CGFloat.max),
                              options: [.preventDelegateCallbacks])
