@@ -15,6 +15,7 @@
 #import <RenderNeutrino/YGNodeList.h>
 #import <RenderNeutrino/Yoga.h>
 #import <RenderNeutrino/IGListCollectionViewLayout.h>
+#import <RenderNeutrino/IGListDiffKit.h>
 
 //! Project version number for RenderNeutrino.
 FOUNDATION_EXPORT double RenderPureVersionNumber;
