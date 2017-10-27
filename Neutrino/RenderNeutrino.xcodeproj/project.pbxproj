@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		1656BAF61F9F750E009F561F /* TableComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1656BAF51F9F750E009F561F /* TableComponent.swift */; };
+		167CFC451FA279230062C259 /* Grid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167CFC441FA279230062C259 /* Grid.swift */; };
 		16CEC0161F9A125C003D3D21 /* Props.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16CEC0151F9A125C003D3D21 /* Props.swift */; };
 		16DDA95D1F9799D200CDBCF5 /* Component.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16DDA95C1F9799D200CDBCF5 /* Component.swift */; };
 		16DDA95F1F98C6CC00CDBCF5 /* Context.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16DDA95E1F98C6CC00CDBCF5 /* Context.swift */; };
@@ -37,6 +38,7 @@
 
 /* Begin PBXFileReference section */
 		1656BAF51F9F750E009F561F /* TableComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableComponent.swift; sourceTree = "<group>"; };
+		167CFC441FA279230062C259 /* Grid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Grid.swift; sourceTree = "<group>"; };
 		16CEC0151F9A125C003D3D21 /* Props.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Props.swift; sourceTree = "<group>"; };
 		16DDA95C1F9799D200CDBCF5 /* Component.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Component.swift; sourceTree = "<group>"; };
 		16DDA95E1F98C6CC00CDBCF5 /* Context.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Context.swift; sourceTree = "<group>"; };
@@ -115,6 +117,7 @@
 				16F36BED1F8E198B00A04BE6 /* Node.swift */,
 				16CEC0151F9A125C003D3D21 /* Props.swift */,
 				16F36BEF1F8E1A4700A04BE6 /* State.swift */,
+				167CFC441FA279230062C259 /* Grid.swift */,
 			);
 			path = src;
 			sourceTree = "<group>";
@@ -250,6 +253,7 @@
 				16F36C111F8E2C1E00A04BE6 /* YGNodeList.c in Sources */,
 				16F36C121F8E2C1E00A04BE6 /* YGPercentLayout.m in Sources */,
 				16F36C141F8E2C1E00A04BE6 /* Yoga.c in Sources */,
+				167CFC451FA279230062C259 /* Grid.swift in Sources */,
 				16F7B55B1F9A322C00583082 /* Inspector.swift in Sources */,
 				16F36BF21F8E2B2800A04BE6 /* Extensions.swift in Sources */,
 				16F36BEE1F8E198B00A04BE6 /* Node.swift in Sources */,

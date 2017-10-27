@@ -47,6 +47,9 @@ public protocol UIContextProtocol: class {
   /// States and component object pool that guarantees uniqueness of 'UIState' and 'UIComponent'
   /// instances within the same context.
   var pool: UIContextPool { get }
+  /// Gets rid of the obsolete states.
+  /// - parameter validKeys: The keys for the components currently rendered on screen.
+  func flushObsoleteStates(validKeys: Set<String>)
   // *Internal only* component construction sanity check.
   var _componentInitFromContext: Bool { get}
   // *Internal only* true is suspendComponentRendering has been called on this context.
@@ -137,6 +140,11 @@ public class UIContext: UIContextProtocol {
     }
   }
 
+  /// Gets rid of the obsolete states.
+  public func flushObsoleteStates(validKeys: Set<String>) {
+    pool.flushObsoleteStates(validKeys: validKeys)
+  }
+
   /// Holding struct for a delegate.
   struct UIContextDelegateWeakRef {
     weak var delegate: UIContextDelegate?
@@ -198,7 +206,7 @@ public final class UIContextPool {
   }
 
   // Gets rid of the obsolete states.
-  func flushObsoleteStates(validKeys: Set<String>) {
+  fileprivate func flushObsoleteStates(validKeys: Set<String>) {
     assert(Thread.isMainThread)
     states = states.filter { key, _ in validKeys.contains(key) }
     components = components.filter { key, _ in validKeys.contains(key) }
@@ -207,6 +215,4 @@ public final class UIContextPool {
 
 // MARK: - UIContextRegistrar
 
-public final class UIContextRegistrar {
-
-}
+public final class UIContextRegistrar { }

@@ -267,6 +267,11 @@ public final class UICellContext: UIContext {
     get { return nil }
     set { }
   }
+
+  public override func flushObsoleteStates(validKeys: Set<String>) {
+    /// The lifetime of the cells is diffirent from traditional components due to recycling
+    /// and managed from *UITableComponent*.
+  }
 }
 
 extension UIComponent {

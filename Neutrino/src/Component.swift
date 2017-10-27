@@ -194,7 +194,7 @@ open class UIComponent<S: UIStateProtocol, P: UIPropsProtocol>: NSObject, UIComp
 
     context.didRenderRootComponent(self)
 
-    //context.pool.flushObsoleteStates(validKeys: root._retrieveKeysRecursively())
+    context.flushObsoleteStates(validKeys: root._retrieveKeysRecursively())
     inspectorMarkDirty()
 
     // Reset the animatable frame changes to default.

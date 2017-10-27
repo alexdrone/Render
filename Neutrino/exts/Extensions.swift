@@ -44,7 +44,6 @@ struct Reset {
   }
 }
 
-
 protocol UIPostRendering {
   /// content-size calculation for the scrollview should be applied after the layout.
   /// This is called after the scroll view is rendered.
@@ -139,7 +138,6 @@ fileprivate func setFloat(_ handle: UnsafeRawPointer!, _ object: UIView, _ value
                            NSNumber(value: Float(value)),
                            .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
 }
-
 
 //MARK: - Gesture recognizers
 

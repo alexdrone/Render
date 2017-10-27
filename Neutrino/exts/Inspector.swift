@@ -27,7 +27,6 @@ extension UIComponent {
   }
 }
 
-
 extension UINodeProtocol {
   /// Builds a XML description of the node.
   func inspectorDescription() -> [String: Any]? {
@@ -58,4 +57,3 @@ extension UINodeProtocol {
 }
 
 public let UINodeInspectorDefaultDelimiters: String = "__"
-
