@@ -34,3 +34,69 @@ static const void *kYGYogaAssociatedKey = &kYGYogaAssociatedKey;
 }
 
 @end
+
+UIView *YGBuild(NSString *className) {
+  return [[NSClassFromString(className) alloc] init];
+}
+
+void YGSet(UIView *view, NSDictionary *properties) {
+  for (NSString *key in [properties allKeys]) {
+    NSString *keyPath = YGReplaceKeyIfNecessary(key);
+    [view setValue:properties[key] forKeyPath:keyPath];
+  }
+}
+
+static NSArray *UIKitSymbols = nil;
+NSArray *YGUIKitSymbols() {
+  if (UIKitSymbols == nil) UIKitSymbols = @[
+      @"UIView",
+      @"UILabel",
+      @"UIButton",
+      @"UIScrollView",
+      @"UITextField",
+      @"UITextView",
+      @"UIImageView",
+      @"UISegmentedControl",
+      @"UISwitch",
+      @"UIPaginationControl",
+      @"UIControl"];
+  return UIKitSymbols;
+}
+static NSArray *YGProps = nil;
+NSString *YGReplaceKeyIfNecessary(NSString *key) {
+  if (YGProps == nil) YGProps = @[
+      @"direction",
+      @"flexDirection",
+      @"justifyContent",
+      @"alignContent",
+      @"alignItems",
+      @"alignSelf",
+      @"positionType",
+      @"flexWrap",
+      @"overflow",
+      @"display",
+      @"flex",
+      @"flexGrow",
+      @"flexShrink",
+      @"flexBasis",
+      @"margin",
+      @"marginTop",
+      @"marginBottom",
+      @"marginLeft",
+      @"marginRight",
+      @"padding",
+      @"paddingTop",
+      @"paddingBottom",
+      @"paddingLeft",
+      @"paddingRight",
+      @"width",
+      @"height",
+      @"minWidth",
+      @"minHeight",
+      @"maxWidth",
+      @"maxHeight"];
+  if ([YGProps containsObject:key]) {
+    return [NSString stringWithFormat:@"%@.%@", @"yoga", key];
+  }
+  return key;
+}

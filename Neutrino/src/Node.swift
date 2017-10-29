@@ -104,7 +104,7 @@ public class UINode<V: UIView>: UINodeProtocol {
   public var reuseIdentifier: String
   public fileprivate(set) var renderedView: UIView? = nil
   public fileprivate(set) var children: [UINodeProtocol] = []
-  public fileprivate(set) var _debugType: String
+  public var _debugType: String
   public var _debugStateDescription: String = ""
   public var _debugPropsDescription: String = ""
   public weak var delegate: UINodeDelegateProtocol?

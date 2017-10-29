@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		162560F91FA4D6660066AF05 /* JavascriptBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 162560F81FA4D6660066AF05 /* JavascriptBridge.swift */; };
 		1656BAF61F9F750E009F561F /* TableComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1656BAF51F9F750E009F561F /* TableComponent.swift */; };
-		167CFC451FA279230062C259 /* Grid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167CFC441FA279230062C259 /* Grid.swift */; };
 		16AA95E51FA3310600EAC136 /* UIView+Yoga.h in Headers */ = {isa = PBXBuildFile; fileRef = 16AA95DE1FA3310100EAC136 /* UIView+Yoga.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		16AA95E61FA3310600EAC136 /* UIView+Yoga.m in Sources */ = {isa = PBXBuildFile; fileRef = 16AA95DF1FA3310100EAC136 /* UIView+Yoga.m */; };
 		16AA95E71FA3310600EAC136 /* YGEnums.c in Sources */ = {isa = PBXBuildFile; fileRef = 16AA95DC1FA3310100EAC136 /* YGEnums.c */; };
@@ -64,8 +64,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		162560F81FA4D6660066AF05 /* JavascriptBridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JavascriptBridge.swift; sourceTree = "<group>"; };
 		1656BAF51F9F750E009F561F /* TableComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableComponent.swift; sourceTree = "<group>"; };
-		167CFC441FA279230062C259 /* Grid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Grid.swift; sourceTree = "<group>"; };
 		16AA95D71FA3310100EAC136 /* YGNodeList.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = YGNodeList.c; path = yoga/YGNodeList.c; sourceTree = "<group>"; };
 		16AA95D81FA3310100EAC136 /* YGPercentLayout.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = YGPercentLayout.h; path = yoga/YGPercentLayout.h; sourceTree = "<group>"; };
 		16AA95D91FA3310100EAC136 /* YGNodeList.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = YGNodeList.h; path = yoga/YGNodeList.h; sourceTree = "<group>"; };
@@ -133,6 +133,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		162560F71FA4D6050066AF05 /* jsbridge */ = {
+			isa = PBXGroup;
+			children = (
+				162560F81FA4D6660066AF05 /* JavascriptBridge.swift */,
+			);
+			path = jsbridge;
+			sourceTree = "<group>";
+		};
 		1656BAF41F9F74DE009F561F /* components */ = {
 			isa = PBXGroup;
 			children = (
@@ -223,6 +231,7 @@
 				16F36BE41F8E197A00A04BE6 /* src */,
 				1656BAF41F9F74DE009F561F /* components */,
 				16F7B5591F9A321200583082 /* exts */,
+				162560F71FA4D6050066AF05 /* jsbridge */,
 				16F36BE31F8E197A00A04BE6 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -244,7 +253,6 @@
 				16F36BED1F8E198B00A04BE6 /* Node.swift */,
 				16CEC0151F9A125C003D3D21 /* Props.swift */,
 				16F36BEF1F8E1A4700A04BE6 /* State.swift */,
-				167CFC441FA279230062C259 /* Grid.swift */,
 			);
 			path = src;
 			sourceTree = "<group>";
@@ -381,11 +389,11 @@
 				16DDA95D1F9799D200CDBCF5 /* Component.swift in Sources */,
 				16DDA95F1F98C6CC00CDBCF5 /* Context.swift in Sources */,
 				16F36C191F8E4BA600A04BE6 /* KeyPath.swift in Sources */,
-				167CFC451FA279230062C259 /* Grid.swift in Sources */,
 				16F7B55B1F9A322C00583082 /* Inspector.swift in Sources */,
 				16F36BF21F8E2B2800A04BE6 /* Extensions.swift in Sources */,
 				16AA96301FA331F800EAC136 /* NSString+IGListDiffable.m in Sources */,
 				16AA95ED1FA3310600EAC136 /* YGNodeList.c in Sources */,
+				162560F91FA4D6660066AF05 /* JavascriptBridge.swift in Sources */,
 				16AA962E1FA331F800EAC136 /* NSNumber+IGListDiffable.m in Sources */,
 				16AA96251FA331F300EAC136 /* IGListMoveIndex.m in Sources */,
 				16F36BEE1F8E198B00A04BE6 /* Node.swift in Sources */,

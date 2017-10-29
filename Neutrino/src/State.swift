@@ -12,7 +12,7 @@ public protocol UIStateProtocol: class, ReflectedStringConvertible {
   init()
 }
 
-public final class UINilState: UIStateProtocol {
+public final class UINilState: UIStateProtocol, Codable {
   static let `nil` = UINilState()
   public init() { }
 }

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		162560FB1FA5DB5B0066AF05 /* Fragments.js in Resources */ = {isa = PBXBuildFile; fileRef = 162560FA1FA5DB5B0066AF05 /* Fragments.js */; };
 		163B1DAD1F9E6BB10072A5E2 /* Fragments.swift in Sources */ = {isa = PBXBuildFile; fileRef = 163B1DAC1F9E6BB10072A5E2 /* Fragments.swift */; };
 		165399231F9A73B6006DFE5D /* RenderNeutrino.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 165399171F9A737B006DFE5D /* RenderNeutrino.framework */; };
 		165399241F9A73B6006DFE5D /* RenderNeutrino.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 165399171F9A737B006DFE5D /* RenderNeutrino.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -72,6 +73,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		162560FA1FA5DB5B0066AF05 /* Fragments.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = Fragments.js; sourceTree = "<group>"; };
 		163B1DAC1F9E6BB10072A5E2 /* Fragments.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fragments.swift; sourceTree = "<group>"; };
 		165399121F9A737B006DFE5D /* RenderNeutrino.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RenderNeutrino.xcodeproj; path = ../../Neutrino/RenderNeutrino.xcodeproj; sourceTree = "<group>"; };
 		1656BAF81F9FC14A009F561F /* TableComponentExample.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableComponentExample.swift; sourceTree = "<group>"; };
@@ -142,6 +144,7 @@
 				168FA6E21F8F856D00A12585 /* Info.plist */,
 				168777AD1F99446200273561 /* Property List.plist */,
 				16BF01771F9E1381001F7888 /* Style.swift */,
+				162560FA1FA5DB5B0066AF05 /* Fragments.js */,
 			);
 			path = src;
 			sourceTree = "<group>";
@@ -266,6 +269,7 @@
 				168FA6DE1F8F856D00A12585 /* Assets.xcassets in Resources */,
 				168777AE1F99446200273561 /* Property List.plist in Resources */,
 				168FA6DC1F8F856D00A12585 /* Main.storyboard in Resources */,
+				162560FB1FA5DB5B0066AF05 /* Fragments.js in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

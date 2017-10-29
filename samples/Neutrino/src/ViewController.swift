@@ -1,6 +1,12 @@
 import UIKit
 import RenderNeutrino
 
+class TextProps: UIPropsProtocol, Codable {
+  var text = "Hello"
+  required init() {
+  }
+}
+
 class ViewController: UIViewController {
 
   let context = UIContext()
@@ -9,6 +15,24 @@ class ViewController: UIViewController {
 
   override func viewDidLoad() {
     super.viewDidLoad()
+
+//    let bridge = UIJsFragmentBuilder()
+//    bridge.loadDefinition(source:
+//    """
+//    ui.style.padding = function(props, size) {
+//      return { padding: 25, backgroundColor: color(0xa0ffff, 0xff) }
+//    }
+//
+//    ui.fragment.paddedLabel = function(props, size) {
+//      return Node(UIView, null, ui.style.padding(), [
+//        Node(UILabel, null, { text: props.text }, [])
+//      ])
+//    }
+//    """
+//    )
+//    let node = bridge.buildFragment(function: "paddedLabel", props: TextProps(), canvasSize: .zero)
+//    node.reconcile(in: view, size: view.bounds.size, options: [])
+
     component = context.component(UI.Components.FooTable.self, key: "main")
 
     safeAreaView.translatesAutoresizingMaskIntoConstraints = false
