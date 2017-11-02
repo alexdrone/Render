@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		162560F91FA4D6660066AF05 /* JavascriptBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 162560F81FA4D6660066AF05 /* JavascriptBridge.swift */; };
+		1648AC1F1FA752800061A442 /* JavascriptBridge+Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1648AC1E1FA752800061A442 /* JavascriptBridge+Constants.swift */; };
 		1656BAF61F9F750E009F561F /* TableComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1656BAF51F9F750E009F561F /* TableComponent.swift */; };
 		16AA95E51FA3310600EAC136 /* UIView+Yoga.h in Headers */ = {isa = PBXBuildFile; fileRef = 16AA95DE1FA3310100EAC136 /* UIView+Yoga.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		16AA95E61FA3310600EAC136 /* UIView+Yoga.m in Sources */ = {isa = PBXBuildFile; fileRef = 16AA95DF1FA3310100EAC136 /* UIView+Yoga.m */; };
@@ -65,6 +66,7 @@
 
 /* Begin PBXFileReference section */
 		162560F81FA4D6660066AF05 /* JavascriptBridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JavascriptBridge.swift; sourceTree = "<group>"; };
+		1648AC1E1FA752800061A442 /* JavascriptBridge+Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "JavascriptBridge+Constants.swift"; sourceTree = "<group>"; };
 		1656BAF51F9F750E009F561F /* TableComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableComponent.swift; sourceTree = "<group>"; };
 		16AA95D71FA3310100EAC136 /* YGNodeList.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = YGNodeList.c; path = yoga/YGNodeList.c; sourceTree = "<group>"; };
 		16AA95D81FA3310100EAC136 /* YGPercentLayout.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = YGPercentLayout.h; path = yoga/YGPercentLayout.h; sourceTree = "<group>"; };
@@ -137,6 +139,7 @@
 			isa = PBXGroup;
 			children = (
 				162560F81FA4D6660066AF05 /* JavascriptBridge.swift */,
+				1648AC1E1FA752800061A442 /* JavascriptBridge+Constants.swift */,
 			);
 			path = jsbridge;
 			sourceTree = "<group>";
@@ -389,6 +392,7 @@
 				16DDA95D1F9799D200CDBCF5 /* Component.swift in Sources */,
 				16DDA95F1F98C6CC00CDBCF5 /* Context.swift in Sources */,
 				16F36C191F8E4BA600A04BE6 /* KeyPath.swift in Sources */,
+				1648AC1F1FA752800061A442 /* JavascriptBridge+Constants.swift in Sources */,
 				16F7B55B1F9A322C00583082 /* Inspector.swift in Sources */,
 				16F36BF21F8E2B2800A04BE6 /* Extensions.swift in Sources */,
 				16AA96301FA331F800EAC136 /* NSString+IGListDiffable.m in Sources */,
