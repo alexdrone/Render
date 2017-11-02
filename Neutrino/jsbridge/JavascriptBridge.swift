@@ -1,11 +1,12 @@
 import Foundation
 import JavaScriptCore
 
-public class UIJsFragmentBuilder {
+public class UIJsBridge {
   public private(set) var context: JSContext!
   private var index = 0
   private var nodes: [Int: UIJsFragmentNode] = [:]
   private var rootNodes: [String: UIJsFragmentNode] = [:]
+  private var loadedPaths = Set<String>()
 
   private func runFunction<P: UIPropsProtocol & Codable>(function: String,
                                                          props: P?,
@@ -52,6 +53,7 @@ public class UIJsFragmentBuilder {
     return UINilNode.nil
   }
 
+
   /// Resolve and apply a style computed by running the javacript function named *function*.
   /// - parameter view: The target view for this style.
   /// - parameter function: The js function that will generate a function.
@@ -87,6 +89,16 @@ public class UIJsFragmentBuilder {
 
   public init() {
     initJsContext()
+  }
+
+  public func loadDefinition(file: String) {
+    let path = Bundle.main.path(forResource: file, ofType: "js")
+    if let path = path {
+      guard !loadedPaths.contains(path) else { return }
+      guard let content = try? String(contentsOfFile: path, encoding: .utf8) else { return }
+      loadedPaths.insert(path)
+      loadDefinition(source: content)
+    }
   }
 
   /// Load fragments source code.
@@ -182,13 +194,19 @@ public class UIJsFragmentBuilder {
       context?.setObject(symbol, forKeyedSubscript: symbol)
     }
 
-    context?.setObject(_JsBridge.Log.function, forKeyedSubscript: _JsBridge.Log.functionName)
+    context?.setObject(_JsBridge.Log.function,
+                       forKeyedSubscript: _JsBridge.Log.functionName)
+    context?.setObject(_JsBridge.Color.function,
+                       forKeyedSubscript: _JsBridge.Color.functionName)
+    context?.setObject(_JsBridge.Gradient.function,
+                       forKeyedSubscript: _JsBridge.Gradient.functionName)
+    context?.setObject(_JsBridge.Font.function,
+                       forKeyedSubscript: _JsBridge.Font.functionName)
 
-    context?.setObject(_JsBridge.Color.function, forKeyedSubscript: _JsBridge.Color.functionName)
     _ = evaluate(src: _JsBridge.Color.initSrc)
-
-    context?.setObject(_JsBridge.Font.function, forKeyedSubscript: _JsBridge.Font.functionName)
     _ = evaluate(src: _JsBridge.Font.initSrc)
+    _ = evaluate(src: _JsBridge.Yoga.initSrc)
+    _ = evaluate(src: _JsBridge.UIKit.initSrc)
   }
 }
 
@@ -223,6 +241,8 @@ struct _JsBridge {
       return Color.bridge(value: self)
     case Font.type:
       return Font.bridge(value: self)
+    case Gradient.type:
+      return Gradient.bridge(value: self)
     default:
       print("unbridgeable js type.")
       return NSObject()
@@ -255,11 +275,34 @@ struct _JsBridge {
       return UIColor(red: rgba[0], green: rgba[1], blue: rgba[2], alpha: rgba[3])
     }
   }
+  /// *gradient(color: object, color: object, size: object)* function in the javascript context.
+  struct Gradient {
+    static let type: NSString = "UIGradientColor"
+    static let functionName: NSString = "gradient"
+    static let function: @convention(block) (NSDictionary, NSDictionary, NSDictionary)
+      -> NSDictionary = { color1, color2, size in
+      var result = NSMutableDictionary()
+      result[Key.marker] = true
+      result[Key.type] = type
+      result[Key.value] = [color1, color2, size]
+      return result
+    }
+    static func bridge(value: _JsBridge) -> UIColor {
+      assert(value.type == Gradient.type)
+      let color1 = _JsBridge(dictionary: value.value[0] as! NSDictionary)?.bridge() as! UIColor
+      let color2 = _JsBridge(dictionary: value.value[1] as! NSDictionary)?.bridge() as! UIColor
+      let width = (value.value[2] as! NSDictionary)["width"] as! CGFloat
+      let height = (value.value[2]as! NSDictionary)["height"] as! CGFloat
+      let size = CGSize(width: width, height: height)
+      return UIColor.gradient(from: color1, to: color2, with: size)
+    }
+  }
+
   /// *log(message: string) function in the javascript context.
   struct Log {
     static let functionName: NSString = "log"
     static let function: @convention(block) (String) -> Void = { message in
-      print("js: \(message)")
+      print("JSBRIDGE \(message)")
     }
   }
   /// *font(name: string, size: number, weight: number)* function in the javascript context.
@@ -289,4 +332,7 @@ struct _JsBridge {
       }
     }
   }
+
+  struct Yoga { }
+  struct UIKit { }
 }

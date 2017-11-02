@@ -10,6 +10,8 @@
 		162560F91FA4D6660066AF05 /* JavascriptBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 162560F81FA4D6660066AF05 /* JavascriptBridge.swift */; };
 		1648AC1F1FA752800061A442 /* JavascriptBridge+Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1648AC1E1FA752800061A442 /* JavascriptBridge+Constants.swift */; };
 		1656BAF61F9F750E009F561F /* TableComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1656BAF51F9F750E009F561F /* TableComponent.swift */; };
+		167B537A1FABB7A400AF6798 /* YGRenderAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 167B53791FABB7A400AF6798 /* YGRenderAdditions.m */; };
+		167B537C1FABB7B600AF6798 /* YGRenderAdditions.h in Sources */ = {isa = PBXBuildFile; fileRef = 167B537B1FABB7B600AF6798 /* YGRenderAdditions.h */; };
 		16AA95E51FA3310600EAC136 /* UIView+Yoga.h in Headers */ = {isa = PBXBuildFile; fileRef = 16AA95DE1FA3310100EAC136 /* UIView+Yoga.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		16AA95E61FA3310600EAC136 /* UIView+Yoga.m in Sources */ = {isa = PBXBuildFile; fileRef = 16AA95DF1FA3310100EAC136 /* UIView+Yoga.m */; };
 		16AA95E71FA3310600EAC136 /* YGEnums.c in Sources */ = {isa = PBXBuildFile; fileRef = 16AA95DC1FA3310100EAC136 /* YGEnums.c */; };
@@ -53,6 +55,7 @@
 		16AA962E1FA331F800EAC136 /* NSNumber+IGListDiffable.m in Sources */ = {isa = PBXBuildFile; fileRef = 16AA96131FA331E000EAC136 /* NSNumber+IGListDiffable.m */; };
 		16AA962F1FA331F800EAC136 /* NSString+IGListDiffable.h in Headers */ = {isa = PBXBuildFile; fileRef = 16AA96141FA331E000EAC136 /* NSString+IGListDiffable.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		16AA96301FA331F800EAC136 /* NSString+IGListDiffable.m in Sources */ = {isa = PBXBuildFile; fileRef = 16AA96151FA331E000EAC136 /* NSString+IGListDiffable.m */; };
+		16BB65921FABB98800373BB6 /* YGRenderAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 167B537B1FABB7B600AF6798 /* YGRenderAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		16CEC0161F9A125C003D3D21 /* Props.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16CEC0151F9A125C003D3D21 /* Props.swift */; };
 		16DDA95D1F9799D200CDBCF5 /* Component.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16DDA95C1F9799D200CDBCF5 /* Component.swift */; };
 		16DDA95F1F98C6CC00CDBCF5 /* Context.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16DDA95E1F98C6CC00CDBCF5 /* Context.swift */; };
@@ -68,6 +71,8 @@
 		162560F81FA4D6660066AF05 /* JavascriptBridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JavascriptBridge.swift; sourceTree = "<group>"; };
 		1648AC1E1FA752800061A442 /* JavascriptBridge+Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "JavascriptBridge+Constants.swift"; sourceTree = "<group>"; };
 		1656BAF51F9F750E009F561F /* TableComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableComponent.swift; sourceTree = "<group>"; };
+		167B53791FABB7A400AF6798 /* YGRenderAdditions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = YGRenderAdditions.m; path = yoga/YGRenderAdditions.m; sourceTree = "<group>"; };
+		167B537B1FABB7B600AF6798 /* YGRenderAdditions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = YGRenderAdditions.h; path = yoga/YGRenderAdditions.h; sourceTree = "<group>"; };
 		16AA95D71FA3310100EAC136 /* YGNodeList.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = YGNodeList.c; path = yoga/YGNodeList.c; sourceTree = "<group>"; };
 		16AA95D81FA3310100EAC136 /* YGPercentLayout.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = YGPercentLayout.h; path = yoga/YGPercentLayout.h; sourceTree = "<group>"; };
 		16AA95D91FA3310100EAC136 /* YGNodeList.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = YGNodeList.h; path = yoga/YGNodeList.h; sourceTree = "<group>"; };
@@ -169,6 +174,8 @@
 				16AA95E41FA3310100EAC136 /* YGPercentLayout.m */,
 				16AA95DD1FA3310100EAC136 /* Yoga.c */,
 				16AA95DB1FA3310100EAC136 /* Yoga.h */,
+				167B537B1FABB7B600AF6798 /* YGRenderAdditions.h */,
+				167B53791FABB7A400AF6798 /* YGRenderAdditions.m */,
 			);
 			name = yoga;
 			sourceTree = "<group>";
@@ -298,6 +305,7 @@
 				16AA96161FA331F300EAC136 /* IGListAssert.h in Headers */,
 				16AA96291FA331F800EAC136 /* IGListIndexPathResultInternal.h in Headers */,
 				16AA96231FA331F300EAC136 /* IGListMacros.h in Headers */,
+				16BB65921FABB98800373BB6 /* YGRenderAdditions.h in Headers */,
 				16AA962B1FA331F800EAC136 /* IGListMoveIndexInternal.h in Headers */,
 				16AA95E81FA3310600EAC136 /* YGEnums.h in Headers */,
 				16AA95EE1FA3310600EAC136 /* YGNodeList.h in Headers */,
@@ -390,6 +398,7 @@
 				16AA96271FA331F300EAC136 /* IGListMoveIndexPath.m in Sources */,
 				16AA96221FA331F300EAC136 /* IGListIndexSetResult.m in Sources */,
 				16DDA95D1F9799D200CDBCF5 /* Component.swift in Sources */,
+				167B537C1FABB7B600AF6798 /* YGRenderAdditions.h in Sources */,
 				16DDA95F1F98C6CC00CDBCF5 /* Context.swift in Sources */,
 				16F36C191F8E4BA600A04BE6 /* KeyPath.swift in Sources */,
 				1648AC1F1FA752800061A442 /* JavascriptBridge+Constants.swift in Sources */,
@@ -412,6 +421,7 @@
 				16AA95F11FA3310600EAC136 /* Yoga.c in Sources */,
 				16AA96201FA331F300EAC136 /* IGListIndexPathResult.m in Sources */,
 				16AA95EA1FA3310600EAC136 /* YGLayout.m in Sources */,
+				167B537A1FABB7A400AF6798 /* YGRenderAdditions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

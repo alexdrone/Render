@@ -41,6 +41,8 @@ public protocol UINodeProtocol: class {
   /// Mount the component in the view hierarchy by running the *reconciliation algorithm*.
   /// This means that only the required changes to the view hierarchy are going to be applied.
   func reconcile(in view: UIView?, size: CGSize?, options: [UINodeOption])
+  /// Returns the node with the key matching the function argument.
+  func nodeWithKey(_ key: String) -> UINodeProtocol?
 
   // Internal.
 
@@ -395,6 +397,17 @@ public class UINode<V: UIView>: UINodeProtocol {
       }
       object[keyPath: keyPath] = view
     }
+  }
+
+  /// Returns the node with the key matching the function argument.
+  public func nodeWithKey(_ key: String) -> UINodeProtocol? {
+    if self.key == key { return self }
+    for child in children {
+      if let result = child.nodeWithKey(key) {
+        return result
+      }
+    }
+    return nil
   }
 
   /// Returns all of the keys found in this subtree.

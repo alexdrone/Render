@@ -40,6 +40,8 @@ public protocol UIContextProtocol: class {
   func didRenderRootComponent(_ component: UIComponentProtocol)
   /// The canvas view in which the component will be rendered in.
   weak var canvasView: UIView? { get set }
+  /// Returns the bounds of the canvas view.
+  var canvasSize: CGSize { get }
   /// *Optional* the property animator that is going to be used for frame changes in the component
   /// subtree.
   /// - note: This field is auotmatically reset to 'nil' at the end of every 'render' pass.
@@ -47,6 +49,8 @@ public protocol UIContextProtocol: class {
   /// States and component object pool that guarantees uniqueness of 'UIState' and 'UIComponent'
   /// instances within the same context.
   var pool: UIContextPool { get }
+  /// Javascript bridge.
+  var jsBridge: UIJsBridge { get }
   /// Gets rid of the obsolete states.
   /// - parameter validKeys: The keys for the components currently rendered on screen.
   func flushObsoleteStates(validKeys: Set<String>)
@@ -69,6 +73,8 @@ public class UIContext: UIContextProtocol {
   public let pool = UIContextPool()
   // The canvas view in which the component will be rendered in.
   public weak var canvasView: UIView?
+  /// Returns the bounds of the canvas view.
+  public var canvasSize: CGSize { return canvasView?.bounds.size ?? .zero }
   // Sanity check for context initialization.
   public var _componentInitFromContext: Bool = false
   // Associated a parent context.
@@ -79,6 +85,8 @@ public class UIContext: UIContextProtocol {
   public var layoutAnimator: UIViewPropertyAnimator?
   // All the delegates registered for this object.
   private var delegates: [UIContextDelegateWeakRef] = []
+  /// Javascript bridge.
+  public var jsBridge: UIJsBridge = UIJsBridge()
 
   public init() { }
 

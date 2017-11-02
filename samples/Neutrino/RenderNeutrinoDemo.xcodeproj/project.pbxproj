@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		162560FB1FA5DB5B0066AF05 /* Fragments.js in Resources */ = {isa = PBXBuildFile; fileRef = 162560FA1FA5DB5B0066AF05 /* Fragments.js */; };
+		162560FB1FA5DB5B0066AF05 /* Fragment.js in Resources */ = {isa = PBXBuildFile; fileRef = 162560FA1FA5DB5B0066AF05 /* Fragment.js */; };
 		163B1DAD1F9E6BB10072A5E2 /* Fragments.swift in Sources */ = {isa = PBXBuildFile; fileRef = 163B1DAC1F9E6BB10072A5E2 /* Fragments.swift */; };
 		165399231F9A73B6006DFE5D /* RenderNeutrino.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 165399171F9A737B006DFE5D /* RenderNeutrino.framework */; };
 		165399241F9A73B6006DFE5D /* RenderNeutrino.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 165399171F9A737B006DFE5D /* RenderNeutrino.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -22,6 +22,7 @@
 		169DC8EF1F93A66100625FA6 /* FooComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 169DC8ED1F93A65C00625FA6 /* FooComponent.swift */; };
 		16AEE51F1F9D2758004798A8 /* RenderInspector.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16AEE51E1F9D2748004798A8 /* RenderInspector.framework */; };
 		16AEE5201F9D2758004798A8 /* RenderInspector.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 16AEE51E1F9D2748004798A8 /* RenderInspector.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		16AF338C1FABC83E00379FA9 /* JsFragmentComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16AF338B1FABC83E00379FA9 /* JsFragmentComponent.swift */; };
 		16BF01781F9E1381001F7888 /* Style.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16BF01771F9E1381001F7888 /* Style.swift */; };
 		16BF017B1F9E1BF8001F7888 /* SubComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16BF017A1F9E1BF8001F7888 /* SubComponents.swift */; };
 /* End PBXBuildFile section */
@@ -73,7 +74,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		162560FA1FA5DB5B0066AF05 /* Fragments.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = Fragments.js; sourceTree = "<group>"; };
+		162560FA1FA5DB5B0066AF05 /* Fragment.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = Fragment.js; sourceTree = "<group>"; };
 		163B1DAC1F9E6BB10072A5E2 /* Fragments.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fragments.swift; sourceTree = "<group>"; };
 		165399121F9A737B006DFE5D /* RenderNeutrino.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RenderNeutrino.xcodeproj; path = ../../Neutrino/RenderNeutrino.xcodeproj; sourceTree = "<group>"; };
 		1656BAF81F9FC14A009F561F /* TableComponentExample.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableComponentExample.swift; sourceTree = "<group>"; };
@@ -88,6 +89,7 @@
 		168FA6E21F8F856D00A12585 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		169DC8ED1F93A65C00625FA6 /* FooComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FooComponent.swift; sourceTree = "<group>"; };
 		16AEE5191F9D2748004798A8 /* RenderInspector.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RenderInspector.xcodeproj; path = ../../inspector/ios/RenderInspector.xcodeproj; sourceTree = "<group>"; };
+		16AF338B1FABC83E00379FA9 /* JsFragmentComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsFragmentComponent.swift; sourceTree = "<group>"; };
 		16BF01771F9E1381001F7888 /* Style.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Style.swift; sourceTree = "<group>"; };
 		16BF017A1F9E1BF8001F7888 /* SubComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubComponents.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -144,7 +146,7 @@
 				168FA6E21F8F856D00A12585 /* Info.plist */,
 				168777AD1F99446200273561 /* Property List.plist */,
 				16BF01771F9E1381001F7888 /* Style.swift */,
-				162560FA1FA5DB5B0066AF05 /* Fragments.js */,
+				162560FA1FA5DB5B0066AF05 /* Fragment.js */,
 			);
 			path = src;
 			sourceTree = "<group>";
@@ -172,6 +174,7 @@
 				163B1DAC1F9E6BB10072A5E2 /* Fragments.swift */,
 				1656BAF81F9FC14A009F561F /* TableComponentExample.swift */,
 				167CFC421FA26C140062C259 /* Namespaces.swift */,
+				16AF338B1FABC83E00379FA9 /* JsFragmentComponent.swift */,
 			);
 			name = components;
 			sourceTree = "<group>";
@@ -269,7 +272,7 @@
 				168FA6DE1F8F856D00A12585 /* Assets.xcassets in Resources */,
 				168777AE1F99446200273561 /* Property List.plist in Resources */,
 				168FA6DC1F8F856D00A12585 /* Main.storyboard in Resources */,
-				162560FB1FA5DB5B0066AF05 /* Fragments.js in Resources */,
+				162560FB1FA5DB5B0066AF05 /* Fragment.js in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -282,6 +285,7 @@
 			files = (
 				16BF017B1F9E1BF8001F7888 /* SubComponents.swift in Sources */,
 				167CFC431FA26C140062C259 /* Namespaces.swift in Sources */,
+				16AF338C1FABC83E00379FA9 /* JsFragmentComponent.swift in Sources */,
 				163B1DAD1F9E6BB10072A5E2 /* Fragments.swift in Sources */,
 				168FA6D91F8F856D00A12585 /* ViewController.swift in Sources */,
 				168FA6D71F8F856D00A12585 /* AppDelegate.swift in Sources */,

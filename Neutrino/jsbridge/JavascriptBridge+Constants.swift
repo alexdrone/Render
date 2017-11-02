@@ -18,3 +18,27 @@ extension _JsBridge.Font {
   }
 }
 
+extension _JsBridge.Yoga {
+  static var initSrc: String {
+    return """
+    /* direction */ const inherit = 0; const ltr = 1; const rtl = 2;
+    /* align */ const auto = 0; const flexStart = 1; const center = 2; const flexEnd = 3; const stretch = 4; const baseline = 5; const spaceBetween = 6; const spaceAround= 7;
+    /* display */ const flex = 0; const none = 1;
+    /* flexDirection */ const column = 0; const columnReverse = 1; const row = 2; const rowReverse = 3;
+    /* overflow */ const visible = 0; const hidden = 1; const absolute = 2;
+    /* wrap */ const noWrap = 0; const wrap = 1; const wrapReverse = 2;
+    """
+  }
+}
+
+extension _JsBridge.UIKit {
+  static var initSrc: String {
+    return """
+    /* NSTextAlignment */ ui.textAlignment = { left: 0, center: 1, right: 2, justified: 3, natural: 4 };
+    /* NSLineBreakMode */ ui.lineBreakMode = { byWordWrapping: 0, byCharWrapping: 1, byClipping: 2, byTruncatingHead: 3, byTruncatingTail: 4, byTruncatingMiddle: 5 };
+    /* UIImageOrientation */ ui.imageOrientation = { up: 0, down: 1, left: 2, right: 3, upMirrored: 4, downMirrored: 5, leftMirrored: 6, rightMirrored: 6 }
+    /* UIImageResizingMode */ ui.imageResizingMode = { title: 0, stretch: 1 }
+    """
+  }
+}
+
