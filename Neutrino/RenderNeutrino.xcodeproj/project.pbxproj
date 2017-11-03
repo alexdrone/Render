@@ -28,33 +28,9 @@
 		16AA95F21FA3310600EAC136 /* Yoga.h in Headers */ = {isa = PBXBuildFile; fileRef = 16AA95DB1FA3310100EAC136 /* Yoga.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		16AA95F71FA3319B00EAC136 /* IGListCollectionViewLayout.h in Headers */ = {isa = PBXBuildFile; fileRef = 16AA95F61FA3319900EAC136 /* IGListCollectionViewLayout.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		16AA95F81FA3319E00EAC136 /* IGListCollectionViewLayout.mm in Sources */ = {isa = PBXBuildFile; fileRef = 16AA95F51FA3319900EAC136 /* IGListCollectionViewLayout.mm */; };
-		16AA96161FA331F300EAC136 /* IGListAssert.h in Headers */ = {isa = PBXBuildFile; fileRef = 16AA95FA1FA331E000EAC136 /* IGListAssert.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		16AA96171FA331F300EAC136 /* IGListBatchUpdateData.h in Headers */ = {isa = PBXBuildFile; fileRef = 16AA95FB1FA331E000EAC136 /* IGListBatchUpdateData.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		16AA96181FA331F300EAC136 /* IGListBatchUpdateData.mm in Sources */ = {isa = PBXBuildFile; fileRef = 16AA95FC1FA331E000EAC136 /* IGListBatchUpdateData.mm */; };
-		16AA96191FA331F300EAC136 /* IGListCompatibility.h in Headers */ = {isa = PBXBuildFile; fileRef = 16AA95FD1FA331E000EAC136 /* IGListCompatibility.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		16AA961A1FA331F300EAC136 /* IGListDiff.h in Headers */ = {isa = PBXBuildFile; fileRef = 16AA95FE1FA331E000EAC136 /* IGListDiff.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		16AA961B1FA331F300EAC136 /* IGListDiff.mm in Sources */ = {isa = PBXBuildFile; fileRef = 16AA95FF1FA331E000EAC136 /* IGListDiff.mm */; };
-		16AA961C1FA331F300EAC136 /* IGListDiffable.h in Headers */ = {isa = PBXBuildFile; fileRef = 16AA96001FA331E000EAC136 /* IGListDiffable.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		16AA961D1FA331F300EAC136 /* IGListDiffKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 16AA96011FA331E000EAC136 /* IGListDiffKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		16AA961E1FA331F300EAC136 /* IGListExperiments.h in Headers */ = {isa = PBXBuildFile; fileRef = 16AA96021FA331E000EAC136 /* IGListExperiments.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		16AA961F1FA331F300EAC136 /* IGListIndexPathResult.h in Headers */ = {isa = PBXBuildFile; fileRef = 16AA96031FA331E000EAC136 /* IGListIndexPathResult.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		16AA96201FA331F300EAC136 /* IGListIndexPathResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 16AA96041FA331E000EAC136 /* IGListIndexPathResult.m */; };
-		16AA96211FA331F300EAC136 /* IGListIndexSetResult.h in Headers */ = {isa = PBXBuildFile; fileRef = 16AA96051FA331E000EAC136 /* IGListIndexSetResult.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		16AA96221FA331F300EAC136 /* IGListIndexSetResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 16AA96061FA331E000EAC136 /* IGListIndexSetResult.m */; };
-		16AA96231FA331F300EAC136 /* IGListMacros.h in Headers */ = {isa = PBXBuildFile; fileRef = 16AA96071FA331E000EAC136 /* IGListMacros.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		16AA96241FA331F300EAC136 /* IGListMoveIndex.h in Headers */ = {isa = PBXBuildFile; fileRef = 16AA96081FA331E000EAC136 /* IGListMoveIndex.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		16AA96251FA331F300EAC136 /* IGListMoveIndex.m in Sources */ = {isa = PBXBuildFile; fileRef = 16AA96091FA331E000EAC136 /* IGListMoveIndex.m */; };
-		16AA96261FA331F300EAC136 /* IGListMoveIndexPath.h in Headers */ = {isa = PBXBuildFile; fileRef = 16AA960A1FA331E000EAC136 /* IGListMoveIndexPath.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		16AA96271FA331F300EAC136 /* IGListMoveIndexPath.m in Sources */ = {isa = PBXBuildFile; fileRef = 16AA960B1FA331E000EAC136 /* IGListMoveIndexPath.m */; };
-		16AA96281FA331F800EAC136 /* IGListArrayUtilsInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 16AA960D1FA331E000EAC136 /* IGListArrayUtilsInternal.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		16AA96291FA331F800EAC136 /* IGListIndexPathResultInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 16AA960E1FA331E000EAC136 /* IGListIndexPathResultInternal.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		16AA962A1FA331F800EAC136 /* IGListIndexSetResultInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 16AA960F1FA331E000EAC136 /* IGListIndexSetResultInternal.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		16AA962B1FA331F800EAC136 /* IGListMoveIndexInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 16AA96101FA331E000EAC136 /* IGListMoveIndexInternal.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		16AA962C1FA331F800EAC136 /* IGListMoveIndexPathInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 16AA96111FA331E000EAC136 /* IGListMoveIndexPathInternal.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		16AA962D1FA331F800EAC136 /* NSNumber+IGListDiffable.h in Headers */ = {isa = PBXBuildFile; fileRef = 16AA96121FA331E000EAC136 /* NSNumber+IGListDiffable.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		16AA962E1FA331F800EAC136 /* NSNumber+IGListDiffable.m in Sources */ = {isa = PBXBuildFile; fileRef = 16AA96131FA331E000EAC136 /* NSNumber+IGListDiffable.m */; };
-		16AA962F1FA331F800EAC136 /* NSString+IGListDiffable.h in Headers */ = {isa = PBXBuildFile; fileRef = 16AA96141FA331E000EAC136 /* NSString+IGListDiffable.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		16AA96301FA331F800EAC136 /* NSString+IGListDiffable.m in Sources */ = {isa = PBXBuildFile; fileRef = 16AA96151FA331E000EAC136 /* NSString+IGListDiffable.m */; };
+		16AF338E1FACA67D00379FA9 /* Reload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16AF338D1FACA67D00379FA9 /* Reload.swift */; };
+		16AF33911FACAC5800379FA9 /* KeyCommands.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16AF33901FACAC5800379FA9 /* KeyCommands.swift */; };
+		16AF33931FACAD2500379FA9 /* ListDiff.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16AF33921FACAD2500379FA9 /* ListDiff.swift */; };
 		16BB65921FABB98800373BB6 /* YGRenderAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 167B537B1FABB7B600AF6798 /* YGRenderAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		16CEC0161F9A125C003D3D21 /* Props.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16CEC0151F9A125C003D3D21 /* Props.swift */; };
 		16DDA95D1F9799D200CDBCF5 /* Component.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16DDA95C1F9799D200CDBCF5 /* Component.swift */; };
@@ -89,33 +65,9 @@
 		16AA95E41FA3310100EAC136 /* YGPercentLayout.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = YGPercentLayout.m; path = yoga/YGPercentLayout.m; sourceTree = "<group>"; };
 		16AA95F51FA3319900EAC136 /* IGListCollectionViewLayout.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = IGListCollectionViewLayout.mm; sourceTree = "<group>"; };
 		16AA95F61FA3319900EAC136 /* IGListCollectionViewLayout.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IGListCollectionViewLayout.h; sourceTree = "<group>"; };
-		16AA95FA1FA331E000EAC136 /* IGListAssert.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IGListAssert.h; sourceTree = "<group>"; };
-		16AA95FB1FA331E000EAC136 /* IGListBatchUpdateData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IGListBatchUpdateData.h; sourceTree = "<group>"; };
-		16AA95FC1FA331E000EAC136 /* IGListBatchUpdateData.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = IGListBatchUpdateData.mm; sourceTree = "<group>"; };
-		16AA95FD1FA331E000EAC136 /* IGListCompatibility.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IGListCompatibility.h; sourceTree = "<group>"; };
-		16AA95FE1FA331E000EAC136 /* IGListDiff.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IGListDiff.h; sourceTree = "<group>"; };
-		16AA95FF1FA331E000EAC136 /* IGListDiff.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = IGListDiff.mm; sourceTree = "<group>"; };
-		16AA96001FA331E000EAC136 /* IGListDiffable.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IGListDiffable.h; sourceTree = "<group>"; };
-		16AA96011FA331E000EAC136 /* IGListDiffKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IGListDiffKit.h; sourceTree = "<group>"; };
-		16AA96021FA331E000EAC136 /* IGListExperiments.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IGListExperiments.h; sourceTree = "<group>"; };
-		16AA96031FA331E000EAC136 /* IGListIndexPathResult.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IGListIndexPathResult.h; sourceTree = "<group>"; };
-		16AA96041FA331E000EAC136 /* IGListIndexPathResult.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IGListIndexPathResult.m; sourceTree = "<group>"; };
-		16AA96051FA331E000EAC136 /* IGListIndexSetResult.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IGListIndexSetResult.h; sourceTree = "<group>"; };
-		16AA96061FA331E000EAC136 /* IGListIndexSetResult.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IGListIndexSetResult.m; sourceTree = "<group>"; };
-		16AA96071FA331E000EAC136 /* IGListMacros.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IGListMacros.h; sourceTree = "<group>"; };
-		16AA96081FA331E000EAC136 /* IGListMoveIndex.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IGListMoveIndex.h; sourceTree = "<group>"; };
-		16AA96091FA331E000EAC136 /* IGListMoveIndex.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IGListMoveIndex.m; sourceTree = "<group>"; };
-		16AA960A1FA331E000EAC136 /* IGListMoveIndexPath.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IGListMoveIndexPath.h; sourceTree = "<group>"; };
-		16AA960B1FA331E000EAC136 /* IGListMoveIndexPath.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IGListMoveIndexPath.m; sourceTree = "<group>"; };
-		16AA960D1FA331E000EAC136 /* IGListArrayUtilsInternal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IGListArrayUtilsInternal.h; sourceTree = "<group>"; };
-		16AA960E1FA331E000EAC136 /* IGListIndexPathResultInternal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IGListIndexPathResultInternal.h; sourceTree = "<group>"; };
-		16AA960F1FA331E000EAC136 /* IGListIndexSetResultInternal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IGListIndexSetResultInternal.h; sourceTree = "<group>"; };
-		16AA96101FA331E000EAC136 /* IGListMoveIndexInternal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IGListMoveIndexInternal.h; sourceTree = "<group>"; };
-		16AA96111FA331E000EAC136 /* IGListMoveIndexPathInternal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IGListMoveIndexPathInternal.h; sourceTree = "<group>"; };
-		16AA96121FA331E000EAC136 /* NSNumber+IGListDiffable.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSNumber+IGListDiffable.h"; sourceTree = "<group>"; };
-		16AA96131FA331E000EAC136 /* NSNumber+IGListDiffable.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSNumber+IGListDiffable.m"; sourceTree = "<group>"; };
-		16AA96141FA331E000EAC136 /* NSString+IGListDiffable.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSString+IGListDiffable.h"; sourceTree = "<group>"; };
-		16AA96151FA331E000EAC136 /* NSString+IGListDiffable.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSString+IGListDiffable.m"; sourceTree = "<group>"; };
+		16AF338D1FACA67D00379FA9 /* Reload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reload.swift; sourceTree = "<group>"; };
+		16AF33901FACAC5800379FA9 /* KeyCommands.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyCommands.swift; sourceTree = "<group>"; };
+		16AF33921FACAD2500379FA9 /* ListDiff.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListDiff.swift; sourceTree = "<group>"; };
 		16CEC0151F9A125C003D3D21 /* Props.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Props.swift; sourceTree = "<group>"; };
 		16DDA95C1F9799D200CDBCF5 /* Component.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Component.swift; sourceTree = "<group>"; };
 		16DDA95E1F98C6CC00CDBCF5 /* Context.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Context.swift; sourceTree = "<group>"; };
@@ -183,53 +135,19 @@
 		16AA95F41FA3316D00EAC136 /* iglist */ = {
 			isa = PBXGroup;
 			children = (
-				16AA95F91FA331E000EAC136 /* common */,
 				16AA95F61FA3319900EAC136 /* IGListCollectionViewLayout.h */,
 				16AA95F51FA3319900EAC136 /* IGListCollectionViewLayout.mm */,
+				16AF33921FACAD2500379FA9 /* ListDiff.swift */,
 			);
 			path = iglist;
 			sourceTree = "<group>";
 		};
-		16AA95F91FA331E000EAC136 /* common */ = {
+		16AF338F1FACAC4100379FA9 /* keycommands */ = {
 			isa = PBXGroup;
 			children = (
-				16AA95FA1FA331E000EAC136 /* IGListAssert.h */,
-				16AA95FB1FA331E000EAC136 /* IGListBatchUpdateData.h */,
-				16AA95FC1FA331E000EAC136 /* IGListBatchUpdateData.mm */,
-				16AA95FD1FA331E000EAC136 /* IGListCompatibility.h */,
-				16AA95FE1FA331E000EAC136 /* IGListDiff.h */,
-				16AA95FF1FA331E000EAC136 /* IGListDiff.mm */,
-				16AA96001FA331E000EAC136 /* IGListDiffable.h */,
-				16AA96011FA331E000EAC136 /* IGListDiffKit.h */,
-				16AA96021FA331E000EAC136 /* IGListExperiments.h */,
-				16AA96031FA331E000EAC136 /* IGListIndexPathResult.h */,
-				16AA96041FA331E000EAC136 /* IGListIndexPathResult.m */,
-				16AA96051FA331E000EAC136 /* IGListIndexSetResult.h */,
-				16AA96061FA331E000EAC136 /* IGListIndexSetResult.m */,
-				16AA96071FA331E000EAC136 /* IGListMacros.h */,
-				16AA96081FA331E000EAC136 /* IGListMoveIndex.h */,
-				16AA96091FA331E000EAC136 /* IGListMoveIndex.m */,
-				16AA960A1FA331E000EAC136 /* IGListMoveIndexPath.h */,
-				16AA960B1FA331E000EAC136 /* IGListMoveIndexPath.m */,
-				16AA960C1FA331E000EAC136 /* internal */,
-				16AA96121FA331E000EAC136 /* NSNumber+IGListDiffable.h */,
-				16AA96131FA331E000EAC136 /* NSNumber+IGListDiffable.m */,
-				16AA96141FA331E000EAC136 /* NSString+IGListDiffable.h */,
-				16AA96151FA331E000EAC136 /* NSString+IGListDiffable.m */,
+				16AF33901FACAC5800379FA9 /* KeyCommands.swift */,
 			);
-			path = common;
-			sourceTree = "<group>";
-		};
-		16AA960C1FA331E000EAC136 /* internal */ = {
-			isa = PBXGroup;
-			children = (
-				16AA960D1FA331E000EAC136 /* IGListArrayUtilsInternal.h */,
-				16AA960E1FA331E000EAC136 /* IGListIndexPathResultInternal.h */,
-				16AA960F1FA331E000EAC136 /* IGListIndexSetResultInternal.h */,
-				16AA96101FA331E000EAC136 /* IGListMoveIndexInternal.h */,
-				16AA96111FA331E000EAC136 /* IGListMoveIndexPathInternal.h */,
-			);
-			path = internal;
+			path = keycommands;
 			sourceTree = "<group>";
 		};
 		16F36BD81F8E197A00A04BE6 = {
@@ -237,7 +155,7 @@
 			children = (
 				16F36BE61F8E197A00A04BE6 /* Info.plist */,
 				16F36BE51F8E197A00A04BE6 /* RenderNeutrino.h */,
-				16F36BF31F8E2BEE00A04BE6 /* objc */,
+				16F36BF31F8E2BEE00A04BE6 /* deps */,
 				16F36BE41F8E197A00A04BE6 /* src */,
 				1656BAF41F9F74DE009F561F /* components */,
 				16F7B5591F9A321200583082 /* exts */,
@@ -267,13 +185,14 @@
 			path = src;
 			sourceTree = "<group>";
 		};
-		16F36BF31F8E2BEE00A04BE6 /* objc */ = {
+		16F36BF31F8E2BEE00A04BE6 /* deps */ = {
 			isa = PBXGroup;
 			children = (
+				16AF338F1FACAC4100379FA9 /* keycommands */,
 				16AA95F41FA3316D00EAC136 /* iglist */,
 				16AA95D61FA330F700EAC136 /* yoga */,
 			);
-			path = objc;
+			path = deps;
 			sourceTree = "<group>";
 		};
 		16F7B5591F9A321200583082 /* exts */ = {
@@ -281,6 +200,7 @@
 			children = (
 				16F36BF11F8E2B2800A04BE6 /* Extensions.swift */,
 				16F7B55A1F9A322C00583082 /* Inspector.swift */,
+				16AF338D1FACA67D00379FA9 /* Reload.swift */,
 			);
 			path = exts;
 			sourceTree = "<group>";
@@ -292,36 +212,17 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				16AA96171FA331F300EAC136 /* IGListBatchUpdateData.h in Headers */,
-				16AA96241FA331F300EAC136 /* IGListMoveIndex.h in Headers */,
-				16AA96191FA331F300EAC136 /* IGListCompatibility.h in Headers */,
-				16AA962A1FA331F800EAC136 /* IGListIndexSetResultInternal.h in Headers */,
-				16AA961D1FA331F300EAC136 /* IGListDiffKit.h in Headers */,
-				16AA961C1FA331F300EAC136 /* IGListDiffable.h in Headers */,
 				16AA95F21FA3310600EAC136 /* Yoga.h in Headers */,
 				16AA95EF1FA3310600EAC136 /* YGPercentLayout.h in Headers */,
 				16AA95E51FA3310600EAC136 /* UIView+Yoga.h in Headers */,
-				16AA961F1FA331F300EAC136 /* IGListIndexPathResult.h in Headers */,
-				16AA96161FA331F300EAC136 /* IGListAssert.h in Headers */,
-				16AA96291FA331F800EAC136 /* IGListIndexPathResultInternal.h in Headers */,
-				16AA96231FA331F300EAC136 /* IGListMacros.h in Headers */,
 				16BB65921FABB98800373BB6 /* YGRenderAdditions.h in Headers */,
-				16AA962B1FA331F800EAC136 /* IGListMoveIndexInternal.h in Headers */,
 				16AA95E81FA3310600EAC136 /* YGEnums.h in Headers */,
 				16AA95EE1FA3310600EAC136 /* YGNodeList.h in Headers */,
-				16AA962C1FA331F800EAC136 /* IGListMoveIndexPathInternal.h in Headers */,
-				16AA962F1FA331F800EAC136 /* NSString+IGListDiffable.h in Headers */,
 				16AA95EB1FA3310600EAC136 /* YGLayout+Private.h in Headers */,
-				16AA961E1FA331F300EAC136 /* IGListExperiments.h in Headers */,
 				16AA95EC1FA3310600EAC136 /* YGMacros.h in Headers */,
 				16AA95F71FA3319B00EAC136 /* IGListCollectionViewLayout.h in Headers */,
-				16AA962D1FA331F800EAC136 /* NSNumber+IGListDiffable.h in Headers */,
 				16AA95E91FA3310600EAC136 /* YGLayout.h in Headers */,
 				16F36BE71F8E197A00A04BE6 /* RenderNeutrino.h in Headers */,
-				16AA961A1FA331F300EAC136 /* IGListDiff.h in Headers */,
-				16AA96211FA331F300EAC136 /* IGListIndexSetResult.h in Headers */,
-				16AA96261FA331F300EAC136 /* IGListMoveIndexPath.h in Headers */,
-				16AA96281FA331F800EAC136 /* IGListArrayUtilsInternal.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -395,8 +296,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				16AA95E61FA3310600EAC136 /* UIView+Yoga.m in Sources */,
-				16AA96271FA331F300EAC136 /* IGListMoveIndexPath.m in Sources */,
-				16AA96221FA331F300EAC136 /* IGListIndexSetResult.m in Sources */,
 				16DDA95D1F9799D200CDBCF5 /* Component.swift in Sources */,
 				167B537C1FABB7B600AF6798 /* YGRenderAdditions.h in Sources */,
 				16DDA95F1F98C6CC00CDBCF5 /* Context.swift in Sources */,
@@ -404,22 +303,19 @@
 				1648AC1F1FA752800061A442 /* JsBridgeDefs.swift in Sources */,
 				16F7B55B1F9A322C00583082 /* Inspector.swift in Sources */,
 				16F36BF21F8E2B2800A04BE6 /* Extensions.swift in Sources */,
-				16AA96301FA331F800EAC136 /* NSString+IGListDiffable.m in Sources */,
 				16AA95ED1FA3310600EAC136 /* YGNodeList.c in Sources */,
 				162560F91FA4D6660066AF05 /* JsBridge.swift in Sources */,
-				16AA962E1FA331F800EAC136 /* NSNumber+IGListDiffable.m in Sources */,
-				16AA96251FA331F300EAC136 /* IGListMoveIndex.m in Sources */,
+				16AF33911FACAC5800379FA9 /* KeyCommands.swift in Sources */,
 				16F36BEE1F8E198B00A04BE6 /* Node.swift in Sources */,
 				16F36BF01F8E1A4700A04BE6 /* State.swift in Sources */,
+				16AF338E1FACA67D00379FA9 /* Reload.swift in Sources */,
 				16AA95F01FA3310600EAC136 /* YGPercentLayout.m in Sources */,
-				16AA96181FA331F300EAC136 /* IGListBatchUpdateData.mm in Sources */,
 				1656BAF61F9F750E009F561F /* TableComponent.swift in Sources */,
 				16AA95E71FA3310600EAC136 /* YGEnums.c in Sources */,
 				16AA95F81FA3319E00EAC136 /* IGListCollectionViewLayout.mm in Sources */,
-				16AA961B1FA331F300EAC136 /* IGListDiff.mm in Sources */,
+				16AF33931FACAD2500379FA9 /* ListDiff.swift in Sources */,
 				16CEC0161F9A125C003D3D21 /* Props.swift in Sources */,
 				16AA95F11FA3310600EAC136 /* Yoga.c in Sources */,
-				16AA96201FA331F300EAC136 /* IGListIndexPathResult.m in Sources */,
 				16AA95EA1FA3310600EAC136 /* YGLayout.m in Sources */,
 				167B537A1FABB7A400AF6798 /* YGRenderAdditions.m in Sources */,
 			);
