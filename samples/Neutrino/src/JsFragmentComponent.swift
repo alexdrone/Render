@@ -39,7 +39,6 @@ extension UI.Components {
           self?.setNeedsRender()
         }
       }
-
       return node
     }
   }

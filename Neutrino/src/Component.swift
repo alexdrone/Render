@@ -194,7 +194,7 @@ open class UIComponent<S: UIStateProtocol, P: UIPropsProtocol>: NSObject, UIComp
 
     context.didRenderRootComponent(self)
 
-    context.flushObsoleteStates(validKeys: root._retrieveKeysRecursively())
+    //context.flushObsoleteStates(validKeys: root._retrieveKeysRecursively())
     inspectorMarkDirty()
 
     // Reset the animatable frame changes to default.
@@ -228,7 +228,6 @@ open class UIComponent<S: UIStateProtocol, P: UIPropsProtocol>: NSObject, UIComp
 
   /// Returns the desired child key prefixed with the key of the father.
   public func childKey(_ postfix: String) -> String {
-    // Searche
     var parentKey: String = ""
     func findParentKeyRecursively(component: UIComponentProtocol) {
       if let key = component.key {

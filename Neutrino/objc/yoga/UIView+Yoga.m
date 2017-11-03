@@ -22,7 +22,6 @@ static const void *kYGYogaAssociatedKey = &kYGYogaAssociatedKey;
     yoga = [[YGLayout alloc] initWithView:self];
     objc_setAssociatedObject(self, kYGYogaAssociatedKey, yoga, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
   }
-
   return yoga;
 }
 
@@ -49,22 +48,31 @@ void YGSet(UIView *view, NSDictionary *properties) {
 static NSArray *UIKitSymbols = nil;
 NSArray *YGUIKitSymbols() {
   if (UIKitSymbols == nil) UIKitSymbols = @[
-      @"UIView",
-      @"UILabel",
-      @"UIButton",
-      @"UIScrollView",
-      @"UITextField",
-      @"UITextView",
-      @"UIImageView",
-      @"UISegmentedControl",
-      @"UISwitch",
-      @"UIPaginationControl",
-      @"UIControl"];
+	  @"UIButton",
+	  @"UICollectionView",
+	  @"UIControl",
+	  @"UIImageView",
+	  @"UILabel",
+	  @"UIProgressView",
+	  @"UIScrollView",
+	  @"UISearchBar",
+	  @"UISegmentedControl",
+	  @"UISlider",
+	  @"UIStackView",
+	  @"UIStepper",
+	  @"UISwitch",
+	  @"UITableView",
+	  @"UITableViewHeaderFooterView",
+	  @"UITextField",
+	  @"UITextView",
+	  @"UIView",
+	  @"UIWebView",
+	  @"WKWebView"];
   return UIKitSymbols;
 }
-static NSArray *YGProps = nil;
+static NSSet<NSString *> *YGProps = nil;
 NSString *YGReplaceKeyIfNecessary(NSString *key) {
-  if (YGProps == nil) YGProps = @[
+  if (YGProps == nil) YGProps = [[NSSet<NSString *> alloc] initWithArray: @[
       @"direction",
       @"flexDirection",
       @"justifyContent",
@@ -94,7 +102,7 @@ NSString *YGReplaceKeyIfNecessary(NSString *key) {
       @"minWidth",
       @"minHeight",
       @"maxWidth",
-      @"maxHeight"];
+      @"maxHeight"]];
   if ([YGProps containsObject:key]) {
     return [NSString stringWithFormat:@"%@.%@", @"yoga", key];
   }

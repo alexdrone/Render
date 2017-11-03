@@ -18,7 +18,7 @@ class ViewController: UIViewController {
     component = context.component(UI.Components.JsCounter.self, key: "main")
 
     safeAreaView.translatesAutoresizingMaskIntoConstraints = false
-    safeAreaView.backgroundColor = UIColor.blue
+    safeAreaView.backgroundColor = Color.black
     var constraints: [NSLayoutConstraint] = []
     if #available(iOS 11.0, *) {
       constraints = [
@@ -39,5 +39,4 @@ class ViewController: UIViewController {
     NSLayoutConstraint.activate(constraints)
     component.setCanvas(view: safeAreaView)
   }
-
 }

@@ -7,6 +7,7 @@ public class UIJsBridge {
   private var nodes: [Int: UIJsFragmentNode] = [:]
   private var rootNodes: [String: UIJsFragmentNode] = [:]
   private var loadedPaths = Set<String>()
+  public var debugRemoteUrl: String = "http://localhost:8000/"
 
   private func runFunction<P: UIPropsProtocol & Codable>(function: String,
                                                          props: P?,
@@ -91,14 +92,36 @@ public class UIJsBridge {
     initJsContext()
   }
 
+  private func loadFileFromRemoteServer(_ file: String) -> String? {
+    guard let url = URL(string: "\(debugRemoteUrl)\(file).js") else { return nil }
+    return try? String(contentsOf: url, encoding: .utf8)
+  }
+
+  private func loadFileFromBundle(_ file: String) -> String? {
+    guard let path = Bundle.main.path(forResource: file, ofType: "js") else { return nil }
+    return try? String(contentsOfFile: path, encoding: .utf8)
+  }
+
   public func loadDefinition(file: String) {
-    let path = Bundle.main.path(forResource: file, ofType: "js")
-    if let path = path {
-      guard !loadedPaths.contains(path) else { return }
-      guard let content = try? String(contentsOfFile: path, encoding: .utf8) else { return }
-      loadedPaths.insert(path)
-      loadDefinition(source: content)
-    }
+    guard !loadedPaths.contains(file) else { return }
+    let err = "Invalid js file \(file)."
+    loadedPaths.insert(file)
+
+    #if (arch(i386) || arch(x86_64)) && os(iOS)
+      if let content = loadFileFromRemoteServer(file) {
+        loadDefinition(source: content)
+      } else if let content = loadFileFromBundle(file) {
+        loadDefinition(source: content)
+      } else {
+        print(err)
+      }
+    #else
+      if let content = loadFileFromBundle(file) {
+        loadDefinition(source: content)
+      } else {
+        print(err)
+      }
+    #endif
   }
 
   /// Load fragments source code.
@@ -161,19 +184,22 @@ public class UIJsBridge {
     context = JSContext()
     index = 0
     nodes = [:]
+    loadedPaths = Set<String>()
     /// The *Node(type: String, key: String, config: {}, children: [Node])* function, used in the
     /// javascript context to create a fragment node.
     let nodeBuild: @convention(block) (String, String?, NSDictionary, [NSNumber]) -> NSNumber = {
       type, key, dictionary, children in
+      let nodeKey: String? = key == "undefined" || key == "null" ? nil : key
       let bridgedDictionary = self.bridgeDictionaryValues(dictionary as! [String : Any])
-      let node = UIJsFragmentNode(key: key, create: {
+      let node = UIJsFragmentNode(key: nodeKey, create: {
         YGBuild(type) ?? UIView()
       }) { config in
         YGSet(config.view, bridgedDictionary)
       }
       // Keep tracks of the children nodes.
       node.jsChildrenIndices = children.map { $0.intValue }
-      node._debugType = type
+      node.reuseIdentifier = type
+      node._debugType = "\(type) (js fragment) "
       let index = self.index + 1
       self.index = index
       // Adds the created node to the pool of nodes.
@@ -198,8 +224,6 @@ public class UIJsBridge {
                        forKeyedSubscript: _JsBridge.Log.functionName)
     context?.setObject(_JsBridge.Color.function,
                        forKeyedSubscript: _JsBridge.Color.functionName)
-    context?.setObject(_JsBridge.Gradient.function,
-                       forKeyedSubscript: _JsBridge.Gradient.functionName)
     context?.setObject(_JsBridge.Font.function,
                        forKeyedSubscript: _JsBridge.Font.functionName)
 
@@ -241,8 +265,6 @@ struct _JsBridge {
       return Color.bridge(value: self)
     case Font.type:
       return Font.bridge(value: self)
-    case Gradient.type:
-      return Gradient.bridge(value: self)
     default:
       print("unbridgeable js type.")
       return NSObject()
@@ -273,28 +295,6 @@ struct _JsBridge {
       }
       let rgba = components.map { CGFloat($0)/255.0 }
       return UIColor(red: rgba[0], green: rgba[1], blue: rgba[2], alpha: rgba[3])
-    }
-  }
-  /// *gradient(color: object, color: object, size: object)* function in the javascript context.
-  struct Gradient {
-    static let type: NSString = "UIGradientColor"
-    static let functionName: NSString = "gradient"
-    static let function: @convention(block) (NSDictionary, NSDictionary, NSDictionary)
-      -> NSDictionary = { color1, color2, size in
-      var result = NSMutableDictionary()
-      result[Key.marker] = true
-      result[Key.type] = type
-      result[Key.value] = [color1, color2, size]
-      return result
-    }
-    static func bridge(value: _JsBridge) -> UIColor {
-      assert(value.type == Gradient.type)
-      let color1 = _JsBridge(dictionary: value.value[0] as! NSDictionary)?.bridge() as! UIColor
-      let color2 = _JsBridge(dictionary: value.value[1] as! NSDictionary)?.bridge() as! UIColor
-      let width = (value.value[2] as! NSDictionary)["width"] as! CGFloat
-      let height = (value.value[2]as! NSDictionary)["height"] as! CGFloat
-      let size = CGSize(width: width, height: height)
-      return UIColor.gradient(from: color1, to: color2, with: size)
     }
   }
 

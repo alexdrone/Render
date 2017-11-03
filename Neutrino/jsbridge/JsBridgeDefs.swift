@@ -41,4 +41,3 @@ extension _JsBridge.UIKit {
     """
   }
 }
-
