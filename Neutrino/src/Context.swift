@@ -50,7 +50,7 @@ public protocol UIContextProtocol: class {
   /// instances within the same context.
   var pool: UIContextPool { get }
   /// Javascript bridge.
-  var jsBridge: UIJsBridge { get }
+  var jsBridge: JSBridge { get }
   /// Gets rid of the obsolete states.
   /// - parameter validKeys: The keys for the components currently rendered on screen.
   func flushObsoleteStates(validKeys: Set<String>)
@@ -86,7 +86,7 @@ public class UIContext: UIContextProtocol {
   // All the delegates registered for this object.
   private var delegates: [UIContextDelegateWeakRef] = []
   /// Javascript bridge.
-  public var jsBridge: UIJsBridge = UIJsBridge()
+  public var jsBridge: JSBridge = JSBridge()
 
   public init() { }
 

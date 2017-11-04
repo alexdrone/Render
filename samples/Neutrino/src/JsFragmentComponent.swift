@@ -25,10 +25,15 @@ extension UI.Props {
 extension UI.Components {
   /// The *JsCounter* component subclass.
   final class JsCounter: UIComponent<UI.States.JsCounter, UINilProps> {
+
+    required init(context: UIContextProtocol, key: String?) {
+      super.init(context: context, key: key)
+      context.jsBridge.loadDefinition(file: "Fragment")
+    }
+
     /// Builds the node hierarchy for this component.
     override func render(context: UIContextProtocol) -> UINodeProtocol {
       let jsprops = UI.Props.JsFragmentCounter(count: self.state.count)
-      context.jsBridge.loadDefinition(file: "Fragment")
       let node = context.jsBridge.buildFragment(function: "Counter",
                                                 props: jsprops,
                                                 canvasSize: context.canvasSize)

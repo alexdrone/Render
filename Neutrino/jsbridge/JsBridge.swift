@@ -1,7 +1,7 @@
 import Foundation
 import JavaScriptCore
 
-public class UIJsBridge {
+public class JSBridge {
   public private(set) var context: JSContext!
   private var index = 0
   private var nodes: [Int: UIJsFragmentNode] = [:]
@@ -129,11 +129,11 @@ public class UIJsBridge {
     let _ = evaluate(src: source)
   }
 
-  /// Replaces the values that are *_JsBridge* compliant with their native bridge.
+  /// Replaces the values that are *_JSBridge* compliant with their native bridge.
   private func bridgeDictionaryValues(_ dictionary: [String: Any]) -> [String: Any] {
     var result = dictionary
     for (key, value) in dictionary {
-      if let value = value as? NSDictionary, let jsBrigeableValue = _JsBridge(dictionary: value) {
+      if let value = value as? NSDictionary, let jsBrigeableValue = _JSBridge(dictionary: value) {
         result[key] = jsBrigeableValue.bridge()
       }
     }
@@ -184,7 +184,6 @@ public class UIJsBridge {
     context = JSContext()
     index = 0
     nodes = [:]
-    loadedPaths = Set<String>()
     /// The *Node(type: String, key: String, config: {}, children: [Node])* function, used in the
     /// javascript context to create a fragment node.
     let nodeBuild: @convention(block) (String, String?, NSDictionary, [NSNumber]) -> NSNumber = {
@@ -220,17 +219,23 @@ public class UIJsBridge {
       context?.setObject(symbol, forKeyedSubscript: symbol)
     }
 
-    context?.setObject(_JsBridge.Log.function,
-                       forKeyedSubscript: _JsBridge.Log.functionName)
-    context?.setObject(_JsBridge.Color.function,
-                       forKeyedSubscript: _JsBridge.Color.functionName)
-    context?.setObject(_JsBridge.Font.function,
-                       forKeyedSubscript: _JsBridge.Font.functionName)
+    context?.setObject(_JSBridge.Log.function,
+                       forKeyedSubscript: _JSBridge.Log.functionName)
+    context?.setObject(_JSBridge.Color.function,
+                       forKeyedSubscript: _JSBridge.Color.functionName)
+    context?.setObject(_JSBridge.Font.function,
+                       forKeyedSubscript: _JSBridge.Font.functionName)
 
-    _ = evaluate(src: _JsBridge.Color.initSrc)
-    _ = evaluate(src: _JsBridge.Font.initSrc)
-    _ = evaluate(src: _JsBridge.Yoga.initSrc)
-    _ = evaluate(src: _JsBridge.UIKit.initSrc)
+    _ = evaluate(src: _JSBridge.Color.initSrc)
+    _ = evaluate(src: _JSBridge.Font.initSrc)
+    _ = evaluate(src: _JSBridge.Yoga.initSrc)
+    _ = evaluate(src: _JSBridge.UIKit.initSrc)
+
+    let oldLoadedPaths = loadedPaths
+    loadedPaths = Set<String>()
+    for path in oldLoadedPaths {
+      loadDefinition(file: path)
+    }
   }
 }
 
@@ -240,9 +245,9 @@ public class UIJsFragmentNode: UINode<UIView> {
   var jsIndex: Int = 0
 }
 
-// MARK: -
+// MARK: - Internal
 
-struct _JsBridge {
+struct _JSBridge {
   struct Key {
     static let marker = "_jsbridge"
     static let type = "_type"
@@ -287,7 +292,7 @@ struct _JsBridge {
       result[Key.value] = [red, green, blue, normalpha]
       return result
     }
-    static func bridge(value: _JsBridge) -> UIColor {
+    static func bridge(value: _JSBridge) -> UIColor {
       assert(value.type == Color.type)
       guard let components = value.value as? [Int], components.count == 4 else {
         print("malformed \(value.type) bridge value.")
@@ -317,7 +322,7 @@ struct _JsBridge {
       result[Key.value] = [name, size, weight]
       return result
     }
-    static func bridge(value: _JsBridge) -> UIFont {
+    static func bridge(value: _JSBridge) -> UIFont {
       assert(value.type == Font.type)
       let size = (value.value[1] as? CGFloat) ?? 12
       let name = (value.value[0] as? String) ?? "Arial"

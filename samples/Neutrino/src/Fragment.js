@@ -8,7 +8,7 @@ const palette = {
 const typography = {
   extraSmallBold: font(ui.font.system, 10, ui.font.weight.bold),  
   smallBold: font(ui.font.system, 12, ui.font.weight.bold),
-  mediumBold: font(ui.font.system, 14, ui.font.weight.bold),
+  mediumBold: font(ui.font.system, 20, ui.font.weight.bold),
 }
 
 // private subfragments.

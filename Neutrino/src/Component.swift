@@ -134,6 +134,7 @@ open class UIComponent<S: UIStateProtocol, P: UIPropsProtocol>: NSObject, UIComp
     self.context = context
     super.init()
     hookInspectorIfAvailable()
+    hookHotReload()
   }
 
   public func setCanvas(view: UIView,

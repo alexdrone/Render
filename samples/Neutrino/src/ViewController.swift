@@ -14,6 +14,7 @@ class ViewController: UIViewController {
   let safeAreaView = UIView()
 
   override func viewDidLoad() {
+    
     super.viewDidLoad()
     component = context.component(UI.Components.JsCounter.self, key: "main")
 

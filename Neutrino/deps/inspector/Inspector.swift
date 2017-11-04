@@ -1,6 +1,17 @@
 import UIKit
 
 extension UIComponent {
+  /// ⌘ + R to reload the component.
+  func hookHotReload() {
+    KeyCommands.register(input: "r", modifierFlags: .command) { [weak self] in
+      guard self?.parent == nil else { return }
+      self?.context?.jsBridge.initJsContext()
+      self?.setNeedsRender()
+    }
+  }
+}
+
+extension UIComponent {
   /// Handle the inspector requests.
   func hookInspectorIfAvailable() {
     let injectionRequest = Notification.Name("INJECTION_BUNDLE_NOTIFICATION")
