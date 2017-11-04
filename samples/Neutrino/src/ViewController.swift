@@ -10,13 +10,13 @@ class TextProps: UIPropsProtocol, Codable {
 class ViewController: UIViewController {
 
   let context = UIContext()
-  var component: UI.Components.JsCounter!
+  var component: UI.Components.Foo!
   let safeAreaView = UIView()
 
   override func viewDidLoad() {
     
     super.viewDidLoad()
-    component = context.component(UI.Components.JsCounter.self, key: "main")
+    component = context.component(UI.Components.Foo.self, key: "main")
 
     safeAreaView.translatesAutoresizingMaskIntoConstraints = false
     safeAreaView.backgroundColor = Color.black

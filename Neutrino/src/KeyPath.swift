@@ -201,7 +201,6 @@ extension AnyKeyPath {
     UIView.animate(withDuration: 0.16, delay: delay, options: .curveEaseInOut, animations: {
       view.renderContext.applyTransformationsToNewlyCreatedViews()
     }, completion: nil)
-
   }
 }
 

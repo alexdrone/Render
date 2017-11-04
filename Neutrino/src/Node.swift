@@ -256,7 +256,7 @@ public class UINode<V: UIView>: UINodeProtocol {
     view.renderContext.storeNewGeometryRecursively()
     if let frameChangeAnimator = associatedComponent?.context?.layoutAnimator {
       view.renderContext.applyOldGeometryRecursively()
-      frameChangeAnimator.stopAnimation(false)
+      frameChangeAnimator.stopAnimation(true)
       frameChangeAnimator.addAnimations {
         view.renderContext.applyNewGeometryRecursively()
       }

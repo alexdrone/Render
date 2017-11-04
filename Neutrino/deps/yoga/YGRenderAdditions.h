@@ -21,7 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 @interface UIButton (YGAdditions)
-//Symeetrical to  -[UIButton titleForState:]
+////Symeetrical to  -[UIButton titleForState:]
 @property (nonatomic, strong) NSString *text;
 @property (nonatomic, strong) NSString *highlightedText;
 @property (nonatomic, strong) NSString *selectedText;
@@ -31,8 +31,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) UIColor *highlightedTextColor;
 @property (nonatomic, strong) UIColor *selectedTextColor;
 @property (nonatomic, strong) UIColor *disabledTextColor;
-@property (nonatomic, strong) UIColor *backgroundColor;
-//Symmetrical to -[UIButton backgroundImageForState:]
+@property (nonatomic, strong) UIColor *backgroundColorImage;
+////Symmetrical to -[UIButton backgroundImageForState:]
 @property (nonatomic, strong) UIImage *backgroundImage;
 @property (nonatomic, strong) UIImage *highlightedBackgroundImage;
 @property (nonatomic, strong) UIImage *selectedBackgroundImage;
@@ -49,11 +49,6 @@ NS_ASSUME_NONNULL_BEGIN
 + (UIImage*)REFL_imageWithColor:(UIColor*)color size:(CGSize)size;
 @end
 
-@interface NSObject (YGAdditions)
-- (NSString*)refl_className;
-- (Class)refl_class;
-@end
-
 
 @interface UIImage (YGAdditions)
 + (UIImage*)REFL_imageWithColor:(UIColor*)color;
@@ -61,4 +56,5 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 NS_ASSUME_NONNULL_END
+
 

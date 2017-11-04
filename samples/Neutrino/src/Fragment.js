@@ -17,7 +17,7 @@ const typography = {
 const _CounterButton = function(props) {
   return Node(UIButton, "button", {
       text: props.count.toString(),
-      backgroundColor: palette.pink,
+      backgroundColorImage: palette.pink,
       padding: 8,
       cornerRadius: 12,
       textColor: palette.white,
