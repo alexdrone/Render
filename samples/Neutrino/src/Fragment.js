@@ -11,6 +11,7 @@ const typography = {
   mediumBold: font(ui.font.system, 20, ui.font.weight.bold),
 }
 
+
 // private subfragments.
 
 const _CounterButton = function(props) {
@@ -50,7 +51,6 @@ const _CounterBadge = function(text) {
 // the exported fragment.
 
 ui.fragment.Counter = function(props, size) {
-
   const badges = []
   for (let i = 0; i < props.count; i++) {
     badges.push(_CounterBadge((i+1).toString()))

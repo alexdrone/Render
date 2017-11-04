@@ -9,15 +9,15 @@ public class JSBridge {
   private var loadedPaths = Set<String>()
   public var debugRemoteUrl: String = "http://localhost:8000/"
 
-  private func runFunction<P: UIPropsProtocol & Codable>(function: String,
-                                                         props: P?,
-                                                         canvasSize: CGSize) -> JSValue? {
+  private func runFunction<P: Codable>(function: String,
+                                       props: P?,
+                                       canvasSize: CGSize) -> JSValue? {
     assert(Thread.isMainThread)
     guard let context = context else {
       return nil
     }
     var propsDictionary: Any = NSDictionary()
-    if let props = props {
+    if let props = props, !(props is UINilProps) {
       let jsonProps = try! JSONEncoder().encode(props)
       propsDictionary = try! JSONSerialization.jsonObject(with: jsonProps, options: [])
     }
@@ -54,6 +54,25 @@ public class JSBridge {
     return UINilNode.nil
   }
 
+  public enum Namespace: String { case palette, typography, flags, constants }
+
+  /// Returns the value of the javascript variable named *name*.
+  public func variable<T>(namespace: Namespace?, name: String) -> T? {
+    assert(Thread.isMainThread)
+
+    let prefix = namespace != nil ? "\(namespace!.rawValue)." : ""
+    guard let jsvalue = context?.evaluateScript("\(prefix)\(name)") else { return nil }
+    if let value = jsvalue.toObject() as? NSDictionary,
+       let jsBrigeableValue = JSBridgeValue(dictionary: value) {
+      return jsBrigeableValue.bridge() as? T
+    }
+    if jsvalue.isArray { return jsvalue.toArray() as? T }
+    if jsvalue.isNumber { return jsvalue.toNumber() as? T }
+    if jsvalue.isString { return jsvalue.toString() as? T }
+    if jsvalue.isBoolean { return jsvalue.toBool() as? T }
+    if jsvalue.isObject { return jsvalue.toObject() as? T}
+    return nil
+  }
 
   /// Resolve and apply a style computed by running the javacript function named *function*.
   /// - parameter view: The target view for this style.
@@ -133,7 +152,7 @@ public class JSBridge {
   private func bridgeDictionaryValues(_ dictionary: [String: Any]) -> [String: Any] {
     var result = dictionary
     for (key, value) in dictionary {
-      if let value = value as? NSDictionary, let jsBrigeableValue = _JSBridge(dictionary: value) {
+      if let value = value as? NSDictionary, let jsBrigeableValue = JSBridgeValue(dictionary: value) {
         result[key] = jsBrigeableValue.bridge()
       }
     }
@@ -219,17 +238,17 @@ public class JSBridge {
       context?.setObject(symbol, forKeyedSubscript: symbol)
     }
 
-    context?.setObject(_JSBridge.Log.function,
-                       forKeyedSubscript: _JSBridge.Log.functionName)
-    context?.setObject(_JSBridge.Color.function,
-                       forKeyedSubscript: _JSBridge.Color.functionName)
-    context?.setObject(_JSBridge.Font.function,
-                       forKeyedSubscript: _JSBridge.Font.functionName)
+    context?.setObject(JSBridgeValue.Log.function,
+                       forKeyedSubscript: JSBridgeValue.Log.functionName)
+    context?.setObject(JSBridgeValue.Color.function,
+                       forKeyedSubscript: JSBridgeValue.Color.functionName)
+    context?.setObject(JSBridgeValue.Font.function,
+                       forKeyedSubscript: JSBridgeValue.Font.functionName)
 
-    _ = evaluate(src: _JSBridge.Color.initSrc)
-    _ = evaluate(src: _JSBridge.Font.initSrc)
-    _ = evaluate(src: _JSBridge.Yoga.initSrc)
-    _ = evaluate(src: _JSBridge.UIKit.initSrc)
+    _ = evaluate(src: JSBridgeValue.Color.initSrc)
+    _ = evaluate(src: JSBridgeValue.Font.initSrc)
+    _ = evaluate(src: JSBridgeValue.Yoga.initSrc)
+    _ = evaluate(src: JSBridgeValue.UIKit.initSrc)
 
     let oldLoadedPaths = loadedPaths
     loadedPaths = Set<String>()
@@ -247,12 +266,13 @@ public class UIJsFragmentNode: UINode<UIView> {
 
 // MARK: - Internal
 
-struct _JSBridge {
+public struct JSBridgeValue {
   struct Key {
     static let marker = "_jsbridge"
     static let type = "_type"
     static let value = "_value"
   }
+
   /// The underlying dictionary.
   var dictionary: NSDictionary
   var type: NSString { return dictionary[Key.type] as! NSString }
@@ -267,9 +287,9 @@ struct _JSBridge {
   func bridge() -> AnyObject {
     switch type {
     case Color.type:
-      return Color.bridge(value: self)
+      return Color.bridge(jsvalue: self)
     case Font.type:
-      return Font.bridge(value: self)
+      return Font.bridge(jsvalue: self)
     default:
       print("unbridgeable js type.")
       return NSObject()
@@ -277,7 +297,7 @@ struct _JSBridge {
   }
 
   /// *color(hex: number, alpha: number)* function in the javascript context.
-  struct Color {
+  public struct Color {
     static let type: NSString = "UIColor"
     static let functionName: NSString = "color"
     static let function: @convention(block) (Int, Int) -> NSDictionary = { rgb, alpha in
@@ -292,10 +312,10 @@ struct _JSBridge {
       result[Key.value] = [red, green, blue, normalpha]
       return result
     }
-    static func bridge(value: _JSBridge) -> UIColor {
-      assert(value.type == Color.type)
-      guard let components = value.value as? [Int], components.count == 4 else {
-        print("malformed \(value.type) bridge value.")
+    public static func bridge(jsvalue: JSBridgeValue) -> UIColor {
+      assert(jsvalue.type == Color.type)
+      guard let components = jsvalue.value as? [Int], components.count == 4 else {
+        print("malformed \(jsvalue.type) bridge value.")
         return .black
       }
       let rgba = components.map { CGFloat($0)/255.0 }
@@ -311,7 +331,7 @@ struct _JSBridge {
     }
   }
   /// *font(name: string, size: number, weight: number)* function in the javascript context.
-  struct Font {
+  public struct Font {
     static let type: NSString = "UIFont"
     static let functionName: NSString = "font"
     static let function: @convention(block) (String, CGFloat, CGFloat) -> NSDictionary = {
@@ -322,14 +342,14 @@ struct _JSBridge {
       result[Key.value] = [name, size, weight]
       return result
     }
-    static func bridge(value: _JSBridge) -> UIFont {
-      assert(value.type == Font.type)
-      let size = (value.value[1] as? CGFloat) ?? 12
-      let name = (value.value[0] as? String) ?? "Arial"
+    public static func bridge(jsvalue: JSBridgeValue) -> UIFont {
+      assert(jsvalue.type == Font.type)
+      let size = (jsvalue.value[1] as? CGFloat) ?? 12
+      let name = (jsvalue.value[0] as? String) ?? "Arial"
       if name == "systemfont" {
         var weight = UIFont.Weight(rawValue: 0)
-        if value.value.count == 3 {
-          weight = UIFont.Weight(rawValue: value.value[2] as? CGFloat ?? 0)
+        if jsvalue.value.count == 3 {
+          weight = UIFont.Weight(rawValue: jsvalue.value[2] as? CGFloat ?? 0)
         }
         return UIFont.systemFont(ofSize: size, weight: weight)
       } else {

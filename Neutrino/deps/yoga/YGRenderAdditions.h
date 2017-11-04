@@ -3,7 +3,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface UIView (REFLAdditions)
+@interface UIView (YGAdditions)
 ///Redirects to 'layer.cornerRadius'
 @property (nonatomic, assign) CGFloat cornerRadius;
 ///Redirects to 'layer.borderWidth'
@@ -20,7 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) UIColor *shadowColor;
 @end
 
-@interface UIButton (REFLAdditions)
+@interface UIButton (YGAdditions)
 //Symeetrical to  -[UIButton titleForState:]
 @property (nonatomic, strong) NSString *text;
 @property (nonatomic, strong) NSString *highlightedText;
@@ -44,41 +44,18 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) UIImage *disabledImage;
 @end
 
-@interface UIImage (REFL)
+@interface UIImage (YGAdditions)
 + (UIImage*)REFL_imageWithColor:(UIColor*)color;
 + (UIImage*)REFL_imageWithColor:(UIColor*)color size:(CGSize)size;
 @end
 
-@interface NSObject (REFLAspects)
+@interface NSObject (YGAdditions)
 - (NSString*)refl_className;
 - (Class)refl_class;
 @end
 
-@interface UIColor (HTMLColors)
-+ (UIColor*)gradientFromColor:(UIColor*)color1 toColor:(UIColor*)color2 withSize:(CGSize)frame;
-+ (UIColor*)refl_colorWithCSSColor:(NSString *)cssColor;
-+ (UIColor*)colorWithHexString:(NSString *)hexColor;
-+ (UIColor*)colorWithRGBString:(NSString *)rgbColor;
-+ (UIColor*)colorWithHSLString:(NSString *)hslColor;
-- (NSString*)hexStringValue;
-- (NSString*)rgbStringValue;
-- (NSString*)hslStringValue;
-@end
 
-@interface NSScanner (HTMLColors)
-- (BOOL)scanLESSColor:(UIColor **)color;
-- (BOOL)scanRGBColor:(UIColor **)color;
-- (BOOL)scanHSLColor:(UIColor **)color;
-- (BOOL)scanHexColor:(UIColor **)color;
-
-@end
-
-@interface UIEGradientColor : NSObject
-- (instancetype)initWithColor1:(UIColor*)color1 color2:(UIColor*)color2;
-- (UIColor*)gradientWithSize:(CGSize)size;
-@end
-
-@interface UIImage (REFLAdditions)
+@interface UIImage (YGAdditions)
 + (UIImage*)REFL_imageWithColor:(UIColor*)color;
 + (UIImage*)REFL_imageWithColor:(UIColor*)color size:(CGSize)size;
 @end
