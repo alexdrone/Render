@@ -405,6 +405,8 @@ open class ComponentView<S: StateType>: UIView, ComponentViewType {
     if let view = view, view.hasNode && view.tag == new.key.reuseIdentifier.hashValue {
       new.build(with: view)
       view.isNewlyCreated = false
+      view.removeFromSuperview()
+      parent.insertSubview(view, at: new.index)
     // The view for this node needs to be created.
     } else {
       view?.removeFromSuperview()
