@@ -25,7 +25,7 @@
 		16AF338C1FABC83E00379FA9 /* JsFragmentComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16AF338B1FABC83E00379FA9 /* JsFragmentComponent.swift */; };
 		16BF01781F9E1381001F7888 /* Style.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16BF01771F9E1381001F7888 /* Style.swift */; };
 		16BF017B1F9E1BF8001F7888 /* SubComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16BF017A1F9E1BF8001F7888 /* SubComponents.swift */; };
-		16D3659E1FAF4E370020E802 /* Stylesheet.js in Resources */ = {isa = PBXBuildFile; fileRef = 16D3659D1FAF4E370020E802 /* Stylesheet.js */; };
+		16D3659E1FAF4E370020E802 /* _global.js in Resources */ = {isa = PBXBuildFile; fileRef = 16D3659D1FAF4E370020E802 /* _global.js */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -93,7 +93,7 @@
 		16AF338B1FABC83E00379FA9 /* JsFragmentComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsFragmentComponent.swift; sourceTree = "<group>"; };
 		16BF01771F9E1381001F7888 /* Style.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Style.swift; sourceTree = "<group>"; };
 		16BF017A1F9E1BF8001F7888 /* SubComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubComponents.swift; sourceTree = "<group>"; };
-		16D3659D1FAF4E370020E802 /* Stylesheet.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = Stylesheet.js; sourceTree = "<group>"; };
+		16D3659D1FAF4E370020E802 /* _global.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = _global.js; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -149,7 +149,7 @@
 				168777AD1F99446200273561 /* Property List.plist */,
 				16BF01771F9E1381001F7888 /* Style.swift */,
 				162560FA1FA5DB5B0066AF05 /* Fragment.js */,
-				16D3659D1FAF4E370020E802 /* Stylesheet.js */,
+				16D3659D1FAF4E370020E802 /* _global.js */,
 			);
 			path = src;
 			sourceTree = "<group>";
@@ -273,7 +273,7 @@
 			files = (
 				168FA6E11F8F856D00A12585 /* LaunchScreen.storyboard in Resources */,
 				168FA6DE1F8F856D00A12585 /* Assets.xcassets in Resources */,
-				16D3659E1FAF4E370020E802 /* Stylesheet.js in Resources */,
+				16D3659E1FAF4E370020E802 /* _global.js in Resources */,
 				168777AE1F99446200273561 /* Property List.plist in Resources */,
 				168FA6DC1F8F856D00A12585 /* Main.storyboard in Resources */,
 				162560FB1FA5DB5B0066AF05 /* Fragment.js in Resources */,

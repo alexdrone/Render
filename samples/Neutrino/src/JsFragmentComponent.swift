@@ -38,6 +38,8 @@ extension UI.Components {
                                                 props: jsprops,
                                                 canvasSize: context.canvasSize)
 
+      let color: UIColor? = context.jsBridge.variable(namespace: .palette, name: "green")
+
       node.nodeWithKey("button")?.overrides = { view in
         view.onTap { [weak self] _ in
           self?.state.count += 1

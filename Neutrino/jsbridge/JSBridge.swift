@@ -55,7 +55,7 @@ public class JSBridge {
     return UINilNode.nil
   }
 
-  public enum Namespace: String { case palette, typography, flags, constants }
+  public enum Namespace: String { case palette, typography, flags, constants, assets }
 
   /// Returns the value of the javascript variable named *name*.
   public func variable<T>(namespace: Namespace?, name: String) -> T? {
@@ -276,6 +276,12 @@ public class JSBridge {
                        forKeyedSubscript: JSBridgeValue.Color.functionName)
     context?.setObject(JSBridgeValue.Font.function,
                        forKeyedSubscript: JSBridgeValue.Font.functionName)
+    context?.setObject(JSBridgeValue.Size.function,
+                       forKeyedSubscript: JSBridgeValue.Size.functionName)
+    context?.setObject(JSBridgeValue.Image.function,
+                       forKeyedSubscript: JSBridgeValue.Image.functionName)
+    context?.setObject(JSBridgeValue.URL.function,
+                       forKeyedSubscript: JSBridgeValue.URL.functionName)
 
     _ = evaluate(src: JSBridgeValue.Color.initSrc)
     _ = evaluate(src: JSBridgeValue.Font.initSrc)
@@ -286,7 +292,7 @@ public class JSBridge {
     let oldLoadedPaths = loadedPaths
     loadedPaths = Set<String>()
     // Stylesheet is the global default path loaded (if available).
-    loadDefinition(file: "Stylesheet")
+    loadDefinition(file: "_global")
     for path in oldLoadedPaths {
       loadDefinition(file: path)
     }
@@ -328,6 +334,12 @@ public struct JSBridgeValue {
       return Color.bridge(jsvalue: self)
     case Font.type:
       return Font.bridge(jsvalue: self)
+    case Size.type:
+      return Size.bridge(jsvalue: self)
+    case Image.type:
+      return Size.bridge(jsvalue: self)
+    case URL.type:
+      return URL.bridge(jsvalue: self)
     default:
       print("unbridgeable js type.")
       return NSObject()
@@ -343,15 +355,9 @@ public struct JSBridgeValue {
       let red = (rgb >> 16) & 0xff
       let green = (rgb >> 8) & 0xff
       let blue = rgb & 0xff
-
-      var result = NSMutableDictionary()
-      result[Key.marker] = true
-      result[Key.type] = type
-      result[Key.value] = [red, green, blue, normalpha]
-      return result
+      return makeBridgeableDictionary(type, [red, green, blue, normalpha])
     }
     public static func bridge(jsvalue: JSBridgeValue) -> UIColor {
-      assert(jsvalue.type == Color.type)
       guard let components = jsvalue.value as? [Int], components.count == 4 else {
         print("malformed \(jsvalue.type) bridge value.")
         return .black
@@ -374,26 +380,74 @@ public struct JSBridgeValue {
     static let functionName: NSString = "font"
     static let function: @convention(block) (String, CGFloat, CGFloat) -> NSDictionary = {
       name, size, weight in
-      var result = NSMutableDictionary()
-      result[Key.marker] = true
-      result[Key.type] = type
-      result[Key.value] = [name, size, weight]
-      return result
+      return makeBridgeableDictionary(type, [name, size, weight])
+
     }
     public static func bridge(jsvalue: JSBridgeValue) -> UIFont {
-      assert(jsvalue.type == Font.type)
-      let size = (jsvalue.value[1] as? CGFloat) ?? 12
-      let name = (jsvalue.value[0] as? String) ?? "Arial"
-      if name == "systemfont" {
+      let systemfont = "systemfont"
+      let size: CGFloat = cast(jsvalue, at: 1, fallback: 12)
+      let name = cast(jsvalue, at: 0, fallback: systemfont)
+      if name == systemfont {
         var weight = UIFont.Weight(rawValue: 0)
         if jsvalue.value.count == 3 {
-          weight = UIFont.Weight(rawValue: jsvalue.value[2] as? CGFloat ?? 0)
+          weight = UIFont.Weight(rawValue: cast(jsvalue, at: 1, fallback: 0))
         }
         return UIFont.systemFont(ofSize: size, weight: weight)
       } else {
         return UIFont(name: name, size: size) ?? UIFont.systemFont(ofSize: size)
       }
     }
+  }
+
+  /// *size(width: number, height: number)* function in the javascript context.
+  public struct Size {
+    static let type: NSString = "CGSize"
+    static let functionName: NSString = "size"
+    static let function: @convention(block) (String, CGFloat) -> NSDictionary = { width, heigth in
+      return makeBridgeableDictionary(type, [width, heigth])
+    }
+    public static func bridge(jsvalue: JSBridgeValue) -> NSValue {
+      return NSValue(cgSize: CGSize(width: cast(jsvalue, at: 0, fallback: 0),
+                                    height: cast(jsvalue, at: 1, fallback: 0)))
+    }
+  }
+
+  /// *image(name: string)* function in the javascript context.
+  public struct Image {
+    static let type: NSString = "UIImage"
+    static let functionName: NSString = "image"
+    static let function: @convention(block) (String) -> NSDictionary = { name in
+      return makeBridgeableDictionary(type, [name])
+    }
+    public static func bridge(jsvalue: JSBridgeValue) -> UIImage {
+      return UIImage(named: cast(jsvalue, at: 0, fallback: String())) ?? UIImage()
+    }
+  }
+
+  /// *url(url: string)* function in the javascript context.
+  public struct URL {
+    static let type: NSString = "NSURL"
+    static let functionName: NSString = "url"
+    static let function: @convention(block) (String) -> NSDictionary = { path in
+      return makeBridgeableDictionary(type, [path])
+    }
+    public static func bridge(jsvalue: JSBridgeValue) -> NSURL {
+      return NSURL(string: cast(jsvalue, at: 0, fallback: String())) ?? NSURL()
+    }
+  }
+
+  // Make a well-formatted bridge dicitonary.
+  private static func makeBridgeableDictionary(_ type: NSString, _ value: [Any]) -> NSDictionary {
+    let result = NSMutableDictionary()
+    result[Key.marker] = true
+    result[Key.type] = type
+    result[Key.value] = value
+    return result
+  }
+
+  // Returns the value at the index of the bridge jsvalue array casted accordingly.
+  private static func cast<T>(_ jsvalue: JSBridgeValue, at index: Int, fallback: T) -> T {
+    return jsvalue.value[index] as? T ?? fallback
   }
 
   struct Yoga { }
