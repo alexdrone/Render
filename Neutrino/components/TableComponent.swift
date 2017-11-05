@@ -123,6 +123,12 @@ public class UITableComponent<S: UIStateProtocol, P: UITableComponentProps>:
     }
   }
 
+  /// Called when ⌘ + R is pressed to reload the component.
+  override func forceComponentReload() {
+    self.context?.jsBridge.initJSContext()
+    self.setNeedsRender()
+  }
+
   public func setNeedRenderInvoked(on context: UIContextProtocol, component: UIComponentProtocol) {
     cellContext.canvasView = tableView
     root.unmanagedChildren = props.allComponents.map { $0.asNode() }

@@ -4,9 +4,7 @@ extension UIComponent {
   /// ⌘ + R to reload the component.
   func hookHotReload() {
     KeyCommands.register(input: "r", modifierFlags: .command) { [weak self] in
-      guard self?.parent == nil else { return }
-      self?.context?.jsBridge.initJsContext()
-      self?.setNeedsRender()
+      self?.forceComponentReload()
     }
   }
 }

@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		162560F91FA4D6660066AF05 /* JsBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 162560F81FA4D6660066AF05 /* JsBridge.swift */; };
-		1648AC1F1FA752800061A442 /* JsConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1648AC1E1FA752800061A442 /* JsConstants.swift */; };
+		162560F91FA4D6660066AF05 /* JSBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 162560F81FA4D6660066AF05 /* JSBridge.swift */; };
+		1648AC1F1FA752800061A442 /* JSConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1648AC1E1FA752800061A442 /* JSConstants.swift */; };
 		1656BAF61F9F750E009F561F /* TableComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1656BAF51F9F750E009F561F /* TableComponent.swift */; };
 		167B537A1FABB7A400AF6798 /* YGRenderAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 167B53791FABB7A400AF6798 /* YGRenderAdditions.m */; };
 		167B537C1FABB7B600AF6798 /* YGRenderAdditions.h in Sources */ = {isa = PBXBuildFile; fileRef = 167B537B1FABB7B600AF6798 /* YGRenderAdditions.h */; };
@@ -43,8 +43,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		162560F81FA4D6660066AF05 /* JsBridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsBridge.swift; sourceTree = "<group>"; };
-		1648AC1E1FA752800061A442 /* JsConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsConstants.swift; sourceTree = "<group>"; };
+		162560F81FA4D6660066AF05 /* JSBridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSBridge.swift; sourceTree = "<group>"; };
+		1648AC1E1FA752800061A442 /* JSConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSConstants.swift; sourceTree = "<group>"; };
 		1656BAF51F9F750E009F561F /* TableComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableComponent.swift; sourceTree = "<group>"; };
 		167B53791FABB7A400AF6798 /* YGRenderAdditions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = YGRenderAdditions.m; path = yoga/YGRenderAdditions.m; sourceTree = "<group>"; };
 		167B537B1FABB7B600AF6798 /* YGRenderAdditions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = YGRenderAdditions.h; path = yoga/YGRenderAdditions.h; sourceTree = "<group>"; };
@@ -93,8 +93,8 @@
 		162560F71FA4D6050066AF05 /* jsbridge */ = {
 			isa = PBXGroup;
 			children = (
-				162560F81FA4D6660066AF05 /* JsBridge.swift */,
-				1648AC1E1FA752800061A442 /* JsConstants.swift */,
+				162560F81FA4D6660066AF05 /* JSBridge.swift */,
+				1648AC1E1FA752800061A442 /* JSConstants.swift */,
 			);
 			path = jsbridge;
 			sourceTree = "<group>";
@@ -289,11 +289,11 @@
 				167B537C1FABB7B600AF6798 /* YGRenderAdditions.h in Sources */,
 				16DDA95F1F98C6CC00CDBCF5 /* Context.swift in Sources */,
 				16F36C191F8E4BA600A04BE6 /* KeyPath.swift in Sources */,
-				1648AC1F1FA752800061A442 /* JsConstants.swift in Sources */,
+				1648AC1F1FA752800061A442 /* JSConstants.swift in Sources */,
 				16F7B55B1F9A322C00583082 /* Inspector.swift in Sources */,
 				16F36BF21F8E2B2800A04BE6 /* Extensions.swift in Sources */,
 				16AA95ED1FA3310600EAC136 /* YGNodeList.c in Sources */,
-				162560F91FA4D6660066AF05 /* JsBridge.swift in Sources */,
+				162560F91FA4D6660066AF05 /* JSBridge.swift in Sources */,
 				16AF33911FACAC5800379FA9 /* KeyCommands.swift in Sources */,
 				16F36BEE1F8E198B00A04BE6 /* Node.swift in Sources */,
 				16F36BF01F8E1A4700A04BE6 /* State.swift in Sources */,

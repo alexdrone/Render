@@ -86,7 +86,7 @@ public class UIContext: UIContextProtocol {
   // All the delegates registered for this object.
   private var delegates: [UIContextDelegateWeakRef] = []
   /// Javascript bridge.
-  public var jsBridge: JSBridge = JSBridge()
+  public lazy var jsBridge: JSBridge = { JSBridge() }()
 
   public init() { }
 

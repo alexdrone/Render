@@ -157,6 +157,13 @@ open class UIComponent<S: UIStateProtocol, P: UIPropsProtocol>: NSObject, UIComp
     }
   }
 
+  /// Called when ⌘ + R is pressed to reload the component.
+  func forceComponentReload() {
+    guard parent == nil, canvasView != nil else { return }
+    self.context?.jsBridge.initJSContext()
+    self.setNeedsRender()
+  }
+
   public func setNeedsRender(options: [UIComponentRenderOption] = []) {
     assert(Thread.isMainThread)
     guard parent == nil else {

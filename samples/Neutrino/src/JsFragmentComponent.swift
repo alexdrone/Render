@@ -37,6 +37,7 @@ extension UI.Components {
       let node = context.jsBridge.buildFragment(function: "Counter",
                                                 props: jsprops,
                                                 canvasSize: context.canvasSize)
+
       node.nodeWithKey("button")?.overrides = { view in
         view.onTap { [weak self] _ in
           self?.state.count += 1

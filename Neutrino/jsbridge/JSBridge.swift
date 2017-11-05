@@ -8,6 +8,7 @@ public class JSBridge {
   private var rootNodes: [String: UIJsFragmentNode] = [:]
   private var loadedPaths = Set<String>()
   public var debugRemoteUrl: String = "http://localhost:8000/"
+  public var prefetchedVars: [String: Any] = [:]
 
   private func runFunction<P: Codable>(function: String,
                                        props: P?,
@@ -59,19 +60,49 @@ public class JSBridge {
   /// Returns the value of the javascript variable named *name*.
   public func variable<T>(namespace: Namespace?, name: String) -> T? {
     assert(Thread.isMainThread)
-
     let prefix = namespace != nil ? "\(namespace!.rawValue)." : ""
-    guard let jsvalue = context?.evaluateScript("\(prefix)\(name)") else { return nil }
-    if let value = jsvalue.toObject() as? NSDictionary,
-       let jsBrigeableValue = JSBridgeValue(dictionary: value) {
-      return jsBrigeableValue.bridge() as? T
+    let fullKey = "\(prefix)\(name)"
+    // If the variable belongs to one of the default namespaces, is prefetched and stored at
+    // context initialization time.
+    if let prefetchedVariable = prefetchedVars[fullKey] as? T {
+      return prefetchedVariable
     }
+    // Get the variable from the js context.
+    guard let jsvalue = context?.evaluateScript(fullKey) else { return nil }
+    // If the jsvalue is a *JSBridgeValue* invoke the transformation.
+    if let value = jsvalue.toObject() as? NSDictionary,
+       let bridge = JSBridgeValue(dictionary: value){ return bridge.bridge() as? T }
+    // The jsvalue is a simple scalar.
     if jsvalue.isArray { return jsvalue.toArray() as? T }
     if jsvalue.isNumber { return jsvalue.toNumber() as? T }
     if jsvalue.isString { return jsvalue.toString() as? T }
     if jsvalue.isBoolean { return jsvalue.toBool() as? T }
     if jsvalue.isObject { return jsvalue.toObject() as? T}
     return nil
+  }
+
+  private func prefetchVariables() {
+    prefetchedVars = [:]
+    let namespaces: [String] = [Namespace.palette.rawValue,
+                                Namespace.typography.rawValue,
+                                Namespace.flags.rawValue,
+                                Namespace.constants.rawValue]
+    // Prefetches the variables in the default namespaces.
+    for namespace in namespaces {
+      guard let jsdictionary = context?.evaluateScript("\(namespace)").toDictionary() else {
+        continue
+      }
+      for (key, obj) in jsdictionary {
+        let fullKey = "\(namespace).\(key)"
+        // For every entry it bridges the return value if necessary.
+        if let obj = obj as? NSDictionary, let jsBrigeableValue = JSBridgeValue(dictionary: obj) {
+          prefetchedVars[fullKey] = jsBrigeableValue.bridge()
+        // The value is a simple scalar value.
+        } else {
+          prefetchedVars[fullKey] = obj
+        }
+      }
+    }
   }
 
   /// Resolve and apply a style computed by running the javacript function named *function*.
@@ -108,7 +139,7 @@ public class JSBridge {
   }
 
   public init() {
-    initJsContext()
+    initJSContext()
   }
 
   private func loadFileFromRemoteServer(_ file: String) -> String? {
@@ -199,7 +230,9 @@ public class JSBridge {
   }
 
   /// Reset the javascript context.
-  public func initJsContext() {
+  public func initJSContext() {
+    let startTime = CFAbsoluteTimeGetCurrent()
+
     context = JSContext()
     index = 0
     nodes = [:]
@@ -237,7 +270,6 @@ public class JSBridge {
     for symbol in (YGUIKitSymbols() as! [NSString]) {
       context?.setObject(symbol, forKeyedSubscript: symbol)
     }
-
     context?.setObject(JSBridgeValue.Log.function,
                        forKeyedSubscript: JSBridgeValue.Log.functionName)
     context?.setObject(JSBridgeValue.Color.function,
@@ -250,11 +282,17 @@ public class JSBridge {
     _ = evaluate(src: JSBridgeValue.Yoga.initSrc)
     _ = evaluate(src: JSBridgeValue.UIKit.initSrc)
 
+    // Reloads all of the definitions previously loaded.
     let oldLoadedPaths = loadedPaths
     loadedPaths = Set<String>()
+    // Stylesheet is the global default path loaded (if available).
+    loadDefinition(file: "Stylesheet")
     for path in oldLoadedPaths {
       loadDefinition(file: path)
     }
+    // Prefetches all of the variables that are defined in the default namespaces.
+    prefetchVariables()
+    debugInitTime("JSBridge.initJSContext", startTime: startTime)
   }
 }
 
@@ -360,4 +398,11 @@ public struct JSBridgeValue {
 
   struct Yoga { }
   struct UIKit { }
+}
+
+func debugInitTime(_ label: String, startTime: CFAbsoluteTime, threshold: CFAbsoluteTime = 0){
+  let timeElapsed = (CFAbsoluteTimeGetCurrent() - startTime) * 1000
+  if timeElapsed > threshold  {
+    print(String(format: "\(label) (%2f) ms.", arguments: [timeElapsed]))
+  }
 }
