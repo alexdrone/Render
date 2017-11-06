@@ -1,49 +1,5 @@
 import UIKit
 
-// MARK: Geometry
-
-public extension CGFloat {
-  public static let undefined: CGFloat = YGNaNSize.width
-  public static let max: CGFloat = 32768
-  public static let epsilon: CGFloat = CGFloat(Float.ulpOfOne)
-  public var maxIfZero: CGFloat { return self == 0 ? CGFloat.max : self }
-  public var undefinedIfZero: CGFloat { return self == 0 ? CGFloat.undefined : self }
-  public var normal: CGFloat { return isNormal ? self : 0  }
-}
-
-public extension CGSize {
-  public static let undefined: CGSize = CGSize(width: CGFloat.undefined, height: CGFloat.undefined)
-  public static let max: CGSize =  CGSize(width: CGFloat.max, height: CGFloat.max)
-  public static let epsilon: CGSize =  CGSize(width: CGFloat.epsilon, height: CGFloat.epsilon)
-  public static func ===(lhs: CGSize, rhs: CGSize) -> Bool {
-    return fabs(lhs.width - rhs.width) < CGFloat.epsilon &&
-      fabs(lhs.height - rhs.height) < CGFloat.epsilon
-  }
-}
-
-public extension CGRect {
-  public mutating func normalize() {
-    origin.x = origin.x.isNormal ? origin.x : 0
-    origin.y = origin.y.isNormal ? origin.y : 0
-    size.width = size.width.isNormal ? size.width : 0
-    size.height = size.height.isNormal ? size.height : 0
-  }
-}
-
-// MARK: Reset
-
-struct Reset {
-  static func resetTargets(_ view: UIView?) {
-    guard let view = view else { return }
-    // and targets.
-    if let control = view as? UIControl {
-      for target in control.allTargets {
-        control.removeTarget(target, action: nil, for: .allEvents)
-      }
-    }
-  }
-}
-
 protocol UIPostRendering {
   /// content-size calculation for the scrollview should be applied after the layout.
   /// This is called after the scroll view is rendered.
@@ -75,68 +31,11 @@ extension UIScrollView: UIPostRendering {
 
 // MARK: UIView extensions
 
-private var handleHasNode: UInt8 = 0
-private var hadleOldCornerRadius: UInt8 = 0
-private var handleOldAlpha: UInt8 = 0
-private var handleRenderContext: UInt8 = 0
-
 public extension UIView {
-  var renderContext: UIRenderConfigurationContainer {
-    get {
-      guard let obj = objc_getAssociatedObject(self, &handleRenderContext)
-            as? UIRenderConfigurationContainer else {
-        let container = UIRenderConfigurationContainer(view: self)
-        objc_setAssociatedObject(self,
-                                 &handleRenderContext,
-                                 container,
-                                 .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
-        return container
-      }
-      return obj
-    }
-    set {
-      objc_setAssociatedObject(self,
-                               &handleRenderContext,
-                               newValue,
-                               .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
-    }
-  }
-
-  public var hasNode: Bool {
-    get { return getBool(&handleHasNode, self, defaultIfNil: false) }
-    set { setBool(&handleHasNode, self, newValue) }
-  }
-
   public func debugBoudingRect() {
     layer.borderColor = UIColor.red.cgColor
     layer.borderWidth = 2
   }
-}
-
-fileprivate func getBool(_ handle: UnsafeRawPointer!, _ object: UIView, defaultIfNil: Bool) -> Bool{
-  return (objc_getAssociatedObject(object, handle) as? NSNumber)?.boolValue ?? defaultIfNil
-}
-fileprivate func getBool(_ handle: UnsafeRawPointer!, _ object: UIView, _ value: Bool) -> Bool {
-  return (objc_getAssociatedObject(object, handle) as? NSNumber)?.boolValue ?? value
-}
-
-fileprivate func setBool(_ handle: UnsafeRawPointer!, _ object: UIView, _ value: Bool) {
-  objc_setAssociatedObject(object,
-                           handle,
-                           NSNumber(value: value),
-                           .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
-}
-
-fileprivate func getFloat(_ handle: UnsafeRawPointer!,
-                          _ object: UIView) -> CGFloat {
-  return CGFloat((objc_getAssociatedObject(object, handle) as? NSNumber)?.floatValue ?? 0)
-}
-
-fileprivate func setFloat(_ handle: UnsafeRawPointer!, _ object: UIView, _ value: CGFloat) {
-  objc_setAssociatedObject(object,
-                           handle,
-                           NSNumber(value: Float(value)),
-                           .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
 }
 
 //MARK: - Gesture recognizers
