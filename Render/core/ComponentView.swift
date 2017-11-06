@@ -424,6 +424,7 @@ open class ComponentView<S: StateType>: UIView, ComponentViewType {
       return view.hasNode
     }
 
+    var newNodes = 0
     for subnode in new.children {
       // Look for a candidate view matching the node.
       let candidate = oldSubviews?.index(where: { (_, view) -> Bool in
@@ -436,12 +437,15 @@ open class ComponentView<S: StateType>: UIView, ComponentViewType {
       // Pops the candidate view from the collection.
       if let index = candidate, let item = oldSubviews?[index] {
         candidateView = item.element
-        candidateIndex = item.offset
+        candidateIndex = item.offset + newNodes
         oldSubviews?.remove(at: index)
       }
         
       // Recursively reconcile the subnode.
       reconcile(new: subnode, size: size, view: candidateView, currentIndex: candidateIndex, parent: new.renderedView!)
+      if subnode.renderedView!.isNewlyCreated {
+        newNodes += 1
+      }
     }
 
     // Remove all of the obsolete old views that couldn't be recycled.
