@@ -276,7 +276,10 @@ open class ComponentView<S: StateType>: UIView, ComponentViewType {
       root.key.reuseIdentifier = String(describing: Swift.type(of: self))
       root.key.key = key.key
       root.associatedComponent = self
-      reconcile(new: root, size: bounds, view: rootView, parent: contentView)
+      let candidateIndex = subviews.index(where: { (view) -> Bool in
+        return view === rootView
+      })
+      reconcile(new: root, size: bounds, view: rootView, currentIndex: candidateIndex, parent: contentView)
       rootView = root.renderedView!
     }
     initialized = true
@@ -398,15 +401,17 @@ open class ComponentView<S: StateType>: UIView, ComponentViewType {
   }
 
   /// Reconciliation algorithm for the view hierarchy.
-  private func reconcile(new: NodeType, size: CGSize, view: UIView?, parent: UIView) {
+    private func reconcile(new: NodeType, size: CGSize, view: UIView?, currentIndex: Int?, parent: UIView) {
     assert(Thread.isMainThread)
 
     // The candidate view is a good match for reuse.
     if let view = view, view.hasNode && view.tag == new.key.reuseIdentifier.hashValue {
       new.build(with: view)
       view.isNewlyCreated = false
-      view.removeFromSuperview()
-      parent.insertSubview(view, at: new.index)
+      if currentIndex != new.index {
+        view.removeFromSuperview()
+        parent.insertSubview(view, at: new.index)
+      }
     // The view for this node needs to be created.
     } else {
       view?.removeFromSuperview()
@@ -415,26 +420,33 @@ open class ComponentView<S: StateType>: UIView, ComponentViewType {
       parent.insertSubview(new.renderedView!, at: new.index)
     }
     // Gets all of the existing subviews.
-    var oldSubviews = view?.subviews.filter { view in
+    var oldSubviews = view?.subviews.enumerated().filter { _, view in
       return view.hasNode
     }
 
     for subnode in new.children {
       // Look for a candidate view matching the node.
-      let candidateView = oldSubviews?.filter { view in
+      let candidate = oldSubviews?.index(where: { (_, view) -> Bool in
         return view.tag == subnode.key.reuseIdentifier.hashValue
-      }.first
+      })
+        
+      var candidateView: UIView? = nil
+      var candidateIndex: Int? = nil
+        
       // Pops the candidate view from the collection.
-      oldSubviews = oldSubviews?.filter {
-        view in view !== candidateView
+      if let index = candidate, let item = oldSubviews?[index] {
+        candidateView = item.element
+        candidateIndex = item.offset
+        oldSubviews?.remove(at: index)
       }
+        
       // Recursively reconcile the subnode.
-      reconcile(new: subnode, size: size, view: candidateView, parent: new.renderedView!)
+      reconcile(new: subnode, size: size, view: candidateView, currentIndex: candidateIndex, parent: new.renderedView!)
     }
 
     // Remove all of the obsolete old views that couldn't be recycled.
-    for view in oldSubviews ?? [] {
-      view.removeFromSuperview()
+    for item in oldSubviews ?? [] {
+      item.element.removeFromSuperview()
     }
   }
 }
