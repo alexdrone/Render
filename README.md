@@ -95,7 +95,7 @@ Components in *Render* can be **stateless** or **stateful**.
 
 **Stateless** components are essentialy pure functions returning a view hierarchy description from the current component properties value (*props*) 
 
-*You can define a statelss component by simply having a function returning a node tree.*
+*You can define a stateless component by simply having a function returning a node tree.*
 
 ```swift
  func PaddedLabel(text: String) -> NodeType {
