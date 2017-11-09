@@ -115,6 +115,27 @@ class NodeTests: XCTestCase {
     XCTAssert(node.renderedView!.clipsToBounds == true)
   }
 
+  func testDelegateIsInvoked() {
+    let node = makeNode(size: C.smallSize)
+    let container = makeContainerView()
+    let delegate = BindTarget()
+    node.delegate = delegate
+    node.reconcile(in: container, size: container.bounds.size, options: [])
+    XCTAssertTrue(delegate.didLayoutCalled)
+    XCTAssertTrue(delegate.willLayoutCalled)
+    XCTAssertTrue(delegate.didMountCalled)
+  }
+
+  func testDelegateIsNotInvoked() {
+    let node = makeNode(size: C.smallSize)
+    let container = makeContainerView()
+    let delegate = BindTarget()
+    node.delegate = delegate
+    node.reconcile(in: container, size: container.bounds.size, options: [.preventDelegateCallbacks])
+    XCTAssertFalse(delegate.didLayoutCalled)
+    XCTAssertFalse(delegate.willLayoutCalled)
+  }
+
   private func makeContainerView() -> UIView {
     return UIView(frame: CGRect(origin: .zero, size: CGSize(width: 640, height: 640)))
   }
@@ -128,7 +149,20 @@ class NodeTests: XCTestCase {
     }
   }
 
-  class BindTarget {
+  class BindTarget: UINodeDelegateProtocol {
     weak var view: UIView? = nil
+    var (didMountCalled, willLayoutCalled, didLayoutCalled) = (false, false, false)
+
+    func nodeDidMount(_ node: UINodeProtocol, view: UIView) {
+      didMountCalled = true
+    }
+
+    func nodeWillLayout(_ node: UINodeProtocol, view: UIView) {
+      willLayoutCalled = true
+    }
+
+    func nodeDidLayout(_ node: UINodeProtocol, view: UIView) {
+      didLayoutCalled = true
+    }
   }
 }

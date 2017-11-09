@@ -275,7 +275,7 @@ public class UINode<V: UIView>: UINodeProtocol {
 
   private func willLayout(options: [UINodeOption]) {
     let view = requireRenderedView()
-    if options.contains(.preventDelegateCallbacks) {
+    if !options.contains(.preventDelegateCallbacks) {
       // Notify the delegate.
       delegate?.nodeWillLayout(self, view: view)
       associatedComponent?.nodeWillLayout(self, view: view)
@@ -288,7 +288,7 @@ public class UINode<V: UIView>: UINodeProtocol {
     if let UIPostRenderingView = view as? UIPostRendering {
       UIPostRenderingView.postRender()
     }
-    if options.contains(.preventDelegateCallbacks) {
+    if !options.contains(.preventDelegateCallbacks) {
       // Notify the delegate.
       delegate?.nodeDidLayout(self, view: view)
       associatedComponent?.nodeDidLayout(self, view: view)
@@ -375,7 +375,7 @@ public class UINode<V: UIView>: UINodeProtocol {
 
     let startTime = CFAbsoluteTimeGetCurrent()
     _reconcile(node: self, size: size, view: view.subviews.first, parent: view)
-    layout(in: size)
+    layout(in: size, options: options)
 
     debugReconcileTime("\(Swift.type(of: self)).reconcile", startTime: startTime)
   }
