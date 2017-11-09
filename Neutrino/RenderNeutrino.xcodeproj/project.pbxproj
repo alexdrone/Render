@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		161260861FB4E92F00524869 /* NodeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 161260851FB4E92F00524869 /* NodeTests.swift */; };
+		161260881FB4E92F00524869 /* RenderNeutrino.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16F36BE21F8E197A00A04BE6 /* RenderNeutrino.framework */; };
 		162560F91FA4D6660066AF05 /* JSBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 162560F81FA4D6660066AF05 /* JSBridge.swift */; };
 		1656BAF61F9F750E009F561F /* TableComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1656BAF51F9F750E009F561F /* TableComponent.swift */; };
 		167B537A1FABB7A400AF6798 /* YGRenderAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 167B53791FABB7A400AF6798 /* YGRenderAdditions.m */; };
@@ -42,7 +44,20 @@
 		16FD2DAA1FB100A1005C2F9F /* Geometry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16FD2DA91FB100A1005C2F9F /* Geometry.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		161260891FB4E92F00524869 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 16F36BD91F8E197A00A04BE6 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 16F36BE11F8E197A00A04BE6;
+			remoteInfo = RenderNeutrino;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
+		161260831FB4E92E00524869 /* Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		161260851FB4E92F00524869 /* NodeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NodeTests.swift; sourceTree = "<group>"; };
+		161260871FB4E92F00524869 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		162560F81FA4D6660066AF05 /* JSBridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSBridge.swift; sourceTree = "<group>"; };
 		1656BAF51F9F750E009F561F /* TableComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableComponent.swift; sourceTree = "<group>"; };
 		167B53791FABB7A400AF6798 /* YGRenderAdditions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = YGRenderAdditions.m; path = yoga/YGRenderAdditions.m; sourceTree = "<group>"; };
@@ -80,6 +95,14 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		161260801FB4E92E00524869 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				161260881FB4E92F00524869 /* RenderNeutrino.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		16F36BDE1F8E197A00A04BE6 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -90,6 +113,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		161260841FB4E92E00524869 /* tests */ = {
+			isa = PBXGroup;
+			children = (
+				161260851FB4E92F00524869 /* NodeTests.swift */,
+				161260871FB4E92F00524869 /* Info.plist */,
+			);
+			path = tests;
+			sourceTree = "<group>";
+		};
 		162560F71FA4D6050066AF05 /* jsbridge */ = {
 			isa = PBXGroup;
 			children = (
@@ -158,6 +190,7 @@
 				16F36BE41F8E197A00A04BE6 /* src */,
 				1656BAF41F9F74DE009F561F /* components */,
 				162560F71FA4D6050066AF05 /* jsbridge */,
+				161260841FB4E92E00524869 /* tests */,
 				16F36BE31F8E197A00A04BE6 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -166,6 +199,7 @@
 			isa = PBXGroup;
 			children = (
 				16F36BE21F8E197A00A04BE6 /* RenderNeutrino.framework */,
+				161260831FB4E92E00524869 /* Tests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -218,6 +252,24 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		161260821FB4E92E00524869 /* Tests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1612608D1FB4E92F00524869 /* Build configuration list for PBXNativeTarget "Tests" */;
+			buildPhases = (
+				1612607F1FB4E92E00524869 /* Sources */,
+				161260801FB4E92E00524869 /* Frameworks */,
+				161260811FB4E92E00524869 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				1612608A1FB4E92F00524869 /* PBXTargetDependency */,
+			);
+			name = Tests;
+			productName = Tests;
+			productReference = 161260831FB4E92E00524869 /* Tests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		16F36BE11F8E197A00A04BE6 /* RenderNeutrino */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 16F36BEA1F8E197A00A04BE6 /* Build configuration list for PBXNativeTarget "RenderNeutrino" */;
@@ -242,9 +294,14 @@
 		16F36BD91F8E197A00A04BE6 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftUpdateCheck = 0900;
 				LastUpgradeCheck = 0900;
 				ORGANIZATIONNAME = "Alex Usbergo";
 				TargetAttributes = {
+					161260821FB4E92E00524869 = {
+						CreatedOnToolsVersion = 9.0;
+						ProvisioningStyle = Automatic;
+					};
 					16F36BE11F8E197A00A04BE6 = {
 						CreatedOnToolsVersion = 9.0;
 						LastSwiftMigration = 0900;
@@ -265,11 +322,19 @@
 			projectRoot = "";
 			targets = (
 				16F36BE11F8E197A00A04BE6 /* RenderNeutrino */,
+				161260821FB4E92E00524869 /* Tests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		161260811FB4E92E00524869 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		16F36BE01F8E197A00A04BE6 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -280,6 +345,14 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		1612607F1FB4E92E00524869 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				161260861FB4E92F00524869 /* NodeTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		16F36BDD1F8E197A00A04BE6 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -311,7 +384,41 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		1612608A1FB4E92F00524869 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 16F36BE11F8E197A00A04BE6 /* RenderNeutrino */;
+			targetProxy = 161260891FB4E92F00524869 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
+		1612608B1FB4E92F00524869 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = Tests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = io.render.Tests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		1612608C1FB4E92F00524869 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = Tests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = io.render.Tests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		16F36BE81F8E197A00A04BE6 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -473,6 +580,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		1612608D1FB4E92F00524869 /* Build configuration list for PBXNativeTarget "Tests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1612608B1FB4E92F00524869 /* Debug */,
+				1612608C1FB4E92F00524869 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		16F36BDC1F8E197A00A04BE6 /* Build configuration list for PBXProject "RenderNeutrino" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

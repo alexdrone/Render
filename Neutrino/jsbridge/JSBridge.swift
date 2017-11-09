@@ -50,7 +50,7 @@ public class JSBridge {
       buildHierarchy(node: node)
       #if DEBUG
       node._debugPropsDescription =
-        props?.reflectionDescription(del: UINodeInspectorDefaultDelimiters) ?? ""
+        props?.reflectionDescription(escape: UINodeInspectorDefaultDelimiters) ?? ""
       #endif
       return node
     }
