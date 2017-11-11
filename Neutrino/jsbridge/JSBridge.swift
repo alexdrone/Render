@@ -258,7 +258,7 @@ public class JSBridge {
       node.jsIndex = index
       return NSNumber(value: index)
     }
-    let nodeBuildJSBridgeName: NSString = "Node"
+    let nodeBuildJSBridgeName: NSString = "UINode"
     context?.setObject(nodeBuild, forKeyedSubscript: nodeBuildJSBridgeName)
 
     // js exeption handler.

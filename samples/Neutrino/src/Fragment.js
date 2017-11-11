@@ -1,7 +1,7 @@
 // private subfragments.
 
-const _CounterButton = function(props) {
-  return Node(UIButton, "button", {
+_CounterButton = (props) => {
+  return UINode(UIButton, "button", {
       text: props.count.toString(),
       backgroundColorImage: palette.pink,
       padding: 8,
@@ -11,8 +11,8 @@ const _CounterButton = function(props) {
   }, null)
 }
 
-const _CounterReloadLabel = function() {
-  return Node(UILabel, null, {
+_CounterReloadLabel = () => {
+  return UINode(UILabel, null, {
       text: "⌘ + R to reload the javascript fragment",
       margin: 8,
       textColor: palette.text,
@@ -20,8 +20,8 @@ const _CounterReloadLabel = function() {
   }, null)
 }
 
-const _CounterBadge = function(text) {
-  return Node(UILabel, null, {
+_CounterBadge = (text) => {
+  return UINode(UILabel, null, {
       backgroundColor: palette.white,
       width: 32,
       height: 32,
@@ -36,19 +36,19 @@ const _CounterBadge = function(text) {
 
 // the exported fragment.
 
-ui.fragment.Counter = function(props, size) {
+ui.fragment.Counter = (props, size) => {
   const badges = []
   for (let i = 0; i < props.count; i++) {
     badges.push(_CounterBadge((i+1).toString()))
   }
 
-  const badgesContainer = Node(UIView, null, {
+  const badgesContainer = UINode(UIView, null, {
       flexDirection: row,
       flexWrap: wrap,
       marginTop: 10,
   }, badges)
 
-  return Node(UIView, null, {
+  return UINode(UIView, null, {
       padding: 25,
       backgroundColor: palette.green,
       flexDirection: column,
