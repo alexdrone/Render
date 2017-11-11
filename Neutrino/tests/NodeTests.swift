@@ -20,12 +20,16 @@ class NodeTests: XCTestCase {
   }
 
   func testSimpleViewReuse() {
-    let node = makeNode(size: C.smallSize)
+    var node = makeNode(size: C.smallSize)
     let container = makeContainerView()
     node.reconcile(in: container, size: container.bounds.size, options: [])
     XCTAssertNotNil(node.renderedView)
     XCTAssert(container.subviews.count == 1)
     let view = node.renderedView!
+    node.reconcile(in: container, size: container.bounds.size, options: [])
+    XCTAssert(node.renderedView === view)
+    XCTAssert(container.subviews.count == 1)
+    node = makeNode(size: C.smallSize)
     node.reconcile(in: container, size: container.bounds.size, options: [])
     XCTAssert(node.renderedView === view)
     XCTAssert(container.subviews.count == 1)
@@ -69,6 +73,9 @@ class NodeTests: XCTestCase {
       XCTAssert(node.renderedView!.frame.width == C.smallSize)
       XCTAssert(node.renderedView!.frame.height == C.smallSize)
     }
+    parent.reconcile(in: container, size: container.bounds.size, options: [])
+    XCTAssertNotNil(parent.renderedView)
+    XCTAssertNotNil(child.renderedView)
   }
 
   func testNodeWithKeyAccessor() {
@@ -84,22 +91,22 @@ class NodeTests: XCTestCase {
 
   func testBindView() {
     let target = BindTarget()
-    var parent = makeNode()
-    let child1 = makeNode(size: C.smallSize)
-    let child2 = makeNode(size: C.smallSize)
-    let child3 = makeNode(size: C.smallSize)
-    parent.children([child1, child2, child3])
-    child1.bindView(target: target, keyPath: \.view)
-    let container = makeContainerView()
-    parent.reconcile(in: container, size: container.bounds.size, options: [])
-    XCTAssertNotNil(target.view)
-    XCTAssert(container.subviews.first!.subviews.first! === target.view)
-    parent = makeNode()
-    parent.reconcile(in: container, size: container.bounds.size, options: [])
-    XCTAssert(container.subviews.first!.subviews.count == 0)
-    if target.view != nil {
-      print("warning: bind target view is leaked.")
+    autoreleasepool {
+      var parent = makeNode()
+      let child1 = makeNode(size: C.smallSize)
+      let child2 = makeNode(size: C.smallSize)
+      let child3 = makeNode(size: C.smallSize)
+      parent.children([child1, child2, child3])
+      child1.bindView(target: target, keyPath: \.view)
+      let container = makeContainerView()
+      parent.reconcile(in: container, size: container.bounds.size, options: [])
+      XCTAssertNotNil(target.view)
+      XCTAssert(container.subviews.first!.subviews.first! === target.view)
+      parent = makeNode()
+      parent.reconcile(in: container, size: container.bounds.size, options: [])
+      XCTAssert(container.subviews.first!.subviews.count == 0)
     }
+    XCTAssertNil(target.view)
   }
 
   func testOverrideConfiguration() {

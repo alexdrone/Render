@@ -229,8 +229,10 @@ open class UIComponent<S: UIStateProtocol, P: UIPropsProtocol>: NSObject, UIComp
       node.key = key
     }
     #if DEBUG
-    node._debugPropsDescription = props.reflectionDescription(escape: UINodeInspectorDefaultDelimiters)
-    node._debugStateDescription = state.reflectionDescription(escape: UINodeInspectorDefaultDelimiters)
+    node._debugPropsDescription =
+      props.reflectionDescription(escape: UINodeInspectorDefaultDelimiters)
+    node._debugStateDescription =
+      state.reflectionDescription(escape: UINodeInspectorDefaultDelimiters)
     #endif
   }
 
