@@ -26,9 +26,8 @@ extension UI.Components {
   /// The *JsCounter* component subclass.
   final class JsCounter: UIComponent<UI.States.JsCounter, UINilProps> {
 
-    required init(context: UIContextProtocol, key: String?) {
-      super.init(context: context, key: key)
-      context.jsBridge.loadDefinition(file: "Fragment")
+    override func requiredJsFragments() -> [String] {
+      return ["Fragments"]
     }
 
     /// Builds the node hierarchy for this component.

@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		162560FB1FA5DB5B0066AF05 /* Fragment.js in Resources */ = {isa = PBXBuildFile; fileRef = 162560FA1FA5DB5B0066AF05 /* Fragment.js */; };
+		162560FB1FA5DB5B0066AF05 /* Fragments.js in Resources */ = {isa = PBXBuildFile; fileRef = 162560FA1FA5DB5B0066AF05 /* Fragments.js */; };
 		163B1DAD1F9E6BB10072A5E2 /* Fragments.swift in Sources */ = {isa = PBXBuildFile; fileRef = 163B1DAC1F9E6BB10072A5E2 /* Fragments.swift */; };
 		165399231F9A73B6006DFE5D /* RenderNeutrino.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 165399171F9A737B006DFE5D /* RenderNeutrino.framework */; };
 		165399241F9A73B6006DFE5D /* RenderNeutrino.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 165399171F9A737B006DFE5D /* RenderNeutrino.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -43,6 +43,13 @@
 			remoteGlobalIDString = 16F36BE11F8E197A00A04BE6;
 			remoteInfo = RenderNeutrino;
 		};
+		166C47621FB86CC400C990D9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 165399121F9A737B006DFE5D /* RenderNeutrino.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 161260831FB4E92E00524869;
+			remoteInfo = Tests;
+		};
 		16AEE51D1F9D2748004798A8 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 16AEE5191F9D2748004798A8 /* RenderInspector.xcodeproj */;
@@ -75,7 +82,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		162560FA1FA5DB5B0066AF05 /* Fragment.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = Fragment.js; sourceTree = "<group>"; };
+		162560FA1FA5DB5B0066AF05 /* Fragments.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = Fragments.js; sourceTree = "<group>"; };
 		163B1DAC1F9E6BB10072A5E2 /* Fragments.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fragments.swift; sourceTree = "<group>"; };
 		165399121F9A737B006DFE5D /* RenderNeutrino.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RenderNeutrino.xcodeproj; path = ../../Neutrino/RenderNeutrino.xcodeproj; sourceTree = "<group>"; };
 		1656BAF81F9FC14A009F561F /* TableComponentExample.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableComponentExample.swift; sourceTree = "<group>"; };
@@ -113,6 +120,7 @@
 			isa = PBXGroup;
 			children = (
 				165399171F9A737B006DFE5D /* RenderNeutrino.framework */,
+				166C47631FB86CC400C990D9 /* Tests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -148,7 +156,7 @@
 				168FA6E21F8F856D00A12585 /* Info.plist */,
 				168777AD1F99446200273561 /* Property List.plist */,
 				16BF01771F9E1381001F7888 /* Style.swift */,
-				162560FA1FA5DB5B0066AF05 /* Fragment.js */,
+				162560FA1FA5DB5B0066AF05 /* Fragments.js */,
 				16D3659D1FAF4E370020E802 /* _global.js */,
 			);
 			path = src;
@@ -257,6 +265,13 @@
 			remoteRef = 165399161F9A737B006DFE5D /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		166C47631FB86CC400C990D9 /* Tests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = Tests.xctest;
+			remoteRef = 166C47621FB86CC400C990D9 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		16AEE51E1F9D2748004798A8 /* RenderInspector.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
@@ -276,7 +291,7 @@
 				16D3659E1FAF4E370020E802 /* _global.js in Resources */,
 				168777AE1F99446200273561 /* Property List.plist in Resources */,
 				168FA6DC1F8F856D00A12585 /* Main.storyboard in Resources */,
-				162560FB1FA5DB5B0066AF05 /* Fragment.js in Resources */,
+				162560FB1FA5DB5B0066AF05 /* Fragments.js in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -15,6 +15,10 @@ public class UITableComponentProps: UIPropsProtocol {
       let set: Set<String> = Set(cells.flatMap { $0.component.key })
       return set.count == cells.count
     }
+    /// *Optional optimisation* if the rows in this section have a pre-defined height,
+    /// this will improve the overall component render time.
+    public var defaultRowHeight: CGFloat? = nil
+    public var estimatedRowHeight: CGFloat = 64
 
     public init(cells: [UICell], header: UISectionHeader? = nil) {
       self.cells = cells
@@ -75,6 +79,7 @@ public class UITableComponent<S: UIStateProtocol, P: UITableComponentProps>:
   }
   private var tableNode: UINodeProtocol!
   private var cellContext: UIContext!
+  private var prototypes: [String: UIView] = [:]
 
   public required init(context: UIContextProtocol, key: String?) {
     guard let key = key else {
@@ -101,6 +106,7 @@ public class UITableComponent<S: UIStateProtocol, P: UITableComponentProps>:
       table.delegate = self
       table.separatorStyle = .none
       table.estimatedRowHeight = 64
+      table.rowHeight = UITableViewAutomaticDimension
       return table
     }
     return UINode<UITableView>(reuseIdentifier: "UITableComponent",
@@ -131,11 +137,11 @@ public class UITableComponent<S: UIStateProtocol, P: UITableComponentProps>:
 
   public func setNeedRenderInvoked(on context: UIContextProtocol, component: UIComponentProtocol) {
     cellContext.canvasView = tableView
-    root.unmanagedChildren = props.allComponents.map { $0.asNode() }
     // Change comes from one of the parent components.
     if context === self.context {
       // TODO: Integrate IGListDiff algorithm.
       tableView?.reloadData()
+
     // Change come from one of the children component.
     } else if context === self.cellContext {
       tableView?.beginUpdates()
@@ -176,27 +182,45 @@ public class UITableComponent<S: UIStateProtocol, P: UITableComponentProps>:
   public func tableView(_ tableView: UITableView,
                         cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     let component = props.sections[indexPath.section].cells[indexPath.row].component
-    component.delegate = self
-    let node = component.asNode()
-    let reuseIdentifier = node.reuseIdentifier
-    // Dequeue the right cell.
+    let _ = component.asNode()
+    let reuseIdentifier = String(describing: type(of: component))
     let cell: UITableComponentCell =
       tableView.dequeueReusableCell(withIdentifier: reuseIdentifier) as? UITableComponentCell
       ?? UITableComponentCell(style: .default, reuseIdentifier: reuseIdentifier)
-    // Mounts the new node.
-    cell.mount(component: component, width: tableView.bounds.size.width)
-
+    component.delegate = self
+    disableImplicitAnimations {
+      cell.mount(component: component, width: tableView.bounds.size.width)
+    }
     return cell
   }
 
   /// Asks the delegate for the height to use for a row in a specified location.
   public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-    let node = props.sections[indexPath.section].cells[indexPath.row].component.asNode()
-    let prototypeView = UIView()
-    node.reconcile(in: prototypeView,
-                   size: CGSize(width: tableView.bounds.size.width, height: CGFloat.max),
-                   options: [.preventDelegateCallbacks])
+    let section = props.sections[indexPath.section]
+    if let height = section.defaultRowHeight { return height }
+    let component = props.sections[indexPath.section].cells[indexPath.row].component
+    let node = component.asNode()
+    let reuseIdentifier = String(describing: type(of: component))
+
+    if prototypes[reuseIdentifier] == nil {
+      prototypes[reuseIdentifier] = UIView()
+    }
+    let prototypeView = prototypes[reuseIdentifier]!
+    disableImplicitAnimations {
+      node.reconcile(in: prototypeView,
+                     size: CGSize(width: tableView.bounds.size.width, height: CGFloat.max),
+                     options: [.preventDelegateCallbacks])
+    }
     return prototypeView.subviews.first?.bounds.size.height ?? 0
+  }
+
+  private func disableImplicitAnimations(closure: () -> Void) {
+    UIView.performWithoutAnimation {
+      CATransaction.begin()
+      CATransaction.setValue(kCFBooleanTrue, forKey: kCATransactionDisableActions)
+      closure()
+      CATransaction.commit()
+    }
   }
 
   /// Asks the delegate for a view object to display in the header of the specified section of
@@ -308,6 +332,7 @@ public class UITableComponentCell: UITableViewCell {
     component.canvasSize = {
       return CGSize(width: width, height: CGFloat.max)
     }
+
     // We purposely wont re-generate the node (by calling *asNode()*) because this has already
     // been called in the 'heightForRowAt' delegate method.
     // We just install the node in the right view hierarchy.

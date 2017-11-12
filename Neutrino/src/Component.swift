@@ -78,7 +78,7 @@ open class UIComponent<S: UIStateProtocol, P: UIPropsProtocol>: NSObject, UIComp
       setKey(node: root)
     }
   }
-  /// The component parent (nil for root components).
+  /// The component pa rent (nil for root components).
   public weak var parent: UIComponentProtocol?
   /// The state associated with this component.
   /// A state is always associated to a unique component key and it's a unique instance living
@@ -135,6 +135,17 @@ open class UIComponent<S: UIStateProtocol, P: UIPropsProtocol>: NSObject, UIComp
     super.init()
     hookInspectorIfAvailable()
     hookHotReload()
+    if requiredJsFragments().count > 0 {
+      for require in requiredJsFragments() {
+        context.jsBridge.loadDefinition(file: require)
+      }
+    }
+  }
+
+  /// *Optional for javascript bridge*
+  /// Returns the files where the javascript fragments are defined.
+  open func requiredJsFragments() -> [String] {
+    return []
   }
 
   public func setCanvas(view: UIView,

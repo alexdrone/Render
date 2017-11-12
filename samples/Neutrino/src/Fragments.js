@@ -59,3 +59,15 @@ ui.fragment.Counter = (props, size) => {
       badgesContainer,
   ])
 }
+
+ui.fragment.TableHeader = (props, size) => {
+  return UINode(UILabel, null, {
+      text: 'Welcome to Render-Neutrino',
+      font: typography.smallBold,
+      textAlignment: ui.textAlignment.center,
+      width: size.width,
+      padding: 8,
+      backgroundColor: palette.text,
+      textColor: palette.white,
+  }, null)
+}

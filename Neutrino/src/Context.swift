@@ -74,7 +74,9 @@ public class UIContext: UIContextProtocol {
   // The canvas view in which the component will be rendered in.
   public weak var canvasView: UIView?
   /// Returns the bounds of the canvas view.
-  public var canvasSize: CGSize { return canvasView?.bounds.size ?? .zero }
+  public var canvasSize: CGSize {
+    return canvasView?.bounds.size ?? UIScreen.main.bounds.size
+  }
   // Sanity check for context initialization.
   public var _componentInitFromContext: Bool = false
   // Associated a parent context.
