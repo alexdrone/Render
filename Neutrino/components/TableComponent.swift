@@ -117,8 +117,8 @@ public class UITableComponent<S: UIStateProtocol, P: UITableComponentProps>:
       }
       let table = config.view
       // Default configuration.
-      config.set(\UITableView.yoga.width, self.context?.canvasView?.bounds.size.width ?? 0)
-      config.set(\UITableView.yoga.height, self.context?.canvasView?.bounds.size.height ?? 0)
+      config.set(\UITableView.yoga.width, context.screen.canvasSize.width)
+      config.set(\UITableView.yoga.height, context.screen.canvasSize.height)
       // Custom configuration.
       self.props.configuration(config)
       /// Implements padding as content insets.
@@ -136,7 +136,7 @@ public class UITableComponent<S: UIStateProtocol, P: UITableComponentProps>:
   }
 
   public func setNeedRenderInvoked(on context: UIContextProtocol, component: UIComponentProtocol) {
-    cellContext.canvasView = tableView
+    cellContext._canvasView = tableView
     // Change comes from one of the parent components.
     if context === self.context {
       // TODO: Integrate IGListDiff algorithm.
@@ -329,9 +329,6 @@ public class UITableComponentCell: UITableViewCell {
   public func mount(component: UIComponentProtocol, width: CGFloat) {
     self.component = component
     component.setCanvas(view: contentView, options: [])
-    component.canvasSize = {
-      return CGSize(width: width, height: CGFloat.max)
-    }
 
     // We purposely wont re-generate the node (by calling *asNode()*) because this has already
     // been called in the 'heightForRowAt' delegate method.

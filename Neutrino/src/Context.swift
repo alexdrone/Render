@@ -38,10 +38,6 @@ public protocol UIContextProtocol: class {
   /// A root component registered this context just got rendered.
   /// - note: This is automatically called from *UIComponent* subclasses.
   func didRenderRootComponent(_ component: UIComponentProtocol)
-  /// The canvas view in which the component will be rendered in.
-  weak var canvasView: UIView? { get set }
-  /// Returns the bounds of the canvas view.
-  var canvasSize: CGSize { get }
   /// *Optional* the property animator that is going to be used for frame changes in the component
   /// subtree.
   /// - note: This field is auotmatically reset to 'nil' at the end of every 'render' pass.
@@ -51,6 +47,9 @@ public protocol UIContextProtocol: class {
   var pool: UIContextPool { get }
   /// Javascript bridge.
   var jsBridge: JSBridge { get }
+  /// Interface idiom, orientation and bounds for the screen and the canvas view associted to this
+  /// context.
+  var screen: UIScreenStateFactory.State { get }
   /// Gets rid of the obsolete states.
   /// - parameter validKeys: The keys for the components currently rendered on screen.
   func flushObsoleteStates(validKeys: Set<String>)
@@ -60,6 +59,10 @@ public protocol UIContextProtocol: class {
   var _isRenderSuspended: Bool { get }
   /// *Internal only* Associate a parent context.
   weak var _parentContext: UIContextProtocol? { get set }
+  // *Internal only* The canvas view in which the component will be rendered in.
+  weak var _canvasView: UIView? { get set }
+  // *Internal only*.
+  var _screenStateFactory: UIScreenStateFactory { get }
 }
 
 public protocol UIContextDelegate: class {
@@ -72,10 +75,10 @@ public protocol UIContextDelegate: class {
 public class UIContext: UIContextProtocol {
   public let pool = UIContextPool()
   // The canvas view in which the component will be rendered in.
-  public weak var canvasView: UIView?
+  public weak var _canvasView: UIView?
   /// Returns the bounds of the canvas view.
   public var canvasSize: CGSize {
-    return canvasView?.bounds.size ?? UIScreen.main.bounds.size
+    return _canvasView?.bounds.size ?? UIScreen.main.nativeBounds.size
   }
   // Sanity check for context initialization.
   public var _componentInitFromContext: Bool = false
@@ -88,7 +91,16 @@ public class UIContext: UIContextProtocol {
   // All the delegates registered for this object.
   private var delegates: [UIContextDelegateWeakRef] = []
   /// Javascript bridge.
-  public lazy var jsBridge: JSBridge = { JSBridge() }()
+  public lazy var jsBridge: JSBridge = { JSBridge(context: self) }()
+  public lazy var _screenStateFactory: UIScreenStateFactory = {
+    return UIScreenStateFactory(context: self)
+  }()
+
+  /// Interface idiom, orientation and bounds for the screen and the canvas view associted to this
+  /// context.
+  public var screen: UIScreenStateFactory.State {
+    return _screenStateFactory.state()
+  }
 
   public init() { }
 
@@ -223,6 +235,3 @@ public final class UIContextPool {
   }
 }
 
-// MARK: - UIContextRegistrar
-
-public final class UIContextRegistrar { }

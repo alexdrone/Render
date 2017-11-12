@@ -62,7 +62,7 @@ ui.fragment.Counter = (props, size) => {
 
 ui.fragment.TableHeader = (props, size) => {
   return UINode(UILabel, null, {
-      text: 'Welcome to Render-Neutrino',
+      text: screen().idiom,
       font: typography.smallBold,
       textAlignment: ui.textAlignment.center,
       width: size.width,

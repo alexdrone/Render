@@ -11,10 +11,8 @@ public protocol UIComponentProtocol: class, UINodeDelegateProtocol {
   weak var delegate: UINodeDelegateProtocol? { get set }
   /// The component parent (nil for root components).
   weak var parent: UIComponentProtocol? { get }
-  /// The view in which the component is going to be rendered.
+  /// *IThe view in which the component is going to be rendered.
   weak var canvasView: UIView? { get }
-  /// Canvas bounding rect.
-  var canvasSize: () -> CGSize { get set }
   /// Set the canvas view for this component.
   /// - parameter view: The view in which the component is going to be rendered.
   /// - parameter useBoundsAsCanvasSize: if 'true' the canvas size will return the view bounds.
@@ -120,8 +118,10 @@ open class UIComponent<S: UIStateProtocol, P: UIPropsProtocol>: NSObject, UIComp
       assert(parent == nil, "Unable to set a canvas view on a non-root component.")
     }
   }
-  public var canvasSize: () -> CGSize = {
-    return CGSize(width: UIScreen.main.bounds.width, height: CGFloat.max)
+  /// The bounding rect for the the layout computation.
+  /// It can exceed the size of the canvas.
+  public var renderSize: () -> CGSize = {
+    return CGSize(width: UIScreen.main.nativeBounds.width, height: CGFloat.max)
   }
 
   private var boundsObserver: UIContextViewBoundsObserver? = nil
@@ -151,9 +151,9 @@ open class UIComponent<S: UIStateProtocol, P: UIPropsProtocol>: NSObject, UIComp
   public func setCanvas(view: UIView,
                         options: [UIComponentCanvasOption] = UIComponentCanvasOption.defaults()) {
     canvasView = view
-    context?.canvasView = canvasView
+    context?._canvasView = canvasView
     if options.contains(.useBoundsAsCanvasSize) {
-      canvasSize = { [weak self] in
+      renderSize = { [weak self] in
         var size = self?.canvasView?.bounds.size ?? CGSize.zero
         size.height = options.contains(.flexibleHeight) ? CGFloat.max : size.height
         size.width = options.contains(.flexibleWidth) ? CGFloat.max : size.width
@@ -184,6 +184,9 @@ open class UIComponent<S: UIStateProtocol, P: UIPropsProtocol>: NSObject, UIComp
     guard let context = context, let view = canvasView else {
       fatalError("Attempting to render a component without a canvas view and/or a context.")
     }
+    // Updates the context's screen state.
+    context._screenStateFactory.bounds = renderSize()
+
     // Rendering is suspended for this context for the time being.
     // 'resumeFromSuspendedRenderingIfNecessary' will automatically be called when the render
     // context will be resumed.
@@ -209,7 +212,7 @@ open class UIComponent<S: UIStateProtocol, P: UIPropsProtocol>: NSObject, UIComp
       context.layoutAnimator = layoutAnimator
     }
     root = render(context: context)
-    root.reconcile(in: view, size: canvasSize(), options: [])
+    root.reconcile(in: view, size: renderSize(), options: [])
 
     context.didRenderRootComponent(self)
 

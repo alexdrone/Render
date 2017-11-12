@@ -865,8 +865,8 @@ class HttpServerIO {
     }
     try socket.writeUTF8("\r\n")
     if let writeClosure = content.write {
-      let context = InnerWriteContext(socket: socket)
-      try writeClosure(context)
+      let jsContext = InnerWriteContext(socket: socket)
+      try writeClosure(jsContext)
     }
     return keepAlive && content.length != -1;
   }

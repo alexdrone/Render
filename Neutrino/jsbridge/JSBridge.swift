@@ -4,7 +4,8 @@ import JavaScriptCore
 // MARK: - JSBridge
 
 public class JSBridge {
-  public private(set) var context: JSContext!
+  public private(set) var jsContext: JSContext!
+  private let context: UIContextProtocol
   private var index = 0
   private var nodes: [Int: UIJsFragmentNode] = [:]
   private var rootNodes: [String: UIJsFragmentNode] = [:]
@@ -16,7 +17,7 @@ public class JSBridge {
                                        props: P?,
                                        canvasSize: CGSize) -> JSValue? {
     assert(Thread.isMainThread)
-    guard let context = context else {
+    guard let context = jsContext else {
       return nil
     }
     var propsDictionary: Any = NSDictionary()
@@ -70,7 +71,7 @@ public class JSBridge {
       return prefetchedVariable
     }
     // Get the variable from the js context.
-    guard let jsvalue = context?.evaluateScript(fullKey) else { return nil }
+    guard let jsvalue = jsContext?.evaluateScript(fullKey) else { return nil }
     // If the jsvalue is a *JSBridgeValue* invoke the transformation.
     if let value = jsvalue.toObject() as? NSDictionary,
        let bridge = JSBridgeValue(dictionary: value){ return bridge.bridge() as? T }
@@ -91,7 +92,7 @@ public class JSBridge {
                                 Namespace.constants.rawValue]
     // Prefetches the variables in the default namespaces.
     for namespace in namespaces {
-      guard let jsdictionary = context?.evaluateScript("\(namespace)").toDictionary() else {
+      guard let jsdictionary = jsContext?.evaluateScript("\(namespace)").toDictionary() else {
         continue
       }
       for (key, obj) in jsdictionary {
@@ -140,7 +141,8 @@ public class JSBridge {
     }
   }
 
-  public init() {
+  public init(context: UIContextProtocol) {
+    self.context = context
     initJSContext()
   }
 
@@ -194,7 +196,7 @@ public class JSBridge {
 
   private func evaluate(src: String) -> JSValue? {
     let escapedSrc = escapeNamespace(src: src)
-    return context?.evaluateScript(escapedSrc)
+    return jsContext?.evaluateScript(escapedSrc)
   }
 
   /// Flatten ui.*.* definitions into ui_*_*
@@ -233,7 +235,7 @@ public class JSBridge {
 
   /// Reset the javascript context.
   public func initJSContext() {
-    context = JSContext()
+    jsContext = JSContext()
     index = 0
     nodes = [:]
     /// The *Node(type: String, key: String, config: {}, children: [Node])* function, used in the
@@ -259,28 +261,36 @@ public class JSBridge {
       return NSNumber(value: index)
     }
     let nodeBuildJSBridgeName: NSString = "UINode"
-    context?.setObject(nodeBuild, forKeyedSubscript: nodeBuildJSBridgeName)
+    jsContext?.setObject(nodeBuild, forKeyedSubscript: nodeBuildJSBridgeName)
+
+    let screen: @convention(block) () -> NSDictionary = {
+      let screenJson = try! JSONEncoder().encode(self.context.screen)
+      let screenDictionary = try! JSONSerialization.jsonObject(with: screenJson, options: [])
+      return screenDictionary as! NSDictionary
+    }
+    let screenJSBridgeName: NSString = "screen"
+    jsContext?.setObject(screen, forKeyedSubscript: screenJSBridgeName)
 
     // js exeption handler.
-    context?.exceptionHandler = { context, exception in
+    jsContext?.exceptionHandler = { context, exception in
       print("js error: \(exception?.description ?? "unknown error")")
     }
 
     // Shortcuts for UIKit components name.
     for symbol in (YGUIKitSymbols() as! [NSString]) {
-      context?.setObject(symbol, forKeyedSubscript: symbol)
+      jsContext?.setObject(symbol, forKeyedSubscript: symbol)
     }
-    context?.setObject(JSBridgeValue.Log.function,
+    jsContext?.setObject(JSBridgeValue.Log.function,
                        forKeyedSubscript: JSBridgeValue.Log.functionName)
-    context?.setObject(JSBridgeValue.Color.function,
+    jsContext?.setObject(JSBridgeValue.Color.function,
                        forKeyedSubscript: JSBridgeValue.Color.functionName)
-    context?.setObject(JSBridgeValue.Font.function,
+    jsContext?.setObject(JSBridgeValue.Font.function,
                        forKeyedSubscript: JSBridgeValue.Font.functionName)
-    context?.setObject(JSBridgeValue.Size.function,
+    jsContext?.setObject(JSBridgeValue.Size.function,
                        forKeyedSubscript: JSBridgeValue.Size.functionName)
-    context?.setObject(JSBridgeValue.Image.function,
+    jsContext?.setObject(JSBridgeValue.Image.function,
                        forKeyedSubscript: JSBridgeValue.Image.functionName)
-    context?.setObject(JSBridgeValue.URL.function,
+    jsContext?.setObject(JSBridgeValue.URL.function,
                        forKeyedSubscript: JSBridgeValue.URL.functionName)
 
     _ = evaluate(src: JSBridgeValue.Color.initSrc)

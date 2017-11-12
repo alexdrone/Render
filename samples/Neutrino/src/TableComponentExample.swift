@@ -35,7 +35,7 @@ extension UI.Components {
     override func render(context: UIContextProtocol) -> UINodeProtocol {
       return context.jsBridge.buildFragment(function: "TableHeader",
                                             props: UINilProps.nil,
-                                            canvasSize: context.canvasSize)
+                                            canvasSize: context.screen.canvasSize)
     }
   }
 }
