@@ -92,7 +92,6 @@ public class UIScreenStateFactory {
     }
   }
 
-
   public struct State: Codable {
     /// The user interface idiom based on the screen size.
     public let idiom: Idiom

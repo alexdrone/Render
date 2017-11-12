@@ -18,10 +18,11 @@
 // Note - The color alpha component can be specified through an optional second argument
 // e.g. *color(0xaabbcc, 0xf0)*.
 const palette = {
-  green: color(0x70c1b3),
-  pink: color(0xe0607e),
-  text: color(0x1f5673),
-  white: color(0xe4dfda),
+  green: color(0xe2efde),
+  pink: color(0xffcdb2),
+  text: color(0x0d1b1e),
+  white: color(0xeaeaea),
+  blue: color(0x022b3a),
 }
 
 // The fonts used in your app.
@@ -32,6 +33,7 @@ const palette = {
 const typography = {
   extraSmallBold: font(ui.font.system, 10, ui.font.weight.bold),
   smallBold: font(ui.font.system, 12, ui.font.weight.bold),
+  text: font(ui.font.system, 12, ui.font.weight.regular),
   mediumBold: font(ui.font.system, 20, ui.font.weight.bold),
 }
 

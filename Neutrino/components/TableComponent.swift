@@ -6,7 +6,7 @@ public class UITableComponentProps: UIPropsProtocol {
   /// Represents a table view section.
   public struct Section {
     /// The list of components that are going to be shown in this section.
-    public var cells: [UICell]
+    public var cells: [UICellDescriptor]
     /// A node able to render this section header.
     /// - note: Optional.
     public var header: UISectionHeader?
@@ -20,7 +20,7 @@ public class UITableComponentProps: UIPropsProtocol {
     public var defaultRowHeight: CGFloat? = nil
     public var estimatedRowHeight: CGFloat = 64
 
-    public init(cells: [UICell], header: UISectionHeader? = nil) {
+    public init(cells: [UICellDescriptor], header: UISectionHeader? = nil) {
       self.cells = cells
       self.header = header
     }
@@ -56,7 +56,7 @@ public class UITableComponentProps: UIPropsProtocol {
     configuration = configure ?? configuration
   }
 
-  public convenience init(cells: [UICell],
+  public convenience init(cells: [UICellDescriptor],
                           header: UISectionHeader? = nil,
                           configure: UITableNodeConfigurationClosure? = nil) {
     self.init()
@@ -181,7 +181,8 @@ public class UITableComponent<S: UIStateProtocol, P: UITableComponentProps>:
   /// Asks the data source for a cell to insert in a particular location of the table view.
   public func tableView(_ tableView: UITableView,
                         cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-    let component = props.sections[indexPath.section].cells[indexPath.row].component
+    let cellInfo = props.sections[indexPath.section].cells[indexPath.row]
+    let component = cellInfo.component
     let _ = component.asNode()
     let reuseIdentifier = String(describing: type(of: component))
     let cell: UITableComponentCell =
@@ -189,6 +190,7 @@ public class UITableComponent<S: UIStateProtocol, P: UITableComponentProps>:
       ?? UITableComponentCell(style: .default, reuseIdentifier: reuseIdentifier)
     component.delegate = self
     disableImplicitAnimations {
+      cell.selectionStyle = cellInfo.selectionStyle
       cell.mount(component: component, width: tableView.bounds.size.width)
     }
     return cell
@@ -259,14 +261,14 @@ public class UITableComponent<S: UIStateProtocol, P: UITableComponentProps>:
   /// - parameter props: Configurations and callbacks passed down to the component.
   public func cell<S, P, C: UIComponent<S, P>>(_ type: C.Type,
                                                key: String? = nil,
-                                               props: P = P()) -> UICell {
+                                               props: P = P()) -> UICellDescriptor {
     var component: UIComponentProtocol!
     if let key = key {
       component = cellContext.component(type, key: key, props: props, parent: nil)
     } else {
       component = cellContext.transientComponent(type, props: props, parent: nil)
     }
-    return UICell(component: component)
+    return UICellDescriptor(component: component)
   }
 
   /// Retieves a component that is suitable as a table header.
@@ -279,16 +281,20 @@ public class UITableComponent<S: UIStateProtocol, P: UITableComponentProps>:
 
 // MARK: - UICell
 
-public final class UICell {
+public final class UICellDescriptor {
   /// The constructed component.
   public let component: UIComponentProtocol
+  /// The style of selected cells.
+  public var selectionStyle: UITableViewCellSelectionStyle
   // Internal constructor.
-  init(component: UIComponentProtocol) {
+  init(component: UIComponentProtocol,
+       selectionStyle: UITableViewCellSelectionStyle = .none) {
     self.component = component
+    self.selectionStyle = selectionStyle
   }
 }
 
-public typealias UISectionHeader = UICell
+public typealias UISectionHeader = UICellDescriptor
 
 /// Components that are embedded in cells have a different context.
 public final class UICellContext: UIContext {

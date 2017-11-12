@@ -6,7 +6,7 @@ extension UI.Components {
     override func render(context: UIContextProtocol) -> UINodeProtocol {
       // Retrieve the table component with the given key.
       let table = childComponent(UIDefaultTableComponent.self, key: childKey("table"))
-      // Configure the client.
+      // Configure the table.
       table.props.configuration = { config in
         config.set(\UITableView.backgroundColor, Color.black)
       }

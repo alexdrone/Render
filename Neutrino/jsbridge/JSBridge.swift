@@ -399,7 +399,7 @@ public struct JSBridgeValue {
       if name == systemfont {
         var weight = UIFont.Weight(rawValue: 0)
         if jsvalue.value.count == 3 {
-          weight = UIFont.Weight(rawValue: cast(jsvalue, at: 1, fallback: 0))
+          weight = UIFont.Weight(rawValue: cast(jsvalue, at: 2, fallback: 0))
         }
         return UIFont.systemFont(ofSize: size, weight: weight)
       } else {
