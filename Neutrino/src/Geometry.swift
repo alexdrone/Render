@@ -92,6 +92,7 @@ public class UIScreenStateFactory {
     }
   }
 
+
   public struct State: Codable {
     /// The user interface idiom based on the screen size.
     public let idiom: Idiom
@@ -107,6 +108,34 @@ public class UIScreenStateFactory {
     public let canvasSize: CGSize
     /// The width and the height for the size passed as argument for this last render pass.
     public let renderSize: CGSize
+    /// The safe area of a view reflects the area not covered by navigation bars, tab bars,
+    /// toolbars, and other ancestors that obscure a view controller's view.
+    public let safeAreaSize: CGSize
+    public let safeAreaInsets: Insets
+
+    /// Edge inset values are applied to a rectangle to shrink or expand the area represented by
+    /// that rectangle.
+    public struct Insets: Codable {
+      /// The inset on the top of an object.
+      public let top: CGFloat
+      /// The inset on the left of an object.
+      public let left: CGFloat
+      /// The inset on the bottom of an object.
+      public let bottom: CGFloat
+      /// The inset on the right of an object.
+      public let right: CGFloat
+
+      public var uiEdgeInsets: UIEdgeInsets {
+        return UIEdgeInsets(top: top, left: left, bottom: bottom, right: right)
+      }
+
+      public static func from(edgeInsets: UIEdgeInsets) -> Insets {
+        return Insets(top: edgeInsets.top,
+                      left: edgeInsets.left,
+                      bottom: edgeInsets.bottom,
+                      right: edgeInsets.right)
+      }
+    }
   }
 
   /// The canvas view in which the component will be rendered in.
@@ -121,13 +150,26 @@ public class UIScreenStateFactory {
   /// Returns the information about the screen at this very moment.
   public func state() -> State {
     let native = UIScreen.main.nativeBounds.size
+    // Compute the Safe Area (if applicable).
+    var safeAreaSize = native
+    var safeAreaInsets = State.Insets(top: 0, left: 0, bottom: 0, right: 0)
+    if #available(iOS 11.0, *) {
+      let defaultView = UIApplication.shared.keyWindow?.rootViewController?.view
+      if let view = context?._canvasView ?? defaultView {
+        safeAreaInsets = State.Insets.from(edgeInsets: view.safeAreaInsets)
+        safeAreaSize.width -= safeAreaInsets.left + safeAreaInsets.right
+        safeAreaSize.height -= safeAreaInsets.top + safeAreaInsets.bottom
+      }
+    }
     return State(idiom: Idiom.current(),
                  orientation: Orientation.current(),
                  horizontalSizeClass: SizeClass.horizontalSizeClass(for: context?._canvasView),
                  verticalSizeClass: SizeClass.verticalSizeClass(for: context?._canvasView),
                  screenSize: native,
                  canvasSize: context?._canvasView?.bounds.size ?? native,
-                 renderSize: bounds)
+                 renderSize: bounds,
+                 safeAreaSize: safeAreaSize,
+                 safeAreaInsets: safeAreaInsets)
   }
 }
 
