@@ -4,11 +4,6 @@ import UIKit
 
 class NodeTests: XCTestCase {
 
-  struct C {
-    static let smallSize: CGFloat = 64
-    static let defaultColor: UIColor = .red
-  }
-
   func testSimpleViewRendering() {
     let node = makeNode(size: C.smallSize)
     let container = makeContainerView()
@@ -36,8 +31,8 @@ class NodeTests: XCTestCase {
   }
 
   func testComplexViewReuse() {
-    func makeChild() -> UINode<UIView> {
-      return makeNode(size: C.smallSize)
+    func makeChild() -> UINodeProtocol {
+      return makeTextNode(size: C.smallSize)
     }
     let container = makeContainerView()
     var parent = makeNode()
@@ -142,34 +137,49 @@ class NodeTests: XCTestCase {
     XCTAssertFalse(delegate.didLayoutCalled)
     XCTAssertFalse(delegate.willLayoutCalled)
   }
+}
 
-  private func makeContainerView() -> UIView {
-    return UIView(frame: CGRect(origin: .zero, size: CGSize(width: 640, height: 640)))
+struct C {
+  static let smallSize: CGFloat = 64
+  static let defaultColor: UIColor = .red
+}
+
+func makeContainerView() -> UIView {
+  return UIView(frame: CGRect(origin: .zero, size: CGSize(width: 640, height: 640)))
+}
+
+func makeNode(key: String? = nil, size: CGFloat? = nil) -> UINode<UIView> {
+  return UINode<UIView>(key: key) { config in
+    config.set(\UIView.backgroundColor, C.defaultColor)
+    guard let size = size else { return }
+    config.set(\.yoga.width, size)
+    config.set(\.yoga.height, size)
+  }
+}
+
+func makeTextNode(key: String? = nil, size: CGFloat? = nil) -> UINode<UILabel> {
+  return UINode<UILabel>(key: key) { config in
+    config.set(\UILabel.backgroundColor, C.defaultColor)
+    config.set(\UILabel.text, "foo")
+    guard let size = size else { return }
+    config.set(\UILabel.yoga.width, size)
+    config.set(\UILabel.yoga.height, size)
+  }
+}
+
+class BindTarget: UINodeDelegateProtocol {
+  weak var view: UIView? = nil
+  var (didMountCalled, willLayoutCalled, didLayoutCalled) = (false, false, false)
+
+  func nodeDidMount(_ node: UINodeProtocol, view: UIView) {
+    didMountCalled = true
   }
 
-  private func makeNode(key: String? = nil, size: CGFloat? = nil) -> UINode<UIView> {
-    return UINode<UIView>(key: key) { config in
-      config.set(\UIView.backgroundColor, C.defaultColor)
-      guard let size = size else { return }
-      config.set(\.yoga.width, size)
-      config.set(\.yoga.height, size)
-    }
+  func nodeWillLayout(_ node: UINodeProtocol, view: UIView) {
+    willLayoutCalled = true
   }
 
-  class BindTarget: UINodeDelegateProtocol {
-    weak var view: UIView? = nil
-    var (didMountCalled, willLayoutCalled, didLayoutCalled) = (false, false, false)
-
-    func nodeDidMount(_ node: UINodeProtocol, view: UIView) {
-      didMountCalled = true
-    }
-
-    func nodeWillLayout(_ node: UINodeProtocol, view: UIView) {
-      willLayoutCalled = true
-    }
-
-    func nodeDidLayout(_ node: UINodeProtocol, view: UIView) {
-      didLayoutCalled = true
-    }
+  func nodeDidLayout(_ node: UINodeProtocol, view: UIView) {
+    didLayoutCalled = true
   }
 }

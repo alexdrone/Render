@@ -10,7 +10,6 @@ class ContextTests: XCTestCase {
     override func render(context: UIContextProtocol) -> UINodeProtocol {
       return UINode<UIView>() { _ in }
     }
-
   }
   class Cb: UIComponent<Sb, UINilProps> { }
   class Cc: UIComponent<UINilState, UINilProps> { }
@@ -70,9 +69,5 @@ class ContextTests: XCTestCase {
     func setNeedRenderInvoked(on context: UIContextProtocol, component: UIComponentProtocol) {
       lastInvokedTarget = component
     }
-  }
-
-  private func makeContainerView() -> UIView {
-    return UIView(frame: CGRect(origin: .zero, size: CGSize(width: 640, height: 640)))
   }
 }

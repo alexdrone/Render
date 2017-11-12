@@ -36,6 +36,7 @@
 		16CEC0161F9A125C003D3D21 /* Props.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16CEC0151F9A125C003D3D21 /* Props.swift */; };
 		16DDA95D1F9799D200CDBCF5 /* Component.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16DDA95C1F9799D200CDBCF5 /* Component.swift */; };
 		16DDA95F1F98C6CC00CDBCF5 /* Context.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16DDA95E1F98C6CC00CDBCF5 /* Context.swift */; };
+		16E0CDB91FB84CD300BFF470 /* ComponentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16E0CDB81FB84CD300BFF470 /* ComponentTests.swift */; };
 		16F36BE71F8E197A00A04BE6 /* RenderNeutrino.h in Headers */ = {isa = PBXBuildFile; fileRef = 16F36BE51F8E197A00A04BE6 /* RenderNeutrino.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		16F36BEE1F8E198B00A04BE6 /* Node.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F36BED1F8E198B00A04BE6 /* Node.swift */; };
 		16F36BF01F8E1A4700A04BE6 /* State.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F36BEF1F8E1A4700A04BE6 /* State.swift */; };
@@ -85,6 +86,7 @@
 		16CEC0151F9A125C003D3D21 /* Props.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Props.swift; sourceTree = "<group>"; };
 		16DDA95C1F9799D200CDBCF5 /* Component.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Component.swift; sourceTree = "<group>"; };
 		16DDA95E1F98C6CC00CDBCF5 /* Context.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Context.swift; sourceTree = "<group>"; };
+		16E0CDB81FB84CD300BFF470 /* ComponentTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComponentTests.swift; sourceTree = "<group>"; };
 		16F36BE21F8E197A00A04BE6 /* RenderNeutrino.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = RenderNeutrino.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		16F36BE51F8E197A00A04BE6 /* RenderNeutrino.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RenderNeutrino.h; sourceTree = "<group>"; };
 		16F36BE61F8E197A00A04BE6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -118,6 +120,7 @@
 		161260841FB4E92E00524869 /* tests */ = {
 			isa = PBXGroup;
 			children = (
+				16E0CDB81FB84CD300BFF470 /* ComponentTests.swift */,
 				1648A1EB1FB505F400245AFA /* ContextTests.swift */,
 				161260851FB4E92F00524869 /* NodeTests.swift */,
 				161260871FB4E92F00524869 /* Info.plist */,
@@ -352,6 +355,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				16E0CDB91FB84CD300BFF470 /* ComponentTests.swift in Sources */,
 				161260861FB4E92F00524869 /* NodeTests.swift in Sources */,
 				1648A1EC1FB505F400245AFA /* ContextTests.swift in Sources */,
 			);
