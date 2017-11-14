@@ -302,7 +302,7 @@ public class JSBridge {
     let oldLoadedPaths = loadedPaths
     loadedPaths = Set<String>()
     // Stylesheet is the global default path loaded (if available).
-    loadDefinition(file: "_global")
+    loadDefinition(file: "stylesheet")
     for path in oldLoadedPaths {
       loadDefinition(file: path)
     }

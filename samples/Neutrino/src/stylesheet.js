@@ -18,11 +18,18 @@
 // Note - The color alpha component can be specified through an optional second argument
 // e.g. *color(0xaabbcc, 0xf0)*.
 const palette = {
-  green: color(0xe2efde),
-  pink: color(0xffcdb2),
+  navigationBar: color(0x151416),
+  primaryAccent: color(0x151416),  
+  primary: color(0x252427),
+  primaryText: color(0x37353A),
+  secondary: color(0x302E31),
+  accent: color(0x41403C),
+  accentText: color(0x56554E),
+  green: color(0x5B654F),
+  pink: color(0x5F4A53),
   text: color(0x0d1b1e),
   white: color(0xeaeaea),
-  blue: color(0x022b3a),
+  blue: color(0x413D4C),
 }
 
 // The fonts used in your app.

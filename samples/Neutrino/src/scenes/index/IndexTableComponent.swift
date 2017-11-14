@@ -10,17 +10,7 @@ extension UI.Props {
   class IndexTable: UIProps {
     var titles: [IndexCell] = []
   }
-
-  class IndexCell: UIProps {
-    var title = String()
-    var onCellSelected: () -> Void = { }
-
-    required init() { }
-    init(title: String, onCellSelected: @escaping () -> Void) {
-      self.title = title
-      self.onCellSelected = onCellSelected
-    }
-  }
+  class IndexCell: UITableCellProps { }
 }
 
 extension UI.Components {
@@ -31,14 +21,11 @@ extension UI.Components {
       let table = childComponent(UIDefaultTableComponent.self, key: childKey("table"))
       // Configure the table.
       table.props.configuration = { config in
-        config.set(\UITableView.backgroundColor, Palette.white.in(context: context))
+        config.set(\UITableView.backgroundColor, context.stylesheet.palette(Palette.secondary))
       }
       // Builds the section.
       let section = UITableComponentProps.Section(cells: props.titles.enumerated().map { i, props in
-        // Construct a cell descriptors through the table component.
-        let cell = table.cell(IndexCell.self, key: cellKey(for: i), props: props)
-        cell.selectionStyle = .default
-        return cell
+        return table.cell(IndexCell.self, key: cellKey(for: i), props: props)
       })
       table.props.sections = [section]
       // Returns the component node.
@@ -55,19 +42,17 @@ extension UI.Components {
       let props = self.props
       // The main content view.
       let content = UINode<UIView> { config in
-        config.set(\UIView.backgroundColor, Palette.blue.in(context: context))
+        let background = props.isHighlighted ? Palette.primaryAccent : Palette.primary
+        config.set(\UIView.backgroundColor, context.stylesheet.palette(background))
         config.set(\UIView.yoga.width, config.canvasSize.width)
         config.set(\UIView.yoga.padding, 16)
-        // Register and action for the tap event.
-        config.view.onTap { [weak self] _ in self?.props.onCellSelected()
-        }
       }
       // The cell title.
       let title = UINode<UILabel>(reuseIdentifier: "title") { config in
         config.set(\UILabel.text, props.title)
         config.set(\UILabel.numberOfLines, 0)
-        config.set(\UILabel.font, Font.text.in(context: context))
-        config.set(\UILabel.textColor, Palette.green.in(context: context))
+        config.set(\UILabel.font, context.stylesheet.typography(Font.text))
+        config.set(\UILabel.textColor, context.stylesheet.palette(Palette.white))
       }
       return content.children([title])
     }

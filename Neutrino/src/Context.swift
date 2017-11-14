@@ -47,6 +47,8 @@ public protocol UIContextProtocol: class {
   var pool: UIContextPool { get }
   /// Javascript bridge.
   var jsBridge: JSBridge { get }
+  /// Appearance proxy that forwards the variables defined in the app global 'stylesheet.js'.
+  var stylesheet: UIStylesheet { get }
   /// Interface idiom, orientation and bounds for the screen and the canvas view associted to this
   /// context.
   var screen: UIScreenStateFactory.State { get }
@@ -92,6 +94,8 @@ public class UIContext: UIContextProtocol {
   private var delegates: [UIContextDelegateWeakRef] = []
   /// Javascript bridge.
   public lazy var jsBridge: JSBridge = { JSBridge(context: self) }()
+  /// Appearance proxy that forwards the variables defined in the app global 'stylesheet.js'.
+  public lazy var stylesheet: UIStylesheet = { UIStylesheet(context: self) }()
   public lazy var _screenStateFactory: UIScreenStateFactory = {
     return UIScreenStateFactory(context: self)
   }()
