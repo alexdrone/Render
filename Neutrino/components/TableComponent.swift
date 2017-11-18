@@ -6,13 +6,16 @@ open class UITableCellProps: UIPropsProtocol {
   public required init() { }
   /// Cell title.
   public var title = String()
+  /// Cell subtitle.
+  public var subtitle = String()
   /// Automatically set to 'true' whenever the cell is being highlighted.
   public var isHighlighted: Bool = false
   /// The closure that is going to be executed whenever the cell is selected.
   public var onCellSelected: (() -> Void)? = nil
 
-  public init(title: String, onCellSelected: @escaping () -> Void) {
+  public init(title: String, subtitle: String = "", onCellSelected: @escaping () -> Void) {
     self.title = title
+    self.subtitle = subtitle
     self.onCellSelected = onCellSelected
   }
 }
@@ -262,10 +265,10 @@ public class UITableComponent<S: UIStateProtocol, P: UITableComponentProps>:
     guard let cellProps = component.anyProps as? UITableCellProps else { return }
     cellProps.onCellSelected?()
 
-    highlightCell(true, at: indexPath)
-    DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
-      self?.highlightCell(false, at: indexPath)
+    for idx in tableView.indexPathsForVisibleRows ?? [] where indexPath != idx {
+      highlightCell(false, at: idx)
     }
+    highlightCell(true, at: indexPath)
   }
 
   public func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
@@ -276,7 +279,7 @@ public class UITableComponent<S: UIStateProtocol, P: UITableComponentProps>:
     let component = props.sections[indexPath.section].cells[indexPath.row].component
     guard let cellProps = component.anyProps as? UITableCellProps else { return }
     cellProps.isHighlighted = isHighlighted
-    component.setNeedsRender(options: [.propagateToParentContext])
+    component.setNeedsRender(options: [])
   }
 
 //  public func tableView(_ tableView: UITableView, didHighlightRowAt indexPath: IndexPath) {

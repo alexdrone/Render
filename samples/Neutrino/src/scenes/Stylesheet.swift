@@ -8,7 +8,7 @@ enum Palette: String, UIStylesheetPalette {
 }
 
 enum Font: String, UIStylesheetTypography {
-  case extraSmallBold, text, smallBold, mediumBold
+  case extraSmallBold, small, smallBold, mediumBold
 }
 
 

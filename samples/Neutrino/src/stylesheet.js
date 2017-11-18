@@ -40,7 +40,7 @@ const palette = {
 const typography = {
   extraSmallBold: font(ui.font.system, 10, ui.font.weight.bold),
   smallBold: font(ui.font.system, 12, ui.font.weight.bold),
-  text: font(ui.font.system, 12, ui.font.weight.regular),
+  small: font(ui.font.system, 12, ui.font.weight.regular),
   mediumBold: font(ui.font.system, 20, ui.font.weight.bold),
 }
 

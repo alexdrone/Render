@@ -545,6 +545,8 @@ extension JSBridgeValue.UIKit {
     ui.imageOrientation = { up: 0, down: 1, left: 2, right: 3, upMirrored: 4, downMirrored: 5,
       leftMirrored: 6, rightMirrored: 6 }
     ui.imageResizingMode = { title: 0, stretch: 1 }
+    ui.heightPreset = { none: 0, tiny: 20, xsmall: 28, small: 36, default: 44, normal: 49,
+    medium: 52, large: 60, xlarge: 68, xxlarge: 104 }
     """
   }
 }

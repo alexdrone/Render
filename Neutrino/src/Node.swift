@@ -43,7 +43,7 @@ public protocol UINodeProtocol: class {
   func reconcile(in view: UIView?, size: CGSize?, options: [UINodeOption])
   /// Returns the node with the key matching the function argument.
   func nodeWithKey(_ key: String) -> UINodeProtocol?
-
+  
   // Internal.
 
   /// Components that builds components in non-traditional fashion (e.g. table/collection views)
@@ -119,9 +119,9 @@ public class UINode<V: UIView>: UINodeProtocol {
 
   // Private.
 
-  private let createClosure: UINodeCreationClosure
-  private var configClosure: UINodeConfigurationClosure = { _ in }
-  private var childrenClosure: UINodeConfigurationClosure = { _ in }
+  public let createClosure: UINodeCreationClosure
+  public var configClosure: UINodeConfigurationClosure = { _ in }
+  public var childrenClosure: UINodeConfigurationClosure = { _ in }
   // 'true' whenever view just got created and added to the view hierarchy.
   private var shouldInvokeDidMount: Bool = false
   // The target object for the view binding method.
