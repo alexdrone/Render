@@ -41,7 +41,8 @@ const typography = {
   extraSmallBold: font(ui.font.system, 10, ui.font.weight.bold),
   smallBold: font(ui.font.system, 12, ui.font.weight.bold),
   small: font(ui.font.system, 12, ui.font.weight.regular),
-  mediumBold: font(ui.font.system, 20, ui.font.weight.bold),
+  medium: font(ui.font.system, 16, ui.font.weight.regular),
+  mediumBold: font(ui.font.system, 16, ui.font.weight.bold),
 }
 
 // App UI configuration flags.

@@ -22,6 +22,7 @@ enum Font: String, UIStylesheetTypography {
   case extraSmallBold
   case small
   case smallBold
+  case medium
   case mediumBold
 }
 
