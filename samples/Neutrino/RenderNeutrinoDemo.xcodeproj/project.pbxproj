@@ -15,13 +15,14 @@
 		1656BAF91F9FC14A009F561F /* TableComponentExample.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1656BAF81F9FC14A009F561F /* TableComponentExample.swift */; };
 		167070221FB8C1D7008DFC5B /* IndexViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167070211FB8C1D7008DFC5B /* IndexViewController.swift */; };
 		167070261FB8C757008DFC5B /* IndexTableComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167070251FB8C757008DFC5B /* IndexTableComponent.swift */; };
-		167CFC431FA26C140062C259 /* Namespaces.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167CFC421FA26C140062C259 /* Namespaces.swift */; };
 		168777AE1F99446200273561 /* Property List.plist in Resources */ = {isa = PBXBuildFile; fileRef = 168777AD1F99446200273561 /* Property List.plist */; };
 		168FA6D71F8F856D00A12585 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 168FA6D61F8F856D00A12585 /* AppDelegate.swift */; };
 		168FA6D91F8F856D00A12585 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 168FA6D81F8F856D00A12585 /* ViewController.swift */; };
 		168FA6DE1F8F856D00A12585 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 168FA6DD1F8F856D00A12585 /* Assets.xcassets */; };
 		168FA6E11F8F856D00A12585 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 168FA6DF1F8F856D00A12585 /* LaunchScreen.storyboard */; };
 		169DC8EF1F93A66100625FA6 /* FooComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 169DC8ED1F93A65C00625FA6 /* FooComponent.swift */; };
+		16A38D381FC0E6DF000E43E9 /* CommonFragments.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16A38D371FC0E6DF000E43E9 /* CommonFragments.swift */; };
+		16A38D3A1FC0E897000E43E9 /* AppStoreExample.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16A38D391FC0E897000E43E9 /* AppStoreExample.swift */; };
 		16AEE51F1F9D2758004798A8 /* RenderInspector.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16AEE51E1F9D2748004798A8 /* RenderInspector.framework */; };
 		16AEE5201F9D2758004798A8 /* RenderInspector.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 16AEE51E1F9D2748004798A8 /* RenderInspector.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		16AF338C1FABC83E00379FA9 /* JsFragmentComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16AF338B1FABC83E00379FA9 /* JsFragmentComponent.swift */; };
@@ -91,7 +92,6 @@
 		1656BAF81F9FC14A009F561F /* TableComponentExample.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableComponentExample.swift; sourceTree = "<group>"; };
 		167070211FB8C1D7008DFC5B /* IndexViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndexViewController.swift; sourceTree = "<group>"; };
 		167070251FB8C757008DFC5B /* IndexTableComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndexTableComponent.swift; sourceTree = "<group>"; };
-		167CFC421FA26C140062C259 /* Namespaces.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Namespaces.swift; sourceTree = "<group>"; };
 		168777AD1F99446200273561 /* Property List.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Property List.plist"; sourceTree = "<group>"; };
 		168FA6D31F8F856D00A12585 /* RenderNeutrinoDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RenderNeutrinoDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		168FA6D61F8F856D00A12585 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -100,6 +100,8 @@
 		168FA6E01F8F856D00A12585 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		168FA6E21F8F856D00A12585 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		169DC8ED1F93A65C00625FA6 /* FooComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FooComponent.swift; sourceTree = "<group>"; };
+		16A38D371FC0E6DF000E43E9 /* CommonFragments.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonFragments.swift; sourceTree = "<group>"; };
+		16A38D391FC0E897000E43E9 /* AppStoreExample.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStoreExample.swift; sourceTree = "<group>"; };
 		16AEE5191F9D2748004798A8 /* RenderInspector.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RenderInspector.xcodeproj; path = ../../inspector/ios/RenderInspector.xcodeproj; sourceTree = "<group>"; };
 		16AF338B1FABC83E00379FA9 /* JsFragmentComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsFragmentComponent.swift; sourceTree = "<group>"; };
 		16BF01771F9E1381001F7888 /* Style.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Style.swift; sourceTree = "<group>"; };
@@ -134,6 +136,8 @@
 			children = (
 				167070201FB8C1C7008DFC5B /* index */,
 				160CC86F1FB8C97D00CC6080 /* Stylesheet.swift */,
+				16A38D371FC0E6DF000E43E9 /* CommonFragments.swift */,
+				16A38D391FC0E897000E43E9 /* AppStoreExample.swift */,
 			);
 			path = scenes;
 			sourceTree = "<group>";
@@ -206,7 +210,6 @@
 				16BF017A1F9E1BF8001F7888 /* SubComponents.swift */,
 				163B1DAC1F9E6BB10072A5E2 /* Fragments.swift */,
 				1656BAF81F9FC14A009F561F /* TableComponentExample.swift */,
-				167CFC421FA26C140062C259 /* Namespaces.swift */,
 				16AF338B1FABC83E00379FA9 /* JsFragmentComponent.swift */,
 			);
 			name = old;
@@ -324,7 +327,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				16BF017B1F9E1BF8001F7888 /* SubComponents.swift in Sources */,
-				167CFC431FA26C140062C259 /* Namespaces.swift in Sources */,
 				16AF338C1FABC83E00379FA9 /* JsFragmentComponent.swift in Sources */,
 				167070261FB8C757008DFC5B /* IndexTableComponent.swift in Sources */,
 				163B1DAD1F9E6BB10072A5E2 /* Fragments.swift in Sources */,
@@ -333,6 +335,8 @@
 				160CC8701FB8C97D00CC6080 /* Stylesheet.swift in Sources */,
 				1656BAF91F9FC14A009F561F /* TableComponentExample.swift in Sources */,
 				169DC8EF1F93A66100625FA6 /* FooComponent.swift in Sources */,
+				16A38D3A1FC0E897000E43E9 /* AppStoreExample.swift in Sources */,
+				16A38D381FC0E6DF000E43E9 /* CommonFragments.swift in Sources */,
 				16BF01781F9E1381001F7888 /* Style.swift in Sources */,
 				167070221FB8C1D7008DFC5B /* IndexViewController.swift in Sources */,
 			);

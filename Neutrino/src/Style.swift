@@ -28,10 +28,6 @@ public class UIStylesheet {
   public func constant<T: UIStylesheetConstants>(_ variable: T) -> CGFloat {
     return context?.jsBridge.variable(namespace: .constants, name: variable.rawValue) ?? 0
   }
-
-  public func flag<T: UIStylesheetAssets>(_ variable: T) -> UIImage {
-    return context?.jsBridge.variable(namespace: .constants, name: variable.rawValue) ?? UIImage()
-  }
 }
 
 /// The enum that represents the palette used across the app.
@@ -42,5 +38,3 @@ public protocol UIStylesheetTypography: UIStylesheetObject { }
 public protocol UIStylesheetFlags: UIStylesheetObject { }
 /// The enum that represents layout constants.
 public protocol UIStylesheetConstants: UIStylesheetObject { }
-/// The enum that represents the assets used across the app.
-public protocol UIStylesheetAssets: UIStylesheetObject { }

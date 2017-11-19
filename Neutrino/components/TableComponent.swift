@@ -60,7 +60,7 @@ public class UITableComponentProps: UIPropsProtocol {
     return components
   }
 
-  public typealias UITableNodeConfigurationClosure = UINode<UITableView>.UINodeConfigurationClosure
+  public typealias UITableNodeConfigurationClosure = UINode<UITableView>.ConfigurationClosure
 
   /// *UITableView* configuration closure.
   /// - note: Use this to configure layout properties such as padding, margin and such.

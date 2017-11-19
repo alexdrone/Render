@@ -473,6 +473,23 @@ public func DepthPresetToValue(preset: DepthPreset) -> Depth {
   }
 }
 
+@objc public enum MarginPreset: Int {
+  case none = 0
+  case tiny = 2
+  case xsmall = 4
+  case small = 8
+  case `default` = 16
+  case normal = 24
+  case medium = 32
+  case large = 40
+  case xlarge = 48
+  case xxlarge = 64
+
+  public var cgFloatValue: CGFloat {
+    return CGFloat(rawValue)
+  }
+}
+
 @objc public enum HeightPreset: Int {
   case none = 0
   case tiny = 20
@@ -793,7 +810,10 @@ extension UIView {
   /// A property that sets the cornerRadius of the backing layer.
   @objc open var cornerRadiusPreset: CornerRadiusPreset {
     get { return layer.cornerRadiusPreset }
-    set(value) { layer.cornerRadiusPreset = value }
+    set(value) {
+      cornerRadius = cornerRadiusPreset.cgFloatValue
+      layer.cornerRadiusPreset = value
+    }
   }
   /// A preset property to set the borderWidth.
   @objc open var borderWidthPreset: BorderWidthPreset {

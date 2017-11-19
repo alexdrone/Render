@@ -42,48 +42,40 @@ extension UI.Components {
   class IndexCell: UIStatelessComponent<UI.Props.IndexCell> {
     /// Builds the node hierarchy for this component.
     override func render(context: UIContextProtocol) -> UINodeProtocol {
-      let props = self.props
-      let animator = UIViewPropertyAnimator(duration: 0.3, curve: .easeIn, animations: nil)
       // The cell content view.
-      let content = UICommons.RowContainer(padding: 18, widthRatio: 1) { config in
-        let background = context.stylesheet.palette(
-          props.isHighlighted ? Palette.primaryAccent : Palette.primary)
-        /// Animates the background color when the cell is selected.
-        config.set(\UIView.backgroundColor, background, animator: animator)
-        config.set(\UIView.depthPreset, props.isHighlighted ? .depth2 : .none)
-      }
-      // A custom fragment.
-      let shape = UI.Fragments.Polygon(context: context)
-      // The two labels.
-      let font = context.stylesheet.typography(props.isHighlighted ? Font.smallBold : Font.small)
-      let labels = UICommons.ColumnContainer() { config in
-        // Ensure the label container is center aligned.
-        config.set(\UIView.yoga.justifyContent, .center)
-      }.children([
-        UICommons.Text(reuseIdentifier: "title",
-                       text: props.title,
-                       font: font,
-                       color: context.stylesheet.palette(Palette.white)),
-        UICommons.Text(reuseIdentifier: "subtitle",
-                       text: props.subtitle,
-                       font: font,
-                       color: context.stylesheet.palette(Palette.accentText))
+      return UI.Fragments.Row(widthRatio: 1, configure: configureContentView).children([
+        UI.Fragments.Polygon(context: context),
+        UI.Fragments.Column() { config in
+          // Ensure the label container is center aligned.
+          config.set(\UIView.yoga.justifyContent, .center)
+        }.children([
+            UI.Fragments.Text(reuseIdentifier: "title",
+                              text: props.title,
+                              configure: configureLabel),
+            UI.Fragments.Text(reuseIdentifier: "subtitle",
+                              text: props.subtitle,
+                              configure: configureLabel)
+          ])
       ])
-      return content.children([shape, labels])
     }
-  }
-}
 
-extension UI.Fragments {
-  /// Used as shape for many of the examples.
-  static func Polygon(context: UIContextProtocol) -> UINodeProtocol {
-    return UINode<UIPolygonView> { config in
-      let size = HeightPreset.medium.cgFloatValue
-      config.set(\UIPolygonView.foregroundColor, context.stylesheet.palette(Palette.white))
-      config.set(\UIPolygonView.yoga.width, size)
-      config.set(\UIPolygonView.yoga.height, size)
-      config.set(\UIPolygonView.yoga.marginRight, 16)
-      config.set(\UIPolygonView.depthPreset, .depth1)
+    private func configureContentView(configuration: UINode<UIView>.Configuration) {
+      let animator = UIViewPropertyAnimator(duration: 0.3, curve: .easeIn, animations: nil)
+      let bkg = context?.stylesheet.palette(
+        props.isHighlighted ? Palette.primaryAccent : Palette.primary)
+      /// Animates the background color when the cell is selected.
+      configuration.set(\UIView.backgroundColor, bkg, animator: animator)
+      // You can configure your view both using the keyPath accessor (that offer an optional
+      // animator parameter), or by accessing to the 'renderedView' manually.
+      configuration.view.yoga.padding = MarginPreset.default.cgFloatValue
+      configuration.view.depthPreset = props.isHighlighted ? .depth2 : .none
+    }
+
+    private func configureLabel(configuration: UINode<UILabel>.Configuration) {
+      let font = context?.stylesheet.typography(props.isHighlighted ? Font.smallBold : Font.small)
+      configuration.view.font = font
+      configuration.view.textColor = context?.stylesheet.palette(Palette.white)
+      configuration.view.yoga.margin = MarginPreset.tiny.cgFloatValue
     }
   }
 }

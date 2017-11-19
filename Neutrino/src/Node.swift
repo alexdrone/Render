@@ -77,7 +77,7 @@ public protocol UINodeProtocol: class {
 
 public class UINode<V: UIView>: UINodeProtocol {
 
-  public struct UIViewConfiguration {
+  public struct Configuration {
     /// The target node for this layout pass.
     public internal(set) var node: UINode<V>
     /// The concrete backing view.
@@ -99,9 +99,8 @@ public class UINode<V: UIView>: UINodeProtocol {
     }
   }
 
-  public typealias UINodeCreationClosure = () -> V
-  public typealias UINodeConfigurationClosure = (UIViewConfiguration) -> Void
-  public typealias UINodeChildrenCreationClosure = (UIViewConfiguration) -> [UINodeProtocol]
+  public typealias CreationClosure = () -> V
+  public typealias ConfigurationClosure = (Configuration) -> Void
 
   public var reuseIdentifier: String
   public fileprivate(set) var renderedView: UIView? = nil
@@ -119,9 +118,9 @@ public class UINode<V: UIView>: UINodeProtocol {
 
   // Private.
 
-  public let createClosure: UINodeCreationClosure
-  public var configClosure: UINodeConfigurationClosure = { _ in }
-  public var childrenClosure: UINodeConfigurationClosure = { _ in }
+  public let createClosure: CreationClosure
+  public var configClosure: ConfigurationClosure = { _ in }
+  public var childrenClosure: ConfigurationClosure = { _ in }
   // 'true' whenever view just got created and added to the view hierarchy.
   private var shouldInvokeDidMount: Bool = false
   // The target object for the view binding method.
@@ -154,7 +153,7 @@ public class UINode<V: UIView>: UINodeProtocol {
   public init(reuseIdentifier: String? = nil,
               key: String? = nil,
               create: (() -> V)? = nil,
-              configure: UINodeConfigurationClosure? = nil) {
+              configure: ConfigurationClosure? = nil) {
     self.reuseIdentifier = UINodeReuseIdentifierMake(type: V.self, identifier: reuseIdentifier)
     self._debugType =  String(describing: V.self)
     self.createClosure = create ??  { V() }
@@ -167,7 +166,7 @@ public class UINode<V: UIView>: UINodeProtocol {
     }
   }
 
-  open func configure(_ configClosure: @escaping UINodeConfigurationClosure) {
+  open func configure(_ configClosure: @escaping ConfigurationClosure) {
     self.configClosure = configClosure
   }
 
@@ -199,7 +198,7 @@ public class UINode<V: UIView>: UINodeProtocol {
       return
     }
     view.renderContext.storeOldGeometryRecursively()
-    let viewConfiguration = UIViewConfiguration(node: self, view: renderedView, size: bounds)
+    let viewConfiguration = Configuration(node: self, view: renderedView, size: bounds)
     configClosure(viewConfiguration)
     overrides?(view)
 

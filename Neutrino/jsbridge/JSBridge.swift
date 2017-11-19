@@ -58,7 +58,7 @@ public class JSBridge {
     return UINilNode.nil
   }
 
-  public enum Namespace: String { case palette, typography, flags, constants, assets }
+  public enum Namespace: String { case palette, typography, flags, constants }
 
   /// Returns the value of the javascript variable named *name*.
   public func variable<T>(namespace: Namespace?, name: String) -> T? {
@@ -346,7 +346,7 @@ public struct JSBridgeValue {
     case Size.type:
       return Size.bridge(jsvalue: self)
     case Image.type:
-      return Size.bridge(jsvalue: self)
+      return Image.bridge(jsvalue: self)
     case URL.type:
       return URL.bridge(jsvalue: self)
     default:

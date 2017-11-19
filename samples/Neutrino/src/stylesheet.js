@@ -52,10 +52,6 @@ const flags = { }
 // e.g. *defaultButtonWidth: 44* or *avatarSize: size(128, 128)*.
 const constants = { }
 
-// Assets used by your application.
-// e.g. *moveIcon: image('move')*.
-const assets = { }
-
 // STYLES
 
 // Styles can be referred from js fragment nodes
