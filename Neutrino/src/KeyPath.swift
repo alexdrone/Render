@@ -29,44 +29,18 @@ public protocol UIViewKeyPathProtocol {
       self.animator = animator
 
       self.applyClosure = { [weak self] (view: V) in
-        self?.apply(view: view, keyPath: keyPath, value: value())
+        let value = value()
+        if NSObjectProtocolEqual(lhs: value, rhs: view[keyPath: keyPath]) { return }
+        self?.apply(view: view, keyPath: keyPath, value: value)
       }
       self.removeClosure = { [weak self] (view: V) in
         self?.remove(view: view, keyPath: keyPath)
       }
     }
 
-    init<T: Equatable>(keyPath: ReferenceWritableKeyPath<V, T>,
-                       value: @escaping () -> T,
-                       animator: UIViewPropertyAnimator? = nil) {
-      self.keyPathIdentifier = keyPath.identifier
-      self.animator = animator
-
-      self.applyClosure = { [weak self] (view: V) in
-        let oldValue = view[keyPath: keyPath]
-        let newValue = value()
-        if oldValue != newValue {
-          self?.apply(view: view, keyPath: keyPath, value: newValue)
-        }
-      }
-      self.removeClosure = { [weak self] (view: V) in
-        let oldValue = view[keyPath: keyPath]
-        let newValue = view.renderContext.initialConfiguration.initialValue(keyPath: keyPath)
-        if oldValue != newValue {
-          self?.remove(view: view, keyPath: keyPath)
-        }
-      }
-    }
-
     public convenience init<T>(keyPath: ReferenceWritableKeyPath<V, T>,
                                value: T,
                                animator: UIViewPropertyAnimator? = nil) {
-      self.init(keyPath: keyPath, value: { value }, animator: animator)
-    }
-
-    public convenience init<T: Equatable>(keyPath: ReferenceWritableKeyPath<V, T>,
-                                          value: T,
-                                          animator: UIViewPropertyAnimator? = nil) {
       self.init(keyPath: keyPath, value: { value }, animator: animator)
     }
 
@@ -101,9 +75,7 @@ public protocol UIViewKeyPathProtocol {
 
     /// Restore the property original value.
     public func restore(view: UIView) {
-      guard let view = view as? V else {
-        return
-      }
+      guard let view = view as? V else { return }
       removeClosure?(view)
     }
   }
@@ -243,3 +215,12 @@ extension AnyKeyPath {
     return view
   }
 }
+
+@inline(__always) func NSObjectProtocolEqual(lhs: Any?, rhs: Any?) -> Bool {
+  if let olhs = lhs as? NSObjectProtocol, let orhs = rhs as? NSObjectProtocol, olhs.isEqual(orhs){
+    return true
+  } else {
+    return false
+  }
+}
+
