@@ -232,7 +232,12 @@ public class UITableComponent<S: UIStateProtocol, P: UITableComponentProps>:
                      size: CGSize(width: tableView.bounds.size.width, height: CGFloat.max),
                      options: [.preventDelegateCallbacks])
     }
-    return prototypeView.subviews.first?.bounds.size.height ?? 0
+    return heightForComponentView(prototypeView.subviews.first)
+  }
+
+  private func heightForComponentView(_ view: UIView?) -> CGFloat {
+    guard let cv = view else { return 0 }
+    return cv.bounds.size.height + cv.yoga.marginTop.normal + cv.yoga.marginBottom.normal
   }
 
   private func disableImplicitAnimations(closure: () -> Void) {
@@ -297,7 +302,7 @@ public class UITableComponent<S: UIStateProtocol, P: UITableComponentProps>:
                                         size: CGSize(width: width, height: CGFloat.max),
                                         options: [.preventDelegateCallbacks])
 
-    return view.subviews.first?.bounds.size.height ?? 0
+    return heightForComponentView(view.subviews.first)
   }
 
   /// Retrieves the component from the context for the key passed as argument.
@@ -342,12 +347,21 @@ public final class UICellDescriptor {
 
 public typealias UISectionHeader = UICellDescriptor
 
+// MARK: - UICellContext
+
 /// Components that are embedded in cells have a different context.
 public final class UICellContext: UIContext {
   /// Layout animator is not available for cells.
   public override var layoutAnimator: UIViewPropertyAnimator? {
     get { return nil }
     set { }
+  }
+
+  public override var canvasSize: CGSize {
+    guard let context = _parentContext as? UIContext else {
+      return .zero
+    }
+    return context.canvasSize
   }
 
   public override func flushObsoleteStates(validKeys: Set<String>) {
@@ -405,4 +419,5 @@ public class UITableComponentCell: UITableViewCell {
     mount(component: component, width: size.width)
     return contentView.frame.size
   }
+
 }

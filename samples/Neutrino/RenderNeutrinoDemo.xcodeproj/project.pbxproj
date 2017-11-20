@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		160CC8701FB8C97D00CC6080 /* Stylesheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160CC86F1FB8C97D00CC6080 /* Stylesheet.swift */; };
+		161D3A2A1FC36CE10066C923 /* AppStoreListExample.swift in Sources */ = {isa = PBXBuildFile; fileRef = 161D3A291FC36CE10066C923 /* AppStoreListExample.swift */; };
 		162560FB1FA5DB5B0066AF05 /* Fragments.js in Resources */ = {isa = PBXBuildFile; fileRef = 162560FA1FA5DB5B0066AF05 /* Fragments.js */; };
 		163B1DAD1F9E6BB10072A5E2 /* Fragments.swift in Sources */ = {isa = PBXBuildFile; fileRef = 163B1DAC1F9E6BB10072A5E2 /* Fragments.swift */; };
 		165399231F9A73B6006DFE5D /* RenderNeutrino.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 165399171F9A737B006DFE5D /* RenderNeutrino.framework */; };
@@ -86,6 +87,7 @@
 
 /* Begin PBXFileReference section */
 		160CC86F1FB8C97D00CC6080 /* Stylesheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stylesheet.swift; sourceTree = "<group>"; };
+		161D3A291FC36CE10066C923 /* AppStoreListExample.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStoreListExample.swift; sourceTree = "<group>"; };
 		162560FA1FA5DB5B0066AF05 /* Fragments.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = Fragments.js; sourceTree = "<group>"; };
 		163B1DAC1F9E6BB10072A5E2 /* Fragments.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fragments.swift; sourceTree = "<group>"; };
 		165399121F9A737B006DFE5D /* RenderNeutrino.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RenderNeutrino.xcodeproj; path = ../../Neutrino/RenderNeutrino.xcodeproj; sourceTree = "<group>"; };
@@ -138,6 +140,7 @@
 				160CC86F1FB8C97D00CC6080 /* Stylesheet.swift */,
 				16A38D371FC0E6DF000E43E9 /* CommonFragments.swift */,
 				16A38D391FC0E897000E43E9 /* AppStoreExample.swift */,
+				161D3A291FC36CE10066C923 /* AppStoreListExample.swift */,
 			);
 			path = scenes;
 			sourceTree = "<group>";
@@ -334,6 +337,7 @@
 				168FA6D71F8F856D00A12585 /* AppDelegate.swift in Sources */,
 				160CC8701FB8C97D00CC6080 /* Stylesheet.swift in Sources */,
 				1656BAF91F9FC14A009F561F /* TableComponentExample.swift in Sources */,
+				161D3A2A1FC36CE10066C923 /* AppStoreListExample.swift in Sources */,
 				169DC8EF1F93A66100625FA6 /* FooComponent.swift in Sources */,
 				16A38D3A1FC0E897000E43E9 /* AppStoreExample.swift in Sources */,
 				16A38D381FC0E6DF000E43E9 /* CommonFragments.swift in Sources */,

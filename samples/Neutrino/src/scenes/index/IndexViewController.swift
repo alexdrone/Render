@@ -7,22 +7,18 @@ class IndexViewController: UIComponentViewController<UI.Components.IndexTable> {
     let props = UI.Props.IndexTable()
     props.titles = [
       UI.Props.IndexCell(
-        title: "Stateless Component",
-        subtitle: "A simple stateless component.",
-        onCellSelected: presentPureComponentExample),
+        title: "Card Example",
+        subtitle: "A complex stateful component.",
+        onCellSelected: presentAppStoreCardComponentExample),
       UI.Props.IndexCell(
-        title: "Stateful Component",
-        subtitle: "A counter that retains and changes its internal state",
-        onCellSelected: presentPureComponentExample),
-      UI.Props.IndexCell(
-        title: "Dynamic View Hierarchy",
-        subtitle: "The number of children changes at every render pass.",
-        onCellSelected: presentPureComponentExample),
+        title: "Card List Example",
+        subtitle: "A list of stateful components.",
+        onCellSelected: presentAppStoreCardListComponentExample),
     ]
     return context.component(UI.Components.IndexTable.self, key: rootKey, props: props)
   }
 
-  private func presentPureComponentExample() {
+  private func presentAppStoreCardComponentExample() {
     func makeComponent(context: UIContextProtocol) -> UI.Components.AppStoreEntry {
       return context.component(UI.Components.AppStoreEntry.self,
                                key: "appstore-example",
@@ -31,6 +27,18 @@ class IndexViewController: UIComponentViewController<UI.Components.IndexTable> {
     }
     let vc = VC<UI.Components.AppStoreEntry>(title: "APP STORE",
                                              buildRootComponent: makeComponent)
+    navigationController?.pushViewController(vc, animated: true)
+  }
+
+  private func presentAppStoreCardListComponentExample() {
+    func makeComponent(context: UIContextProtocol) -> UI.Components.AppStoreList {
+      return context.component(UI.Components.AppStoreList.self,
+                               key: "appstore-example-list",
+                               props: UINilProps.nil,
+                               parent: nil)
+    }
+    let vc = VC<UI.Components.AppStoreList>(title: "APP STORE LIST",
+                                            buildRootComponent: makeComponent)
     navigationController?.pushViewController(vc, animated: true)
   }
 

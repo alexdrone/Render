@@ -76,18 +76,11 @@ public protocol UIContextDelegate: class {
 
 public class UIContext: UIContextProtocol {
   public let pool = UIContextPool()
-  // The canvas view in which the component will be rendered in.
-  public weak var _canvasView: UIView?
+
   /// Returns the bounds of the canvas view.
   public var canvasSize: CGSize {
     return _canvasView?.bounds.size ?? UIScreen.main.nativeBounds.size
   }
-  // Sanity check for context initialization.
-  public var _componentInitFromContext: Bool = false
-  // Associated a parent context.
-  public weak var _parentContext: UIContextProtocol?
-  // suspendComponentRendering has been called on this context.
-  public private(set) var _isRenderSuspended: Bool = false
   // The property animator that is going to be used for frame changes in the subtree.
   public var layoutAnimator: UIViewPropertyAnimator?
   // All the delegates registered for this object.
@@ -96,9 +89,18 @@ public class UIContext: UIContextProtocol {
   public lazy var jsBridge: JSBridge = { JSBridge(context: self) }()
   /// Appearance proxy that forwards the variables defined in the app global 'stylesheet.js'.
   public lazy var stylesheet: UIStylesheet = { UIStylesheet(context: self) }()
+  // The canvas view in which the component will be rendered in.
+  public weak var _canvasView: UIView?
+  // In charge of returing the current state of the screen.
   public lazy var _screenStateFactory: UIScreenStateFactory = {
     return UIScreenStateFactory(context: self)
   }()
+  // Sanity check for context initialization.
+  public var _componentInitFromContext: Bool = false
+  // Associated a parent context.
+  public weak var _parentContext: UIContextProtocol?
+  // suspendComponentRendering has been called on this context.
+  public private(set) var _isRenderSuspended: Bool = false
 
   /// Interface idiom, orientation and bounds for the screen and the canvas view associted to this
   /// context.

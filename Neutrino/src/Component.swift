@@ -121,7 +121,7 @@ open class UIComponent<S: UIStateProtocol, P: UIPropsProtocol>: NSObject, UIComp
   /// The bounding rect for the the layout computation.
   /// It can exceed the size of the canvas.
   public var renderSize: () -> CGSize = {
-    return CGSize(width: UIScreen.main.nativeBounds.width, height: CGFloat.max)
+    return CGSize(width: UIScreen.main.bounds.size.width, height: CGFloat.max)
   }
 
   private var boundsObserver: UIContextViewBoundsObserver? = nil
@@ -154,7 +154,12 @@ open class UIComponent<S: UIStateProtocol, P: UIPropsProtocol>: NSObject, UIComp
     context?._canvasView = canvasView
     if options.contains(.useBoundsAsCanvasSize) {
       renderSize = { [weak self] in
-        var size = self?.canvasView?.bounds.size ?? CGSize.zero
+        var size = CGSize.zero
+        if let context = self?.context as? UIContext {
+          size = context.canvasSize
+        } else if let canvasViewBounds = self?.canvasView?.bounds.size {
+          size = canvasViewBounds
+        }
         size.height = options.contains(.flexibleHeight) ? CGFloat.max : size.height
         size.width = options.contains(.flexibleWidth) ? CGFloat.max : size.width
         return size

@@ -21,28 +21,31 @@ extension UI.Components {
   class AppStoreEntry: UIComponent<UI.States.AppStoreEntry, UI.Props.AppStoreEntry> {
     /// Builds the node hierarchy for this component.
     override func render(context: UIContextProtocol) -> UINodeProtocol {
-      // The main content view.
-      return UINode<UIImageView>(configure: configureContentView).children([
-        // An dark overlay.
-        UINode<UIView>(configure: configureOverlay),
-        // Lays out the icon and the title.
-        UINode<UIView>(configure: configureRowContainer).children([
-          UI.Fragments.Polygon(context: context,
-                               configure: configureShape),
-          UI.Fragments.Text(text: "\(props.title)#\(state.counter)",
-                            configure: configureLabel),
-        ]),
-        // Entry description (shown when the component is expanded).
-        UINode<UIView>(configure: configureDescriptionContainer).children([
-          UI.Fragments.Text(text: props.desc,
-                            configure: configureDescriptionLabel),
-          UI.Fragments.Button(text: "Increase",
-                              backgroundColor: context.stylesheet.palette(Palette.white),
-                              onTouchUpInside: { [weak self] in self?.onIncrease() })
-        ]),
-        // Touch overlay that covers the whole component.
-        UI.Fragments.TapRecognizer(onTouchUpInside: { [weak self] in self?.onToggleExpand() },
-                                   configure: configureTappableView),
+
+      return UINode<UIView>().children([
+        // The main content view.
+        UINode<UIImageView>(configure: configureContentView).children([
+          // An dark overlay.
+          UINode<UIView>(configure: configureOverlay),
+          // Lays out the icon and the title.
+          UINode<UIView>(configure: configureRowContainer).children([
+            UI.Fragments.Polygon(context: context,
+                                 configure: configureShape),
+            UI.Fragments.Text(text: "\(props.title)#\(state.counter)",
+                              configure: configureLabel),
+            ]),
+          // Entry description (shown when the component is expanded).
+          UINode<UIView>(configure: configureDescriptionContainer).children([
+            UI.Fragments.Text(text: props.desc,
+                              configure: configureDescriptionLabel),
+            UI.Fragments.Button(text: "Increase",
+                                backgroundColor: context.stylesheet.palette(Palette.white),
+                                onTouchUpInside: { [weak self] in self?.onIncrease() })
+            ]),
+          // Touch overlay that covers the whole component.
+          UI.Fragments.TapRecognizer(onTouchUpInside: { [weak self] in self?.onToggleExpand() },
+                                     configure: configureTappableView),
+          ])
       ])
     }
 
@@ -65,12 +68,13 @@ extension UI.Components {
       let radius: CornerRadiusPreset = state.expanded ? .none : .cornerRadius4
       configuration.set(\UIImageView.image, props.image)
       configuration.set(\UIImageView.contentMode, .scaleAspectFill)
-      configuration.set(\UIImageView.yoga.width, configuration.canvasSize.width - margin * 2)
-      // The corner radius is being animated on change.
-      configuration.set(\UIImageView.cornerRadius, radius.cgFloatValue, animator: defaultAnimator())
+      configuration.set(\UIImageView.yoga.width, configuration.canvasSize.width - margin*2)
       configuration.set(\UIImageView.yoga.height, height)
       configuration.set(\UIImageView.yoga.margin, margin)
-      configuration.set(\UIImageView.yoga.marginTop, 64)
+
+      // The corner radius is being animated on change.
+      configuration.set(\UIImageView.cornerRadius, radius.cgFloatValue, animator: defaultAnimator())
+//      configuration.set(\UIImageView.yoga.marginTop, 64)
       configuration.set(\UIImageView.isUserInteractionEnabled, true)
     }
 
