@@ -18,7 +18,7 @@ extension UI.Components {
         config.set(\UITableView.backgroundColor, context.stylesheet.palette(Palette.secondary))
       }
       // Builds the section.
-      let cells = Array(0..<100).map { idx in
+      let cells = Array(0..<20).map { idx in
         return table.cell(AppStoreEntry.self, key: cellKey(for: idx))
       }
       let section = UITableComponentProps.Section(cells: cells)

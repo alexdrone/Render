@@ -22,7 +22,7 @@ extension UI.Components {
     /// Builds the node hierarchy for this component.
     override func render(context: UIContextProtocol) -> UINodeProtocol {
 
-      return UINode<UIView>().children([
+      return UINode<UIView>(configure: configureMainView).children([
         // The main content view.
         UINode<UIImageView>(configure: configureContentView).children([
           // An dark overlay.
@@ -60,6 +60,10 @@ extension UI.Components {
     }
 
     // MARK: - Containers
+
+    private func configureMainView(configuration: UINode<UIView>.Configuration) {
+      configuration.set(\UIView.backgroundColor, context?.stylesheet.palette(Palette.secondary))
+    }
 
     // The main content view with the entry background image.
     private func configureContentView(configuration: UINode<UIImageView>.Configuration) {
