@@ -3,9 +3,11 @@ import UIKit
 extension UIComponent {
   /// ⌘ + R to reload the component.
   func hookHotReload() {
-    KeyCommands.register(input: "r", modifierFlags: .command) { [weak self] in
-      self?.forceComponentReload()
-    }
+    #if (arch(i386) || arch(x86_64)) && (os(iOS) || os(tvOS))
+      KeyCommands.register(input: "r", modifierFlags: .command) { [weak self] in
+        self?.forceComponentReload()
+      }
+    #endif
   }
 }
 
