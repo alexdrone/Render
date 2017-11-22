@@ -4,15 +4,33 @@ import RenderNeutrino
 extension UI.States {
   class AppStoreEntry: UIState {
     var expanded: Bool = false
-    var counter: Int = 6
+    var counter: Int = 0
   }
 }
 
 extension UI.Props {
   class AppStoreEntry: UIProps {
-    var title: String = "NEUTRINO "
-    var desc: String = "A Render Neutrino component."
-    var image: UIImage = UIImage(named: "game")!
+    var title: String = ""
+    var desc: String = ""
+    var image: UIImage? = nil
+
+    static let defaultImage = UIImage.gif(name: "forest")
+
+    static func singleCardExample() -> AppStoreEntry {
+      let entry = AppStoreEntry()
+      entry.title = "Neutrino"
+      entry.desc = "A Render Neutrino component."
+      entry.image = AppStoreEntry.defaultImage
+      return entry
+    }
+
+    static func listCardExample() -> AppStoreEntry{
+      let entry = AppStoreEntry()
+      entry.title = "Item"
+      entry.desc = "A component cell."
+      entry.image = UIImage(named: "game")
+      return entry
+    }
   }
 }
 
@@ -49,13 +67,15 @@ extension UI.Components {
       ])
     }
 
+    // Executed when the card is tapped.
     private func onToggleExpand() -> Void {
       state.expanded = !state.expanded
       setNeedsRender(options: [.animateLayoutChanges(animator: self.defaultAnimator())])
     }
 
+    // Executed when the 'Increase' button is tapped.
     private func onIncrease() -> Void {
-      state.counter = state.counter >= 12 ? 4 : state.counter + 2
+      state.counter += 1
       setNeedsRender()
     }
 
@@ -75,10 +95,8 @@ extension UI.Components {
       configuration.set(\UIImageView.yoga.width, configuration.canvasSize.width - margin*2)
       configuration.set(\UIImageView.yoga.height, height)
       configuration.set(\UIImageView.yoga.margin, margin)
-
       // The corner radius is being animated on change.
       configuration.set(\UIImageView.cornerRadius, radius.cgFloatValue, animator: defaultAnimator())
-//      configuration.set(\UIImageView.yoga.marginTop, 64)
       configuration.set(\UIImageView.isUserInteractionEnabled, true)
     }
 
@@ -131,7 +149,6 @@ extension UI.Components {
 
     private func configureShape(configuration: UINode<UIPolygonView>.Configuration) {
       let rotation = configuration.view.transform.rotated(by: 90 / 180.0 * CGFloat.pi)
-      configuration.set(\UIPolygonView.numberOfSides, state.counter)
       configuration.set(\UIPolygonView.transform,
                         state.expanded ? .identity : rotation,
                         animator: defaultAnimator())

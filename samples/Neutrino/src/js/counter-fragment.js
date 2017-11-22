@@ -3,7 +3,7 @@
 _CounterButton = (props) => {
   return UINode(UIButton, "button", {
       text: props.count.toString(),
-      backgroundColorImage: palette.pink,
+      backgroundColorImage: palette.primaryAccent,
       padding: 8,
       cornerRadius: 12,
       textColor: palette.white,
@@ -15,7 +15,7 @@ _CounterReloadLabel = () => {
   return UINode(UILabel, null, {
       text: "⌘ + R to reload the javascript fragment",
       margin: 8,
-      textColor: palette.text,
+      textColor: palette.white,
       font: typography.smallBold,
   }, null)
 }
@@ -50,7 +50,7 @@ ui.fragment.Counter = (props, size) => {
 
   return UINode(UIView, null, {
       padding: 25,
-      backgroundColor: palette.green,
+      backgroundColor: palette.secondary,
       flexDirection: column,
       width: size.width,
   }, [
@@ -67,7 +67,7 @@ ui.fragment.TableHeader = (props, size) => {
       textAlignment: ui.textAlignment.center,
       width: size.width,
       padding: 8,
-      backgroundColor: palette.text,
+      backgroundColor: palette.accent,
       textColor: palette.white,
   }, null)
 }

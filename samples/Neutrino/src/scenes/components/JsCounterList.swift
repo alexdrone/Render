@@ -2,7 +2,7 @@ import UIKit
 import RenderNeutrino
 
 extension UI.Components {
-  class FooTable: UIPureComponent {
+  class JsCounterList: UIPureComponent {
     override func render(context: UIContextProtocol) -> UINodeProtocol {
       // Retrieve the table component with the given key.
       let table = childComponent(UIDefaultTableComponent.self, key: childKey("table"))
@@ -27,11 +27,9 @@ extension UI.Components {
 
 extension UI.Components {
   class HeaderComponent: UIPureComponent {
-
     override func requiredJsFragments() -> [String] {
-      return ["Fragments"]
+      return ["counter-fragment"]
     }
-
     override func render(context: UIContextProtocol) -> UINodeProtocol {
       return context.jsBridge.buildFragment(function: "TableHeader",
                                             props: UINilProps.nil,

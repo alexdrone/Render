@@ -27,7 +27,7 @@ extension UI.Components {
   final class JsCounter: UIComponent<UI.States.JsCounter, UINilProps> {
 
     override func requiredJsFragments() -> [String] {
-      return ["Fragments"]
+      return ["counter-fragment"]
     }
 
     /// Builds the node hierarchy for this component.

@@ -9,20 +9,24 @@ class IndexViewController: UIComponentViewController<UI.Components.IndexTable> {
       UI.Props.IndexCell(
         title: "Card Example",
         subtitle: "A complex stateful component.",
-        onCellSelected: presentAppStoreCardComponentExample),
+        onCellSelected: presentAppStoreEntryComponentExample),
       UI.Props.IndexCell(
         title: "Card List Example",
         subtitle: "A list of stateful components.",
-        onCellSelected: presentAppStoreCardListComponentExample),
+        onCellSelected: presentAppStoreListComponentExample),
+      UI.Props.IndexCell(
+        title: "A Component with JS fragments.",
+        subtitle: "And hot reload capabilities.",
+        onCellSelected: presentJsCounterExample),
     ]
     return context.component(UI.Components.IndexTable.self, key: rootKey, props: props)
   }
 
-  private func presentAppStoreCardComponentExample() {
+  private func presentAppStoreEntryComponentExample() {
     func makeComponent(context: UIContextProtocol) -> UI.Components.AppStoreEntry {
       return context.component(UI.Components.AppStoreEntry.self,
                                key: "appstore-example",
-                               props: UI.Props.AppStoreEntry(),
+                               props: UI.Props.AppStoreEntry.singleCardExample(),
                                parent: nil)
     }
     let vc = VC<UI.Components.AppStoreEntry>(title: "APP STORE",
@@ -30,7 +34,7 @@ class IndexViewController: UIComponentViewController<UI.Components.IndexTable> {
     navigationController?.pushViewController(vc, animated: true)
   }
 
-  private func presentAppStoreCardListComponentExample() {
+  private func presentAppStoreListComponentExample() {
     func makeComponent(context: UIContextProtocol) -> UI.Components.AppStoreList {
       return context.component(UI.Components.AppStoreList.self,
                                key: "appstore-example-list",
@@ -42,9 +46,21 @@ class IndexViewController: UIComponentViewController<UI.Components.IndexTable> {
     navigationController?.pushViewController(vc, animated: true)
   }
 
+  private func presentJsCounterExample() {
+    func makeComponent(context: UIContextProtocol) -> UI.Components.JsCounter {
+      return context.component(UI.Components.JsCounter.self,
+                               key: "jscounter",
+                               props: UINilProps.nil,
+                               parent: nil)
+    }
+    let vc = VC<UI.Components.JsCounter>(title: "JAVASCRIPT FRAGMENTS",
+                                            buildRootComponent: makeComponent)
+    navigationController?.pushViewController(vc, animated: true)
+  }
+
   override func viewDidLoad() {
     super.viewDidLoad()
-    self.navigationItem.title = "INDEX"
+    self.navigationItem.title = "NEUTRINO CATALOG"
     styleNavigationBar()
   }
 }

@@ -19,7 +19,9 @@ extension UI.Components {
       }
       // Builds the section.
       let cells = Array(0..<20).map { idx in
-        return table.cell(AppStoreEntry.self, key: cellKey(for: idx))
+        return table.cell(AppStoreEntry.self,
+                          key: cellKey(for: idx),
+                          props: UI.Props.AppStoreEntry.listCardExample())
       }
       let section = UITableComponentProps.Section(cells: cells)
       table.props.sections = [section]
