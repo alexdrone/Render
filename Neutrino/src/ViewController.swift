@@ -43,6 +43,7 @@ open class UIComponentViewController<C: UIComponentProtocol>: UIViewController {
   /// Called after the controller's view is loaded into memory.
   open override func viewDidLoad() {
     super.viewDidLoad()
+    edgesForExtendedLayout = []
     component = buildRootComponent()
     canvasView.translatesAutoresizingMaskIntoConstraints = false
     var constraints: [NSLayoutConstraint] = []
@@ -65,4 +66,10 @@ open class UIComponentViewController<C: UIComponentProtocol>: UIViewController {
     NSLayoutConstraint.activate(constraints)
     component.setCanvas(view: canvasView, options: UIComponentCanvasOption.defaults())
   }
+
+  open override func viewDidLayoutSubviews() {
+    component.setNeedsRender(options: [])
+  }
+
+
 }
