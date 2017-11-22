@@ -15,6 +15,7 @@
 		1656BAF91F9FC14A009F561F /* JsCounterList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1656BAF81F9FC14A009F561F /* JsCounterList.swift */; };
 		167070221FB8C1D7008DFC5B /* IndexViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167070211FB8C1D7008DFC5B /* IndexViewController.swift */; };
 		167070261FB8C757008DFC5B /* IndexTableComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167070251FB8C757008DFC5B /* IndexTableComponent.swift */; };
+		1671C1301FC5C6CA00F73A9C /* forest.gif in Resources */ = {isa = PBXBuildFile; fileRef = 1671C12F1FC5C6CA00F73A9C /* forest.gif */; };
 		168FA6D71F8F856D00A12585 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 168FA6D61F8F856D00A12585 /* AppDelegate.swift */; };
 		168FA6DE1F8F856D00A12585 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 168FA6DD1F8F856D00A12585 /* Assets.xcassets */; };
 		168FA6E11F8F856D00A12585 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 168FA6DF1F8F856D00A12585 /* LaunchScreen.storyboard */; };
@@ -23,7 +24,6 @@
 		16AEE51F1F9D2758004798A8 /* RenderInspector.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16AEE51E1F9D2748004798A8 /* RenderInspector.framework */; };
 		16AEE5201F9D2758004798A8 /* RenderInspector.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 16AEE51E1F9D2748004798A8 /* RenderInspector.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		16AF338C1FABC83E00379FA9 /* JsCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16AF338B1FABC83E00379FA9 /* JsCounter.swift */; };
-		16B2EFB41FC5BD6F00CC3840 /* forest.gif in Resources */ = {isa = PBXBuildFile; fileRef = 16B2EFB31FC5BD6F00CC3840 /* forest.gif */; };
 		16BF01781F9E1381001F7888 /* Style.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16BF01771F9E1381001F7888 /* Style.swift */; };
 		16D3659E1FAF4E370020E802 /* stylesheet.js in Resources */ = {isa = PBXBuildFile; fileRef = 16D3659D1FAF4E370020E802 /* stylesheet.js */; };
 /* End PBXBuildFile section */
@@ -89,6 +89,7 @@
 		1656BAF81F9FC14A009F561F /* JsCounterList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsCounterList.swift; sourceTree = "<group>"; };
 		167070211FB8C1D7008DFC5B /* IndexViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndexViewController.swift; sourceTree = "<group>"; };
 		167070251FB8C757008DFC5B /* IndexTableComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndexTableComponent.swift; sourceTree = "<group>"; };
+		1671C12F1FC5C6CA00F73A9C /* forest.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; name = forest.gif; path = src/res/forest.gif; sourceTree = SOURCE_ROOT; };
 		168FA6D31F8F856D00A12585 /* RenderNeutrinoDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RenderNeutrinoDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		168FA6D61F8F856D00A12585 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		168FA6DD1F8F856D00A12585 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -98,7 +99,6 @@
 		16A38D391FC0E897000E43E9 /* AppStoreEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStoreEntry.swift; sourceTree = "<group>"; };
 		16AEE5191F9D2748004798A8 /* RenderInspector.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RenderInspector.xcodeproj; path = ../../inspector/ios/RenderInspector.xcodeproj; sourceTree = "<group>"; };
 		16AF338B1FABC83E00379FA9 /* JsCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsCounter.swift; sourceTree = "<group>"; };
-		16B2EFB31FC5BD6F00CC3840 /* forest.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; name = forest.gif; path = ../../../../../forest.gif; sourceTree = "<group>"; };
 		16BF01771F9E1381001F7888 /* Style.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Style.swift; sourceTree = "<group>"; };
 		16D3659D1FAF4E370020E802 /* stylesheet.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = stylesheet.js; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -206,7 +206,6 @@
 		16B2EFB21FC5BD6500CC3840 /* res */ = {
 			isa = PBXGroup;
 			children = (
-				16B2EFB31FC5BD6F00CC3840 /* forest.gif */,
 			);
 			path = res;
 			sourceTree = "<group>";
@@ -232,6 +231,7 @@
 		16BFC4D31FC5C26F00A37FD4 /* common */ = {
 			isa = PBXGroup;
 			children = (
+				1671C12F1FC5C6CA00F73A9C /* forest.gif */,
 				160CC86F1FB8C97D00CC6080 /* Stylesheet.swift */,
 				16A38D371FC0E6DF000E43E9 /* Fragments.swift */,
 			);
@@ -337,7 +337,7 @@
 				168FA6E11F8F856D00A12585 /* LaunchScreen.storyboard in Resources */,
 				168FA6DE1F8F856D00A12585 /* Assets.xcassets in Resources */,
 				16D3659E1FAF4E370020E802 /* stylesheet.js in Resources */,
-				16B2EFB41FC5BD6F00CC3840 /* forest.gif in Resources */,
+				1671C1301FC5C6CA00F73A9C /* forest.gif in Resources */,
 				162560FB1FA5DB5B0066AF05 /* counter-fragment.js in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
