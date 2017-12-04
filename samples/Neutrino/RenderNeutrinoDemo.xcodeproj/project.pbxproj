@@ -25,6 +25,9 @@
 		16AEE5201F9D2758004798A8 /* RenderInspector.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 16AEE51E1F9D2748004798A8 /* RenderInspector.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		16AF338C1FABC83E00379FA9 /* JsCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16AF338B1FABC83E00379FA9 /* JsCounter.swift */; };
 		16BF01781F9E1381001F7888 /* Style.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16BF01771F9E1381001F7888 /* Style.swift */; };
+		16D24C451FD5705E000BADB9 /* AppStoreEntryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D24C441FD5705E000BADB9 /* AppStoreEntryViewController.swift */; };
+		16D24C471FD5717D000BADB9 /* AppStoreListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D24C461FD5717D000BADB9 /* AppStoreListViewController.swift */; };
+		16D24C491FD571BA000BADB9 /* JsCounterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D24C481FD571BA000BADB9 /* JsCounterViewController.swift */; };
 		16D3659E1FAF4E370020E802 /* stylesheet.js in Resources */ = {isa = PBXBuildFile; fileRef = 16D3659D1FAF4E370020E802 /* stylesheet.js */; };
 /* End PBXBuildFile section */
 
@@ -100,6 +103,9 @@
 		16AEE5191F9D2748004798A8 /* RenderInspector.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RenderInspector.xcodeproj; path = ../../inspector/ios/RenderInspector.xcodeproj; sourceTree = "<group>"; };
 		16AF338B1FABC83E00379FA9 /* JsCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsCounter.swift; sourceTree = "<group>"; };
 		16BF01771F9E1381001F7888 /* Style.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Style.swift; sourceTree = "<group>"; };
+		16D24C441FD5705E000BADB9 /* AppStoreEntryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStoreEntryViewController.swift; sourceTree = "<group>"; };
+		16D24C461FD5717D000BADB9 /* AppStoreListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStoreListViewController.swift; sourceTree = "<group>"; };
+		16D24C481FD571BA000BADB9 /* JsCounterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsCounterViewController.swift; sourceTree = "<group>"; };
 		16D3659D1FAF4E370020E802 /* stylesheet.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = stylesheet.js; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -128,6 +134,7 @@
 		1670701C1FB8C170008DFC5B /* scenes */ = {
 			isa = PBXGroup;
 			children = (
+				16D24C431FD5703F000BADB9 /* vcs */,
 				16BFC4D31FC5C26F00A37FD4 /* common */,
 				16BFC4D21FC5C24A00A37FD4 /* components */,
 				167070201FB8C1C7008DFC5B /* index */,
@@ -236,6 +243,16 @@
 				16A38D371FC0E6DF000E43E9 /* Fragments.swift */,
 			);
 			path = common;
+			sourceTree = "<group>";
+		};
+		16D24C431FD5703F000BADB9 /* vcs */ = {
+			isa = PBXGroup;
+			children = (
+				16D24C441FD5705E000BADB9 /* AppStoreEntryViewController.swift */,
+				16D24C461FD5717D000BADB9 /* AppStoreListViewController.swift */,
+				16D24C481FD571BA000BADB9 /* JsCounterViewController.swift */,
+			);
+			path = vcs;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -349,6 +366,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				16D24C451FD5705E000BADB9 /* AppStoreEntryViewController.swift in Sources */,
 				16AF338C1FABC83E00379FA9 /* JsCounter.swift in Sources */,
 				167070261FB8C757008DFC5B /* IndexTableComponent.swift in Sources */,
 				168FA6D71F8F856D00A12585 /* AppDelegate.swift in Sources */,
@@ -356,6 +374,8 @@
 				1656BAF91F9FC14A009F561F /* JsCounterList.swift in Sources */,
 				161D3A2A1FC36CE10066C923 /* AppStoreList.swift in Sources */,
 				16A38D3A1FC0E897000E43E9 /* AppStoreEntry.swift in Sources */,
+				16D24C471FD5717D000BADB9 /* AppStoreListViewController.swift in Sources */,
+				16D24C491FD571BA000BADB9 /* JsCounterViewController.swift in Sources */,
 				16A38D381FC0E6DF000E43E9 /* Fragments.swift in Sources */,
 				16BF01781F9E1381001F7888 /* Style.swift in Sources */,
 				167070221FB8C1D7008DFC5B /* IndexViewController.swift in Sources */,

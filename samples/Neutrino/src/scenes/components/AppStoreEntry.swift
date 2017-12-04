@@ -47,8 +47,7 @@ extension UI.Components {
           UINode<UIView>(configure: configureOverlay),
           // Lays out the icon and the title.
           UINode<UIView>(configure: configureRowContainer).children([
-            UI.Fragments.Polygon(context: context,
-                                 configure: configureShape),
+            UI.Fragments.Polygon(),
             UI.Fragments.Text(text: "\(props.title)#\(state.counter)",
                               configure: configureLabel),
             ]),
@@ -57,7 +56,7 @@ extension UI.Components {
             UI.Fragments.Text(text: props.desc,
                               configure: configureDescriptionLabel),
             UI.Fragments.Button(text: "Increase",
-                                backgroundColor: context.stylesheet.palette(Palette.white),
+                                backgroundColor: Palette.white.color,
                                 onTouchUpInside: { [weak self] in self?.onIncrease() })
             ]),
           // Touch overlay that covers the whole component.
@@ -82,7 +81,7 @@ extension UI.Components {
     // MARK: - Containers
 
     private func configureMainView(configuration: UINode<UIView>.Configuration) {
-      configuration.set(\UIView.backgroundColor, context?.stylesheet.palette(Palette.secondary))
+      configuration.set(\UIView.backgroundColor, Palette.secondary.color)
     }
 
     // The main content view with the entry background image.
@@ -121,15 +120,15 @@ extension UI.Components {
       configuration.set(\UIView.yoga.padding, MarginPreset.small.cgFloatValue)
       configuration.set(\UIView.yoga.justifyContent, .center)
       configuration.set(\UIView.yoga.flexDirection, .row)
-      configuration.set(\UIView.backgroundColor, context?.stylesheet.palette(Palette.text))
+      configuration.set(\UIView.backgroundColor, Palette.text.color)
       // The alpha is animated on change.
       configuration.set(\UIView.alpha, !state.expanded ? 0 : 1, animator: defaultAnimator())
     }
 
     // The description text.
     private func configureDescriptionLabel(configuration: UINode<UILabel>.Configuration) {
-      configuration.set(\UILabel.font, context?.stylesheet.typography(Font.small))
-      configuration.set(\UILabel.textColor, context?.stylesheet.palette(Palette.white))
+      configuration.set(\UILabel.font, Font.small.font)
+      configuration.set(\UILabel.textColor, Palette.white.color)
       // The alpha is animated on change.
       configuration.set(\UILabel.alpha, !state.expanded ? 0 : 1, animator: defaultAnimator())
       configuration.view.yoga.flex()
@@ -139,19 +138,10 @@ extension UI.Components {
 
     // The main title.
     private func configureLabel(configuration: UINode<UILabel>.Configuration) {
-      let font: Font = state.expanded ? .mediumBold : .medium
+      let font: UIFont = state.expanded ? Font.mediumBold.font : Font.medium.font
       configuration.set(\UILabel.yoga.height, HeightPreset.medium.cgFloatValue)
-      configuration.set(\UILabel.font, context?.stylesheet.typography(font))
-      configuration.set(\UILabel.textColor, context?.stylesheet.palette(Palette.white))
-    }
-
-    // MARK: - Shape
-
-    private func configureShape(configuration: UINode<UIPolygonView>.Configuration) {
-      let rotation = configuration.view.transform.rotated(by: 90 / 180.0 * CGFloat.pi)
-      configuration.set(\UIPolygonView.transform,
-                        state.expanded ? .identity : rotation,
-                        animator: defaultAnimator())
+      configuration.set(\UILabel.font, font)
+      configuration.set(\UILabel.textColor, Palette.white.color)
     }
 
     // MARK: - Overlays

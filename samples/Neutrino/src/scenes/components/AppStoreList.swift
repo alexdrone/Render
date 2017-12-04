@@ -15,7 +15,7 @@ extension UI.Components {
       let table = childComponent(UIDefaultTableComponent.self, key: childKey("table"))
       // Configure the table.
       table.props.configuration = { config in
-        config.set(\UITableView.backgroundColor, context.stylesheet.palette(Palette.secondary))
+        config.set(\UITableView.backgroundColor, Palette.secondary.color)
       }
       // Builds the section.
       let cells = Array(0..<20).map { idx in

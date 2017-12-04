@@ -17,7 +17,6 @@ extension UI.Fragments {
   public typealias UIViewConfiguration = UINode<UIView>.ConfigurationClosure
   public typealias UILabelConfiguration = UINode<UILabel>.ConfigurationClosure
   public typealias UIButtonConfiguration = UINode<UIButton>.ConfigurationClosure
-  public typealias UIPolygonViewConfiguration = UINode<UIPolygonView>.ConfigurationClosure
   public typealias CGFloatRatio = CGFloat
 
   /// A *UIView* node that lays out its children horizontally.
@@ -131,16 +130,14 @@ extension UI.Fragments {
   }
 
   /// Used as shape for many of the examples.
-  static func Polygon(context: UIContextProtocol,
-                      configure: UIPolygonViewConfiguration? = nil) -> UINodeProtocol {
+  static func Polygon() -> UINodeProtocol {
     return UINode<UIPolygonView> { config in
       let size = HeightPreset.medium.cgFloatValue
-      config.set(\UIPolygonView.foregroundColor, context.stylesheet.palette(Palette.white))
+      config.set(\UIPolygonView.foregroundColor, Palette.white.color)
       config.set(\UIPolygonView.yoga.width, size)
       config.set(\UIPolygonView.yoga.height, size)
       config.set(\UIPolygonView.yoga.marginRight, 16)
       config.set(\UIPolygonView.depthPreset, .depth1)
-      configure?(config)
     }
   }
 }

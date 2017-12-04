@@ -25,11 +25,9 @@ extension UIComponentViewController {
     let vc = self
     vc.navigationController?.navigationBar.isTranslucent = true
     vc.navigationController?.navigationBar.titleTextAttributes =
-      [NSAttributedStringKey.foregroundColor: context.stylesheet.palette(Palette.white)]
-    vc.navigationController?.navigationBar.barTintColor =
-      context.stylesheet.palette(Palette.navigationBar)
-    vc.navigationController?.navigationBar.tintColor =
-      context.stylesheet.palette(Palette.navigationBar)
+      [NSAttributedStringKey.foregroundColor: Palette.white.color]
+    vc.navigationController?.navigationBar.barTintColor = Palette.navigationBar.color
+    vc.navigationController?.navigationBar.tintColor = Palette.navigationBar.color
     vc.navigationController?.navigationBar.shadowImage = UIImage()
   }
 }

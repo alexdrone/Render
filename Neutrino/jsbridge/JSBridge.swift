@@ -359,12 +359,11 @@ public struct JSBridgeValue {
   public struct Color {
     static let type: NSString = "UIColor"
     static let functionName: NSString = "color"
-    static let function: @convention(block) (Int, Int) -> NSDictionary = { rgb, alpha in
-      let normalpha = alpha < 0 || alpha > 255 ? 255 : alpha
+    static let function: @convention(block) (Int) -> NSDictionary = { rgb in
       let red = (rgb >> 16) & 0xff
       let green = (rgb >> 8) & 0xff
       let blue = rgb & 0xff
-      return makeBridgeableDictionary(type, [red, green, blue, normalpha])
+      return makeBridgeableDictionary(type, [red, green, blue, 255])
     }
     public static func bridge(jsvalue: JSBridgeValue) -> UIColor {
       guard let components = jsvalue.value as? [Int], components.count == 4 else {
