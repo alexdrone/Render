@@ -1,6 +1,6 @@
 import UIKit
 
-public protocol UIComponentProtocol: class, UINodeDelegateProtocol {
+public protocol UIComponentProtocol: UINodeDelegateProtocol {
   /// The component-tree context.
   weak var context: UIContextProtocol? { get }
   /// A unique key for the component (necessary if the component is stateful).

@@ -105,21 +105,21 @@ class HttpParser {
   }
 
   private func extractQueryParams(_ url: String) -> [(String, String)] {
-    guard let questionMark = url.characters.index(of: "?") else {
+    guard let questionMark = url.index(of: "?") else {
       return []
     }
-    let queryStart = url.characters.index(after: questionMark)
+    let queryStart = url.index(after: questionMark)
     guard url.endIndex > queryStart else {
       return []
     }
-    let query = String(url.characters[queryStart..<url.endIndex])
+    let query = String(url[queryStart..<url.endIndex])
     return query.components(separatedBy: "&")
       .reduce([(String, String)]()) { (c, s) -> [(String, String)] in
-        guard let nameEndIndex = s.characters.index(of: "=") else {
+        guard let nameEndIndex = s.index(of: "=") else {
           return c
         }
         guard let name = String(
-          s.characters[s.startIndex..<nameEndIndex]).removingPercentEncoding else {
+          s[s.startIndex..<nameEndIndex]).removingPercentEncoding else {
           return c
         }
         let valueStartIndex = s.index(nameEndIndex, offsetBy: 1)
@@ -127,7 +127,7 @@ class HttpParser {
           return c + [(name, "")]
         }
         guard let value = String(
-          s.characters[valueStartIndex..<s.endIndex]).removingPercentEncoding else {
+          s[valueStartIndex..<s.endIndex]).removingPercentEncoding else {
           return c + [(name, "")]
         }
         return c + [(name, value)]
@@ -567,7 +567,7 @@ class HttpRouter {
                            generator: inout IndexingIterator<[String]>)
                            -> ((HttpRequest) -> HttpResponse)? {
     guard let pathToken = generator.next() else {
-      if let variableNode = node.nodes.filter({ $0.0.characters.first == ":" }).first {
+      if let variableNode = node.nodes.filter({ $0.0.first == ":" }).first {
         if variableNode.value.nodes.isEmpty {
           params[variableNode.0] = ""
           return variableNode.value.handler
@@ -575,13 +575,13 @@ class HttpRouter {
       }
       return node.handler
     }
-    let variableNodes = node.nodes.filter { $0.0.characters.first == ":" }
+    let variableNodes = node.nodes.filter { $0.0.first == ":" }
     if let variableNode = variableNodes.first {
       if variableNode.1.nodes.count == 0 {
         // if it's the last element of the pattern and it's a variable, stop the search and
         // append a tail as a value for the variable.
         let tail = generator.joined(separator: "/")
-        if tail.characters.count > 0 {
+        if tail.count > 0 {
           params[variableNode.0] = pathToken + "/" + tail
         } else {
           params[variableNode.0] = pathToken
@@ -621,7 +621,7 @@ class HttpRouter {
 extension String {
 
   func split(_ separator: Character) -> [String] {
-    return self.characters.split { $0 == separator }.map(String.init)
+    return self.split { $0 == separator }.map(String.init)
   }
 }
 

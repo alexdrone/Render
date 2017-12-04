@@ -167,6 +167,10 @@
   [self setTitleColor:disabledTextColor forState:UIControlStateDisabled];
 }
 
+- (UIColor *)backgroundColorImage {
+  return nil;
+}
+
 - (void)setBackgroundColorImage:(UIColor*)backgroundColor
 {
   UIImage *image = [UIImage REFL_imageWithColor:backgroundColor];

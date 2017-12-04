@@ -205,7 +205,7 @@ public class JSBridge {
       let regex = try! NSRegularExpression(pattern: "ui.([a-zA-Z]*).([a-zA-Z]*)", options: [])
       let matches = regex.matches(in: src,
                                   options: [],
-                                  range: NSRange(location: 0, length: src.characters.count))
+                                  range: NSRange(location: 0, length: src.count))
 
       var transformations: [String: String] = [:]
       for match in matches {

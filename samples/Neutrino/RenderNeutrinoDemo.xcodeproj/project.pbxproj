@@ -29,6 +29,7 @@
 		16D24C471FD5717D000BADB9 /* AppStoreListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D24C461FD5717D000BADB9 /* AppStoreListViewController.swift */; };
 		16D24C491FD571BA000BADB9 /* JsCounterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D24C481FD571BA000BADB9 /* JsCounterViewController.swift */; };
 		16D3659E1FAF4E370020E802 /* stylesheet.js in Resources */ = {isa = PBXBuildFile; fileRef = 16D3659D1FAF4E370020E802 /* stylesheet.js */; };
+		16ED28041FD5A74900D5E222 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 16ED28021FD5A74900D5E222 /* Default-568h@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -107,6 +108,7 @@
 		16D24C461FD5717D000BADB9 /* AppStoreListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStoreListViewController.swift; sourceTree = "<group>"; };
 		16D24C481FD571BA000BADB9 /* JsCounterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsCounterViewController.swift; sourceTree = "<group>"; };
 		16D3659D1FAF4E370020E802 /* stylesheet.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = stylesheet.js; sourceTree = "<group>"; };
+		16ED28021FD5A74900D5E222 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -154,6 +156,7 @@
 		168FA6CA1F8F856D00A12585 = {
 			isa = PBXGroup;
 			children = (
+				16ED28021FD5A74900D5E222 /* Default-568h@2x.png */,
 				16AEE5191F9D2748004798A8 /* RenderInspector.xcodeproj */,
 				165399121F9A737B006DFE5D /* RenderNeutrino.xcodeproj */,
 				168FA6D51F8F856D00A12585 /* src */,
@@ -356,6 +359,7 @@
 				16D3659E1FAF4E370020E802 /* stylesheet.js in Resources */,
 				1671C1301FC5C6CA00F73A9C /* forest.gif in Resources */,
 				162560FB1FA5DB5B0066AF05 /* counter-fragment.js in Resources */,
+				16ED28041FD5A74900D5E222 /* Default-568h@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
