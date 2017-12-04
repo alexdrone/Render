@@ -136,21 +136,11 @@
 		1670701C1FB8C170008DFC5B /* scenes */ = {
 			isa = PBXGroup;
 			children = (
-				16D24C431FD5703F000BADB9 /* vcs */,
+				16D24C431FD5703F000BADB9 /* viewcontrollers */,
 				16BFC4D31FC5C26F00A37FD4 /* fragments */,
 				16BFC4D21FC5C24A00A37FD4 /* components */,
-				167070201FB8C1C7008DFC5B /* index */,
 			);
 			path = scenes;
-			sourceTree = "<group>";
-		};
-		167070201FB8C1C7008DFC5B /* index */ = {
-			isa = PBXGroup;
-			children = (
-				167070211FB8C1D7008DFC5B /* IndexViewController.swift */,
-				167070251FB8C757008DFC5B /* IndexTableComponent.swift */,
-			);
-			path = index;
 			sourceTree = "<group>";
 		};
 		168FA6CA1F8F856D00A12585 = {
@@ -231,6 +221,7 @@
 		16BFC4D21FC5C24A00A37FD4 /* components */ = {
 			isa = PBXGroup;
 			children = (
+				167070251FB8C757008DFC5B /* IndexTableComponent.swift */,
 				16A38D391FC0E897000E43E9 /* AppStoreEntry.swift */,
 				161D3A291FC36CE10066C923 /* AppStoreList.swift */,
 				16AF338B1FABC83E00379FA9 /* JsCounter.swift */,
@@ -248,14 +239,15 @@
 			path = fragments;
 			sourceTree = "<group>";
 		};
-		16D24C431FD5703F000BADB9 /* vcs */ = {
+		16D24C431FD5703F000BADB9 /* viewcontrollers */ = {
 			isa = PBXGroup;
 			children = (
+				167070211FB8C1D7008DFC5B /* IndexViewController.swift */,
 				16D24C441FD5705E000BADB9 /* AppStoreEntryViewController.swift */,
 				16D24C461FD5717D000BADB9 /* AppStoreListViewController.swift */,
 				16D24C481FD571BA000BADB9 /* JsCounterViewController.swift */,
 			);
-			path = vcs;
+			path = viewcontrollers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
