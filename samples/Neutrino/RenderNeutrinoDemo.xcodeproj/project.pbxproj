@@ -137,7 +137,7 @@
 			isa = PBXGroup;
 			children = (
 				16D24C431FD5703F000BADB9 /* vcs */,
-				16BFC4D31FC5C26F00A37FD4 /* common */,
+				16BFC4D31FC5C26F00A37FD4 /* fragments */,
 				16BFC4D21FC5C24A00A37FD4 /* components */,
 				167070201FB8C1C7008DFC5B /* index */,
 			);
@@ -216,6 +216,7 @@
 		16B2EFB21FC5BD6500CC3840 /* res */ = {
 			isa = PBXGroup;
 			children = (
+				1671C12F1FC5C6CA00F73A9C /* forest.gif */,
 			);
 			path = res;
 			sourceTree = "<group>";
@@ -238,14 +239,13 @@
 			path = components;
 			sourceTree = "<group>";
 		};
-		16BFC4D31FC5C26F00A37FD4 /* common */ = {
+		16BFC4D31FC5C26F00A37FD4 /* fragments */ = {
 			isa = PBXGroup;
 			children = (
-				1671C12F1FC5C6CA00F73A9C /* forest.gif */,
 				160CC86F1FB8C97D00CC6080 /* Stylesheet.swift */,
 				16A38D371FC0E6DF000E43E9 /* Fragments.swift */,
 			);
-			path = common;
+			path = fragments;
 			sourceTree = "<group>";
 		};
 		16D24C431FD5703F000BADB9 /* vcs */ = {
