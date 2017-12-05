@@ -14,7 +14,7 @@ public protocol UIStylesheetPalette: UIStylesheetObject { }
 extension UIStylesheetPalette {
   /// The *UIColor* generated from this stylesheet value.
   public var color: UIColor {
-    return UIContext.default.jsBridge.variable(namespace: .palette, name: rawValue) ?? .black
+    return UIContext.forStylesheet.jsBridge.variable(namespace: .palette, name: rawValue) ?? .black
   }
 }
 
@@ -24,7 +24,7 @@ public protocol UIStylesheetTypography: UIStylesheetObject { }
 extension UIStylesheetTypography {
   /// The *UIFont* generated from this stylesheet value.
   public var font: UIFont {
-    return UIContext.default.jsBridge.variable(namespace: .typography, name: rawValue) ?? UIFont()
+    return UIContext.forStylesheet.jsBridge.variable(namespace: .typography, name: rawValue) ?? UIFont()
   }
 }
 
@@ -34,7 +34,7 @@ public protocol UIStylesheetFlags: UIStylesheetObject { }
 extension UIStylesheetFlags {
   /// The boolean flat generated from this stylesheet value.
   public var flag: Bool {
-    return UIContext.default.jsBridge.variable(namespace: .flags, name: rawValue) ?? false
+    return UIContext.forStylesheet.jsBridge.variable(namespace: .flags, name: rawValue) ?? false
   }
 }
 
@@ -44,6 +44,6 @@ public protocol UIStylesheetConstants: UIStylesheetObject { }
 extension UIStylesheetConstants {
   /// The layout constant generated from this stylesheet value.
   public var flag: CGFloat {
-    return UIContext.default.jsBridge.variable(namespace: .constants, name: rawValue) ?? 0
+    return UIContext.forStylesheet.jsBridge.variable(namespace: .constants, name: rawValue) ?? 0
   }
 }

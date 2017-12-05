@@ -146,6 +146,10 @@ public class JSBridge {
     initJSContext()
   }
 
+  deinit {
+    logDealloc(type: "JSBridge", object: self)
+  }
+
   private func loadFileFromRemoteServer(_ file: String) -> String? {
     guard let url = URL(string: "\(debugRemoteUrl)\(file).js") else { return nil }
     return try? String(contentsOf: url, encoding: .utf8)
@@ -235,6 +239,8 @@ public class JSBridge {
 
   /// Reset the javascript context.
   public func initJSContext() {
+    let startTime = CFAbsoluteTimeGetCurrent()
+
     jsContext = JSContext()
     index = 0
     nodes = [:]
@@ -308,6 +314,17 @@ public class JSBridge {
     }
     // Prefetches all of the variables that are defined in the default namespaces.
     prefetchVariables()
+
+    debugContextInit(startTime: startTime)
+  }
+
+  func debugContextInit(startTime: CFAbsoluteTime){
+    logAlloc(type: "JSBridge", object: self, time: (CFAbsoluteTimeGetCurrent() - startTime) * 1000)
+    #if (arch(i386) || arch(x86_64)) && os(iOS)
+      let footprint = Array(prefetchedVars.keys).memoryFootprint() +
+                      Array(prefetchedVars.values).memoryFootprint()
+      print(String(format: "in-memory stylesheet footprint: %d bytes.", arguments: [footprint]))
+    #endif
   }
 }
 
@@ -547,5 +564,17 @@ extension JSBridgeValue.UIKit {
     ui.heightPreset = { none: 0, tiny: 20, xsmall: 28, small: 36, default: 44, normal: 49,
     medium: 52, large: 60, xlarge: 68, xxlarge: 104 }
     """
+  }
+}
+
+extension Array {
+  // Returns the memory footprint of this array (used only for profiling reasons).
+  public func memoryFootprint() -> Int {
+    func data() -> NSData {
+      return self.withUnsafeBufferPointer({
+        NSData(bytes: $0.baseAddress, length: count * MemoryLayout<Element>.stride)
+      })
+    }
+    return data().length
   }
 }

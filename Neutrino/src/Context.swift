@@ -74,7 +74,7 @@ public protocol UIContextDelegate: class {
 
 public class UIContext: UIContextProtocol {
   /// A shared context meant to be accessed only from the stylesheet.
-  static let `default` = UIContext()
+  static let forStylesheet = UIStylesheetContext()
 
   public let pool = UIContextPool()
 
@@ -109,7 +109,22 @@ public class UIContext: UIContextProtocol {
     return _screenStateFactory.state()
   }
 
-  public init() { }
+  public init() {
+    logAlloc(type: "UIContext", object: self, details: allocationInfo)
+  }
+
+  deinit {
+    logDealloc(type: "UIContext", object: self)
+  }
+
+  private var allocationInfo: String? {
+    if self is UIStylesheetContext {
+      return "(Stylesheet)"
+    } else if self is UICellContext {
+      return "(Cells)"
+    }
+    return nil
+  }
 
   public func state<S: UIStateProtocol>(_ type: S.Type, key: String) -> S {
     return pool.state(key: key)
@@ -242,3 +257,4 @@ public final class UIContextPool {
   }
 }
 
+public class UIStylesheetContext: UIContext { }

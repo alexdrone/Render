@@ -1,15 +1,15 @@
 // STYLE VARIABLES
 
-// These can be referred within your js *fragments* or *style* definitions 
-// e.g. *backgroundColor: palette.green* or from your native code by using the 
+// These can be referred within your js *fragments* or *style* definitions
+// e.g. *backgroundColor: palette.green* or from your native code by using the
 // *UIContext* javascript bridge.
 // e.g. *let color: UIColor? = context.jsBridge.variable(namespace: .palette, name: "green")*
-// The variables defined in the *palette*, *typography*, *flags*, and *constants* 
+// The variables defined in the *palette*, *typography*, *flags*, and *constants*
 // objects are pre-fetched from Render.
 //
 // N.B. If you want hot-reload (⌘ + R) enabled you first need to:
 // - run ./tools/render-watch-js.sh JS_FILE_DIRECTORY
-// - Set *NSAppTransportSecurity* in Info.plist to *NSAllowsArbitraryLoads* for your 
+// - Set *NSAppTransportSecurity* in Info.plist to *NSAllowsArbitraryLoads* for your
 //   debug build (You can use a preprocessed Info.plist and wrap the configuration in
 //   #if DEBUG ... #endif).
 //
@@ -35,14 +35,10 @@ const flags = { }
 // e.g. *defaultButtonWidth: 44* or *avatarSize: size(128, 128)*.
 const constants = { }
 
-// Assets used by your application.
-// e.g. *moveIcon: image('move')*.
-const assets = { }
-
 // STYLES
 
-// Styles can be referred from js fragment nodes 
-// e.g. *Node(UIView, 'myKey', ui.style.MyStyle(), [])* more styles can be combined by using 
+// Styles can be referred from js fragment nodes
+// e.g. *Node(UIView, 'myKey', ui.style.MyStyle(), [])* more styles can be combined by using
 // the *Object.assing* api.
 // You can apply a js style to a view from your native node defintion by invoking the javascript
 // bridge available in your context.
@@ -50,10 +46,10 @@ const assets = { }
 
 /*
 ui.style.MyStyle = function(args, size) {
-  return { 
-    backgroundColor: palette.green, 
+  return {
+    backgroundColor: palette.green,
     flexDirection: row,
-    padding: 4 
+    padding: 4
   }
 }
 */
