@@ -5,7 +5,7 @@ import JavaScriptCore
 
 public class JSBridge {
   public private(set) var jsContext: JSContext!
-  private let context: UIContextProtocol
+  private weak var context: UIContextProtocol?
   private var index = 0
   private var nodes: [Int: UIJsFragmentNode] = [:]
   private var rootNodes: [String: UIJsFragmentNode] = [:]
@@ -270,7 +270,7 @@ public class JSBridge {
     jsContext?.setObject(nodeBuild, forKeyedSubscript: nodeBuildJSBridgeName)
 
     let screen: @convention(block) () -> NSDictionary = {
-      let screenJson = try! JSONEncoder().encode(self.context.screen)
+      let screenJson = try! JSONEncoder().encode(self.context!.screen)
       let screenDictionary = try! JSONSerialization.jsonObject(with: screenJson, options: [])
       return screenDictionary as! NSDictionary
     }

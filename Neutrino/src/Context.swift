@@ -1,6 +1,6 @@
 import UIKit
 
-public protocol UIContextProtocol: class {
+public protocol UIContextProtocol: Disposable {
   /// Retrieves the state for the key passed as argument.
   /// If no state is registered yet, a new one will be allocated and returned.
   /// - parameter type: The desired *UIState* subclass.
@@ -76,8 +76,7 @@ public class UIContext: UIContextProtocol {
   /// A shared context meant to be accessed only from the stylesheet.
   static let forStylesheet = UIStylesheetContext()
 
-  public let pool = UIContextPool()
-
+  public var pool = UIContextPool()
   /// Returns the bounds of the canvas view.
   public var canvasSize: CGSize {
     return _canvasView?.bounds.size ?? UIScreen.main.nativeBounds.size
@@ -102,18 +101,21 @@ public class UIContext: UIContextProtocol {
   public weak var _parentContext: UIContextProtocol?
   // suspendComponentRendering has been called on this context.
   public private(set) var _isRenderSuspended: Bool = false
-
   /// Interface idiom, orientation and bounds for the screen and the canvas view associted to this
   /// context.
   public var screen: UIScreenStateFactory.State {
     return _screenStateFactory.state()
   }
+  /// Whether this object has been disposed or not.
+  /// Once an object is disposed it cannot be used any longer.
+  public var isDisposed: Bool = false
 
   public init() {
     logAlloc(type: "UIContext", object: self, details: allocationInfo)
   }
 
   deinit {
+    dispose()
     logDealloc(type: "UIContext", object: self)
   }
 
@@ -179,6 +181,10 @@ public class UIContext: UIContextProtocol {
 
   /// Propagates the notification to all of the registered delegates.
   public func didRenderRootComponent(_ component: UIComponentProtocol) {
+    guard !isDisposed else {
+      disposedWarning()
+      return
+    }
     for delegate in delegates.flatMap({ $0.delegate }) {
       delegate.setNeedRenderInvoked(on: self, component: component)
     }
@@ -193,6 +199,22 @@ public class UIContext: UIContextProtocol {
   struct UIContextDelegateWeakRef {
     weak var delegate: UIContextDelegate?
   }
+
+  /// Dispose the object and makes it unusable.
+  public func dispose() {
+    isDisposed = true
+    // Disposes all of the components in the pool.
+    for component in self.pool.allComponents() {
+      component.dispose()
+    }
+    pool = UIContextPool()
+    // Flushes the targets.
+    _canvasView = nil
+    layoutAnimator = nil
+    delegates = []
+    _parentContext = nil
+  }
+
 }
 
 // MARK: - UIContextPool

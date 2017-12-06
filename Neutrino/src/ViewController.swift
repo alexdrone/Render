@@ -18,6 +18,7 @@ open class UIComponentViewController<C: UIComponentProtocol>: UIViewController {
     context = UIContext()
     rootKey = String(describing: type(of: self))
     super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+    logAlloc(type: String(describing: type(of: self)), object: self)
   }
 
   public required init?(coder aDecoder: NSCoder) {
@@ -31,6 +32,11 @@ open class UIComponentViewController<C: UIComponentProtocol>: UIViewController {
     self.context = context
     self.rootKey = rootKey
     super.init(nibName: nil, bundle: nil)
+  }
+
+  deinit {
+    context.dispose()
+    logDealloc(type: String(describing: type(of: self)), object: self)
   }
 
   /// Subclasses should override this method and constructs the root component by using the
@@ -70,6 +76,4 @@ open class UIComponentViewController<C: UIComponentProtocol>: UIViewController {
   open override func viewDidLayoutSubviews() {
     component.setNeedsRender(options: [])
   }
-
-
 }

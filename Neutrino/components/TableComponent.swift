@@ -328,6 +328,11 @@ public class UITableComponent<S: UIStateProtocol, P: UITableComponentProps>:
                                                  props: P = P()) -> UISectionHeader {
     return cell(type, key: key, props: props)
   }
+
+  public override func dispose() {
+    super.dispose()
+    cellContext.dispose()
+  }
 }
 
 // MARK: - UICell

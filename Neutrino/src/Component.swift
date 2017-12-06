@@ -1,6 +1,6 @@
 import UIKit
 
-public protocol UIComponentProtocol: UINodeDelegateProtocol {
+public protocol UIComponentProtocol: UINodeDelegateProtocol, Disposable {
   /// The component-tree context.
   weak var context: UIContextProtocol? { get }
   /// A unique key for the component (necessary if the component is stateful).
@@ -139,6 +139,11 @@ open class UIComponent<S: UIStateProtocol, P: UIPropsProtocol>: NSObject, UIComp
         context.jsBridge.loadDefinition(file: require)
       }
     }
+    logAlloc(type: String(describing: type(of: self)), object: self)
+  }
+
+  deinit {
+    logDealloc(type: String(describing: type(of: self)), object: self)
   }
 
   /// *Optional for javascript bridge*
@@ -147,8 +152,18 @@ open class UIComponent<S: UIStateProtocol, P: UIPropsProtocol>: NSObject, UIComp
     return []
   }
 
+  /// Whether this object has been disposed or not.
+  /// Once an object is disposed it cannot be used any longer.
+  public var isDisposed: Bool = false
+
   public func setCanvas(view: UIView,
                         options: [UIComponentCanvasOption] = UIComponentCanvasOption.defaults()) {
+    assert(Thread.isMainThread)
+    guard !isDisposed else {
+      disposedWarning()
+      return
+    }
+
     canvasView = view
     context?._canvasView = canvasView
     if options.contains(.useBoundsAsCanvasSize) {
@@ -174,6 +189,11 @@ open class UIComponent<S: UIStateProtocol, P: UIPropsProtocol>: NSObject, UIComp
 
   /// Called when ⌘ + R is pressed to reload the component.
   func forceComponentReload() {
+    assert(Thread.isMainThread)
+    guard !isDisposed else {
+      disposedWarning()
+      return
+    }
     guard parent == nil, canvasView != nil else { return }
     self.context?.jsBridge.initJSContext()
     self.setNeedsRender()
@@ -181,6 +201,11 @@ open class UIComponent<S: UIStateProtocol, P: UIPropsProtocol>: NSObject, UIComp
 
   public func setNeedsRender(options: [UIComponentRenderOption] = []) {
     assert(Thread.isMainThread)
+    guard !isDisposed else {
+      disposedWarning()
+      return
+    }
+
     guard parent == nil else {
       parent?.setNeedsRender(options: options)
       return
@@ -235,6 +260,11 @@ open class UIComponent<S: UIStateProtocol, P: UIPropsProtocol>: NSObject, UIComp
 
   public func resumeFromSuspendedRenderingIfNecessary() {
     assert(Thread.isMainThread)
+    guard !isDisposed else {
+      disposedWarning()
+      return
+    }
+
     guard setNeedsRenderCalledDuringSuspension else {
       return
     }
@@ -243,6 +273,12 @@ open class UIComponent<S: UIStateProtocol, P: UIPropsProtocol>: NSObject, UIComp
   }
 
   private func setKey(node: UINodeProtocol) {
+    assert(Thread.isMainThread)
+    guard !isDisposed else {
+      disposedWarning()
+      return
+    }
+
     if let key = key, node.key == nil {
       node.key = key
     }
@@ -317,6 +353,23 @@ open class UIComponent<S: UIStateProtocol, P: UIPropsProtocol>: NSObject, UIComp
 
   open func nodeDidLayout(_ node: UINodeProtocol, view: UIView) {
     delegate?.nodeDidLayout(node, view: view)
+  }
+
+  /// Dispose the object and makes it unusable.
+  public func dispose() {
+    isDisposed = true
+    // Resets props and state.
+    props = P()
+    renderSize = { CGSize.zero }
+    // Flushes all of the targets.
+    context = nil
+    delegate = nil
+    parent = nil
+    boundsObserver = nil
+    canvasView = nil
+    // Disposes the root node.
+    root.dispose()
+    NotificationCenter.default.removeObserver(self)
   }
 }
 

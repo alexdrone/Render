@@ -16,7 +16,7 @@ public protocol UINodeDelegateProtocol: class {
 
 // MARK: - UINodeProtocol
 
-public protocol UINodeProtocol: class {
+public protocol UINodeProtocol: Disposable {
   /// Backing view for this node.
   var renderedView: UIView? { get }
   /// *Optional* delegate.
@@ -116,11 +116,14 @@ public class UINode<V: UIView>: UINodeProtocol {
   public var unmanagedChildren: [UINodeProtocol] = []
   public var overrides: ((UIView) -> Void)? = nil
 
+  /// Whether this object has been disposed or not.
+  /// Once an object is disposed it cannot be used any longer.
+  public var isDisposed: Bool = false
+
   // Private.
 
-  public let createClosure: CreationClosure
+  public var createClosure: CreationClosure
   public var configClosure: ConfigurationClosure = { _ in }
-  public var childrenClosure: ConfigurationClosure = { _ in }
   // 'true' whenever view just got created and added to the view hierarchy.
   private var shouldInvokeDidMount: Bool = false
   // The target object for the view binding method.
@@ -189,6 +192,11 @@ public class UINode<V: UIView>: UINodeProtocol {
 
   public func _setup(in bounds: CGSize, options: [UINodeOption]) {
     assert(Thread.isMainThread)
+    guard !isDisposed else {
+      disposedWarning()
+      return
+    }
+
     _constructView()
     willLayout(options: options)
 
@@ -231,6 +239,11 @@ public class UINode<V: UIView>: UINodeProtocol {
   /// Re-applies the configuration for the node and compute its layout.
   public func layout(in bounds: CGSize, options: [UINodeOption] = []) {
     assert(Thread.isMainThread)
+    guard !isDisposed else {
+      disposedWarning()
+      return
+    }
+
     _setup(in: bounds, options: options)
 
     let view = requireRenderedView()
@@ -304,6 +317,11 @@ public class UINode<V: UIView>: UINodeProtocol {
   /// Asks the node to build the backing view for this node.
   public func _constructView(with reusableView: UIView? = nil) {
     assert(Thread.isMainThread)
+    guard !isDisposed else {
+      disposedWarning()
+      return
+    }
+
     defer {
       bindIfNecessary(renderedView!)
     }
@@ -367,6 +385,11 @@ public class UINode<V: UIView>: UINodeProtocol {
   /// to a different level in the tree.
   public func reconcile(in view: UIView? = nil, size: CGSize? = nil, options: [UINodeOption] = []) {
     assert(Thread.isMainThread)
+    guard !isDisposed else {
+      disposedWarning()
+      return
+    }
+
     guard let view = view ?? renderedView?.superview else {
       return
     }
@@ -389,6 +412,11 @@ public class UINode<V: UIView>: UINodeProtocol {
   public func bindView<O: AnyObject, V>(target: O,
                                         keyPath: ReferenceWritableKeyPath<O, V>) {
     assert(Thread.isMainThread)
+    guard !isDisposed else {
+      disposedWarning()
+      return
+    }
+
     bindTarget = target
     bindIfNecessary = { [weak self] (view: UIView) in
       guard let object = self?.bindTarget as? O, let view = view as? V else {
@@ -400,6 +428,10 @@ public class UINode<V: UIView>: UINodeProtocol {
 
   /// Returns the node with the key matching the function argument.
   public func nodeWithKey(_ key: String) -> UINodeProtocol? {
+    guard !isDisposed else {
+      disposedWarning()
+      return nil
+    }
     if self.key == key { return self }
     for child in children {
       if let result = child.nodeWithKey(key) {
@@ -415,10 +447,30 @@ public class UINode<V: UIView>: UINodeProtocol {
     func retrieveAllKeys(node: UINodeProtocol) {
       if let key = node.key { keys.insert(key) }
       node.children.forEach { node in retrieveAllKeys(node: node) }
-      node.unmanagedChildren.forEach {  node in retrieveAllKeys(node: node) }
+      node.unmanagedChildren.forEach { node in retrieveAllKeys(node: node) }
     }
     retrieveAllKeys(node: self)
     return keys
+  }
+
+  /// Dispose the object and makes it unusable.
+  public func dispose() {
+    isDisposed = true
+    for child in children { child.dispose() }
+    // Clears the closures.
+    createClosure = { V() }
+    configClosure = { _ in }
+    overrides = nil
+    // Resets all the targets of the target view.
+    renderedView?.resetAllTargets()
+    renderedView = nil
+    NotificationCenter.default.removeObserver(self)
+    children = []
+    // This properties are already 'nil' - we wipe them just for sake of consistency.
+    bindTarget = nil
+    delegate = nil
+    parent = nil
+    associatedComponent = nil
   }
 }
 
