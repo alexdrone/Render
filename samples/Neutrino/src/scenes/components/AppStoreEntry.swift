@@ -127,7 +127,7 @@ extension UI.Components {
 
     // The description text.
     private func configureDescriptionLabel(configuration: UINode<UILabel>.Configuration) {
-      configuration.set(\UILabel.font, Font.small.font)
+      configuration.set(\UILabel.font, Typography.small.font)
       configuration.set(\UILabel.textColor, Palette.white.color)
       // The alpha is animated on change.
       configuration.set(\UILabel.alpha, !state.expanded ? 0 : 1, animator: defaultAnimator())
@@ -138,7 +138,7 @@ extension UI.Components {
 
     // The main title.
     private func configureLabel(configuration: UINode<UILabel>.Configuration) {
-      let font: UIFont = state.expanded ? Font.mediumBold.font : Font.medium.font
+      let font: UIFont = state.expanded ? Typography.mediumBold.font : Typography.medium.font
       configuration.set(\UILabel.yoga.height, HeightPreset.medium.cgFloatValue)
       configuration.set(\UILabel.font, font)
       configuration.set(\UILabel.textColor, Palette.white.color)

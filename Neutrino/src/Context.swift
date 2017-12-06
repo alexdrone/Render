@@ -133,7 +133,7 @@ public class UIContext: UIContextProtocol {
   }
 
   public func component<S, P, C: UIComponent<S, P>>(_ type: C.Type,
-                                                    key: String,
+                                                    key: String = string(fromType: C.self),
                                                     props: P = P(),
                                                     parent: UIComponentProtocol? = nil) -> C {
     assert(Thread.isMainThread)

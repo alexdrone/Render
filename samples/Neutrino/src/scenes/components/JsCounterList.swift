@@ -8,7 +8,7 @@ extension UI.Components {
       let table = childComponent(UIDefaultTableComponent.self, key: childKey("table"))
       // Configure the table.
       table.props.configuration = { config in
-        config.set(\UITableView.backgroundColor, Color.black)
+        config.set(\UITableView.backgroundColor, Palette.primary.color)
       }
       // Builds a section with 100 'Foo.Component' cells and a header.
       let section = UITableComponentProps.Section(

@@ -66,3 +66,7 @@ public func logDealloc(type: String, object: Any, details: String? = nil) {
     print(String(format: format, arguments: [$0]))
   }
 }
+
+public func string<T>(fromType aType: T) -> String {
+  return String(describing: type(of: aType))
+}

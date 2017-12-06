@@ -22,12 +22,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 extension UIComponentViewController {
 
   func styleNavigationBar() {
+    let title = string(fromType: self).replacingOccurrences(of: "ViewController", with: "")
+    view.backgroundColor = Palette.primary.color
+    navigationItem.title = title
     let vc = self
     vc.navigationController?.navigationBar.isTranslucent = true
     vc.navigationController?.navigationBar.titleTextAttributes =
       [NSAttributedStringKey.foregroundColor: Palette.white.color]
     vc.navigationController?.navigationBar.barTintColor = Palette.navigationBar.color
-    vc.navigationController?.navigationBar.tintColor = Palette.navigationBar.color
+    vc.navigationController?.navigationBar.tintColor = Palette.white.color
     vc.navigationController?.navigationBar.shadowImage = UIImage()
   }
 }

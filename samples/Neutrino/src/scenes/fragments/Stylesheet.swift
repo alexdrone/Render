@@ -18,10 +18,11 @@ enum Palette: String, UIStylesheetPalette {
   case blue
 }
 
-enum Font: String, UIStylesheetTypography {
+enum Typography: String, UIStylesheetTypography {
   case extraSmallBold
   case small
   case smallBold
   case medium
   case mediumBold
 }
+

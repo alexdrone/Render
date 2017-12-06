@@ -5,15 +5,11 @@ class AppStoreEntryViewController: UIComponentViewController<UI.Components.AppSt
 
   override func buildRootComponent() -> UI.Components.AppStoreEntry {
     return context.component(UI.Components.AppStoreEntry.self,
-                             key: "appstore-example",
-                             props: UI.Props.AppStoreEntry.singleCardExample(),
-                             parent: nil)
+                             props: UI.Props.AppStoreEntry.singleCardExample())
   }
 
   override func viewDidLoad() {
     super.viewDidLoad()
-    view.backgroundColor = Palette.primary.color
-    self.navigationItem.title = "CARD COMPONENT"
     styleNavigationBar()
   }
 }

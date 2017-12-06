@@ -71,7 +71,7 @@ extension UI.Components {
     }
 
     private func configureLabel(configuration: UINode<UILabel>.Configuration) {
-      let font = props.isHighlighted ? Font.smallBold.font : Font.small.font
+      let font = props.isHighlighted ? Typography.smallBold.font : Typography.small.font
       configuration.view.font = font
       configuration.view.textColor = Palette.white.color
       configuration.view.yoga.margin = MarginPreset.tiny.cgFloatValue

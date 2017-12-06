@@ -36,7 +36,7 @@ class IndexViewController: UIComponentViewController<UI.Components.IndexTable> {
 
   override func viewDidLoad() {
     super.viewDidLoad()
-    self.navigationItem.title = "NEUTRINO CATALOG"
     styleNavigationBar()
   }
 }
+

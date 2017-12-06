@@ -24,7 +24,6 @@
 		16AEE51F1F9D2758004798A8 /* RenderInspector.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16AEE51E1F9D2748004798A8 /* RenderInspector.framework */; };
 		16AEE5201F9D2758004798A8 /* RenderInspector.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 16AEE51E1F9D2748004798A8 /* RenderInspector.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		16AF338C1FABC83E00379FA9 /* JsCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16AF338B1FABC83E00379FA9 /* JsCounter.swift */; };
-		16BF01781F9E1381001F7888 /* Style.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16BF01771F9E1381001F7888 /* Style.swift */; };
 		16D24C451FD5705E000BADB9 /* AppStoreEntryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D24C441FD5705E000BADB9 /* AppStoreEntryViewController.swift */; };
 		16D24C471FD5717D000BADB9 /* AppStoreListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D24C461FD5717D000BADB9 /* AppStoreListViewController.swift */; };
 		16D24C491FD571BA000BADB9 /* JsCounterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D24C481FD571BA000BADB9 /* JsCounterViewController.swift */; };
@@ -103,7 +102,6 @@
 		16A38D391FC0E897000E43E9 /* AppStoreEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStoreEntry.swift; sourceTree = "<group>"; };
 		16AEE5191F9D2748004798A8 /* RenderInspector.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RenderInspector.xcodeproj; path = ../../inspector/ios/RenderInspector.xcodeproj; sourceTree = "<group>"; };
 		16AF338B1FABC83E00379FA9 /* JsCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsCounter.swift; sourceTree = "<group>"; };
-		16BF01771F9E1381001F7888 /* Style.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Style.swift; sourceTree = "<group>"; };
 		16D24C441FD5705E000BADB9 /* AppStoreEntryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStoreEntryViewController.swift; sourceTree = "<group>"; };
 		16D24C461FD5717D000BADB9 /* AppStoreListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStoreListViewController.swift; sourceTree = "<group>"; };
 		16D24C481FD571BA000BADB9 /* JsCounterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsCounterViewController.swift; sourceTree = "<group>"; };
@@ -146,7 +144,6 @@
 		168FA6CA1F8F856D00A12585 = {
 			isa = PBXGroup;
 			children = (
-				16ED28021FD5A74900D5E222 /* Default-568h@2x.png */,
 				16AEE5191F9D2748004798A8 /* RenderInspector.xcodeproj */,
 				165399121F9A737B006DFE5D /* RenderNeutrino.xcodeproj */,
 				168FA6D51F8F856D00A12585 /* src */,
@@ -173,8 +170,8 @@
 				168FA6D61F8F856D00A12585 /* AppDelegate.swift */,
 				168FA6DD1F8F856D00A12585 /* Assets.xcassets */,
 				168FA6DF1F8F856D00A12585 /* LaunchScreen.storyboard */,
+				16ED28021FD5A74900D5E222 /* Default-568h@2x.png */,
 				168FA6E21F8F856D00A12585 /* Info.plist */,
-				16BF01771F9E1381001F7888 /* Style.swift */,
 			);
 			path = src;
 			sourceTree = "<group>";
@@ -373,7 +370,6 @@
 				16D24C471FD5717D000BADB9 /* AppStoreListViewController.swift in Sources */,
 				16D24C491FD571BA000BADB9 /* JsCounterViewController.swift in Sources */,
 				16A38D381FC0E6DF000E43E9 /* Fragments.swift in Sources */,
-				16BF01781F9E1381001F7888 /* Style.swift in Sources */,
 				167070221FB8C1D7008DFC5B /* IndexViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
