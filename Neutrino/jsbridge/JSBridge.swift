@@ -151,6 +151,7 @@ public class JSBridge {
   }
 
   private func loadFileFromRemoteServer(_ file: String) -> String? {
+    guard DebugFlags.isHotReloadInSimulatorEnabled else { return nil }
     guard let url = URL(string: "\(debugRemoteUrl)\(file).js") else { return nil }
     return try? String(contentsOf: url, encoding: .utf8)
   }
@@ -269,13 +270,7 @@ public class JSBridge {
     let nodeBuildJSBridgeName: NSString = "UINode"
     jsContext?.setObject(nodeBuild, forKeyedSubscript: nodeBuildJSBridgeName)
 
-    let screen: @convention(block) () -> NSDictionary = {
-      let screenJson = try! JSONEncoder().encode(self.context!.screen)
-      let screenDictionary = try! JSONSerialization.jsonObject(with: screenJson, options: [])
-      return screenDictionary as! NSDictionary
-    }
-    let screenJSBridgeName: NSString = "screen"
-    jsContext?.setObject(screen, forKeyedSubscript: screenJSBridgeName)
+    updateScreenMetrics()
 
     // js exeption handler.
     jsContext?.exceptionHandler = { context, exception in
@@ -316,6 +311,16 @@ public class JSBridge {
     prefetchVariables()
 
     debugContextInit(startTime: startTime)
+  }
+
+  func updateScreenMetrics() {
+    let screen: @convention(block) () -> NSDictionary = {
+      let screenJson = try! JSONEncoder().encode(self.context!.screen)
+      let screenDictionary = try! JSONSerialization.jsonObject(with: screenJson, options: [])
+      return screenDictionary as! NSDictionary
+    }
+    let screenJSBridgeName: NSString = "screen"
+    jsContext?.setObject(screen, forKeyedSubscript: screenJSBridgeName)
   }
 
   func debugContextInit(startTime: CFAbsoluteTime){

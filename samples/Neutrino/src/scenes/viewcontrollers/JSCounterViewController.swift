@@ -9,6 +9,7 @@ class JSCounterViewController: UIComponentViewController<JSCounter.Component> {
 
   override func viewDidLoad() {
     super.viewDidLoad()
+    shouldRenderAlongsideSizeTransitionAnimation = true
     styleNavigationBar()
   }
 }

@@ -128,7 +128,7 @@ public class UITableComponent<S: UIStateProtocol, P: UITableComponentProps>:
       table.allowsMultipleSelection = false
       return table
     }
-    return UINode<UITableView>(reuseIdentifier: "UITableComponent",
+    return UINode<UITableView>(reuseIdentifier: string(fromType: UITableComponent.self),
                                key: key,
                                create: makeTable) { [weak self] config in
       guard let `self` = self else {
@@ -397,7 +397,14 @@ public class UITableComponentCell: UITableViewCell {
     fatalError("init(coder:) has not been implemented")
   }
 
-  public func mount(component: UIComponentProtocol, width: CGFloat) {
+  /// Install the component passed as argument in the *UITableViewCell*'s view hierarchy.
+  /// - Note: This API is not called from *UITableComponent*.
+  public func install(component: UIComponentProtocol, width: CGFloat) {
+    let _ = component.asNode()
+    mount(component: component, width: width)
+  }
+
+  func mount(component: UIComponentProtocol, width: CGFloat) {
     self.component = component
     component.setCanvas(view: contentView, options: [])
 

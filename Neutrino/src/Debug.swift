@@ -28,12 +28,16 @@ public struct DebugFlags {
   }
   /// Logs to console the allocation of contextes and components.
   static var traceAllocations: [Allocation] = [.context]
+  /// Turns on/off the hot reload in the simulator.
+  static var isHotReloadInSimulatorEnabled: Bool = true
+
   /// Determines whether the allocation/deallocation of this object should be traced according to
   /// the current debug settings.
   public static func shouldTraceAllocation(for object: Any) -> Bool {
     if traceAllocations.contains(.component) && object is UIComponentProtocol {
       return true
-    } else if traceAllocations.contains(.context) && object is UIContextProtocol {
+    } else if traceAllocations.contains(.context) &&
+              (object is UIContextProtocol || object is JSBridge) {
       return true
     } else if traceAllocations.contains(.vc) && object is UIViewController {
       return true
@@ -60,7 +64,7 @@ public func logDealloc(type: String, object: Any, details: String? = nil) {
   guard DebugFlags.shouldTraceAllocation(for: object) else { return }
   var ptr = object
   withUnsafePointer(to: &ptr) {
-    var format = "† DEALLOC \(type):%p deinit"
+    var format = "✝ DEALLOC \(type):%p deinit"
     if let details = details, !details.isEmpty { format += " \(details)" }
     format += "."
     print(String(format: format, arguments: [$0]))

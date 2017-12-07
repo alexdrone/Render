@@ -5,7 +5,11 @@ struct AppStoreList {
 
   class State: UIState { }
 
-  class Component: UIComponent<State, UINilProps> {
+  class Props: UIProps {
+    let numberOfItems: Int = 200
+  }
+
+  class Component: UIComponent<State, Props> {
     /// Builds the node hierarchy for this component.
     override func render(context: UIContextProtocol) -> UINodeProtocol {
       // Retrieve the table component with the given key.
@@ -15,7 +19,7 @@ struct AppStoreList {
         config.set(\UITableView.backgroundColor, Palette.secondary.color)
       }
       // Builds the section.
-      let cells = Array(0..<20).map { idx in
+      let cells = Array(0..<props.numberOfItems).map { idx in
         return table.cell(AppStoreEntry.Component.self,
                           key: cellKey(for: idx),
                           props: AppStoreEntry.Props.listCardExample())
