@@ -1,6 +1,6 @@
 import UIKit
 
-// MARK: - UITableViewComponentProps
+// MARK: - UITableViewComponentProp
 
 open class UITableCellProps: UIPropsProtocol {
   public required init() { }
@@ -52,7 +52,7 @@ public class UITableComponentProps: UIPropsProtocol {
     return sections.filter { $0.hasDistinctKeys }.count == sections.count
   }
   /// Returns all of the components across the different sections.
-  public var allComponents: [UIComponentProtocol] {
+  public var allComponent: [UIComponentProtocol] {
     var components: [UIComponentProtocol] = []
     for section in sections {
       components.append(contentsOf: section.cells.flatMap { $0.component })
@@ -170,7 +170,7 @@ public class UITableComponent<S: UIStateProtocol, P: UITableComponentProps>:
 
   // Returns 'true' if the component passed as argument is a child of this table.
   private func componentIsChild(_ component: UIComponentProtocol) -> Bool {
-    for child in props.allComponents {
+    for child in props.allComponent {
       if componentIsEqual(child, component) { return true }
     }
     return false
@@ -267,8 +267,8 @@ public class UITableComponent<S: UIStateProtocol, P: UITableComponentProps>:
   /// Tells the delegate that the specified row is now selected.
   public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     let component = props.sections[indexPath.section].cells[indexPath.row].component
-    guard let cellProps = component.anyProps as? UITableCellProps else { return }
-    cellProps.onCellSelected?()
+    guard let cellProp = component.anyProp as? UITableCellProps else { return }
+    cellProp.onCellSelected?()
 
     for idx in tableView.indexPathsForVisibleRows ?? [] where indexPath != idx {
       highlightCell(false, at: idx)
@@ -282,8 +282,8 @@ public class UITableComponent<S: UIStateProtocol, P: UITableComponentProps>:
 
   private func highlightCell(_ isHighlighted: Bool, at indexPath: IndexPath) {
     let component = props.sections[indexPath.section].cells[indexPath.row].component
-    guard let cellProps = component.anyProps as? UITableCellProps else { return }
-    cellProps.isHighlighted = isHighlighted
+    guard let cellProp = component.anyProp as? UITableCellProps else { return }
+    cellProp.isHighlighted = isHighlighted
     component.setNeedsRender(options: [])
   }
 
@@ -354,7 +354,7 @@ public typealias UISectionHeader = UICellDescriptor
 
 // MARK: - UICellContext
 
-/// Components that are embedded in cells have a different context.
+/// Component that are embedded in cells have a different context.
 public final class UICellContext: UIContext {
   /// Layout animator is not available for cells.
   public override var layoutAnimator: UIViewPropertyAnimator? {
@@ -369,7 +369,7 @@ public final class UICellContext: UIContext {
     return context.canvasSize
   }
 
-  public override func flushObsoleteStates(validKeys: Set<String>) {
+  public override func flushObsoleteState(validKeys: Set<String>) {
     /// The lifetime of the cells is diffirent from traditional components due to recycling
     /// and managed from *UITableComponent*.
   }

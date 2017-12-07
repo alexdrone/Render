@@ -1,19 +1,11 @@
 import UIKit
 import RenderNeutrino
 
-public struct UI {
-  /// Namespace reserved for app fragments.
-  public struct Fragments { }
-  /// Namespace reserved for app components.
-  public struct Components { }
-  /// Namespace reserved for components props.
-  public struct Props { }
-  /// Namespace reserved for components states.
-  public struct States { }
-}
+/// Namespace reserved for app fragments.
+public struct Fragment { }
 
 /// Common components fragments.
-extension UI.Fragments {
+extension Fragment {
   public typealias UIViewConfiguration = UINode<UIView>.ConfigurationClosure
   public typealias UILabelConfiguration = UINode<UILabel>.ConfigurationClosure
   public typealias UIButtonConfiguration = UINode<UIButton>.ConfigurationClosure

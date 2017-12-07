@@ -24,15 +24,15 @@ class ContextTests: XCTestCase {
     XCTAssertTrue(sb1 === sb2)
   }
 
-  func testFlushObsoleteStates() {
+  func testFlushObsoleteState() {
     let context = UIContext()
     let sa1 = context.state(Sa.self, key: "foo")
-    context.flushObsoleteStates(validKeys: Set<String>())
+    context.flushObsoleteState(validKeys: Set<String>())
     let sa2 = context.state(Sa.self, key: "foo")
     XCTAssertFalse(sa1 === sa2)
   }
 
-  func testUniquenessOfStatefulComponents() {
+  func testUniquenessOfStatefulComponent() {
     let context = UIContext()
     let ca1 = context.component(Ca.self, key: "foo")
     let ca2 = context.component(Ca.self, key: "foo")
@@ -43,7 +43,7 @@ class ContextTests: XCTestCase {
     XCTAssertTrue(ca1.parent === cb1)
   }
 
-  func testTransientComponents() {
+  func testTransientComponent() {
     let context = UIContext()
     let cc1 = context.transientComponent(Cc.self)
     let cc2 = context.transientComponent(Cc.self)

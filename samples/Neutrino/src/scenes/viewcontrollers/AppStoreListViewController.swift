@@ -1,10 +1,10 @@
 import UIKit
 import RenderNeutrino
 
-class AppStoreListViewController: UIComponentViewController<UI.Components.AppStoreList> {
+class AppStoreListViewController: UIComponentViewController<AppStoreList.Component> {
 
-  override func buildRootComponent() -> UI.Components.AppStoreList {
-    return context.component(UI.Components.AppStoreList.self)
+  override func buildRootComponent() -> AppStoreList.Component {
+    return context.component(AppStoreList.Component.self)
   }
 
   override func viewDidLoad() {

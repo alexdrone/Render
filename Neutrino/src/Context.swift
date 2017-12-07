@@ -42,7 +42,7 @@ public protocol UIContextProtocol: Disposable {
   /// subtree.
   /// - note: This field is auotmatically reset to 'nil' at the end of every 'render' pass.
   var layoutAnimator: UIViewPropertyAnimator? { get set }
-  /// States and component object pool that guarantees uniqueness of 'UIState' and 'UIComponent'
+  /// State and component object pool that guarantees uniqueness of 'UIState' and 'UIComponent'
   /// instances within the same context.
   var pool: UIContextPool { get }
   /// Javascript bridge.
@@ -52,7 +52,7 @@ public protocol UIContextProtocol: Disposable {
   var screen: UIScreenStateFactory.State { get }
   /// Gets rid of the obsolete states.
   /// - parameter validKeys: The keys for the components currently rendered on screen.
-  func flushObsoleteStates(validKeys: Set<String>)
+  func flushObsoleteState(validKeys: Set<String>)
   // *Internal only* component construction sanity check.
   var _componentInitFromContext: Bool { get}
   // *Internal only* true is suspendComponentRendering has been called on this context.
@@ -191,8 +191,8 @@ public class UIContext: UIContextProtocol {
   }
 
   /// Gets rid of the obsolete states.
-  public func flushObsoleteStates(validKeys: Set<String>) {
-    pool.flushObsoleteStates(validKeys: validKeys)
+  public func flushObsoleteState(validKeys: Set<String>) {
+    pool.flushObsoleteState(validKeys: validKeys)
   }
 
   /// Holding struct for a delegate.
@@ -204,7 +204,7 @@ public class UIContext: UIContextProtocol {
   public func dispose() {
     isDisposed = true
     // Disposes all of the components in the pool.
-    for component in self.pool.allComponents() {
+    for component in self.pool.allComponent() {
       component.dispose()
     }
     pool = UIContextPool()
@@ -266,13 +266,13 @@ public final class UIContextPool {
   }
 
   /// Returns all of the components currently available in the object pool.
-  func allComponents() -> [UIComponentProtocol] {
+  func allComponent() -> [UIComponentProtocol] {
     assert(Thread.isMainThread)
     return components.values.map { $0 }
   }
 
   // Gets rid of the obsolete states.
-  fileprivate func flushObsoleteStates(validKeys: Set<String>) {
+  fileprivate func flushObsoleteState(validKeys: Set<String>) {
     assert(Thread.isMainThread)
     states = states.filter { key, _ in validKeys.contains(key) }
     components = components.filter { key, _ in validKeys.contains(key) }

@@ -1,14 +1,11 @@
 import UIKit
 import RenderNeutrino
 
-extension UI.States {
-  class AppStoreList: UIState {
-  }
-}
+struct AppStoreList {
 
-extension UI.Components {
+  class State: UIState { }
 
-  class AppStoreList: UIComponent<UI.States.AppStoreList, UINilProps> {
+  class Component: UIComponent<State, UINilProps> {
     /// Builds the node hierarchy for this component.
     override func render(context: UIContextProtocol) -> UINodeProtocol {
       // Retrieve the table component with the given key.
@@ -19,9 +16,9 @@ extension UI.Components {
       }
       // Builds the section.
       let cells = Array(0..<20).map { idx in
-        return table.cell(AppStoreEntry.self,
+        return table.cell(AppStoreEntry.Component.self,
                           key: cellKey(for: idx),
-                          props: UI.Props.AppStoreEntry.listCardExample())
+                          props: AppStoreEntry.Props.listCardExample())
       }
       let section = UITableComponentProps.Section(cells: cells)
       table.props.sections = [section]
@@ -36,3 +33,4 @@ extension UI.Components {
     }
   }
 }
+

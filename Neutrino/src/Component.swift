@@ -31,7 +31,7 @@ public protocol UIComponentProtocol: UINodeDelegateProtocol, Disposable {
   var anyState: UIStateProtocol { get }
   /// Type-erased props associated to this component.
   /// - note: *Internal only.*
-  var anyProps: UIPropsProtocol { get }
+  var anyProp: UIPropsProtocol { get }
   /// Builds the component node.
   /// - note: Use this function to insert the node as a child of a pre-existent node hierarchy.
   func asNode() -> UINodeProtocol
@@ -105,7 +105,7 @@ open class UIComponent<S: UIStateProtocol, P: UIPropsProtocol>: NSObject, UIComp
   }
   /// Use props to pass data & event handlers down to your child components.
   public var props: P = P()
-  public var anyProps: UIPropsProtocol { return props }
+  public var anyProp: UIPropsProtocol { return props }
   public var anyState: UIStateProtocol { return state }
   /// A unique key for the component (necessary if the component is stateful).
   public let key: String?
@@ -134,8 +134,8 @@ open class UIComponent<S: UIStateProtocol, P: UIPropsProtocol>: NSObject, UIComp
     super.init()
     hookInspectorIfAvailable()
     hookHotReload()
-    if requiredJsFragments().count > 0 {
-      for require in requiredJsFragments() {
+    if requiredJSFragment().count > 0 {
+      for require in requiredJSFragment() {
         context.jsBridge.loadDefinition(file: require)
       }
     }
@@ -148,7 +148,7 @@ open class UIComponent<S: UIStateProtocol, P: UIPropsProtocol>: NSObject, UIComp
 
   /// *Optional for javascript bridge*
   /// Returns the files where the javascript fragments are defined.
-  open func requiredJsFragments() -> [String] {
+  open func requiredJSFragment() -> [String] {
     return []
   }
 
@@ -245,14 +245,14 @@ open class UIComponent<S: UIStateProtocol, P: UIPropsProtocol>: NSObject, UIComp
 
     context.didRenderRootComponent(self)
 
-    //context.flushObsoleteStates(validKeys: root._retrieveKeysRecursively())
+    //context.flushObsoleteState(validKeys: root._retrieveKeysRecursively())
     inspectorMarkDirty()
 
     // Reset the animatable frame changes to default.
     context.layoutAnimator = nil
 
     if propagateToParentContext, let parentContext = context._parentContext {
-      parentContext.pool.allComponents().filter { $0.parent == nil }.forEach {
+      parentContext.pool.allComponent().filter { $0.parent == nil }.forEach {
         $0.setNeedsRender(options: [.propagateToParentContext])
       }
     }
@@ -283,11 +283,16 @@ open class UIComponent<S: UIStateProtocol, P: UIPropsProtocol>: NSObject, UIComp
       node.key = key
     }
     #if DEBUG
-    node._debugPropsDescription =
+    node._debugPropDescription =
       props.reflectionDescription(escape: UINodeInspectorDefaultDelimiters)
     node._debugStateDescription =
       state.reflectionDescription(escape: UINodeInspectorDefaultDelimiters)
     #endif
+  }
+
+  public func childKey<T>(_ type: T.Type, _ index: Int = -1) -> String {
+    let indexstr = index >= 0 ? "-\(index)" : ""
+    return childKey(string(fromType: type) + indexstr)
   }
 
   /// Returns the desired child key prefixed with the key of the father.
@@ -301,7 +306,6 @@ open class UIComponent<S: UIStateProtocol, P: UIPropsProtocol>: NSObject, UIComp
       }
     }
     findParentKeyRecursively(component: self)
-
     return "\(parentKey)-\(postfix)"
   }
 

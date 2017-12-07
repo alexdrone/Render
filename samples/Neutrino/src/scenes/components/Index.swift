@@ -1,21 +1,17 @@
 import UIKit
 import RenderNeutrino
 
-extension UI.States {
-  class IndexTable: UIState {
+struct Index {
+
+  class State: UIState { }
+
+  class Props: UIProps {
+    var titles: [CellProps] = []
   }
-}
 
-extension UI.Props {
-  class IndexTable: UIProps {
-    var titles: [IndexCell] = []
-  }
-  class IndexCell: UITableCellProps { }
-}
+  class CellProps: UITableCellProps { }
 
-extension UI.Components {
-
-  class IndexTable: UIComponent<UI.States.IndexTable, UI.Props.IndexTable> {
+  class Component: UIComponent<State, Props> {
     /// Builds the node hierarchy for this component.
     override func render(context: UIContextProtocol) -> UINodeProtocol {
       // Retrieve the table component with the given key.
@@ -26,33 +22,28 @@ extension UI.Components {
       }
       // Builds the section.
       let section = UITableComponentProps.Section(cells: props.titles.enumerated().map { i, props in
-        return table.cell(IndexCell.self, key: cellKey(for: i), props: props)
+        return table.cell(Cell.self, key: childKey(Cell.self, i), props: props)
       })
       table.props.sections = [section]
       // Returns the component node.
       return table.asNode()
     }
-
-    // Helper function that returns the key for a cell at a given index.
-    private func cellKey(for index: Int) -> String {
-      return childKey("index-\(index)")
-    }
   }
 
-  class IndexCell: UIStatelessComponent<UI.Props.IndexCell> {
+  class Cell: UIStatelessComponent<CellProps> {
     /// Builds the node hierarchy for this component.
     override func render(context: UIContextProtocol) -> UINodeProtocol {
       // The cell content view.
-      return UI.Fragments.Row(widthRatio: 1, configure: configureContentView).children([
-        UI.Fragments.Polygon(),
-        UI.Fragments.Column() { config in
+      return Fragment.Row(widthRatio: 1, configure: configureContentView).children([
+        Fragment.Polygon(),
+        Fragment.Column() { config in
           // Ensure the label container is center aligned.
           config.set(\UIView.yoga.justifyContent, .center)
         }.children([
-            UI.Fragments.Text(reuseIdentifier: "title",
+            Fragment.Text(reuseIdentifier: "title",
                               text: props.title,
                               configure: configureLabel),
-            UI.Fragments.Text(reuseIdentifier: "subtitle",
+            Fragment.Text(reuseIdentifier: "subtitle",
                               text: props.subtitle,
                               configure: configureLabel)
           ])

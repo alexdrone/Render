@@ -12,9 +12,8 @@
 		162560FB1FA5DB5B0066AF05 /* counter-fragment.js in Resources */ = {isa = PBXBuildFile; fileRef = 162560FA1FA5DB5B0066AF05 /* counter-fragment.js */; };
 		165399231F9A73B6006DFE5D /* RenderNeutrino.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 165399171F9A737B006DFE5D /* RenderNeutrino.framework */; };
 		165399241F9A73B6006DFE5D /* RenderNeutrino.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 165399171F9A737B006DFE5D /* RenderNeutrino.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		1656BAF91F9FC14A009F561F /* JsCounterList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1656BAF81F9FC14A009F561F /* JsCounterList.swift */; };
 		167070221FB8C1D7008DFC5B /* IndexViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167070211FB8C1D7008DFC5B /* IndexViewController.swift */; };
-		167070261FB8C757008DFC5B /* IndexTableComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167070251FB8C757008DFC5B /* IndexTableComponent.swift */; };
+		167070261FB8C757008DFC5B /* Index.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167070251FB8C757008DFC5B /* Index.swift */; };
 		1671C1301FC5C6CA00F73A9C /* forest.gif in Resources */ = {isa = PBXBuildFile; fileRef = 1671C12F1FC5C6CA00F73A9C /* forest.gif */; };
 		168FA6D71F8F856D00A12585 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 168FA6D61F8F856D00A12585 /* AppDelegate.swift */; };
 		168FA6DE1F8F856D00A12585 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 168FA6DD1F8F856D00A12585 /* Assets.xcassets */; };
@@ -26,7 +25,7 @@
 		16AF338C1FABC83E00379FA9 /* JsCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16AF338B1FABC83E00379FA9 /* JsCounter.swift */; };
 		16D24C451FD5705E000BADB9 /* AppStoreEntryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D24C441FD5705E000BADB9 /* AppStoreEntryViewController.swift */; };
 		16D24C471FD5717D000BADB9 /* AppStoreListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D24C461FD5717D000BADB9 /* AppStoreListViewController.swift */; };
-		16D24C491FD571BA000BADB9 /* JsCounterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D24C481FD571BA000BADB9 /* JsCounterViewController.swift */; };
+		16D24C491FD571BA000BADB9 /* JSCounterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D24C481FD571BA000BADB9 /* JSCounterViewController.swift */; };
 		16D3659E1FAF4E370020E802 /* stylesheet.js in Resources */ = {isa = PBXBuildFile; fileRef = 16D3659D1FAF4E370020E802 /* stylesheet.js */; };
 		16ED28041FD5A74900D5E222 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 16ED28021FD5A74900D5E222 /* Default-568h@2x.png */; };
 /* End PBXBuildFile section */
@@ -89,9 +88,8 @@
 		161D3A291FC36CE10066C923 /* AppStoreList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStoreList.swift; sourceTree = "<group>"; };
 		162560FA1FA5DB5B0066AF05 /* counter-fragment.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = "counter-fragment.js"; sourceTree = "<group>"; };
 		165399121F9A737B006DFE5D /* RenderNeutrino.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RenderNeutrino.xcodeproj; path = ../../Neutrino/RenderNeutrino.xcodeproj; sourceTree = "<group>"; };
-		1656BAF81F9FC14A009F561F /* JsCounterList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsCounterList.swift; sourceTree = "<group>"; };
 		167070211FB8C1D7008DFC5B /* IndexViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndexViewController.swift; sourceTree = "<group>"; };
-		167070251FB8C757008DFC5B /* IndexTableComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndexTableComponent.swift; sourceTree = "<group>"; };
+		167070251FB8C757008DFC5B /* Index.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Index.swift; sourceTree = "<group>"; };
 		1671C12F1FC5C6CA00F73A9C /* forest.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; name = forest.gif; path = src/res/forest.gif; sourceTree = SOURCE_ROOT; };
 		168FA6D31F8F856D00A12585 /* RenderNeutrinoDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RenderNeutrinoDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		168FA6D61F8F856D00A12585 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -104,7 +102,7 @@
 		16AF338B1FABC83E00379FA9 /* JsCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsCounter.swift; sourceTree = "<group>"; };
 		16D24C441FD5705E000BADB9 /* AppStoreEntryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStoreEntryViewController.swift; sourceTree = "<group>"; };
 		16D24C461FD5717D000BADB9 /* AppStoreListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStoreListViewController.swift; sourceTree = "<group>"; };
-		16D24C481FD571BA000BADB9 /* JsCounterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsCounterViewController.swift; sourceTree = "<group>"; };
+		16D24C481FD571BA000BADB9 /* JSCounterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSCounterViewController.swift; sourceTree = "<group>"; };
 		16D3659D1FAF4E370020E802 /* stylesheet.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = stylesheet.js; sourceTree = "<group>"; };
 		16ED28021FD5A74900D5E222 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -218,11 +216,10 @@
 		16BFC4D21FC5C24A00A37FD4 /* components */ = {
 			isa = PBXGroup;
 			children = (
-				167070251FB8C757008DFC5B /* IndexTableComponent.swift */,
+				167070251FB8C757008DFC5B /* Index.swift */,
 				16A38D391FC0E897000E43E9 /* AppStoreEntry.swift */,
 				161D3A291FC36CE10066C923 /* AppStoreList.swift */,
 				16AF338B1FABC83E00379FA9 /* JsCounter.swift */,
-				1656BAF81F9FC14A009F561F /* JsCounterList.swift */,
 			);
 			path = components;
 			sourceTree = "<group>";
@@ -242,7 +239,7 @@
 				167070211FB8C1D7008DFC5B /* IndexViewController.swift */,
 				16D24C441FD5705E000BADB9 /* AppStoreEntryViewController.swift */,
 				16D24C461FD5717D000BADB9 /* AppStoreListViewController.swift */,
-				16D24C481FD571BA000BADB9 /* JsCounterViewController.swift */,
+				16D24C481FD571BA000BADB9 /* JSCounterViewController.swift */,
 			);
 			path = viewcontrollers;
 			sourceTree = "<group>";
@@ -361,14 +358,13 @@
 			files = (
 				16D24C451FD5705E000BADB9 /* AppStoreEntryViewController.swift in Sources */,
 				16AF338C1FABC83E00379FA9 /* JsCounter.swift in Sources */,
-				167070261FB8C757008DFC5B /* IndexTableComponent.swift in Sources */,
+				167070261FB8C757008DFC5B /* Index.swift in Sources */,
 				168FA6D71F8F856D00A12585 /* AppDelegate.swift in Sources */,
 				160CC8701FB8C97D00CC6080 /* Stylesheet.swift in Sources */,
-				1656BAF91F9FC14A009F561F /* JsCounterList.swift in Sources */,
 				161D3A2A1FC36CE10066C923 /* AppStoreList.swift in Sources */,
 				16A38D3A1FC0E897000E43E9 /* AppStoreEntry.swift in Sources */,
 				16D24C471FD5717D000BADB9 /* AppStoreListViewController.swift in Sources */,
-				16D24C491FD571BA000BADB9 /* JsCounterViewController.swift in Sources */,
+				16D24C491FD571BA000BADB9 /* JSCounterViewController.swift in Sources */,
 				16A38D381FC0E6DF000E43E9 /* Fragments.swift in Sources */,
 				167070221FB8C1D7008DFC5B /* IndexViewController.swift in Sources */,
 			);

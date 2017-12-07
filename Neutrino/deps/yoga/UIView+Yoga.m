@@ -70,9 +70,9 @@ NSArray *YGUIKitSymbols() {
 	  @"WKWebView"];
   return UIKitSymbols;
 }
-static NSSet<NSString *> *YGProps = nil;
+static NSSet<NSString *> *YGProp = nil;
 NSString *YGReplaceKeyIfNecessary(NSString *key) {
-  if (YGProps == nil) YGProps = [[NSSet<NSString *> alloc] initWithArray: @[
+  if (YGProp == nil) YGProp = [[NSSet<NSString *> alloc] initWithArray: @[
       @"direction",
       @"flexDirection",
       @"justifyContent",
@@ -103,7 +103,7 @@ NSString *YGReplaceKeyIfNecessary(NSString *key) {
       @"minHeight",
       @"maxWidth",
       @"maxHeight"]];
-  if ([YGProps containsObject:key]) {
+  if ([YGProp containsObject:key]) {
     return [NSString stringWithFormat:@"%@.%@", @"yoga", key];
   }
   return key;

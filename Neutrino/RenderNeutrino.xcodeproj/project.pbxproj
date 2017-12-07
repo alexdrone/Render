@@ -231,6 +231,7 @@
 			children = (
 				16DDA95E1F98C6CC00CDBCF5 /* Context.swift */,
 				16DDA95C1F9799D200CDBCF5 /* Component.swift */,
+				165300BC1FD6D44C00A7BAB0 /* Debug.swift */,
 				16F36C181F8E4BA600A04BE6 /* KeyPath.swift */,
 				16F36BED1F8E198B00A04BE6 /* Node.swift */,
 				16CEC0151F9A125C003D3D21 /* Props.swift */,
@@ -238,7 +239,6 @@
 				16FD2DA91FB100A1005C2F9F /* Geometry.swift */,
 				167070231FB8C232008DFC5B /* ViewController.swift */,
 				16C3221B1FBB8612003F6838 /* Style.swift */,
-				165300BC1FD6D44C00A7BAB0 /* Debug.swift */,
 			);
 			path = src;
 			sourceTree = "<group>";

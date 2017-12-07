@@ -1,12 +1,12 @@
 import UIKit
 
-// MARK: - UIProps
+// MARK: - UIProp
 
-/// Props (short for properties) are a Component's configuration. They are received from above and
+/// Prop (short for properties) are a Component's configuration. They are received from above and
 /// immutable as far as the Component receiving them is concerned.
 /// A Component cannot change its props, but it is responsible for putting together the props of
-/// its child Components.
-/// Props do not have to just be data -- callback functions may be passed in as props.
+/// its child Component.
+/// Prop do not have to just be data -- callback functions may be passed in as props.
 public protocol UIPropsProtocol: ReflectedStringConvertible {
   init()
 }

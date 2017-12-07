@@ -46,7 +46,7 @@ public protocol UINodeProtocol: Disposable {
   
   // Internal.
 
-  /// Components that builds components in non-traditional fashion (e.g. table/collection views)
+  /// Component that builds components in non-traditional fashion (e.g. table/collection views)
   /// needs to keep track of their children by updating their root nodes 'unmanagedChildren'
   /// at every render pass.
   /// - note: *Internal use only*.
@@ -62,7 +62,7 @@ public protocol UINodeProtocol: Disposable {
   var _debugStateDescription: String { get set }
   /// String representation of the current props.
   /// - note: *Internal use only*.
-  var _debugPropsDescription: String { get set }
+  var _debugPropDescription: String { get set }
   /// Asks the node to build the backing view for this node.
   /// - note: *Internal use only*.
   func _constructView(with reusableView: UIView?)
@@ -107,7 +107,7 @@ public class UINode<V: UIView>: UINodeProtocol {
   public fileprivate(set) var children: [UINodeProtocol] = []
   public var _debugType: String
   public var _debugStateDescription: String = ""
-  public var _debugPropsDescription: String = ""
+  public var _debugPropDescription: String = ""
   public weak var delegate: UINodeDelegateProtocol?
   public weak var parent: UINodeProtocol?
   public weak var associatedComponent: UIComponentProtocol?
@@ -202,7 +202,7 @@ public class UINode<V: UIView>: UINodeProtocol {
 
     let view = requireRenderedView()
     guard let renderedView = view as? V else {
-      print("Unexpected error: View/State/Props type mismatch.")
+      print("Unexpected error: View/State/Prop type mismatch.")
       return
     }
     view.renderContext.storeOldGeometryRecursively()

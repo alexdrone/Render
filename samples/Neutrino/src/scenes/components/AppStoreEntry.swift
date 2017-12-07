@@ -1,42 +1,43 @@
 import UIKit
 import RenderNeutrino
 
-extension UI.States {
-  class AppStoreEntry: UIState {
+struct AppStoreEntry {
+
+  // MARK: - State
+
+  class State: UIState {
     var expanded: Bool = false
     var counter: Int = 0
   }
-}
 
-extension UI.Props {
-  class AppStoreEntry: UIProps {
+  // MARK: - Props
+
+  class Props: UIProps {
     var title: String = ""
     var desc: String = ""
     var image: UIImage? = nil
-
     static let defaultImage = UIImage.gif(name: "forest")
 
-    static func singleCardExample() -> AppStoreEntry {
-      let entry = AppStoreEntry()
+    static func singleCardExample() -> Props {
+      let entry = Props()
       entry.title = "Neutrino"
       entry.desc = "A Render Neutrino component."
-      entry.image = AppStoreEntry.defaultImage
+      entry.image = Props.defaultImage
       return entry
     }
 
-    static func listCardExample() -> AppStoreEntry{
-      let entry = AppStoreEntry()
+    static func listCardExample() -> Props {
+      let entry = Props()
       entry.title = "Item"
       entry.desc = "A component cell."
       entry.image = UIImage(named: "game")
       return entry
     }
   }
-}
 
-extension UI.Components {
+  // MARK: - Component
 
-  class AppStoreEntry: UIComponent<UI.States.AppStoreEntry, UI.Props.AppStoreEntry> {
+  class Component: UIComponent<State, Props> {
     /// Builds the node hierarchy for this component.
     override func render(context: UIContextProtocol) -> UINodeProtocol {
 
@@ -47,21 +48,21 @@ extension UI.Components {
           UINode<UIView>(configure: configureOverlay),
           // Lays out the icon and the title.
           UINode<UIView>(configure: configureRowContainer).children([
-            UI.Fragments.Polygon(),
-            UI.Fragments.Text(text: "\(props.title)#\(state.counter)",
-                              configure: configureLabel),
+            Fragment.Polygon(),
+            Fragment.Text(text: "\(props.title)#\(state.counter)",
+                          configure: configureLabel),
             ]),
           // Entry description (shown when the component is expanded).
           UINode<UIView>(configure: configureDescriptionContainer).children([
-            UI.Fragments.Text(text: props.desc,
+            Fragment.Text(text: props.desc,
                               configure: configureDescriptionLabel),
-            UI.Fragments.Button(text: "Increase",
-                                backgroundColor: Palette.white.color,
-                                onTouchUpInside: { [weak self] in self?.onIncrease() })
+            Fragment.Button(text: "Increase",
+                            backgroundColor: Palette.white.color,
+                            onTouchUpInside: { [weak self] in self?.onIncrease() })
             ]),
           // Touch overlay that covers the whole component.
-          UI.Fragments.TapRecognizer(onTouchUpInside: { [weak self] in self?.onToggleExpand() },
-                                     configure: configureTappableView),
+          Fragment.TapRecognizer(onTouchUpInside: { [weak self] in self?.onToggleExpand() },
+                                 configure: configureTappableView),
           ])
       ])
     }

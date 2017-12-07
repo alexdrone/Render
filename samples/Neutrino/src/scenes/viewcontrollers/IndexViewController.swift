@@ -1,25 +1,25 @@
 import UIKit
 import RenderNeutrino
 
-class IndexViewController: UIComponentViewController<UI.Components.IndexTable> {
+class IndexViewController: UIComponentViewController<Index.Component> {
 
-  override func buildRootComponent() -> UI.Components.IndexTable {
-    let props = UI.Props.IndexTable()
+  override func buildRootComponent() -> Index.Component {
+    let props = Index.Props()
     props.titles = [
-      UI.Props.IndexCell(
+      Index.CellProps(
         title: "Card Example",
         subtitle: "A complex stateful component.",
         onCellSelected: presentAppStoreEntryComponentExample),
-      UI.Props.IndexCell(
+      Index.CellProps(
         title: "Card List Example",
         subtitle: "A list of stateful components.",
         onCellSelected: presentAppStoreListComponentExample),
-      UI.Props.IndexCell(
+      Index.CellProps(
         title: "A Component with JS fragments.",
         subtitle: "And hot reload capabilities.",
         onCellSelected: presentJsCounterExample),
     ]
-    return context.component(UI.Components.IndexTable.self, key: rootKey, props: props)
+    return context.component(Index.Component.self, key: rootKey, props: props)
   }
 
   private func presentAppStoreEntryComponentExample() {
@@ -31,7 +31,7 @@ class IndexViewController: UIComponentViewController<UI.Components.IndexTable> {
   }
 
   private func presentJsCounterExample() {
-    navigationController?.pushViewController(JsCounterViewController(), animated: true)
+    navigationController?.pushViewController(JSCounterViewController(), animated: true)
   }
 
   override func viewDidLoad() {
