@@ -155,7 +155,7 @@
 			children = (
 				16F36BE61F8E197A00A04BE6 /* Info.plist */,
 				16F36BE51F8E197A00A04BE6 /* RenderNeutrino.h */,
-				16F36BF31F8E2BEE00A04BE6 /* deps */,
+				16F36BF31F8E2BEE00A04BE6 /* objc */,
 				16F36BE41F8E197A00A04BE6 /* src */,
 				1656BAF41F9F74DE009F561F /* components */,
 				162560F71FA4D6050066AF05 /* jsbridge */,
@@ -190,7 +190,7 @@
 			path = src;
 			sourceTree = "<group>";
 		};
-		16F36BF31F8E2BEE00A04BE6 /* deps */ = {
+		16F36BF31F8E2BEE00A04BE6 /* objc */ = {
 			isa = PBXGroup;
 			children = (
 				16AA95DE1FA3310100EAC136 /* UIView+Yoga.h */,
@@ -216,7 +216,7 @@
 				16AF33921FACAD2500379FA9 /* IGListDiff.swift */,
 				16F7B55A1F9A322C00583082 /* RenderInspectorHook.swift */,
 			);
-			path = deps;
+			path = objc;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
