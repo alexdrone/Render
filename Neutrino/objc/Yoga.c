@@ -467,10 +467,6 @@ void YGNodeSetMeasureFunc(const YGNodeRef node, YGMeasureFunc measureFunc) {
     // TODO: t18095186 Move nodeType to opt-in function and mark appropriate places in Litho
     node->nodeType = YGNodeTypeDefault;
   } else {
-    YGAssertWithNode(
-                     node,
-                     YGNodeGetChildCount(node) == 0,
-                     "Cannot set measure function: Nodes with measure functions cannot have children.");
     node->measure = measureFunc;
     // TODO: t18095186 Move nodeType to opt-in function and mark appropriate places in Litho
     node->nodeType = YGNodeTypeText;
