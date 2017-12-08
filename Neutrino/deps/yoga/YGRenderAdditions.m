@@ -173,7 +173,7 @@
 
 - (void)setBackgroundColorImage:(UIColor*)backgroundColor
 {
-  UIImage *image = [UIImage REFL_imageWithColor:backgroundColor];
+  UIImage *image = [UIImage yg_imageWithColor:backgroundColor];
   self.backgroundImage = image;
 }
 
@@ -263,12 +263,12 @@
 
 @implementation UIImage (YGAdditions)
 
-+ (UIImage*)REFL_imageWithColor:(UIColor*)color
++ (UIImage*)yg_imageWithColor:(UIColor*)color
 {
-  return [self REFL_imageWithColor:color size:(CGSize){1,1}];
+  return [self yg_imageWithColor:color size:(CGSize){1,1}];
 }
 
-+ (UIImage*)REFL_imageWithColor:(UIColor*)color size:(CGSize)size
++ (UIImage*)yg_imageWithColor:(UIColor*)color size:(CGSize)size
 {
   CGRect rect = (CGRect){CGPointZero, size};
   UIGraphicsBeginImageContextWithOptions(size, NO, UIScreen.mainScreen.scale);
@@ -287,7 +287,7 @@
 
 @implementation NSObject (YGAdditions)
 
-- (NSString*)refl_className
+- (NSString*)yg_className
 {
   NSString *className = NSStringFromClass(self.class);
 
@@ -299,12 +299,9 @@
   return className;
 }
 
-- (Class)refl_class
+- (Class)yg_class
 {
   return self.class;
 }
 
 @end
-
-
-

@@ -132,7 +132,8 @@ struct AppStoreEntry {
       configuration.set(\UILabel.textColor, Palette.white.color)
       // The alpha is animated on change.
       configuration.set(\UILabel.alpha, !state.expanded ? 0 : 1, animator: defaultAnimator())
-      configuration.view.yoga.flex()
+      configuration.set(\UILabel.yoga.flexGrow, 1)
+      configuration.set(\UILabel.yoga.flexShrink, 1)
     }
 
     // MARK: - Title

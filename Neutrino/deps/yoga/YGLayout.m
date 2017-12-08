@@ -82,8 +82,8 @@ YG_VALUE_EDGE_PROPERTY(lowercased_name##Right, capitalized_name##Right, capitali
 YG_VALUE_EDGE_PROPERTY(lowercased_name##Bottom, capitalized_name##Bottom, capitalized_name, YGEdgeBottom)                       \
 YG_VALUE_EDGE_PROPERTY(lowercased_name##Start, capitalized_name##Start, capitalized_name, YGEdgeStart)                          \
 YG_VALUE_EDGE_PROPERTY(lowercased_name##End, capitalized_name##End, capitalized_name, YGEdgeEnd)                                \
-YG_VALUE_EDGE_PROPERTY(lowercased_name##Horizontal, capitalized_name##Horizontal, capitalized_name, YGEdgeHorizontal) \
-YG_VALUE_EDGE_PROPERTY(lowercased_name##Vertical, capitalized_name##Vertical, capitalized_name, YGEdgeVertical)       \
+YG_VALUE_EDGE_PROPERTY(lowercased_name##Horizontal, capitalized_name##Horizontal, capitalized_name, YGEdgeHorizontal)           \
+YG_VALUE_EDGE_PROPERTY(lowercased_name##Vertical, capitalized_name##Vertical, capitalized_name, YGEdgeVertical)                 \
 YG_VALUE_EDGE_PROPERTY(lowercased_name, capitalized_name, capitalized_name, YGEdgeAll)
 
 static YGConfigRef globalConfig;
@@ -243,7 +243,8 @@ YG_PROPERTY(CGFloat, aspectRatio, AspectRatio)
   YGApplyLayoutToViewHierarchy(self.view, preserveOrigin);
 }
 
-- (void)applyLayoutPreservingOrigin:(BOOL)preserveOrigin dimensionFlexibility:(YGDimensionFlexibility)dimensionFlexibility
+- (void)applyLayoutPreservingOrigin:(BOOL)preserveOrigin
+               dimensionFlexibility:(YGDimensionFlexibility)dimensionFlexibility
 {
   CGSize size = self.view.bounds.size;
   if (dimensionFlexibility & YGDimensionFlexibilityFlexibleWidth) {
@@ -255,7 +256,6 @@ YG_PROPERTY(CGFloat, aspectRatio, AspectRatio)
   [self calculateLayoutWithSize:size];
   YGApplyLayoutToViewHierarchy(self.view, preserveOrigin);
 }
-
 
 - (CGSize)intrinsicSize
 {
@@ -271,25 +271,20 @@ YG_PROPERTY(CGFloat, aspectRatio, AspectRatio)
 - (CGSize)calculateLayoutWithSize:(CGSize)size
 {
   NSAssert([NSThread isMainThread], @"Yoga calculation must be done on main.");
-
-
   YGAttachNodesFromViewHierachy(self.view);
-
   const YGNodeRef node = self.node;
   YGNodeCalculateLayout(
                         node,
                         size.width,
                         size.height,
                         YGNodeStyleGetDirection(node));
-
   return (CGSize) {
     .width = YGNodeLayoutGetWidth(node),
     .height = YGNodeLayoutGetHeight(node),
   };
 }
 
-static YGSize YGMeasureView(
-                            YGNodeRef node,
+static YGSize YGMeasureView(YGNodeRef node,
                             float width,
                             YGMeasureMode widthMode,
                             float height,
@@ -297,21 +292,18 @@ static YGSize YGMeasureView(
 {
   const CGFloat constrainedWidth = (widthMode == YGMeasureModeUndefined) ? CGFLOAT_MAX : width;
   const CGFloat constrainedHeight = (heightMode == YGMeasureModeUndefined) ? CGFLOAT_MAX: height;
-
   UIView *view = (__bridge UIView*) YGNodeGetContext(node);
   const CGSize sizeThatFits = [view sizeThatFits:(CGSize) {
     .width = constrainedWidth,
     .height = constrainedHeight,
   }];
-
   return (YGSize) {
     .width = YGSanitizeMeasurement(constrainedWidth, sizeThatFits.width, widthMode),
     .height = YGSanitizeMeasurement(constrainedHeight, sizeThatFits.height, heightMode),
   };
 }
 
-static CGFloat YGSanitizeMeasurement(
-                                     CGFloat constrainedSize,
+static CGFloat YGSanitizeMeasurement(CGFloat constrainedSize,
                                      CGFloat measuredSize,
                                      YGMeasureMode measureMode)
 {
@@ -332,13 +324,11 @@ static BOOL YGNodeHasExactSameChildren(const YGNodeRef node, NSArray<UIView *> *
   if (YGNodeGetChildCount(node) != subviews.count) {
     return NO;
   }
-
   for (int i=0; i<subviews.count; i++) {
     if (YGNodeGetChild(node, i) != subviews[i].yoga.node) {
       return NO;
     }
   }
-
   return YES;
 }
 
@@ -346,28 +336,25 @@ static void YGAttachNodesFromViewHierachy(UIView *const view)
 {
   YGLayout *const yoga = view.yoga;
   const YGNodeRef node = yoga.node;
-
   // Only leaf nodes should have a measure function
   if (yoga.isLeaf) {
     YGRemoveAllChildren(node);
     YGNodeSetMeasureFunc(node, YGMeasureView);
   } else {
     YGNodeSetMeasureFunc(node, NULL);
-
-    NSMutableArray<UIView *> *subviewsToInclude = [[NSMutableArray alloc] initWithCapacity:view.subviews.count];
+    NSMutableArray<UIView *> *subviewsToInclude =
+        [[NSMutableArray alloc] initWithCapacity:view.subviews.count];
     for (UIView *subview in view.subviews) {
       if (subview.yoga.isIncludedInLayout) {
         [subviewsToInclude addObject:subview];
       }
     }
-
     if (!YGNodeHasExactSameChildren(node, subviewsToInclude)) {
       YGRemoveAllChildren(node);
       for (int i=0; i<subviewsToInclude.count; i++) {
         YGNodeInsertChild(node, subviewsToInclude[i].yoga.node, i);
       }
     }
-
     for (UIView *const subview in subviewsToInclude) {
       YGAttachNodesFromViewHierachy(subview);
     }
@@ -379,7 +366,6 @@ static void YGRemoveAllChildren(const YGNodeRef node)
   if (node == NULL) {
     return;
   }
-
   while (YGNodeGetChildCount(node) > 0) {
     YGNodeRemoveChild(node, YGNodeGetChild(node, YGNodeGetChildCount(node) - 1));
   }
@@ -392,31 +378,25 @@ static CGFloat YGRoundPixelValue(CGFloat value)
   dispatch_once(&onceToken, ^(){
     scale = [UIScreen mainScreen].scale;
   });
-
   return roundf(value * scale) / scale;
 }
 
 static void YGApplyLayoutToViewHierarchy(UIView *view, BOOL preserveOrigin)
 {
   NSCAssert([NSThread isMainThread], @"Framesetting should only be done on the main thread.");
-
   const YGLayout *yoga = view.yoga;
-
   if (!yoga.isIncludedInLayout) {
     return;
   }
-
   YGNodeRef node = yoga.node;
   const CGPoint topLeft = {
     YGNodeLayoutGetLeft(node),
     YGNodeLayoutGetTop(node),
   };
-
   const CGPoint bottomRight = {
     topLeft.x + YGNodeLayoutGetWidth(node),
     topLeft.y + YGNodeLayoutGetHeight(node),
   };
-
   const CGPoint origin = preserveOrigin ? view.frame.origin : CGPointZero;
   view.frame = (CGRect) {
     .origin = {
@@ -428,7 +408,6 @@ static void YGApplyLayoutToViewHierarchy(UIView *view, BOOL preserveOrigin)
       .height = YGRoundPixelValue(bottomRight.y) - YGRoundPixelValue(topLeft.y),
     },
   };
-  
   if (!yoga.isLeaf) {
     for (NSUInteger i=0; i<view.subviews.count; i++) {
       YGApplyLayoutToViewHierarchy(view.subviews[i], NO);

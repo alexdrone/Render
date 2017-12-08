@@ -14,6 +14,6 @@
 
 @property (nonatomic, assign, readonly) YGNodeRef node;
 
+/** Constructs a new layout object associated to the view passed as argument. */
 - (instancetype)initWithView:(UIView *)view;
-
 @end

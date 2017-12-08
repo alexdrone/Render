@@ -25,6 +25,11 @@ static const void *kYGYogaAssociatedKey = &kYGYogaAssociatedKey;
   return yoga;
 }
 
+- (BOOL)isYogaEnabled
+{
+  return objc_getAssociatedObject(self, kYGYogaAssociatedKey) != nil;
+}
+
 - (void)configureLayoutWithBlock:(YGLayoutConfigurationBlock)block
 {
   if (block != nil) {

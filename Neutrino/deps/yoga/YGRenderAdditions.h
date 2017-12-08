@@ -45,8 +45,8 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 @interface UIImage (YGAdditions)
-+ (UIImage*)REFL_imageWithColor:(UIColor*)color;
-+ (UIImage*)REFL_imageWithColor:(UIColor*)color size:(CGSize)size;
++ (UIImage*)yg_imageWithColor:(UIColor*)color;
++ (UIImage*)yg_imageWithColor:(UIColor*)color size:(CGSize)size;
 @end
 
 

@@ -3,7 +3,6 @@
 #import "YGEnums.h"
 #import "Yoga.h"
 
-
 @interface YGPercentLayout : NSObject
 
 @property (nonatomic, readonly, weak) YGLayout *layout;

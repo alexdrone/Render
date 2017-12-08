@@ -115,7 +115,8 @@ typedef NS_OPTIONS(NSInteger, YGDimensionFlexibility) {
  Perform a layout calculation and update the frames of the views in the hierarchy with the results.
  If the origin is not preserved, the root view's layout results will applied from {0,0}.
  */
-- (void)applyLayoutPreservingOrigin:(BOOL)preserveOrigin dimensionFlexibility:(YGDimensionFlexibility)dimensionFlexibility
+- (void)applyLayoutPreservingOrigin:(BOOL)preserveOrigin
+               dimensionFlexibility:(YGDimensionFlexibility)dimensionFlexibility
     NS_SWIFT_NAME(applyLayout(preservingOrigin:dimensionFlexibility:));
 
 /**
@@ -141,6 +142,7 @@ typedef NS_OPTIONS(NSInteger, YGDimensionFlexibility) {
  */
 @property (nonatomic, readonly, assign) BOOL isDirty;
 
+/** Analogous to flexShrink = 1 and flexGrow = 1 */
 - (void)flex;
 
 /**
