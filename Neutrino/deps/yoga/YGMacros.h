@@ -45,3 +45,4 @@
 #define YG_ENUM_BEGIN(name) enum name
 #define YG_ENUM_END(name) name
 #endif
+
