@@ -4,12 +4,69 @@ import UIKit
 
 class StylesheetTests: XCTestCase {
 
-  func testParser() {
+  func testCGFloat() {
     let parser = UIStylesheetParser()
-    try! parser.parse(yaml: example1)
-    XCTAssert(parser.yaml != nil)
+    try! parser.parse(yaml: standardDefs)
+    let value = parser.rule(style: "Test", name: "cgFloat")?.cgFloat
+    XCTAssert(value == 42)
   }
+
+  func testBool() {
+    let parser = UIStylesheetParser()
+    try! parser.parse(yaml: standardDefs)
+    let value = parser.rule(style: "Test", name: "bool")?.bool
+    XCTAssert(value == true)
+  }
+
+  func testInt() {
+    let parser = UIStylesheetParser()
+    try! parser.parse(yaml: standardDefs)
+    let value = parser.rule(style: "Test", name: "integer")?.integer
+    XCTAssert(value == 42)
+  }
+
+  func testCGFloatExpression() {
+    let parser = UIStylesheetParser()
+    try! parser.parse(yaml: standardDefs)
+    let value = parser.rule(style: "Test", name: "cgFloatExpr")?.cgFloat
+    XCTAssert(value == 42)
+  }
+
+  func testBoolExpression() {
+    let parser = UIStylesheetParser()
+    try! parser.parse(yaml: standardDefs)
+    let value = parser.rule(style: "Test", name: "boolExpr")?.bool
+    XCTAssert(value == true)
+  }
+
+  func testIntExpression() {
+    let parser = UIStylesheetParser()
+    try! parser.parse(yaml: standardDefs)
+    let value = parser.rule(style: "Test", name: "integerExpr")?.integer
+    XCTAssert(value == 42)
+  }
+
+  func testConstExpression() {
+    let parser = UIStylesheetParser()
+    try! parser.parse(yaml: standardDefs)
+    let value = parser.rule(style: "Test", name: "const")?.cgFloat
+    XCTAssert(value == 320)
+  }
+
 }
+
+
+let standardDefs = """
+Test:
+  cgFloat: 42
+  bool: true
+  integer: 42
+  cgFloatExpr: ${41+1}
+  boolExpr: ${1 == 1 && true}
+  integerExpr: ${41+1}
+  const: ${iPhoneSE.width}
+
+"""
 
 
 let example1 = """
