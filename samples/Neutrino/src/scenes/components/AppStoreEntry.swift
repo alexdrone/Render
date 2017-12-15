@@ -16,13 +16,12 @@ struct AppStoreEntry {
     var title: String = ""
     var desc: String = ""
     var image: UIImage? = nil
-    static let defaultImage = UIImage.gif(name: "forest")
 
     static func singleCardExample() -> Props {
       let entry = Props()
       entry.title = "Neutrino"
       entry.desc = "A Render Neutrino component."
-      entry.image = Props.defaultImage
+      entry.image = UIImage(named: "game")
       return entry
     }
 

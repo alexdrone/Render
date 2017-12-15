@@ -1138,7 +1138,8 @@ private func parseFlowMap (_ acc: [Yaml: Yaml]) -> (Context) -> YAMLResult<Conte
     }
     let ck = Resulter.lift(context)
       >>- ignoreSpace
-      >>=- (acc.count == 0 ? Resulter.lift : expect(Yaml.TokenType.comma, message: "expected comma"))
+      >>=- (acc.count == 0 ? Resulter.lift : expect(Yaml.TokenType.comma,
+                                                    message: "expected comma"))
       >>- ignoreSpace
       >>=- parseString
       >>=- checkKeyUniqueness(acc)
@@ -1281,7 +1282,8 @@ private func parseString (_ context: Context) -> YAMLResult<ContextValue> {
 private func parseBlockMapOrString (_ context: Context) -> YAMLResult<ContextValue> {
   let match = peekMatch(context)
   // should spaces before colon be ignored?
-  return context.tokens[1].type != .colon || Yaml.Regex.matches(match, regex: Yaml.Regex.regex("\n"))
+  return context.tokens[1].type != .colon || Yaml.Regex.matches(match,
+                                                                regex: Yaml.Regex.regex("\n"))
     ? parseString(context)
     : parseBlockMap(context)
 }

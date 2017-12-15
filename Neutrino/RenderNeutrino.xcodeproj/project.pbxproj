@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		16108B9C1FDC82B000CD9E9A /* Expressions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16108B9B1FDC82B000CD9E9A /* Expressions.swift */; };
+		16108B9E1FDDD1A700CD9E9A /* StylesheetParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16108B9D1FDDD1A700CD9E9A /* StylesheetParser.swift */; };
+		16108BA11FDDD1C700CD9E9A /* StylesheetTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16108B9F1FDDD1BC00CD9E9A /* StylesheetTests.swift */; };
 		161260861FB4E92F00524869 /* NodeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 161260851FB4E92F00524869 /* NodeTests.swift */; };
 		161260881FB4E92F00524869 /* RenderNeutrino.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16F36BE21F8E197A00A04BE6 /* RenderNeutrino.framework */; };
 		162560F91FA4D6660066AF05 /* JSBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 162560F81FA4D6660066AF05 /* JSBridge.swift */; };
@@ -61,6 +64,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		16108B9B1FDC82B000CD9E9A /* Expressions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Expressions.swift; sourceTree = "<group>"; };
+		16108B9D1FDDD1A700CD9E9A /* StylesheetParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StylesheetParser.swift; sourceTree = "<group>"; };
+		16108B9F1FDDD1BC00CD9E9A /* StylesheetTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StylesheetTests.swift; sourceTree = "<group>"; };
 		161260831FB4E92E00524869 /* Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		161260851FB4E92F00524869 /* NodeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NodeTests.swift; sourceTree = "<group>"; };
 		161260871FB4E92F00524869 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -125,12 +131,21 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		16108B9A1FDC80DE00CD9E9A /* stylesheet */ = {
+			isa = PBXGroup;
+			children = (
+				16108B9D1FDDD1A700CD9E9A /* StylesheetParser.swift */,
+			);
+			path = stylesheet;
+			sourceTree = "<group>";
+		};
 		161260841FB4E92E00524869 /* tests */ = {
 			isa = PBXGroup;
 			children = (
 				16E0CDB81FB84CD300BFF470 /* ComponentTests.swift */,
 				1648A1EB1FB505F400245AFA /* ContextTests.swift */,
 				161260851FB4E92F00524869 /* NodeTests.swift */,
+				16108B9F1FDDD1BC00CD9E9A /* StylesheetTests.swift */,
 				161260871FB4E92F00524869 /* Info.plist */,
 			);
 			path = tests;
@@ -152,13 +167,6 @@
 			path = components;
 			sourceTree = "<group>";
 		};
-		16A4FAA81FDAC988007B9D71 /* stylesheet */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = stylesheet;
-			sourceTree = "<group>";
-		};
 		16F36BD81F8E197A00A04BE6 = {
 			isa = PBXGroup;
 			children = (
@@ -168,7 +176,7 @@
 				16F36BE41F8E197A00A04BE6 /* src */,
 				1656BAF41F9F74DE009F561F /* components */,
 				162560F71FA4D6050066AF05 /* jsbridge */,
-				16A4FAA81FDAC988007B9D71 /* stylesheet */,
+				16108B9A1FDC80DE00CD9E9A /* stylesheet */,
 				161260841FB4E92E00524869 /* tests */,
 				16F36BE31F8E197A00A04BE6 /* Products */,
 			);
@@ -226,6 +234,7 @@
 				16AF33921FACAD2500379FA9 /* IGListDiff.swift */,
 				16F7B55A1F9A322C00583082 /* RenderInspectorHook.swift */,
 				16A4FAA91FDAC9B5007B9D71 /* Yaml.swift */,
+				16108B9B1FDC82B000CD9E9A /* Expressions.swift */,
 			);
 			path = deps;
 			sourceTree = "<group>";
@@ -352,6 +361,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				16E0CDB91FB84CD300BFF470 /* ComponentTests.swift in Sources */,
+				16108BA11FDDD1C700CD9E9A /* StylesheetTests.swift in Sources */,
 				161260861FB4E92F00524869 /* NodeTests.swift in Sources */,
 				1648A1EC1FB505F400245AFA /* ContextTests.swift in Sources */,
 			);
@@ -375,6 +385,7 @@
 				16AA95ED1FA3310600EAC136 /* YGNodeList.c in Sources */,
 				162560F91FA4D6660066AF05 /* JSBridge.swift in Sources */,
 				16F5DD9B1FC1C108005E1497 /* YGPercentLayoutExtension.swift in Sources */,
+				16108B9C1FDC82B000CD9E9A /* Expressions.swift in Sources */,
 				16F36BEE1F8E198B00A04BE6 /* Node.swift in Sources */,
 				16F36BF01F8E1A4700A04BE6 /* State.swift in Sources */,
 				16AA95F01FA3310600EAC136 /* YGPercentLayout.m in Sources */,
@@ -384,6 +395,7 @@
 				16AA95F81FA3319E00EAC136 /* IGListCollectionViewLayout.mm in Sources */,
 				16AF33931FACAD2500379FA9 /* IGListDiff.swift in Sources */,
 				16CEC0161F9A125C003D3D21 /* Props.swift in Sources */,
+				16108B9E1FDDD1A700CD9E9A /* StylesheetParser.swift in Sources */,
 				16AA95F11FA3310600EAC136 /* Yoga.c in Sources */,
 				16AA95EA1FA3310600EAC136 /* YGLayout.m in Sources */,
 				167B537A1FABB7A400AF6798 /* YGRenderAdditions.m in Sources */,
