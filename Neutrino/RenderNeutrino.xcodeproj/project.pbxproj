@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		16108B9C1FDC82B000CD9E9A /* Expressions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16108B9B1FDC82B000CD9E9A /* Expressions.swift */; };
-		16108B9E1FDDD1A700CD9E9A /* StylesheetParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16108B9D1FDDD1A700CD9E9A /* StylesheetParser.swift */; };
+		16108B9E1FDDD1A700CD9E9A /* StylesheetManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16108B9D1FDDD1A700CD9E9A /* StylesheetManager.swift */; };
 		16108BA11FDDD1C700CD9E9A /* StylesheetTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16108B9F1FDDD1BC00CD9E9A /* StylesheetTests.swift */; };
 		161260861FB4E92F00524869 /* NodeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 161260851FB4E92F00524869 /* NodeTests.swift */; };
 		161260881FB4E92F00524869 /* RenderNeutrino.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16F36BE21F8E197A00A04BE6 /* RenderNeutrino.framework */; };
@@ -66,7 +66,7 @@
 
 /* Begin PBXFileReference section */
 		16108B9B1FDC82B000CD9E9A /* Expressions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Expressions.swift; sourceTree = "<group>"; };
-		16108B9D1FDDD1A700CD9E9A /* StylesheetParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StylesheetParser.swift; sourceTree = "<group>"; };
+		16108B9D1FDDD1A700CD9E9A /* StylesheetManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StylesheetManager.swift; sourceTree = "<group>"; };
 		16108B9F1FDDD1BC00CD9E9A /* StylesheetTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StylesheetTests.swift; sourceTree = "<group>"; };
 		161260831FB4E92E00524869 /* Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		161260851FB4E92F00524869 /* NodeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NodeTests.swift; sourceTree = "<group>"; };
@@ -137,7 +137,7 @@
 			isa = PBXGroup;
 			children = (
 				1660F2BF1FE3E66F00064EFE /* Screen.swift */,
-				16108B9D1FDDD1A700CD9E9A /* StylesheetParser.swift */,
+				16108B9D1FDDD1A700CD9E9A /* StylesheetManager.swift */,
 			);
 			path = stylesheet;
 			sourceTree = "<group>";
@@ -399,7 +399,7 @@
 				16AA95F81FA3319E00EAC136 /* IGListCollectionViewLayout.mm in Sources */,
 				16AF33931FACAD2500379FA9 /* IGListDiff.swift in Sources */,
 				16CEC0161F9A125C003D3D21 /* Props.swift in Sources */,
-				16108B9E1FDDD1A700CD9E9A /* StylesheetParser.swift in Sources */,
+				16108B9E1FDDD1A700CD9E9A /* StylesheetManager.swift in Sources */,
 				16AA95F11FA3310600EAC136 /* Yoga.c in Sources */,
 				16AA95EA1FA3310600EAC136 /* YGLayout.m in Sources */,
 				167B537A1FABB7A400AF6798 /* YGRenderAdditions.m in Sources */,

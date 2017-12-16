@@ -1,5 +1,71 @@
 import Foundation
 
+// MARK: - UIStylesheet
+
+public protocol UIStylesheet {
+  /// The name of the stylesheet rule.
+  var rawValue: String { get }
+  /// The stylesheet name.
+  static var name: String { get }
+}
+
+public extension UIStylesheet {
+  /// Returns the rule associated to this stylesheet enum.
+  public var rule: UIStylesheetRule {
+    guard let rule = UIStylesheetManager.default.rule(style: Self.name, name: rawValue) else {
+      fatalError("Unable to resolve rule \(Self.name).\(rawValue).")
+    }
+    return rule
+  }
+  /// Convenience getter for *UIStylesheetRule.integer*.
+  public var integer: Int {
+    return rule.integer
+  }
+  /// Convenience getter for *UIStylesheetRule.cgFloat*.
+  public var cgFloat: CGFloat {
+    return rule.cgFloat
+  }
+  /// Convenience getter for *UIStylesheetRule.bool*.
+  public var bool: Bool {
+    return rule.bool
+  }
+  /// Convenience getter for *UIStylesheetRule.font*.
+  public var font: UIFont {
+    return rule.font
+  }
+  /// Convenience getter for *UIStylesheetRule.color*.
+  public var color: UIColor {
+    return rule.color
+  }
+  /// Convenience getter for *UIStylesheetRule.string*.
+  public var string: String {
+    return rule.string
+  }
+  /// Convenience getter for *UIStylesheetRule.object*.
+  public var object: AnyObject? {
+    return rule.object
+  }
+  /// Convenience getter for *UIStylesheetRule.enum*.
+  public func `enum`<T: UIStylesheetRepresentableEnum>(_ type: T.Type,
+                                                       default: T = T.init(rawValue: 0)!) -> T {
+    return rule.enum(type, default: `default`)
+  }
+
+  /// Applies the stylesheet to the view passed as argument.
+  public static func apply(to view: UIView) {
+    guard let defs = UIStylesheetManager.default.defs[Self.name] else {
+      fatalError("Unable to resolve definition named \(Self.name).")
+    }
+    var bridgeDictionary: [String: Any] = [:]
+    for (key, value) in defs {
+      bridgeDictionary[key] = value.object
+    }
+    YGSet(view, bridgeDictionary)
+  }
+}
+
+// MARK: - UIStylesheetManager
+
 public enum ParseError: Error {
   /// Illegal format for the stylesheet.
   case malformedStylesheetStructure(message: String?)
@@ -7,7 +73,9 @@ public enum ParseError: Error {
   case illegalNumberOfArguments(function: String?)
 }
 
-public class UIStylesheetParser {
+public class UIStylesheetManager {
+  static let `default` = UIStylesheetManager()
+
   /// The parsed *Yaml* document.
   public var defs: [String: [String: UIStylesheetRule]] = [:]
 
@@ -17,7 +85,7 @@ public class UIStylesheetParser {
   }
 
   /// Parses the markup content passed as argument.
-  public func parse(yaml string: String) throws {
+  public func load(yaml string: String) throws {
     let yaml = try Yaml.load(string)
     guard let root = yaml.dictionary else {
       throw ParseError.malformedStylesheetStructure(message: "The root node should be a map.")
@@ -52,6 +120,8 @@ public class UIStylesheetParser {
     self.defs = yamlDefs
   }
 }
+
+// MARK: - UIStylesheetRule
 
 /// Represents a rule for a style definition.
 public class UIStylesheetRule: CustomStringConvertible {
@@ -88,33 +158,50 @@ public class UIStylesheetRule: CustomStringConvertible {
   public var integer: Int {
     return (nsNumber as? Int) ?? 0
   }
-
   /// Returns this rule evaluated as a float.
   /// - Note: The default value is 0.
   public var cgFloat: CGFloat {
     return (nsNumber as? CGFloat) ?? 0
   }
-
   /// Returns this rule evaluated as a boolean.
   /// - Note: The default value is *false*.
   public var bool: Bool {
     return (nsNumber as? Bool) ?? false
   }
-
   /// Returns this rule evaluated as a *UIFont*.
   public var font: UIFont {
     return castType(type: .font, default: UIFont.init())
   }
-
   /// Returns this rule evaluated as a *UIColor*.
   /// - Note: The default value is *UIColor.black*.
   public var color: UIColor {
     return castType(type: .color, default: UIColor.init())
   }
-
   /// Returns this rule evaluated as a string.
   public var string: String {
     return castType(type: .string, default: String.init())
+  }
+  /// Object representation for the *rhs* value of this rule.
+  public var object: AnyObject? {
+    switch type {
+    case .bool, .number, .expression:
+      return nsNumber
+    case .font:
+      return font
+    case .color:
+      return color
+    case .string:
+      return (string as NSString)
+    default:
+      return nil
+    }
+  }
+
+  /// Returns the rule value as the desired return type.
+  /// - Note: The enum type should be backed by an integer store.
+  public func `enum`<T: UIStylesheetRepresentableEnum>(_ type: T.Type,
+                                                       default: T = T.init(rawValue: 0)!) -> T {
+    return T.init(rawValue: integer) ?? `default`
   }
 
   private func castType<T>(type: ValueType, default: T) -> T {
@@ -239,9 +326,6 @@ public class UIStylesheetRule: CustomStringConvertible {
     }
     // Sanitize the return types.
     let type = types.first ?? .undefined
-    for t in types where t != type {
-      warn("Found a conditional value in the stylesheet with non-homogeneous return types.")
-    }
     return (type, result)
   }
 
@@ -324,11 +408,11 @@ public class UIStylesheetRule: CustomStringConvertible {
   }
 }
 
-// MARK: Expression Constants
+// MARK: - UIStylesheetExpression
 
-struct UIStylesheetExpression {
+public struct UIStylesheetExpression {
 
-  private static let constants: [String: Double] = [
+  private static let defaultConstants: [String: Double] = [
     // Idiom.
     "iPhoneSE": Double(UIScreenStateFactory.Idiom.iPhoneSE.rawValue),
     "iPhone8": Double(UIScreenStateFactory.Idiom.iPhone8.rawValue),
@@ -377,42 +461,16 @@ struct UIStylesheetExpression {
     "wrap": Double(1),
     "wrapReverse": Double(2),
     // Font Weigths.
-    "FontWeight.ultralight": Double(-0.800000011920929),
-    "FontWeight.thin": Double(-0.600000023841858),
-    "FontWeight.light": Double(-0.400000005960464),
-    "FontWeight.regular": Double(0),
-    "FontWeight.medium": Double(0.230000004172325),
-    "FontWeight.semibold": Double(0.300000011920929),
-    "FontWeight.bold": Double(0.400000005960464),
-    "FontWeight.heavy": Double(0.560000002384186),
-    "FontWeight.black": Double(0.620000004768372),
-    // Text Alignment.
-    "TextAlignment.left": Double(NSTextAlignment.left.rawValue),
-    "TextAlignment.center": Double(NSTextAlignment.center.rawValue),
-    "TextAlignment.right": Double(NSTextAlignment.right.rawValue),
-    "TextAlignment.justified": Double(NSTextAlignment.justified.rawValue),
-    "TextAlignment.natural": Double(NSTextAlignment.natural.rawValue),
-    // Line Break Mode.
-    "LineBreakMode.byWordWrapping": Double(NSLineBreakMode.byWordWrapping.rawValue),
-    "LineBreakMode.byCharWrapping": Double(NSLineBreakMode.byCharWrapping.rawValue),
-    "LineBreakMode.byClipping": Double(NSLineBreakMode.byClipping.rawValue),
-    "LineBreakMode.byTruncatingHead": Double(NSLineBreakMode.byTruncatingHead.rawValue),
-    "LineBreakMode.byTruncatingMiddle": Double(NSLineBreakMode.byTruncatingMiddle.rawValue),
-    // Image Orientation.
-    "ImageOrientation.up": Double(UIImageOrientation.up.rawValue),
-    "ImageOrientation.down": Double(UIImageOrientation.down.rawValue),
-    "ImageOrientation.left": Double(UIImageOrientation.left.rawValue),
-    "ImageOrientation.right": Double(UIImageOrientation.right.rawValue),
-    "ImageOrientation.upMirrored": Double(UIImageOrientation.upMirrored.rawValue),
-    "ImageOrientation.downMirrored": Double(UIImageOrientation.downMirrored.rawValue),
-    "ImageOrientation.leftMirrored": Double(UIImageOrientation.leftMirrored.rawValue),
-    "ImageOrientation.rightMirrored": Double(UIImageOrientation.rightMirrored.rawValue),
-    // Image Resizing Mode.
-    "ImageResizingMode.title": Double(UIImageResizingMode.tile.rawValue),
-    "ImageResizingMode.stretch": Double(UIImageResizingMode.stretch.rawValue),
+    "ultralight": Double(-0.800000011920929),
+    "thin": Double(-0.600000023841858),
+    "light": Double(-0.400000005960464),
+    "medium": Double(0.230000004172325),
+    "semibold": Double(0.300000011920929),
+    "bold": Double(0.400000005960464),
+    "heavy": Double(0.560000002384186),
+    "black": Double(0.620000004768372),
   ]
-
-  private static let symbols: [Expression.Symbol: Expression.Symbol.Evaluator] = [
+  static private let defaultSymbols: [Expression.Symbol: Expression.Symbol.Evaluator] = [
     .variable("idiom"): { _ in
       Double(UIScreenStateFactory.Idiom.current().rawValue) },
     .variable("orientation"): { _ in
@@ -421,18 +479,101 @@ struct UIStylesheetExpression {
       Double(UIScreenStateFactory.SizeClass.verticalSizeClass().rawValue) },
     .variable("horizontalSizeClass"): { _ in
       Double(UIScreenStateFactory.SizeClass.horizontalSizeClass().rawValue) },
-    ]
+  ]
+  private static var exportedConstants: [String: Double] = defaultConstants
+  private static var exportedConstantsInitialised: Bool = false
+
+  /// Export this enum into the stylesheet global symbols.
+  static public func export(constants: [String: Double]) {
+    assert(Thread.isMainThread)
+    for (key, value) in constants {
+      exportedConstants[key] = value
+    }
+  }
 
   /// The default *Expression* builder function.
-  static func builder(_ string: String) -> Expression {
+  public static func builder(_ string: String) -> Expression {
+    if !UIStylesheetExpression.exportedConstantsInitialised {
+      UIStylesheetExpression.exportedConstantsInitialised = true
+      NSTextAlignment.export()
+      NSLineBreakMode.export()
+      UIImageOrientation.export()
+      UIImageResizingMode.export()
+    }
     return Expression(string,
                       options: [Expression.Options.boolSymbols, Expression.Options.pureSymbols],
-                      constants: UIStylesheetExpression.constants,
-                      symbols: UIStylesheetExpression.symbols)
+                      constants: UIStylesheetExpression.exportedConstants,
+                      symbols: UIStylesheetExpression.defaultSymbols)
   }
 }
 
 /// Warning message related to stylesheet parsing and rules evaluation.
 @inline(__always) func warn(_ message: String) {
   print("warning \(#function): \(message)")
+}
+
+// MARK: - UIStylesheetRepresentableEnum
+
+public protocol UIStylesheetRepresentableEnum {
+  /// Every *UIStylesheetRepresentableEnum* must be backed by an integer store.
+  init?(rawValue: Int)
+  /// Returns every enum value as a map between a 'key' and its integer representation.
+  static func expressionConstants() -> [String: Double]
+}
+
+public extension UIStylesheetRepresentableEnum {
+  /// Export this enum into the stylesheet global symbols.
+  static func export() {
+    UIStylesheetExpression.export(constants: expressionConstants())
+  }
+}
+
+// MARK: - UIStylesheetRepresentableEnum Common
+
+extension NSTextAlignment: UIStylesheetRepresentableEnum {
+  public static func expressionConstants() -> [String : Double] {
+    let namespace = "NSTextAlignment"
+    return [
+      "\(namespace).left": Double(NSTextAlignment.left.rawValue),
+      "\(namespace).center": Double(NSTextAlignment.center.rawValue),
+      "\(namespace).right": Double(NSTextAlignment.right.rawValue),
+      "\(namespace)t.justified": Double(NSTextAlignment.justified.rawValue),
+      "\(namespace).natural": Double(NSTextAlignment.natural.rawValue)]
+  }
+}
+
+extension NSLineBreakMode: UIStylesheetRepresentableEnum {
+  public static func expressionConstants() -> [String : Double] {
+    let namespace = "NSLineBreakMode"
+    return [
+      "\(namespace).byWordWrapping": Double(NSLineBreakMode.byWordWrapping.rawValue),
+      "\(namespace).byCharWrapping": Double(NSLineBreakMode.byCharWrapping.rawValue),
+      "\(namespace).byClipping": Double(NSLineBreakMode.byClipping.rawValue),
+      "\(namespace).byTruncatingHead": Double(NSLineBreakMode.byTruncatingHead.rawValue),
+      "\(namespace).byTruncatingMiddle": Double(NSLineBreakMode.byTruncatingMiddle.rawValue)]
+  }
+}
+
+extension UIImageOrientation: UIStylesheetRepresentableEnum {
+  public static func expressionConstants() -> [String : Double] {
+    let namespace = "UIImageOrientation"
+    return [
+      "\(namespace).up": Double(UIImageOrientation.up.rawValue),
+      "\(namespace).down": Double(UIImageOrientation.down.rawValue),
+      "\(namespace).left": Double(UIImageOrientation.left.rawValue),
+      "\(namespace).right": Double(UIImageOrientation.right.rawValue),
+      "\(namespace).upMirrored": Double(UIImageOrientation.upMirrored.rawValue),
+      "\(namespace).downMirrored": Double(UIImageOrientation.downMirrored.rawValue),
+      "\(namespace).leftMirrored": Double(UIImageOrientation.leftMirrored.rawValue),
+      "\(namespace).rightMirrored": Double(UIImageOrientation.rightMirrored.rawValue)]
+  }
+}
+
+extension UIImageResizingMode: UIStylesheetRepresentableEnum {
+  public static func expressionConstants() -> [String : Double] {
+    let namespace = "UIImageResizingMode"
+    return [
+      "\(namespace).title": Double(UIImageResizingMode.tile.rawValue),
+      "\(namespace).stretch": Double(UIImageResizingMode.stretch.rawValue)]
+  }
 }

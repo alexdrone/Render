@@ -46,7 +46,10 @@ UIView *YGBuild(NSString *className) {
 void YGSet(UIView *view, NSDictionary *properties) {
   for (NSString *key in [properties allKeys]) {
     NSString *keyPath = YGReplaceKeyIfNecessary(key);
-    [view setValue:properties[key] forKeyPath:keyPath];
+    if ([view respondsToSelector:NSSelectorFromString(keyPath)]
+        || [view.yoga respondsToSelector:NSSelectorFromString(key)]) {
+      [view setValue:properties[key] forKeyPath:keyPath];
+    }
   }
 }
 
