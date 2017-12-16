@@ -15,7 +15,6 @@
 		1648A1EC1FB505F400245AFA /* ContextTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1648A1EB1FB505F400245AFA /* ContextTests.swift */; };
 		165300BD1FD6D44C00A7BAB0 /* Debug.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165300BC1FD6D44C00A7BAB0 /* Debug.swift */; };
 		1656BAF61F9F750E009F561F /* TableComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1656BAF51F9F750E009F561F /* TableComponent.swift */; };
-		1660F2C01FE3E66F00064EFE /* Screen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1660F2BF1FE3E66F00064EFE /* Screen.swift */; };
 		167070241FB8C232008DFC5B /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167070231FB8C232008DFC5B /* ViewController.swift */; };
 		167B537A1FABB7A400AF6798 /* YGRenderAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 167B53791FABB7A400AF6798 /* YGRenderAdditions.m */; };
 		167B537C1FABB7B600AF6798 /* YGRenderAdditions.h in Sources */ = {isa = PBXBuildFile; fileRef = 167B537B1FABB7B600AF6798 /* YGRenderAdditions.h */; };
@@ -72,7 +71,6 @@
 		1648A1EB1FB505F400245AFA /* ContextTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContextTests.swift; sourceTree = "<group>"; };
 		165300BC1FD6D44C00A7BAB0 /* Debug.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Debug.swift; sourceTree = "<group>"; };
 		1656BAF51F9F750E009F561F /* TableComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableComponent.swift; sourceTree = "<group>"; };
-		1660F2BF1FE3E66F00064EFE /* Screen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Screen.swift; sourceTree = "<group>"; };
 		167070231FB8C232008DFC5B /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		167B53791FABB7A400AF6798 /* YGRenderAdditions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YGRenderAdditions.m; sourceTree = "<group>"; };
 		167B537B1FABB7B600AF6798 /* YGRenderAdditions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YGRenderAdditions.h; sourceTree = "<group>"; };
@@ -132,7 +130,6 @@
 		16108B9A1FDC80DE00CD9E9A /* stylesheet */ = {
 			isa = PBXGroup;
 			children = (
-				1660F2BF1FE3E66F00064EFE /* Screen.swift */,
 				16108B9D1FDDD1A700CD9E9A /* StylesheetManager.swift */,
 			);
 			path = stylesheet;
@@ -371,7 +368,6 @@
 				16F36BF21F8E2B2800A04BE6 /* YGCommonAdditions.swift in Sources */,
 				16A4FAAA1FDAC9B5007B9D71 /* Yaml.swift in Sources */,
 				16AA95ED1FA3310600EAC136 /* YGNodeList.c in Sources */,
-				1660F2C01FE3E66F00064EFE /* Screen.swift in Sources */,
 				16F5DD9B1FC1C108005E1497 /* YGPercentLayoutExtension.swift in Sources */,
 				16108B9C1FDC82B000CD9E9A /* Expressions.swift in Sources */,
 				16F36BEE1F8E198B00A04BE6 /* Node.swift in Sources */,

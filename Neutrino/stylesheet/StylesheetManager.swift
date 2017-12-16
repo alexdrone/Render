@@ -51,6 +51,9 @@ public extension UIStylesheet {
     return rule.enum(type, default: `default`)
   }
 
+  public func apply(to view: UIView) {
+    Self.apply(to: view)
+  }
   /// Applies the stylesheet to the view passed as argument.
   public static func apply(to view: UIView) {
     guard let defs = UIStylesheetManager.default.defs[Self.name] else {
@@ -100,6 +103,9 @@ public class UIStylesheetManager {
   }
 
   public func load(file: String?) throws {
+    if file != nil {
+      self.file = file
+    }
     guard let file = file ?? self.file else {
       warn("nil filename.")
       return

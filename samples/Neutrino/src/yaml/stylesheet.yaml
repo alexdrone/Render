@@ -10,7 +10,9 @@ Palette:
   green: &_green "#5B654f"
   pink: &_pink "#5f4A53"
   text: &_text "#0d1b1e"
-  white: &_white "#eaeaea"
+  white: &_white 
+    ${orientation == portrait}: "#eaeaea"
+    ${default}: "#ff0000"
   blue: &_blue "#413d4c"
 
 Typography:
@@ -19,3 +21,23 @@ Typography:
   small: &_small !!font(system,12,regular)
   medium: &_medium !!font(system,16,regular)
   mediumBold: &_mediumBold !!font(system,16,bold)
+
+Counter.Wrapper:
+  backgroundColor:  *_text
+  justifyContent: ${center}
+Counter.Button:
+  backgroundColorImage: "#0000ff"
+  font: *_medium
+  padding: 4
+  width: 180
+  height: 44
+  alignSelf: ${center}
+  cornerRadius: 20
+  margin: 16
+Counter.Label:
+  font: *_smallBold 
+  color: *_white
+  textAlignment: ${NSTextAlignment.center}
+  padding: 8
+
+

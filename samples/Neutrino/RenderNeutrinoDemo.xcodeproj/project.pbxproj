@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		160CC8701FB8C97D00CC6080 /* Stylesheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160CC86F1FB8C97D00CC6080 /* Stylesheet.swift */; };
 		161456111FE5C89600B9E091 /* stylesheet.yaml in Resources */ = {isa = PBXBuildFile; fileRef = 161456101FE5C89600B9E091 /* stylesheet.yaml */; };
+		1614561C1FE5D44C00B9E091 /* StylesheetCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1614561B1FE5D44C00B9E091 /* StylesheetCounter.swift */; };
+		1614561F1FE5D4FD00B9E091 /* StylesheetCounterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1614561E1FE5D4FD00B9E091 /* StylesheetCounterViewController.swift */; };
 		161D3A2A1FC36CE10066C923 /* AppStoreList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 161D3A291FC36CE10066C923 /* AppStoreList.swift */; };
 		165399231F9A73B6006DFE5D /* RenderNeutrino.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 165399171F9A737B006DFE5D /* RenderNeutrino.framework */; };
 		165399241F9A73B6006DFE5D /* RenderNeutrino.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 165399171F9A737B006DFE5D /* RenderNeutrino.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -83,6 +85,8 @@
 /* Begin PBXFileReference section */
 		160CC86F1FB8C97D00CC6080 /* Stylesheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stylesheet.swift; sourceTree = "<group>"; };
 		161456101FE5C89600B9E091 /* stylesheet.yaml */ = {isa = PBXFileReference; lastKnownFileType = text; path = stylesheet.yaml; sourceTree = "<group>"; };
+		1614561B1FE5D44C00B9E091 /* StylesheetCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StylesheetCounter.swift; sourceTree = "<group>"; };
+		1614561E1FE5D4FD00B9E091 /* StylesheetCounterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StylesheetCounterViewController.swift; sourceTree = "<group>"; };
 		161D3A291FC36CE10066C923 /* AppStoreList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStoreList.swift; sourceTree = "<group>"; };
 		165399121F9A737B006DFE5D /* RenderNeutrino.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RenderNeutrino.xcodeproj; path = ../../Neutrino/RenderNeutrino.xcodeproj; sourceTree = "<group>"; };
 		167070211FB8C1D7008DFC5B /* IndexViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndexViewController.swift; sourceTree = "<group>"; };
@@ -204,6 +208,7 @@
 				167070251FB8C757008DFC5B /* Index.swift */,
 				16A38D391FC0E897000E43E9 /* AppStoreEntry.swift */,
 				161D3A291FC36CE10066C923 /* AppStoreList.swift */,
+				1614561B1FE5D44C00B9E091 /* StylesheetCounter.swift */,
 			);
 			path = components;
 			sourceTree = "<group>";
@@ -223,6 +228,7 @@
 				167070211FB8C1D7008DFC5B /* IndexViewController.swift */,
 				16D24C441FD5705E000BADB9 /* AppStoreEntryViewController.swift */,
 				16D24C461FD5717D000BADB9 /* AppStoreListViewController.swift */,
+				1614561E1FE5D4FD00B9E091 /* StylesheetCounterViewController.swift */,
 			);
 			path = viewcontrollers;
 			sourceTree = "<group>";
@@ -343,9 +349,11 @@
 				168FA6D71F8F856D00A12585 /* AppDelegate.swift in Sources */,
 				160CC8701FB8C97D00CC6080 /* Stylesheet.swift in Sources */,
 				161D3A2A1FC36CE10066C923 /* AppStoreList.swift in Sources */,
+				1614561F1FE5D4FD00B9E091 /* StylesheetCounterViewController.swift in Sources */,
 				16A38D3A1FC0E897000E43E9 /* AppStoreEntry.swift in Sources */,
 				16D24C471FD5717D000BADB9 /* AppStoreListViewController.swift in Sources */,
 				16A38D381FC0E6DF000E43E9 /* Fragments.swift in Sources */,
+				1614561C1FE5D44C00B9E091 /* StylesheetCounter.swift in Sources */,
 				167070221FB8C1D7008DFC5B /* IndexViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

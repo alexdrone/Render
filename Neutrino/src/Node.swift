@@ -128,6 +128,8 @@ public class UINode<V: UIView>: UINodeProtocol {
   private var shouldInvokeDidMount: Bool = false
   // The target object for the view binding method.
   private weak var bindTarget: AnyObject?
+  // Optional associated style.
+  private var style: UIStylesheet? = nil
 
   // Internal.
 
@@ -156,6 +158,7 @@ public class UINode<V: UIView>: UINodeProtocol {
   public init(reuseIdentifier: String? = nil,
               key: String? = nil,
               create: (() -> V)? = nil,
+              style: UIStylesheet? = nil,
               configure: ConfigurationClosure? = nil) {
     self.reuseIdentifier = UINodeReuseIdentifierMake(type: V.self, identifier: reuseIdentifier)
     self._debugType =  String(describing: V.self)
@@ -164,6 +167,7 @@ public class UINode<V: UIView>: UINodeProtocol {
       fatalError("Always specify a reuse identifier whenever a custom create closure is provided.")
     }
     self.key = key
+    self.style = style
     if let configure = configure {
       self.configClosure = configure
     }
@@ -206,6 +210,7 @@ public class UINode<V: UIView>: UINodeProtocol {
       return
     }
     view.renderContext.storeOldGeometryRecursively()
+    style?.apply(to: view)
     let viewConfiguration = Configuration(node: self, view: renderedView, size: bounds)
     configClosure(viewConfiguration)
     overrides?(view)

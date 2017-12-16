@@ -14,6 +14,10 @@ class IndexViewController: UIComponentViewController<Index.Component> {
         title: "Card List Example",
         subtitle: "A list of stateful components.",
         onCellSelected: presentAppStoreListComponentExample),
+      Index.CellProps(
+        title: "Stylesheet-based Counter",
+        subtitle: "A component that makes extensive use of styles.",
+        onCellSelected: presentStylesheetCounterExample),
     ]
     return context.component(Index.Component.self, key: rootKey, props: props)
   }
@@ -24,6 +28,10 @@ class IndexViewController: UIComponentViewController<Index.Component> {
 
   private func presentAppStoreListComponentExample() {
     navigationController?.pushViewController(AppStoreListViewController(), animated: true)
+  }
+
+  private func presentStylesheetCounterExample() {
+    navigationController?.pushViewController(StylesheetCounterViewController(), animated: true)
   }
 
   override func viewDidLoad() {

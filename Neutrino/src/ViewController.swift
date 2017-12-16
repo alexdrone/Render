@@ -13,11 +13,6 @@ open class UIComponentViewController<C: UIComponentProtocol>: UIViewController {
   /// The layout guide representing the portion of your view that is unobscured by bars
   /// and other content.
   public var shouldUseSafeAreaLayoutGuide: Bool = true
-  /// Whenever the *TraitCollection* or the screen size changes the default stylesheet is updated
-  /// and the component re-rendered.
-  /// - Note: This is useful if any of the variables of your js stylesheet queries
-  /// *screen()* object for orientation or size classes.
-  public var shouldReloadStylesheetOnDisplayMetricsChange: Bool = false
   /// When this is 'true' the component will invoke *setNeedsRender* during the size transition
   /// animation.
   /// - Note: There are performance issues with this property being true for ViewControllers
@@ -87,7 +82,9 @@ open class UIComponentViewController<C: UIComponentProtocol>: UIViewController {
 
   /// Called to notify the view controller that its view has just laid out its subviews.
   open override func viewDidLayoutSubviews() {
-    guard firstViewDidLayoutSubviewsInvokation else { return }
+    guard firstViewDidLayoutSubviewsInvokation else {
+      return
+    }
     component.setNeedsRender(options: [])
     firstViewDidLayoutSubviewsInvokation = false
   }
@@ -96,7 +93,6 @@ open class UIComponentViewController<C: UIComponentProtocol>: UIViewController {
                                    with coordinator: UIViewControllerTransitionCoordinator) {
     super.viewWillTransition(to: size, with: coordinator)
 
-    let reloadStylesheet = shouldReloadStylesheetOnDisplayMetricsChange
     let renderAlongside = shouldRenderAlongsideSizeTransitionAnimation
     let component: UIComponentProtocol = self.component
 
@@ -105,9 +101,7 @@ open class UIComponentViewController<C: UIComponentProtocol>: UIViewController {
         component.setNeedsRender(options: [])
       }
     }) { _ in
-      if reloadStylesheet || !renderAlongside {
-        component.setNeedsRender(options: [])
-      }
+      component.setNeedsRender(options: [])
     }
   }
 }

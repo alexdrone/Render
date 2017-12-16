@@ -39,6 +39,12 @@ class StylesheetTests: XCTestCase {
     XCTAssert(value!.cgColor.components![1] == 0)
     XCTAssert(value!.cgColor.components![2] == 0)
   }
+  func testConditionalColor() {
+    let value = parser.rule(style: test, name: "conditionalColor")?.color
+    XCTAssert(value!.cgColor.components![0] == 1)
+    XCTAssert(value!.cgColor.components![1] == 0)
+    XCTAssert(value!.cgColor.components![2] == 0)
+  }
   func testFont() {
     let value = parser.rule(style: test, name: "font")?.font
     XCTAssert(value!.pointSize == 42.0)
@@ -102,6 +108,10 @@ Test:
   color: "#ff0000"
   font: !!font(Arial,42)
   fontWeight: !!font(system,12,bold)
+  conditionalColor: &_conditionalColor
+    ${false}: "#000000"
+    ${1 == 1}: "#ff0000"
+    ${default}: "#000000"
   conditionalFloat:
     ${false}: 41
     ${default}: 42
@@ -143,5 +153,6 @@ View:
   borderWidth: 1
   flexDirection: ${row}
   margin: 10
+  width_percentage: 100
   customNonApplicableProperty: 42
 """

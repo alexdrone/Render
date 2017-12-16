@@ -43,6 +43,9 @@ typedef struct YGValue {
   YGUnit unit;
 } YGValue;
 
+typedef struct __attribute__((objc_boxable)) YGValue YGValue;
+
+
 static const YGValue YGValueUndefined = {YGUndefined, YGUnitUndefined};
 static const YGValue YGValueAuto = {YGUndefined, YGUnitAuto};
 
