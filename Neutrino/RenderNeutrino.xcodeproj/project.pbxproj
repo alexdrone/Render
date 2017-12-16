@@ -12,10 +12,10 @@
 		16108BA11FDDD1C700CD9E9A /* StylesheetTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16108B9F1FDDD1BC00CD9E9A /* StylesheetTests.swift */; };
 		161260861FB4E92F00524869 /* NodeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 161260851FB4E92F00524869 /* NodeTests.swift */; };
 		161260881FB4E92F00524869 /* RenderNeutrino.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16F36BE21F8E197A00A04BE6 /* RenderNeutrino.framework */; };
-		162560F91FA4D6660066AF05 /* JSBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 162560F81FA4D6660066AF05 /* JSBridge.swift */; };
 		1648A1EC1FB505F400245AFA /* ContextTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1648A1EB1FB505F400245AFA /* ContextTests.swift */; };
 		165300BD1FD6D44C00A7BAB0 /* Debug.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165300BC1FD6D44C00A7BAB0 /* Debug.swift */; };
 		1656BAF61F9F750E009F561F /* TableComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1656BAF51F9F750E009F561F /* TableComponent.swift */; };
+		1660F2C01FE3E66F00064EFE /* Screen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1660F2BF1FE3E66F00064EFE /* Screen.swift */; };
 		167070241FB8C232008DFC5B /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167070231FB8C232008DFC5B /* ViewController.swift */; };
 		167B537A1FABB7A400AF6798 /* YGRenderAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 167B53791FABB7A400AF6798 /* YGRenderAdditions.m */; };
 		167B537C1FABB7B600AF6798 /* YGRenderAdditions.h in Sources */ = {isa = PBXBuildFile; fileRef = 167B537B1FABB7B600AF6798 /* YGRenderAdditions.h */; };
@@ -51,6 +51,7 @@
 		16F5DD9B1FC1C108005E1497 /* YGPercentLayoutExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F5DD9A1FC1C108005E1497 /* YGPercentLayoutExtension.swift */; };
 		16F7B55B1F9A322C00583082 /* RenderInspectorHook.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F7B55A1F9A322C00583082 /* RenderInspectorHook.swift */; };
 		16FD2DAA1FB100A1005C2F9F /* Geometry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16FD2DA91FB100A1005C2F9F /* Geometry.swift */; };
+		16FE0DA31FE3F4F000A2D3F8 /* JSBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16FE0DA21FE3F4F000A2D3F8 /* JSBridge.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -70,10 +71,10 @@
 		161260831FB4E92E00524869 /* Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		161260851FB4E92F00524869 /* NodeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NodeTests.swift; sourceTree = "<group>"; };
 		161260871FB4E92F00524869 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		162560F81FA4D6660066AF05 /* JSBridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSBridge.swift; sourceTree = "<group>"; };
 		1648A1EB1FB505F400245AFA /* ContextTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContextTests.swift; sourceTree = "<group>"; };
 		165300BC1FD6D44C00A7BAB0 /* Debug.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Debug.swift; sourceTree = "<group>"; };
 		1656BAF51F9F750E009F561F /* TableComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableComponent.swift; sourceTree = "<group>"; };
+		1660F2BF1FE3E66F00064EFE /* Screen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Screen.swift; sourceTree = "<group>"; };
 		167070231FB8C232008DFC5B /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		167B53791FABB7A400AF6798 /* YGRenderAdditions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YGRenderAdditions.m; sourceTree = "<group>"; };
 		167B537B1FABB7B600AF6798 /* YGRenderAdditions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YGRenderAdditions.h; sourceTree = "<group>"; };
@@ -110,6 +111,7 @@
 		16F5DD9A1FC1C108005E1497 /* YGPercentLayoutExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YGPercentLayoutExtension.swift; sourceTree = "<group>"; };
 		16F7B55A1F9A322C00583082 /* RenderInspectorHook.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenderInspectorHook.swift; sourceTree = "<group>"; };
 		16FD2DA91FB100A1005C2F9F /* Geometry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Geometry.swift; sourceTree = "<group>"; };
+		16FE0DA21FE3F4F000A2D3F8 /* JSBridge.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSBridge.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -134,6 +136,7 @@
 		16108B9A1FDC80DE00CD9E9A /* stylesheet */ = {
 			isa = PBXGroup;
 			children = (
+				1660F2BF1FE3E66F00064EFE /* Screen.swift */,
 				16108B9D1FDDD1A700CD9E9A /* StylesheetParser.swift */,
 			);
 			path = stylesheet;
@@ -149,14 +152,6 @@
 				161260871FB4E92F00524869 /* Info.plist */,
 			);
 			path = tests;
-			sourceTree = "<group>";
-		};
-		162560F71FA4D6050066AF05 /* jsbridge */ = {
-			isa = PBXGroup;
-			children = (
-				162560F81FA4D6660066AF05 /* JSBridge.swift */,
-			);
-			path = jsbridge;
 			sourceTree = "<group>";
 		};
 		1656BAF41F9F74DE009F561F /* components */ = {
@@ -175,8 +170,8 @@
 				16F36BF31F8E2BEE00A04BE6 /* deps */,
 				16F36BE41F8E197A00A04BE6 /* src */,
 				1656BAF41F9F74DE009F561F /* components */,
-				162560F71FA4D6050066AF05 /* jsbridge */,
 				16108B9A1FDC80DE00CD9E9A /* stylesheet */,
+				16FE0DA11FE3F4D500A2D3F8 /* jsbridge */,
 				161260841FB4E92E00524869 /* tests */,
 				16F36BE31F8E197A00A04BE6 /* Products */,
 			);
@@ -237,6 +232,14 @@
 				16108B9B1FDC82B000CD9E9A /* Expressions.swift */,
 			);
 			path = deps;
+			sourceTree = "<group>";
+		};
+		16FE0DA11FE3F4D500A2D3F8 /* jsbridge */ = {
+			isa = PBXGroup;
+			children = (
+				16FE0DA21FE3F4F000A2D3F8 /* JSBridge.swift */,
+			);
+			path = jsbridge;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -375,6 +378,7 @@
 				16DDA95D1F9799D200CDBCF5 /* Component.swift in Sources */,
 				16FD2DAA1FB100A1005C2F9F /* Geometry.swift in Sources */,
 				167B537C1FABB7B600AF6798 /* YGRenderAdditions.h in Sources */,
+				16FE0DA31FE3F4F000A2D3F8 /* JSBridge.swift in Sources */,
 				16DDA95F1F98C6CC00CDBCF5 /* Context.swift in Sources */,
 				16F36C191F8E4BA600A04BE6 /* KeyPath.swift in Sources */,
 				16F7B55B1F9A322C00583082 /* RenderInspectorHook.swift in Sources */,
@@ -383,7 +387,7 @@
 				16F36BF21F8E2B2800A04BE6 /* YGCommonAdditions.swift in Sources */,
 				16A4FAAA1FDAC9B5007B9D71 /* Yaml.swift in Sources */,
 				16AA95ED1FA3310600EAC136 /* YGNodeList.c in Sources */,
-				162560F91FA4D6660066AF05 /* JSBridge.swift in Sources */,
+				1660F2C01FE3E66F00064EFE /* Screen.swift in Sources */,
 				16F5DD9B1FC1C108005E1497 /* YGPercentLayoutExtension.swift in Sources */,
 				16108B9C1FDC82B000CD9E9A /* Expressions.swift in Sources */,
 				16F36BEE1F8E198B00A04BE6 /* Node.swift in Sources */,

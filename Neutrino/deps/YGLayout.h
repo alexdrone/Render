@@ -95,7 +95,6 @@ typedef NS_OPTIONS(NSInteger, YGDimensionFlexibility) {
 @property (nonatomic, readwrite, assign) CGFloat maxWidth;
 @property (nonatomic, readwrite, assign) CGFloat maxHeight;
 
-
 // Yoga specific properties, not compatible with flexbox specification
 @property (nonatomic, readwrite, assign) CGFloat aspectRatio;
 

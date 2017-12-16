@@ -93,7 +93,7 @@ public class UIContext: UIContextProtocol {
   public weak var _canvasView: UIView?
   // In charge of returing the current state of the screen.
   public lazy var _screenStateFactory: UIScreenStateFactory = {
-    return UIScreenStateFactory(context: self)
+    return UIScreenStateFactory(canvasViewProvider: { [weak self] in return self?._canvasView })
   }()
   // Sanity check for context initialization.
   public var _componentInitFromContext: Bool = false
