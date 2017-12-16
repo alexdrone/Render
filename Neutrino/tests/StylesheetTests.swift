@@ -4,106 +4,63 @@ import UIKit
 
 class StylesheetTests: XCTestCase {
 
+  let test: String = "Test"
+  var parser: UIStylesheetManager = UIStylesheetManager()
+
+  override func setUp() {
+    parser = UIStylesheetManager()
+    try! parser.load(yaml: standardDefs)
+  }
+
   func testCGFloat() {
-    let parser = UIStylesheetManager()
-    try! parser.load(yaml: standardDefs)
-    let value = parser.rule(style: "Test", name: "cgFloat")?.cgFloat
-    XCTAssert(value == 42)
+    XCTAssert(parser.rule(style: test, name: "cgFloat")?.cgFloat == 42.0)
   }
-
   func testBool() {
-    let parser = UIStylesheetManager()
-    try! parser.load(yaml: standardDefs)
-    let value = parser.rule(style: "Test", name: "bool")?.bool
-    XCTAssert(value == true)
+    XCTAssert(parser.rule(style: test, name: "bool")?.bool == true)
   }
-
   func testInt() {
-    let parser = UIStylesheetManager()
-    try! parser.load(yaml: standardDefs)
-    let value = parser.rule(style: "Test", name: "integer")?.integer
-    XCTAssert(value == 42)
+    XCTAssert(parser.rule(style: test, name: "integer")?.integer == 42)
   }
-
   func testCGFloatExpression() {
-    let parser = UIStylesheetManager()
-    try! parser.load(yaml: standardDefs)
-    let value = parser.rule(style: "Test", name: "cgFloatExpr")?.cgFloat
-    XCTAssert(value == 42)
+    XCTAssert(parser.rule(style: test, name: "cgFloatExpr")?.cgFloat == 42.0)
   }
-
   func testBoolExpression() {
-    let parser = UIStylesheetManager()
-    try! parser.load(yaml: standardDefs)
-    let value = parser.rule(style: "Test", name: "boolExpr")?.bool
-    XCTAssert(value == true)
+    XCTAssert(parser.rule(style: test, name: "boolExpr")?.bool == true)
   }
-
   func testIntExpression() {
-    let parser = UIStylesheetManager()
-    try! parser.load(yaml: standardDefs)
-    let value = parser.rule(style: "Test", name: "integerExpr")?.integer
-    XCTAssert(value == 42)
+    XCTAssert(parser.rule(style: test, name: "integerExpr")?.integer == 42)
   }
-
   func testConstExpression() {
-    let parser = UIStylesheetManager()
-    try! parser.load(yaml: standardDefs)
-    let value = parser.rule(style: "Test", name: "const")?.cgFloat
-    XCTAssert(value == 320)
+    XCTAssert(parser.rule(style: test, name: "const")?.cgFloat == 320)
   }
-
   func testColor() {
-    let parser = UIStylesheetManager()
-    try! parser.load(yaml: standardDefs)
-    let value = parser.rule(style: "Test", name: "color")?.color
+    let value = parser.rule(style: test, name: "color")?.color
     XCTAssert(value!.cgColor.components![0] == 1)
     XCTAssert(value!.cgColor.components![1] == 0)
     XCTAssert(value!.cgColor.components![2] == 0)
   }
-
   func testFont() {
-    let parser = UIStylesheetManager()
-    try! parser.load(yaml: standardDefs)
-    let value = parser.rule(style: "Test", name: "font")?.font
-    XCTAssert(value!.pointSize == 42)
+    let value = parser.rule(style: test, name: "font")?.font
+    XCTAssert(value!.pointSize == 42.0)
   }
-
   func testConditionalFloat() {
-    let parser = UIStylesheetManager()
-    try! parser.load(yaml: standardDefs)
-    let value = parser.rule(style: "Test", name: "conditionalFloat")?.cgFloat
-    XCTAssert(value == 42)
+    XCTAssert(parser.rule(style: test, name: "conditionalFloat")?.cgFloat == 42.0)
   }
-
   func testConditionalFloatWithMultipleConditions() {
-    let parser = UIStylesheetManager()
-    try! parser.load(yaml: standardDefs)
-    let value = parser.rule(style: "Test", name: "multipleConditionalFloat")?.cgFloat
-    XCTAssert(value == 42)
+    XCTAssert(parser.rule(style: test, name: "multipleConditionalFloat")?.cgFloat == 42.0)
   }
-
   func testConditionalFloatWithMultipleExpressions() {
-    let parser = UIStylesheetManager()
-    try! parser.load(yaml: standardDefs)
-    let value = parser.rule(style: "Test", name: "multipleConditionalFloatWithExpr")?.cgFloat
-    XCTAssert(value == 42)
+    XCTAssert(parser.rule(style: test, name: "multipleConditionalFloatWithExpr")?.cgFloat == 42.0)
   }
-
   func testEnum() {
-    let parser = UIStylesheetManager()
-    try! parser.load(yaml: standardDefs)
-    let value = parser.rule(style: "Test", name: "enum")?.enum(NSTextAlignment.self)
-    XCTAssert(value == .right)
+    XCTAssert(parser.rule(style: test, name: "enum")?.enum(NSTextAlignment.self) == .right)
   }
-
   func testAccessFromStylesheetEnum() {
     try! UIStylesheetManager.default.load(yaml: fooDefs)
     XCTAssert(FooStylesheet.bar.cgFloat == 42)
     XCTAssert(FooStylesheet.baz.cgFloat == 42)
     XCTAssert(FooStylesheet.bax.bool)
   }
-
   func testApplyStyleseetToView() {
     try! UIStylesheetManager.default.load(yaml: viewDefs)
     let view = UIView()
@@ -116,16 +73,15 @@ class StylesheetTests: XCTestCase {
     XCTAssert(view.yoga.margin == 10)
     XCTAssert(view.yoga.flexDirection == .row)
   }
-
   func testRefValues() {
-    let parser = UIStylesheetManager()
-    try! parser.load(yaml: standardDefs)
-    var value = parser.rule(style: "Test", name: "cgFloat")?.cgFloat
-    XCTAssert(value == 42)
-    value = parser.rule(style: "Test", name: "refValue")?.cgFloat
-    XCTAssert(value == 42)
+    XCTAssert(parser.rule(style: test, name: "cgFloat")?.cgFloat == 42.0)
+    XCTAssert(parser.rule(style: test, name: "refValue")?.cgFloat == 42.0)
   }
-
+  func testInheritance() {
+    XCTAssert(parser.rule(style: "Foo", name: "foo")?.cgFloat == 1)
+    XCTAssert(parser.rule(style: "Bar", name: "foo")?.cgFloat == 1)
+    XCTAssert(parser.rule(style: "Bar", name: "bar")?.cgFloat == 2)
+  }
 }
 
 let standardDefs = """
@@ -152,13 +108,16 @@ Test:
     ${false}: 41
     ${1 == 1}: ${41+1}
     ${default}: 1
+Foo: &_Foo
+  foo:  1
+Bar:
+  <<: *_Foo
+  bar: 2
 """
 
 enum FooStylesheet: String, UIStylesheet {
   static let name: String = "Foo"
-  case bar
-  case baz
-  case bax
+  case bar, baz, bax
 }
 
 let fooDefs = """
@@ -180,24 +139,4 @@ View:
   flexDirection: ${row}
   margin: 10
   customNonApplicableProperty: 42
-"""
-
-let exampleDefs = """
-Color:
-  blue: &_color_blue !!color(00ff00)
-  red: &_color_red
-    ${horizontal == compact and idiom == phone}:  !!color(00ff00)
-    ${default}: !!color(00ff00)
-
-Typography:
-  small: !!font(Helvetica,12)
-
-AppStoreEntry: &_AppStoreEntry
-  backgroundColor: *_color_blue
-  margin: 10
-  textAlignment: ${NSTextAlignmentCenter}
-AppStoreEntry_Expanded:
-  <<: *_AppStoreEntry
-  backgroundColor: *_color_red
-
 """
