@@ -74,14 +74,47 @@ public enum ParseError: Error {
 }
 
 public class UIStylesheetManager {
-  static let `default` = UIStylesheetManager()
+  public static let `default` = UIStylesheetManager()
 
+  /// The default debug remote fetch url.
+  public var debugRemoteUrl: String = "http://localhost:8000/"
   /// The parsed *Yaml* document.
   public var defs: [String: [String: UIStylesheetRule]] = [:]
+  /// The stylesheet file currently loaded.
+  private var file: String?
 
   /// Returns the rule named 'name' of a specified style.
   public func rule(style: String, name: String) -> UIStylesheetRule? {
     return defs[style]?[name]
+  }
+
+  private func loadFileFromRemoteServer(_ file: String) -> String? {
+    guard DebugFlags.isHotReloadInSimulatorEnabled else { return nil }
+    guard let url = URL(string: "\(debugRemoteUrl)\(file).yaml") else { return nil }
+    return try? String(contentsOf: url, encoding: .utf8)
+  }
+
+  private func loadFileFromBundle(_ file: String) -> String? {
+    guard let path = Bundle.main.path(forResource: file, ofType: "yaml") else { return nil }
+    return try? String(contentsOfFile: path, encoding: .utf8)
+  }
+
+  public func load(file: String?) throws {
+    guard let file = file ?? self.file else {
+      warn("nil filename.")
+      return
+    }
+    #if (arch(i386) || arch(x86_64)) && os(iOS)
+      if let content = loadFileFromRemoteServer(file) {
+        try load(yaml: content)
+      } else if let content = loadFileFromBundle(file) {
+        try load(yaml: content)
+      }
+    #else
+      if let content = loadFileFromBundle(file) {
+        try load(yaml: content)
+      }
+    #endif
   }
 
   /// Parses the markup content passed as argument.
@@ -361,6 +394,10 @@ public class UIStylesheetRule: CustomStringConvertible {
         return NSNumber(value: (string as NSString).doubleValue)
       }
     }
+    // !!color shorthand
+    if string.hasPrefix("#") {
+      return (.color, UIColor(hex: string) ?? .black)
+    }
     // !!expression
     if let expression = expression(from: string) {
       return (.expression, expression)
@@ -368,10 +405,16 @@ public class UIStylesheetRule: CustomStringConvertible {
     // !!font
     if string.hasPrefix(Token.fontFunction) {
       let args = arguments(for: Token.fontFunction)
-      guard args.count == 2 else {
+      guard args.count >= 2 else {
         throw ParseError.illegalNumberOfArguments(function: Token.fontFunction)
       }
       let size: CGFloat = CGFloat(parse(numberFromString: args[1]).floatValue)
+
+      if args.count == 3 {
+        let weight = parse(numberFromString: args[2]).floatValue
+        return (.font, UIFont.systemFont(ofSize: size,
+                                         weight: UIFont.Weight(rawValue: CGFloat(weight))))
+      }
       return (.font, args[0].lowercased() == "system" ?
         UIFont.systemFont(ofSize: size) : UIFont(name:  args[0], size: size))
     }

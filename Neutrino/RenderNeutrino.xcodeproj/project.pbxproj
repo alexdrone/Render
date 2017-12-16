@@ -38,7 +38,6 @@
 		16AA95F81FA3319E00EAC136 /* IGListCollectionViewLayout.mm in Sources */ = {isa = PBXBuildFile; fileRef = 16AA95F51FA3319900EAC136 /* IGListCollectionViewLayout.mm */; };
 		16AF33931FACAD2500379FA9 /* IGListDiff.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16AF33921FACAD2500379FA9 /* IGListDiff.swift */; };
 		16BB65921FABB98800373BB6 /* YGRenderAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 167B537B1FABB7B600AF6798 /* YGRenderAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		16C3221C1FBB8612003F6838 /* Style.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16C3221B1FBB8612003F6838 /* Style.swift */; };
 		16CEC0161F9A125C003D3D21 /* Props.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16CEC0151F9A125C003D3D21 /* Props.swift */; };
 		16DDA95D1F9799D200CDBCF5 /* Component.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16DDA95C1F9799D200CDBCF5 /* Component.swift */; };
 		16DDA95F1F98C6CC00CDBCF5 /* Context.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16DDA95E1F98C6CC00CDBCF5 /* Context.swift */; };
@@ -51,7 +50,6 @@
 		16F5DD9B1FC1C108005E1497 /* YGPercentLayoutExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F5DD9A1FC1C108005E1497 /* YGPercentLayoutExtension.swift */; };
 		16F7B55B1F9A322C00583082 /* RenderInspectorHook.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F7B55A1F9A322C00583082 /* RenderInspectorHook.swift */; };
 		16FD2DAA1FB100A1005C2F9F /* Geometry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16FD2DA91FB100A1005C2F9F /* Geometry.swift */; };
-		16FE0DA31FE3F4F000A2D3F8 /* JSBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16FE0DA21FE3F4F000A2D3F8 /* JSBridge.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -96,7 +94,6 @@
 		16AA95F51FA3319900EAC136 /* IGListCollectionViewLayout.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = IGListCollectionViewLayout.mm; sourceTree = "<group>"; };
 		16AA95F61FA3319900EAC136 /* IGListCollectionViewLayout.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IGListCollectionViewLayout.h; sourceTree = "<group>"; };
 		16AF33921FACAD2500379FA9 /* IGListDiff.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IGListDiff.swift; sourceTree = "<group>"; };
-		16C3221B1FBB8612003F6838 /* Style.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Style.swift; sourceTree = "<group>"; };
 		16CEC0151F9A125C003D3D21 /* Props.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Props.swift; sourceTree = "<group>"; };
 		16DDA95C1F9799D200CDBCF5 /* Component.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Component.swift; sourceTree = "<group>"; };
 		16DDA95E1F98C6CC00CDBCF5 /* Context.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Context.swift; sourceTree = "<group>"; };
@@ -111,7 +108,6 @@
 		16F5DD9A1FC1C108005E1497 /* YGPercentLayoutExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YGPercentLayoutExtension.swift; sourceTree = "<group>"; };
 		16F7B55A1F9A322C00583082 /* RenderInspectorHook.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenderInspectorHook.swift; sourceTree = "<group>"; };
 		16FD2DA91FB100A1005C2F9F /* Geometry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Geometry.swift; sourceTree = "<group>"; };
-		16FE0DA21FE3F4F000A2D3F8 /* JSBridge.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSBridge.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -171,7 +167,6 @@
 				16F36BE41F8E197A00A04BE6 /* src */,
 				1656BAF41F9F74DE009F561F /* components */,
 				16108B9A1FDC80DE00CD9E9A /* stylesheet */,
-				16FE0DA11FE3F4D500A2D3F8 /* jsbridge */,
 				161260841FB4E92E00524869 /* tests */,
 				16F36BE31F8E197A00A04BE6 /* Products */,
 			);
@@ -198,7 +193,6 @@
 				16F36BEF1F8E1A4700A04BE6 /* State.swift */,
 				16FD2DA91FB100A1005C2F9F /* Geometry.swift */,
 				167070231FB8C232008DFC5B /* ViewController.swift */,
-				16C3221B1FBB8612003F6838 /* Style.swift */,
 			);
 			path = src;
 			sourceTree = "<group>";
@@ -232,14 +226,6 @@
 				16108B9B1FDC82B000CD9E9A /* Expressions.swift */,
 			);
 			path = deps;
-			sourceTree = "<group>";
-		};
-		16FE0DA11FE3F4D500A2D3F8 /* jsbridge */ = {
-			isa = PBXGroup;
-			children = (
-				16FE0DA21FE3F4F000A2D3F8 /* JSBridge.swift */,
-			);
-			path = jsbridge;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -378,11 +364,9 @@
 				16DDA95D1F9799D200CDBCF5 /* Component.swift in Sources */,
 				16FD2DAA1FB100A1005C2F9F /* Geometry.swift in Sources */,
 				167B537C1FABB7B600AF6798 /* YGRenderAdditions.h in Sources */,
-				16FE0DA31FE3F4F000A2D3F8 /* JSBridge.swift in Sources */,
 				16DDA95F1F98C6CC00CDBCF5 /* Context.swift in Sources */,
 				16F36C191F8E4BA600A04BE6 /* KeyPath.swift in Sources */,
 				16F7B55B1F9A322C00583082 /* RenderInspectorHook.swift in Sources */,
-				16C3221C1FBB8612003F6838 /* Style.swift in Sources */,
 				167070241FB8C232008DFC5B /* ViewController.swift in Sources */,
 				16F36BF21F8E2B2800A04BE6 /* YGCommonAdditions.swift in Sources */,
 				16A4FAAA1FDAC9B5007B9D71 /* Yaml.swift in Sources */,

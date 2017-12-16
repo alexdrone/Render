@@ -14,10 +14,6 @@ class IndexViewController: UIComponentViewController<Index.Component> {
         title: "Card List Example",
         subtitle: "A list of stateful components.",
         onCellSelected: presentAppStoreListComponentExample),
-      Index.CellProps(
-        title: "A Component with JS fragments.",
-        subtitle: "And hot reload capabilities.",
-        onCellSelected: presentJsCounterExample),
     ]
     return context.component(Index.Component.self, key: rootKey, props: props)
   }
@@ -28,10 +24,6 @@ class IndexViewController: UIComponentViewController<Index.Component> {
 
   private func presentAppStoreListComponentExample() {
     navigationController?.pushViewController(AppStoreListViewController(), animated: true)
-  }
-
-  private func presentJsCounterExample() {
-    navigationController?.pushViewController(JSCounterViewController(), animated: true)
   }
 
   override func viewDidLoad() {

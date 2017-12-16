@@ -36,8 +36,7 @@ public struct DebugFlags {
   public static func shouldTraceAllocation(for object: Any) -> Bool {
     if traceAllocations.contains(.component) && object is UIComponentProtocol {
       return true
-    } else if traceAllocations.contains(.context) &&
-              (object is UIContextProtocol || object is JSBridge) {
+    } else if traceAllocations.contains(.context) && (object is UIContextProtocol) {
       return true
     } else if traceAllocations.contains(.vc) && object is UIViewController {
       return true

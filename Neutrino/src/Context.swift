@@ -45,8 +45,6 @@ public protocol UIContextProtocol: Disposable {
   /// State and component object pool that guarantees uniqueness of 'UIState' and 'UIComponent'
   /// instances within the same context.
   var pool: UIContextPool { get }
-  /// Javascript bridge.
-  var jsBridge: JSBridge { get }
   /// Interface idiom, orientation and bounds for the screen and the canvas view associted to this
   /// context.
   var screen: UIScreenStateFactory.State { get }
@@ -85,10 +83,6 @@ public class UIContext: UIContextProtocol {
   public var layoutAnimator: UIViewPropertyAnimator?
   // All the delegates registered for this object.
   private var delegates: [UIContextDelegateWeakRef] = []
-  /// Javascript bridge.
-  public lazy var jsBridge: JSBridge = {
-    JSBridge(context: self)
-  }()
   // The canvas view in which the component will be rendered in.
   public weak var _canvasView: UIView?
   // In charge of returing the current state of the screen.

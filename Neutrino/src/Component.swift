@@ -134,22 +134,11 @@ open class UIComponent<S: UIStateProtocol, P: UIPropsProtocol>: NSObject, UIComp
     super.init()
     hookInspectorIfAvailable()
     hookHotReload()
-    if requiredJSFragment().count > 0 {
-      for require in requiredJSFragment() {
-        context.jsBridge.loadDefinition(file: require)
-      }
-    }
     logAlloc(type: String(describing: type(of: self)), object: self)
   }
 
   deinit {
     logDealloc(type: String(describing: type(of: self)), object: self)
-  }
-
-  /// *Optional for javascript bridge*
-  /// Returns the files where the javascript fragments are defined.
-  open func requiredJSFragment() -> [String] {
-    return []
   }
 
   /// Whether this object has been disposed or not.
@@ -195,8 +184,8 @@ open class UIComponent<S: UIStateProtocol, P: UIPropsProtocol>: NSObject, UIComp
       return
     }
     guard parent == nil, canvasView != nil else { return }
-    self.context?.jsBridge.initJSContext()
     self.setNeedsRender()
+    try? UIStylesheetManager.default.load(file: nil)
   }
 
   public func setNeedsRender(options: [UIComponentRenderOption] = []) {

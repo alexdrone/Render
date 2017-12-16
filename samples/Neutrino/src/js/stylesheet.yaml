@@ -1,0 +1,21 @@
+
+Palette:
+  navigationBar: &_navigationBar "#151416"
+  primaryAccent: &_primaryAccent "#151416"
+  primary: &_primary "#252427"
+  primaryText: &_primaryText "#37353a"
+  secondary: &_secondary "#302e31"
+  accent: &_accent "#41403c"
+  accentText: &_accentText "#56554e"
+  green: &_green "#5B654f"
+  pink: &_pink "#5f4A53"
+  text: &_text "#0d1b1e"
+  white: &_white "#eaeaea"
+  blue: &_blue "#413d4c"
+
+Typography:
+  extraSmallBold: &_extraSmallBold !!font(system,10,bold)
+  smallBold: &_smallBold !!font(system,12,bold)
+  small: &_small !!font(system,12,regular)
+  medium: &_medium !!font(system,16,regular)
+  mediumBold: &_mediumBold !!font(system,16,bold)

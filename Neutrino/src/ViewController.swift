@@ -105,9 +105,6 @@ open class UIComponentViewController<C: UIComponentProtocol>: UIViewController {
         component.setNeedsRender(options: [])
       }
     }) { _ in
-      if reloadStylesheet {
-        UIStylesheetUpdateScreenMetrics()
-      }
       if reloadStylesheet || !renderAlongside {
         component.setNeedsRender(options: [])
       }

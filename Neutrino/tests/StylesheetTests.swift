@@ -43,6 +43,10 @@ class StylesheetTests: XCTestCase {
     let value = parser.rule(style: test, name: "font")?.font
     XCTAssert(value!.pointSize == 42.0)
   }
+  func testFontWeight() {
+    let value = parser.rule(style: test, name: "fontWeight")?.font
+    XCTAssert(value!.pointSize == 12.0)
+  }
   func testConditionalFloat() {
     XCTAssert(parser.rule(style: test, name: "conditionalFloat")?.cgFloat == 42.0)
   }
@@ -95,8 +99,9 @@ Test:
   boolExpr: ${1 == 1 && true}
   integerExpr: ${41+1}
   const: ${iPhoneSE.width}
-  color: !!color(#ff0000)
+  color: "#ff0000"
   font: !!font(Arial,42)
+  fontWeight: !!font(system,12,bold)
   conditionalFloat:
     ${false}: 41
     ${default}: 42

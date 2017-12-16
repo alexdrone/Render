@@ -10,6 +10,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                    launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
     // Override point for customization after application launch.
     startRenderInspectorServer()
+    try! UIStylesheetManager.default.load(file: "stylesheet")
 
     // Override point for customization after application launch.
     window = UIWindow(frame: UIScreen.main.bounds)

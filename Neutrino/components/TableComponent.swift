@@ -150,7 +150,7 @@ public class UITableComponent<S: UIStateProtocol, P: UITableComponentProps>:
 
   /// Called when ⌘ + R is pressed to reload the component.
   override func forceComponentReload() {
-    self.context?.jsBridge.initJSContext()
+    try? UIStylesheetManager.default.load(file: nil)
     self.setNeedsRender()
   }
 
