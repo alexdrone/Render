@@ -15,6 +15,8 @@ public class UIScreenStateFactory {
     case iPhone8Plus
     /// Applicable for iPhone X.
     case iPhoneX
+    /// Any iPhone.
+    case phone
     /// Applicable for any iPad.
     case iPad
     /// Applicable for Apple TV.

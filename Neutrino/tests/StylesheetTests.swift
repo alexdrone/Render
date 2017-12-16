@@ -53,6 +53,42 @@ class StylesheetTests: XCTestCase {
     XCTAssert(value == 320)
   }
 
+  func testColor() {
+    let parser = UIStylesheetParser()
+    try! parser.parse(yaml: standardDefs)
+    let value = parser.rule(style: "Test", name: "color")?.color
+    XCTAssert(value!.cgColor.components![0] == 1)
+    XCTAssert(value!.cgColor.components![1] == 0)
+    XCTAssert(value!.cgColor.components![2] == 0)
+  }
+
+  func testFont() {
+    let parser = UIStylesheetParser()
+    try! parser.parse(yaml: standardDefs)
+    let value = parser.rule(style: "Test", name: "font")?.font
+    XCTAssert(value!.pointSize == 42)
+  }
+
+  func testConditionalFloat() {
+    let parser = UIStylesheetParser()
+    try! parser.parse(yaml: standardDefs)
+    let value = parser.rule(style: "Test", name: "conditionalFloat")?.cgFloat
+    XCTAssert(value == 42)
+  }
+
+  func testConditionalFloatWithMultipleConditions() {
+    let parser = UIStylesheetParser()
+    try! parser.parse(yaml: standardDefs)
+    let value = parser.rule(style: "Test", name: "multipleConditionalFloat")?.cgFloat
+    XCTAssert(value == 42)
+  }
+
+  func testConditionalFloatWithMultipleExpressions() {
+    let parser = UIStylesheetParser()
+    try! parser.parse(yaml: standardDefs)
+    let value = parser.rule(style: "Test", name: "multipleConditionalFloatWithExpr")?.cgFloat
+    XCTAssert(value == 42)
+  }
 }
 
 
@@ -65,6 +101,19 @@ Test:
   boolExpr: ${1 == 1 && true}
   integerExpr: ${41+1}
   const: ${iPhoneSE.width}
+  color: !!color(#ff0000)
+  font: !!font(Arial,42)
+  conditionalFloat:
+    ${false}: 41
+    ${default}: 42
+  multipleConditionalFloat:
+    ${false}: 41
+    ${1 == 1}: 42
+    ${default}: 1
+  multipleConditionalFloatWithExpr:
+    ${false}: 41
+    ${1 == 1}: ${41+1}
+    ${default}: 1
 
 """
 

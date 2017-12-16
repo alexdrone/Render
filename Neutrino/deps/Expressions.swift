@@ -470,6 +470,7 @@ public class Expression: CustomStringConvertible {
     var symbols: [Symbol: ([Double]) -> Double] = [:]
     // boolean constants
     symbols[.variable("true")] = { _ in 1 }
+    symbols[.variable("default")] = { _ in 1 }
     symbols[.variable("false")] = { _ in 0 }
     // boolean infix operators
     symbols[.infix("==")] = { (args: [Double]) -> Double in args[0] == args[1] ? 1 : 0 }
