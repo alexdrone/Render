@@ -46,28 +46,20 @@ public class Expression: CustomStringConvertible {
 
   /// Symbols that make up an expression
   public enum Symbol: CustomStringConvertible, Hashable {
-
     /// A named variable
     case variable(String)
-
     /// An infix operator
     case infix(String)
-
     /// A prefix operator
     case prefix(String)
-
     /// A postfix operator
     case postfix(String)
-
     /// A function accepting a number of arguments specified by `arity`
     case function(String, arity: Int)
-
     /// A array of values accessed by index
     case array(String)
-
     /// Evaluator for individual symbols
     public typealias Evaluator = (_ args: [Double]) throws -> Double
-
     /// The human-readable name of the symbol
     public var name: String {
       switch self {
@@ -80,7 +72,6 @@ public class Expression: CustomStringConvertible {
         return name
       }
     }
-
     /// The human-readable description of the symbol
     public var description: String {
       switch self {
@@ -98,12 +89,10 @@ public class Expression: CustomStringConvertible {
         return "array \(demangle(name))[]"
       }
     }
-
     /// Required by the hashable protocol
     public var hashValue: Int {
       return name.hashValue
     }
-
     /// Required by the equatable protocol
     public static func == (lhs: Symbol, rhs: Symbol) -> Bool {
       if case let .function(_, lhsarity) = lhs,
@@ -114,28 +103,20 @@ public class Expression: CustomStringConvertible {
       return lhs.description == rhs.description
     }
   }
-
   /// Runtime error when parsing or evaluating an expression
   public enum Error: Swift.Error, CustomStringConvertible, Equatable {
-
     /// An application-specific error
     case message(String)
-
     /// The parser encountered a sequence of characters it didn't recognize
     case unexpectedToken(String)
-
     /// The parser expected to find a delimiter (e.g. closing paren) but didn't
     case missingDelimiter(String)
-
     /// The specified constant, operator or function was not recognized
     case undefinedSymbol(Symbol)
-
     /// A function was called with the wrong number of arguments (arity)
     case arityMismatch(Symbol)
-
     /// An array was accessed with an index outside the valid range
     case arrayBounds(Symbol, Double)
-
     /// The human-readable description of the error
     public var description: String {
       switch self {
@@ -195,24 +176,18 @@ public class Expression: CustomStringConvertible {
       }
     }
   }
-
   /// Options for configuring an expression
   public struct Options: OptionSet {
-
     /// Disable optimizations such as constant substitution
     public static let noOptimize = Options(rawValue: 1 << 1)
-
     /// Enable standard boolean operators and constants
     public static let boolSymbols = Options(rawValue: 1 << 2)
-
     /// Assume all functions and operators in `symbols` are "pure", i.e.
     /// they have no side effects, and always produce the same output
     /// for a given set of arguments
     public static let pureSymbols = Options(rawValue: 1 << 3)
-
     /// Packed bitfield of options
     public let rawValue: Int
-
     /// Designated initializer
     public init(rawValue: Int) {
       self.rawValue = rawValue
@@ -455,25 +430,20 @@ public class Expression: CustomStringConvertible {
   // Stand math symbols
   public static let mathSymbols: [Symbol: Symbol.Evaluator] = {
     var symbols: [Symbol: ([Double]) -> Double] = [:]
-
     // constants
     symbols[.variable("pi")] = { _ in .pi }
-
     // infix operators
     symbols[.infix("+")] = { $0[0] + $0[1] }
     symbols[.infix("-")] = { $0[0] - $0[1] }
     symbols[.infix("*")] = { $0[0] * $0[1] }
     symbols[.infix("/")] = { $0[0] / $0[1] }
     symbols[.infix("%")] = { fmod($0[0], $0[1]) }
-
     // workaround for operator spacing rules
     symbols[.infix("+-")] = { $0[0] - $0[1] }
     symbols[.infix("*-")] = { $0[0] * -$0[1] }
     symbols[.infix("/-")] = { $0[0] / -$0[1] }
-
     // prefix operators
     symbols[.prefix("-")] = { -$0[0] }
-
     // functions - arity 1
     symbols[.function("sqrt", arity: 1)] = { sqrt($0[0]) }
     symbols[.function("floor", arity: 1)] = { floor($0[0]) }
@@ -486,25 +456,21 @@ public class Expression: CustomStringConvertible {
     symbols[.function("tan", arity: 1)] = { tan($0[0]) }
     symbols[.function("atan", arity: 1)] = { atan($0[0]) }
     symbols[.function("abs", arity: 1)] = { abs($0[0]) }
-
     // functions - arity 2
     symbols[.function("pow", arity: 2)] = { pow($0[0], $0[1]) }
     symbols[.function("max", arity: 2)] = { max($0[0], $0[1]) }
     symbols[.function("min", arity: 2)] = { min($0[0], $0[1]) }
     symbols[.function("atan2", arity: 2)] = { atan2($0[0], $0[1]) }
     symbols[.function("mod", arity: 2)] = { fmod($0[0], $0[1]) }
-
     return symbols
   }()
 
   // Stand boolean symbols
   public static let boolSymbols: [Symbol: Symbol.Evaluator] = {
     var symbols: [Symbol: ([Double]) -> Double] = [:]
-
     // boolean constants
     symbols[.variable("true")] = { _ in 1 }
     symbols[.variable("false")] = { _ in 0 }
-
     // boolean infix operators
     symbols[.infix("==")] = { (args: [Double]) -> Double in args[0] == args[1] ? 1 : 0 }
     symbols[.infix("!=")] = { (args: [Double]) -> Double in args[0] != args[1] ? 1 : 0 }
@@ -514,10 +480,8 @@ public class Expression: CustomStringConvertible {
     symbols[.infix("<=")] = { (args: [Double]) -> Double in args[0] <= args[1] ? 1 : 0 }
     symbols[.infix("&&")] = { (args: [Double]) -> Double in args[0] != 0 && args[1] != 0 ? 1 : 0 }
     symbols[.infix("||")] = { (args: [Double]) -> Double in args[0] != 0 || args[1] != 0 ? 1 : 0 }
-
     // boolean prefix operators
     symbols[.prefix("!")] = { (args: [Double]) -> Double in args[0] == 0 ? 1 : 0 }
-
     // ternary operator
     symbols[.infix("?:")] = { (args: [Double]) -> Double in
       if args.count == 3 {
@@ -525,7 +489,6 @@ public class Expression: CustomStringConvertible {
       }
       return args[0] != 0 ? args[0] : args[1]
     }
-
     return symbols
   }()
 }

@@ -3,7 +3,7 @@ import Foundation
 public enum ParseError: Error {
   /// Illegal format for the stylesheet.
   case malformedStylesheetStructure(message: String?)
-  ///
+  /// An illegal use of a '!!func' in the stylesheet.
   case illegalNumberOfArguments(function: String?)
 }
 
