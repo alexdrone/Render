@@ -156,7 +156,7 @@
 			isa = PBXGroup;
 			children = (
 				16B2EFB21FC5BD6500CC3840 /* res */,
-				16B2EFB01FC5BD4D00CC3840 /* js */,
+				16B2EFB01FC5BD4D00CC3840 /* yaml */,
 				1670701C1FB8C170008DFC5B /* scenes */,
 				168FA6D61F8F856D00A12585 /* AppDelegate.swift */,
 				168FA6DD1F8F856D00A12585 /* Assets.xcassets */,
@@ -182,12 +182,12 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		16B2EFB01FC5BD4D00CC3840 /* js */ = {
+		16B2EFB01FC5BD4D00CC3840 /* yaml */ = {
 			isa = PBXGroup;
 			children = (
 				161456101FE5C89600B9E091 /* stylesheet.yaml */,
 			);
-			path = js;
+			path = yaml;
 			sourceTree = "<group>";
 		};
 		16B2EFB21FC5BD6500CC3840 /* res */ = {
