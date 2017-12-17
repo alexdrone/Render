@@ -3,6 +3,13 @@ import RenderNeutrino
 
 struct StylesheetCounter {
 
+  struct Style {
+    static let namespace = "Counter"
+    static let wrapper = UIStyle.make(Style.namespace, "wrapper")
+    static let label = UIStyle.make(Style.namespace, "label")
+    static let button = UIStyle.make(Style.namespace, "button")
+  }
+
   class State: UIState {
     var counter: Int = 0
   }
@@ -10,9 +17,9 @@ struct StylesheetCounter {
   class Component: UIComponent<State, UINilProps> {
 
     override func render(context: UIContextProtocol) -> UINodeProtocol {
-      return UINode<UIView>(style: "Counter.wrapper").children([
-        UINode<UILabel>(style: "Counter.label", configure: configureLabel),
-        UINode<UIButton>(style: "Counter.button", configure: configureButton)
+      return UINode<UIView>(styles: [Style.wrapper]).children([
+        UINode<UILabel>(styles: [Style.label], configure: configureLabel),
+        UINode<UIButton>(styles: [Style.button], configure: configureButton)
       ])
     }
 

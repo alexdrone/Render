@@ -2,13 +2,13 @@ import Foundation
 
 // MARK: - UIStylesheet
 
-public protocol UIStyle {
+public protocol UIStyleProtocol {
   /// Applies this style to the view passed as argument.
   /// - Note: Non KVC-compliant keys are skipped.
   func apply(to view: UIView)
 }
 
-public protocol UIStylesheet: UIStyle {
+public protocol UIStylesheet: UIStyleProtocol {
   /// The name of the stylesheet rule.
   var rawValue: String { get }
   /// The stylesheet name.
@@ -62,27 +62,36 @@ public extension UIStylesheet {
   }
   /// Applies the stylesheet to the view passed as argument.
   public static func apply(to view: UIView) {
-    UIStyleApply(name: Self.name, to: view)
+    UIStyle.apply(name: Self.name, to: view)
   }
 }
 
-extension String: UIStyle {
+extension String: UIStyleProtocol {
   public func apply(to view: UIView) {
-    UIStyleApply(name: self, to: view)
+    UIStyle.apply(name: self, to: view)
   }
 }
 
-/// Applies this style to the view passed as argument.
-/// - Note: Non KVC-compliant keys are skipped.
-func UIStyleApply(name: String, to view: UIView) {
-  guard let defs = UIStylesheetManager.default.defs[name] else {
-    fatalError("Unable to resolve definition named \(name).")
+public struct UIStyle {
+  /// Applies this style to the view passed as argument.
+  /// - Note: Non KVC-compliant keys are skipped.
+  public static func apply(name: String, to view: UIView) {
+    guard let defs = UIStylesheetManager.default.defs[name] else {
+      fatalError("Unable to resolve definition named \(name).")
+    }
+    var bridgeDictionary: [String: Any] = [:]
+    for (key, value) in defs {
+      bridgeDictionary[key] = value.object
+    }
+    YGSet(view, bridgeDictionary)
   }
-  var bridgeDictionary: [String: Any] = [:]
-  for (key, value) in defs {
-    bridgeDictionary[key] = value.object
+
+  /// Returns a style identifier in the format NAMESPACE.STYLE(.MODIFIER)?.
+  public static func make(_ namespace: String,
+                          _ style: String,
+                          _ modifier: String? = nil) -> String {
+    return "\(namespace).\(style)\(modifier != nil ? ".\(modifier!)" : "")"
   }
-  YGSet(view, bridgeDictionary)
 }
 
 // MARK: - UIStylesheetManager
