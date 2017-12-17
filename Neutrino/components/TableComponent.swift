@@ -287,10 +287,6 @@ public class UITableComponent<S: UIStateProtocol, P: UITableComponentProps>:
     component.setNeedsRender(options: [])
   }
 
-//  public func tableView(_ tableView: UITableView, didHighlightRowAt indexPath: IndexPath) {
-//    highlightCell(true, at: indexPath)
-//  }
-
   /// Asks the delegate for the height to use for the header of a particular section.
   public func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat{
     guard let header = props.sections[section].header else {
@@ -431,5 +427,4 @@ public class UITableComponentCell: UITableViewCell {
     mount(component: component, width: size.width)
     return contentView.frame.size
   }
-
 }
