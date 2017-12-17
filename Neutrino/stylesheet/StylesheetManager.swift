@@ -2,7 +2,13 @@ import Foundation
 
 // MARK: - UIStylesheet
 
-public protocol UIStylesheet {
+public protocol UIStyle {
+  /// Applies this style to the view passed as argument.
+  /// - Note: Non KVC-compliant keys are skipped.
+  func apply(to view: UIView)
+}
+
+public protocol UIStylesheet: UIStyle {
   /// The name of the stylesheet rule.
   var rawValue: String { get }
   /// The stylesheet name.
@@ -56,15 +62,27 @@ public extension UIStylesheet {
   }
   /// Applies the stylesheet to the view passed as argument.
   public static func apply(to view: UIView) {
-    guard let defs = UIStylesheetManager.default.defs[Self.name] else {
-      fatalError("Unable to resolve definition named \(Self.name).")
-    }
-    var bridgeDictionary: [String: Any] = [:]
-    for (key, value) in defs {
-      bridgeDictionary[key] = value.object
-    }
-    YGSet(view, bridgeDictionary)
+    UIStyleApply(name: Self.name, to: view)
   }
+}
+
+extension String: UIStyle {
+  public func apply(to view: UIView) {
+    UIStyleApply(name: self, to: view)
+  }
+}
+
+/// Applies this style to the view passed as argument.
+/// - Note: Non KVC-compliant keys are skipped.
+func UIStyleApply(name: String, to view: UIView) {
+  guard let defs = UIStylesheetManager.default.defs[name] else {
+    fatalError("Unable to resolve definition named \(name).")
+  }
+  var bridgeDictionary: [String: Any] = [:]
+  for (key, value) in defs {
+    bridgeDictionary[key] = value.object
+  }
+  YGSet(view, bridgeDictionary)
 }
 
 // MARK: - UIStylesheetManager
@@ -83,6 +101,8 @@ public class UIStylesheetManager {
   public var debugRemoteUrl: String = "http://localhost:8000/"
   /// The parsed *Yaml* document.
   public var defs: [String: [String: UIStylesheetRule]] = [:]
+  /// The current component canvas.
+  public var canvasSize: CGSize = UIScreen.main.bounds.size
   /// The stylesheet file currently loaded.
   private var file: String?
 
@@ -564,6 +584,10 @@ public struct UIStylesheetExpression {
       Double(UIScreenStateFactory.SizeClass.verticalSizeClass().rawValue) },
     .variable("horizontalSizeClass"): { _ in
       Double(UIScreenStateFactory.SizeClass.horizontalSizeClass().rawValue) },
+    .variable("canvasSize.height"): { _ in
+      Double(UIStylesheetManager.default.canvasSize.height) },
+    .variable("canvasSize.width"): { _ in
+      Double(UIStylesheetManager.default.canvasSize.width) },
   ]
   private static var exportedConstants: [String: Double] = defaultConstants
   private static var exportedConstantsInitialised: Bool = false

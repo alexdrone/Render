@@ -45,22 +45,11 @@ UIView *YGBuild(NSString *className) {
 }
 
 void YGSet(UIView *view, NSDictionary *properties) {
-  static NSString *percentageSuffix = @"_percentage";
   for (NSString *key in [properties allKeys]) {
-    if ([key hasSuffix:percentageSuffix]) {
-      NSString *path = [key stringByReplacingOccurrencesOfString:percentageSuffix withString:@""];
-      NSNumber *value = properties[key];
-      YGValue ygValue = {value.floatValue, YGUnitPercent};
-      YGPercentLayout *percent = view.yoga.percent;
-      if ([percent respondsToSelector:@selector(path)]) {
-        [view.yoga.percent setValue:@(ygValue) forKey:path];
-      }
-    } else {
-      NSString *keyPath = YGReplaceKeyIfNecessary(key);
-      if ([view respondsToSelector: NSSelectorFromString(keyPath)]
-          || [view.yoga respondsToSelector:NSSelectorFromString(key)]) {
-        [view setValue:properties[key] forKeyPath:keyPath];
-      }
+    NSString *keyPath = YGReplaceKeyIfNecessary(key);
+    if ([view respondsToSelector: NSSelectorFromString(keyPath)]
+        || [view.yoga respondsToSelector:NSSelectorFromString(key)]) {
+      [view setValue:properties[key] forKeyPath:keyPath];
     }
   }
 }

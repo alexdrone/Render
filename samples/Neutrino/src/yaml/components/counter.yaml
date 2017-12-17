@@ -1,7 +1,8 @@
-Counter.Wrapper:
+Counter.wrapper:
   backgroundColor: *_text
   justifyContent: ${center}
-Counter.Button:
+  width: ${canvasSize.width}
+Counter.button:
   backgroundColorImage: "#0000ff"
   font: *_medium
   padding: 4
@@ -10,7 +11,7 @@ Counter.Button:
   alignSelf: ${center}
   cornerRadius: 20
   margin: 16
-Counter.Label:
+Counter.label:
   font: *_smallBold 
   color: *_white
   textAlignment: ${NSTextAlignment.center}

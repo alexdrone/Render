@@ -204,6 +204,7 @@ open class UIComponent<S: UIStateProtocol, P: UIPropsProtocol>: NSObject, UIComp
     }
     // Updates the context's screen state.
     context._screenStateFactory.bounds = renderSize()
+    UIStylesheetManager.default.canvasSize = renderSize()
 
     // Rendering is suspended for this context for the time being.
     // 'resumeFromSuspendedRenderingIfNecessary' will automatically be called when the render

@@ -129,7 +129,7 @@ public class UINode<V: UIView>: UINodeProtocol {
   // The target object for the view binding method.
   private weak var bindTarget: AnyObject?
   // Optional associated style.
-  private var style: UIStylesheet? = nil
+  private var style: UIStyle? = nil
 
   // Internal.
 
@@ -158,7 +158,7 @@ public class UINode<V: UIView>: UINodeProtocol {
   public init(reuseIdentifier: String? = nil,
               key: String? = nil,
               create: (() -> V)? = nil,
-              style: UIStylesheet? = nil,
+              style: UIStyle? = nil,
               configure: ConfigurationClosure? = nil) {
     self.reuseIdentifier = UINodeReuseIdentifierMake(type: V.self, identifier: reuseIdentifier)
     self._debugType =  String(describing: V.self)

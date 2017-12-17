@@ -71,9 +71,6 @@ public protocol UIContextDelegate: class {
 // MARK: - UIContext
 
 public class UIContext: UIContextProtocol {
-  /// A shared context meant to be accessed only from the stylesheet.
-  static let forStylesheet = UIStylesheetContext()
-
   public var pool = UIContextPool()
   /// Returns the bounds of the canvas view.
   public var canvasSize: CGSize {
