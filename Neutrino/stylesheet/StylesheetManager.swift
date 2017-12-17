@@ -98,8 +98,24 @@ public class UIStylesheetManager {
   }
 
   private func loadFileFromBundle(_ file: String) -> String? {
-    guard let path = Bundle.main.path(forResource: file, ofType: "yaml") else { return nil }
+    guard let leaf = file.components(separatedBy: "/").last else { return nil }
+    guard let path = Bundle.main.path(forResource: leaf, ofType: "yaml") else { return nil }
     return try? String(contentsOfFile: path, encoding: .utf8)
+  }
+
+  private func resolve(file: String) -> String {
+    #if (arch(i386) || arch(x86_64)) && os(iOS)
+      if let content = loadFileFromRemoteServer(file) {
+        return content
+      } else if let content = loadFileFromBundle(file) {
+        return content
+      }
+    #else
+      if let content = loadFileFromBundle(file) {
+        return content
+      }
+    #endif
+    return ""
   }
 
   public func load(file: String?) throws {
@@ -110,52 +126,72 @@ public class UIStylesheetManager {
       warn("nil filename.")
       return
     }
-    #if (arch(i386) || arch(x86_64)) && os(iOS)
-      if let content = loadFileFromRemoteServer(file) {
-        try load(yaml: content)
-      } else if let content = loadFileFromBundle(file) {
-        try load(yaml: content)
-      }
-    #else
-      if let content = loadFileFromBundle(file) {
-        try load(yaml: content)
-      }
-    #endif
+    try load(yaml: resolve(file: file))
   }
 
   /// Parses the markup content passed as argument.
   public func load(yaml string: String) throws {
-    let yaml = try Yaml.load(string)
-    guard let root = yaml.dictionary else {
-      throw ParseError.malformedStylesheetStructure(message: "The root node should be a map.")
-    }
     // Parses the top level definitions.
     var yamlDefs: [String: [String: UIStylesheetRule]] = [:]
-    for (key, value) in root {
-      guard var defDic = value.dictionary, let defKey = key.string else {
-        throw ParseError.malformedStylesheetStructure(message:"Definitions should be maps.")
+    var content: String = string
+
+    // Sanitize the file format.
+    func validateRootNode(_ string: String) throws -> [Yaml: Yaml] {
+      let yaml = try Yaml.load(string)
+      guard let root = yaml.dictionary else {
+        throw ParseError.malformedStylesheetStructure(message: "The root node should be a map.")
       }
-      // In yaml definitions can inherit from others using the <<: *ID expression. e.g.
-      // myDef: &_myDef
-      //   foo: 1
-      // myOtherDef: &_myOtherDef
-      //   <<: *_myDef
-      //   bar: 2
-      var defs: [String: UIStylesheetRule] = [:]
-      if let inherit = defDic["<<"]?.dictionary {
-        for (ik, iv) in inherit {
-          guard let isk = ik.string else {
-            throw ParseError.malformedStylesheetStructure(message: "Invalid rule key.")
-          }
-          defs[isk] = try UIStylesheetRule(key: isk, value: iv)
-        }
-      }
-      for (k, v) in defDic {
-        guard let sk = k.string, sk != "<<" else { continue }
-        defs[sk] = try UIStylesheetRule(key: sk, value: v)
-      }
-      yamlDefs[defKey] = defs
+      return root
     }
+    // Resolve the import statements in the yaml stylesheet.
+    // 'import' statements are only allowed from the main file and they are not processed
+    // recursively.
+    func resolveImports(_ string: String) throws {
+      if string.isEmpty {
+        warn("Resolved stylesheet file with empty content.")
+        return
+      }
+      let root = try validateRootNode(string)
+      for imported in root["import"]?.array ?? [] {
+        guard let fileName = imported.string?.replacingOccurrences(of: ".yaml", with: "") else {
+          continue
+        }
+        content += resolve(file: fileName)
+      }
+    }
+    // Parse the final stylesheet file.
+    func parseRoot(_ string: String) throws {
+      let root = try validateRootNode(string)
+      for (key, value) in root {
+        guard key != "import" else { continue }
+        guard var defDic = value.dictionary, let defKey = key.string else {
+          throw ParseError.malformedStylesheetStructure(message:"Definitions should be maps.")
+        }
+        // In yaml definitions can inherit from others using the <<: *ID expression. e.g.
+        // myDef: &_myDef
+        //   foo: 1
+        // myOtherDef: &_myOtherDef
+        //   <<: *_myDef
+        //   bar: 2
+        var defs: [String: UIStylesheetRule] = [:]
+        if let inherit = defDic["<<"]?.dictionary {
+          for (ik, iv) in inherit {
+            guard let isk = ik.string else {
+              throw ParseError.malformedStylesheetStructure(message: "Invalid rule key.")
+            }
+            defs[isk] = try UIStylesheetRule(key: isk, value: iv)
+          }
+        }
+        for (k, v) in defDic {
+          guard let sk = k.string, sk != "<<"else { continue }
+          defs[sk] = try UIStylesheetRule(key: sk, value: v)
+        }
+        yamlDefs[defKey] = defs
+      }
+    }
+
+    try resolveImports(string)
+    try parseRoot(content)
     self.defs = yamlDefs
   }
 }
@@ -281,7 +317,7 @@ public class UIStylesheetRule: CustomStringConvertible {
     return `default`
   }
 
-  static private let defaultExpression = Expression("false")
+  static private let defaultExpression = Expression("0")
   /// Main entry point for numeric return types and expressions.
   /// - Note: If it fails evaluating this rule value, *NSNumber* 0.\
   public var nsNumber: NSNumber {

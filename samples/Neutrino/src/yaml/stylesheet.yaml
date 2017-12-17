@@ -1,6 +1,4 @@
-
 Palette:
-  navigationBar: &_navigationBar "#151416"
   primaryAccent: &_primaryAccent "#151416"
   primary: &_primary "#252427"
   primaryText: &_primaryText "#37353a"
@@ -14,6 +12,7 @@ Palette:
     ${orientation == portrait}: "#eaeaea"
     ${default}: "#ff0000"
   blue: &_blue "#413d4c"
+  navigationBar: *_primaryAccent
 
 Typography:
   extraSmallBold: &_extraSmallBold !!font(system,10,bold)
@@ -22,22 +21,5 @@ Typography:
   medium: &_medium !!font(system,16,regular)
   mediumBold: &_mediumBold !!font(system,16,bold)
 
-Counter.Wrapper:
-  backgroundColor:  *_text
-  justifyContent: ${center}
-Counter.Button:
-  backgroundColorImage: "#0000ff"
-  font: *_medium
-  padding: 4
-  width: 180
-  height: 44
-  alignSelf: ${center}
-  cornerRadius: 20
-  margin: 16
-Counter.Label:
-  font: *_smallBold 
-  color: *_white
-  textAlignment: ${NSTextAlignment.center}
-  padding: 8
-
-
+import:
+  - components/counter.yaml

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		160307581FE6810200044D00 /* counter.yaml in Resources */ = {isa = PBXBuildFile; fileRef = 160307571FE6810200044D00 /* counter.yaml */; };
 		160CC8701FB8C97D00CC6080 /* Stylesheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160CC86F1FB8C97D00CC6080 /* Stylesheet.swift */; };
 		161456111FE5C89600B9E091 /* stylesheet.yaml in Resources */ = {isa = PBXBuildFile; fileRef = 161456101FE5C89600B9E091 /* stylesheet.yaml */; };
 		1614561C1FE5D44C00B9E091 /* StylesheetCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1614561B1FE5D44C00B9E091 /* StylesheetCounter.swift */; };
@@ -83,6 +84,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		160307571FE6810200044D00 /* counter.yaml */ = {isa = PBXFileReference; lastKnownFileType = text; path = counter.yaml; sourceTree = "<group>"; };
 		160CC86F1FB8C97D00CC6080 /* Stylesheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stylesheet.swift; sourceTree = "<group>"; };
 		161456101FE5C89600B9E091 /* stylesheet.yaml */ = {isa = PBXFileReference; lastKnownFileType = text; path = stylesheet.yaml; sourceTree = "<group>"; };
 		1614561B1FE5D44C00B9E091 /* StylesheetCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StylesheetCounter.swift; sourceTree = "<group>"; };
@@ -189,6 +191,7 @@
 		16B2EFB01FC5BD4D00CC3840 /* yaml */ = {
 			isa = PBXGroup;
 			children = (
+				16D9F32D1FE682F500ADAB3D /* components */,
 				161456101FE5C89600B9E091 /* stylesheet.yaml */,
 			);
 			path = yaml;
@@ -231,6 +234,14 @@
 				1614561E1FE5D4FD00B9E091 /* StylesheetCounterViewController.swift */,
 			);
 			path = viewcontrollers;
+			sourceTree = "<group>";
+		};
+		16D9F32D1FE682F500ADAB3D /* components */ = {
+			isa = PBXGroup;
+			children = (
+				160307571FE6810200044D00 /* counter.yaml */,
+			);
+			path = components;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -334,6 +345,7 @@
 				168FA6DE1F8F856D00A12585 /* Assets.xcassets in Resources */,
 				1671C1301FC5C6CA00F73A9C /* forest.gif in Resources */,
 				16ED28041FD5A74900D5E222 /* Default-568h@2x.png in Resources */,
+				160307581FE6810200044D00 /* counter.yaml in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

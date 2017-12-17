@@ -1,0 +1,17 @@
+Counter.Wrapper:
+  backgroundColor: *_text
+  justifyContent: ${center}
+Counter.Button:
+  backgroundColorImage: "#0000ff"
+  font: *_medium
+  padding: 4
+  width: 180
+  height: 44
+  alignSelf: ${center}
+  cornerRadius: 20
+  margin: 16
+Counter.Label:
+  font: *_smallBold 
+  color: *_white
+  textAlignment: ${NSTextAlignment.center}
+  padding: 8
