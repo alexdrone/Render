@@ -92,6 +92,9 @@ class StylesheetTests: XCTestCase {
     XCTAssert(parser.rule(style: "Bar", name: "foo")?.cgFloat == 1)
     XCTAssert(parser.rule(style: "Bar", name: "bar")?.cgFloat == 2)
   }
+  func testTransition() {
+    XCTAssert(parser.rule(style: test, name: "animator1")?.animator.duration == 1)
+  }
 }
 
 let standardDefs = """
@@ -108,6 +111,7 @@ Test:
   color: "#ff0000"
   font: font(Arial,42)
   fontWeight: font(system,12,bold)
+  animator1: animator(1,easeIn)
   conditionalColor: &_conditionalColor
     ${false}: "#000000"
     ${1 == 1}: "#ff0000"

@@ -4,7 +4,8 @@ Counter.wrapper:
   width: ${canvasSize.width}
 
 Counter.button:
-  backgroundColorImage: "#0000ff"
+  animator: &_animator animator(0.2,easeIn)
+  backgroundColorImage: "#00ff00"
   font: *_medium
   padding: 4
   width: 180
@@ -12,9 +13,12 @@ Counter.button:
   alignSelf: ${center}
   margin: 16
   depthPreset: 2
-  cornerRadiusPreset: 4
+  cornerRadius: 12
+  animator-cornerRadius: *_animator
 Counter.button.even: 
   backgroundColorImage: "#ff0000"
+  cornerRadius: 0
+  animator-cornerRadius: *_animator
 
 Counter.label:
   font: *_smallBold 

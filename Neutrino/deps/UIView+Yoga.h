@@ -36,7 +36,7 @@ typedef void (^YGLayoutConfigurationBlock)(YGLayout *);
 @end
 
 extern UIView * _Nullable YGBuild(NSString *className);
-extern void YGSet(UIView *view, NSDictionary *properties);
+extern void YGSet(UIView *view, NSDictionary *properties, NSDictionary *animators);
 extern NSString *YGReplaceKeyIfNecessary(NSString *key);
 extern NSArray *YGUIKitSymbols(void);
 

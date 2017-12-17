@@ -109,7 +109,8 @@ public struct UIStyle {
     for (key, value) in defs {
       bridgeDictionary[key] = value.object
     }
-    YGSet(view, bridgeDictionary)
+    let transitions = UIStylesheetManager.default.animators[name] ?? [:]
+    YGSet(view, bridgeDictionary, transitions)
   }
   /// Returns a style identifier in the format NAMESPACE.STYLE(.MODIFIER)?.
   public static func make(_ namespace: String,

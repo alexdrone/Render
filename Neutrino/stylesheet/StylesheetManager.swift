@@ -15,6 +15,9 @@ public class UIStylesheetManager {
   public var debugRemoteUrl: String = "http://localhost:8000/"
   /// The parsed *Yaml* document.
   public var defs: [String: [String: UIStylesheetRule]] = [:]
+  /// Available animators.
+  public var animators: [String: [String: UIViewPropertyAnimator]] = [:]
+
   /// The current component canvas.
   public var canvasSize: CGSize = UIScreen.main.bounds.size
   /// The stylesheet file currently loaded.
@@ -23,6 +26,11 @@ public class UIStylesheetManager {
   /// Returns the rule named 'name' of a specified style.
   public func rule(style: String, name: String) -> UIStylesheetRule? {
     return defs[style]?[name]
+  }
+
+  /// Returns the rule named 'name' of a specified style.
+  public func animator(style: String, name: String) -> UIViewPropertyAnimator? {
+    return animators[style]?[name]
   }
 
   private func loadFileFromRemoteServer(_ file: String) -> String? {
@@ -65,8 +73,11 @@ public class UIStylesheetManager {
 
   /// Parses the markup content passed as argument.
   public func load(yaml string: String) throws {
+    let startTime = CFAbsoluteTimeGetCurrent()
+
     // Parses the top level definitions.
     var yamlDefs: [String: [String: UIStylesheetRule]] = [:]
+    var yamlAnimators: [String: [String: UIViewPropertyAnimator]] = [:]
     var content: String = string
 
     // Sanitize the file format.
@@ -116,10 +127,19 @@ public class UIStylesheetManager {
             defs[isk] = try UIStylesheetRule(key: isk, value: iv)
           }
         }
+        let animatorPrefix = "animator-"
         for (k, v) in defDic {
-          guard let sk = k.string, sk != "<<"else { continue }
+          guard let sk = k.string, sk != "<<", !sk.hasPrefix(animatorPrefix) else { continue }
           defs[sk] = try UIStylesheetRule(key: sk, value: v)
         }
+        // Optional transition store.
+        var animators: [String: UIViewPropertyAnimator] = [:]
+        for (k, v) in defDic {
+          guard let sk = k.string, sk.hasPrefix(animatorPrefix) else { continue }
+          let processedKey = sk.replacingOccurrences(of: animatorPrefix, with: "")
+          animators[processedKey] = try UIStylesheetRule(key: processedKey, value: v).animator
+        }
+        yamlAnimators[defKey] = animators
         yamlDefs[defKey] = defs
       }
     }
@@ -127,7 +147,15 @@ public class UIStylesheetManager {
     try resolveImports(string)
     try parseRoot(content)
     self.defs = yamlDefs
+    self.animators = yamlAnimators
+
+    debugLoadTime("\(Swift.type(of: self)).load", startTime: startTime)
   }
+}
+
+private func debugLoadTime(_ label: String, startTime: CFAbsoluteTime){
+  let timeElapsed = (CFAbsoluteTimeGetCurrent() - startTime) * 1000
+  print(String(format: "\(label) (%2f) ms.", arguments: [timeElapsed]))
 }
 
 // MARK: - UIStylesheetRule
@@ -142,6 +170,7 @@ public class UIStylesheetRule: CustomStringConvertible {
     case string
     case font
     case color
+    case animator
     case undefined
   }
   private typealias ConditionalStoreType = [(Expression, Any?)]
@@ -190,6 +219,10 @@ public class UIStylesheetRule: CustomStringConvertible {
   public var string: String {
     return castType(type: .string, default: String.init())
   }
+  /// Retruns this rule as a *UIViewPropertyAnimator*.
+  public var animator: UIViewPropertyAnimator {
+    return castType(type: .animator, default: UIViewPropertyAnimator())
+  }
   /// Object representation for the *rhs* value of this rule.
   public var object: AnyObject? {
     switch type {
@@ -201,6 +234,8 @@ public class UIStylesheetRule: CustomStringConvertible {
       return color
     case .string:
       return (string as NSString)
+    case .animator:
+      return animator
     default:
       return nil
     }
@@ -347,6 +382,7 @@ public class UIStylesheetRule: CustomStringConvertible {
       static let functionDelimiters = (",")
       static let fontFunction = "font"
       static let colorFunction = "color"
+      static let transitionFunction = "animator"
     }
     func expression(from string: String) -> Expression? {
       if let exprString = parseExpression(string) {
@@ -356,10 +392,11 @@ public class UIStylesheetRule: CustomStringConvertible {
     }
     // Returns the arguments of the function 'function' as an array of strings.
     func arguments(for function: String) -> [String] {
-      let substring = string
+      var substring = string
         .replacingOccurrences(of: function, with: "")
         .replacingOccurrences(of: Token.functionBrackets.0, with: "")
         .replacingOccurrences(of: Token.functionBrackets.1, with: "")
+      substring = substring.trimmingCharacters(in: CharacterSet.whitespaces)
       return substring.components(separatedBy: Token.functionDelimiters)
     }
     // Numbers are boxed as NSNumber.
@@ -401,6 +438,24 @@ public class UIStylesheetRule: CustomStringConvertible {
         throw ParseError.illegalNumberOfArguments(function: Token.colorFunction)
       }
       return (.color, UIColor(hex: args[0]) ?? .black)
+    }
+    // animator
+    if string.hasPrefix(Token.transitionFunction) {
+      let args = arguments(for: Token.transitionFunction)
+      guard args.count == 2 else {
+        throw ParseError.illegalNumberOfArguments(function: Token.transitionFunction)
+      }
+      //let animator = UIViewPropertyAnimator(duration: 1, curve: .easeIn, animations: nil)
+      let duration: TimeInterval = parse(numberFromString: args[0]).doubleValue
+      var curve: UIViewAnimationCurve = .linear
+      switch args[1] {
+      case "easeInOut": curve = .easeInOut
+      case "easeIn" : curve = .easeIn
+      case "easeOut": curve = .easeOut
+      case "linear": curve = .linear
+      default: break
+      }
+      return (.animator, UIViewPropertyAnimator(duration: duration, curve: curve, animations:nil))
     }
     // !!str
     return (.string, string)

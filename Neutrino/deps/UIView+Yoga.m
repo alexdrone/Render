@@ -44,12 +44,20 @@ UIView *YGBuild(NSString *className) {
   return [[NSClassFromString(className) alloc] init];
 }
 
-void YGSet(UIView *view, NSDictionary *properties) {
+void YGSet(UIView *view, NSDictionary *properties, NSDictionary *animators) {
   for (NSString *key in [properties allKeys]) {
     NSString *keyPath = YGReplaceKeyIfNecessary(key);
     if ([view respondsToSelector: NSSelectorFromString(keyPath)]
         || [view.yoga respondsToSelector:NSSelectorFromString(key)]) {
-      [view setValue:properties[key] forKeyPath:keyPath];
+      if (animators[key] != nil) {
+        UIViewPropertyAnimator *animator = animators[key];
+        [animator addAnimations:^{
+          [view setValue:properties[key] forKeyPath:keyPath];
+        }];
+        [animator startAnimation];
+      } else {
+        [view setValue:properties[key] forKeyPath:keyPath];
+      }
     }
   }
 }
