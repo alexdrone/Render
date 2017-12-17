@@ -15,11 +15,11 @@ Palette:
   navigationBar: *_primaryAccent
 
 Typography:
-  extraSmallBold: &_extraSmallBold !!font(system,10,bold)
-  smallBold: &_smallBold !!font(system,12,bold)
-  small: &_small !!font(system,12,regular)
-  medium: &_medium !!font(system,16,regular)
-  mediumBold: &_mediumBold !!font(system,16,bold)
+  extraSmallBold: &_extraSmallBold font(system,10,bold)
+  smallBold: &_smallBold font(system,12,bold)
+  small: &_small font(system,12,regular)
+  medium: &_medium font(system,16,regular)
+  mediumBold: &_mediumBold font(system,16,bold)
 
 import:
   - components/counter.yaml

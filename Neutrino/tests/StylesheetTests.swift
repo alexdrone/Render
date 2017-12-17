@@ -106,8 +106,8 @@ Test:
   integerExpr: ${41+1}
   const: ${iPhoneSE.width}
   color: "#ff0000"
-  font: !!font(Arial,42)
-  fontWeight: !!font(system,12,bold)
+  font: font(Arial,42)
+  fontWeight: font(system,12,bold)
   conditionalColor: &_conditionalColor
     ${false}: "#000000"
     ${1 == 1}: "#ff0000"
@@ -131,7 +131,7 @@ Bar:
 """
 
 enum FooStylesheet: String, UIStylesheet {
-  static let name: String = "Foo"
+  static let styleIdentifier: String = "Foo"
   case bar, baz, bax
 }
 
@@ -143,13 +143,13 @@ Foo:
 """
 
 enum ViewStylesheet: String, UIStylesheet {
-  static let name: String = "View"
+  static let styleIdentifier: String = "View"
   case customNonApplicableProperty
 }
 
 let viewDefs = """
 View:
-  backgroundColor: !!color(#ff0000)
+  backgroundColor: color(#ff0000)
   borderWidth: 1
   flexDirection: ${row}
   margin: 10

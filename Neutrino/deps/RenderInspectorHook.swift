@@ -5,6 +5,7 @@ extension UIComponent {
   func hookHotReload() {
     #if (arch(i386) || arch(x86_64)) && (os(iOS) || os(tvOS))
       KeyCommands.register(input: "r", modifierFlags: .command) { [weak self] in
+        print("⌘ + R Reloading...")
         self?.forceComponentReload()
       }
     #endif

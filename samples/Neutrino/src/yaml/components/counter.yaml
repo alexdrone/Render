@@ -2,6 +2,7 @@ Counter.wrapper:
   backgroundColor: *_text
   justifyContent: ${center}
   width: ${canvasSize.width}
+
 Counter.button:
   backgroundColorImage: "#0000ff"
   font: *_medium
@@ -9,8 +10,12 @@ Counter.button:
   width: 180
   height: 44
   alignSelf: ${center}
-  cornerRadius: 20
   margin: 16
+  depthPreset: 2
+  cornerRadiusPreset: 4
+Counter.button.even: 
+  backgroundColorImage: "#ff0000"
+
 Counter.label:
   font: *_smallBold 
   color: *_white

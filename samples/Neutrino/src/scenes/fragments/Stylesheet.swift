@@ -2,7 +2,7 @@ import UIKit
 import RenderNeutrino
 
 enum Palette: String, UIStylesheet {
-  static var name: String = "Palette"
+  static var styleIdentifier: String = "Palette"
   case navigationBar
   case primary
   case primaryAccent
@@ -20,7 +20,7 @@ enum Palette: String, UIStylesheet {
 }
 
 enum Typography: String, UIStylesheet {
-  static var name: String = "Typography"
+  static var styleIdentifier: String = "Typography"
   case extraSmallBold
   case small
   case smallBold

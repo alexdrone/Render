@@ -8,6 +8,9 @@ struct StylesheetCounter {
     static let wrapper = UIStyle.make(Style.namespace, "wrapper")
     static let label = UIStyle.make(Style.namespace, "label")
     static let button = UIStyle.make(Style.namespace, "button")
+    struct Modifier {
+      static let even = "even"
+    }
   }
 
   class State: UIState {
@@ -19,7 +22,10 @@ struct StylesheetCounter {
     override func render(context: UIContextProtocol) -> UINodeProtocol {
       return UINode<UIView>(styles: [Style.wrapper]).children([
         UINode<UILabel>(styles: [Style.label], configure: configureLabel),
-        UINode<UIButton>(styles: [Style.button], configure: configureButton)
+        UINode<UIButton>(styles: [
+          Style.button,
+          Style.button.byApplyingModifier(named: Style.Modifier.even, when: state.counter%2 == 0)],
+                         configure: configureButton)
       ])
     }
 

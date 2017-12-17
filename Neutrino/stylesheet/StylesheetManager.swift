@@ -1,98 +1,4 @@
-import Foundation
-
-// MARK: - UIStylesheet
-
-public protocol UIStyleProtocol {
-  /// Applies this style to the view passed as argument.
-  /// - Note: Non KVC-compliant keys are skipped.
-  func apply(to view: UIView)
-}
-
-public protocol UIStylesheet: UIStyleProtocol {
-  /// The name of the stylesheet rule.
-  var rawValue: String { get }
-  /// The stylesheet name.
-  static var name: String { get }
-}
-
-public extension UIStylesheet {
-  /// Returns the rule associated to this stylesheet enum.
-  public var rule: UIStylesheetRule {
-    guard let rule = UIStylesheetManager.default.rule(style: Self.name, name: rawValue) else {
-      fatalError("Unable to resolve rule \(Self.name).\(rawValue).")
-    }
-    return rule
-  }
-  /// Convenience getter for *UIStylesheetRule.integer*.
-  public var integer: Int {
-    return rule.integer
-  }
-  /// Convenience getter for *UIStylesheetRule.cgFloat*.
-  public var cgFloat: CGFloat {
-    return rule.cgFloat
-  }
-  /// Convenience getter for *UIStylesheetRule.bool*.
-  public var bool: Bool {
-    return rule.bool
-  }
-  /// Convenience getter for *UIStylesheetRule.font*.
-  public var font: UIFont {
-    return rule.font
-  }
-  /// Convenience getter for *UIStylesheetRule.color*.
-  public var color: UIColor {
-    return rule.color
-  }
-  /// Convenience getter for *UIStylesheetRule.string*.
-  public var string: String {
-    return rule.string
-  }
-  /// Convenience getter for *UIStylesheetRule.object*.
-  public var object: AnyObject? {
-    return rule.object
-  }
-  /// Convenience getter for *UIStylesheetRule.enum*.
-  public func `enum`<T: UIStylesheetRepresentableEnum>(_ type: T.Type,
-                                                       default: T = T.init(rawValue: 0)!) -> T {
-    return rule.enum(type, default: `default`)
-  }
-
-  public func apply(to view: UIView) {
-    Self.apply(to: view)
-  }
-  /// Applies the stylesheet to the view passed as argument.
-  public static func apply(to view: UIView) {
-    UIStyle.apply(name: Self.name, to: view)
-  }
-}
-
-extension String: UIStyleProtocol {
-  public func apply(to view: UIView) {
-    UIStyle.apply(name: self, to: view)
-  }
-}
-
-public struct UIStyle {
-  /// Applies this style to the view passed as argument.
-  /// - Note: Non KVC-compliant keys are skipped.
-  public static func apply(name: String, to view: UIView) {
-    guard let defs = UIStylesheetManager.default.defs[name] else {
-      fatalError("Unable to resolve definition named \(name).")
-    }
-    var bridgeDictionary: [String: Any] = [:]
-    for (key, value) in defs {
-      bridgeDictionary[key] = value.object
-    }
-    YGSet(view, bridgeDictionary)
-  }
-
-  /// Returns a style identifier in the format NAMESPACE.STYLE(.MODIFIER)?.
-  public static func make(_ namespace: String,
-                          _ style: String,
-                          _ modifier: String? = nil) -> String {
-    return "\(namespace).\(style)\(modifier != nil ? ".\(modifier!)" : "")"
-  }
-}
+import UIKit
 
 // MARK: - UIStylesheetManager
 
@@ -105,7 +11,6 @@ public enum ParseError: Error {
 
 public class UIStylesheetManager {
   public static let `default` = UIStylesheetManager()
-
   /// The default debug remote fetch url.
   public var debugRemoteUrl: String = "http://localhost:8000/"
   /// The parsed *Yaml* document.
@@ -434,14 +339,14 @@ public class UIStylesheetRule: CustomStringConvertible {
   }
 
   /// Parse a string value.
-  /// - Note: This could be an expression (e.g. "${1==1}"), a function (e.g. "!!font(Arial, 42)")
+  /// - Note: This could be an expression (e.g. "${1==1}"), a function (e.g. "font(Arial, 42)")
   /// or a simple string.
   private func parse(string: String) throws -> (ValueType, Any?) {
     struct Token {
       static let functionBrackets = ("(", ")")
       static let functionDelimiters = (",")
-      static let fontFunction = "!!font"
-      static let colorFunction = "!!color"
+      static let fontFunction = "font"
+      static let colorFunction = "color"
     }
     func expression(from string: String) -> Expression? {
       if let exprString = parseExpression(string) {
@@ -465,7 +370,7 @@ public class UIStylesheetRule: CustomStringConvertible {
         return NSNumber(value: (string as NSString).doubleValue)
       }
     }
-    // !!color shorthand
+    // color shorthand
     if string.hasPrefix("#") {
       return (.color, UIColor(hex: string) ?? .black)
     }
@@ -473,7 +378,7 @@ public class UIStylesheetRule: CustomStringConvertible {
     if let expression = expression(from: string) {
       return (.expression, expression)
     }
-    // !!font
+    // font
     if string.hasPrefix(Token.fontFunction) {
       let args = arguments(for: Token.fontFunction)
       guard args.count >= 2 else {
@@ -489,7 +394,7 @@ public class UIStylesheetRule: CustomStringConvertible {
       return (.font, args[0].lowercased() == "system" ?
         UIFont.systemFont(ofSize: size) : UIFont(name:  args[0], size: size))
     }
-    // !!color
+    // color
     if string.hasPrefix(Token.colorFunction) {
       let args = arguments(for: Token.colorFunction)
       guard args.count == 1 else {

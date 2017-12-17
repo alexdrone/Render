@@ -38,6 +38,7 @@
 		16AF33931FACAD2500379FA9 /* IGListDiff.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16AF33921FACAD2500379FA9 /* IGListDiff.swift */; };
 		16BB65921FABB98800373BB6 /* YGRenderAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 167B537B1FABB7B600AF6798 /* YGRenderAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		16CEC0161F9A125C003D3D21 /* Props.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16CEC0151F9A125C003D3D21 /* Props.swift */; };
+		16D9F3321FE6CD7F00ADAB3D /* Style.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D9F3311FE6CD7F00ADAB3D /* Style.swift */; };
 		16DDA95D1F9799D200CDBCF5 /* Component.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16DDA95C1F9799D200CDBCF5 /* Component.swift */; };
 		16DDA95F1F98C6CC00CDBCF5 /* Context.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16DDA95E1F98C6CC00CDBCF5 /* Context.swift */; };
 		16E0CDB91FB84CD300BFF470 /* ComponentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16E0CDB81FB84CD300BFF470 /* ComponentTests.swift */; };
@@ -93,6 +94,7 @@
 		16AA95F61FA3319900EAC136 /* IGListCollectionViewLayout.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IGListCollectionViewLayout.h; sourceTree = "<group>"; };
 		16AF33921FACAD2500379FA9 /* IGListDiff.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IGListDiff.swift; sourceTree = "<group>"; };
 		16CEC0151F9A125C003D3D21 /* Props.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Props.swift; sourceTree = "<group>"; };
+		16D9F3311FE6CD7F00ADAB3D /* Style.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Style.swift; sourceTree = "<group>"; };
 		16DDA95C1F9799D200CDBCF5 /* Component.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Component.swift; sourceTree = "<group>"; };
 		16DDA95E1F98C6CC00CDBCF5 /* Context.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Context.swift; sourceTree = "<group>"; };
 		16E0CDB81FB84CD300BFF470 /* ComponentTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComponentTests.swift; sourceTree = "<group>"; };
@@ -130,6 +132,7 @@
 		16108B9A1FDC80DE00CD9E9A /* stylesheet */ = {
 			isa = PBXGroup;
 			children = (
+				16D9F3311FE6CD7F00ADAB3D /* Style.swift */,
 				16108B9D1FDDD1A700CD9E9A /* StylesheetManager.swift */,
 			);
 			path = stylesheet;
@@ -364,6 +367,7 @@
 				16DDA95F1F98C6CC00CDBCF5 /* Context.swift in Sources */,
 				16F36C191F8E4BA600A04BE6 /* KeyPath.swift in Sources */,
 				16F7B55B1F9A322C00583082 /* RenderInspectorHook.swift in Sources */,
+				16D9F3321FE6CD7F00ADAB3D /* Style.swift in Sources */,
 				167070241FB8C232008DFC5B /* ViewController.swift in Sources */,
 				16F36BF21F8E2B2800A04BE6 /* YGCommonAdditions.swift in Sources */,
 				16A4FAAA1FDAC9B5007B9D71 /* Yaml.swift in Sources */,
