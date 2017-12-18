@@ -18,7 +18,6 @@ Counter.button:
 Counter.button.even: 
   backgroundColorImage: "#ff0000"
   cornerRadius: 0
-  animator-cornerRadius: *_animator
 
 Counter.label:
   font: *_smallBold 

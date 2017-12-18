@@ -103,20 +103,37 @@ public struct UIStyle {
   /// - Note: Non KVC-compliant keys are skipped.
   public static func apply(name: String, to view: UIView) {
     guard let defs = UIStylesheetManager.default.defs[name] else {
-      fatalError("Unable to resolve definition named \(name).")
+      warn("Unable to resolve definition named \(name).")
+      return
     }
     var bridgeDictionary: [String: Any] = [:]
     for (key, value) in defs {
       bridgeDictionary[key] = value.object
     }
-    let transitions = UIStylesheetManager.default.animators[name] ?? [:]
-    YGSet(view, bridgeDictionary, transitions)
+    YGSet(view, bridgeDictionary, UIStylesheetManager.default.animators[name] ?? [:])
   }
   /// Returns a style identifier in the format NAMESPACE.STYLE(.MODIFIER)?.
   public static func make(_ namespace: String,
                           _ style: String,
                           _ modifier: String? = nil) -> String {
     return "\(namespace).\(style)\(modifier != nil ? ".\(modifier!)" : "")"
+  }
+
+  /// Merges the styles together and applies the to the view passed as argument.
+  public static func applyStyles(_ array: [UIStyleProtocol], to view: UIView) {
+    // Filters out the 'nil' styles.
+    let styles = array.filter { !($0 is UINilStyle) }
+    var bridgeDictionary: [String: Any] = [:]
+    var bridgeTransitions: [String: UIViewPropertyAnimator] = [:]
+    for style in styles {
+      for (key, value) in UIStylesheetManager.default.defs[style.styleIdentifier] ?? [:] {
+        bridgeDictionary[key] = value.object
+      }
+      for (key, value) in UIStylesheetManager.default.animators[style.styleIdentifier] ?? [:] {
+        bridgeTransitions[key] = value
+      }
+    }
+    YGSet(view, bridgeDictionary, bridgeTransitions)
   }
 }
 

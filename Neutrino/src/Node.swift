@@ -210,10 +210,7 @@ public class UINode<V: UIView>: UINodeProtocol {
       return
     }
     view.renderContext.storeOldGeometryRecursively()
-
-    for style in styles {
-      style.apply(to: view)
-    }
+    UIStyle.applyStyles(styles, to: view)
 
     let viewConfiguration = Configuration(node: self, view: renderedView, size: bounds)
     configClosure(viewConfiguration)
