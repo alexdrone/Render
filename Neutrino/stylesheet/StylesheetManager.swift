@@ -81,35 +81,33 @@ public class UIStylesheetManager {
     var content: String = string
 
     // Sanitize the file format.
-    func validateRootNode(_ string: String) throws -> [Yaml: Yaml] {
-      let yaml = try Yaml.load(string)
-      guard let root = yaml.dictionary else {
+    func validateRootNode(_ string: String) throws -> YAMLNode {
+      guard let root = try YAMLParser(yaml: string).singleRoot(), root.isMapping else {
         throw ParseError.malformedStylesheetStructure(message: "The root node should be a map.")
       }
       return root
     }
-    // Resolve the import statements in the yaml stylesheet.
-    // 'import' statements are only allowed from the main file and they are not processed
-    // recursively.
     func resolveImports(_ string: String) throws {
       if string.isEmpty {
         warn("Resolved stylesheet file with empty content.")
         return
       }
       let root = try validateRootNode(string)
-      for imported in root["import"]?.array ?? [] {
+      for imported in root.mapping!["import"]?.array() ?? [] {
+        print(imported)
         guard let fileName = imported.string?.replacingOccurrences(of: ".yaml", with: "") else {
           continue
         }
         content += resolve(file: fileName)
       }
     }
+
     // Parse the final stylesheet file.
     func parseRoot(_ string: String) throws {
       let root = try validateRootNode(string)
-      for (key, value) in root {
+      for (key, value) in root.mapping ?? [:] {
         guard key != "import" else { continue }
-        guard var defDic = value.dictionary, let defKey = key.string else {
+        guard var defDic = value.mapping, let defKey = key.string else {
           throw ParseError.malformedStylesheetStructure(message:"Definitions should be maps.")
         }
         // In yaml definitions can inherit from others using the <<: *ID expression. e.g.
@@ -119,7 +117,7 @@ public class UIStylesheetManager {
         //   <<: *_myDef
         //   bar: 2
         var defs: [String: UIStylesheetRule] = [:]
-        if let inherit = defDic["<<"]?.dictionary {
+        if let inherit = defDic["<<"]?.mapping {
           for (ik, iv) in inherit {
             guard let isk = ik.string else {
               throw ParseError.malformedStylesheetStructure(message: "Invalid rule key.")
@@ -185,7 +183,7 @@ public class UIStylesheetRule: CustomStringConvertible {
   var isConditional: Bool = false
 
   /// Construct a rule from a Yaml subtree.
-  init(key: String, value: Yaml) throws {
+  init(key: String, value: YAMLNode) throws {
     self.key = key
     let (type, store, isConditional) = try parseValue(for: value)
     (self.type, self.store, self.isConditional) = (type, store, isConditional)
@@ -323,33 +321,40 @@ public class UIStylesheetRule: CustomStringConvertible {
   }
 
   /// Parse the *rhs* value of a rule.
-  private func parseValue(for yaml: Yaml) throws -> (ValueType, Any?, Bool) {
-    switch yaml {
-    case .bool(let v):
-      return(.bool, v, false)
-    case .double(let v):
-      return (.number, v, false)
-    case .int(let v):
-      return (.number, v, false)
-    case .string(let v):
-      let result = try parse(string: v)
-      return (result.0, result.1, false)
-    case .dictionary(let v):
-      let result = try parse(conditionalDictionary: v)
+  private func parseValue(for yaml: YAMLNode) throws -> (ValueType, Any?, Bool) {
+    if yaml.isScalar {
+      if let v = yaml.bool {
+        return(.bool, v, false)
+      }
+      if let v = yaml.int {
+        return(.number, v, false)
+      }
+      if let v = yaml.float {
+        return(.number, v, false)
+      }
+      if let v = yaml.string {
+        let result = try parse(string: v)
+        return (result.0, result.1, false)
+      }
+    } else if yaml.isMapping {
+      let result = try parse(conditionalDictionary: yaml)
       return (result.0, result.1, true)
-    default: return (.undefined, nil, false)
     }
+    return (.undefined, nil, false)
   }
 
   /// Parse a map value.
   /// - Note: The lhs is an expression and the rhs a value. 'default' is a tautology.
-  private func parse(conditionalDictionary: [Yaml: Yaml]) throws -> (ValueType, Any?) {
+  private func parse(conditionalDictionary: YAMLNode) throws -> (ValueType, Any?) {
+    guard conditionalDictionary.isMapping else {
+      throw ParseError.malformedStylesheetStructure(message: "\(key) is not a mapping.")
+    }
     // Used to determine the return value of this rule.
     // This has to be homogeneous across all of the different conditions.
     var types: [ValueType] = []
     // The result is going to be an array of typles (Expression, Any?).
     var result: ConditionalStoreType = []
-    for (key, yaml) in conditionalDictionary {
+    for (key, yaml) in conditionalDictionary.mapping ?? [:] {
       // Ensure that the key is a well-formed expression.
       guard let string = key.string, let expression = parseExpression(string) else {
         throw ParseError.malformedStylesheetStructure(message: "\(key) is not a valid expression.")

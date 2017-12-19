@@ -21,7 +21,6 @@
 		167070241FB8C232008DFC5B /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167070231FB8C232008DFC5B /* ViewController.swift */; };
 		167B537A1FABB7A400AF6798 /* YGRenderAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 167B53791FABB7A400AF6798 /* YGRenderAdditions.m */; };
 		167B537C1FABB7B600AF6798 /* YGRenderAdditions.h in Sources */ = {isa = PBXBuildFile; fileRef = 167B537B1FABB7B600AF6798 /* YGRenderAdditions.h */; };
-		16A4FAAA1FDAC9B5007B9D71 /* Yaml.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16A4FAA91FDAC9B5007B9D71 /* Yaml.swift */; };
 		16AA95E51FA3310600EAC136 /* UIView+Yoga.h in Headers */ = {isa = PBXBuildFile; fileRef = 16AA95DE1FA3310100EAC136 /* UIView+Yoga.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		16AA95E61FA3310600EAC136 /* UIView+Yoga.m in Sources */ = {isa = PBXBuildFile; fileRef = 16AA95DF1FA3310100EAC136 /* UIView+Yoga.m */; };
 		16AA95E71FA3310600EAC136 /* YGEnums.c in Sources */ = {isa = PBXBuildFile; fileRef = 16AA95DC1FA3310100EAC136 /* YGEnums.c */; };
@@ -81,7 +80,6 @@
 		167070231FB8C232008DFC5B /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		167B53791FABB7A400AF6798 /* YGRenderAdditions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YGRenderAdditions.m; sourceTree = "<group>"; };
 		167B537B1FABB7B600AF6798 /* YGRenderAdditions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YGRenderAdditions.h; sourceTree = "<group>"; };
-		16A4FAA91FDAC9B5007B9D71 /* Yaml.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Yaml.swift; sourceTree = "<group>"; };
 		16AA95D71FA3310100EAC136 /* YGNodeList.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = YGNodeList.c; sourceTree = "<group>"; };
 		16AA95D81FA3310100EAC136 /* YGPercentLayout.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YGPercentLayout.h; sourceTree = "<group>"; };
 		16AA95D91FA3310100EAC136 /* YGNodeList.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YGNodeList.h; sourceTree = "<group>"; };
@@ -247,7 +245,6 @@
 				160627AF1FE9322B007779DD /* yoga */,
 				160627A71FE91BC9007779DD /* yaml */,
 				16F7B55A1F9A322C00583082 /* RenderInspectorHook.swift */,
-				16A4FAA91FDAC9B5007B9D71 /* Yaml.swift */,
 				16108B9B1FDC82B000CD9E9A /* Expression.swift */,
 			);
 			path = deps;
@@ -398,7 +395,6 @@
 				16D9F3321FE6CD7F00ADAB3D /* Style.swift in Sources */,
 				167070241FB8C232008DFC5B /* ViewController.swift in Sources */,
 				16F36BF21F8E2B2800A04BE6 /* YGCommonAdditions.swift in Sources */,
-				16A4FAAA1FDAC9B5007B9D71 /* Yaml.swift in Sources */,
 				16AA95ED1FA3310600EAC136 /* YGNodeList.c in Sources */,
 				16F5DD9B1FC1C108005E1497 /* YGPercentLayoutExtension.swift in Sources */,
 				16108B9C1FDC82B000CD9E9A /* Expression.swift in Sources */,
