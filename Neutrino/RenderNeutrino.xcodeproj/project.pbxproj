@@ -200,6 +200,14 @@
 			path = components;
 			sourceTree = "<group>";
 		};
+		1665D6651FE959E800955782 /* expression */ = {
+			isa = PBXGroup;
+			children = (
+				16108B9B1FDC82B000CD9E9A /* Expression.swift */,
+			);
+			path = expression;
+			sourceTree = "<group>";
+		};
 		16F36BD81F8E197A00A04BE6 = {
 			isa = PBXGroup;
 			children = (
@@ -242,10 +250,10 @@
 		16F36BF31F8E2BEE00A04BE6 /* deps */ = {
 			isa = PBXGroup;
 			children = (
+				1665D6651FE959E800955782 /* expression */,
 				160627AF1FE9322B007779DD /* yoga */,
 				160627A71FE91BC9007779DD /* yaml */,
 				16F7B55A1F9A322C00583082 /* RenderInspectorHook.swift */,
-				16108B9B1FDC82B000CD9E9A /* Expression.swift */,
 			);
 			path = deps;
 			sourceTree = "<group>";

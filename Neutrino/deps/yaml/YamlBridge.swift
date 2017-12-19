@@ -223,6 +223,7 @@ extension String: YAMLScalarConstructible {
 }
 
 // MARK: - Types that can't conform to ScalarConstructible
+
 extension NSNull/*: ScalarConstructible*/ {
   static func construct(from node: YAMLNode) -> NSNull? {
     guard let string = node.scalar?.string else { return nil }
@@ -236,6 +237,7 @@ extension NSNull/*: ScalarConstructible*/ {
 }
 
 // MARK: mapping
+
 extension Dictionary {
   static func construct_mapping(from node: YAMLNode) -> [AnyHashable: Any]? {
     return _construct_mapping(from: node)
@@ -658,6 +660,7 @@ extension YAMLNode {
 }
 
 // MARK: Hashable
+
 extension YAMLNode: Hashable {
   var hashValue: Int {
     switch self {
@@ -713,6 +716,7 @@ extension Array where Element: Comparable {
 }
 
 // MARK: - ExpressibleBy*Literal
+
 extension YAMLNode: ExpressibleByArrayLiteral {
   init(arrayLiteral elements: YAMLNode...) {
     self = .sequence(.init(elements))
@@ -785,12 +789,10 @@ extension YAMLNode {
       case any = 0
       /// The plain scalar style.
       case plain
-
       /// The single-quoted scalar style.
       case singleQuoted
       /// The double-quoted scalar style.
       case doubleQuoted
-
       /// The literal scalar style.
       case literal
       /// The folded scalar style.
@@ -1149,14 +1151,6 @@ extension YAMLNode.Sequence: YAMLTagResolvable {
 
 
 /// Parse all YAML documents in a String
-/// and produce corresponding Swift objects.
-///
-/// - Parameters:
-///   - yaml: String
-///   - resolver: YAMLResolver
-///   - constructor: Constructor
-/// - Returns: YamlSequence<Any>
-/// - Throws: YAMLError
 func load_all(yaml: String,
                      _ resolver: YAMLResolver = .default,
                      _ constructor: YAMLConstructor = .default) throws -> YamlSequence<Any> {
@@ -1165,14 +1159,6 @@ func load_all(yaml: String,
 }
 
 /// Parse the first YAML document in a String
-/// and produce the corresponding Swift object.
-///
-/// - Parameters:
-///   - yaml: String
-///   - resolver: YAMLResolver
-///   - constructor: Constructor
-/// - Returns: Any?
-/// - Throws: YAMLError
 func load(yaml: String,
                  _ resolver: YAMLResolver = .default,
                  _ constructor: YAMLConstructor = .default) throws -> Any? {
@@ -1180,14 +1166,6 @@ func load(yaml: String,
 }
 
 /// Parse all YAML documents in a String
-/// and produce corresponding representation trees.
-///
-/// - Parameters:
-///   - yaml: String
-///   - resolver: YAMLResolver
-///   - constructor: Constructor
-/// - Returns: YamlSequence<YAMLNode>
-/// - Throws: YAMLError
 func compose_all(yaml: String,
                         _ resolver: YAMLResolver = .default,
                         _ constructor: YAMLConstructor = .default)
@@ -1197,14 +1175,6 @@ func compose_all(yaml: String,
 }
 
 /// Parse the first YAML document in a String
-/// and produce the corresponding representation tree.
-///
-/// - Parameters:
-///   - yaml: String
-///   - resolver: YAMLResolver
-///   - constructor: Constructor
-/// - Returns: YAMLNode?
-/// - Throws: YAMLError
 func compose(yaml: String,
                     _ resolver: YAMLResolver = .default,
                     _ constructor: YAMLConstructor = .default) throws -> YAMLNode? {
@@ -1238,11 +1208,6 @@ final class YAMLParser {
   let constructor: YAMLConstructor
 
   /// Set up YAMLParser.
-  ///
-  /// - Parameter string: YAML
-  /// - Parameter resolver: YAMLResolver
-  /// - Parameter constructor: Constructor
-  /// - Throws: YAMLError
   init(yaml string: String,
               resolver: YAMLResolver = .default,
               constructor: YAMLConstructor = .default) throws {
@@ -1277,9 +1242,6 @@ final class YAMLParser {
   }
 
   /// Parse next document and return root YAMLNode.
-  ///
-  /// - Returns: next YAMLNode
-  /// - Throws: YAMLError
   func nextRoot() throws -> YAMLNode? {
     guard !streamEndProduced, try parse().type != YAML_STREAM_END_EVENT else { return nil }
     return try loadDocument()
@@ -1848,11 +1810,6 @@ extension String {
   typealias LineNumberColumnAndContents = (lineNumber: Int, column: Int, contents: String)
 
   /// line number, column and contents at utf8 offset.
-  ///
-  /// - Parameter offset: Int
-  /// - Returns: lineNumber: line number start from 0,
-  ///            column: utf16 column start from 0,
-  ///            contents: substring of line
   func utf8LineNumberColumnAndContents(at offset: Int) -> LineNumberColumnAndContents? {
     guard let index = utf8
       .index(utf8.startIndex, offsetBy: offset, limitedBy: utf8.endIndex)?
@@ -1861,11 +1818,6 @@ extension String {
   }
 
   /// line number, column and contents at utf16 offset.
-  ///
-  /// - Parameter offset: Int
-  /// - Returns: lineNumber: line number start from 0,
-  ///            column: utf16 column start from 0,
-  ///            contents: substring of line
   func utf16LineNumberColumnAndContents(at offset: Int) -> LineNumberColumnAndContents? {
     guard let index = utf16
       .index(utf16.startIndex, offsetBy: offset, limitedBy: utf16.endIndex)?
@@ -1874,11 +1826,6 @@ extension String {
   }
 
   /// line number, column and contents at Index.
-  ///
-  /// - Parameter index: String.Index
-  /// - Returns: lineNumber: line number start from 0,
-  ///            column: utf16 column start from 0,
-  ///            contents: substring of line
   func lineNumberColumnAndContents(at index: Index) -> LineNumberColumnAndContents {
     assert((startIndex..<endIndex).contains(index))
     var number = 0
@@ -1901,9 +1848,6 @@ extension String {
   }
 
   /// substring indicated by line number.
-  ///
-  /// - Parameter line: line number starts from 0.
-  /// - Returns: substring of line contains line ending characters
   func substring(at line: Int) -> String {
     var number = 0
     var outStartIndex = startIndex, outEndIndex = startIndex, outContentsEndIndex = startIndex
@@ -2060,56 +2004,29 @@ enum YAMLError: Swift.Error {
   // Used in `yaml_emitter_t` and `yaml_parser_t`
   /// `YAML_NO_ERROR`. No error is produced.
   case no
-  // swiftlint:disable:previous identifier_name
 
   /// `YAML_MEMORY_ERROR`. Cannot allocate or reallocate a block of memory.
   case memory
 
   // Used in `yaml_parser_t`
-  /// `YAML_READER_ERROR`. Cannot read or decode the input stream.
-  /// - Parameters:
-  ///   - problem: Error description.
-  ///   - byteOffset: The byte about which the problem occured.
-  ///   - value: The problematic value (-1 is none).
-  ///   - yaml: YAML String which the problem occured while reading.
   case reader(problem: String, byteOffset: Int, value: Int32, yaml: String)
 
   // line and column start from 1, column is counted by unicodeScalars
-  /// `YAML_SCANNER_ERROR`. Cannot scan the input stream.
-  /// - Parameters:
-  ///   - context: Error context.
-  ///   - problem: Error description.
-  ///   - mark: Problem position.
-  ///   - yaml: YAML String which the problem occured while scanning.
   case scanner(context: Context?, problem: String, YAMLMark, yaml: String)
 
   /// `YAML_PARSER_ERROR`. Cannot parse the input stream.
-  /// - Parameters:
-  ///   - context: Error context.
-  ///   - problem: Error description.
-  ///   - mark: Problem position.
-  ///   - yaml: YAML String which the problem occured while parsing.
   case parser(context: Context?, problem: String, YAMLMark, yaml: String)
 
   /// `YAML_COMPOSER_ERROR`. Cannot compose a YAML document.
-  /// - Parameters:
-  ///   - context: Error context.
-  ///   - problem: Error description.
-  ///   - mark: Problem position.
-  ///   - yaml: YAML String which the problem occured while composing.
   case composer(context: Context?, problem: String, YAMLMark, yaml: String)
 
   // Used in `yaml_emitter_t`
-  /// `YAML_WRITER_ERROR`. Cannot write to the output stream.
-  /// - Parameter problem: Error description.
   case writer(problem: String)
 
   /// `YAML_EMITTER_ERROR`. Cannot emit a YAML stream.
-  /// - Parameter problem: Error description.
   case emitter(problem: String)
 
   /// Used in `YAMLNodeRepresentable`
-  /// - Parameter problem: Error description.
   case representer(problem: String)
 
   /// The error context
