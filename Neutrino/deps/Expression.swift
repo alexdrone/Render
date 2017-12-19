@@ -36,16 +36,16 @@ import Foundation
 /// Immutable wrapper for a parsed expression
 /// Reusing the same Expression instance for multiple evaluations is more efficient
 /// than creating a new one each time you wish to evaluate an expression string.
-public class Expression: CustomStringConvertible {
+class Expression: CustomStringConvertible {
   private var root: Subexpression
 
   /// Function prototype for evaluating an expression
   /// Return nil for an unrecognized symbol, or throw an error if the symbol is recognized
   /// but there is some other problem (e.g. wrong number of arguments for a function)
-  public typealias Evaluator = (_ symbol: Symbol, _ args: [Double]) throws -> Double?
+  typealias Evaluator = (_ symbol: Symbol, _ args: [Double]) throws -> Double?
 
   /// Symbols that make up an expression
-  public enum Symbol: CustomStringConvertible, Hashable {
+  enum Symbol: CustomStringConvertible, Hashable {
 
     /// A named variable
     case variable(String)
@@ -66,10 +66,10 @@ public class Expression: CustomStringConvertible {
     case array(String)
 
     /// Evaluator for individual symbols
-    public typealias Evaluator = (_ args: [Double]) throws -> Double
+    typealias Evaluator = (_ args: [Double]) throws -> Double
 
     /// The human-readable name of the symbol
-    public var name: String {
+    var name: String {
       switch self {
       case let .variable(name),
            let .infix(name),
@@ -82,7 +82,7 @@ public class Expression: CustomStringConvertible {
     }
 
     /// The human-readable description of the symbol
-    public var description: String {
+    var description: String {
       switch self {
       case let .variable(name):
         return "variable \(demangle(name))"
@@ -100,12 +100,12 @@ public class Expression: CustomStringConvertible {
     }
 
     /// Required by the hashable protocol
-    public var hashValue: Int {
+    var hashValue: Int {
       return name.hashValue
     }
 
     /// Required by the equatable protocol
-    public static func == (lhs: Symbol, rhs: Symbol) -> Bool {
+    static func == (lhs: Symbol, rhs: Symbol) -> Bool {
       if case let .function(_, lhsarity) = lhs,
         case let .function(_, rhsarity) = rhs,
         lhsarity != rhsarity {
@@ -116,7 +116,7 @@ public class Expression: CustomStringConvertible {
   }
 
   /// Runtime error when parsing or evaluating an expression
-  public enum Error: Swift.Error, CustomStringConvertible, Equatable {
+  enum Error: Swift.Error, CustomStringConvertible, Equatable {
 
     /// An application-specific error
     case message(String)
@@ -137,7 +137,7 @@ public class Expression: CustomStringConvertible {
     case arrayBounds(Symbol, Double)
 
     /// The human-readable description of the error
-    public var description: String {
+    var description: String {
       switch self {
       case let .message(message):
         return message
@@ -174,7 +174,7 @@ public class Expression: CustomStringConvertible {
     }
 
     /// Equatable implementation
-    public static func == (lhs: Error, rhs: Error) -> Bool {
+    static func == (lhs: Error, rhs: Error) -> Bool {
       switch (lhs, rhs) {
       case let (.message(lhs), .message(rhs)),
            let (.unexpectedToken(lhs), .unexpectedToken(rhs)),
@@ -197,24 +197,24 @@ public class Expression: CustomStringConvertible {
   }
 
   /// Options for configuring an expression
-  public struct Options: OptionSet {
+  struct Options: OptionSet {
 
     /// Disable optimizations such as constant substitution
-    public static let noOptimize = Options(rawValue: 1 << 1)
+    static let noOptimize = Options(rawValue: 1 << 1)
 
     /// Enable standard boolean operators and constants
-    public static let boolSymbols = Options(rawValue: 1 << 2)
+    static let boolSymbols = Options(rawValue: 1 << 2)
 
     /// Assume all functions and operators in `symbols` are "pure", i.e.
     /// they have no side effects, and always produce the same output
     /// for a given set of arguments
-    public static let pureSymbols = Options(rawValue: 1 << 3)
+    static let pureSymbols = Options(rawValue: 1 << 3)
 
     /// Packed bitfield of options
-    public let rawValue: Int
+    let rawValue: Int
 
     /// Designated initializer
-    public init(rawValue: Int) {
+    init(rawValue: Int) {
       self.rawValue = rawValue
     }
   }
@@ -225,7 +225,7 @@ public class Expression: CustomStringConvertible {
   /// - A dictionary of arrays for static collections of related values
   /// - A dictionary of symbols, for implementing custom functions and operators
   /// - A custom evaluator function for more complex symbol processing
-  public convenience init(_ expression: String,
+  convenience init(_ expression: String,
                           options: Options = [],
                           constants: [String: Double] = [:],
                           arrays: [String: [Double]] = [:],
@@ -242,7 +242,7 @@ public class Expression: CustomStringConvertible {
   }
 
   /// Alternative constructor that accepts a pre-parsed expression
-  public init(_ expression: ParsedExpression,
+  init(_ expression: ParsedExpression,
               options: Options = [],
               constants: [String: Double] = [:],
               arrays: [String: [Double]] = [:],
@@ -351,7 +351,7 @@ public class Expression: CustomStringConvertible {
   }
 
   /// Verify that the string is a valid identifier
-  public static func isValidIdentifier(_ string: String) -> Bool {
+  static func isValidIdentifier(_ string: String) -> Bool {
     var characters = UnicodeScalarView(string)
     switch characters.parseIdentifier() ?? characters.parseEscapedIdentifier() {
     case .symbol(.variable, _, _)?:
@@ -362,7 +362,7 @@ public class Expression: CustomStringConvertible {
   }
 
   /// Verify that the string is a valid operator
-  public static func isValidOperator(_ string: String) -> Bool {
+  static func isValidOperator(_ string: String) -> Bool {
     var characters = UnicodeScalarView(string)
     guard case let .symbol(symbol, _, _)? = characters.parseOperator(),
       case let .infix(name) = symbol, name != "(", name != "[" else {
@@ -382,7 +382,7 @@ public class Expression: CustomStringConvertible {
   /// Parse an expression and optionally cache it for future use.
   /// Returns an opaque struct that cannot be evaluated but can be queried
   /// for symbols or used to construct an executable Expression instance
-  public static func parse(_ expression: String, usingCache: Bool = true) -> ParsedExpression {
+  static func parse(_ expression: String, usingCache: Bool = true) -> ParsedExpression {
 
     // Check cache
     if usingCache {
@@ -410,7 +410,7 @@ public class Expression: CustomStringConvertible {
   /// inside another string, e.g. for implementing string interpolation.
   /// If no delimiter string is specified, the method will throw an error
   /// if it encounters an unexpected token, but won't consume it
-  public static func parse(_ input: inout String.UnicodeScalarView.SubSequence,
+  static func parse(_ input: inout String.UnicodeScalarView.SubSequence,
                            upTo delimiters: String...) -> ParsedExpression {
 
     var unicodeScalarView = UnicodeScalarView(input)
@@ -427,7 +427,7 @@ public class Expression: CustomStringConvertible {
   }
 
   /// Clear the expression cache (useful for testing, or in low memory situations)
-  public static func clearCache(for expression: String? = nil) {
+  static func clearCache(for expression: String? = nil) {
     queue.sync {
       if let expression = expression {
         cache.removeValue(forKey: expression)
@@ -439,18 +439,18 @@ public class Expression: CustomStringConvertible {
 
   /// Returns the optmized, pretty-printed expression if it was valid
   /// Otherwise, returns the original (invalid) expression string
-  public var description: String { return root.description }
+  var description: String { return root.description }
 
   /// All symbols used in the expression
-  public var symbols: Set<Symbol> { return root.symbols }
+  var symbols: Set<Symbol> { return root.symbols }
 
   /// Evaluate the expression
-  public func evaluate() throws -> Double {
+  func evaluate() throws -> Double {
     return try root.evaluate()
   }
 
   // Stand math symbols
-  public static let mathSymbols: [Symbol: Symbol.Evaluator] = {
+  static let mathSymbols: [Symbol: Symbol.Evaluator] = {
     var symbols: [Symbol: ([Double]) -> Double] = [:]
 
     // constants
@@ -495,7 +495,7 @@ public class Expression: CustomStringConvertible {
   }()
 
   // Stand boolean symbols
-  public static let boolSymbols: [Symbol: Symbol.Evaluator] = {
+  static let boolSymbols: [Symbol: Symbol.Evaluator] = {
     var symbols: [Symbol: ([Double]) -> Double] = [:]
 
     // boolean constants
@@ -529,18 +529,18 @@ public class Expression: CustomStringConvertible {
 }
 
 /// An opaque wrapper for a parsed expression
-public struct ParsedExpression: CustomStringConvertible {
+struct ParsedExpression: CustomStringConvertible {
   fileprivate let root: Subexpression
 
   /// Returns the pretty-printed expression if it was valid
   /// Otherwise, returns the original (invalid) expression string
-  public var description: String { return root.description }
+  var description: String { return root.description }
 
   /// All symbols used in the expression
-  public var symbols: Set<Expression.Symbol> { return root.symbols }
+  var symbols: Set<Expression.Symbol> { return root.symbols }
 
   /// Any error detected during parsing
-  public var error: Expression.Error? {
+  var error: Expression.Error? {
     if case let .error(error, _) = root {
       return error
     }
@@ -887,57 +887,57 @@ private func isIdentifier(_ c: UnicodeScalar) -> Bool {
 // Workaround for horribly slow String.UnicodeScalarView.Subsequence perf
 
 private struct UnicodeScalarView {
-  public typealias Index = String.UnicodeScalarView.Index
+  typealias Index = String.UnicodeScalarView.Index
 
   private let characters: String.UnicodeScalarView
-  public private(set) var startIndex: Index
-  public private(set) var endIndex: Index
+  private(set) var startIndex: Index
+  private(set) var endIndex: Index
 
-  public init(_ unicodeScalars: String.UnicodeScalarView) {
+  init(_ unicodeScalars: String.UnicodeScalarView) {
     characters = unicodeScalars
     startIndex = characters.startIndex
     endIndex = characters.endIndex
   }
 
-  public init(_ unicodeScalars: String.UnicodeScalarView.SubSequence) {
+  init(_ unicodeScalars: String.UnicodeScalarView.SubSequence) {
     self.init(String.UnicodeScalarView(unicodeScalars))
   }
 
-  public init(_ string: String) {
+  init(_ string: String) {
     self.init(string.unicodeScalars)
   }
 
-  public var first: UnicodeScalar? {
+  var first: UnicodeScalar? {
     return isEmpty ? nil : characters[startIndex]
   }
 
-  public var isEmpty: Bool {
+  var isEmpty: Bool {
     return startIndex >= endIndex
   }
 
-  public subscript(_ index: Index) -> UnicodeScalar {
+  subscript(_ index: Index) -> UnicodeScalar {
     return characters[index]
   }
 
-  public func index(after index: Index) -> Index {
+  func index(after index: Index) -> Index {
     return characters.index(after: index)
   }
 
-  public func prefix(upTo index: Index) -> UnicodeScalarView {
+  func prefix(upTo index: Index) -> UnicodeScalarView {
     var view = UnicodeScalarView(characters)
     view.startIndex = startIndex
     view.endIndex = index
     return view
   }
 
-  public func suffix(from index: Index) -> UnicodeScalarView {
+  func suffix(from index: Index) -> UnicodeScalarView {
     var view = UnicodeScalarView(characters)
     view.startIndex = index
     view.endIndex = endIndex
     return view
   }
 
-  public mutating func popFirst() -> UnicodeScalar? {
+  mutating func popFirst() -> UnicodeScalar? {
     if isEmpty {
       return nil
     }

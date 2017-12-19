@@ -575,7 +575,7 @@ public struct UIStylesheetExpression {
   }
 
   /// The default *Expression* builder function.
-  public static func builder(_ string: String) -> Expression {
+  static func builder(_ string: String) -> Expression {
     if !UIStylesheetExpression.exportedConstantsInitialised {
       UIStylesheetExpression.exportedConstantsInitialised = true
       NSTextAlignment.export()
