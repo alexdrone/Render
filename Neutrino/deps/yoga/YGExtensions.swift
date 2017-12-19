@@ -1,6 +1,46 @@
 import UIKit
 import ImageIO
 
+// MARK: - YGPercentLayout Operator
+
+postfix operator %
+
+extension Int {
+  public static postfix func %(value: Int) -> YGValue {
+    return YGValue(value: Float(value), unit: .percent)
+  }
+}
+
+extension Float {
+  public static postfix func %(value: Float) -> YGValue {
+    return YGValue(value: value, unit: .percent)
+  }
+}
+
+extension CGFloat {
+  public static postfix func %(value: CGFloat) -> YGValue {
+    return YGValue(value: Float(value), unit: .percent)
+  }
+}
+
+extension YGValue : ExpressibleByIntegerLiteral, ExpressibleByFloatLiteral {
+  public init(integerLiteral value: Int) {
+    self = YGValue(value: Float(value), unit: .point)
+  }
+
+  public init(floatLiteral value: Float) {
+    self = YGValue(value: value, unit: .point)
+  }
+
+  public init(_ value: Float) {
+    self = YGValue(value: value, unit: .point)
+  }
+
+  public init(_ value: CGFloat) {
+    self = YGValue(value: Float(value), unit: .point)
+  }
+}
+
 // MARK: - UIStylesheetRepresentableEnum Yoga Compliancy
 
 extension YGAlign: UIStylesheetRepresentableEnum {
@@ -72,7 +112,7 @@ extension UIScrollView: UIPostRendering {
   }
 }
 
-// MARK: - Gesture recognizers
+// MARK: - UIGestureRecognizer
 
 class WeakGestureRecognizer: NSObject {
   weak var object: UIGestureRecognizer?
@@ -317,7 +357,6 @@ extension UIBezierPath {
 }
 
 public extension UIBezierPath {
-
   @objc public convenience init(roundedRegularPolygon rect: CGRect,
                                 numberOfSides: Int,
                                 cornerRadius: CGFloat) {
@@ -335,7 +374,6 @@ public extension UIBezierPath {
 }
 
 public extension UIBezierPath {
-
   @objc public func applyRotation(angle: CGFloat) {
     let bounds = self.cgPath.boundingBox
     let center = CGPoint(x: bounds.midX, y: bounds.midY)
@@ -386,8 +424,6 @@ public func radiansToDegrees(_ value: CGFloat) -> CGFloat {
 
   private func commonInit() {
     backgroundColor = .clear
-    frame.size.width = HeightPreset.medium.cgFloatValue
-    frame.size.height = HeightPreset.medium.cgFloatValue
     cornerRadius = CornerRadiusPreset.cornerRadius1.cgFloatValue
   }
 
@@ -516,40 +552,6 @@ public func DepthPresetToValue(preset: DepthPreset) -> Depth {
   }
 }
 
-@objc public enum MarginPreset: Int {
-  case none = 0
-  case tiny = 2
-  case xsmall = 4
-  case small = 8
-  case `default` = 16
-  case normal = 24
-  case medium = 32
-  case large = 40
-  case xlarge = 48
-  case xxlarge = 64
-
-  public var cgFloatValue: CGFloat {
-    return CGFloat(rawValue)
-  }
-}
-
-@objc public enum HeightPreset: Int {
-  case none = 0
-  case tiny = 20
-  case xsmall = 28
-  case small = 36
-  case `default` = 44
-  case normal = 49
-  case medium = 52
-  case large = 60
-  case xlarge = 68
-  case xxlarge = 104
-
-  public var cgFloatValue: CGFloat {
-    return CGFloat(rawValue)
-  }
-}
-
 @objc public enum CornerRadiusPreset: Int {
   case none
   case cornerRadius1
@@ -621,34 +623,24 @@ public func CornerRadiusPresetToValue(preset: CornerRadiusPreset) -> CGFloat {
 fileprivate class ContainerLayer {
   /// A reference to the CALayer.
   fileprivate weak var layer: CALayer?
-  /// A property that sets the height of the layer's frame.
-  fileprivate var heightPreset = HeightPreset.default {
-    didSet {
-      layer?.height = CGFloat(heightPreset.rawValue)
-    }
-  }
-
   /// A property that sets the cornerRadius of the backing layer.
   fileprivate var cornerRadiusPreset = CornerRadiusPreset.none {
     didSet {
       layer?.cornerRadius = CornerRadiusPresetToValue(preset: cornerRadiusPreset)
     }
   }
-
   /// A preset property to set the borderWidth.
   fileprivate var borderWidthPreset = BorderWidthPreset.none {
     didSet {
       layer?.borderWidth = borderWidthPreset.cgFloatValue
     }
   }
-
   /// A preset property to set the shape.
   fileprivate var shapePreset = ShapePreset.none {
     didSet {
       layer?.layoutShape()
     }
   }
-
   /// A preset value for Depth.
   fileprivate var depthPreset: DepthPreset {
     get {
@@ -739,13 +731,6 @@ extension CALayer {
       layoutShadowPath()
     }
   }
-  /// HeightPreset value.
-  open var heightPreset: HeightPreset {
-    get { return containerLayer.heightPreset }
-    set(value) {
-      containerLayer.heightPreset = value
-    }
-  }
   /// A property that manages the overall shape for the object. If either the
   /// width or height property is set, the other will be automatically adjusted
   /// to maintain the shape of the object.
@@ -823,11 +808,6 @@ extension CALayer {
 }
 
 extension UIView {
-  /// HeightPreset value.
-  @objc open var heightPreset: HeightPreset {
-    get { return layer.heightPreset }
-    set(value) { layer.heightPreset = value }
-  }
    /// A property that manages the overall shape for the object. If either the
    /// width or height property is set, the other will be automatically adjusted
    /// to maintain the shape of the object.

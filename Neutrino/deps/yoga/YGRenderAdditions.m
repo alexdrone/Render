@@ -87,83 +87,67 @@
 
 @implementation UIButton (YGAdditions)
 
-- (NSString*)text
-{
+- (NSString*)text {
   return [self titleForState:UIControlStateNormal];
 }
 
-- (void)setText:(NSString*)text
-{
+- (void)setText:(NSString*)text {
   [self setTitle:text forState:UIControlStateNormal];
 }
 
-- (NSString*)highlightedText
-{
+- (NSString*)highlightedText {
   return [self titleForState:UIControlStateHighlighted];
 }
 
-- (void)setHighlightedText:(NSString*)highlightedText
-{
+- (void)setHighlightedText:(NSString*)highlightedText {
   [self setTitle:highlightedText forState:UIControlStateHighlighted];
 }
 
-- (NSString*)selectedText
-{
+- (NSString*)selectedText {
   return [self titleForState:UIControlStateSelected];
 }
 
--  (void)setSelectedText:(NSString*)selectedText
-{
+-  (void)setSelectedText:(NSString*)selectedText {
   [self setTitle:selectedText forState:UIControlStateSelected];
 }
 
-- (NSString*)disabledText
-{
+- (NSString*)disabledText {
   return [self titleForState:UIControlStateDisabled];
 }
 
-- (void)setDisabledText:(NSString*)disabledText
-{
+- (void)setDisabledText:(NSString*)disabledText {
   [self setTitle:disabledText forState:UIControlStateDisabled];
 }
 
-- (UIColor*)textColor
-{
+- (UIColor*)textColor {
   return [self titleColorForState:UIControlStateNormal];
 }
 
-- (void)setTextColor:(UIColor*)textColor
-{
+- (void)setTextColor:(UIColor*)textColor {
   [self setTitleColor:textColor forState:UIControlStateNormal];
 }
 
-- (UIColor*)highlightedTextColor
-{
+- (UIColor*)highlightedTextColor {
   return [self titleColorForState:UIControlStateHighlighted];
 }
 
-- (void)setHighlightedTextColor:(UIColor*)highlightedTextColor
-{
+- (void)setHighlightedTextColor:(UIColor*)highlightedTextColor {
   [self setTitleColor:highlightedTextColor forState:UIControlStateHighlighted];
 }
 
-- (UIColor*)selectedTextColor
-{
+- (UIColor*)selectedTextColor {
   return [self titleColorForState:UIControlStateSelected];
 }
 
-- (void)setSelectedTextColor:(UIColor*)selectedTextColor
-{
+- (void)setSelectedTextColor:(UIColor*)selectedTextColor {
   [self setTitleColor:selectedTextColor forState:UIControlStateSelected];
 }
 
-- (UIColor*)disabledTextColor
-{
+- (UIColor*)disabledTextColor {
   return [self titleColorForState:UIControlStateDisabled];
 }
 
-- (void)setDisabledTextColor:(UIColor*)disabledTextColor
-{
+- (void)setDisabledTextColor:(UIColor*)disabledTextColor {
   [self setTitleColor:disabledTextColor forState:UIControlStateDisabled];
 }
 
@@ -171,89 +155,72 @@
   return nil;
 }
 
-- (void)setBackgroundColorImage:(UIColor*)backgroundColor
-{
+- (void)setBackgroundColorImage:(UIColor*)backgroundColor {
   UIImage *image = [UIImage yg_imageWithColor:backgroundColor];
   self.backgroundImage = image;
 }
 
-- (UIImage*)backgroundImage
-{
+- (UIImage*)backgroundImage {
   return [self backgroundImageForState:UIControlStateNormal];
 }
 
-- (void)setBackgroundImage:(UIImage*)backgroundImage
-{
+- (void)setBackgroundImage:(UIImage*)backgroundImage {
   [self setBackgroundImage:backgroundImage forState:UIControlStateNormal];
 }
 
-- (UIImage*)highlightedBackgroundImage
-{
+- (UIImage*)highlightedBackgroundImage {
   return [self backgroundImageForState:UIControlStateHighlighted];
 }
 
-- (void)setHighlightedBackgroundImage:(UIImage*)highlightedBackgroundImage
-{
+- (void)setHighlightedBackgroundImage:(UIImage*)highlightedBackgroundImage {
   [self setBackgroundImage:highlightedBackgroundImage forState:UIControlStateHighlighted];
 }
 
-- (UIImage*)selectedBackgroundImage
-{
+- (UIImage*)selectedBackgroundImage {
   return [self backgroundImageForState:UIControlStateSelected];
 }
 
-- (void)setSelectedBackgroundImage:(UIImage*)selectedBackgroundImage
-{
+- (void)setSelectedBackgroundImage:(UIImage*)selectedBackgroundImage {
   [self setBackgroundImage:selectedBackgroundImage forState:UIControlStateSelected];
 }
 
-- (UIImage*)disabledBackgroundImage
-{
+- (UIImage*)disabledBackgroundImage {
   return [self backgroundImageForState:UIControlStateDisabled];
 }
 
-- (void)setDisabledBackgroundImage:(UIImage*)disabledBackgroundImage
-{
+- (void)setDisabledBackgroundImage:(UIImage*)disabledBackgroundImage {
   [self setBackgroundImage:disabledBackgroundImage forState:UIControlStateDisabled];
 }
 
-- (UIImage*)image
-{
+- (UIImage*)image {
   return [self imageForState:UIControlStateNormal];
 }
 
-- (void)setImage:(UIImage*)image
-{
+- (void)setImage:(UIImage*)image {
   [self setImage:image forState:UIControlStateNormal];
 }
 
-- (UIImage*)highlightedImage
-{
+- (UIImage*)highlightedImage {
   return [self imageForState:UIControlStateHighlighted];
 }
 
-- (void)setHighlightedImage:(UIImage*)highlightedImage
-{
+- (void)setHighlightedImage:(UIImage*)highlightedImage {
   [self setImage:highlightedImage forState:UIControlStateHighlighted];
 }
 
-- (UIImage*)selectedImage
-{
+- (UIImage*)selectedImage {
   return [self imageForState:UIControlStateSelected];
 }
 
-- (void)setSelectedImage:(UIImage*)selectedImage
-{
+- (void)setSelectedImage:(UIImage*)selectedImage {
   [self setImage:selectedImage forState:UIControlStateSelected];
 }
 
-- (UIImage*)disabledImage
-{
+- (UIImage*)disabledImage {
   return [self imageForState:UIControlStateDisabled];
 }
 
-- (void)setDisabledImage:(UIImage*)disabledImage
-{
+- (void)setDisabledImage:(UIImage*)disabledImage {
   [self setImage:disabledImage forState:UIControlStateDisabled];
 }
 
@@ -263,45 +230,19 @@
 
 @implementation UIImage (YGAdditions)
 
-+ (UIImage*)yg_imageWithColor:(UIColor*)color
-{
++ (UIImage*)yg_imageWithColor:(UIColor*)color {
   return [self yg_imageWithColor:color size:(CGSize){1,1}];
 }
 
-+ (UIImage*)yg_imageWithColor:(UIColor*)color size:(CGSize)size
-{
++ (UIImage*)yg_imageWithColor:(UIColor*)color size:(CGSize)size {
   CGRect rect = (CGRect){CGPointZero, size};
   UIGraphicsBeginImageContextWithOptions(size, NO, UIScreen.mainScreen.scale);
   CGContextRef context = UIGraphicsGetCurrentContext();
-
   CGContextSetFillColorWithColor(context, [color CGColor]);
   CGContextFillRect(context, rect);
-
   UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
   UIGraphicsEndImageContext();
-
   return image;
-}
-
-@end
-
-@implementation NSObject (YGAdditions)
-
-- (NSString*)yg_className
-{
-  NSString *className = NSStringFromClass(self.class);
-
-  if ([className hasPrefix:@"Optional("]) {
-    className = [className stringByReplacingOccurrencesOfString:@"Optional(\"" withString:@""];
-    className = [className stringByReplacingOccurrencesOfString:@"\")" withString:@""];
-  }
-
-  return className;
-}
-
-- (Class)yg_class
-{
-  return self.class;
 }
 
 @end

@@ -37,7 +37,6 @@
 		16AA95F21FA3310600EAC136 /* Yoga.h in Headers */ = {isa = PBXBuildFile; fileRef = 16AA95DB1FA3310100EAC136 /* Yoga.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		16AA95F71FA3319B00EAC136 /* IGListCollectionViewLayout.h in Headers */ = {isa = PBXBuildFile; fileRef = 16AA95F61FA3319900EAC136 /* IGListCollectionViewLayout.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		16AA95F81FA3319E00EAC136 /* IGListCollectionViewLayout.mm in Sources */ = {isa = PBXBuildFile; fileRef = 16AA95F51FA3319900EAC136 /* IGListCollectionViewLayout.mm */; };
-		16AF33931FACAD2500379FA9 /* IGListDiff.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16AF33921FACAD2500379FA9 /* IGListDiff.swift */; };
 		16BB65921FABB98800373BB6 /* YGRenderAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 167B537B1FABB7B600AF6798 /* YGRenderAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		16CEC0161F9A125C003D3D21 /* Props.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16CEC0151F9A125C003D3D21 /* Props.swift */; };
 		16D9F3321FE6CD7F00ADAB3D /* Style.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D9F3311FE6CD7F00ADAB3D /* Style.swift */; };
@@ -47,9 +46,8 @@
 		16F36BE71F8E197A00A04BE6 /* RenderNeutrino.h in Headers */ = {isa = PBXBuildFile; fileRef = 16F36BE51F8E197A00A04BE6 /* RenderNeutrino.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		16F36BEE1F8E198B00A04BE6 /* Node.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F36BED1F8E198B00A04BE6 /* Node.swift */; };
 		16F36BF01F8E1A4700A04BE6 /* State.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F36BEF1F8E1A4700A04BE6 /* State.swift */; };
-		16F36BF21F8E2B2800A04BE6 /* YGCommonAdditions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F36BF11F8E2B2800A04BE6 /* YGCommonAdditions.swift */; };
+		16F36BF21F8E2B2800A04BE6 /* YGExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F36BF11F8E2B2800A04BE6 /* YGExtensions.swift */; };
 		16F36C191F8E4BA600A04BE6 /* KeyPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F36C181F8E4BA600A04BE6 /* KeyPath.swift */; };
-		16F5DD9B1FC1C108005E1497 /* YGPercentLayoutExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F5DD9A1FC1C108005E1497 /* YGPercentLayoutExtension.swift */; };
 		16F7B55B1F9A322C00583082 /* RenderInspectorHook.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F7B55A1F9A322C00583082 /* RenderInspectorHook.swift */; };
 		16FD2DAA1FB100A1005C2F9F /* Geometry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16FD2DA91FB100A1005C2F9F /* Geometry.swift */; };
 /* End PBXBuildFile section */
@@ -96,7 +94,6 @@
 		16AA95E41FA3310100EAC136 /* YGPercentLayout.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YGPercentLayout.m; sourceTree = "<group>"; };
 		16AA95F51FA3319900EAC136 /* IGListCollectionViewLayout.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = IGListCollectionViewLayout.mm; sourceTree = "<group>"; };
 		16AA95F61FA3319900EAC136 /* IGListCollectionViewLayout.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IGListCollectionViewLayout.h; sourceTree = "<group>"; };
-		16AF33921FACAD2500379FA9 /* IGListDiff.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IGListDiff.swift; sourceTree = "<group>"; };
 		16CEC0151F9A125C003D3D21 /* Props.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Props.swift; sourceTree = "<group>"; };
 		16D9F3311FE6CD7F00ADAB3D /* Style.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Style.swift; sourceTree = "<group>"; };
 		16DDA95C1F9799D200CDBCF5 /* Component.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Component.swift; sourceTree = "<group>"; };
@@ -107,9 +104,8 @@
 		16F36BE61F8E197A00A04BE6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		16F36BED1F8E198B00A04BE6 /* Node.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Node.swift; sourceTree = "<group>"; };
 		16F36BEF1F8E1A4700A04BE6 /* State.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = State.swift; sourceTree = "<group>"; };
-		16F36BF11F8E2B2800A04BE6 /* YGCommonAdditions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YGCommonAdditions.swift; sourceTree = "<group>"; };
+		16F36BF11F8E2B2800A04BE6 /* YGExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YGExtensions.swift; sourceTree = "<group>"; };
 		16F36C181F8E4BA600A04BE6 /* KeyPath.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyPath.swift; sourceTree = "<group>"; };
-		16F5DD9A1FC1C108005E1497 /* YGPercentLayoutExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YGPercentLayoutExtension.swift; sourceTree = "<group>"; };
 		16F7B55A1F9A322C00583082 /* RenderInspectorHook.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenderInspectorHook.swift; sourceTree = "<group>"; };
 		16FD2DA91FB100A1005C2F9F /* Geometry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Geometry.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -160,13 +156,11 @@
 				16AA95E41FA3310100EAC136 /* YGPercentLayout.m */,
 				16AA95DB1FA3310100EAC136 /* Yoga.h */,
 				16AA95DD1FA3310100EAC136 /* Yoga.c */,
-				16F36BF11F8E2B2800A04BE6 /* YGCommonAdditions.swift */,
+				16F36BF11F8E2B2800A04BE6 /* YGExtensions.swift */,
 				167B537B1FABB7B600AF6798 /* YGRenderAdditions.h */,
 				167B53791FABB7A400AF6798 /* YGRenderAdditions.m */,
-				16F5DD9A1FC1C108005E1497 /* YGPercentLayoutExtension.swift */,
 				16AA95F61FA3319900EAC136 /* IGListCollectionViewLayout.h */,
 				16AA95F51FA3319900EAC136 /* IGListCollectionViewLayout.mm */,
-				16AF33921FACAD2500379FA9 /* IGListDiff.swift */,
 			);
 			path = yoga;
 			sourceTree = "<group>";
@@ -200,12 +194,12 @@
 			path = components;
 			sourceTree = "<group>";
 		};
-		1665D6651FE959E800955782 /* expression */ = {
+		1665D6651FE959E800955782 /* expr */ = {
 			isa = PBXGroup;
 			children = (
 				16108B9B1FDC82B000CD9E9A /* Expression.swift */,
 			);
-			path = expression;
+			path = expr;
 			sourceTree = "<group>";
 		};
 		16F36BD81F8E197A00A04BE6 = {
@@ -250,7 +244,7 @@
 		16F36BF31F8E2BEE00A04BE6 /* deps */ = {
 			isa = PBXGroup;
 			children = (
-				1665D6651FE959E800955782 /* expression */,
+				1665D6651FE959E800955782 /* expr */,
 				160627AF1FE9322B007779DD /* yoga */,
 				160627A71FE91BC9007779DD /* yaml */,
 				16F7B55A1F9A322C00583082 /* RenderInspectorHook.swift */,
@@ -402,9 +396,8 @@
 				160627A91FE91BE3007779DD /* YamlBridge.swift in Sources */,
 				16D9F3321FE6CD7F00ADAB3D /* Style.swift in Sources */,
 				167070241FB8C232008DFC5B /* ViewController.swift in Sources */,
-				16F36BF21F8E2B2800A04BE6 /* YGCommonAdditions.swift in Sources */,
+				16F36BF21F8E2B2800A04BE6 /* YGExtensions.swift in Sources */,
 				16AA95ED1FA3310600EAC136 /* YGNodeList.c in Sources */,
-				16F5DD9B1FC1C108005E1497 /* YGPercentLayoutExtension.swift in Sources */,
 				16108B9C1FDC82B000CD9E9A /* Expression.swift in Sources */,
 				16F36BEE1F8E198B00A04BE6 /* Node.swift in Sources */,
 				16F36BF01F8E1A4700A04BE6 /* State.swift in Sources */,
@@ -413,7 +406,6 @@
 				16AA95E71FA3310600EAC136 /* YGEnums.c in Sources */,
 				165300BD1FD6D44C00A7BAB0 /* Debug.swift in Sources */,
 				16AA95F81FA3319E00EAC136 /* IGListCollectionViewLayout.mm in Sources */,
-				16AF33931FACAD2500379FA9 /* IGListDiff.swift in Sources */,
 				16CEC0161F9A125C003D3D21 /* Props.swift in Sources */,
 				16108B9E1FDDD1A700CD9E9A /* StylesheetManager.swift in Sources */,
 				16AA95F11FA3310600EAC136 /* Yoga.c in Sources */,

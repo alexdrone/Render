@@ -620,7 +620,7 @@ extension NSTextAlignment: UIStylesheetRepresentableEnum {
       "\(namespace).left": Double(NSTextAlignment.left.rawValue),
       "\(namespace).center": Double(NSTextAlignment.center.rawValue),
       "\(namespace).right": Double(NSTextAlignment.right.rawValue),
-      "\(namespace)t.justified": Double(NSTextAlignment.justified.rawValue),
+      "\(namespace).justified": Double(NSTextAlignment.justified.rawValue),
       "\(namespace).natural": Double(NSTextAlignment.natural.rawValue)]
   }
 }

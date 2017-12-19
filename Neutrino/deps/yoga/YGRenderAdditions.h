@@ -49,7 +49,4 @@ NS_ASSUME_NONNULL_BEGIN
 + (UIImage*)yg_imageWithColor:(UIColor*)color size:(CGSize)size;
 @end
 
-
 NS_ASSUME_NONNULL_END
-
-
