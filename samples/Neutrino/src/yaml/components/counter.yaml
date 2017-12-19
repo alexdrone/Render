@@ -15,7 +15,7 @@ Counter.button:
   depthPreset: 2
   cornerRadius: 12
   animator-cornerRadius: *_animator
-Counter.button.even: 
+Counter.button.even:
   backgroundColorImage: "#ff0000"
   cornerRadius: 0
 
@@ -24,3 +24,4 @@ Counter.label:
   color: *_white
   textAlignment: ${NSTextAlignment.center}
   padding: 8
+

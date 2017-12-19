@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		160627A91FE91BE3007779DD /* YamlBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160627A81FE91BE3007779DD /* YamlBridge.swift */; };
+		160627AC1FE91C25007779DD /* yaml.c in Sources */ = {isa = PBXBuildFile; fileRef = 160627AA1FE91C25007779DD /* yaml.c */; };
+		160627AD1FE91C25007779DD /* yaml.h in Headers */ = {isa = PBXBuildFile; fileRef = 160627AB1FE91C25007779DD /* yaml.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		16108B9C1FDC82B000CD9E9A /* Expression.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16108B9B1FDC82B000CD9E9A /* Expression.swift */; };
 		16108B9E1FDDD1A700CD9E9A /* StylesheetManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16108B9D1FDDD1A700CD9E9A /* StylesheetManager.swift */; };
 		16108BA11FDDD1C700CD9E9A /* StylesheetTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16108B9F1FDDD1BC00CD9E9A /* StylesheetTests.swift */; };
@@ -63,6 +66,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		160627A81FE91BE3007779DD /* YamlBridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YamlBridge.swift; sourceTree = "<group>"; };
+		160627AA1FE91C25007779DD /* yaml.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = yaml.c; sourceTree = "<group>"; };
+		160627AB1FE91C25007779DD /* yaml.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = yaml.h; sourceTree = "<group>"; };
 		16108B9B1FDC82B000CD9E9A /* Expression.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Expression.swift; sourceTree = "<group>"; };
 		16108B9D1FDDD1A700CD9E9A /* StylesheetManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StylesheetManager.swift; sourceTree = "<group>"; };
 		16108B9F1FDDD1BC00CD9E9A /* StylesheetTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StylesheetTests.swift; sourceTree = "<group>"; };
@@ -129,6 +135,44 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		160627A71FE91BC9007779DD /* yaml */ = {
+			isa = PBXGroup;
+			children = (
+				160627A81FE91BE3007779DD /* YamlBridge.swift */,
+				160627AA1FE91C25007779DD /* yaml.c */,
+				160627AB1FE91C25007779DD /* yaml.h */,
+			);
+			path = yaml;
+			sourceTree = "<group>";
+		};
+		160627AF1FE9322B007779DD /* yoga */ = {
+			isa = PBXGroup;
+			children = (
+				16AA95DE1FA3310100EAC136 /* UIView+Yoga.h */,
+				16AA95DF1FA3310100EAC136 /* UIView+Yoga.m */,
+				16AA95E21FA3310100EAC136 /* YGEnums.h */,
+				16AA95DC1FA3310100EAC136 /* YGEnums.c */,
+				16AA95E01FA3310100EAC136 /* YGLayout.h */,
+				16AA95E31FA3310100EAC136 /* YGLayout.m */,
+				16AA95DA1FA3310100EAC136 /* YGLayout+Private.h */,
+				16AA95E11FA3310100EAC136 /* YGMacros.h */,
+				16AA95D91FA3310100EAC136 /* YGNodeList.h */,
+				16AA95D71FA3310100EAC136 /* YGNodeList.c */,
+				16AA95D81FA3310100EAC136 /* YGPercentLayout.h */,
+				16AA95E41FA3310100EAC136 /* YGPercentLayout.m */,
+				16AA95DB1FA3310100EAC136 /* Yoga.h */,
+				16AA95DD1FA3310100EAC136 /* Yoga.c */,
+				16F36BF11F8E2B2800A04BE6 /* YGCommonAdditions.swift */,
+				167B537B1FABB7B600AF6798 /* YGRenderAdditions.h */,
+				167B53791FABB7A400AF6798 /* YGRenderAdditions.m */,
+				16F5DD9A1FC1C108005E1497 /* YGPercentLayoutExtension.swift */,
+				16AA95F61FA3319900EAC136 /* IGListCollectionViewLayout.h */,
+				16AA95F51FA3319900EAC136 /* IGListCollectionViewLayout.mm */,
+				16AF33921FACAD2500379FA9 /* IGListDiff.swift */,
+			);
+			path = yoga;
+			sourceTree = "<group>";
+		};
 		16108B9A1FDC80DE00CD9E9A /* stylesheet */ = {
 			isa = PBXGroup;
 			children = (
@@ -200,27 +244,8 @@
 		16F36BF31F8E2BEE00A04BE6 /* deps */ = {
 			isa = PBXGroup;
 			children = (
-				16AA95DE1FA3310100EAC136 /* UIView+Yoga.h */,
-				16AA95DF1FA3310100EAC136 /* UIView+Yoga.m */,
-				16AA95E21FA3310100EAC136 /* YGEnums.h */,
-				16AA95DC1FA3310100EAC136 /* YGEnums.c */,
-				16AA95E01FA3310100EAC136 /* YGLayout.h */,
-				16AA95E31FA3310100EAC136 /* YGLayout.m */,
-				16AA95DA1FA3310100EAC136 /* YGLayout+Private.h */,
-				16AA95E11FA3310100EAC136 /* YGMacros.h */,
-				16AA95D91FA3310100EAC136 /* YGNodeList.h */,
-				16AA95D71FA3310100EAC136 /* YGNodeList.c */,
-				16AA95D81FA3310100EAC136 /* YGPercentLayout.h */,
-				16AA95E41FA3310100EAC136 /* YGPercentLayout.m */,
-				16AA95DB1FA3310100EAC136 /* Yoga.h */,
-				16AA95DD1FA3310100EAC136 /* Yoga.c */,
-				16F36BF11F8E2B2800A04BE6 /* YGCommonAdditions.swift */,
-				167B537B1FABB7B600AF6798 /* YGRenderAdditions.h */,
-				167B53791FABB7A400AF6798 /* YGRenderAdditions.m */,
-				16F5DD9A1FC1C108005E1497 /* YGPercentLayoutExtension.swift */,
-				16AA95F61FA3319900EAC136 /* IGListCollectionViewLayout.h */,
-				16AA95F51FA3319900EAC136 /* IGListCollectionViewLayout.mm */,
-				16AF33921FACAD2500379FA9 /* IGListDiff.swift */,
+				160627AF1FE9322B007779DD /* yoga */,
+				160627A71FE91BC9007779DD /* yaml */,
 				16F7B55A1F9A322C00583082 /* RenderInspectorHook.swift */,
 				16A4FAA91FDAC9B5007B9D71 /* Yaml.swift */,
 				16108B9B1FDC82B000CD9E9A /* Expression.swift */,
@@ -238,6 +263,7 @@
 				16AA95F21FA3310600EAC136 /* Yoga.h in Headers */,
 				16AA95EF1FA3310600EAC136 /* YGPercentLayout.h in Headers */,
 				16AA95E51FA3310600EAC136 /* UIView+Yoga.h in Headers */,
+				160627AD1FE91C25007779DD /* yaml.h in Headers */,
 				16BB65921FABB98800373BB6 /* YGRenderAdditions.h in Headers */,
 				16AA95E81FA3310600EAC136 /* YGEnums.h in Headers */,
 				16AA95EE1FA3310600EAC136 /* YGNodeList.h in Headers */,
@@ -365,8 +391,10 @@
 				16FD2DAA1FB100A1005C2F9F /* Geometry.swift in Sources */,
 				167B537C1FABB7B600AF6798 /* YGRenderAdditions.h in Sources */,
 				16DDA95F1F98C6CC00CDBCF5 /* Context.swift in Sources */,
+				160627AC1FE91C25007779DD /* yaml.c in Sources */,
 				16F36C191F8E4BA600A04BE6 /* KeyPath.swift in Sources */,
 				16F7B55B1F9A322C00583082 /* RenderInspectorHook.swift in Sources */,
+				160627A91FE91BE3007779DD /* YamlBridge.swift in Sources */,
 				16D9F3321FE6CD7F00ADAB3D /* Style.swift in Sources */,
 				167070241FB8C232008DFC5B /* ViewController.swift in Sources */,
 				16F36BF21F8E2B2800A04BE6 /* YGCommonAdditions.swift in Sources */,
@@ -543,6 +571,7 @@
 		16F36BEB1F8E197A00A04BE6 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
@@ -566,6 +595,7 @@
 		16F36BEC1F8E197A00A04BE6 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;

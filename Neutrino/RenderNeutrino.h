@@ -16,6 +16,7 @@
 #import <RenderNeutrino/Yoga.h>
 #import <RenderNeutrino/YGRenderAdditions.h>
 #import <RenderNeutrino/IGListCollectionViewLayout.h>
+#import <RenderNeutrino/yaml.h>
 
 //! Project version number for RenderNeutrino.
 FOUNDATION_EXPORT double RenderPureVersionNumber;
