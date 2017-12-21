@@ -379,8 +379,14 @@ public class UIStylesheetRule: CustomStringConvertible {
   }
 
   /// Parse a string value.
-  /// - Note: This could be an expression (e.g. "${1==1}"), a function (e.g. "font(Arial, 42)")
-  /// or a simple string.
+  /// - *#ffffff* or *color(#ffffff)*: Interpreted as a color.
+  /// - *font(string [font name or 'system', number [point size])*
+  /// - *font(string ,number, number [weight])*: Interpreted as a font.
+  /// - *animator(number [duration], string [easeIn, easeOut, easeInOut, linear])* or
+  /// - *animator(number [duration], number [damping])*: Intepreted as a view property animator.
+  /// - *${expression}* to evaluate an expression.
+  /// - A number (float, integer or bool).
+  /// - A string.
   private func parse(string: String) throws -> (ValueType, Any?) {
     struct Token {
       static let functionBrackets = ("(", ")")
@@ -417,10 +423,13 @@ public class UIStylesheetRule: CustomStringConvertible {
       return (.color, UIColor(hex: string) ?? .black)
     }
     // !!expression
+    // - *${expression}* to evaluate an expression.
     if let expression = expression(from: string) {
       return (.expression, expression)
     }
     // font
+    // - *font(string [font name or 'system', number [point size])*
+    // - *font(string ,number, number [weight])*: Interpreted as a font.
     if string.hasPrefix(Token.fontFunction) {
       let args = arguments(for: Token.fontFunction)
       guard args.count >= 2 else {
@@ -436,7 +445,8 @@ public class UIStylesheetRule: CustomStringConvertible {
       return (.font, args[0].lowercased() == "system" ?
         UIFont.systemFont(ofSize: size) : UIFont(name:  args[0], size: size))
     }
-    // color
+    // !!color
+    // - *#ffffff* or *color(#ffffff)*: Interpreted as a color.
     if string.hasPrefix(Token.colorFunction) {
       let args = arguments(for: Token.colorFunction)
       guard args.count == 1 else {
@@ -444,7 +454,9 @@ public class UIStylesheetRule: CustomStringConvertible {
       }
       return (.color, UIColor(hex: args[0]) ?? .black)
     }
-    // animator
+    // !!animator
+    // *animator(number [duration], string [easeIn, easeOut, easeInOut, linear])* or
+    // *animator(number [duration], number [damping])*: Intepreted as a view property animator.
     if string.hasPrefix(Token.transitionFunction) {
       let args = arguments(for: Token.transitionFunction)
       guard args.count == 2 else {
@@ -453,14 +465,24 @@ public class UIStylesheetRule: CustomStringConvertible {
       //let animator = UIViewPropertyAnimator(duration: 1, curve: .easeIn, animations: nil)
       let duration: TimeInterval = parse(numberFromString: args[0]).doubleValue
       var curve: UIViewAnimationCurve = .linear
+      var damping: CGFloat = CGFloat.nan
       switch args[1] {
       case "easeInOut": curve = .easeInOut
       case "easeIn" : curve = .easeIn
       case "easeOut": curve = .easeOut
       case "linear": curve = .linear
-      default: break
+      default:
+        damping = CGFloat(parse(numberFromString: args[1]).floatValue)
       }
-      return (.animator, UIViewPropertyAnimator(duration: duration, curve: curve, animations:nil))
+      if damping.isNormal {
+        return (.animator, UIViewPropertyAnimator(duration: duration,
+                                                  dampingRatio: damping,
+                                                  animations: nil))
+      } else {
+        return (.animator, UIViewPropertyAnimator(duration: duration,
+                                                  curve: curve,
+                                                  animations:nil))
+      }
     }
     // !!str
     return (.string, string)
