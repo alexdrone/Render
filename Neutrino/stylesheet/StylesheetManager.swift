@@ -17,7 +17,6 @@ public class UIStylesheetManager {
   public var defs: [String: [String: UIStylesheetRule]] = [:]
   /// Available animators.
   public var animators: [String: [String: UIViewPropertyAnimator]] = [:]
-
   /// The current component canvas.
   public var canvasSize: CGSize = UIScreen.main.bounds.size
   /// The stylesheet file currently loaded.
