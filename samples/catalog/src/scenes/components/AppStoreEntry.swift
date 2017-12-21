@@ -26,20 +26,19 @@ struct AppStoreEntry {
           // Lays out the icon and the title.
           UINode<UIView>(configure: configureRowContainer).children([
             makePolygon(),
-            Fragment.Text(text: "\(props.title)#\(state.counter)",
-                          configure: configureLabel),
+            makeLabel(text: "\(props.title)#\(state.counter)",
+                      configure: configureLabel),
             ]),
           // Entry description (shown when the component is expanded).
           UINode<UIView>(configure: configureDescriptionContainer).children([
-            Fragment.Text(text: props.desc,
-                              configure: configureDescriptionLabel),
-            Fragment.Button(text: "Increase",
-                            backgroundColor: Palette.white.color,
-                            onTouchUpInside: { [weak self] in self?.onIncrease() })
+            makeLabel(text: props.desc,
+                      configure: configureDescriptionLabel),
+            makeButton(text: "Increase",
+                       onTouchUpInside: { [weak self] in self?.onIncrease() })
             ]),
           // Touch overlay that covers the whole component.
-          Fragment.TapRecognizer(onTouchUpInside: { [weak self] in self?.onToggleExpand() },
-                                 configure: configureTappableView),
+          makeTapRecognizer(onTouchUpInside: { [weak self] in self?.onToggleExpand() },
+                            configure: configureTappableView),
           ])
       ])
     }
@@ -95,7 +94,7 @@ struct AppStoreEntry {
       // The container takes all of the parent's width and 20% of the height.
       configuration.set(\UIView.yoga.percent.width, 100%)
       configuration.set(\UIView.yoga.percent.height, 20%)
-      configuration.set(\UIView.yoga.padding, 2)
+      configuration.set(\UIView.yoga.padding, Margin.xsmall.cgFloat)
       configuration.set(\UIView.yoga.justifyContent, .center)
       configuration.set(\UIView.yoga.flexDirection, .row)
       configuration.set(\UIView.backgroundColor, Palette.text.color)
