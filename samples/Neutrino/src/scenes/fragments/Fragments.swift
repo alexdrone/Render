@@ -97,7 +97,7 @@ extension Fragment {
       view.textColor = foregroundColor
       view.depthPreset = .depth1
       view.cornerRadiusPreset = .cornerRadius1
-      view.yoga.padding = MarginPreset.small.cgFloatValue
+      view.yoga.padding = 4
       view.titleLabel?.font = UIFont.boldSystemFont(ofSize: 13)
       return view
     }
@@ -124,10 +124,9 @@ extension Fragment {
   /// Used as shape for many of the examples.
   static func Polygon() -> UINodeProtocol {
     return UINode<UIPolygonView> { config in
-      let size = HeightPreset.medium.cgFloatValue
       config.set(\UIPolygonView.foregroundColor, Palette.white.color)
-      config.set(\UIPolygonView.yoga.width, size)
-      config.set(\UIPolygonView.yoga.height, size)
+      config.set(\UIPolygonView.yoga.width, 44)
+      config.set(\UIPolygonView.yoga.height, 44)
       config.set(\UIPolygonView.yoga.marginRight, 16)
       config.set(\UIPolygonView.depthPreset, .depth1)
     }

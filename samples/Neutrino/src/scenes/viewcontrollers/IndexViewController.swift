@@ -16,7 +16,7 @@ class IndexViewController: UIComponentViewController<Index.Component> {
         onCellSelected: presentAppStoreListComponentExample),
       Index.CellProps(
         title: "Stylesheet-based Counter",
-        subtitle: "A component that makes extensive use of styles.",
+        subtitle: "A component that uses styles.",
         onCellSelected: presentStylesheetCounterExample),
     ]
     return context.component(Index.Component.self, key: rootKey, props: props)

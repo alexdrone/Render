@@ -86,7 +86,7 @@ struct AppStoreEntry {
 
     // The main content view with the entry background image.
     private func configureContentView(configuration: UINode<UIImageView>.Configuration) {
-      let margin: CGFloat = state.expanded ? 0 : MarginPreset.medium.cgFloatValue
+      let margin: CGFloat = state.expanded ? 0 : 8
       let height: CGFloat = state.expanded ? 256 : 128
       let radius: CornerRadiusPreset = state.expanded ? .none : .cornerRadius4
       configuration.set(\UIImageView.image, props.image)
@@ -105,7 +105,7 @@ struct AppStoreEntry {
       // The container takes all of the parent's width and 80% of the height.
       configuration.set(\UIView.yoga.percent.width, 100%)
       configuration.set(\UIView.yoga.percent.height, 80%)
-      configuration.set(\UIView.yoga.padding, MarginPreset.default.cgFloatValue)
+      configuration.set(\UIView.yoga.padding, 4)
       // Lays out the children horizontally.
       configuration.set(\UIView.yoga.flexDirection, .row)
     }
@@ -117,7 +117,7 @@ struct AppStoreEntry {
       // The container takes all of the parent's width and 20% of the height.
       configuration.set(\UIView.yoga.percent.width, 100%)
       configuration.set(\UIView.yoga.percent.height, 20%)
-      configuration.set(\UIView.yoga.padding, MarginPreset.small.cgFloatValue)
+      configuration.set(\UIView.yoga.padding, 2)
       configuration.set(\UIView.yoga.justifyContent, .center)
       configuration.set(\UIView.yoga.flexDirection, .row)
       configuration.set(\UIView.backgroundColor, Palette.text.color)
@@ -140,7 +140,7 @@ struct AppStoreEntry {
     // The main title.
     private func configureLabel(configuration: UINode<UILabel>.Configuration) {
       let font: UIFont = state.expanded ? Typography.mediumBold.font : Typography.medium.font
-      configuration.set(\UILabel.yoga.height, HeightPreset.medium.cgFloatValue)
+      configuration.set(\UILabel.yoga.height, 32)
       configuration.set(\UILabel.font, font)
       configuration.set(\UILabel.textColor, Palette.white.color)
     }

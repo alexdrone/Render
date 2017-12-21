@@ -57,7 +57,7 @@ struct Index {
       configuration.set(\UIView.backgroundColor, bkg, animator: animator)
       // You can configure your view both using the keyPath accessor (that offer an optional
       // animator parameter), or by accessing to the 'renderedView' manually.
-      configuration.view.yoga.padding = MarginPreset.default.cgFloatValue
+      configuration.view.yoga.padding = 8
       configuration.view.depthPreset = props.isHighlighted ? .depth2 : .none
     }
 
@@ -65,7 +65,7 @@ struct Index {
       let font = props.isHighlighted ? Typography.smallBold.font : Typography.small.font
       configuration.view.font = font
       configuration.view.textColor = Palette.white.color
-      configuration.view.yoga.margin = MarginPreset.tiny.cgFloatValue
+      configuration.view.yoga.margin = 2
     }
   }
 }
