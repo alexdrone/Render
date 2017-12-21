@@ -1,3 +1,0 @@
-framework module Dispatcher_iOS {
-    header "Dispatcher_iOS-Swift.h"
-}
