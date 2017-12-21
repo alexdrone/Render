@@ -4,4 +4,7 @@
 
 Render is a declarative library for building efficient UIs on iOS inspired by [React](https://github.com/facebook/react).
 
-[Render 4.* project page](https://github.com/alexdrone/Render/tree/classic)
+[Render 4.* (stable) project page](https://github.com/alexdrone/Render/tree/classic)
+
+*Render Neutrino* is the new version of Render, re-built from the ground up.
+The documentation is in progress.
