@@ -34,18 +34,14 @@ struct Index {
     /// Builds the node hierarchy for this component.
     override func render(context: UIContextProtocol) -> UINodeProtocol {
       // The cell content view.
-      return Fragment.Row(widthRatio: 1, configure: configureContentView).children([
-        Fragment.Polygon(),
-        Fragment.Column() { config in
+      return UINode<UIView>(configure: configureContentView).children([
+        makePolygon(),
+        UINode<UIView> { config in
           // Ensure the label container is center aligned.
           config.set(\UIView.yoga.justifyContent, .center)
         }.children([
-            Fragment.Text(reuseIdentifier: "title",
-                              text: props.title,
-                              configure: configureLabel),
-            Fragment.Text(reuseIdentifier: "subtitle",
-                              text: props.subtitle,
-                              configure: configureLabel)
+            label(text: props.title),
+            label(text: props.subtitle),
           ])
       ])
     }
@@ -54,18 +50,25 @@ struct Index {
       let animator = UIViewPropertyAnimator(duration: 0.3, curve: .easeIn, animations: nil)
       let bkg = props.isHighlighted ? Palette.primaryAccent.color : Palette.primary.color
       /// Animates the background color when the cell is selected.
+      configuration.set(\UIView.yoga.flexDirection, .row)
+      configuration.set(\UIView.yoga.width, configuration.canvasSize.width)
+      configuration.set(\UIView.yoga.padding, Margin.medium.cgFloat)
       configuration.set(\UIView.backgroundColor, bkg, animator: animator)
       // You can configure your view both using the keyPath accessor (that offer an optional
       // animator parameter), or by accessing to the 'renderedView' manually.
-      configuration.view.yoga.padding = 8
+      configuration.view.yoga.padding = Margin.medium.cgFloat
       configuration.view.depthPreset = props.isHighlighted ? .depth2 : .none
     }
 
-    private func configureLabel(configuration: UINode<UILabel>.Configuration) {
+    private func label(text: String) -> UINode<UILabel> {
       let font = props.isHighlighted ? Typography.smallBold.font : Typography.small.font
-      configuration.view.font = font
-      configuration.view.textColor = Palette.white.color
-      configuration.view.yoga.margin = 2
+      return UINode<UILabel> { configuration in
+        configuration.set(\UILabel.text, text)
+        configuration.set(\UILabel.numberOfLines, 0)
+        configuration.set(\UILabel.font, font)
+        configuration.set(\UILabel.textColor, Palette.white.color)
+        configuration.set(\UILabel.yoga.margin, Margin.xsmall.cgFloat)
+      }
     }
   }
 }

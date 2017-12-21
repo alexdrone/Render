@@ -22,7 +22,7 @@ struct AppStoreList {
       let cells = Array(0..<props.numberOfItems).map { idx in
         return table.cell(AppStoreEntry.Component.self,
                           key: cellKey(for: idx),
-                          props: AppStoreEntry.Props.listCardExample())
+                          props: AppStoreEntry.Props())
       }
       let section = UITableComponentProps.Section(cells: cells)
       table.props.sections = [section]

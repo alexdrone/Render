@@ -3,38 +3,16 @@ import RenderNeutrino
 
 struct AppStoreEntry {
 
-  // MARK: - State
-
   class State: UIState {
     var expanded: Bool = false
     var counter: Int = 0
   }
 
-  // MARK: - Props
-
   class Props: UIProps {
-    var title: String = ""
-    var desc: String = ""
-    var image: UIImage? = nil
-
-    static func singleCardExample() -> Props {
-      let entry = Props()
-      entry.title = "Neutrino"
-      entry.desc = "A Render Neutrino component."
-      entry.image = UIImage(named: "game")
-      return entry
-    }
-
-    static func listCardExample() -> Props {
-      let entry = Props()
-      entry.title = "Item"
-      entry.desc = "A component cell."
-      entry.image = UIImage(named: "game")
-      return entry
-    }
+    var title: String = "Neutrino"
+    var desc: String = "A Render Neutrino component."
+    var image: UIImage? = UIImage(named: "game")
   }
-
-  // MARK: - Component
 
   class Component: UIComponent<State, Props> {
     /// Builds the node hierarchy for this component.
@@ -47,7 +25,7 @@ struct AppStoreEntry {
           UINode<UIView>(configure: configureOverlay),
           // Lays out the icon and the title.
           UINode<UIView>(configure: configureRowContainer).children([
-            Fragment.Polygon(),
+            makePolygon(),
             Fragment.Text(text: "\(props.title)#\(state.counter)",
                           configure: configureLabel),
             ]),

@@ -24,7 +24,8 @@ struct StylesheetCounter {
         UINode<UILabel>(styles: [Style.label], configure: configureLabel),
         UINode<UIButton>(styles: [
           Style.button,
-          Style.button.byApplyingModifier(named: Style.Modifier.even, when: state.counter%2 == 0)],
+          Style.button.byApplyingModifier(named: Style.Modifier.even,
+                                          when: state.counter % 2 == 0)],
                          configure: configureButton)
       ])
     }

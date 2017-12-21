@@ -21,5 +21,11 @@ Typography:
   medium: &_medium font(system,16,regular)
   mediumBold: &_mediumBold font(system,16,bold)
 
+Margin:
+  xsmall: 2
+  small: 4
+  medium: 8
+  large: 16
+
 import:
   - components/counter.yaml

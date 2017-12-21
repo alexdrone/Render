@@ -28,3 +28,11 @@ enum Typography: String, UIStylesheet {
   case mediumBold
 }
 
+enum Margin: String, UIStylesheet {
+  static var styleIdentifier: String = "Margin"
+  case xsmall
+  case small
+  case medium
+  case large
+}
+

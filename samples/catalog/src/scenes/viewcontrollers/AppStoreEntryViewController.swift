@@ -5,7 +5,7 @@ class AppStoreEntryViewController: UIComponentViewController<AppStoreEntry.Compo
 
   override func buildRootComponent() -> AppStoreEntry.Component {
     return context.component(AppStoreEntry.Component.self,
-                             props: AppStoreEntry.Props.singleCardExample())
+                             props: AppStoreEntry.Props())
   }
 
   override func viewDidLoad() {
