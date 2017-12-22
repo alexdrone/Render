@@ -128,7 +128,7 @@ public class UITableComponent<S: UIStateProtocol, P: UITableComponentProps>:
       table.allowsMultipleSelection = false
       return table
     }
-    return UINode<UITableView>(reuseIdentifier: string(fromType: UITableComponent.self),
+    return UINode<UITableView>(reuseIdentifier: "UITableComponent",
                                key: key,
                                create: makeTable) { [weak self] config in
       guard let `self` = self else {
