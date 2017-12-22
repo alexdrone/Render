@@ -6,14 +6,19 @@ public protocol UIStyleProtocol {
   /// The full path for this style {NAMESPACE.STYLE(.MODIFIER)?}.
   var styleIdentifier: String { get }
   /// Applies this style to the view passed as argument.
-  /// - Note: Non KVC-compliant keys are skipped.
+  /// - note: Non KVC-compliant keys are skipped.
   func apply(to view: UIView)
 }
 
 extension UIStyleProtocol {
+  /// Whether this is an instance of *UINilStyle*.
+  var isNil: Bool {
+    return self is UINilStyle
+  }
+
   /// Returns the identifier for this style with the desired modifier (analogous to a pseudo
   /// selector in CSS).
-  /// - Note: If the condition passed as argument is false *UINilStyle* is returned.
+  /// - note: If the condition passed as argument is false *UINilStyle* is returned.
   public func byApplyingModifier(named name: String,
                                  when condition: Bool = true) -> UIStyleProtocol {
     return condition ? "\(styleIdentifier).\(name)" : UINilStyle.nil
@@ -21,6 +26,19 @@ extension UIStyleProtocol {
   /// Returns this style if the conditioned passed as argument is 'true', *UINilStyle* otherwise.
   public func when(_ condition: Bool) -> UIStyleProtocol {
     return condition ? self : UINilStyle.nil
+  }
+
+  /// Returns an array with this style plus all of the modifiers that satisfy the associated
+  /// conditions.
+  public func withModifiers(_ modifiers: [String: Bool]) -> [UIStyleProtocol] {
+    var identifiers: [UIStyleProtocol] = [self]
+    for (modifier, condition) in modifiers {
+      let style = self.byApplyingModifier(named: modifier, when: condition)
+      if !style.isNil {
+        identifiers.append(style)
+      }
+    }
+    return identifiers
   }
 }
 
@@ -100,7 +118,7 @@ extension String: UIStyleProtocol {
 
 public struct UIStyle {
   /// Applies this style to the view passed as argument.
-  /// - Note: Non KVC-compliant keys are skipped.
+  /// - note: Non KVC-compliant keys are skipped.
   public static func apply(name: String, to view: UIView) {
     guard let defs = UIStylesheetManager.default.defs[name] else {
       warn("Unable to resolve definition named \(name).")
@@ -139,7 +157,7 @@ public struct UIStyle {
 
 public class UINilStyle: UIStyleProtocol {
   public static let `nil` = UINilStyle()
-  /// - Note: 'nil' is the identifier for a *UINilStyle*.
+  /// - note: 'nil' is the identifier for a *UINilStyle*.
   public var styleIdentifier: String {
     return "nil"
   }

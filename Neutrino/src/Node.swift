@@ -483,10 +483,20 @@ public class UINode<V: UIView>: UINodeProtocol {
 /// Make a reuse identifier string given a type and a custom marker.
 public func UINodeReuseIdentifierMake<V>(type: V.Type, identifier: String? = nil) -> String {
   let prefix = String(describing: V.self)
+  let blacklist: ContiguousArray<Character> = ["<", ">", " ", "."]
+  var result = prefix
   if let identifier = identifier {
-    return "\(prefix)_\(identifier)"
+    result = "\(prefix)_\(identifier)"
   }
-  return prefix
+  var buffer = ContiguousArray<Character>(repeatElement(" ", count: result.count))
+  for char in result {
+    if !blacklist.contains(char) {
+      buffer.append(char)
+    } else {
+      buffer.append("_")
+    }
+  }
+  return String(buffer)
 }
 
 // MARK: - UINilNode

@@ -97,6 +97,7 @@ final class Inspector: InspectorType {
       buffer += desc.description
     }
     buffer += "</Application>"
+    print(buffer)
     return buffer
   }
   private var timer: Timer?
@@ -215,7 +216,7 @@ public final class NilInspector: InspectorType {
 }
 
 /// Starts the debug server on localhost:8080/inspect.
-/// - Note: The debug server is only available in the simulator.
+/// - note: The debug server is only available in the simulator.
 public func startRenderInspectorServer() {
   Inspector.shared.startServer()
 }

@@ -189,17 +189,17 @@ public class UIStylesheetRule: CustomStringConvertible {
   }
 
   /// Returns this rule evaluated as an integer.
-  /// - Note: The default value is 0.
+  /// - note: The default value is 0.
   public var integer: Int {
     return (nsNumber as? Int) ?? 0
   }
   /// Returns this rule evaluated as a float.
-  /// - Note: The default value is 0.
+  /// - note: The default value is 0.
   public var cgFloat: CGFloat {
     return (nsNumber as? CGFloat) ?? 0
   }
   /// Returns this rule evaluated as a boolean.
-  /// - Note: The default value is *false*.
+  /// - note: The default value is *false*.
   public var bool: Bool {
     return (nsNumber as? Bool) ?? false
   }
@@ -208,7 +208,7 @@ public class UIStylesheetRule: CustomStringConvertible {
     return castType(type: .font, default: UIFont.init())
   }
   /// Returns this rule evaluated as a *UIColor*.
-  /// - Note: The default value is *UIColor.black*.
+  /// - note: The default value is *UIColor.black*.
   public var color: UIColor {
     return castType(type: .color, default: UIColor.init())
   }
@@ -239,7 +239,7 @@ public class UIStylesheetRule: CustomStringConvertible {
   }
 
   /// Returns the rule value as the desired return type.
-  /// - Note: The enum type should be backed by an integer store.
+  /// - note: The enum type should be backed by an integer store.
   public func `enum`<T: UIStylesheetRepresentableEnum>(_ type: T.Type,
                                                        default: T = T.init(rawValue: 0)!) -> T {
     return T.init(rawValue: integer) ?? `default`
@@ -285,7 +285,7 @@ public class UIStylesheetRule: CustomStringConvertible {
 
   static private let defaultExpression = Expression("0")
   /// Main entry point for numeric return types and expressions.
-  /// - Note: If it fails evaluating this rule value, *NSNumber* 0.\
+  /// - note: If it fails evaluating this rule value, *NSNumber* 0.\
   public var nsNumber: NSNumber {
     let `default` = NSNumber(value: 0)
     // The rule is a map {EXPR: VALUE}.
@@ -305,7 +305,7 @@ public class UIStylesheetRule: CustomStringConvertible {
   }
 
   /// Tentatively tries to evaluate an expression.
-  /// - Note: Returns 0 if the evaluation fails.
+  /// - note: Returns 0 if the evaluation fails.
   private func evaluate(expression: Expression?) -> Double {
     guard let expression = expression else {
       warn("nil expression.")
@@ -343,7 +343,7 @@ public class UIStylesheetRule: CustomStringConvertible {
   }
 
   /// Parse a map value.
-  /// - Note: The lhs is an expression and the rhs a value. 'default' is a tautology.
+  /// - note: The lhs is an expression and the rhs a value. 'default' is a tautology.
   private func parse(conditionalDictionary: YAMLNode) throws -> (ValueType, Any?) {
     guard conditionalDictionary.isMapping else {
       throw ParseError.malformedStylesheetStructure(message: "\(key) is not a mapping.")
@@ -488,7 +488,7 @@ public class UIStylesheetRule: CustomStringConvertible {
   }
 
   /// Parse an expression.
-  /// - Note: The expression delimiters is ${EXPR}.
+  /// - note: The expression delimiters is ${EXPR}.
   private func parseExpression(_ string: String) -> String? {
     struct Token {
       static let expression = "$"

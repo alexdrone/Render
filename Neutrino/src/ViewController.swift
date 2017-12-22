@@ -2,7 +2,7 @@ import UIKit
 
 open class UIComponentViewController<C: UIComponentProtocol>: UIViewController {
   /// The context for the component hierarchy that is going to be instantiated from the controller.
-  /// - Note: This can be passed as argument of the view controller constructor.
+  /// - note: This can be passed as argument of the view controller constructor.
   public let context: UIContext
   /// The key that is going to be used for the root component.
   public let rootKey: String
@@ -15,7 +15,7 @@ open class UIComponentViewController<C: UIComponentProtocol>: UIViewController {
   public var shouldUseSafeAreaLayoutGuide: Bool = true
   /// When this is 'true' the component will invoke *setNeedsRender* during the size transition
   /// animation.
-  /// - Note: There are performance issues with this property being true for ViewControllers
+  /// - note: There are performance issues with this property being true for ViewControllers
   /// whose root component is a *UITableComponent*.
   public var shouldRenderAlongsideSizeTransitionAnimation: Bool = false
 

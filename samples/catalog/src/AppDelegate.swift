@@ -23,7 +23,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 extension UIComponentViewController {
 
   func styleNavigationBar() {
-    let title = string(fromType: self).replacingOccurrences(of: "ViewController", with: "")
+    let title = string(fromType: type(of: self)).replacingOccurrences(of: "ViewController", with:"")
     view.backgroundColor = Palette.primary.color
     navigationItem.title = title
     let vc = self

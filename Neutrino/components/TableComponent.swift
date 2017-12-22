@@ -160,7 +160,6 @@ public class UITableComponent<S: UIStateProtocol, P: UITableComponentProps>:
     if context === self.context {
       // TODO: Integrate IGListDiff algorithm.
       tableView?.reloadData()
-
     // Change come from one of the children component.
     } else if context === self.cellContext {
       tableView?.beginUpdates()
@@ -329,6 +328,7 @@ public class UITableComponent<S: UIStateProtocol, P: UITableComponentProps>:
     super.dispose()
     cellContext.dispose()
   }
+
 }
 
 // MARK: - UICell
@@ -394,7 +394,7 @@ public class UITableComponentCell: UITableViewCell {
   }
 
   /// Install the component passed as argument in the *UITableViewCell*'s view hierarchy.
-  /// - Note: This API is not called from *UITableComponent*.
+  /// - note: This API is not called from *UITableComponent*.
   public func install(component: UIComponentProtocol, width: CGFloat) {
     let _ = component.asNode()
     mount(component: component, width: width)

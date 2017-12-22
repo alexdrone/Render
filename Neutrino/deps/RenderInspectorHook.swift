@@ -23,10 +23,12 @@ extension UIComponent {
       self?.setNeedsRender()
     }
     center.addObserver(forName: inspectorRequest, object: nil, queue: nil) { [weak self] _ in
-      guard let `self` = self, self.parent == nil, !self.isEmbeddedInCell else {
+      guard let `self` = self, self.parent == nil else {
         return
       }
-      if let description = self.root.inspectorDescription() {
+      let addressPrefix = self.isEmbeddedInCell ? (self.key ?? "n/a") : ""
+      if let description = self.root.inspectorDescription(addressPrefix: addressPrefix),
+        !(self.root is UINilNode)  {
         NotificationCenter.default.post(name: inspectorResponse, object: description)
       }
     }
@@ -41,29 +43,37 @@ extension UIComponent {
 
 extension UINodeProtocol {
   /// Builds a XML description of the node.
-  func inspectorDescription() -> [String: Any]? {
+  func inspectorDescription(addressPrefix: String = "") -> [String: Any]? {
     var address = "nil"
     if let view = renderedView {
       address = "\(Unmanaged<AnyObject>.passUnretained(view as AnyObject).toOpaque())"
     }
-    func escapeDescription(_ string: String) -> String {
+    func escape(_ string: String) -> String {
       var result = string
       for c in ["<", ">", "\"",  "Optional"] {
         result = result.replacingOccurrences(of: c, with:  "")
       }
       return result
     }
-    let childrenDescription = (children + unmanagedChildren).filter { !($0 is UINilNode) }.map {
-      $0.inspectorDescription()
+    func escapeReuseIdentifier(_ string: String) -> String {
+      var result = string
+      for c in ["<", ">", ",", ".", " ", "_"] {
+        result = result.replacingOccurrences(of: c, with: "")
+      }
+      return result
+    }
+    let childrenDescription = (children + unmanagedChildren).filter {
+      !($0 is UINilNode) }.map {
+        $0.inspectorDescription(addressPrefix: addressPrefix)
     }
     return [
-      "id": reuseIdentifier,
+      "id": escapeReuseIdentifier(reuseIdentifier),
       "key": key ?? "",
       "type": _debugType,
-      "viewRef": address,
+      "viewRef": !addressPrefix.isEmpty ? "\(addressPrefix)_\(address)" : address,
       "frame": "\(renderedView?.frame ?? CGRect.zero)",
-      "state": _debugStateDescription,
-      "props": _debugPropDescription,
+      "state": escape(_debugStateDescription),
+      "props": escape(_debugPropDescription),
       "children": childrenDescription]
   }
 }
