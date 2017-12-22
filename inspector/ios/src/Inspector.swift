@@ -97,7 +97,6 @@ final class Inspector: InspectorType {
       buffer += desc.description
     }
     buffer += "</Application>"
-    print(buffer)
     return buffer
   }
   private var timer: Timer?

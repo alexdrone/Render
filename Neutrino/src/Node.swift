@@ -486,15 +486,11 @@ public func UINodeReuseIdentifierMake<V>(type: V.Type, identifier: String? = nil
   let blacklist: ContiguousArray<Character> = ["<", ">", " ", "."]
   var result = prefix
   if let identifier = identifier {
-    result = "\(prefix)_\(identifier)"
+    result = identifier
   }
   var buffer = ContiguousArray<Character>(repeatElement(" ", count: result.count))
-  for char in result {
-    if !blacklist.contains(char) {
-      buffer.append(char)
-    } else {
-      buffer.append("_")
-    }
+  for char in result where !blacklist.contains(char) {
+    buffer.append(char)
   }
   return String(buffer)
 }
