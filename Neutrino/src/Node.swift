@@ -482,9 +482,8 @@ public class UINode<V: UIView>: UINodeProtocol {
 
 /// Make a reuse identifier string given a type and a custom marker.
 public func UINodeReuseIdentifierMake<V>(type: V.Type, identifier: String? = nil) -> String {
-  let prefix = String(describing: V.self)
   let blacklist: ContiguousArray<Character> = ["<", ">", " ", "."]
-  var result = prefix
+  var result = String(describing: V.self)
   if let identifier = identifier {
     result = identifier
   }
@@ -500,7 +499,7 @@ public func UINodeReuseIdentifierMake<V>(type: V.Type, identifier: String? = nil
 /// Represent an empty node.
 /// - note: Use this when you want to return an empty child in some conditions.
 public class UINilNode: UINode<UIView> {
-  static let `nil` = UINilNode()
+  public static let `nil` = UINilNode()
 
   public override var reuseIdentifier: String {
     get { return "NilNode" }

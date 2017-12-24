@@ -29,3 +29,4 @@ Margin:
 
 import:
   - components/counter.yaml
+  - components/post.yaml

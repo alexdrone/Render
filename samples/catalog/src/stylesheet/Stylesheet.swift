@@ -36,3 +36,20 @@ enum Margin: String, UIStylesheet {
   case large
 }
 
+enum FacebookPalette: String, UIStylesheet {
+  static var styleIdentifier: String = "FacebookPalette"
+  case white
+  case blue
+  case lightGray
+  case gray
+  case black
+}
+
+enum FacebookTypography: String, UIStylesheet {
+  static var styleIdentifier: String = "FacebookTypography"
+  case title
+  case caption
+  case text
+  case button
+  case small
+}

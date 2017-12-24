@@ -603,6 +603,7 @@ public struct UIStylesheetExpression {
       NSLineBreakMode.export()
       UIImageOrientation.export()
       UIImageResizingMode.export()
+      UIViewContentMode.export()
     }
     return Expression(string,
                       options: [Expression.Options.boolSymbols, Expression.Options.pureSymbols],
@@ -681,3 +682,24 @@ extension UIImageResizingMode: UIStylesheetRepresentableEnum {
       "\(namespace).stretch": Double(UIImageResizingMode.stretch.rawValue)]
   }
 }
+
+extension UIViewContentMode: UIStylesheetRepresentableEnum {
+  public static func expressionConstants() -> [String : Double] {
+    let namespace = "UIViewContentMode"
+    return [
+      "\(namespace).scaleToFill": Double(UIViewContentMode.scaleToFill.rawValue),
+      "\(namespace).scaleAspectFit": Double(UIViewContentMode.scaleAspectFit.rawValue),
+      "\(namespace).scaleAspectFill": Double(UIViewContentMode.scaleAspectFill.rawValue),
+      "\(namespace).redraw": Double(UIViewContentMode.redraw.rawValue),
+      "\(namespace).center": Double(UIViewContentMode.center.rawValue),
+      "\(namespace).top": Double(UIViewContentMode.top.rawValue),
+      "\(namespace).bottom": Double(UIViewContentMode.bottom.rawValue),
+      "\(namespace).left": Double(UIViewContentMode.left.rawValue),
+      "\(namespace).right": Double(UIViewContentMode.right.rawValue),
+      "\(namespace).topLeft": Double(UIViewContentMode.topLeft.rawValue),
+      "\(namespace).topRight": Double(UIViewContentMode.topRight.rawValue),
+      "\(namespace).bottomLeft": Double(UIViewContentMode.bottomLeft.rawValue),
+      "\(namespace).bottomRight": Double(UIViewContentMode.bottomRight.rawValue)]
+  }
+}
+

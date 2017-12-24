@@ -7,6 +7,10 @@ class IndexViewController: UIComponentViewController<Index.Component> {
     let props = Index.Props()
     props.titles = [
       Index.CellProps(
+        title: "Facebook Post Example",
+        subtitle: "A single post component.",
+        onCellSelected: presentSinglePostComponentExample),
+      Index.CellProps(
         title: "Card Example",
         subtitle: "A complex stateful component.",
         onCellSelected: presentAppStoreEntryComponentExample),
@@ -20,6 +24,10 @@ class IndexViewController: UIComponentViewController<Index.Component> {
         onCellSelected: presentStylesheetCounterExample),
     ]
     return context.component(Index.Component.self, key: rootKey, props: props)
+  }
+
+  private func presentSinglePostComponentExample() {
+    navigationController?.pushViewController(SinglePostViewController(), animated: true)
   }
 
   private func presentAppStoreEntryComponentExample() {

@@ -1,6 +1,7 @@
 import UIKit
 
-open class UIComponentViewController<C: UIComponentProtocol>: UIViewController {
+open class UIComponentViewController<C: UIComponentProtocol>: UIViewController,
+                                                              UINodeDelegateProtocol {
   /// The context for the component hierarchy that is going to be instantiated from the controller.
   /// - note: This can be passed as argument of the view controller constructor.
   public let context: UIContext
@@ -9,7 +10,9 @@ open class UIComponentViewController<C: UIComponentProtocol>: UIViewController {
   /// The root component for this viewController.
   public var component: C!
   /// The target canvas view for the root component.
-  public let canvasView: UIView = UIView()
+  public lazy var canvasView: UIView = {
+    return buildCanvasView()
+  }()
   /// The layout guide representing the portion of your view that is unobscured by bars
   /// and other content.
   public var shouldUseSafeAreaLayoutGuide: Bool = true
@@ -44,6 +47,11 @@ open class UIComponentViewController<C: UIComponentProtocol>: UIViewController {
   deinit {
     context.dispose()
     logDealloc(type: String(describing: type(of: self)), object: self)
+  }
+
+  /// Builds the canvas view for the root component.
+  open func buildCanvasView() -> UIView {
+    return UIView()
   }
 
   /// Subclasses should override this method and constructs the root component by using the
@@ -103,5 +111,20 @@ open class UIComponentViewController<C: UIComponentProtocol>: UIViewController {
     }) { _ in
       component.setNeedsRender(options: [])
     }
+  }
+
+  /// The backing view of *node* just got rendered and added to the view hierarchy.
+  /// - parameter view: The view that just got installed in the view hierarchy.
+  open func nodeDidMount(_ node: UINodeProtocol, view: UIView) { }
+
+  /// The backing view of *node* is about to be layed out.
+  /// - parameter view: The view that is about to be configured and layed out.
+  open func nodeWillLayout(_ node: UINodeProtocol, view: UIView) {  }
+
+  /// The backing view of *node* just got layed out.
+  /// - parameter view: The view that has just been configured and layed out.
+  open func nodeDidLayout(_ node: UINodeProtocol, view: UIView) {
+    guard let scrollView = self.canvasView as? UIScrollView else { return }
+    scrollView.adjustContentSizeAfterComponentDidRender()
   }
 }

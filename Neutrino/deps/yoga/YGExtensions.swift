@@ -83,7 +83,7 @@ extension YGDisplay: UIStylesheetRepresentableEnum {
   public static func expressionConstants() -> [String : Double] { return [:] }
 }
 
-protocol UIPostRendering {
+public protocol UIPostRendering {
   /// content-size calculation for the scrollview should be applied after the layout.
   /// This is called after the scroll view is rendered.
   /// TableViews and CollectionViews are excluded from this post-render pass.
@@ -91,7 +91,12 @@ protocol UIPostRendering {
 }
 
 extension UIScrollView: UIPostRendering {
-  func postRender() {
+
+  public func adjustContentSizeAfterComponentDidRender() {
+    postRender()
+  }
+
+  public func postRender() {
     // Performs the change on the next runloop.
     DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0) {
       if let _ = self as? UITableView { return }
