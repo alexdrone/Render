@@ -11,6 +11,10 @@ class IndexViewController: UIComponentViewController<Index.Component> {
         subtitle: "A single post component.",
         onCellSelected: presentSinglePostComponentExample),
       Index.CellProps(
+        title: "Facebook Feed Example",
+        subtitle: "A list of posts.",
+        onCellSelected: presentFeedComponentExample),
+      Index.CellProps(
         title: "Card Example",
         subtitle: "A complex stateful component.",
         onCellSelected: presentAppStoreEntryComponentExample),
@@ -28,6 +32,10 @@ class IndexViewController: UIComponentViewController<Index.Component> {
 
   private func presentSinglePostComponentExample() {
     navigationController?.pushViewController(SinglePostViewController(), animated: true)
+  }
+
+  private func presentFeedComponentExample() {
+    navigationController?.pushViewController(FeedViewController(), animated: true)
   }
 
   private func presentAppStoreEntryComponentExample() {

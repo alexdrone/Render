@@ -50,8 +50,8 @@ extension UINodeProtocol {
     }
     func escape(_ string: String) -> String {
       var result = string
-      for c in ["<", ">", "\"",  "Optional"] {
-        result = result.replacingOccurrences(of: c, with:  "")
+      for c in [("<", "&lt;"), (">", "&gt;"), ("&", "&amp;"), ("\"", "&quot;"), ("Optional","")] {
+        result = result.replacingOccurrences(of: c.0, with:  c.1)
       }
       return result
     }
@@ -77,8 +77,6 @@ extension UINodeProtocol {
       "children": childrenDescription]
   }
 }
-
-public let UINodeInspectorDefaultDelimiters: String = "__"
 
 // MARK: - KeyCommands
 // forked from: Augustyniak/KeyCommands by Rafal Augustyniak

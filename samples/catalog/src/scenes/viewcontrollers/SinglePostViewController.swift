@@ -28,14 +28,16 @@ class SinglePostViewController: UIComponentViewController<Post.PostComponent>,
     shouldRenderAlongsideSizeTransitionAnimation = true
     styleNavigationBar()
   }
+}
 
+extension PostComponentDelegate {
   /// Fetches the comments associated to this post.
   func fetchComments(component: Post.PostComponent, post: Post.PostProps) {
     // Render the *fetching* state.
     post.fetchStatus = .fetching
     component.setNeedsRender(options: [
       .animateLayoutChanges(animator: component.defaultAnimator())
-    ])
+      ])
     // Creates some fake comments.
     var comments: [Post.CommentProps] = []
     for _ in 0...post.numberOfComments { comments.append(Post.CommentProps()) }
@@ -45,7 +47,8 @@ class SinglePostViewController: UIComponentViewController<Post.PostComponent>,
       post.fetchStatus = .fetched
       component.setNeedsRender(options: [
         .animateLayoutChanges(animator: component.defaultAnimator())
-      ])
+        ])
     }
   }
 }
+

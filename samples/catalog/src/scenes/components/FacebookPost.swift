@@ -33,17 +33,17 @@ struct Post {
     var text: String = Random.sentence()
   }
 
-  class State: UIState {
+  class PostState: UIState {
     var commentsExpanded: Bool = false
     var attachmentExpanded: Bool = false
   }
 
-  class PostComponent: UIComponent<State, PostProps> {
+  class PostComponent: UIComponent<PostState, PostProps> {
 
+    /// Builds the node hierarchy for this component.
     override func render(context: UIContextProtocol) -> UINodeProtocol {
       // Styles.
       let wrapperStyle = style("wrapper")
-
       return UINode<UIView>(reuseIdentifier: wrapperStyle, styles: [wrapperStyle]).children([
         makeHeaderFragment(),
         makeBodyFragment(),
@@ -126,6 +126,7 @@ struct Post {
 
     // Render the comment section according to the current *fetchStatus*.
     private func makeCommentsFragment() -> UINodeProtocol {
+      guard let context = context else { return UINilNode.nil }
       let props = self.props
       // Styles.
       let commentsSpinnerStyle = style("commentsSpinner")
@@ -140,13 +141,24 @@ struct Post {
         }
       case .fetched:
         let wrapper = UINode<UIView>(styles: [commentsWrapperStyle])
-        wrapper.children(props.comments.map { makeCommentFragment($0) })
+        wrapper.children(props.comments.map {
+          context.transientComponent(CommentComponent.self,
+                                     props: $0,
+                                     parent: self).asNode()
+        })
         return wrapper
       }
     }
 
-    // Render a single comment fragment.
-    private func makeCommentFragment(_ comment: CommentProps) -> UINodeProtocol {
+    func defaultAnimator() -> UIViewPropertyAnimator {
+      return UIViewPropertyAnimator(duration: 0.6, dampingRatio: 0.6, animations: nil)
+    }
+  }
+
+  class CommentComponent: UIComponent<UINilState, CommentProps> {
+    /// Builds the node hierarchy for this component.
+    override func render(context: UIContextProtocol) -> UINodeProtocol {
+      let props = self.props
       // Styles.
       let commentStyle = style("comment")
       let commentAuthorStyle = style("commentAuthor")
@@ -154,16 +166,12 @@ struct Post {
 
       return UINode<UIView>(reuseIdentifier: commentStyle, styles: [commentStyle]).children([
         UINode<UILabel>(styles: [commentAuthorStyle]) {
-          $0.set(\UILabel.text, comment.author)
+          $0.set(\UILabel.text, props.author)
         },
         UINode<UILabel>(styles: [commentLabelStyle]) {
-          $0.set(\UILabel.text, comment.text)
+          $0.set(\UILabel.text, props.text)
         }
       ])
-    }
-
-    func defaultAnimator() -> UIViewPropertyAnimator {
-      return UIViewPropertyAnimator(duration: 0.6, dampingRatio: 0.6, animations: nil)
     }
   }
 }

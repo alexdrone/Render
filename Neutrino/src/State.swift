@@ -27,14 +27,14 @@ public protocol ReflectedStringConvertible : CustomStringConvertible {}
 extension ReflectedStringConvertible {
   /// Returns a representation of the state in the form:
   /// Type(prop1: 'value', prop2: 'value'..)
-  func reflectionDescription(escape: String = "") -> String {
+  func reflectionDescription() -> String {
     let mirror = Mirror(reflecting: self)
     var str = ""
     var first = true
     for (label, value) in mirror.children {
       if let label = label {
         if first { first = false } else {  str += ", "  }
-        str += "\(escape)\(label)\(escape): \(escape)\(value)\(escape)"
+        str += "\(label): \(value)"
       }
     }
     return "{ \(str) }"
