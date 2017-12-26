@@ -15,6 +15,7 @@
 		16108BA11FDDD1C700CD9E9A /* StylesheetTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16108B9F1FDDD1BC00CD9E9A /* StylesheetTests.swift */; };
 		161260861FB4E92F00524869 /* NodeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 161260851FB4E92F00524869 /* NodeTests.swift */; };
 		161260881FB4E92F00524869 /* RenderNeutrino.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16F36BE21F8E197A00A04BE6 /* RenderNeutrino.framework */; };
+		16458EE91FF29133003FE6EE /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16458EE81FF29133003FE6EE /* TableViewController.swift */; };
 		1648A1EC1FB505F400245AFA /* ContextTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1648A1EB1FB505F400245AFA /* ContextTests.swift */; };
 		165300BD1FD6D44C00A7BAB0 /* Debug.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165300BC1FD6D44C00A7BAB0 /* Debug.swift */; };
 		1656BAF61F9F750E009F561F /* TableComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1656BAF51F9F750E009F561F /* TableComponent.swift */; };
@@ -72,6 +73,7 @@
 		161260831FB4E92E00524869 /* Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		161260851FB4E92F00524869 /* NodeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NodeTests.swift; sourceTree = "<group>"; };
 		161260871FB4E92F00524869 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		16458EE81FF29133003FE6EE /* TableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewController.swift; sourceTree = "<group>"; };
 		1648A1EB1FB505F400245AFA /* ContextTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContextTests.swift; sourceTree = "<group>"; };
 		165300BC1FD6D44C00A7BAB0 /* Debug.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Debug.swift; sourceTree = "<group>"; };
 		1656BAF51F9F750E009F561F /* TableComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableComponent.swift; sourceTree = "<group>"; };
@@ -186,6 +188,15 @@
 			path = tests;
 			sourceTree = "<group>";
 		};
+		16458EE71FF2910B003FE6EE /* vcs */ = {
+			isa = PBXGroup;
+			children = (
+				167070231FB8C232008DFC5B /* ViewController.swift */,
+				16458EE81FF29133003FE6EE /* TableViewController.swift */,
+			);
+			path = vcs;
+			sourceTree = "<group>";
+		};
 		1656BAF41F9F74DE009F561F /* components */ = {
 			isa = PBXGroup;
 			children = (
@@ -211,6 +222,7 @@
 				16F36BE41F8E197A00A04BE6 /* src */,
 				1656BAF41F9F74DE009F561F /* components */,
 				16108B9A1FDC80DE00CD9E9A /* stylesheet */,
+				16458EE71FF2910B003FE6EE /* vcs */,
 				161260841FB4E92E00524869 /* tests */,
 				16F36BE31F8E197A00A04BE6 /* Products */,
 			);
@@ -236,7 +248,6 @@
 				16CEC0151F9A125C003D3D21 /* Props.swift */,
 				16F36BEF1F8E1A4700A04BE6 /* State.swift */,
 				16FD2DA91FB100A1005C2F9F /* Geometry.swift */,
-				167070231FB8C232008DFC5B /* ViewController.swift */,
 			);
 			path = src;
 			sourceTree = "<group>";
@@ -410,6 +421,7 @@
 				16108B9E1FDDD1A700CD9E9A /* StylesheetManager.swift in Sources */,
 				16AA95F11FA3310600EAC136 /* Yoga.c in Sources */,
 				16AA95EA1FA3310600EAC136 /* YGLayout.m in Sources */,
+				16458EE91FF29133003FE6EE /* TableViewController.swift in Sources */,
 				167B537A1FABB7A400AF6798 /* YGRenderAdditions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -39,8 +39,10 @@ struct Index {
         UINode<UIView> { config in
           // Ensure the label container is center aligned.
           config.set(\UIView.yoga.justifyContent, .center)
+          config.set(\UIView.yoga.flexGrow, 1)
+          config.set(\UIView.yoga.flexShrink, 1)
         }.children([
-            label(text: props.title),
+            label(text: props.title, bold: true),
             label(text: props.subtitle),
           ])
       ])
@@ -60,8 +62,8 @@ struct Index {
       configuration.view.depthPreset = props.isHighlighted ? .depth2 : .none
     }
 
-    private func label(text: String) -> UINode<UILabel> {
-      let font = props.isHighlighted ? Typography.smallBold.font : Typography.small.font
+    private func label(text: String, bold: Bool = false) -> UINode<UILabel> {
+      let font = (props.isHighlighted || bold) ? Typography.smallBold.font : Typography.small.font
       return UINode<UILabel> { configuration in
         configuration.set(\UILabel.text, text)
         configuration.set(\UILabel.numberOfLines, 0)

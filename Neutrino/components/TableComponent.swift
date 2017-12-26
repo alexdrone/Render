@@ -380,9 +380,16 @@ extension UIComponent {
 
 // MARK: - UITableViewComponentCell
 
+public protocol UITableComponentCellDelegate: class {
+  /// The cell is about to be reused.
+  /// - Note: This is the entry point for unmounting the component (if necessary).
+  func cellWillPrepareForReuse(cell: UITableComponentCell)
+}
+
 public class UITableComponentCell: UITableViewCell {
   /// The node currently associated to this view.
   public var component: UIComponentProtocol?
+  public weak var delegate: UITableComponentCellDelegate?
 
   public override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
     super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -391,6 +398,11 @@ public class UITableComponentCell: UITableViewCell {
 
   public required init?(coder aDecoder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
+  }
+
+  /// Prepares a reusable cell for reuse by the table view's delegate.
+  public override func prepareForReuse() {
+    delegate?.cellWillPrepareForReuse(cell: self)
   }
 
   /// Install the component passed as argument in the *UITableViewCell*'s view hierarchy.

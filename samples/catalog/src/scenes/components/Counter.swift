@@ -3,33 +3,29 @@ import RenderNeutrino
 
 struct StylesheetCounter {
 
-  struct Style {
-    static let namespace = "Counter"
-    static let wrapper = UIStyle.make(Style.namespace, "wrapper")
-    static let label = UIStyle.make(Style.namespace, "label")
-    static let button = UIStyle.make(Style.namespace, "button")
-    struct Modifier {
-      static let even = "even"
-    }
-  }
-
   class State: UIState {
     var counter: Int = 0
+    var even: Bool { return counter % 2 == 0 }
   }
 
   class Component: UIComponent<State, UINilProps> {
-
     override func render(context: UIContextProtocol) -> UINodeProtocol {
-      return UINode<UIView>(styles: [Style.wrapper]).children([
-        UINode<UILabel>(styles: [Style.label], configure: configureLabel),
-        UINode<UIButton>(styles: Style.button.withModifiers([
-          Style.Modifier.even: state.counter % 2 == 0 ]),
+      // Styles.
+      let namespace = "Counter"
+      let wrapperStyle = UIStyle.make(namespace, "wrapper")
+      let labelStyle = UIStyle.make(namespace, "label")
+      let buttonStyle = UIStyle.make(namespace, "button")
+
+      return UINode<UIView>(styles: [wrapperStyle]).children([
+        UINode<UILabel>(styles: [labelStyle], configure: configureLabel),
+        UINode<UIButton>(styles: buttonStyle.withModifiers(["even": state.even]),
                          configure: configureButton)
       ])
     }
 
     private func configureLabel(configuration: UINode<UILabel>.Configuration) {
-      configuration.set(\UILabel.text, "Counter: \(self.state.counter)")
+      let text = self.state.even ? "Even" : "Odd"
+      configuration.set(\UILabel.text, "\(text): \(self.state.counter)")
     }
 
     private func configureButton(configuration: UINode<UIButton>.Configuration) {

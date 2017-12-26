@@ -435,11 +435,18 @@ public class UIStylesheetRule: CustomStringConvertible {
         throw ParseError.illegalNumberOfArguments(function: Token.fontFunction)
       }
       let size: CGFloat = CGFloat(parse(numberFromString: args[1]).floatValue)
-
       if args.count == 3 {
-        let weight = parse(numberFromString: args[2]).floatValue
-        return (.font, UIFont.systemFont(ofSize: size,
-                                         weight: UIFont.Weight(rawValue: CGFloat(weight))))
+        let weights = [
+          "ultralight": CGFloat(-0.800000011920929),
+          "thin": CGFloat(-0.600000023841858),
+          "light": CGFloat(-0.400000005960464),
+          "medium": CGFloat(0.230000004172325),
+          "semibold": CGFloat(0.300000011920929),
+          "bold": CGFloat(0.400000005960464),
+          "heavy": CGFloat(0.560000002384186),
+          "black": CGFloat(0.620000004768372)]
+        let weight = UIFont.Weight(rawValue: weights[args[2]] ?? 0)
+        return (.font, UIFont.systemFont(ofSize: size, weight: weight))
       }
       return (.font, args[0].lowercased() == "system" ?
         UIFont.systemFont(ofSize: size) : UIFont(name:  args[0], size: size))
@@ -560,15 +567,6 @@ public struct UIStylesheetExpression {
     "noWrap": Double(0),
     "wrap": Double(1),
     "wrapReverse": Double(2),
-    // Font Weigths.
-    "ultralight": Double(-0.800000011920929),
-    "thin": Double(-0.600000023841858),
-    "light": Double(-0.400000005960464),
-    "medium": Double(0.230000004172325),
-    "semibold": Double(0.300000011920929),
-    "bold": Double(0.400000005960464),
-    "heavy": Double(0.560000002384186),
-    "black": Double(0.620000004768372),
   ]
   static private let defaultSymbols: [Expression.Symbol: Expression.Symbol.Evaluator] = [
     .variable("idiom"): { _ in

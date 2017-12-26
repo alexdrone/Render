@@ -200,7 +200,8 @@ open class UIComponent<S: UIStateProtocol, P: UIPropsProtocol>: NSObject, UIComp
       return
     }
     guard let context = context, let view = canvasView else {
-      fatalError("Attempting to render a component without a canvas view and/or a context.")
+      warn("Attempting to render a component without a canvas view and/or a context.")
+      return
     }
     // Updates the context's screen state.
     context._screenStateFactory.bounds = renderSize()

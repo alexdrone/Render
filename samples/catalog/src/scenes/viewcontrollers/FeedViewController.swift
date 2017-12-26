@@ -5,7 +5,7 @@ class FeedViewController: UIComponentViewController<Feed.FeedComponent>,
                           PostComponentDelegate {
   lazy var feed: Feed.FeedProps = {
     var posts: [Post.PostProps] = []
-    for _ in 0...10 {
+    for _ in 0...99 {
       let post = Post.PostProps()
       post.delegate = self
       posts.append(post)
