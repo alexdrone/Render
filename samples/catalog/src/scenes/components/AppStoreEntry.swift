@@ -58,7 +58,7 @@ struct AppStoreEntry {
     // MARK: - Containers
 
     private func configureMainView(configuration: UINode<UIView>.Configuration) {
-      configuration.set(\UIView.backgroundColor, Palette.secondary.color)
+      configuration.set(\UIView.backgroundColor, Palette.primary.color)
     }
 
     // The main content view with the entry background image.
@@ -118,6 +118,7 @@ struct AppStoreEntry {
     private func configureLabel(configuration: UINode<UILabel>.Configuration) {
       let font: UIFont = state.expanded ? Typography.mediumBold.font : Typography.medium.font
       configuration.set(\UILabel.yoga.height, 32)
+      configuration.set(\UILabel.yoga.width, 256)
       configuration.set(\UILabel.font, font)
       configuration.set(\UILabel.textColor, Palette.white.color)
     }

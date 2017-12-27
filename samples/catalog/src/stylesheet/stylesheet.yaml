@@ -5,12 +5,8 @@ Palette:
   secondary: &_secondary "#302e31"
   accent: &_accent "#41403c"
   accentText: &_accentText "#56554e"
-  green: &_green "#5B654f"
-  pink: &_pink "#5f4A53"
   text: &_text "#0d1b1e"
   white: &_white "#eaeaea"
-  blue: &_blue "#413d4c"
-  navigationBar: *_primaryAccent
 
 Typography:
   extraSmallBold: &_extraSmallBold font(system,10,bold)

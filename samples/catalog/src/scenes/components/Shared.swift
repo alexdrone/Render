@@ -1,7 +1,7 @@
 import UIKit
 import RenderNeutrino
 
-func makePolygon() -> UINodeProtocol {
+func makePolygon() -> UINode<UIPolygonView> {
   // By using the create closure instead of the configuration one, the view settings are
   // applied only once.
   // - note: You need to specify a custom 'reuseIdentifier.

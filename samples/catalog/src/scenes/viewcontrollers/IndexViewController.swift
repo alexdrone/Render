@@ -13,14 +13,14 @@ class IndexViewController: UIComponentViewController<Index.Component> {
       Index.CellProps(
         title: "Facebook Feed with Table Controller",
         subtitle: """
-        A list of posts implemented using a UITableComponentViewController.
-        This is offer a more low-level control over some of the UITableView primitives.
+        A list of posts implemented using UITableComponentViewController
+        for low-level control over UITableView primitives.
         """,
         onCellSelected: presentFeedWithTableViewControllerComponentExample),
       Index.CellProps(
         title: "Facebook Feed with Table Component",
         subtitle: """
-        A list of posts implemented using the UITableComponent, a component-oriented abstraction
+        A list of posts implemented using UITableComponent, a component-oriented abstraction
         around UITableView.
         """,
         onCellSelected: presentFeedComponentExample),
