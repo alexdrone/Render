@@ -51,6 +51,9 @@ public protocol UIContextProtocol: Disposable {
   /// Gets rid of the obsolete states.
   /// - parameter validKeys: The keys for the components currently rendered on screen.
   func flushObsoleteState(validKeys: Set<String>)
+  // Prevent *beginUpdates()* and *endUpdates()* to be called on the table view on this instance
+  // of render.
+  var _preventTableUpdates: Bool { get set }
   // *Internal only* component construction sanity check.
   var _componentInitFromContext: Bool { get}
   // *Internal only* true is suspendComponentRendering has been called on this context.
@@ -86,6 +89,7 @@ public class UIContext: UIContextProtocol {
   public lazy var _screenStateFactory: UIScreenStateFactory = {
     return UIScreenStateFactory(canvasViewProvider: { [weak self] in return self?._canvasView })
   }()
+  public var _preventTableUpdates: Bool = false
   // Sanity check for context initialization.
   public var _componentInitFromContext: Bool = false
   // Associated a parent context.

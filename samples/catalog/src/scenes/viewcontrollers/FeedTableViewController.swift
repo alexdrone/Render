@@ -4,13 +4,14 @@ import RenderNeutrino
 class FeedTableViewController: UITableComponentViewController, PostComponentDelegate {
   /// The model props to pass down to the component.
   lazy var posts: [Post.PostProps] = {
-    var posts: [Post.PostProps] = Array(0...20).map { _ in
+    var posts: [Post.PostProps] = Array(0...100).map { _ in
       let post = Post.PostProps()
       post.delegate = self
       return post
     }
     return posts
   }()
+
 
   /// Tells the data source to return the number of rows in a given section of a table view.
   override func numberOfComponents(in section: Int) -> Int {
@@ -36,5 +37,6 @@ class FeedTableViewController: UITableComponentViewController, PostComponentDele
   /// Called after the controller's view is loaded into memory.
   override func viewDidLoad() {
     super.viewDidLoad()
+    shouldApplyDefaultScrollRevealAnimation = true
   }
 }

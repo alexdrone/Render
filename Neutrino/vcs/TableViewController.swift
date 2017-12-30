@@ -5,10 +5,15 @@ import UIKit
 open class UITableComponentViewController: UITableViewController,
                                            UINodeDelegateProtocol,
                                            UITableComponentCellDelegate {
+  /// Fades in the content of the cell when the scroll reveals it.
+  /// - Note: Defaul is 'true'.
+  public var shouldApplyDefaultScrollRevealAnimation: Bool = false
   /// The context for the component hierarchy that is going to be instantiated from the controller.
   /// - note: This can be passed as argument of the view controller constructor.
   public let context: UIContext
   private let proxyTableView: UIView = UIView()
+  private var heightCache: [Int: CGFloat] = [:]
+  private var skipNodeDidLayout = Set<Int>()
 
   public override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
     context = UIContext()
@@ -117,17 +122,51 @@ open class UITableComponentViewController: UITableViewController,
 
   /// The backing view of *node* just got rendered and added to the view hierarchy.
   /// - parameter view: The view that just got installed in the view hierarchy.
-  open func nodeDidMount(_ node: UINodeProtocol, view: UIView) { }
+  open func nodeDidMount(_ node: UINodeProtocol, view: UIView) {
+    guard shouldApplyDefaultScrollRevealAnimation else { return }
+
+    if tableView.isDragging || tableView.isDecelerating {
+      let alpha = view.alpha
+      view.alpha = 0
+      UIView.animate(withDuration: 0.6,
+                     delay: 0,
+                     options: [.allowUserInteraction, .beginFromCurrentState],
+                     animations: { view.alpha = alpha },
+                     completion: { _ in view.alpha = alpha })
+    }
+  }
 
   /// The backing view of *node* is about to be layed out.
   /// - parameter view: The view that is about to be configured and layed out.
   open func nodeWillLayout(_ node: UINodeProtocol, view: UIView) {
+    let old = heightCache[view.tag] ?? CGFloat.undefined
+    guard old != view.bounds.size.height else {
+      skipNodeDidLayout.insert(view.tag)
+      return
+    }
+    heightCache[view.tag] = view.bounds.size.height
+    guard !context._preventTableUpdates else {
+      return
+    }
+    // This is to mitigate rdar://19581195
+    // Self sizing table view cells jump when scrolling up.
+    CATransaction.begin()
+    CATransaction.setValue(kCFBooleanTrue, forKey: kCATransactionDisableActions)
     tableView.beginUpdates()
   }
 
   /// The backing view of *node* just got layed out.
   /// - parameter view: The view that has just been configured and layed out.
   open func nodeDidLayout(_ node: UINodeProtocol, view: UIView) {
+    guard !skipNodeDidLayout.contains(view.tag) else {
+      skipNodeDidLayout.remove(view.tag)
+      return
+    }
+    guard !context._preventTableUpdates else {
+      context._preventTableUpdates = false
+      return
+    }
     tableView.endUpdates()
+    CATransaction.commit()
   }
 }

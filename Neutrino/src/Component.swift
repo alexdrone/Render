@@ -62,6 +62,9 @@ public enum UIComponentRenderOption {
   /// like for example in *UITableComponent* or *UICollectionComponent*.
   /// Creating your own nested contexts is discouraged.
   case propagateToParentContext
+  /// Prevent *beginUpdates()* and *endUpdates()* to be called on the table view on this instance
+  /// of render.
+  case preventTableUpdates
 }
 
 // MARK: - UIComponent
@@ -100,7 +103,6 @@ open class UIComponent<S: UIStateProtocol, P: UIPropsProtocol>: NSObject, UIComp
         fatalError("Attempting to access the state of a key-less component.")
       }
       context?.pool.store(key: key, state: state)
-      setNeedsRender()
     }
   }
   /// Use props to pass data & event handlers down to your child components.
@@ -223,6 +225,8 @@ open class UIComponent<S: UIStateProtocol, P: UIPropsProtocol>: NSObject, UIComp
         layoutAnimator = animator
       case .propagateToParentContext:
         propagateToParentContext = true
+      case .preventTableUpdates:
+        context._preventTableUpdates = true
       }
     }
 

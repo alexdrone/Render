@@ -40,7 +40,7 @@ extension PostComponentDelegate {
       ])
     // Creates some fake comments.
     var comments: [Post.CommentProps] = []
-    for _ in 0...post.numberOfComments { comments.append(Post.CommentProps()) }
+    for _ in 0..<post.numberOfComments { comments.append(Post.CommentProps()) }
     post.comments = comments
     // Simulate some loading time and then renders the *fetched* state.
     DispatchQueue.main.asyncAfter(deadline: .now() + 2) {

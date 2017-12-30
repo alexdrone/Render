@@ -162,8 +162,10 @@ public class UITableComponent<S: UIStateProtocol, P: UITableComponentProps>:
       tableView?.reloadData()
     // Change come from one of the children component.
     } else if context === self.cellContext {
-      tableView?.beginUpdates()
-      tableView?.endUpdates()
+      disableImplicitAnimations {
+        tableView?.beginUpdates()
+        tableView?.endUpdates()
+      }
     }
   }
 
@@ -239,6 +241,7 @@ public class UITableComponent<S: UIStateProtocol, P: UITableComponentProps>:
     return cv.bounds.size.height + cv.yoga.marginTop.normal + cv.yoga.marginBottom.normal
   }
 
+  // Mitigation for rdar://19581195
   private func disableImplicitAnimations(closure: () -> Void) {
     UIView.performWithoutAnimation {
       CATransaction.begin()
