@@ -24,7 +24,7 @@ struct Index {
     }
 
     private func configureContentView(configuration: UINode<UIView>.Configuration) {
-      let animator = UIViewPropertyAnimator(duration: 0.3, curve: .easeIn, animations: nil)
+      let animator = UIViewPropertyAnimator(duration: 0.6, curve: .easeIn, animations: nil)
       let bkg = props.isHighlighted ? Palette.primaryAccent.color : Palette.primary.color
       /// Animates the background color when the cell is selected.
       configuration.set(\UIView.yoga.flexDirection, .row)
@@ -38,11 +38,10 @@ struct Index {
     }
 
     private func label(text: String, bold: Bool = false) -> UINode<UILabel> {
-      let font = (props.isHighlighted || bold) ? Typography.smallBold.font : Typography.small.font
       return UINode<UILabel> { configuration in
         configuration.set(\UILabel.text, text)
         configuration.set(\UILabel.numberOfLines, 0)
-        configuration.set(\UILabel.font, font)
+        configuration.set(\UILabel.font, Typography.small.font)
         configuration.set(\UILabel.textColor, Palette.white.color)
         configuration.set(\UILabel.yoga.margin, Margin.xsmall.cgFloat)
       }

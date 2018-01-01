@@ -15,7 +15,8 @@ open class UITableComponentViewController: UITableViewController,
   // Private.
   private let proxyTableView: UIView = UIView()
   private var currentCellHeights: [Int: CGFloat] = [:]
-  private var shouldSkipNodeLayoutCallbacks = Set<Int>()
+  private var skippedNodesFromLayoutCallbacks = Set<Int>()
+  private var shouldSkipAllLayoutCallbacks: Bool = false
 
   public override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
     context = UICellContext()
@@ -56,6 +57,19 @@ open class UITableComponentViewController: UITableViewController,
   /// Reloads the rows and sections of the table view.
   open func reloadData() {
     tableView.reloadData()
+  }
+
+  /// Render the components visible on screen with the 'options' passed as argument.
+  /// - parameter invalidateTableViewLayout: 'true' if you want to force the *UITableView* to
+  /// recompute its cells heights, 'false' otherwise.
+  open func setNeedsRenderVisibleComponents(options: [UIComponentRenderOption] = [],
+                                            invalidateTableViewLayout: Bool = false) {
+    let components = context.pool.allComponent().filter { $0.canvasView != nil }
+    shouldSkipAllLayoutCallbacks = !invalidateTableViewLayout
+    for component in components {
+      component.setNeedsRender(options: options)
+    }
+    shouldSkipAllLayoutCallbacks = false
   }
 
   // MARK: - UIViewController Lifecycle
@@ -166,9 +180,12 @@ open class UITableComponentViewController: UITableViewController,
   /// The backing view of *node* is about to be layed out.
   /// - parameter view: The view that is about to be configured and layed out.
   open func nodeWillLayout(_ node: UINodeProtocol, view: UIView) {
+    guard !shouldSkipAllLayoutCallbacks else {
+      return
+    }
     let old = currentCellHeights[view.tag] ?? CGFloat.undefined
     guard old != view.bounds.size.height else {
-      shouldSkipNodeLayoutCallbacks.insert(view.tag)
+      skippedNodesFromLayoutCallbacks.insert(view.tag)
       return
     }
     currentCellHeights[view.tag] = view.bounds.size.height
@@ -185,8 +202,11 @@ open class UITableComponentViewController: UITableViewController,
   /// The backing view of *node* just got layed out.
   /// - parameter view: The view that has just been configured and layed out.
   open func nodeDidLayout(_ node: UINodeProtocol, view: UIView) {
-    guard !shouldSkipNodeLayoutCallbacks.contains(view.tag) else {
-      shouldSkipNodeLayoutCallbacks.remove(view.tag)
+    guard !shouldSkipAllLayoutCallbacks else {
+      return
+    }
+    guard !skippedNodesFromLayoutCallbacks.contains(view.tag) else {
+      skippedNodesFromLayoutCallbacks.remove(view.tag)
       return
     }
     guard !context._preventTableUpdates else {

@@ -1,5 +1,13 @@
 import UIKit
 
+public struct UIStylesheet {
+  /// Returns the stylesheet rule for the given path (e.g. Palette.black).
+  /// - note: You can access to the associated value bu
+  static func get(style: String, name: String) -> UIStylesheetRule? {
+    return UIStylesheetManager.default.rule(style: style, name: name)
+  }
+}
+
 // MARK: - UIStylesheetManager
 
 public enum ParseError: Error {

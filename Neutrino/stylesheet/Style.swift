@@ -42,14 +42,14 @@ extension UIStyleProtocol {
   }
 }
 
-public protocol UIStylesheet: UIStyleProtocol {
+public protocol UIStylesheetProtocol: UIStyleProtocol {
   /// The name of the stylesheet rule.
   var rawValue: String { get }
   /// The style name.
   static var styleIdentifier: String { get }
 }
 
-public extension UIStylesheet {
+public extension UIStylesheetProtocol {
   /// The style name.
   public var styleIdentifier: String {
     return Self.styleIdentifier

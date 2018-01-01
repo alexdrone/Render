@@ -176,7 +176,6 @@ struct Post {
   }
 
   class FeedHeaderComponent: UIComponent<UINilState, UINilProps> {
-
     /// Builds the node hierarchy for this component.
     override func render(context: UIContextProtocol) -> UINodeProtocol {
       // Styles.

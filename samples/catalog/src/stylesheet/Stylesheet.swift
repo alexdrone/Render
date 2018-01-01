@@ -1,7 +1,7 @@
 import UIKit
 import RenderNeutrino
 
-enum Palette: String, UIStylesheet {
+enum Palette: String, UIStylesheetProtocol {
   static var styleIdentifier: String = "Palette"
   case primary
   case primaryAccent
@@ -13,7 +13,7 @@ enum Palette: String, UIStylesheet {
   case white
 }
 
-enum Typography: String, UIStylesheet {
+enum Typography: String, UIStylesheetProtocol {
   static var styleIdentifier: String = "Typography"
   case extraSmallBold
   case small
@@ -22,7 +22,7 @@ enum Typography: String, UIStylesheet {
   case mediumBold
 }
 
-enum Margin: String, UIStylesheet {
+enum Margin: String, UIStylesheetProtocol {
   static var styleIdentifier: String = "Margin"
   case xsmall
   case small
@@ -30,7 +30,7 @@ enum Margin: String, UIStylesheet {
   case large
 }
 
-enum FacebookPalette: String, UIStylesheet {
+enum FacebookPalette: String, UIStylesheetProtocol {
   static var styleIdentifier: String = "FacebookPalette"
   case white
   case blue
@@ -39,7 +39,7 @@ enum FacebookPalette: String, UIStylesheet {
   case black
 }
 
-enum FacebookTypography: String, UIStylesheet {
+enum FacebookTypography: String, UIStylesheetProtocol {
   static var styleIdentifier: String = "FacebookTypography"
   case title
   case caption

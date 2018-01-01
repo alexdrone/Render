@@ -130,7 +130,6 @@ open class UIComponentViewController<C: UIComponentProtocol>: UIViewController,
 }
 
 open class UIScrollableComponentViewController<C:UIComponentProtocol>: UIComponentViewController<C>{
-
   /// Returns a *UIScrollView* as its canvas view.
   open override func buildCanvasView() -> UIView {
     return UIScrollView()

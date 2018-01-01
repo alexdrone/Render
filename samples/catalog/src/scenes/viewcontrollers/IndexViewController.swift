@@ -53,9 +53,12 @@ class IndexViewController: UITableComponentViewController {
   /// Tells the delegate that the specified row is now selected.
   override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     indexProps[indexPath.row].onCellSelected?()
+  }
+
+  override func tableView(_ tableView: UITableView, didHighlightRowAt indexPath: IndexPath) {
     // We highlight the selected cell.
     for (row, prop) in indexProps.enumerated() { prop.isHighlighted = row == indexPath.row }
-    reloadData()
+    setNeedsRenderVisibleComponents()
   }
 
   // MARK: Presents the other scences
