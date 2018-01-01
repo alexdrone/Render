@@ -1,7 +1,7 @@
 import UIKit
 import RenderNeutrino
 
-class SinglePostViewController: UIComponentViewController<Post.PostComponent>,
+class SinglePostViewController: UIScrollableComponentViewController<Post.PostComponent>,
                                 PostComponentDelegate {
   let post = Post.PostProps()
 
@@ -15,11 +15,6 @@ class SinglePostViewController: UIComponentViewController<Post.PostComponent>,
                                       parent: nil)
     component.delegate = self
     return component
-  }
-
-  /// Builds the canvas view for the root component.
-  override func buildCanvasView() -> UIView {
-    return UIScrollView()
   }
 
   /// Called after the controller's view is loaded into memory.

@@ -17,18 +17,18 @@ open class UITableComponentViewController: UITableViewController,
   private var shouldSkipNodeLayoutCallbacks = Set<Int>()
 
   public override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
-    context = UIContext()
+    context = UICellContext()
     super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
     commonInit()
   }
 
   public required init?(coder aDecoder: NSCoder) {
-    context = UIContext()
+    context = UICellContext()
     super.init(coder: aDecoder)
     commonInit()
   }
 
-  public init(context: UIContext = UIContext(),
+  public init(context: UIContext = UICellContext(),
               rootKey: String = String(describing: type(of: self))) {
     self.context = context
     super.init(nibName: nil, bundle: nil)
@@ -104,6 +104,10 @@ open class UITableComponentViewController: UITableViewController,
     return cell
   }
 
+  public func defaultKey(forIndexPath indexPath: IndexPath) -> String {
+    return "\(indexPath.section):\(indexPath.row)"
+  }
+
   // MARK: - Subclass Overrides
 
   /// The cell is about to be reused.
@@ -168,4 +172,115 @@ open class UITableComponentViewController: UITableViewController,
     tableView.endUpdates()
     CATransaction.commit()
   }
+}
+
+// MARK: - UITableCellProps Baseclass
+
+open class UITableCellProps: UIPropsProtocol {
+  public required init() { }
+  /// Cell title.
+  public var title = String()
+  /// Cell subtitle.
+  public var subtitle = String()
+  /// Automatically set to 'true' whenever the cell is being highlighted.
+  public var isHighlighted: Bool = false
+  /// The closure that is going to be executed whenever the cell is selected.
+  public var onCellSelected: (() -> Void)? = nil
+
+  public init(title: String, subtitle: String = "", onCellSelected: @escaping () -> Void) {
+    self.title = title
+    self.subtitle = subtitle
+    self.onCellSelected = onCellSelected
+  }
+}
+
+// MARK: - UICellContext
+
+/// Component that are embedded in cells have a different context.
+public final class UICellContext: UIContext {
+  /// Layout animator is not available for cells.
+  public override var layoutAnimator: UIViewPropertyAnimator? {
+    get { return nil }
+    set { }
+  }
+
+  public override var canvasSize: CGSize {
+    guard let context = _parentContext as? UIContext else {
+      return .zero
+    }
+    return context.canvasSize
+  }
+
+  public override func flushObsoleteState(validKeys: Set<String>) {
+    /// The lifetime of the cells is diffirent from traditional components due to recycling
+    /// and managed from *UITableComponent*.
+  }
+}
+
+// MARK: - UITableViewComponentCell
+
+public protocol UITableComponentCellDelegate: class {
+  /// The cell is about to be reused.
+  /// - note: This is the entry point for unmounting the component (if necessary).
+  func cellWillPrepareForReuse(cell: UITableComponentCell)
+}
+
+public class UITableComponentCell: UITableViewCell {
+  /// The node currently associated to this view.
+  public var component: UIComponentProtocol?
+  public weak var delegate: UITableComponentCellDelegate?
+
+  public override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+    super.init(style: style, reuseIdentifier: reuseIdentifier)
+    selectionStyle = .none
+  }
+
+  public required init?(coder aDecoder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
+
+  /// Prepares a reusable cell for reuse by the table view's delegate.
+  public override func prepareForReuse() {
+    delegate?.cellWillPrepareForReuse(cell: self)
+  }
+
+  /// Install the component passed as argument in the *UITableViewCell*'s view hierarchy.
+  /// - note: This API is not called from *UITableComponent*.
+  public func install(component: UIComponentProtocol, width: CGFloat) {
+    let _ = component.asNode()
+    mount(component: component, width: width)
+  }
+
+  func mount(component: UIComponentProtocol, width: CGFloat) {
+    self.component = component
+    component.setCanvas(view: contentView, options: [])
+
+    // We purposely wont re-generate the node (by calling *asNode()*) because this has already
+    // been called in the 'heightForRowAt' delegate method.
+    // We just install the node in the right view hierarchy.
+    component.root.reconcile(in: contentView,
+                             size: CGSize(width: width, height: CGFloat.max),
+                             options: [.preventDelegateCallbacks])
+
+    guard let componentView = contentView.subviews.first else {
+      return
+    }
+    contentView.frame.size = componentView.bounds.size
+    contentView.backgroundColor = componentView.backgroundColor
+    backgroundColor = componentView.backgroundColor
+  }
+
+  /// Asks the view to calculate and return the size that best fits the specified size.
+  public override func sizeThatFits(_ size: CGSize) -> CGSize {
+    guard let component = component else {
+      return .zero
+    }
+    mount(component: component, width: size.width)
+    return contentView.frame.size
+  }
+}
+
+extension UIComponent {
+  /// 'true' if this component is being used in a tableview or a collection view.
+  var isEmbeddedInCell: Bool { return self.context is UICellContext }
 }

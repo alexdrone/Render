@@ -3,32 +3,7 @@ import RenderNeutrino
 
 struct Index {
 
-  class State: UIState { }
-
-  class Props: UIProps {
-    var titles: [CellProps] = []
-  }
-
   class CellProps: UITableCellProps { }
-
-  class Component: UIComponent<State, Props> {
-    /// Builds the node hierarchy for this component.
-    override func render(context: UIContextProtocol) -> UINodeProtocol {
-      // Retrieve the table component with the given key.
-      let table = childComponent(UIDefaultTableComponent.self, key: childKey("table"))
-      // Configure the table.
-      table.props.configuration = { config in
-        config.set(\UITableView.backgroundColor, Palette.secondary.color)
-      }
-      // Builds the section.
-      let section = UITableComponentProps.Section(cells: props.titles.enumerated().map { i, props in
-        return table.cell(Cell.self, key: childKey(Cell.self, i), props: props)
-      })
-      table.props.sections = [section]
-      // Returns the component node.
-      return table.asNode()
-    }
-  }
 
   class Cell: UIStatelessComponent<CellProps> {
     /// Builds the node hierarchy for this component.

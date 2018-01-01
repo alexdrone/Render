@@ -20,7 +20,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   }
 }
 
-extension UIComponentViewController {
+extension UIViewController {
 
   func styleNavigationBar() {
     let title = string(fromType: type(of: self)).replacingOccurrences(of: "ViewController", with:"")
