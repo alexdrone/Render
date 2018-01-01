@@ -12,6 +12,7 @@ open class UITableComponentViewController: UITableViewController,
   /// The context for the component hierarchy that is going to be instantiated from the controller.
   /// - note: This can be passed as argument of the view controller constructor.
   public let context: UIContext
+  // Private.
   private let proxyTableView: UIView = UIView()
   private var currentCellHeights: [Int: CGFloat] = [:]
   private var shouldSkipNodeLayoutCallbacks = Set<Int>()
@@ -108,7 +109,30 @@ open class UITableComponentViewController: UITableViewController,
     return "\(indexPath.section):\(indexPath.row)"
   }
 
-  // MARK: - Subclass Overrides
+  // MARK: - UITableSectionHeader
+
+  /// *Optional*. Override this method to provide a custom view for your table view header.
+  /// - note: Use the *UIView.install* helper method if you wish to return a component for this
+  /// section header. e.g.
+  /// *UIView().install(component: myComponent, size: tableView.bounds.size)*
+  open func viewForHeader(inSection section: Int) -> UIView? {
+    return nil
+  }
+
+  /// Asks the delegate for a view object to display in the header of the specified section of
+  /// the table view.
+  open override func tableView(_ tableView: UITableView,
+                               viewForHeaderInSection section: Int) -> UIView?{
+    return viewForHeader(inSection: section)
+  }
+
+  /// Asks the delegate for the height to use for the header of a particular section.
+  open override func tableView(_ tableView: UITableView,
+                               heightForHeaderInSection section: Int) -> CGFloat {
+    return viewForHeader(inSection: section)?.bounds.size.height ?? 0
+  }
+
+  // MARK: -
 
   /// The cell is about to be reused.
   /// - note: This is the entry point for unmounting the component (if necessary).

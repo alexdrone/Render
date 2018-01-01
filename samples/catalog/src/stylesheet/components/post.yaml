@@ -86,3 +86,14 @@ Post.commentAuthor:
   font: *_facebook_small
   margin: 4
   numberOfLines: 0
+Post.feedHeader:
+  backgroundColor:  *_facebook_blue
+  width: ${canvasSize.width}
+  height: &_Post_feedHeader_height 44
+Post.feedHeaderLabel:
+  textColor: *_facebook_white
+  font: *_facebook_button
+  textAlignment: ${NSTextAlignment.center}
+  alignSelf: ${center}
+  height: *_Post_feedHeader_height
+

@@ -179,6 +179,16 @@ public class UIScreenStateFactory {
 // MARK: UIView
 
 public extension UIView {
+  /// Convenience method to install a component in a *UIView*.
+  public func install(component: UIComponentProtocol, size: CGSize) -> UIView {
+    let node = component.asNode()
+    node.reconcile(in: self, size: size, options: [.preventDelegateCallbacks])
+    if let subview = self.subviews.first {
+      self.bounds.size = subview.bounds.size
+    }
+    return self
+  }
+
   /// *Internal only* some of render transient configuration for this view.
   var renderContext: UIRenderConfigurationContainer {
     get {

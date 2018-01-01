@@ -174,4 +174,21 @@ struct Post {
       ])
     }
   }
+
+  class FeedHeaderComponent: UIComponent<UINilState, UINilProps> {
+
+    static let height: CGFloat = 44
+
+    /// Builds the node hierarchy for this component.
+    override func render(context: UIContextProtocol) -> UINodeProtocol {
+      // Styles.
+      let feedHeaderStyle = style("feedHeader")
+      let feedHeaderLabelStyle = style("feedHeaderLabel")
+
+      return UINode<UIView>(styles: [feedHeaderStyle]).children([
+        UINode<UILabel>(styles: [feedHeaderLabelStyle]) { $0.set(\UILabel.text, "Feed") },
+      ])
+    }
+  }
+
 }

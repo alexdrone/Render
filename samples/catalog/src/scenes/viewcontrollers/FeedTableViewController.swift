@@ -27,6 +27,11 @@ class FeedTableViewController: UITableComponentViewController, PostComponentDele
     return dequeueCell(forComponent: component)
   }
 
+  override func viewForHeader(inSection section: Int) -> UIView? {
+    return UIView().install(component: context.transientComponent(Post.FeedHeaderComponent.self),
+                            size: tableView.bounds.size)
+  }
+
   /// Called after the controller's view is loaded into memory.
   override func viewDidLoad() {
     super.viewDidLoad()
