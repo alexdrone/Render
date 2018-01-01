@@ -123,7 +123,11 @@ public class UITableComponent<S: UIStateProtocol, P: UITableComponentProps>:
       table.dataSource = self
       table.delegate = self
       table.separatorStyle = .none
-      table.estimatedRowHeight = 64
+      if #available(iOS 11.0, *) {
+        table.estimatedRowHeight = -1
+      } else {
+        table.estimatedRowHeight = 64
+      }
       table.rowHeight = UITableViewAutomaticDimension
       table.allowsMultipleSelection = false
       return table
@@ -385,7 +389,7 @@ extension UIComponent {
 
 public protocol UITableComponentCellDelegate: class {
   /// The cell is about to be reused.
-  /// - Note: This is the entry point for unmounting the component (if necessary).
+  /// - note: This is the entry point for unmounting the component (if necessary).
   func cellWillPrepareForReuse(cell: UITableComponentCell)
 }
 

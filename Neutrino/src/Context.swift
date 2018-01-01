@@ -64,6 +64,9 @@ public protocol UIContextProtocol: Disposable {
   weak var _canvasView: UIView? { get set }
   // *Internal only*.
   var _screenStateFactory: UIScreenStateFactory { get }
+  // *Internal only*.
+  // This is not 'nil' if the context has been intiialized from a *UITableComponentViewController*.
+  weak var _associatedTableViewController: UITableComponentViewController? { get set }
 }
 
 public protocol UIContextDelegate: class {
@@ -104,6 +107,8 @@ public class UIContext: UIContextProtocol {
   /// Whether this object has been disposed or not.
   /// Once an object is disposed it cannot be used any longer.
   public var isDisposed: Bool = false
+  /// This is not 'nil' if the context has been intiialized from a *UITableComponentViewController*.
+  public weak var _associatedTableViewController: UITableComponentViewController?
 
   public init() {
     logAlloc(type: "UIContext", object: self, details: allocationInfo)

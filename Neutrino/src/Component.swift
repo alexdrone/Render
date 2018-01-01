@@ -58,8 +58,9 @@ public enum UIComponentRenderOption {
   case animateLayoutChanges(animator: UIViewPropertyAnimator)
   /// Useful whenever a component in an inner context (e.g. a component embedded in a cell)
   /// wants to trigger a re-render from the top down on the parent context.
-  /// - note: Nested context are pretty rare and adopted for performance optimisation reasons only,
-  /// like for example in *UITableComponent* or *UICollectionComponent*.
+  /// This also trigger a 'reloadData' if the component is embedded in a
+  /// *UIComponentTableViewController*'s cell.
+  /// - note: Nested context are pretty rare and adopted for performance optimisation reasons only.
   /// Creating your own nested contexts is discouraged.
   case propagateToParentContext
   /// Prevent *beginUpdates()* and *endUpdates()* to be called on the table view on this instance
@@ -246,6 +247,9 @@ open class UIComponent<S: UIStateProtocol, P: UIPropsProtocol>: NSObject, UIComp
     // Reset the animatable frame changes to default.
     context.layoutAnimator = nil
 
+    if propagateToParentContext, let tableViewController = context._associatedTableViewController {
+      tableViewController.reloadData()
+    }
     if propagateToParentContext, let parentContext = context._parentContext {
       parentContext.pool.allComponent().filter { $0.parent == nil }.forEach {
         $0.setNeedsRender(options: [.propagateToParentContext])

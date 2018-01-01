@@ -12,31 +12,24 @@ class FeedTableViewController: UITableComponentViewController, PostComponentDele
     return posts
   }()
 
-
   /// Tells the data source to return the number of rows in a given section of a table view.
-  override func numberOfComponents(in section: Int) -> Int {
+  override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     return posts.count
   }
 
-  /// Must return the desired component for at the given index path.
-  override func component(for indexPath: IndexPath) -> UIComponentProtocol? {
+  override func tableView(_ tableView: UITableView,
+                          cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     let post = posts[indexPath.row]
     let component = context.component(Post.PostComponent.self,
                                       key: post.id,
                                       props: post,
                                       parent: nil)
-    component.delegate = self
-    return component
-  }
-
-  /// Returns the desired reuse identifier for the cell with the index path passed as argument.
-  override func reuseIdentifier(for indexPath: IndexPath) -> String {
-    return "post"
+    return dequeueCell(forComponent: component)
   }
 
   /// Called after the controller's view is loaded into memory.
   override func viewDidLoad() {
     super.viewDidLoad()
-    shouldApplyDefaultScrollRevealAnimation = true
+    shouldApplyScrollRevealTransition = true
   }
 }
