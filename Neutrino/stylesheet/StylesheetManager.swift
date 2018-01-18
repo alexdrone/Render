@@ -576,7 +576,7 @@ public struct UIStylesheetExpression {
     "wrap": Double(1),
     "wrapReverse": Double(2),
   ]
-  static private let defaultSymbols: [Expression.Symbol: Expression.Symbol.Evaluator] = [
+  static private let defaultSymbols: [Expression.Symbol: Expression.SymbolEvaluator] = [
     .variable("idiom"): { _ in
       Double(UIScreenStateFactory.Idiom.current().rawValue) },
     .variable("orientation"): { _ in
@@ -708,4 +708,3 @@ extension UIViewContentMode: UIStylesheetRepresentableEnum {
       "\(namespace).bottomRight": Double(UIViewContentMode.bottomRight.rawValue)]
   }
 }
-
