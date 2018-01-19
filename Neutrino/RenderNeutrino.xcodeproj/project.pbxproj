@@ -230,12 +230,12 @@
 			path = expression;
 			sourceTree = "<group>";
 		};
-		16D5F6BD2011FB320003CDF7 /* sgen */ = {
+		16D5F6BD2011FB320003CDF7 /* generate */ = {
 			isa = PBXGroup;
 			children = (
 				16FB4C7D2010D7A000DDA3D6 /* Generator.swift */,
 			);
-			path = sgen;
+			path = generate;
 			sourceTree = "<group>";
 		};
 		16F36BD81F8E197A00A04BE6 = {
@@ -281,7 +281,7 @@
 		16F36BF31F8E2BEE00A04BE6 /* deps */ = {
 			isa = PBXGroup;
 			children = (
-				16D5F6BD2011FB320003CDF7 /* sgen */,
+				16D5F6BD2011FB320003CDF7 /* generate */,
 				1665D6651FE959E800955782 /* expression */,
 				160627AF1FE9322B007779DD /* yoga */,
 				160627A71FE91BC9007779DD /* yaml */,
