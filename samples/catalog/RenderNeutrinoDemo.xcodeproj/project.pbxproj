@@ -6,9 +6,22 @@
 	objectVersion = 48;
 	objects = {
 
+/* Begin PBXAggregateTarget section */
+		16D5F6C52011FD4C0003CDF7 /* GenerateStylesheet */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 16D5F6C62011FD4C0003CDF7 /* Build configuration list for PBXAggregateTarget "GenerateStylesheet" */;
+			buildPhases = (
+				16D5F6C92011FD4F0003CDF7 /* ShellScript */,
+			);
+			dependencies = (
+			);
+			name = GenerateStylesheet;
+			productName = GenerateStylesheet;
+		};
+/* End PBXAggregateTarget section */
+
 /* Begin PBXBuildFile section */
 		160307581FE6810200044D00 /* counter.yaml in Resources */ = {isa = PBXBuildFile; fileRef = 160307571FE6810200044D00 /* counter.yaml */; };
-		160CC8701FB8C97D00CC6080 /* Stylesheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160CC86F1FB8C97D00CC6080 /* Stylesheet.swift */; };
 		161456111FE5C89600B9E091 /* stylesheet.yaml in Resources */ = {isa = PBXBuildFile; fileRef = 161456101FE5C89600B9E091 /* stylesheet.yaml */; };
 		1614561C1FE5D44C00B9E091 /* Counter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1614561B1FE5D44C00B9E091 /* Counter.swift */; };
 		1614561F1FE5D4FD00B9E091 /* StylesheetCounterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1614561E1FE5D4FD00B9E091 /* StylesheetCounterViewController.swift */; };
@@ -29,6 +42,7 @@
 		16C921C91FEEF7A9009F6138 /* SinglePostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16C921C81FEEF7A9009F6138 /* SinglePostViewController.swift */; };
 		16C921CB1FEEFBCE009F6138 /* post.yaml in Resources */ = {isa = PBXBuildFile; fileRef = 16C921CA1FEEFBCE009F6138 /* post.yaml */; };
 		16D24C451FD5705E000BADB9 /* AppStoreEntryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D24C441FD5705E000BADB9 /* AppStoreEntryViewController.swift */; };
+		16D5F6CB2011FDEF0003CDF7 /* S.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D5F6CA2011FDEF0003CDF7 /* S.generated.swift */; };
 		16ED28041FD5A74900D5E222 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 16ED28021FD5A74900D5E222 /* Default-568h@2x.png */; };
 /* End PBXBuildFile section */
 
@@ -68,6 +82,13 @@
 			remoteGlobalIDString = 16B89BBD1F9D2513001CF649;
 			remoteInfo = RenderInspector;
 		};
+		16D5F6C32011FD040003CDF7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 165399121F9A737B006DFE5D /* RenderNeutrino.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 16FB4C752010D78400DDA3D6;
+			remoteInfo = generate;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -87,7 +108,6 @@
 
 /* Begin PBXFileReference section */
 		160307571FE6810200044D00 /* counter.yaml */ = {isa = PBXFileReference; lastKnownFileType = text; path = counter.yaml; sourceTree = "<group>"; };
-		160CC86F1FB8C97D00CC6080 /* Stylesheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stylesheet.swift; sourceTree = "<group>"; };
 		161456101FE5C89600B9E091 /* stylesheet.yaml */ = {isa = PBXFileReference; lastKnownFileType = text; path = stylesheet.yaml; sourceTree = "<group>"; };
 		1614561B1FE5D44C00B9E091 /* Counter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Counter.swift; sourceTree = "<group>"; };
 		1614561E1FE5D4FD00B9E091 /* StylesheetCounterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StylesheetCounterViewController.swift; sourceTree = "<group>"; };
@@ -108,6 +128,7 @@
 		16C921C81FEEF7A9009F6138 /* SinglePostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SinglePostViewController.swift; sourceTree = "<group>"; };
 		16C921CA1FEEFBCE009F6138 /* post.yaml */ = {isa = PBXFileReference; lastKnownFileType = text; path = post.yaml; sourceTree = "<group>"; };
 		16D24C441FD5705E000BADB9 /* AppStoreEntryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStoreEntryViewController.swift; sourceTree = "<group>"; };
+		16D5F6CA2011FDEF0003CDF7 /* S.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = S.generated.swift; sourceTree = "<group>"; };
 		16ED28021FD5A74900D5E222 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -129,6 +150,7 @@
 			children = (
 				165399171F9A737B006DFE5D /* RenderNeutrino.framework */,
 				166C47631FB86CC400C990D9 /* Tests.xctest */,
+				16D5F6C42011FD040003CDF7 /* generate */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -196,7 +218,7 @@
 			children = (
 				16D9F32D1FE682F500ADAB3D /* components */,
 				161456101FE5C89600B9E091 /* stylesheet.yaml */,
-				160CC86F1FB8C97D00CC6080 /* Stylesheet.swift */,
+				16D5F6CA2011FDEF0003CDF7 /* S.generated.swift */,
 			);
 			path = stylesheet;
 			sourceTree = "<group>";
@@ -245,6 +267,7 @@
 				168FA6D01F8F856D00A12585 /* Frameworks */,
 				168FA6D11F8F856D00A12585 /* Resources */,
 				162B71FD1F8F858300E14264 /* Embed Frameworks */,
+				16D5F6C02011FD030003CDF7 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -269,6 +292,10 @@
 				TargetAttributes = {
 					168FA6D21F8F856D00A12585 = {
 						CreatedOnToolsVersion = 9.0;
+						ProvisioningStyle = Automatic;
+					};
+					16D5F6C52011FD4C0003CDF7 = {
+						CreatedOnToolsVersion = 9.1;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -297,6 +324,7 @@
 			projectRoot = "";
 			targets = (
 				168FA6D21F8F856D00A12585 /* RenderNeutrinoDemo */,
+				16D5F6C52011FD4C0003CDF7 /* GenerateStylesheet */,
 			);
 		};
 /* End PBXProject section */
@@ -323,6 +351,13 @@
 			remoteRef = 16AEE51D1F9D2748004798A8 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		16D5F6C42011FD040003CDF7 /* generate */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = generate;
+			remoteRef = 16D5F6C32011FD040003CDF7 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 /* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
@@ -341,18 +376,47 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		16D5F6C02011FD030003CDF7 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "";
+		};
+		16D5F6C92011FD4F0003CDF7 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "$SRCROOT/../../tools/render-generate $SRCROOT $SRCROOT/src/stylesheet/S.generated.swift";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		168FA6CF1F8F856D00A12585 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				16D5F6CB2011FDEF0003CDF7 /* S.generated.swift in Sources */,
 				16D24C451FD5705E000BADB9 /* AppStoreEntryViewController.swift in Sources */,
 				167070261FB8C757008DFC5B /* Index.swift in Sources */,
 				16C921C91FEEF7A9009F6138 /* SinglePostViewController.swift in Sources */,
 				16C921C71FEEDB49009F6138 /* Random.swift in Sources */,
 				168FA6D71F8F856D00A12585 /* AppDelegate.swift in Sources */,
 				16C921C41FEEDA7D009F6138 /* FacebookPost.swift in Sources */,
-				160CC8701FB8C97D00CC6080 /* Stylesheet.swift in Sources */,
 				16458EE51FF25919003FE6EE /* FeedTableViewController.swift in Sources */,
 				1614561F1FE5D4FD00B9E091 /* StylesheetCounterViewController.swift in Sources */,
 				16B66F161FEBEFAB00840140 /* Shared.swift in Sources */,
@@ -538,6 +602,22 @@
 			};
 			name = Release;
 		};
+		16D5F6C72011FD4C0003CDF7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		16D5F6C82011FD4C0003CDF7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -555,6 +635,15 @@
 			buildConfigurations = (
 				168FA6E61F8F856D00A12585 /* Debug */,
 				168FA6E71F8F856D00A12585 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		16D5F6C62011FD4C0003CDF7 /* Build configuration list for PBXAggregateTarget "GenerateStylesheet" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				16D5F6C72011FD4C0003CDF7 /* Debug */,
+				16D5F6C82011FD4C0003CDF7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

@@ -29,7 +29,7 @@ class IndexViewController: UITableComponentViewController {
   /// Called after the controller's view is loaded into memory.
   override func viewDidLoad() {
     super.viewDidLoad()
-    view.backgroundColor = Palette.primary.color
+    view.backgroundColor = S.Palette.primary.color
     styleNavigationBar()
   }
 

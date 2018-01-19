@@ -31,17 +31,26 @@ import Foundation
   // Generate the stylesheet Swift file.
   private func generate(_ defs: [String: [String]]) -> String {
     let i = Generator.indentationToken
-    var s = "public struct S {\n"
+    var s = "import UIKit\nimport RenderNeutrino\npublic struct S {\n"
     for (key, values) in defs {
       let swiftName = key.replacingOccurrences(of: ".", with: "_")
       s += "\(i)public enum \(swiftName): String, UIStylesheetProtocol {\n"
-      s += "\(i)\(i)public static var styleIdentifier: String = \"\(key)\"\n"
-      s += "\(i)\(i)public static var _: UIStyle = \(swiftName).styleIdentifier\n"
+      s += "\(i)\(i)public static let styleIdentifier: String = \"\(key)\"\n"
+      s += "\(i)\(i)public static let style: [String] = [\(swiftName).styleIdentifier]\n"
       for value in values {
         s += "\(i)\(i)case \(value)\n"
       }
       s += "\(i)}\n"
     }
+
+    s += "\(i)public struct Modifier {\n"
+    for (key, _) in defs {
+      let components = key.components(separatedBy: ".")
+      guard components.count == 3 else { continue }
+      let swiftName = key.replacingOccurrences(of: ".", with: "_")
+      s += "\(i)\(i)public static let \(swiftName) = \"\(components[2])\"\n"
+    }
+    s += "\(i)}\n"
     s += "}"
     return s
   }
@@ -81,7 +90,9 @@ import Foundation
           guard let isk = key.string, !isk.hasPrefix("animator-") else {
             continue
           }
-          rules.append(isk)
+          if !rules.contains(isk) {
+            rules.append(isk)
+          }
         }
       }
       appendRules(value)

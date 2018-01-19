@@ -25,15 +25,15 @@ struct Index {
 
     private func configureContentView(configuration: UINode<UIView>.Configuration) {
       let animator = UIViewPropertyAnimator(duration: 0.6, curve: .easeIn, animations: nil)
-      let bkg = props.isHighlighted ? Palette.primaryAccent.color : Palette.primary.color
+      let bkg = props.isHighlighted ? S.Palette.primaryAccent.color : S.Palette.primary.color
       /// Animates the background color when the cell is selected.
       configuration.set(\UIView.yoga.flexDirection, .row)
       configuration.set(\UIView.yoga.width, configuration.canvasSize.width)
-      configuration.set(\UIView.yoga.padding, Margin.medium.cgFloat)
+      configuration.set(\UIView.yoga.padding, S.Margin.medium.cgFloat)
       configuration.set(\UIView.backgroundColor, bkg, animator: animator)
       // You can configure your view both using the keyPath accessor (that offer an optional
       // animator parameter), or by accessing to the 'renderedView' manually.
-      configuration.view.yoga.padding = Margin.medium.cgFloat
+      configuration.view.yoga.padding = S.Margin.medium.cgFloat
       configuration.view.depthPreset = props.isHighlighted ? .depth2 : .none
     }
 
@@ -41,9 +41,9 @@ struct Index {
       return UINode<UILabel> { configuration in
         configuration.set(\UILabel.text, text)
         configuration.set(\UILabel.numberOfLines, 0)
-        configuration.set(\UILabel.font, Typography.small.font)
-        configuration.set(\UILabel.textColor, Palette.white.color)
-        configuration.set(\UILabel.yoga.margin, Margin.xsmall.cgFloat)
+        configuration.set(\UILabel.font, S.Typography.small.font)
+        configuration.set(\UILabel.textColor, S.Palette.white.color)
+        configuration.set(\UILabel.yoga.margin, S.Margin.xsmall.cgFloat)
       }
     }
   }

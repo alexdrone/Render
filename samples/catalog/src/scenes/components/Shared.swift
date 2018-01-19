@@ -7,10 +7,10 @@ func makePolygon() -> UINode<UIPolygonView> {
   // - note: You need to specify a custom 'reuseIdentifier.
   return UINode<UIPolygonView>(reuseIdentifier: "polygon", create: {
     let view = UIPolygonView()
-    view.foregroundColor = Palette.white.color
+    view.foregroundColor = S.Palette.white.color
     view.yoga.width = 44
     view.yoga.height = 44
-    view.yoga.marginRight = Margin.medium.cgFloat
+    view.yoga.marginRight = S.Margin.medium.cgFloat
     view.depthPreset = .depth1
     return view
   })
@@ -22,12 +22,12 @@ public func makeButton(reuseIdentifier: String = "button",
                        configure: UINode<UIButton>.ConfigurationClosure?=nil) -> UINode<UIButton> {
   func makeButton() -> UIButton {
     let view = UIButton()
-    view.backgroundColorImage = Palette.white.color
-    view.textColor = Palette.primary.color
+    view.backgroundColorImage = S.Palette.white.color
+    view.textColor = S.Palette.primary.color
     view.depthPreset = .depth1
     view.cornerRadiusPreset = .cornerRadius1
-    view.yoga.padding = Margin.small.cgFloat
-    view.titleLabel?.font = Typography.smallBold.font
+    view.yoga.padding = S.Margin.small.cgFloat
+    view.titleLabel?.font = S.Typography.smallBold.font
     return view
   }
   return UINode<UIButton>(reuseIdentifier: reuseIdentifier, create: makeButton) { config in
@@ -41,7 +41,7 @@ public func makeLabel(text: String,
   return UINode<UILabel> { config in
     config.set(\UILabel.text, text)
     config.set(\UILabel.numberOfLines, 0)
-    config.set(\UILabel.textColor, Palette.white.color)
+    config.set(\UILabel.textColor, S.Palette.white.color)
     configure?(config)
   }
 }
