@@ -561,6 +561,7 @@ public final class Expression: CustomStringConvertible {
 
     // boolean constants
     symbols[.variable("true")] = { _ in 1 }
+    symbols[.variable("default")] = { _ in 1 }
     symbols[.variable("false")] = { _ in 0 }
 
     // boolean infix operators
