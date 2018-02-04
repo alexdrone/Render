@@ -58,7 +58,7 @@ struct AppStoreEntry {
     // MARK: - Containers
 
     private func configureMainView(configuration: UINode<UIView>.Configuration) {
-      configuration.set(\UIView.backgroundColor, Palette.primary.color)
+      configuration.set(\UIView.backgroundColor, S.Palette.primary.color)
     }
 
     // The main content view with the entry background image.
@@ -94,18 +94,18 @@ struct AppStoreEntry {
       // The container takes all of the parent's width and 20% of the height.
       configuration.set(\UIView.yoga.percent.width, 100%)
       configuration.set(\UIView.yoga.percent.height, 20%)
-      configuration.set(\UIView.yoga.padding, Margin.xsmall.cgFloat)
+      configuration.set(\UIView.yoga.padding, S.Margin.xsmall.cgFloat)
       configuration.set(\UIView.yoga.justifyContent, .center)
       configuration.set(\UIView.yoga.flexDirection, .row)
-      configuration.set(\UIView.backgroundColor, Palette.text.color)
+      configuration.set(\UIView.backgroundColor, S.Palette.text.color)
       // The alpha is animated on change.
       configuration.set(\UIView.alpha, !state.expanded ? 0 : 1, animator: defaultAnimator())
     }
 
     // The description text.
     private func configureDescriptionLabel(configuration: UINode<UILabel>.Configuration) {
-      configuration.set(\UILabel.font, Typography.small.font)
-      configuration.set(\UILabel.textColor, Palette.white.color)
+      configuration.set(\UILabel.font, S.Typography.small.font)
+      configuration.set(\UILabel.textColor, S.Palette.white.color)
       // The alpha is animated on change.
       configuration.set(\UILabel.alpha, !state.expanded ? 0 : 1, animator: defaultAnimator())
       configuration.set(\UILabel.yoga.flexGrow, 1)
@@ -116,11 +116,11 @@ struct AppStoreEntry {
 
     // The main title.
     private func configureLabel(configuration: UINode<UILabel>.Configuration) {
-      let font: UIFont = state.expanded ? Typography.mediumBold.font : Typography.medium.font
+      let font: UIFont = state.expanded ? S.Typography.mediumBold.font : S.Typography.medium.font
       configuration.set(\UILabel.yoga.height, 32)
       configuration.set(\UILabel.yoga.width, 256)
       configuration.set(\UILabel.font, font)
-      configuration.set(\UILabel.textColor, Palette.white.color)
+      configuration.set(\UILabel.textColor, S.Palette.white.color)
     }
 
     // MARK: - Overlays

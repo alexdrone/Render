@@ -708,4 +708,3 @@ extension UIViewContentMode: UIStylesheetRepresentableEnum {
       "\(namespace).bottomRight": Double(UIViewContentMode.bottomRight.rawValue)]
   }
 }
-

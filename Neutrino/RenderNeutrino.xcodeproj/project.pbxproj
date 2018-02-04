@@ -49,6 +49,10 @@
 		16F36BF21F8E2B2800A04BE6 /* YGExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F36BF11F8E2B2800A04BE6 /* YGExtensions.swift */; };
 		16F36C191F8E4BA600A04BE6 /* KeyPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F36C181F8E4BA600A04BE6 /* KeyPath.swift */; };
 		16F7B55B1F9A322C00583082 /* RenderInspectorHook.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F7B55A1F9A322C00583082 /* RenderInspectorHook.swift */; };
+		16FB4C782010D78400DDA3D6 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 16FB4C772010D78400DDA3D6 /* main.m */; };
+		16FB4C7E2010D7A000DDA3D6 /* Generator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16FB4C7D2010D7A000DDA3D6 /* Generator.swift */; };
+		16FB4C7F2010D7BD00DDA3D6 /* yaml.c in Sources */ = {isa = PBXBuildFile; fileRef = 160627AA1FE91C25007779DD /* yaml.c */; };
+		16FB4C802010D7BF00DDA3D6 /* YamlBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160627A81FE91BE3007779DD /* YamlBridge.swift */; };
 		16FD2DAA1FB100A1005C2F9F /* Geometry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16FD2DA91FB100A1005C2F9F /* Geometry.swift */; };
 /* End PBXBuildFile section */
 
@@ -61,6 +65,18 @@
 			remoteInfo = RenderNeutrino;
 		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		16FB4C732010D78400DDA3D6 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		160627A81FE91BE3007779DD /* YamlBridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YamlBridge.swift; sourceTree = "<group>"; };
@@ -107,6 +123,10 @@
 		16F36BF11F8E2B2800A04BE6 /* YGExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YGExtensions.swift; sourceTree = "<group>"; };
 		16F36C181F8E4BA600A04BE6 /* KeyPath.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyPath.swift; sourceTree = "<group>"; };
 		16F7B55A1F9A322C00583082 /* RenderInspectorHook.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenderInspectorHook.swift; sourceTree = "<group>"; };
+		16FB4C752010D78400DDA3D6 /* generate */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = generate; sourceTree = BUILT_PRODUCTS_DIR; };
+		16FB4C772010D78400DDA3D6 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		16FB4C7C2010D79F00DDA3D6 /* generate-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "generate-Bridging-Header.h"; sourceTree = "<group>"; };
+		16FB4C7D2010D7A000DDA3D6 /* Generator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Generator.swift; sourceTree = "<group>"; };
 		16FD2DA91FB100A1005C2F9F /* Geometry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Geometry.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -120,6 +140,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		16F36BDE1F8E197A00A04BE6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		16FB4C722010D78400DDA3D6 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -203,6 +230,14 @@
 			path = expression;
 			sourceTree = "<group>";
 		};
+		16D5F6BD2011FB320003CDF7 /* generate */ = {
+			isa = PBXGroup;
+			children = (
+				16FB4C7D2010D7A000DDA3D6 /* Generator.swift */,
+			);
+			path = generate;
+			sourceTree = "<group>";
+		};
 		16F36BD81F8E197A00A04BE6 = {
 			isa = PBXGroup;
 			children = (
@@ -213,6 +248,7 @@
 				16108B9A1FDC80DE00CD9E9A /* stylesheet */,
 				16458EE71FF2910B003FE6EE /* vcs */,
 				161260841FB4E92E00524869 /* tests */,
+				16FB4C762010D78400DDA3D6 /* generate */,
 				16F36BE31F8E197A00A04BE6 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -222,6 +258,7 @@
 			children = (
 				16F36BE21F8E197A00A04BE6 /* RenderNeutrino.framework */,
 				161260831FB4E92E00524869 /* Tests.xctest */,
+				16FB4C752010D78400DDA3D6 /* generate */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -244,12 +281,22 @@
 		16F36BF31F8E2BEE00A04BE6 /* deps */ = {
 			isa = PBXGroup;
 			children = (
+				16D5F6BD2011FB320003CDF7 /* generate */,
 				1665D6651FE959E800955782 /* expression */,
 				160627AF1FE9322B007779DD /* yoga */,
 				160627A71FE91BC9007779DD /* yaml */,
 				16F7B55A1F9A322C00583082 /* RenderInspectorHook.swift */,
 			);
 			path = deps;
+			sourceTree = "<group>";
+		};
+		16FB4C762010D78400DDA3D6 /* generate */ = {
+			isa = PBXGroup;
+			children = (
+				16FB4C772010D78400DDA3D6 /* main.m */,
+				16FB4C7C2010D79F00DDA3D6 /* generate-Bridging-Header.h */,
+			);
+			path = generate;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -313,13 +360,30 @@
 			productReference = 16F36BE21F8E197A00A04BE6 /* RenderNeutrino.framework */;
 			productType = "com.apple.product-type.framework";
 		};
+		16FB4C742010D78400DDA3D6 /* generate */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 16FB4C792010D78400DDA3D6 /* Build configuration list for PBXNativeTarget "generate" */;
+			buildPhases = (
+				16FB4C712010D78400DDA3D6 /* Sources */,
+				16FB4C722010D78400DDA3D6 /* Frameworks */,
+				16FB4C732010D78400DDA3D6 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = generate;
+			productName = generate;
+			productReference = 16FB4C752010D78400DDA3D6 /* generate */;
+			productType = "com.apple.product-type.tool";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
 		16F36BD91F8E197A00A04BE6 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0900;
+				LastSwiftUpdateCheck = 0910;
 				LastUpgradeCheck = 0900;
 				ORGANIZATIONNAME = "Alex Usbergo";
 				TargetAttributes = {
@@ -330,6 +394,11 @@
 					16F36BE11F8E197A00A04BE6 = {
 						CreatedOnToolsVersion = 9.0;
 						LastSwiftMigration = 0900;
+						ProvisioningStyle = Automatic;
+					};
+					16FB4C742010D78400DDA3D6 = {
+						CreatedOnToolsVersion = 9.1;
+						LastSwiftMigration = 0910;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -348,6 +417,7 @@
 			targets = (
 				16F36BE11F8E197A00A04BE6 /* RenderNeutrino */,
 				161260821FB4E92E00524869 /* Tests */,
+				16FB4C742010D78400DDA3D6 /* generate */,
 			);
 		};
 /* End PBXProject section */
@@ -411,6 +481,17 @@
 				16AA95EA1FA3310600EAC136 /* YGLayout.m in Sources */,
 				16458EE91FF29133003FE6EE /* TableViewController.swift in Sources */,
 				167B537A1FABB7A400AF6798 /* YGRenderAdditions.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		16FB4C712010D78400DDA3D6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				16FB4C7E2010D7A000DDA3D6 /* Generator.swift in Sources */,
+				16FB4C782010D78400DDA3D6 /* main.m in Sources */,
+				16FB4C7F2010D7BD00DDA3D6 /* yaml.c in Sources */,
+				16FB4C802010D7BF00DDA3D6 /* YamlBridge.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -611,6 +692,45 @@
 			};
 			name = Release;
 		};
+		16FB4C7A2010D78400DDA3D6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ADDRESS_SANITIZER_CONTAINER_OVERFLOW = NO;
+				CLANG_ENABLE_CODE_COVERAGE = NO;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Automatic;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = s;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_OBJC_BRIDGING_HEADER = "generate/generate-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Debug;
+		};
+		16FB4C7B2010D78400DDA3D6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ADDRESS_SANITIZER_CONTAINER_OVERFLOW = NO;
+				CLANG_ENABLE_CODE_COVERAGE = NO;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Automatic;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_OBJC_BRIDGING_HEADER = "generate/generate-Bridging-Header.h";
+				SWIFT_VERSION = 3.0;
+				VALIDATE_PRODUCT = NO;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -637,6 +757,15 @@
 			buildConfigurations = (
 				16F36BEB1F8E197A00A04BE6 /* Debug */,
 				16F36BEC1F8E197A00A04BE6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		16FB4C792010D78400DDA3D6 /* Build configuration list for PBXNativeTarget "generate" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				16FB4C7A2010D78400DDA3D6 /* Debug */,
+				16FB4C7B2010D78400DDA3D6 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

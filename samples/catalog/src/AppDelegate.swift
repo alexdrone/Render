@@ -24,14 +24,14 @@ extension UIViewController {
 
   func styleNavigationBar() {
     let title = string(fromType: type(of: self)).replacingOccurrences(of: "ViewController", with:"")
-    view.backgroundColor = Palette.primary.color
+    view.backgroundColor = S.Palette.primary.color
     navigationItem.title = title
     let vc = self
     vc.navigationController?.navigationBar.isTranslucent = true
     vc.navigationController?.navigationBar.titleTextAttributes =
-      [NSAttributedStringKey.foregroundColor: Palette.white.color]
-    vc.navigationController?.navigationBar.barTintColor = Palette.primaryAccent.color
-    vc.navigationController?.navigationBar.tintColor = Palette.white.color
+      [NSAttributedStringKey.foregroundColor: S.Palette.white.color]
+    vc.navigationController?.navigationBar.barTintColor = S.Palette.primaryAccent.color
+    vc.navigationController?.navigationBar.tintColor = S.Palette.white.color
     vc.navigationController?.navigationBar.shadowImage = UIImage()
   }
 }
