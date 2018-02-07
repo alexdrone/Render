@@ -314,7 +314,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 * [Dispatch](https://github.com/alexdrone/Dispatch) is a Flux-like implementation of the unidirectional data flow architecture in Swift.
 In this architecture views are simple function of your state - this works especially well with Render's declarative programming style.
 
-Checkout the **TodoApp** example to see how to get the best out of **Dispatch** and **Render**.
+Checkout the [TodoApp](https://github.com/alexdrone/Dispatch/tree/master/samples/TodoApp) example to see how to get the best out of **Dispatch** and **Render**.
 
 
 * [ReSwift](https://github.com/ReSwift/ReSwift) is a Redux-like implementation of the unidirectional data flow architecture in Swift. 
