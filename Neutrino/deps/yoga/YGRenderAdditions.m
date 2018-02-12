@@ -245,4 +245,52 @@
   return image;
 }
 
++ (UIImage*)yg_imageFromString:(NSString *)string
+                         color:(UIColor*)color
+                          font:(UIFont *)font
+                          size:(CGSize)size {
+  UIGraphicsBeginImageContextWithOptions(size, NO, 0);
+
+  NSDictionary *attributes = @{NSFontAttributeName: font,
+                               NSForegroundColorAttributeName: color };
+  [string drawInRect:CGRectMake(0, 0, size.width, size.height)
+      withAttributes:attributes];
+  UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+  UIGraphicsEndImageContext();
+
+  return image;
+}
+
 @end
+
+@implementation UIViewController (YGAdditions)
+
+- (BOOL)isModal {
+  if ([self presentingViewController])
+    return YES;
+  if ([[[self navigationController] presentingViewController] presentedViewController] == [self navigationController])
+    return YES;
+  if ([[[self tabBarController] presentingViewController] isKindOfClass:[UITabBarController class]])
+    return YES;
+  return NO;
+}
+
+@end
+
+UIViewController * _Nullable UIGetTopmostViewController() {
+  UIViewController *baseVC = UIApplication.sharedApplication.keyWindow.rootViewController;
+  if ([baseVC isKindOfClass:[UINavigationController class]]) {
+    return ((UINavigationController *)baseVC).visibleViewController;
+  }
+  if ([baseVC isKindOfClass:[UITabBarController class]]) {
+    UIViewController *selectedTVC = ((UITabBarController*)baseVC).selectedViewController;
+    if (selectedTVC) {
+      return selectedTVC;
+    }
+  }
+  if (baseVC.presentedViewController) {
+    return baseVC.presentedViewController;
+  }
+  return baseVC;
+
+}

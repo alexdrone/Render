@@ -28,9 +28,8 @@ class IndexViewController: UITableComponentViewController {
 
   /// Called after the controller's view is loaded into memory.
   override func viewDidLoad() {
+    styleNavigationBarComponent()
     super.viewDidLoad()
-    view.backgroundColor = S.Palette.primary.color
-    styleNavigationBar()
   }
 
   // MARK: UITableViewDataSource
@@ -51,11 +50,11 @@ class IndexViewController: UITableComponentViewController {
   }
 
   /// Tells the delegate that the specified row is now selected.
-  override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+  @objc func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     indexProps[indexPath.row].onCellSelected?()
   }
 
-  override func tableView(_ tableView: UITableView, didHighlightRowAt indexPath: IndexPath) {
+  @objc func tableView(_ tableView: UITableView, didHighlightRowAt indexPath: IndexPath) {
     // We highlight the selected cell.
     for (row, prop) in indexProps.enumerated() { prop.isHighlighted = row == indexPath.row }
     setNeedsRenderVisibleComponents()

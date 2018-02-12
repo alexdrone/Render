@@ -1,39 +1,40 @@
 import UIKit
 
-/// This is a lower lever abstraction compared to *UITableComponent*, useful if you wish to have
-/// more fine grain control over some of the *UITableView* primitives.
-open class UITableComponentViewController: UITableViewController,
+open class UITableComponentViewController: UIBaseViewController,
+                                           UITableViewDelegate,
+                                           UITableViewDataSource,
                                            UINodeDelegateProtocol,
                                            UITableComponentCellDelegate,
                                            UIContextDelegate {
+  /// The canvas view of the view controller.
+  public var tableView: UITableView { return canvasView as! UITableView }
   /// Fades in the content of the cell when the scroll reveals it.
   /// - note: Defaul is 'true'.
   public var shouldApplyScrollRevealTransition: Bool = false
-  /// The context for the component hierarchy that is going to be instantiated from the controller.
-  /// - note: This can be passed as argument of the view controller constructor.
-  public let context: UIContext
+
   // Private.
   private let proxyTableView: UIView = UIView()
   private var currentCellHeights: [Int: CGFloat] = [:]
   private var skippedNodesFromLayoutCallbacks = Set<Int>()
   private var shouldSkipAllLayoutCallbacks: Bool = false
+  private var cellContext: UICellContext { return context as! UICellContext }
 
   public override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
-    context = UICellContext()
     super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+    context = UICellContext()
     commonInit()
   }
 
   public required init?(coder aDecoder: NSCoder) {
-    context = UICellContext()
     super.init(coder: aDecoder)
+    context = UICellContext()
     commonInit()
   }
 
-  public init(context: UIContext = UICellContext(),
-              rootKey: String = String(describing: type(of: self))) {
-    self.context = context
+  public override init(context: UIContext = UICellContext(),
+                       rootKey: String = String(describing: type(of: self))) {
     super.init(nibName: nil, bundle: nil)
+    self.context = context
     commonInit()
   }
 
@@ -43,15 +44,33 @@ open class UITableComponentViewController: UITableViewController,
     logDealloc(type: String(describing: type(of: self)), object: self)
   }
 
+  /// Shared initialization.
   private func commonInit() {
     logAlloc(type: String(describing: type(of: self)), object: self)
     context.registerDelegate(self)
-    context._associatedTableViewController = self
+    cellContext._associatedTableViewController = self
+  }
+
+  /// Builds the canvas view for the root component.
+  /// - note: The canvas view for this viewController is a *UITableView*
+  open override func buildCanvasView() -> UIView {
+    let tableView = UITableView()
+    tableView.delegate = self
+    tableView.dataSource = self
+    tableView.contentInset = UIEdgeInsets.zero
+    tableView.translatesAutoresizingMaskIntoConstraints = false
+    return tableView
   }
 
   /// - note: Override this method if you desire to run custom logic whenever a component has
   /// been rendered.
   open func setNeedRenderInvoked(on context: UIContextProtocol, component: UIComponentProtocol) {
+  }
+
+  /// Tells the component (and the component-based navigation bar) to render.
+  open override func render() {
+    super.render()
+    //reloadData()
   }
 
   /// Reloads the rows and sections of the table view.
@@ -101,6 +120,17 @@ open class UITableComponentViewController: UITableViewController,
     }
   }
 
+  /// Tells the data source to return the number of rows in a given section of a table view.
+  @objc open func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    return 0
+  }
+
+  /// Asks the data source for a cell to insert in a particular location of the table view.
+  @objc open func tableView(_ tableView: UITableView,
+                            cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    return UITableViewCell()
+  }
+
   // MARK: - UITableViewDataSource Helper
 
   /// Returns the *UITableComponentCell* for the identifier passed as argument.
@@ -135,22 +165,27 @@ open class UITableComponentViewController: UITableViewController,
 
   /// Asks the delegate for a view object to display in the header of the specified section of
   /// the table view.
-  open override func tableView(_ tableView: UITableView,
-                               viewForHeaderInSection section: Int) -> UIView?{
+  @objc open func tableView(_ tableView: UITableView,
+                            viewForHeaderInSection section: Int) -> UIView?{
     return viewForHeader(inSection: section)
   }
 
   /// Asks the delegate for the height to use for the header of a particular section.
-  open override func tableView(_ tableView: UITableView,
-                               heightForHeaderInSection section: Int) -> CGFloat {
+  @objc open func tableView(_ tableView: UITableView,
+                            heightForHeaderInSection section: Int) -> CGFloat {
     return viewForHeader(inSection: section)?.bounds.size.height ?? 0
+  }
+
+  /// Tells the delegate when the user scrolls the content view within the receiver.
+  @objc open func scrollViewDidScroll(_ scrollView: UIScrollView) {
+    navigationBarDidScroll(scrollView)
   }
 
   // MARK: -
 
   /// The cell is about to be reused.
   /// - note: This is the entry point for unmounting the component (if necessary).
-  open func cellWillPrepareForReuse(cell: UITableComponentCell) {
+  @objc open func cellWillPrepareForReuse(cell: UITableComponentCell) {
     cell.component?.setCanvas(view: proxyTableView, options: [])
   }
 
@@ -249,10 +284,11 @@ public final class UICellContext: UIContext {
   }
 
   public override var canvasSize: CGSize {
-    guard let context = _parentContext as? UIContext else {
-      return .zero
+    let size = _associatedTableViewController?.tableView.bounds.size ?? .zero
+    if size == .zero {
+      return UIScreen.main.bounds.size
     }
-    return context.canvasSize
+    return size
   }
 
   public override func flushObsoleteState(validKeys: Set<String>) {

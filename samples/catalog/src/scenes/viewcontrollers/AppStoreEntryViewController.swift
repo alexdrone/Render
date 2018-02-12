@@ -9,8 +9,9 @@ class AppStoreEntryViewController: UIComponentViewController<AppStoreEntry.Compo
   }
 
   override func viewDidLoad() {
+    // Configure custom navigation bar.
+    styleNavigationBarComponent()
     super.viewDidLoad()
     shouldRenderAlongsideSizeTransitionAnimation = true
-    styleNavigationBar()
   }
 }

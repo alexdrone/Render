@@ -894,3 +894,29 @@ public extension UIColor {
     self.init(red: r, green: g, blue: b, alpha: a)
   }
 }
+
+public protocol UILayoutGuideProvider {
+  var leadingAnchor: NSLayoutXAxisAnchor { get }
+  var trailingAnchor: NSLayoutXAxisAnchor { get }
+  var leftAnchor: NSLayoutXAxisAnchor { get }
+  var rightAnchor: NSLayoutXAxisAnchor { get }
+  var topAnchor: NSLayoutYAxisAnchor { get }
+  var bottomAnchor: NSLayoutYAxisAnchor { get }
+  var widthAnchor: NSLayoutDimension { get }
+  var heightAnchor: NSLayoutDimension { get }
+  var centerXAnchor: NSLayoutXAxisAnchor { get }
+  var centerYAnchor: NSLayoutYAxisAnchor { get }
+}
+
+extension UIView: UILayoutGuideProvider { }
+extension UILayoutGuide: UILayoutGuideProvider { }
+
+public extension UIView {
+  public var compatibleSafeAreaLayoutGuide: UILayoutGuideProvider {
+    if #available(iOS 11, *) {
+      return safeAreaLayoutGuide
+    } else {
+      return self
+    }
+  }
+}

@@ -47,6 +47,16 @@ NS_ASSUME_NONNULL_BEGIN
 @interface UIImage (YGAdditions)
 + (UIImage*)yg_imageWithColor:(UIColor*)color;
 + (UIImage*)yg_imageWithColor:(UIColor*)color size:(CGSize)size;
++ (UIImage*)yg_imageFromString:(NSString *)string
+                         color:(UIColor*)color
+                          font:(UIFont *)font
+                          size:(CGSize)size;
 @end
+
+@interface UIViewController (YGAdditions)
+- (BOOL)isModal;
+@end
+
+UIViewController * _Nullable UIGetTopmostViewController();
 
 NS_ASSUME_NONNULL_END

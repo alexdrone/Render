@@ -8,9 +8,9 @@ class StylesheetCounterViewController: UIComponentViewController<StylesheetCount
   }
 
   override func viewDidLoad() {
+    styleNavigationBarComponent()
     super.viewDidLoad()
     shouldRenderAlongsideSizeTransitionAnimation = true
-    styleNavigationBar()
   }
 }
 

@@ -20,11 +20,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   }
 }
 
-extension UIViewController {
+extension UIBaseViewController {
 
   func styleNavigationBar() {
     let title = string(fromType: type(of: self)).replacingOccurrences(of: "ViewController", with:"")
     view.backgroundColor = S.Palette.primary.color
+    canvasView.backgroundColor = view.backgroundColor
     navigationItem.title = title
     let vc = self
     vc.navigationController?.navigationBar.isTranslucent = true
@@ -33,5 +34,23 @@ extension UIViewController {
     vc.navigationController?.navigationBar.barTintColor = S.Palette.primaryAccent.color
     vc.navigationController?.navigationBar.tintColor = S.Palette.white.color
     vc.navigationController?.navigationBar.shadowImage = UIImage()
+  }
+
+
+}
+
+public extension UICustomNavigationBarProtocol where Self: UIBaseViewController {
+
+  func styleNavigationBarComponent() {
+    UIApplication.shared.statusBarStyle = .lightContent
+    let title = string(fromType: type(of: self)).replacingOccurrences(of: "ViewController", with:"")
+    view.backgroundColor = S.Palette.primary.color
+    canvasView.backgroundColor = view.backgroundColor
+    // Configure custom navigation bar.
+    navigationBarManager.makeDefaultNavigationBarComponent()
+    navigationBarManager.component?.props.title = title
+    navigationBarManager.component?.props.style.backgroundColor = S.Palette.primary.color
+    navigationBarManager.component?.props.style.tintColor = S.Palette.accentText.color
+    navigationBarManager.component?.props.style.titleColor = S.Palette.white.color
   }
 }

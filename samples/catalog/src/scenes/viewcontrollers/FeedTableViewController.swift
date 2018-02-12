@@ -27,15 +27,20 @@ class FeedTableViewController: UITableComponentViewController, PostComponentDele
     return dequeueCell(forComponent: component)
   }
 
+  /// If you'd like to have a section header, build one like so:
+  /// - note: This is currently not supported when you have an expandable custom navigation bar.
+  /*
   override func viewForHeader(inSection section: Int) -> UIView? {
     return UIView().install(component: context.transientComponent(Post.FeedHeaderComponent.self),
                             size: tableView.bounds.size)
   }
+  */
 
   /// Called after the controller's view is loaded into memory.
   override func viewDidLoad() {
+    styleNavigationBarComponent()
     super.viewDidLoad()
-    styleNavigationBar()
-    shouldApplyScrollRevealTransition = true
+    //shouldApplyScrollRevealTransition = true
   }
+
 }
