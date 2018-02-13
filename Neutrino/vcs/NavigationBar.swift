@@ -108,6 +108,10 @@ open class UINavigationBarComponent: UIComponent<UINavigationBarState, UINavigat
   private struct LayoutConstants {
     static let barButtonHeight: CGFloat = 44
     static let defaultMargin: CGFloat = 4
+    static var topLayoutGuideMargin: CGFloat {
+      if #available(iOS 11.0, *) { return 4 }
+      return 12
+    }
   }
   /// Builds the node hierarchy for this component.
   open override func render(context: UIContextProtocol) -> UINodeProtocol {
@@ -147,8 +151,8 @@ open class UINavigationBarComponent: UIComponent<UINavigationBarState, UINavigat
       let view = UIView()
       view.backgroundColor = .clear
       view.yoga.position = .absolute
-      view.yoga.marginTop = LayoutConstants.defaultMargin
       view.yoga.height = LayoutConstants.barButtonHeight
+      view.yoga.marginTop = LayoutConstants.topLayoutGuideMargin
       view.yoga.percent.width = 100%
       view.yoga.flexDirection = .row
       view.yoga.justifyContent = .spaceBetween
@@ -216,7 +220,7 @@ open class UINavigationBarComponent: UIComponent<UINavigationBarState, UINavigat
       let view = UIView()
       view.yoga.percent.width = 100%
       view.yoga.percent.height = 100%
-      view.yoga.marginTop = LayoutConstants.defaultMargin
+      view.yoga.marginTop = LayoutConstants.topLayoutGuideMargin
       view.yoga.paddingLeft = LayoutConstants.defaultMargin * 3
       view.yoga.paddingRight = view.yoga.paddingLeft
       view.yoga.justifyContent = .flexEnd
