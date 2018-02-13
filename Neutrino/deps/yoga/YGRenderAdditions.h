@@ -57,6 +57,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (BOOL)isModal;
 @end
 
-UIViewController * _Nullable UIGetTopmostViewController();
+extern UIViewController * _Nullable UIGetTopmostViewController();
 
 NS_ASSUME_NONNULL_END

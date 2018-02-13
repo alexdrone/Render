@@ -214,7 +214,6 @@ public class UIContext: UIContextProtocol {
     delegates = []
     _parentContext = nil
   }
-
 }
 
 // MARK: - UIContextPool

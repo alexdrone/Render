@@ -908,6 +908,8 @@ public protocol UILayoutGuideProvider {
   var centerYAnchor: NSLayoutYAxisAnchor { get }
 }
 
+// MARK: UILayoutGuideProvider
+
 extension UIView: UILayoutGuideProvider { }
 extension UILayoutGuide: UILayoutGuideProvider { }
 

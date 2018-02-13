@@ -5,79 +5,64 @@
 
 @implementation UIView (YGAdditions)
 
-- (CGFloat)cornerRadius
-{
+- (CGFloat)cornerRadius {
   return self.layer.cornerRadius;
 }
 
-- (void)setCornerRadius:(CGFloat)cornerRadius
-{
+- (void)setCornerRadius:(CGFloat)cornerRadius {
   self.clipsToBounds = YES;
   self.layer.cornerRadius = cornerRadius;
 }
 
-- (CGFloat)borderWidth
-{
+- (CGFloat)borderWidth {
   return self.layer.borderWidth;
 }
 
-- (void)setBorderWidth:(CGFloat)borderWidth
-{
+- (void)setBorderWidth:(CGFloat)borderWidth {
   self.layer.borderWidth = borderWidth;
 }
 
-- (UIColor*)borderColor
-{
+- (UIColor*)borderColor {
   return [UIColor colorWithCGColor:self.layer.borderColor];
 }
 
-- (void)setBorderColor:(UIColor*)borderColor
-{
+- (void)setBorderColor:(UIColor*)borderColor {
   self.layer.borderColor = borderColor.CGColor;
 }
 
-- (CGFloat)paddingLeft
-{
+- (CGFloat)paddingLeft {
   return 0;
 }
 
-- (CGFloat)shadowOpacity
-{
+- (CGFloat)shadowOpacity {
   return self.layer.shadowOpacity;
 }
 
-- (void)setShadowOpacity:(CGFloat)shadowOpacity
-{
+- (void)setShadowOpacity:(CGFloat)shadowOpacity {
   self.layer.shadowOpacity = shadowOpacity;
 }
 
-- (CGFloat)shadowRadius
-{
+- (CGFloat)shadowRadius {
   return self.layer.shadowRadius;
 }
 
-- (void)setShadowRadius:(CGFloat)shadowRadius
-{
+- (void)setShadowRadius:(CGFloat)shadowRadius {
   self.layer.shadowRadius = shadowRadius;
 }
 
-- (CGSize)shadowOffset
-{
+- (CGSize)shadowOffset {
   return self.layer.shadowOffset;
 }
 
-- (void)setShadowOffset:(CGSize)shadowOffset
-{
+- (void)setShadowOffset:(CGSize)shadowOffset {
   self.layer.shadowOffset = shadowOffset;
 }
 
-- (UIColor*)shadowColor
-{
+- (UIColor*)shadowColor {
   return [UIColor colorWithCGColor:self.layer.shadowColor];
 }
 
-- (void)setShadowColor:(UIColor*)shadowColor
-{
+- (void)setShadowColor:(UIColor*)shadowColor {
   self.layer.shadowColor = shadowColor.CGColor;
 }
 
@@ -268,7 +253,9 @@
 - (BOOL)isModal {
   if ([self presentingViewController])
     return YES;
-  if ([[[self navigationController] presentingViewController] presentedViewController] == [self navigationController])
+  if (
+      [[[self navigationController] presentingViewController] presentedViewController]
+      == [self navigationController])
     return YES;
   if ([[[self tabBarController] presentingViewController] isKindOfClass:[UITabBarController class]])
     return YES;
@@ -292,5 +279,4 @@ UIViewController * _Nullable UIGetTopmostViewController() {
     return baseVC.presentedViewController;
   }
   return baseVC;
-
 }
