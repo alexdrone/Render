@@ -6,7 +6,7 @@ open class UITableComponentViewController: UIBaseViewController,
                                            UINodeDelegateProtocol,
                                            UITableComponentCellDelegate,
                                            UIContextDelegate {
-  /// The canvas view of the view controller.
+  /// The canvas view for this ViewController.
   public var tableView: UITableView { return canvasView as! UITableView }
   /// Fades in the content of the cell when the scroll reveals it.
   /// - note: Defaul is 'true'.
@@ -28,13 +28,6 @@ open class UITableComponentViewController: UIBaseViewController,
   public required init?(coder aDecoder: NSCoder) {
     super.init(coder: aDecoder)
     context = UICellContext()
-    commonInit()
-  }
-
-  public override init(context: UIContext = UICellContext(),
-                       rootKey: String = String(describing: type(of: self))) {
-    super.init(nibName: nil, bundle: nil)
-    self.context = context
     commonInit()
   }
 
@@ -67,13 +60,15 @@ open class UITableComponentViewController: UIBaseViewController,
   open func setNeedRenderInvoked(on context: UIContextProtocol, component: UIComponentProtocol) {
   }
 
-  /// Tells the component (and the component-based navigation bar) to render.
-  open override func render() {
+  /// - note: This triggers reload data to be called on the 'tableView'.
+  open override func render(options: [UIComponentRenderOption] = []) {
     super.render()
-    //reloadData()
+    reloadData()
   }
 
   /// Reloads the rows and sections of the table view.
+  /// Call this method to reload all the data that is used to construct the table, including cells,
+  /// section headers and footers, index arrays, and so on.
   open func reloadData() {
     tableView.reloadData()
   }
@@ -156,9 +151,16 @@ open class UITableComponentViewController: UIBaseViewController,
   // MARK: - UITableSectionHeader
 
   /// *Optional*. Override this method to provide a custom view for your table view header.
-  /// - note: Use the *UIView.install* helper method if you wish to return a component for this
+  /// Use the *UIView.install* helper method if you wish to return a component for this
   /// section header. e.g.
-  /// *UIView().install(component: myComponent, size: tableView.bounds.size)*
+  ///
+  ///     UIView().install(component: myComponent, size: tableView.bounds.size)
+  ///
+  /// Section headers are not compatible with *expandable* navigation bars.
+  /// Configure your navigation bar as follows if you wish to use section headers:
+  ///
+  ///     navigationBarManager.component?.props.expandable = false
+  ///
   open func viewForHeader(inSection section: Int) -> UIView? {
     return nil
   }
@@ -205,15 +207,11 @@ open class UITableComponentViewController: UIBaseViewController,
 
   // MARK: - UINodeDelegateProtocol
 
-  /// The backing view of *node* just got rendered and added to the view hierarchy.
-  /// - parameter view: The view that just got installed in the view hierarchy.
   open func nodeDidMount(_ node: UINodeProtocol, view: UIView) {
     guard shouldApplyScrollRevealTransition else { return }
     applyScrollRevealTransition(view: view)
   }
 
-  /// The backing view of *node* is about to be layed out.
-  /// - parameter view: The view that is about to be configured and layed out.
   open func nodeWillLayout(_ node: UINodeProtocol, view: UIView) {
     guard !shouldSkipAllLayoutCallbacks else {
       return
@@ -234,8 +232,6 @@ open class UITableComponentViewController: UIBaseViewController,
     tableView.beginUpdates()
   }
 
-  /// The backing view of *node* just got layed out.
-  /// - parameter view: The view that has just been configured and layed out.
   open func nodeDidLayout(_ node: UINodeProtocol, view: UIView) {
     guard !shouldSkipAllLayoutCallbacks else {
       return
@@ -306,8 +302,9 @@ public protocol UITableComponentCellDelegate: class {
 }
 
 public class UITableComponentCell: UITableViewCell {
-  /// The node currently associated to this view.
+  /// The node currently associated to this cell.
   public var component: UIComponentProtocol?
+  /// *Internal only*
   public weak var delegate: UITableComponentCellDelegate?
 
   public override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
@@ -325,7 +322,6 @@ public class UITableComponentCell: UITableViewCell {
   }
 
   /// Install the component passed as argument in the *UITableViewCell*'s view hierarchy.
-  /// - note: This API is not called from *UITableComponent*.
   public func install(component: UIComponentProtocol, width: CGFloat) {
     let _ = component.asNode()
     mount(component: component, width: width)
@@ -351,6 +347,7 @@ public class UITableComponentCell: UITableViewCell {
   }
 
   /// Asks the view to calculate and return the size that best fits the specified size.
+  /// - note: The size is inferred from the component size.
   public override func sizeThatFits(_ size: CGSize) -> CGSize {
     guard let component = component else {
       return .zero

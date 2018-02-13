@@ -1,31 +1,53 @@
 import UIKit
 
 open class UIBaseViewController: UIViewController,
+                                 UIGestureRecognizerDelegate,
                                  UICustomNavigationBarProtocol {
   /// The context for the component hierarchy that is going to be instantiated from the controller.
   /// - note: This can be passed as argument of the view controller constructor.
   public var context: UIContext
   /// The key that is going to be used for the root component.
-  public let rootKey: String
+  public var rootKey: String
   /// The target canvas view for the root component.
+  /// This is the view that is going to be used from the component to render its view hierarchy.
+  /// - note: This view is layed out using the safe area guide, if you want it to cover the whole
+  /// surface of the ViewController set *shouldUseSafeAreaLayoutGuide* to 'false'.
   public lazy var canvasView: UIView = {
     return buildCanvasView()
   }()
-  /// The layout guide representing the portion of your view that is unobscured by bars
-  /// and other content.
+  /// Whether the canvas view should be inscribed in the safe area.
+  /// The safe area guaide is the  layout guide representing the portion of your view that is
+  /// unobscured by bars and other content.
   public var shouldUseSafeAreaLayoutGuide: Bool = true
   /// When this is 'true' the component will invoke *setNeedsRender* during the size transition
-  /// animation.
-  /// - note: There are performance issues with this property being true for ViewControllers
-  /// whose root component is a *UITableComponent*.
-  public var shouldRenderAlongsideSizeTransitionAnimation: Bool = false
-  /// Manages the custom navigation bar (if necessary).
+  /// animation (resulting in an animation).
+  public var shouldRenderAlongsideSizeTransitionAnimation: Bool = true
+  /// Manager for the custom (component-based) navigation bar.
+  /// If you wish to use the component-based navigation bar in your ViewController, you simply have
+  /// to assign your *UINavigationBarComponent* subclass to the manager's component. e.g.
+  ///
+  ///     navigationBarManager.component = context?.component(MyBarComponent.self, key: "navbar")
+  ///
+  /// You can use the default component by calling *makeDefaultNavigationBarComponent* e.g.
+  ///
+  ///     navigationBarManager.makeDefaultNavigationBarComponent()
+  ///
+  /// You can then customize the navigation bar component by accessing to its 'props' - see
+  /// **navigationBarManager.component?.props**.
+  ///
+  ///     navigationBarManager.component?.props.title = "Your title"
+  ///     navigationBarManager.component?.props.style.backgroundColor = .red
+  ///
+  /// - note: Customize your navigation bar in *viewDidLoad* before calling the *super*
+  /// implementation.
   public lazy var navigationBarManager: UINavigationBarManager = {
     return UINavigationBarManager(context: context)
   }()
   /// Whether this was the first invokation of layout subviews.
+  /// - note: This is used to have a preliminary render call to the component hierarchy.
   public var firstViewDidLayoutSubviewsInvokation: Bool = true
 
+  /// Returns a newly initialized view controller with the nib file in the specified bundle.
   public override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
     context = UIContext()
     rootKey = String(describing: type(of: self))
@@ -39,24 +61,24 @@ open class UIBaseViewController: UIViewController,
     super.init(coder: aDecoder)
   }
 
-  public init(context: UIContext = UIContext(),
-              rootKey: String = String(describing: type(of: self))) {
-    self.context = context
-    self.rootKey = rootKey
-    super.init(nibName: nil, bundle: nil)
-  }
-
   deinit {
     context.dispose()
     logDealloc(type: String(describing: type(of: self)), object: self)
   }
 
   /// Builds the canvas view for the root component.
+  /// Override this method if you wish to provide a different *UIView* subclass as your main canvas.
+  /// - note: *UIScrollableComponentViewController* override this method by providing a
+  /// *UIScrollView* canvas.
   open func buildCanvasView() -> UIView {
-    return UIView()
+    let view = UIView()
+    view.translatesAutoresizingMaskIntoConstraints = false
+    return view
   }
 
   /// Called after the controller's view is loaded into memory.
+  /// - note: Customize your navigation bar in *viewDidLoad* before calling the *super*
+  /// implementation.
   open override func viewDidLoad() {
     super.viewDidLoad()
     // Necessary only if the view controller has a custom navigation bar.
@@ -89,15 +111,31 @@ open class UIBaseViewController: UIViewController,
     view.addSubview(canvasView)
     view.addSubview(navigationBarManager.view)
     NSLayoutConstraint.activate(constraints)
+
+    // Enables interactive pop gesture by default.
+    navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+    navigationController?.interactivePopGestureRecognizer?.delegate = self;
   }
 
-  /// Renders the viewController.
-  open func render() {
+  /// Asks the delegate if a gesture recognizer should be required to fail by another
+  /// gesture recognizer.
+  /// - note: Override this method if your viewController has a gesture conflicting with the
+  /// interactive pop gesture recognizer.
+  public func gestureRecognizer(
+    _ gestureRecognizer: UIGestureRecognizer,
+    shouldBeRequiredToFailBy otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+    return true
+  }
+
+  /// Renders the viewController canvas.
+  /// - note: The navigation bar is also being re-rendered.
+  open func render(options: [UIComponentRenderOption] = []) {
     renderNavigationBar()
   }
 
   /// Called to notify the view controller that its view has just laid out its subviews.
   open override func viewDidLayoutSubviews() {
+    view.backgroundColor = canvasView.backgroundColor
     guard firstViewDidLayoutSubviewsInvokation else {
       return
     }
@@ -115,6 +153,7 @@ open class UIBaseViewController: UIViewController,
     if #available(iOS 11.0, *) { /* nop */} else { render() }
   }
 
+  /// Notifies the view controller that its view was added to a view hierarchy.
   open override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
     // Render on appearance transition required on iOS 10.
@@ -125,10 +164,5 @@ open class UIBaseViewController: UIViewController,
   open override func viewWillDisappear(_ animated: Bool) {
     super.viewWillDisappear(animated)
     navigationController?.isNavigationBarHidden = navigationBarManager.wasNavigationBarHidden
-  }
-
-  public func adjustScrollViewContentSizeAfterComponentDidRender() {
-    guard let scrollView = self.canvasView as? UIScrollView else { return }
-    scrollView.adjustContentSizeAfterComponentDidRender()
   }
 }
