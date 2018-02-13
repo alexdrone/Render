@@ -3,11 +3,14 @@ import UIKit
 // MARK: - UINavigationBarProps
 
 open class UINavigationBarProps: UIProps {
-  /// A button specialized for placement on a toolbar or tab bar.
+
+  /// A button specialized for placement in the navigation bar.
   public struct BarButtonItem {
     /// The icon that is going to be used for this button.
     public var icon: UIImage
     /// The optional bar button title.
+    /// - note: The label is going to be rendered with *UINavigationBarProps.style.tintColor* as its
+    /// text color and with *UINavigationBarProps.style.buttonFont* as its font.
     public var title: String?
     /// Fallbacks on the 'title' if nothing is defined.
     public var accessibilityLabel: String?
@@ -16,9 +19,10 @@ open class UINavigationBarProps: UIProps {
     /// A custom node that is going to be used to render the element.
     /// - note: All of the previous properties are going to be ignored when this is not 'nil'.
     public var customNode: ((UINavigationBarProps, UINavigationBarState) -> UINodeProtocol)?
-    /// Whether this item should be skipped at the next render invokation.
+    /// When the items is disabled is not going to be rendered in the navigation bar.
     public var disabled: Bool = false
-    /// Creates a new bar button with the given arguments.
+
+    /// Creates a new bar button.
     public init(icon: UIImage,
                 title: String? = nil,
                 accessibilityLabel: String? = nil,
@@ -30,7 +34,7 @@ open class UINavigationBarProps: UIProps {
       self.customNode = nil
     }
 
-    /// Creates a new bar button item with the component passed as argument.
+    /// Creates a new custom bar button.
     public init(_ node: @escaping (UINavigationBarProps, UINavigationBarState) -> UINodeProtocol) {
       self.icon = UIImage()
       self.title = nil
@@ -39,9 +43,12 @@ open class UINavigationBarProps: UIProps {
       self.customNode = node
     }
   }
+
   /// The navigation bar title.
+  /// - note: This property is going to be ignored if a custom *titleNode* is set for this
+  /// navigation bar,
   public var title: String = ""
-  /// *Optional* provide a custom *BarButtonItem* to override the default back button.
+  /// Left bar button properties.
   public lazy var leftButtonItem: BarButtonItem = {
     return BarButtonItem(icon: makeDefaultBackButtonImage()) {
       guard let vc = UIGetTopmostViewController() else { return }
@@ -55,8 +62,10 @@ open class UINavigationBarProps: UIProps {
   /// *Optional* The right buttons in the navigation bar.
   public var rightButtonItems: [BarButtonItem] = []
   /// *Optional* Overrides the title component view.
+  /// - note: When this property is set, the *title* property is ignored.
   public var titleNode: ((UINavigationBarProps, UINavigationBarState) -> UINodeProtocol)?
   /// The expanded navigation bar height.
+  /// - note: This is ignored whenever *expandable* is 'false'.
   public var heightWhenExpanded: CGFloat = 94
   /// The default navigation bar height.
   public var heightWhenNormal: CGFloat = 44

@@ -331,7 +331,7 @@ public class UITableComponentCell: UITableViewCell {
     self.component = component
     component.setCanvas(view: contentView, options: [])
 
-    // We purposely wont re-generate the node (by calling *asNode()*) because this has already
+    // We purposely won't re-generate the node (by calling *asNode()*) because this has already
     // been called in the 'heightForRowAt' delegate method.
     // We just install the node in the right view hierarchy.
     component.root.reconcile(in: contentView,
