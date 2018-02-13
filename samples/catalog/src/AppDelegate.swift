@@ -41,9 +41,8 @@ extension UIBaseViewController {
 
 public extension UICustomNavigationBarProtocol where Self: UIBaseViewController {
 
-  func styleNavigationBarComponent() {
+  func styleNavigationBarComponent(title: String = "None") {
     UIApplication.shared.statusBarStyle = .lightContent
-    let title = string(fromType: type(of: self)).replacingOccurrences(of: "ViewController", with:"")
     view.backgroundColor = S.Palette.primary.color
     canvasView.backgroundColor = view.backgroundColor
     // Configure custom navigation bar.

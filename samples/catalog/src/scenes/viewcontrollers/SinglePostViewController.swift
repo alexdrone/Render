@@ -20,7 +20,7 @@ class SinglePostViewController: UIScrollableComponentViewController<Post.PostCom
   /// Called after the controller's view is loaded into memory.
   override func viewDidLoad() {
     // Configure custom navigation bar.
-    styleNavigationBarComponent()
+    styleNavigationBarComponent(title: "Post of the day")
     super.viewDidLoad()
     shouldRenderAlongsideSizeTransitionAnimation = true
   }

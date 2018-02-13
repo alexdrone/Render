@@ -28,7 +28,7 @@ class IndexViewController: UITableComponentViewController {
 
   /// Called after the controller's view is loaded into memory.
   override func viewDidLoad() {
-    styleNavigationBarComponent()
+    styleNavigationBarComponent(title: "Index")
     super.viewDidLoad()
   }
 

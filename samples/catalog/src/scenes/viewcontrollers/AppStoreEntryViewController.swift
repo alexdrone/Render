@@ -10,7 +10,7 @@ class AppStoreEntryViewController: UIComponentViewController<AppStoreEntry.Compo
 
   override func viewDidLoad() {
     // Configure custom navigation bar.
-    styleNavigationBarComponent()
+    styleNavigationBarComponent(title: "Card design (No Stylesheet)")
     super.viewDidLoad()
     shouldRenderAlongsideSizeTransitionAnimation = true
   }

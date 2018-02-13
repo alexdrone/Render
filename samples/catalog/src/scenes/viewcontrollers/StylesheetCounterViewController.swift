@@ -8,7 +8,7 @@ class StylesheetCounterViewController: UIComponentViewController<StylesheetCount
   }
 
   override func viewDidLoad() {
-    styleNavigationBarComponent()
+    styleNavigationBarComponent(title: "Simple Counter (w/ Stylesheet)")
     super.viewDidLoad()
     shouldRenderAlongsideSizeTransitionAnimation = true
   }
