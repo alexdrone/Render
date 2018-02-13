@@ -33,10 +33,10 @@ open class UIBaseViewController: UIViewController,
   ///     navigationBarManager.makeDefaultNavigationBarComponent()
   ///
   /// You can then customize the navigation bar component by accessing to its 'props' - see
-  /// **navigationBarManager.component?.props**.
+  /// **navigationBarManager.props**.
   ///
-  ///     navigationBarManager.component?.props.title = "Your title"
-  ///     navigationBarManager.component?.props.style.backgroundColor = .red
+  ///     navigationBarManager.props.title = "Your title"
+  ///     navigationBarManager.props.style.backgroundColor = .red
   ///
   /// - note: Customize your navigation bar in *viewDidLoad* before calling the *super*
   /// implementation.
@@ -92,7 +92,7 @@ open class UIBaseViewController: UIViewController,
     if #available(iOS 11.0, *), shouldUseSafeAreaLayoutGuide {
       layoutGuide = view.safeAreaLayoutGuide
     } else {
-      layoutGuide = view.compatibleSafeAreaLayoutGuide
+      layoutGuide = view
     }
     // Constraints.
     navigationBarManager.heightConstraint =

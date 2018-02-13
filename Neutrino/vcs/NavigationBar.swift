@@ -46,7 +46,7 @@ open class UINavigationBarProps: UIProps {
 
   /// The navigation bar title.
   /// - note: This property is going to be ignored if a custom *titleNode* is set for this
-  /// navigation bar,
+  /// navigation bar.
   public var title: String = ""
   /// Left bar button properties.
   public lazy var leftButtonItem: BarButtonItem = {
@@ -64,16 +64,11 @@ open class UINavigationBarProps: UIProps {
   /// *Optional* Overrides the title component view.
   /// - note: When this property is set, the *title* property is ignored.
   public var titleNode: ((UINavigationBarProps, UINavigationBarState) -> UINodeProtocol)?
-  /// The expanded navigation bar height.
-  /// - note: This is ignored whenever *expandable* is 'false'.
-  public var heightWhenExpanded: CGFloat = 94
-  /// The default navigation bar height.
-  public var heightWhenNormal: CGFloat = 44
   /// A Boolean value indicating whether the title should be displayed in a large format.
   /// - note: This is currently not supported if your *TableViewController* has section headers.
   public var expandable: Bool = true
   /// The style applied to this navigation bar.
-  public var style = UINavigationBarDefaultStyle()
+  public var style = UINavigationBarDefaultStyle.default
 
   /// Extracts the system back button image from a navigation bar.
   private func makeDefaultBackButtonImage() -> UIImage {
@@ -88,12 +83,13 @@ open class UINavigationBarProps: UIProps {
 // MARK: - UINavigationBarState
 
 open class UINavigationBarState: UIStateProtocol {
-  /// *Internal only* The state has not yet been initialized.
-  var initialized: Bool = false
   /// The current navigation bar height
   public var height: CGFloat = 0
   /// Whether the navigation bar is currently expanded or not.
+  /// - note: 'false' if the navigation bar property *expandable* is 'false'.
   public var isExpanded: Bool = false
+  /// *Internal only* The state has not yet been initialized.
+  private var initialized: Bool = false
 
   public required init() { }
 
@@ -101,7 +97,7 @@ open class UINavigationBarState: UIStateProtocol {
   func initializeIfNecessary(props: UINavigationBarProps) {
     guard !initialized else { return }
     initialized = true
-    height = props.expandable ? props.heightWhenExpanded : props.heightWhenNormal
+    height = props.expandable ? props.style.heightWhenExpanded : props.style.heightWhenNormal
     isExpanded = props.expandable
   }
 }
@@ -110,22 +106,14 @@ open class UINavigationBarState: UIStateProtocol {
 
 open class UINavigationBarComponent: UIComponent<UINavigationBarState, UINavigationBarProps> {
   // Internal reuse identifiers.
-  public enum Id: String {
+  private enum Id: String {
     case navigationBar, notch, buttonBar, leftBarButton, rightBarButton, title, titleLabel
   }
-  // Constants.
-  private struct LayoutConstants {
-    static let barButtonHeight: CGFloat = 44
-    static let defaultMargin: CGFloat = 4
-    static var topLayoutGuideMargin: CGFloat {
-      if #available(iOS 11.0, *) { return 4 }
-      return 12
-    }
-  }
-  /// Builds the node hierarchy for this component.
+
   open override func render(context: UIContextProtocol) -> UINodeProtocol {
     let props = self.props
     let state = self.state
+    let const = self.props.style.layoutConstants
     state.initializeIfNecessary(props: props)
     // The main navigation bar node.
     let node = UINode<UIView>(reuseIdentifier: Id.navigationBar.rawValue) { configuration in
@@ -138,7 +126,7 @@ open class UINavigationBarComponent: UIComponent<UINavigationBarState, UINavigat
       let view = UIView()
       view.backgroundColor = props.style.backgroundColor
       view.yoga.percent.width = 100%
-      view.yoga.height = LayoutConstants.barButtonHeight
+      view.yoga.height = const.barButtonHeight
       view.yoga.marginTop = -view.yoga.height
       return view
     })
@@ -155,13 +143,14 @@ open class UINavigationBarComponent: UIComponent<UINavigationBarState, UINavigat
   open func renderBarButton() -> UINodeProtocol {
     let props = self.props
     let state = self.state
+    let const = self.props.style.layoutConstants
     // Build the button bar.
     func makeBar() -> UIView {
       let view = UIView()
       view.backgroundColor = .clear
       view.yoga.position = .absolute
-      view.yoga.height = LayoutConstants.barButtonHeight
-      view.yoga.marginTop = LayoutConstants.topLayoutGuideMargin
+      view.yoga.height = const.barButtonHeight
+      view.yoga.marginTop = const.topLayoutGuideMargin
       view.yoga.percent.width = 100%
       view.yoga.flexDirection = .row
       view.yoga.justifyContent = .spaceBetween
@@ -173,7 +162,7 @@ open class UINavigationBarComponent: UIComponent<UINavigationBarState, UINavigat
       let button = UIButton(type: .custom)
       button.setImage(props.leftButtonItem.icon, for: .normal)
       button.accessibilityLabel = props.leftButtonItem.accessibilityLabel
-      button.yoga.width = LayoutConstants.barButtonHeight
+      button.yoga.width = const.barButtonHeight
       button.yoga.percent.height = 100%
       button.onTap { _ in
         props.leftButtonItem.onSelected()
@@ -183,9 +172,9 @@ open class UINavigationBarComponent: UIComponent<UINavigationBarState, UINavigat
     /// Build a right bar button item.
     func makeRightButton() -> UIButton {
       let button = UIButton(type: .custom)
-      button.yoga.minWidth = LayoutConstants.barButtonHeight
+      button.yoga.minWidth = const.barButtonHeight
       button.yoga.percent.height = 100%
-      button.yoga.marginRight = LayoutConstants.defaultMargin * 4
+      button.yoga.marginRight = const.defaultMargin * 4
       button.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: UIFont.Weight.regular)
       button.setTitleColor(props.style.tintColor, for: .normal)
       return button
@@ -215,11 +204,12 @@ open class UINavigationBarComponent: UIComponent<UINavigationBarState, UINavigat
   }
 
   /// Renders the title bar.
-  /// - note: Provide the 'titleComponent' prop if you want a custom title view, or override this
-  /// method.
+  /// - note: You can provide the *titleComponent* prop if you want a custom title view without
+  ///  having to override this method
   open func renderTitle() -> UINodeProtocol {
     let props = self.props
     let state = self.state
+    let const = self.props.style.layoutConstants
     // Custom title component.
     if let titleNode = props.titleNode {
       return titleNode(props, state)
@@ -229,8 +219,8 @@ open class UINavigationBarComponent: UIComponent<UINavigationBarState, UINavigat
       let view = UIView()
       view.yoga.percent.width = 100%
       view.yoga.percent.height = 100%
-      view.yoga.marginTop = LayoutConstants.topLayoutGuideMargin
-      view.yoga.paddingLeft = LayoutConstants.defaultMargin * 3
+      view.yoga.marginTop = const.topLayoutGuideMargin
+      view.yoga.paddingLeft = const.defaultMargin * 3
       view.yoga.paddingRight = view.yoga.paddingLeft
       view.yoga.justifyContent = .flexEnd
       view.yoga.alignItems = .center
@@ -244,19 +234,19 @@ open class UINavigationBarComponent: UIComponent<UINavigationBarState, UINavigat
       configuration.set(\UILabel.textColor, props.style.titleColor)
       if state.isExpanded {
         configuration.set(\UILabel.font, props.style.expandedTitleFont)
-        configuration.set(\UILabel.yoga.marginTop, LayoutConstants.barButtonHeight)
-        configuration.set(\UILabel.yoga.marginBottom, LayoutConstants.defaultMargin * 3)
+        configuration.set(\UILabel.yoga.marginTop, const.barButtonHeight)
+        configuration.set(\UILabel.yoga.marginBottom, const.defaultMargin * 3)
         configuration.set(\UILabel.yoga.height, CGFloat.undefined)
         configuration.set(\UILabel.yoga.maxWidth, configuration.canvasSize.width)
         configuration.set(\UILabel.textAlignment, .left)
-        let height = state.height - LayoutConstants.barButtonHeight
-        let alpha = pow(height/props.heightWhenNormal, 3)
+        let height = state.height - const.barButtonHeight
+        let alpha = pow(height/props.style.heightWhenNormal, 3)
         configuration.set(\UILabel.alpha, min(1, alpha))
       } else {
         configuration.set(\UILabel.font, props.style.titleFont)
         configuration.set(\UILabel.yoga.marginTop, 0)
         configuration.set(\UILabel.yoga.marginBottom, 0)
-        configuration.set(\UILabel.yoga.height, LayoutConstants.barButtonHeight)
+        configuration.set(\UILabel.yoga.height, const.barButtonHeight)
         configuration.set(\UILabel.yoga.maxWidth, 0.5 * configuration.canvasSize.width)
         configuration.set(\UILabel.textAlignment, .center)
         configuration.set(\UILabel.alpha, 1)
@@ -267,7 +257,9 @@ open class UINavigationBarComponent: UIComponent<UINavigationBarState, UINavigat
   }
 
   /// Used to propagate the navigation bar style to its container.
-  public func updateNavigationBarContainer(_ view: UIView) {
+  /// - note: Override this if you wish to change the navigation bar component container according
+  /// to the current component state.
+  open func updateNavigationBarContainer(_ view: UIView) {
     view.depthPreset = state.isExpanded ? props.style.depthWhenExpanded:props.style.depthWhenNormal
     view.backgroundColor = props.style.backgroundColor
   }
@@ -277,21 +269,37 @@ open class UINavigationBarComponent: UIComponent<UINavigationBarState, UINavigat
 
 /// The container object for this navigation bar.
 public final class UINavigationBarManager {
-  /// The context for the component hierarchy that is going to be instantiated from the controller.
-  /// - note: This can be passed as argument of the view controller constructor.
+  /// The context that is going to be used to build the navigation bar component.
   private weak var context: UIContext?
   /// The custom navigation bar component.
+  /// If you wish to use the component-based navigation bar in your ViewController, you simply have
+  /// to assign your *UINavigationBarComponent* subclass to the manager's component. e.g.
+  ///
+  ///     navigationBarManager.component = context?.component(MyBarComponent.self, key: "navbar")
+  ///
+  /// You can use the default component by calling *makeDefaultNavigationBarComponent* e.g.
+  ///
+  ///     navigationBarManager.makeDefaultNavigationBarComponent()
+  ///
   public lazy var component: UINavigationBarComponent? = nil
+  /// The component-based navigation bar properties.
+  /// You can then customize the navigation bar component by accessing to its 'props' e.g.
+  ///
+  ///     navigationBarManager.props.title = "Your title"
+  ///     navigationBarManager.props.style.backgroundColor = .red
+  ///
+  public let props: UINavigationBarProps = UINavigationBarProps()
   /// The view that is going to be used to mount the *navigationBarComponent*.
-  public lazy var view: UIView = makeNavigationBarView()
-  /// The current navigation bar height.
-  public var heightConstraint: NSLayoutConstraint?
-  /// 'true' only if the navigation bar component is defined.
+  public lazy private(set) var view: UIView = makeNavigationBarView()
+  /// The current navigation bar height (when the component-based navigation bar is enabled).
+  public internal(set) var heightConstraint: NSLayoutConstraint?
+  /// 'true' if the navigation bar component is enabled.
   public var hasCustomNavigationBar: Bool {
     return component != nil
   }
-  /// Whether the navigation bar was hidden before pushing this viewController.
-  public var wasNavigationBarHidden: Bool = false
+  /// Whether the navigation bar was hidden before pushing this ViewController.
+  /// - note: *Internal only*.
+  public internal(set) var wasNavigationBarHidden: Bool = false
 
   /// Builds the canvas view the navigation bar.
   private func makeNavigationBarView() -> UIView {
@@ -301,11 +309,15 @@ public final class UINavigationBarManager {
   }
 
   /// Constructs the default navigation bar.
+  /// - note: The default navigation bar can be easily customised by accessing to its properties
+  /// (see *UINavigationBarProps*) and its style (see *UINavigationBarDefaultStyle*).
   public func makeDefaultNavigationBarComponent() {
     component = context?.component(UINavigationBarComponent.self, key: "navigationBar")
+    component?.props = props
   }
 
-  /// Creates a new custom navigation bar container with the given context.
+  /// Creates a new custom navigation bar manager with the given context.
+  /// - parameter context: The context that is going to be used to build the bar component.
   public init(context: UIContext) {
     self.context = context
   }
@@ -322,7 +334,7 @@ public protocol UICustomNavigationBarProtocol: UIScrollViewDelegate {
 /// component.
 public extension UICustomNavigationBarProtocol where Self: UIViewController {
   /// Create and initalize the navigation bar (if necessary).
-  /// - note: If 'navigationBarManager.component' is not defined, this method is no-op.
+  /// - note: If *navigationBarManager.component* is not defined, this method is no-op.
   public func initializeNavigationBarIfNecessary() {
     let nv = navigationController
     navigationBarManager.wasNavigationBarHidden = nv?.isNavigationBarHidden ?? false
@@ -341,7 +353,7 @@ public extension UICustomNavigationBarProtocol where Self: UIViewController {
   }
 
   /// Renders the navigation bar in its current state.
-  /// - note: If 'navigationBarManager.component' is not defined, this method is no-op.
+  /// - note: If *navigationBarManager.component* is not defined, this method is no-op.
   public func renderNavigationBar(updateHeightConstraint: Bool = true) {
     guard let navigationBarComponent = navigationBarManager.component else {
       navigationBarManager.heightConstraint?.constant = 0
@@ -355,7 +367,7 @@ public extension UICustomNavigationBarProtocol where Self: UIViewController {
   }
 
   /// Tells the delegate when the user scrolls the content view within the receiver.
-  /// - note: If 'navigationBarManager.component' is not defined, this method is no-op.
+  /// - note: If *navigationBarManager.component* is not defined, this method is no-op.
   public func navigationBarDidScroll(_ scrollView: UIScrollView) {
     // There's no custom navigation bar component.
     guard let navigationBarComponent = navigationBarManager.component else { return }
@@ -369,28 +381,28 @@ public extension UICustomNavigationBarProtocol where Self: UIViewController {
     }
     // Bounces the navigation bar.
     if y < 0 {
-      state.height = props.heightWhenExpanded + (-y)
+      state.height = props.style.heightWhenExpanded + (-y)
       scrollView.contentInset.top = 0
       renderNavigationBar(updateHeightConstraint: false)
       return
     }
     // Breaks when the scroll reaches the default navigation bar height.
-    if y > props.heightWhenNormal {
+    if y > props.style.heightWhenNormal {
       let wasExpanded = state.isExpanded
       state.isExpanded = false
       // Make sure that the height constraint is updated.
       if wasExpanded {
-        let offset = props.heightWhenExpanded - props.heightWhenNormal
+        let offset = props.style.heightWhenExpanded - props.style.heightWhenNormal
         state.height = offset
         scrollView.contentInset.top = offset
         renderNavigationBar(updateHeightConstraint: true)
       }
-      state.height = props.heightWhenNormal
+      state.height = props.style.heightWhenNormal
       renderNavigationBar(updateHeightConstraint: false)
     // Adjusts the height otherwise.
     } else {
       state.isExpanded = true
-      state.height = props.heightWhenExpanded - y
+      state.height = props.style.heightWhenExpanded - y
       scrollView.contentInset.top = y
       renderNavigationBar(updateHeightConstraint: true)
     }
@@ -399,17 +411,23 @@ public extension UICustomNavigationBarProtocol where Self: UIViewController {
 
 // MARK: - UINavigationBarDefaultStyle
 
-// Default (system-like) appearance proxy for the component-based navigation bar.
 public struct UINavigationBarDefaultStyle {
-  /// The default background color.
+  /// Default (system-like) appearance proxy for the component-based navigation bar.
+  public static var `default` = UINavigationBarDefaultStyle()
+  /// The expanded navigation bar height.
+  /// - note: This is ignored whenever *expandable* is 'false'.
+  public var heightWhenExpanded: CGFloat = 94
+  /// The default navigation bar height.
+  public var heightWhenNormal: CGFloat = 44
+  /// The navigation bar background color.
   public var backgroundColor: UIColor = UIColor(displayP3Red:0.98, green: 0.98, blue: 0.98, alpha:1)
-  /// The default title color.
+  /// The navigation bar title color.
   public var titleColor: UIColor = .black
-  /// The font used when 'prefersLargeTitles' is enabled.
+  /// The font used when the navigation bar is *expandable*.
   public var expandedTitleFont: UIFont = UIFont.systemFont(ofSize: 30, weight: UIFont.Weight.black)
   /// The font used when the navigation bar is in its default mode.
   public var titleFont: UIFont = UIFont.systemFont(ofSize: 16, weight: UIFont.Weight.semibold)
-  /// The tint color applied to the icons and the the buttons.
+  /// The tint color applied to the navigation bar buttons (icons and text).
   public var tintColor: UIColor = UIColor(displayP3Red:0, green:0.47, blue:1, alpha:1)
   /// The font applied to the button items.
   public var buttonFont: UIFont = UIFont.systemFont(ofSize: 16, weight: UIFont.Weight.regular)
@@ -417,4 +435,20 @@ public struct UINavigationBarDefaultStyle {
   public var depthWhenExpanded: DepthPreset = .none
   /// The shadow applied when the navigation bar is in its default mode.
   public var depthWhenNormal: DepthPreset = .depth2
+  /// Default layout metrics.
+  public var layoutConstants = LayoutConstants()
+
+  public struct LayoutConstants {
+    /// The default height for the navigation button bar.
+    public var barButtonHeight: CGFloat = 44
+    /// Default margin unit (all of the margins are multiple of this, creating a grid-like layout).
+    public var defaultMargin: CGFloat = 4
+    /// Margin from the top layout guide currently used.
+    /// - note: This not only depends on the OS version, but also from whether
+    /// *shouldUseSafeAreaLayoutGuide* is enabled for this view controller or nt.
+    public var topLayoutGuideMargin: CGFloat {
+      if #available(iOS 11.0, *) { return 4 }
+      return 12
+    }
+  }
 }

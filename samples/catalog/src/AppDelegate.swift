@@ -47,9 +47,9 @@ public extension UICustomNavigationBarProtocol where Self: UIBaseViewController 
     canvasView.backgroundColor = view.backgroundColor
     // Configure custom navigation bar.
     navigationBarManager.makeDefaultNavigationBarComponent()
-    navigationBarManager.component?.props.title = title
-    navigationBarManager.component?.props.style.backgroundColor = S.Palette.primary.color
-    navigationBarManager.component?.props.style.tintColor = S.Palette.accentText.color
-    navigationBarManager.component?.props.style.titleColor = S.Palette.white.color
+    navigationBarManager.props.title = title
+    navigationBarManager.props.style.backgroundColor = S.Palette.primary.color
+    navigationBarManager.props.style.tintColor = S.Palette.accentText.color
+    navigationBarManager.props.style.titleColor = S.Palette.white.color
   }
 }
