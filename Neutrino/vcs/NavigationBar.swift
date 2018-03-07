@@ -301,7 +301,11 @@ public final class UINavigationBarManager {
   ///
   ///     navigationBarManager.makeDefaultNavigationBarComponent()
   ///
-  public lazy var component: UINavigationBarComponent? = nil
+  public var component: UINavigationBarComponent? = nil {
+    didSet {
+      component?.props = props
+    }
+  }
   /// The component-based navigation bar properties.
   /// You can then customize the navigation bar component by accessing to its 'props' e.g.
   ///

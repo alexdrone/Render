@@ -359,7 +359,7 @@ open class UIComponent<S: UIStateProtocol, P: UIPropsProtocol>: NSObject, UIComp
   }
 
   /// Dispose the object and makes it unusable.
-  public func dispose() {
+  open func dispose() {
     isDisposed = true
     // Resets props and state.
     props = P()

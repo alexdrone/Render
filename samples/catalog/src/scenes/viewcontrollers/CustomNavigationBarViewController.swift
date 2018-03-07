@@ -14,20 +14,19 @@ class CustomNavigationBarViewController: UITableComponentViewController {
 
   override func tableView(_ tableView: UITableView,
                           cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-    let track = tracks[indexPath.row]
     let component = context.component(Track.TrackComponent.self,
-                                      key: track.id,
-                                      props: track,
+                                      key: tracks[indexPath.row].id,
+                                      props: tracks[indexPath.row],
                                       parent: nil)
     return dequeueCell(forComponent: component)
   }
 
-
   /// Called after the controller's view is loaded into memory.
   override func viewDidLoad() {
-    view.backgroundColor = S.Palette.primary.color
-    canvasView.backgroundColor = view.backgroundColor
+    // Instantiate the custom navigation bar component.
     navigationBarManager.component = context.component(Track.NavigationBar.self)
+    // User info is a special dictionary-like object used to passed additional custom properties
+    // to the navigation bar subclass.
     navigationBarManager.props.userInfo = Track.NavigationBar.UserInfo()
     super.viewDidLoad()
   }

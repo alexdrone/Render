@@ -19,6 +19,9 @@ public struct S {
     public static let styleIdentifier: String = "TrackNavigationBar.circle"
     public static let style: [String] = [TrackNavigationBar_circle.styleIdentifier]
     case backgroundColor
+    case font
+    case textColor
+    case textAlignment
   }
   public enum Track_wrapper: String, UIStylesheetProtocol {
     public static let styleIdentifier: String = "Track.wrapper"
@@ -66,6 +69,7 @@ public struct S {
     case margin
     case font
     case textColor
+    case numberOfLines
   }
   public enum Counter_button: String, UIStylesheetProtocol {
     public static let styleIdentifier: String = "Counter.button"
@@ -109,7 +113,8 @@ public struct S {
     case cornerRadius
     case backgroundColorImage
     case font
-    case text
+    case borderWidth
+    case borderColor
   }
   public enum Margin: String, UIStylesheetProtocol {
     public static let styleIdentifier: String = "Margin"
@@ -118,6 +123,13 @@ public struct S {
     case small
     case medium
     case large
+  }
+  public enum TrackNavigationBar_gradient: String, UIStylesheetProtocol {
+    public static let styleIdentifier: String = "TrackNavigationBar.gradient"
+    public static let style: [String] = [TrackNavigationBar_gradient.styleIdentifier]
+    case justifyContent
+    case alignSelf
+    case alignItems
   }
   public enum Post_commentAuthor: String, UIStylesheetProtocol {
     public static let styleIdentifier: String = "Post.commentAuthor"
@@ -195,7 +207,6 @@ public struct S {
   public enum TrackNavigationBar_main: String, UIStylesheetProtocol {
     public static let styleIdentifier: String = "TrackNavigationBar.main"
     public static let style: [String] = [TrackNavigationBar_main.styleIdentifier]
-    case backgroundColor
     case justifyContent
     case alignSelf
     case alignItems
@@ -276,6 +287,7 @@ public struct S {
     case gray
     case green
     case black
+    case lightBlack
   }
   public enum Post_body: String, UIStylesheetProtocol {
     public static let styleIdentifier: String = "Post.body"
