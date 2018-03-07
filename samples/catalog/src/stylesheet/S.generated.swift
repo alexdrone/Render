@@ -15,6 +15,20 @@ public struct S {
     public static let style: [String] = [Counter_button_even.styleIdentifier]
     case backgroundColorImage
   }
+  public enum TrackNavigationBar_circle: String, UIStylesheetProtocol {
+    public static let styleIdentifier: String = "TrackNavigationBar.circle"
+    public static let style: [String] = [TrackNavigationBar_circle.styleIdentifier]
+    case backgroundColor
+  }
+  public enum Track_wrapper: String, UIStylesheetProtocol {
+    public static let styleIdentifier: String = "Track.wrapper"
+    public static let style: [String] = [Track_wrapper.styleIdentifier]
+    case width
+    case backgroundColor
+    case height
+    case flexDirection
+    case alignItems
+  }
   public enum Palette: String, UIStylesheetProtocol {
     public static let styleIdentifier: String = "Palette"
     public static let style: [String] = [Palette.styleIdentifier]
@@ -44,6 +58,14 @@ public struct S {
     case width
     case height
     case cornerRadius
+  }
+  public enum Track_title: String, UIStylesheetProtocol {
+    public static let styleIdentifier: String = "Track.title"
+    public static let style: [String] = [Track_title.styleIdentifier]
+    case width
+    case margin
+    case font
+    case textColor
   }
   public enum Counter_button: String, UIStylesheetProtocol {
     public static let styleIdentifier: String = "Counter.button"
@@ -77,6 +99,17 @@ public struct S {
     public static let styleIdentifier: String = "Post.image.expanded"
     public static let style: [String] = [Post_image_expanded.styleIdentifier]
     case height
+  }
+  public enum TrackNavigationBar_button: String, UIStylesheetProtocol {
+    public static let styleIdentifier: String = "TrackNavigationBar.button"
+    public static let style: [String] = [TrackNavigationBar_button.styleIdentifier]
+    case width
+    case height
+    case position
+    case cornerRadius
+    case backgroundColorImage
+    case font
+    case text
   }
   public enum Margin: String, UIStylesheetProtocol {
     public static let styleIdentifier: String = "Margin"
@@ -159,6 +192,14 @@ public struct S {
     case clipsToBounds
     case contentMode
   }
+  public enum TrackNavigationBar_main: String, UIStylesheetProtocol {
+    public static let styleIdentifier: String = "TrackNavigationBar.main"
+    public static let style: [String] = [TrackNavigationBar_main.styleIdentifier]
+    case backgroundColor
+    case justifyContent
+    case alignSelf
+    case alignItems
+  }
   public enum Post_header: String, UIStylesheetProtocol {
     public static let styleIdentifier: String = "Post.header"
     public static let style: [String] = [Post_header.styleIdentifier]
@@ -193,6 +234,14 @@ public struct S {
     case height
     case flexDirection
   }
+  public enum Track_cover: String, UIStylesheetProtocol {
+    public static let styleIdentifier: String = "Track.cover"
+    public static let style: [String] = [Track_cover.styleIdentifier]
+    case height
+    case width
+    case cornerRadius
+    case marginLeft
+  }
   public enum Post_wrapper: String, UIStylesheetProtocol {
     public static let styleIdentifier: String = "Post.wrapper"
     public static let style: [String] = [Post_wrapper.styleIdentifier]
@@ -219,6 +268,14 @@ public struct S {
     case textColor
     case font
     case margin
+  }
+  public enum TrackPalette: String, UIStylesheetProtocol {
+    public static let styleIdentifier: String = "TrackPalette"
+    public static let style: [String] = [TrackPalette.styleIdentifier]
+    case white
+    case gray
+    case green
+    case black
   }
   public enum Post_body: String, UIStylesheetProtocol {
     public static let styleIdentifier: String = "Post.body"

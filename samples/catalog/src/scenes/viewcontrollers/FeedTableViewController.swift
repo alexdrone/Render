@@ -41,6 +41,10 @@ class FeedTableViewController: UITableComponentViewController, PostComponentDele
     styleNavigationBarComponent(title: "Feed")
     super.viewDidLoad()
     shouldApplyScrollRevealTransition = true
-  }
 
+    // *tableHeaderView* and *tableFooterView* can be built from components too.
+    self.tableView.tableHeaderView = UIView().install(
+      component: context.transientComponent(Post.FeedHeaderComponent.self),
+      size: tableView.bounds.size)
+  }
 }

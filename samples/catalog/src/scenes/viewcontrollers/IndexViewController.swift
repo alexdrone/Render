@@ -14,6 +14,10 @@ class IndexViewController: UITableComponentViewController {
         subtitle: "A list of posts implemented using UITableComponentViewController.",
         onCellSelected: presentFeedWithTableViewControllerComponentExample),
       Index.CellProps(
+        title: "Custom NavigationBar",
+        subtitle: "Show how to customize the component-based navigation bar.",
+        onCellSelected: presentCustomNavigationBarExample),
+      Index.CellProps(
         title: "Appstore-like card without Stylesheet usage.",
         subtitle: """
         A complex stateful component that doesn't rely on the stylesheet for node definitions
@@ -23,6 +27,7 @@ class IndexViewController: UITableComponentViewController {
         title: "Stylesheet-based simple Counter",
         subtitle: "A simple component that render itself using styles.",
         onCellSelected: presentStylesheetCounterExample),
+
     ]
   }()
 
@@ -76,6 +81,10 @@ class IndexViewController: UITableComponentViewController {
 
   private func presentStylesheetCounterExample() {
     navigationController?.pushViewController(StylesheetCounterViewController(), animated: true)
+  }
+
+  private func presentCustomNavigationBarExample() {
+    navigationController?.pushViewController(CustomNavigationBarViewController(), animated: true)
   }
 }
 

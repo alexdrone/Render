@@ -69,6 +69,17 @@ open class UINavigationBarProps: UIProps {
   public var expandable: Bool = true
   /// The style applied to this navigation bar.
   public var style = UINavigationBarDefaultStyle.default
+  /// Left for addtional properties that might be consumed by the subclasses.
+  public var userInfo: Any?
+  /// Cast the *userInfo* to the desired type.
+  public func userInfo<T>(as: T.Type) -> T? {
+    return userInfo as? T
+  }
+  /// The current scroll progress (0.0 to 1.0).
+  public func scrollProgress(currentHeight: CGFloat) -> CGFloat {
+    let height = currentHeight - style.heightWhenNormal
+    return height/style.heightWhenNormal
+  }
 
   /// Extracts the system back button image from a navigation bar.
   private func makeDefaultBackButtonImage() -> UIImage {
@@ -109,6 +120,14 @@ open class UINavigationBarComponent: UIComponent<UINavigationBarState, UINavigat
   private enum Id: String {
     case navigationBar, notch, buttonBar, leftBarButton, rightBarButton, title, titleLabel
   }
+
+  open override var props: UINavigationBarProps {
+    didSet {
+      overrideStyle(props.style)
+    }
+  }
+  /// Entrypoint to override in subclasses.
+  open func overrideStyle(_ style: UINavigationBarDefaultStyle) { }
 
   open override func render(context: UIContextProtocol) -> UINodeProtocol {
     let props = self.props
@@ -240,8 +259,8 @@ open class UINavigationBarComponent: UIComponent<UINavigationBarState, UINavigat
         configuration.set(\UILabel.yoga.height, CGFloat.undefined)
         configuration.set(\UILabel.yoga.maxWidth, configuration.canvasSize.width)
         configuration.set(\UILabel.textAlignment, .left)
-        let height = state.height - props.style.heightWhenNormal
-        let alpha = pow(height/props.style.heightWhenNormal, 3)
+        let progress = props.scrollProgress(currentHeight: state.height)
+        let alpha = pow(progress, 3)
         configuration.set(\UILabel.alpha, min(1, alpha))
       } else {
         configuration.set(\UILabel.font, props.style.titleFont)

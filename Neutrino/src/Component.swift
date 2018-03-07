@@ -84,7 +84,7 @@ open class UIComponent<S: UIStateProtocol, P: UIPropsProtocol>: NSObject, UIComp
   /// The state associated with this component.
   /// A state is always associated to a unique component key and it's a unique instance living
   /// in the context identity map.
-  public var state: S {
+  open var state: S {
     get {
       let newInstance = S()
       if newInstance is UINilState {
@@ -107,7 +107,7 @@ open class UIComponent<S: UIStateProtocol, P: UIPropsProtocol>: NSObject, UIComp
     }
   }
   /// Use props to pass data & event handlers down to your child components.
-  public var props: P = P()
+  open var props: P = P()
   public var anyProp: UIPropsProtocol { return props }
   public var anyState: UIStateProtocol { return state }
   /// A unique key for the component (necessary if the component is stateful).

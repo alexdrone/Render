@@ -25,6 +25,9 @@
 		161456111FE5C89600B9E091 /* stylesheet.yaml in Resources */ = {isa = PBXBuildFile; fileRef = 161456101FE5C89600B9E091 /* stylesheet.yaml */; };
 		1614561C1FE5D44C00B9E091 /* Counter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1614561B1FE5D44C00B9E091 /* Counter.swift */; };
 		1614561F1FE5D4FD00B9E091 /* StylesheetCounterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1614561E1FE5D4FD00B9E091 /* StylesheetCounterViewController.swift */; };
+		1624E6BD2050290000EBFC8D /* CustomNavigationBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1624E6BC2050290000EBFC8D /* CustomNavigationBarViewController.swift */; };
+		1624E6C1205029E900EBFC8D /* Track.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1624E6C0205029E900EBFC8D /* Track.swift */; };
+		1624E6C320502AE800EBFC8D /* track.yaml in Resources */ = {isa = PBXBuildFile; fileRef = 1624E6C220502AE800EBFC8D /* track.yaml */; };
 		16458EE51FF25919003FE6EE /* FeedTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16458EE41FF25919003FE6EE /* FeedTableViewController.swift */; };
 		165399231F9A73B6006DFE5D /* RenderNeutrino.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 165399171F9A737B006DFE5D /* RenderNeutrino.framework */; };
 		165399241F9A73B6006DFE5D /* RenderNeutrino.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 165399171F9A737B006DFE5D /* RenderNeutrino.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -111,6 +114,9 @@
 		161456101FE5C89600B9E091 /* stylesheet.yaml */ = {isa = PBXFileReference; lastKnownFileType = text; path = stylesheet.yaml; sourceTree = "<group>"; };
 		1614561B1FE5D44C00B9E091 /* Counter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Counter.swift; sourceTree = "<group>"; };
 		1614561E1FE5D4FD00B9E091 /* StylesheetCounterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StylesheetCounterViewController.swift; sourceTree = "<group>"; };
+		1624E6BC2050290000EBFC8D /* CustomNavigationBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomNavigationBarViewController.swift; sourceTree = "<group>"; };
+		1624E6C0205029E900EBFC8D /* Track.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Track.swift; sourceTree = "<group>"; };
+		1624E6C220502AE800EBFC8D /* track.yaml */ = {isa = PBXFileReference; lastKnownFileType = text; path = track.yaml; sourceTree = "<group>"; };
 		16458EE41FF25919003FE6EE /* FeedTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedTableViewController.swift; sourceTree = "<group>"; };
 		165399121F9A737B006DFE5D /* RenderNeutrino.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RenderNeutrino.xcodeproj; path = ../../Neutrino/RenderNeutrino.xcodeproj; sourceTree = "<group>"; };
 		167070211FB8C1D7008DFC5B /* IndexViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndexViewController.swift; sourceTree = "<group>"; };
@@ -231,6 +237,7 @@
 				1614561B1FE5D44C00B9E091 /* Counter.swift */,
 				16B66F151FEBEFAB00840140 /* Shared.swift */,
 				16C921C31FEEDA7D009F6138 /* FacebookPost.swift */,
+				1624E6C0205029E900EBFC8D /* Track.swift */,
 			);
 			path = components;
 			sourceTree = "<group>";
@@ -243,6 +250,7 @@
 				1614561E1FE5D4FD00B9E091 /* StylesheetCounterViewController.swift */,
 				16C921C81FEEF7A9009F6138 /* SinglePostViewController.swift */,
 				16458EE41FF25919003FE6EE /* FeedTableViewController.swift */,
+				1624E6BC2050290000EBFC8D /* CustomNavigationBarViewController.swift */,
 			);
 			path = viewcontrollers;
 			sourceTree = "<group>";
@@ -252,6 +260,7 @@
 			children = (
 				160307571FE6810200044D00 /* counter.yaml */,
 				16C921CA1FEEFBCE009F6138 /* post.yaml */,
+				1624E6C220502AE800EBFC8D /* track.yaml */,
 			);
 			path = components;
 			sourceTree = "<group>";
@@ -370,6 +379,7 @@
 				16C921CB1FEEFBCE009F6138 /* post.yaml in Resources */,
 				168FA6DE1F8F856D00A12585 /* Assets.xcassets in Resources */,
 				16ED28041FD5A74900D5E222 /* Default-568h@2x.png in Resources */,
+				1624E6C320502AE800EBFC8D /* track.yaml in Resources */,
 				160307581FE6810200044D00 /* counter.yaml in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -412,6 +422,7 @@
 			files = (
 				16D5F6CB2011FDEF0003CDF7 /* S.generated.swift in Sources */,
 				16D24C451FD5705E000BADB9 /* AppStoreEntryViewController.swift in Sources */,
+				1624E6BD2050290000EBFC8D /* CustomNavigationBarViewController.swift in Sources */,
 				167070261FB8C757008DFC5B /* Index.swift in Sources */,
 				16C921C91FEEF7A9009F6138 /* SinglePostViewController.swift in Sources */,
 				16C921C71FEEDB49009F6138 /* Random.swift in Sources */,
@@ -420,6 +431,7 @@
 				16458EE51FF25919003FE6EE /* FeedTableViewController.swift in Sources */,
 				1614561F1FE5D4FD00B9E091 /* StylesheetCounterViewController.swift in Sources */,
 				16B66F161FEBEFAB00840140 /* Shared.swift in Sources */,
+				1624E6C1205029E900EBFC8D /* Track.swift in Sources */,
 				16A38D3A1FC0E897000E43E9 /* AppStoreEntry.swift in Sources */,
 				1614561C1FE5D44C00B9E091 /* Counter.swift in Sources */,
 				167070221FB8C1D7008DFC5B /* IndexViewController.swift in Sources */,

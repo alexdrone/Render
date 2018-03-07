@@ -24,3 +24,5 @@ Margin:
 import:
   - components/counter.yaml
   - components/post.yaml
+  - components/track.yaml
+

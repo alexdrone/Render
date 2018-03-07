@@ -1,0 +1,37 @@
+
+TrackPalette:
+  white: &_track_white "#FFFFFF"
+  gray: &_track_gray "##F2F3F5"
+  green: &_track_green "#03BB4F"
+  black: &_track_black "#141823"
+Track.wrapper:
+  width: ${canvasSize.width}
+  backgroundColor: *_track_black
+  height: 64
+  flexDirection: ${row}
+  alignItems: ${center}
+Track.cover:
+  height: 46
+  width: 46
+  cornerRadius: 23
+  marginLeft: 8
+Track.title:
+  width: ${canvasSize.width - 80}
+  margin: 8
+  font: font(system,12,bold)
+  textColor: *_track_white
+TrackNavigationBar.main:
+  backgroundColor: *_track_black
+  justifyContent: ${center}
+  alignSelf: ${center}
+  alignItems: ${center}
+TrackNavigationBar.circle:
+  backgroundColor: "#252427"
+TrackNavigationBar.button:
+  width: 64
+  height: 32
+  position: ${absolute}
+  cornerRadius: 16
+  backgroundColorImage: *_track_green
+  font: font(system,12,bold)
+  text: "PLAY"
