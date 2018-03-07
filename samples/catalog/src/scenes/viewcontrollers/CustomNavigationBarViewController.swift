@@ -28,10 +28,8 @@ class CustomNavigationBarViewController: UITableComponentViewController {
     view.backgroundColor = S.Palette.primary.color
     canvasView.backgroundColor = view.backgroundColor
     navigationBarManager.component = context.component(Track.NavigationBar.self)
-    navigationBarManager.props.title = "Tracks"
     navigationBarManager.props.userInfo = Track.NavigationBar.UserInfo()
     super.viewDidLoad()
-    shouldApplyScrollRevealTransition = true
   }
 }
 
