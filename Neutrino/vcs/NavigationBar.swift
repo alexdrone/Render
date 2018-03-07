@@ -113,7 +113,6 @@ open class UINavigationBarComponent: UIComponent<UINavigationBarState, UINavigat
   open override func render(context: UIContextProtocol) -> UINodeProtocol {
     let props = self.props
     let state = self.state
-    let const = self.props.style.layoutConstants
     state.initializeIfNecessary(props: props)
     // The main navigation bar node.
     let node = UINode<UIView>(reuseIdentifier: Id.navigationBar.rawValue) { configuration in
@@ -126,7 +125,7 @@ open class UINavigationBarComponent: UIComponent<UINavigationBarState, UINavigat
       let view = UIView()
       view.backgroundColor = props.style.backgroundColor
       view.yoga.percent.width = 100%
-      view.yoga.height = const.barButtonHeight
+      view.yoga.height = props.style.heightWhenNormal
       view.yoga.marginTop = -view.yoga.height
       return view
     })
@@ -143,14 +142,15 @@ open class UINavigationBarComponent: UIComponent<UINavigationBarState, UINavigat
   open func renderBarButton() -> UINodeProtocol {
     let props = self.props
     let state = self.state
-    let const = self.props.style.layoutConstants
+    // Default margin unit (all of the margins are multiple of this, creating a grid-like layout).
+    let unit: CGFloat = 4
     // Build the button bar.
     func makeBar() -> UIView {
       let view = UIView()
       view.backgroundColor = .clear
       view.yoga.position = .absolute
-      view.yoga.height = const.barButtonHeight
-      view.yoga.marginTop = const.topLayoutGuideMargin
+      view.yoga.height = props.style.heightWhenNormal
+      view.yoga.marginTop = 0
       view.yoga.percent.width = 100%
       view.yoga.flexDirection = .row
       view.yoga.justifyContent = .spaceBetween
@@ -162,7 +162,7 @@ open class UINavigationBarComponent: UIComponent<UINavigationBarState, UINavigat
       let button = UIButton(type: .custom)
       button.setImage(props.leftButtonItem.icon, for: .normal)
       button.accessibilityLabel = props.leftButtonItem.accessibilityLabel
-      button.yoga.width = const.barButtonHeight
+      button.yoga.width = props.style.heightWhenNormal
       button.yoga.percent.height = 100%
       button.onTap { _ in
         props.leftButtonItem.onSelected()
@@ -172,9 +172,9 @@ open class UINavigationBarComponent: UIComponent<UINavigationBarState, UINavigat
     /// Build a right bar button item.
     func makeRightButton() -> UIButton {
       let button = UIButton(type: .custom)
-      button.yoga.minWidth = const.barButtonHeight
+      button.yoga.minWidth = props.style.heightWhenNormal
       button.yoga.percent.height = 100%
-      button.yoga.marginRight = const.defaultMargin * 4
+      button.yoga.marginRight = unit * 4
       button.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: UIFont.Weight.regular)
       button.setTitleColor(props.style.tintColor, for: .normal)
       return button
@@ -209,7 +209,8 @@ open class UINavigationBarComponent: UIComponent<UINavigationBarState, UINavigat
   open func renderTitle() -> UINodeProtocol {
     let props = self.props
     let state = self.state
-    let const = self.props.style.layoutConstants
+    // Default margin unit (all of the margins are multiple of this, creating a grid-like layout).
+    let unit: CGFloat = 4
     // Custom title component.
     if let titleNode = props.titleNode {
       return titleNode(props, state)
@@ -219,8 +220,8 @@ open class UINavigationBarComponent: UIComponent<UINavigationBarState, UINavigat
       let view = UIView()
       view.yoga.percent.width = 100%
       view.yoga.percent.height = 100%
-      view.yoga.marginTop = const.topLayoutGuideMargin
-      view.yoga.paddingLeft = const.defaultMargin * 3
+      view.yoga.marginTop = 0
+      view.yoga.paddingLeft = unit * 3
       view.yoga.paddingRight = view.yoga.paddingLeft
       view.yoga.justifyContent = .flexEnd
       view.yoga.alignItems = .center
@@ -234,19 +235,19 @@ open class UINavigationBarComponent: UIComponent<UINavigationBarState, UINavigat
       configuration.set(\UILabel.textColor, props.style.titleColor)
       if state.isExpanded {
         configuration.set(\UILabel.font, props.style.expandedTitleFont)
-        configuration.set(\UILabel.yoga.marginTop, const.barButtonHeight)
-        configuration.set(\UILabel.yoga.marginBottom, const.defaultMargin * 3)
+        configuration.set(\UILabel.yoga.marginTop, props.style.heightWhenNormal)
+        configuration.set(\UILabel.yoga.marginBottom, unit * 3)
         configuration.set(\UILabel.yoga.height, CGFloat.undefined)
         configuration.set(\UILabel.yoga.maxWidth, configuration.canvasSize.width)
         configuration.set(\UILabel.textAlignment, .left)
-        let height = state.height - const.barButtonHeight
+        let height = state.height - props.style.heightWhenNormal
         let alpha = pow(height/props.style.heightWhenNormal, 3)
         configuration.set(\UILabel.alpha, min(1, alpha))
       } else {
         configuration.set(\UILabel.font, props.style.titleFont)
         configuration.set(\UILabel.yoga.marginTop, 0)
         configuration.set(\UILabel.yoga.marginBottom, 0)
-        configuration.set(\UILabel.yoga.height, const.barButtonHeight)
+        configuration.set(\UILabel.yoga.height, props.style.heightWhenNormal)
         configuration.set(\UILabel.yoga.maxWidth, 0.5 * configuration.canvasSize.width)
         configuration.set(\UILabel.textAlignment, .center)
         configuration.set(\UILabel.alpha, 1)
@@ -374,6 +375,7 @@ public extension UICustomNavigationBarProtocol where Self: UIViewController {
     let y = scrollView.contentOffset.y
     let state = navigationBarComponent.state
     let props = navigationBarComponent.props
+
     // The navigation bar is not expandable, nothing to do.
     guard props.expandable else {
       renderNavigationBar(updateHeightConstraint: true)
@@ -387,13 +389,14 @@ public extension UICustomNavigationBarProtocol where Self: UIViewController {
       return
     }
     // Breaks when the scroll reaches the default navigation bar height.
-    if y > props.style.heightWhenNormal {
+    let offset = props.style.heightWhenExpanded - props.style.heightWhenNormal
+
+    if y > offset {
       let wasExpanded = state.isExpanded
       state.isExpanded = false
       // Make sure that the height constraint is updated.
       if wasExpanded {
-        let offset = props.style.heightWhenExpanded - props.style.heightWhenNormal
-        state.height = offset
+        state.height = props.style.heightWhenNormal
         scrollView.contentInset.top = offset
         renderNavigationBar(updateHeightConstraint: true)
       }
@@ -435,20 +438,4 @@ public struct UINavigationBarDefaultStyle {
   public var depthWhenExpanded: DepthPreset = .none
   /// The shadow applied when the navigation bar is in its default mode.
   public var depthWhenNormal: DepthPreset = .depth2
-  /// Default layout metrics.
-  public var layoutConstants = LayoutConstants()
-
-  public struct LayoutConstants {
-    /// The default height for the navigation button bar.
-    public var barButtonHeight: CGFloat = 44
-    /// Default margin unit (all of the margins are multiple of this, creating a grid-like layout).
-    public var defaultMargin: CGFloat = 4
-    /// Margin from the top layout guide currently used.
-    /// - note: This not only depends on the OS version, but also from whether
-    /// *shouldUseSafeAreaLayoutGuide* is enabled for this view controller or nt.
-    public var topLayoutGuideMargin: CGFloat {
-      if #available(iOS 11.0, *) { return 4 }
-      return 12
-    }
-  }
 }

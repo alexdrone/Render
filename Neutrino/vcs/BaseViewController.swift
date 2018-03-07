@@ -89,16 +89,20 @@ open class UIBaseViewController: UIViewController,
     // Layout guides.
     var constraints: [NSLayoutConstraint] = []
     var layoutGuide: UILayoutGuideProvider
+    var topAnchor: NSLayoutYAxisAnchor
     if #available(iOS 11.0, *), shouldUseSafeAreaLayoutGuide {
       layoutGuide = view.safeAreaLayoutGuide
+      topAnchor = layoutGuide.topAnchor
     } else {
       layoutGuide = view
+      topAnchor = self.topLayoutGuide.topAnchor
     }
+
     // Constraints.
     navigationBarManager.heightConstraint =
       navigationBarManager.view.heightAnchor.constraint(equalToConstant: 0)
     constraints = [
-      navigationBarManager.view.topAnchor.constraint(equalTo: layoutGuide.topAnchor),
+      navigationBarManager.view.topAnchor.constraint(equalTo: topAnchor),
       navigationBarManager.view.leftAnchor.constraint(equalTo: layoutGuide.leftAnchor),
       navigationBarManager.view.rightAnchor.constraint(equalTo: layoutGuide.rightAnchor),
       navigationBarManager.heightConstraint!,

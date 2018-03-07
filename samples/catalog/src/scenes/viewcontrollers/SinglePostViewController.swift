@@ -43,7 +43,7 @@ extension PostComponentDelegate {
       post.fetchStatus = .fetched
       component.setNeedsRender(options: [
         .animateLayoutChanges(animator: component.defaultAnimator())
-        ])
+      ])
     }
   }
 }
