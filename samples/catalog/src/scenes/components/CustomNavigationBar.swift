@@ -75,10 +75,13 @@ struct Track {
         return
       }
       // Schedule a timer.
-      userInfo.timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [weak self]_ in
+      userInfo.timer = Timer(timeInterval: 1, repeats: true) { [weak self]_ in
         userInfo.elaspedTime += 1
         self?.setNeedsRender()
       }
+
+      guard let timer = userInfo.timer else { return }
+      RunLoop.main.add(timer, forMode: RunLoopMode.commonModes)
     }
 
     // Ensure the timer is invalidated when the component is destructed.

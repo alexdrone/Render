@@ -14,7 +14,6 @@
 #import <RenderNeutrino/YGPercentLayout.h>
 #import <RenderNeutrino/YGNodeList.h>
 #import <RenderNeutrino/Yoga.h>
-#import <RenderNeutrino/YGRenderAdditions.h>
 #import <RenderNeutrino/IGListCollectionViewLayout.h>
 #import <RenderNeutrino/yaml.h>
 
