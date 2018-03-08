@@ -276,192 +276,6 @@ public extension UIView {
   }
 }
 
-// MARK: - UIBezierPath
-// Forked from louisdh/bezierpath-polygons.
-
-extension UIBezierPath {
-
-  private func addPointsAsRoundedPolygon(points: [CGPoint], cornerRadius: CGFloat) {
-    lineCapStyle = .round
-    usesEvenOddFillRule = true
-    let len = points.count
-    let prev = points[len - 1]
-    let curr = points[0 % len]
-    let next = points[1 % len]
-    addPoint(prev: prev, curr: curr, next: next, cornerRadius: cornerRadius, first: true)
-    for i in 0..<len {
-      let p = points[i]
-      let c = points[(i + 1) % len]
-      let n = points[(i + 2) % len]
-      addPoint(prev: p, curr: c, next: n, cornerRadius: cornerRadius, first: false)
-    }
-    close()
-  }
-
-  private func polygonPoints(sides: Int, x: CGFloat, y: CGFloat, radius: CGFloat) -> [CGPoint] {
-    let angle = degreesToRadians(360 / CGFloat(sides))
-    let cx = x // x origin
-    let cy = y // y origin
-    let r  = radius // radius of circle
-    var i = 0
-    var points = [CGPoint]()
-    while i < sides {
-      let xP = cx + r * cos(angle * CGFloat(i))
-      let yP = cy + r * sin(angle * CGFloat(i))
-      points.append(CGPoint(x: xP, y: yP))
-      i += 1
-    }
-    return points
-  }
-
-  private func addPoint(prev: CGPoint,
-                        curr: CGPoint,
-                        next: CGPoint,
-                        cornerRadius: CGFloat,
-                        first: Bool) {
-    // prev <- curr
-    var c2p = CGPoint(x: prev.x - curr.x, y: prev.y - curr.y)
-    // next <- curr
-    var c2n = CGPoint(x: next.x - curr.x, y: next.y - curr.y)
-    // normalize
-    let magP = sqrt(c2p.x * c2p.x + c2p.y * c2p.y)
-    let magN = sqrt(c2n.x * c2n.x + c2n.y * c2n.y)
-    c2p.x /= magP
-    c2p.y /= magP
-    c2n.x /= magN
-    c2n.y /= magN
-    // angles
-    let ω = acos(c2n.x * c2p.x + c2n.y * c2p.y)
-    let θ = (.pi / 2) - (ω / 2)
-    let adjustedCornerRadius = cornerRadius / θ * (.pi / 4)
-    // r tan(θ)
-    let rTanTheta = adjustedCornerRadius * tan(θ)
-    var startPoint = CGPoint()
-    startPoint.x = curr.x + rTanTheta * c2p.x
-    startPoint.y = curr.y + rTanTheta * c2p.y
-    var endPoint = CGPoint()
-    endPoint.x = curr.x + rTanTheta * c2n.x
-    endPoint.y = curr.y + rTanTheta * c2n.y
-    if !first {
-      // Go perpendicular from start point by corner radius
-      var centerPoint = CGPoint()
-      centerPoint.x = startPoint.x + c2p.y * adjustedCornerRadius
-      centerPoint.y = startPoint.y - c2p.x * adjustedCornerRadius
-      let startAngle = atan2(c2p.x, -c2p.y)
-      let endAngle = startAngle + (2 * θ)
-      addLine(to: startPoint)
-      addArc(withCenter: centerPoint,
-             radius: adjustedCornerRadius,
-             startAngle: startAngle,
-             endAngle: endAngle,
-             clockwise: true)
-    } else {
-      move(to: endPoint)
-    }
-  }
-}
-
-public extension UIBezierPath {
-  @objc public convenience init(roundedRegularPolygon rect: CGRect,
-                                numberOfSides: Int,
-                                cornerRadius: CGFloat) {
-    guard numberOfSides > 2 else {
-      self.init()
-      return
-    }
-    self.init()
-    let points = polygonPoints(sides: numberOfSides,
-                               x: rect.width / 2,
-                               y: rect.height / 2,
-                               radius: min(rect.width, rect.height) / 2)
-    self.addPointsAsRoundedPolygon(points: points, cornerRadius: cornerRadius)
-  }
-}
-
-public extension UIBezierPath {
-  @objc public func applyRotation(angle: CGFloat) {
-    let bounds = self.cgPath.boundingBox
-    let center = CGPoint(x: bounds.midX, y: bounds.midY)
-    let toOrigin = CGAffineTransform(translationX: -center.x, y: -center.y)
-    self.apply(toOrigin)
-    self.apply(CGAffineTransform(rotationAngle: degreesToRadians(angle)))
-    let fromOrigin = CGAffineTransform(translationX: center.x, y: center.y)
-    self.apply(fromOrigin)
-  }
-
-  @objc public func applyScale(scale: CGPoint) {
-    let center = CGPoint(x: bounds.midX, y: bounds.midY)
-    let toOrigin = CGAffineTransform(translationX: -center.x, y: -center.y)
-    apply(toOrigin)
-    apply(CGAffineTransform(scaleX: scale.x, y: scale.y))
-    let fromOrigin = CGAffineTransform(translationX: center.x, y: center.y)
-    apply(fromOrigin)
-  }
-}
-
-public func degreesToRadians(_ value: Double) -> CGFloat {
-  return CGFloat(value * .pi / 180.0)
-}
-
-public func degreesToRadians(_ value: CGFloat) -> CGFloat {
-  return degreesToRadians(Double(value))
-}
-
-public func radiansToDegrees(_ value: Double) -> CGFloat {
-  return CGFloat((180.0 / .pi) * value)
-}
-
-public func radiansToDegrees(_ value: CGFloat) -> CGFloat {
-  return radiansToDegrees(Double(value))
-}
-
-@objc @IBDesignable public class UIPolygonView: UIView {
-
-  public override init(frame: CGRect) {
-    super.init(frame: frame)
-    commonInit()
-  }
-
-  required public init?(coder aDecoder: NSCoder) {
-    super.init(coder: aDecoder)
-    commonInit()
-  }
-
-  private func commonInit() {
-    backgroundColor = .clear
-    cornerRadius = CornerRadiusPreset.cornerRadius1.cgFloatValue
-  }
-
-  @objc @IBInspectable public var rotation: CGFloat = 0.0 {
-    didSet { self.setNeedsDisplay() }
-  }
-  @objc @IBInspectable public var foregroundColor: UIColor = .black {
-    didSet { self.setNeedsDisplay() }
-  }
-  @objc @IBInspectable public var scale: CGPoint = CGPoint(x: 1, y: 1) {
-    didSet { self.setNeedsDisplay() }
-  }
-  @objc @IBInspectable public var numberOfSides: Int = 6 {
-    didSet { self.setNeedsDisplay() }
-  }
-
-  override public func draw(_ rect: CGRect) {
-    let polygonPath = UIBezierPath(roundedRegularPolygon: rect,
-                                   numberOfSides: numberOfSides,
-                                   cornerRadius: cornerRadius)
-    polygonPath.applyRotation(angle: rotation)
-    polygonPath.applyScale(scale: scale)
-    polygonPath.close()
-    foregroundColor.setFill()
-    polygonPath.fill()
-  }
-
-  public override func layoutSubviews() {
-    super.layoutSubviews()
-    clipsToBounds = true
-  }
-}
-
 // MARK: - ContainerView
 // Forked from CosmicMind/Material
 
@@ -488,20 +302,12 @@ extension Offset {
 }
 
 @objc public enum DepthPreset: Int {
-  case none
-  case depth1
-  case depth2
-  case depth3
-  case depth4
-  case depth5
+  case none, depth1, depth2, depth3, depth4, depth5
 }
 
 public struct Depth {
-  /// Offset.
   public var offset: Offset
-  /// Opacity.
   public var opacity: Float
-  /// Radius.
   public var radius: CGFloat
 
   /// A tuple of raw values.
@@ -557,89 +363,14 @@ public func DepthPresetToValue(preset: DepthPreset) -> Depth {
   }
 }
 
-@objc public enum CornerRadiusPreset: Int {
-  case none
-  case cornerRadius1
-  case cornerRadius2
-  case cornerRadius3
-  case cornerRadius4
-  case cornerRadius5
-  case cornerRadius6
-  case cornerRadius7
-  case cornerRadius8
-  case cornerRadius9
-
-  public var cgFloatValue: CGFloat {
-    return CornerRadiusPresetToValue(preset: self)
-  }
-}
-
-@objc public enum BorderWidthPreset: Int {
-  case none
-  case border1
-  case border2
-  case border3
-  case border4
-  case border5
-  case border6
-  case border7
-  case border8
-  case border9
-
-  /// A CGFloat representation of the border width preset.
-  public var cgFloatValue: CGFloat {
-    switch self {
-    case .none: return 0
-    case .border1: return 0.5
-    case .border2: return 1
-    case .border3: return 2
-    case .border4: return 3
-    case .border5: return 4
-    case .border6: return 5
-    case .border7: return 6
-    case .border8: return 7
-    case .border9: return 8
-    }
-  }
-}
-
-/// Converts the CornerRadiusPreset enum to a CGFloat value.
-public func CornerRadiusPresetToValue(preset: CornerRadiusPreset) -> CGFloat {
-  switch preset {
-  case .none: return 0
-  case .cornerRadius1: return 2
-  case .cornerRadius2: return 4
-  case .cornerRadius3: return 8
-  case .cornerRadius4: return 12
-  case .cornerRadius5: return 16
-  case .cornerRadius6: return 20
-  case .cornerRadius7: return 24
-  case .cornerRadius8: return 28
-  case .cornerRadius9: return 32
-  }
-}
-
 @objc public enum ShapePreset: Int {
-  case none
-  case square
-  case circle
+  case none, square, circle
 }
 
 fileprivate class ContainerLayer {
   /// A reference to the CALayer.
   fileprivate weak var layer: CALayer?
-  /// A property that sets the cornerRadius of the backing layer.
-  fileprivate var cornerRadiusPreset = CornerRadiusPreset.none {
-    didSet {
-      layer?.cornerRadius = CornerRadiusPresetToValue(preset: cornerRadiusPreset)
-    }
-  }
-  /// A preset property to set the borderWidth.
-  fileprivate var borderWidthPreset = BorderWidthPreset.none {
-    didSet {
-      layer?.borderWidth = borderWidthPreset.cgFloatValue
-    }
-  }
+
   /// A preset property to set the shape.
   fileprivate var shapePreset = ShapePreset.none {
     didSet {
@@ -696,46 +427,6 @@ extension CALayer {
       objc_setAssociatedObject(self, &_containerLayerKey, value, nonatomic)
     }
   }
-  /// A property that accesses the frame.origin.x property.
-  @IBInspectable open var x: CGFloat {
-    get { return frame.origin.x }
-    set(value) {
-      frame.origin.x = value
-      layoutShadowPath()
-    }
-  }
-  /// A property that accesses the frame.origin.y property.
-  @IBInspectable open var y: CGFloat {
-    get { return frame.origin.y }
-    set(value) {
-      frame.origin.y = value
-      layoutShadowPath()
-    }
-  }
-  /// A property that accesses the frame.size.width property.
-  @IBInspectable open var width: CGFloat {
-    get { return frame.size.width }
-    set(value) {
-      frame.size.width = value
-      if .none != shapePreset {
-        frame.size.height = value
-        layoutShape()
-      }
-      layoutShadowPath()
-    }
-  }
-  /// A property that accesses the frame.size.height property.
-  @IBInspectable open var height: CGFloat {
-    get { return frame.size.height }
-    set(value) {
-      frame.size.height = value
-      if .none != shapePreset {
-        frame.size.width = value
-        layoutShape()
-      }
-      layoutShadowPath()
-    }
-  }
   /// A property that manages the overall shape for the object. If either the
   /// width or height property is set, the other will be automatically adjusted
   /// to maintain the shape of the object.
@@ -766,20 +457,6 @@ extension CALayer {
       containerLayer.isShadowPathAutoSizing = value
     }
   }
-  /// A property that sets the cornerRadius of the backing layer.
-  open var cornerRadiusPreset: CornerRadiusPreset {
-    get { return containerLayer.cornerRadiusPreset }
-    set(value) {
-      containerLayer.cornerRadiusPreset = value
-    }
-  }
-  /// A preset property to set the borderWidth.
-  open var borderWidthPreset: BorderWidthPreset {
-    get { return containerLayer.borderWidthPreset }
-    set(value) {
-      containerLayer.borderWidthPreset = value
-    }
-  }
 }
 
 extension CALayer {
@@ -798,7 +475,6 @@ extension CALayer {
     }
     cornerRadius = bounds.size.width / 2
   }
-
   /// Sets the shadow path.
   open func layoutShadowPath() {
     guard isShadowPathAutoSizing else {
@@ -834,19 +510,6 @@ extension UIView {
   @IBInspectable dynamic open var isShadowPathAutoSizing: Bool {
     get { return layer.isShadowPathAutoSizing }
     set(value) { layer.isShadowPathAutoSizing = value }
-  }
-  /// A property that sets the cornerRadius of the backing layer.
-  @objc open var cornerRadiusPreset: CornerRadiusPreset {
-    get { return layer.cornerRadiusPreset }
-    set(value) {
-      cornerRadius = cornerRadiusPreset.cgFloatValue
-      layer.cornerRadiusPreset = value
-    }
-  }
-  /// A preset property to set the borderWidth.
-  @objc open var borderWidthPreset: BorderWidthPreset {
-    get { return layer.borderWidthPreset }
-    set(value) { layer.borderWidthPreset = value }
   }
 }
 

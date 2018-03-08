@@ -65,14 +65,14 @@ struct AppStoreEntry {
     private func configureContentView(configuration: UINode<UIImageView>.Configuration) {
       let margin: CGFloat = state.expanded ? 0 : 8
       let height: CGFloat = state.expanded ? 256 : 128
-      let radius: CornerRadiusPreset = state.expanded ? .none : .cornerRadius4
+      let radius: CGFloat = state.expanded ? 0 : 8
       configuration.set(\UIImageView.image, props.image)
       configuration.set(\UIImageView.contentMode, .scaleAspectFill)
       configuration.set(\UIImageView.yoga.width, configuration.canvasSize.width - margin*2)
       configuration.set(\UIImageView.yoga.height, height)
       configuration.set(\UIImageView.yoga.margin, margin)
       // The corner radius is being animated on change.
-      configuration.set(\UIImageView.cornerRadius, radius.cgFloatValue, animator: defaultAnimator())
+      configuration.set(\UIImageView.cornerRadius, radius, animator: defaultAnimator())
       configuration.set(\UIImageView.isUserInteractionEnabled, true)
     }
 
