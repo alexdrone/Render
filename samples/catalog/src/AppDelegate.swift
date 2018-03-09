@@ -11,6 +11,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // Override point for customization after application launch.
     startRenderInspectorServer()
     try! UIStylesheetManager.default.load(file: "stylesheet")
+    FPSCounter.showInStatusBar(UIApplication.shared)
 
     // Override point for customization after application launch.
     window = UIWindow(frame: UIScreen.main.bounds)
@@ -35,7 +36,6 @@ extension UIBaseViewController {
     vc.navigationController?.navigationBar.tintColor = S.Palette.white.color
     vc.navigationController?.navigationBar.shadowImage = UIImage()
   }
-
 
 }
 

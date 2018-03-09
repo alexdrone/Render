@@ -19,6 +19,7 @@
 		1648A1EC1FB505F400245AFA /* ContextTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1648A1EB1FB505F400245AFA /* ContextTests.swift */; };
 		165300BD1FD6D44C00A7BAB0 /* Debug.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165300BC1FD6D44C00A7BAB0 /* Debug.swift */; };
 		167070241FB8C232008DFC5B /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167070231FB8C232008DFC5B /* ViewController.swift */; };
+		167C36212052B10600BB320B /* Fps.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167C36202052B10600BB320B /* Fps.swift */; };
 		16AA95E51FA3310600EAC136 /* UIView+Yoga.h in Headers */ = {isa = PBXBuildFile; fileRef = 16AA95DE1FA3310100EAC136 /* UIView+Yoga.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		16AA95E61FA3310600EAC136 /* UIView+Yoga.m in Sources */ = {isa = PBXBuildFile; fileRef = 16AA95DF1FA3310100EAC136 /* UIView+Yoga.m */; };
 		16AA95E71FA3310600EAC136 /* YGEnums.c in Sources */ = {isa = PBXBuildFile; fileRef = 16AA95DC1FA3310100EAC136 /* YGEnums.c */; };
@@ -91,6 +92,7 @@
 		1648A1EB1FB505F400245AFA /* ContextTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContextTests.swift; sourceTree = "<group>"; };
 		165300BC1FD6D44C00A7BAB0 /* Debug.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Debug.swift; sourceTree = "<group>"; };
 		167070231FB8C232008DFC5B /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		167C36202052B10600BB320B /* Fps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fps.swift; sourceTree = "<group>"; };
 		16AA95D71FA3310100EAC136 /* YGNodeList.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = YGNodeList.c; sourceTree = "<group>"; };
 		16AA95D81FA3310100EAC136 /* YGPercentLayout.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YGPercentLayout.h; sourceTree = "<group>"; };
 		16AA95D91FA3310100EAC136 /* YGNodeList.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YGNodeList.h; sourceTree = "<group>"; };
@@ -285,6 +287,7 @@
 				160627AF1FE9322B007779DD /* yoga */,
 				160627A71FE91BC9007779DD /* yaml */,
 				16F7B55A1F9A322C00583082 /* RenderInspectorHook.swift */,
+				167C36202052B10600BB320B /* Fps.swift */,
 			);
 			path = deps;
 			sourceTree = "<group>";
@@ -476,6 +479,7 @@
 				16CEC0161F9A125C003D3D21 /* Props.swift in Sources */,
 				16108B9E1FDDD1A700CD9E9A /* StylesheetManager.swift in Sources */,
 				16AA95F11FA3310600EAC136 /* Yoga.c in Sources */,
+				167C36212052B10600BB320B /* Fps.swift in Sources */,
 				16BCC3DA20272E4300500E3E /* NavigationBar.swift in Sources */,
 				16AA95EA1FA3310600EAC136 /* YGLayout.m in Sources */,
 				16458EE91FF29133003FE6EE /* TableViewController.swift in Sources */,
@@ -658,7 +662,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.alexdrone.RenderPure;
+				PRODUCT_BUNDLE_IDENTIFIER = io.;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -682,7 +686,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.alexdrone.RenderPure;
+				PRODUCT_BUNDLE_IDENTIFIER = io.;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 4.0;

@@ -40,7 +40,7 @@ class FeedTableViewController: UITableComponentViewController, PostComponentDele
   override func viewDidLoad() {
     styleNavigationBarComponent(title: "Feed")
     super.viewDidLoad()
-    shouldApplyScrollRevealTransition = true
+    shouldApplyScrollRevealTransition = false
 
     // *tableHeaderView* and *tableFooterView* can be built from components too.
     self.tableView.tableHeaderView = UIView().install(
