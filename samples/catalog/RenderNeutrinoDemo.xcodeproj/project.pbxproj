@@ -33,6 +33,7 @@
 		165399241F9A73B6006DFE5D /* RenderNeutrino.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 165399171F9A737B006DFE5D /* RenderNeutrino.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		167070221FB8C1D7008DFC5B /* IndexViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167070211FB8C1D7008DFC5B /* IndexViewController.swift */; };
 		167070261FB8C757008DFC5B /* Index.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167070251FB8C757008DFC5B /* Index.swift */; };
+		168D6D482052B54D00AF908F /* Fps.swift in Sources */ = {isa = PBXBuildFile; fileRef = 168D6D472052B54D00AF908F /* Fps.swift */; };
 		168FA6D71F8F856D00A12585 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 168FA6D61F8F856D00A12585 /* AppDelegate.swift */; };
 		168FA6DE1F8F856D00A12585 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 168FA6DD1F8F856D00A12585 /* Assets.xcassets */; };
 		168FA6E11F8F856D00A12585 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 168FA6DF1F8F856D00A12585 /* LaunchScreen.storyboard */; };
@@ -121,6 +122,7 @@
 		165399121F9A737B006DFE5D /* RenderNeutrino.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RenderNeutrino.xcodeproj; path = ../../Neutrino/RenderNeutrino.xcodeproj; sourceTree = "<group>"; };
 		167070211FB8C1D7008DFC5B /* IndexViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndexViewController.swift; sourceTree = "<group>"; };
 		167070251FB8C757008DFC5B /* Index.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Index.swift; sourceTree = "<group>"; };
+		168D6D472052B54D00AF908F /* Fps.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Fps.swift; sourceTree = "<group>"; };
 		168FA6D31F8F856D00A12585 /* RenderNeutrinoDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RenderNeutrinoDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		168FA6D61F8F856D00A12585 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		168FA6DD1F8F856D00A12585 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -238,6 +240,7 @@
 				16B66F151FEBEFAB00840140 /* Shared.swift */,
 				16C921C31FEEDA7D009F6138 /* FacebookPost.swift */,
 				1624E6C0205029E900EBFC8D /* CustomNavigationBar.swift */,
+				168D6D472052B54D00AF908F /* Fps.swift */,
 			);
 			path = components;
 			sourceTree = "<group>";
@@ -433,6 +436,7 @@
 				16B66F161FEBEFAB00840140 /* Shared.swift in Sources */,
 				1624E6C1205029E900EBFC8D /* CustomNavigationBar.swift in Sources */,
 				16A38D3A1FC0E897000E43E9 /* AppStoreEntry.swift in Sources */,
+				168D6D482052B54D00AF908F /* Fps.swift in Sources */,
 				1614561C1FE5D44C00B9E091 /* Counter.swift in Sources */,
 				167070221FB8C1D7008DFC5B /* IndexViewController.swift in Sources */,
 			);
