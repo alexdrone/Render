@@ -1,0 +1,8 @@
+
+Download dist binary to Project folder:
+curl "https://raw.githubusercontent.com/alexdrone/Render/master/bin/dist.zip" > render_neutrino_dist.zip && unzip render_neutrino_dist.zip
+
+Download render tools (Need admin privileges):
+sudo curl "https://raw.githubusercontent.com/alexdrone/Render/master/tools/render-generate" > render-generate && chmod +x render-generate && mv render-generate /usr/local/bin/render-generate && 
+sudo curl "https://raw.githubusercontent.com/alexdrone/Render/master/tools/render-inspector" > render-inspector && chmod +x render-inspector && mv render-inspector /usr/local/bin/render-inspector &&
+sudo curl "https://raw.githubusercontent.com/alexdrone/Render/master/tools/render-watch.sh" > render-watch && chmod +x render-watch && mv render-watch /usr/local/bin/render-watch 
