@@ -29,14 +29,6 @@ Pod::Spec.new do |s|
   s.social_media_url = 'https://twitter.com/alexdrone'
 
   s.ios.deployment_target = '10.0'
+  s.ios.vendored_frameworks = 'bin/RenderNeutrino.framework'
 
-  s.source_files = ['Neutrino/deps/yoga/*', 'Neutrino/**/*']
-
-  # s.resource_bundles = {
-  #   'Render' => ['Render/Assets/*.png']
-  # }
-
-  # s.public_header_files = 'Pod/Classes/**/*.h'
-  # s.frameworks = 'UIKit', 'MapKit'
-  # s.dependency 'AFNetworking', '~> 2.3'
 end
