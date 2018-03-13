@@ -22,7 +22,7 @@ Pod::Spec.new do |s|
                        DESC
 
   s.homepage         = "https://github.com/alexdrone/Render"
-  s.screenshots      = "https://github.com/alexdrone/Render/blob/master/docs/logo_new.png"
+  s.screenshots      = "https://github.com/alexdrone/Render/blob/master/docs/logo_small.png"
   s.license          = 'MIT'
   s.author           = { "Alex Usbergo" => "alexakadrone@gmail.com" }
   s.source           = { :git => "https://github.com/alexdrone/Render.git", :tag => s.version.to_s }
