@@ -14,19 +14,6 @@
 		163522AD2057F54700EEA2C2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 163522AB2057F54700EEA2C2 /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXCopyFilesBuildPhase section */
-		163522B82057F55E00EEA2C2 /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
-
 /* Begin PBXFileReference section */
 		1635229F2057F54700EEA2C2 /* binary_framework.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = binary_framework.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		163522A22057F54700EEA2C2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -35,6 +22,7 @@
 		163522A92057F54700EEA2C2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		163522AC2057F54700EEA2C2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		163522AE2057F54700EEA2C2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		163522BC2057F99C00EEA2C2 /* RenderNeutrino.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = RenderNeutrino.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -51,6 +39,7 @@
 		163522962057F54700EEA2C2 = {
 			isa = PBXGroup;
 			children = (
+				163522BC2057F99C00EEA2C2 /* RenderNeutrino.framework */,
 				163522A12057F54700EEA2C2 /* binary_framework */,
 				163522A02057F54700EEA2C2 /* Products */,
 			);
@@ -87,7 +76,6 @@
 				1635229B2057F54700EEA2C2 /* Sources */,
 				1635229C2057F54700EEA2C2 /* Frameworks */,
 				1635229D2057F54700EEA2C2 /* Resources */,
-				163522B82057F55E00EEA2C2 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -292,6 +280,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/binary_framework/Frameworks",
+					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = binary_framework/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -310,6 +299,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/binary_framework/Frameworks",
+					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = binary_framework/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
