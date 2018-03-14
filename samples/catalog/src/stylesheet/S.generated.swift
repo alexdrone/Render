@@ -71,6 +71,12 @@ public struct S {
     case textColor
     case numberOfLines
   }
+  public enum MyPalette: String, UIStylesheetProtocol {
+    public static let styleIdentifier: String = "MyPalette"
+    public static let style: [String] = [MyPalette.styleIdentifier]
+    case background
+    case text
+  }
   public enum Counter_button: String, UIStylesheetProtocol {
     public static let styleIdentifier: String = "Counter.button"
     public static let style: [String] = [Counter_button.styleIdentifier]
@@ -124,13 +130,6 @@ public struct S {
     case medium
     case large
   }
-  public enum TrackNavigationBar_gradient: String, UIStylesheetProtocol {
-    public static let styleIdentifier: String = "TrackNavigationBar.gradient"
-    public static let style: [String] = [TrackNavigationBar_gradient.styleIdentifier]
-    case justifyContent
-    case alignSelf
-    case alignItems
-  }
   public enum Post_commentAuthor: String, UIStylesheetProtocol {
     public static let styleIdentifier: String = "Post.commentAuthor"
     public static let style: [String] = [Post_commentAuthor.styleIdentifier]
@@ -157,6 +156,13 @@ public struct S {
     case button
     case small
   }
+  public enum Simple_label: String, UIStylesheetProtocol {
+    public static let styleIdentifier: String = "Simple.label"
+    public static let style: [String] = [Simple_label.styleIdentifier]
+    case font
+    case textColor
+    case margin
+  }
   public enum Post_caption: String, UIStylesheetProtocol {
     public static let styleIdentifier: String = "Post.caption"
     public static let style: [String] = [Post_caption.styleIdentifier]
@@ -172,14 +178,6 @@ public struct S {
     case justifyContent
     case textAlignment
   }
-  public enum Post_commentLabel: String, UIStylesheetProtocol {
-    public static let styleIdentifier: String = "Post.commentLabel"
-    public static let style: [String] = [Post_commentLabel.styleIdentifier]
-    case textColor
-    case font
-    case margin
-    case numberOfLines
-  }
   public enum Post_statsLabel: String, UIStylesheetProtocol {
     public static let styleIdentifier: String = "Post.statsLabel"
     public static let style: [String] = [Post_statsLabel.styleIdentifier]
@@ -187,14 +185,12 @@ public struct S {
     case textColor
     case margin
   }
-  public enum Post_feedHeaderLabel: String, UIStylesheetProtocol {
-    public static let styleIdentifier: String = "Post.feedHeaderLabel"
-    public static let style: [String] = [Post_feedHeaderLabel.styleIdentifier]
-    case textColor
-    case font
-    case textAlignment
-    case alignSelf
-    case height
+  public enum Simple_container: String, UIStylesheetProtocol {
+    public static let styleIdentifier: String = "Simple.container"
+    public static let style: [String] = [Simple_container.styleIdentifier]
+    case backgroundColor
+    case width
+    case justifyContent
   }
   public enum Post_image: String, UIStylesheetProtocol {
     public static let styleIdentifier: String = "Post.image"
@@ -204,12 +200,13 @@ public struct S {
     case clipsToBounds
     case contentMode
   }
-  public enum TrackNavigationBar_main: String, UIStylesheetProtocol {
-    public static let styleIdentifier: String = "TrackNavigationBar.main"
-    public static let style: [String] = [TrackNavigationBar_main.styleIdentifier]
-    case justifyContent
-    case alignSelf
-    case alignItems
+  public enum Post_commentLabel: String, UIStylesheetProtocol {
+    public static let styleIdentifier: String = "Post.commentLabel"
+    public static let style: [String] = [Post_commentLabel.styleIdentifier]
+    case textColor
+    case font
+    case margin
+    case numberOfLines
   }
   public enum Post_header: String, UIStylesheetProtocol {
     public static let styleIdentifier: String = "Post.header"
@@ -232,6 +229,22 @@ public struct S {
     case backgroundColor
     case width
     case height
+  }
+  public enum Post_feedHeaderLabel: String, UIStylesheetProtocol {
+    public static let styleIdentifier: String = "Post.feedHeaderLabel"
+    public static let style: [String] = [Post_feedHeaderLabel.styleIdentifier]
+    case textColor
+    case font
+    case textAlignment
+    case alignSelf
+    case height
+  }
+  public enum TrackNavigationBar_main: String, UIStylesheetProtocol {
+    public static let styleIdentifier: String = "TrackNavigationBar.main"
+    public static let style: [String] = [TrackNavigationBar_main.styleIdentifier]
+    case justifyContent
+    case alignSelf
+    case alignItems
   }
   public enum Post_commentsWrapper: String, UIStylesheetProtocol {
     public static let styleIdentifier: String = "Post.commentsWrapper"

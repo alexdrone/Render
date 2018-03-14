@@ -27,7 +27,26 @@ class IndexViewController: UITableComponentViewController {
         title: "Stylesheet-based simple Counter",
         subtitle: "A simple component that render itself using styles.",
         onCellSelected: presentStylesheetCounterExample),
-
+      Index.CellProps(
+        title: "Simple Counter 1",
+        subtitle: "",
+        onCellSelected: presentSimpleCounterExample1),
+      Index.CellProps(
+        title: "Simple Counter 2",
+        subtitle: "",
+        onCellSelected: presentSimpleCounterExample2),
+      Index.CellProps(
+        title: "Simple Counter 3",
+        subtitle: "",
+        onCellSelected: presentSimpleCounterExample3),
+      Index.CellProps(
+        title: "Simple Counter 4",
+        subtitle: "",
+        onCellSelected: presentSimpleCounterExample4),
+      Index.CellProps(
+        title: "Simple Counter 5",
+        subtitle: "",
+        onCellSelected: presentSimpleCounterExample5),
     ]
   }()
 
@@ -85,6 +104,26 @@ class IndexViewController: UITableComponentViewController {
 
   private func presentCustomNavigationBarExample() {
     navigationController?.pushViewController(CustomNavigationBarViewController(), animated: true)
+  }
+
+  private func presentSimpleCounterExample1() {
+    navigationController?.pushViewController(SimpleCounterViewController1(), animated: true)
+  }
+
+  private func presentSimpleCounterExample2() {
+    navigationController?.pushViewController(SimpleCounterViewController2(), animated: true)
+  }
+
+  private func presentSimpleCounterExample3() {
+    navigationController?.pushViewController(SimpleCounterViewController3(), animated: true)
+  }
+
+  private func presentSimpleCounterExample4() {
+    navigationController?.pushViewController(SimpleCounterViewController4(), animated: true)
+  }
+
+  private func presentSimpleCounterExample5() {
+    navigationController?.pushViewController(SimpleCounterViewController5(), animated: true)
   }
 }
 

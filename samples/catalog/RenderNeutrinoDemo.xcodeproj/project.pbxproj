@@ -33,6 +33,9 @@
 		165399241F9A73B6006DFE5D /* RenderNeutrino.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 165399171F9A737B006DFE5D /* RenderNeutrino.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		167070221FB8C1D7008DFC5B /* IndexViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167070211FB8C1D7008DFC5B /* IndexViewController.swift */; };
 		167070261FB8C757008DFC5B /* Index.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167070251FB8C757008DFC5B /* Index.swift */; };
+		168B947E205969F400C9DD4A /* SimpleCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 168B947D205969F400C9DD4A /* SimpleCounter.swift */; };
+		168B948220596DD500C9DD4A /* SimpleCounterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 168B948120596DD500C9DD4A /* SimpleCounterViewController.swift */; };
+		168B9484205973AC00C9DD4A /* simplecounter.yaml in Resources */ = {isa = PBXBuildFile; fileRef = 168B9483205973AC00C9DD4A /* simplecounter.yaml */; };
 		168D6D482052B54D00AF908F /* Fps.swift in Sources */ = {isa = PBXBuildFile; fileRef = 168D6D472052B54D00AF908F /* Fps.swift */; };
 		168FA6D71F8F856D00A12585 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 168FA6D61F8F856D00A12585 /* AppDelegate.swift */; };
 		168FA6DE1F8F856D00A12585 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 168FA6DD1F8F856D00A12585 /* Assets.xcassets */; };
@@ -122,6 +125,9 @@
 		165399121F9A737B006DFE5D /* RenderNeutrino.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RenderNeutrino.xcodeproj; path = ../../Neutrino/RenderNeutrino.xcodeproj; sourceTree = "<group>"; };
 		167070211FB8C1D7008DFC5B /* IndexViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndexViewController.swift; sourceTree = "<group>"; };
 		167070251FB8C757008DFC5B /* Index.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Index.swift; sourceTree = "<group>"; };
+		168B947D205969F400C9DD4A /* SimpleCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleCounter.swift; sourceTree = "<group>"; };
+		168B948120596DD500C9DD4A /* SimpleCounterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleCounterViewController.swift; sourceTree = "<group>"; };
+		168B9483205973AC00C9DD4A /* simplecounter.yaml */ = {isa = PBXFileReference; lastKnownFileType = text; path = simplecounter.yaml; sourceTree = "<group>"; };
 		168D6D472052B54D00AF908F /* Fps.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Fps.swift; sourceTree = "<group>"; };
 		168FA6D31F8F856D00A12585 /* RenderNeutrinoDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RenderNeutrinoDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		168FA6D61F8F856D00A12585 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -237,6 +243,7 @@
 				167070251FB8C757008DFC5B /* Index.swift */,
 				16A38D391FC0E897000E43E9 /* AppStoreEntry.swift */,
 				1614561B1FE5D44C00B9E091 /* Counter.swift */,
+				168B947D205969F400C9DD4A /* SimpleCounter.swift */,
 				16B66F151FEBEFAB00840140 /* Shared.swift */,
 				16C921C31FEEDA7D009F6138 /* FacebookPost.swift */,
 				1624E6C0205029E900EBFC8D /* CustomNavigationBar.swift */,
@@ -254,6 +261,7 @@
 				16C921C81FEEF7A9009F6138 /* SinglePostViewController.swift */,
 				16458EE41FF25919003FE6EE /* FeedTableViewController.swift */,
 				1624E6BC2050290000EBFC8D /* CustomNavigationBarViewController.swift */,
+				168B948120596DD500C9DD4A /* SimpleCounterViewController.swift */,
 			);
 			path = viewcontrollers;
 			sourceTree = "<group>";
@@ -264,6 +272,7 @@
 				160307571FE6810200044D00 /* counter.yaml */,
 				16C921CA1FEEFBCE009F6138 /* post.yaml */,
 				1624E6C220502AE800EBFC8D /* track.yaml */,
+				168B9483205973AC00C9DD4A /* simplecounter.yaml */,
 			);
 			path = components;
 			sourceTree = "<group>";
@@ -382,6 +391,7 @@
 				16C921CB1FEEFBCE009F6138 /* post.yaml in Resources */,
 				168FA6DE1F8F856D00A12585 /* Assets.xcassets in Resources */,
 				16ED28041FD5A74900D5E222 /* Default-568h@2x.png in Resources */,
+				168B9484205973AC00C9DD4A /* simplecounter.yaml in Resources */,
 				1624E6C320502AE800EBFC8D /* track.yaml in Resources */,
 				160307581FE6810200044D00 /* counter.yaml in Resources */,
 			);
@@ -424,6 +434,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				16D5F6CB2011FDEF0003CDF7 /* S.generated.swift in Sources */,
+				168B948220596DD500C9DD4A /* SimpleCounterViewController.swift in Sources */,
 				16D24C451FD5705E000BADB9 /* AppStoreEntryViewController.swift in Sources */,
 				1624E6BD2050290000EBFC8D /* CustomNavigationBarViewController.swift in Sources */,
 				167070261FB8C757008DFC5B /* Index.swift in Sources */,
@@ -436,6 +447,7 @@
 				16B66F161FEBEFAB00840140 /* Shared.swift in Sources */,
 				1624E6C1205029E900EBFC8D /* CustomNavigationBar.swift in Sources */,
 				16A38D3A1FC0E897000E43E9 /* AppStoreEntry.swift in Sources */,
+				168B947E205969F400C9DD4A /* SimpleCounter.swift in Sources */,
 				168D6D482052B54D00AF908F /* Fps.swift in Sources */,
 				1614561C1FE5D44C00B9E091 /* Counter.swift in Sources */,
 				167070221FB8C1D7008DFC5B /* IndexViewController.swift in Sources */,
