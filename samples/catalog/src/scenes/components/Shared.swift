@@ -19,7 +19,7 @@ func makePolygon() -> UINode<UIPolygonView> {
 public func makeButton(reuseIdentifier: String = "button",
                        text: String,
                        onTouchUpInside: @escaping () -> Void = { },
-                       configure: UINode<UIButton>.ConfigurationClosure?=nil) -> UINode<UIButton> {
+                       layoutSpec: UINode<UIButton>.LayoutSpecClosure?=nil) -> UINode<UIButton> {
   func makeButton() -> UIButton {
     let view = UIButton()
     view.backgroundColorImage = S.Palette.white.color
@@ -37,21 +37,21 @@ public func makeButton(reuseIdentifier: String = "button",
 }
 
 public func makeLabel(text: String,
-                      configure: UINode<UILabel>.ConfigurationClosure?=nil) -> UINode<UILabel> {
+                      layoutSpec: UINode<UILabel>.LayoutSpecClosure?=nil) -> UINode<UILabel> {
   return UINode<UILabel> { config in
     config.set(\UILabel.text, text)
     config.set(\UILabel.numberOfLines, 0)
     config.set(\UILabel.textColor, S.Palette.white.color)
-    configure?(config)
+    layoutSpec?(config)
   }
 }
 
 public func makeTapRecognizer(reuseIdentifier: String = "tapRecognizer",
                               onTouchUpInside: @escaping () -> Void = { },
-                              configure: UINode<UIView>.ConfigurationClosure?=nil)->UINode<UIView> {
+                              layoutSpec: UINode<UIView>.LayoutSpecClosure?=nil)->UINode<UIView> {
   return UINode<UIView>(reuseIdentifier: reuseIdentifier) { config in
     config.view.onTap { _ in onTouchUpInside() }
-    configure?(config)
+    layoutSpec?(config)
   }
 }
 

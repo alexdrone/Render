@@ -134,10 +134,10 @@ open class UINavigationBarComponent: UIComponent<UINavigationBarState, UINavigat
     let state = self.state
     state.initializeIfNecessary(props: props)
     // The main navigation bar node.
-    let node = UINode<UIView>(reuseIdentifier: Id.navigationBar.rawValue) { configuration in
-      configuration.set(\UIView.yoga.width, configuration.canvasSize.width)
-      configuration.set(\UIView.yoga.height, state.height)
-      configuration.set(\UIView.backgroundColor, props.style.backgroundColor)
+    let node = UINode<UIView>(reuseIdentifier: Id.navigationBar.rawValue) { spec in
+      spec.set(\UIView.yoga.width, spec.canvasSize.width)
+      spec.set(\UIView.yoga.height, state.height)
+      spec.set(\UIView.backgroundColor, props.style.backgroundColor)
     }
     // The status bar protection background.
     let statusBar = UINode<UIView>(reuseIdentifier: Id.notch.rawValue, create: {
@@ -248,28 +248,28 @@ open class UINavigationBarComponent: UIComponent<UINavigationBarState, UINavigat
     }
     // The title label changes its position and appearance according to the navigation bar
     // state.
-    let title = UINode<UILabel>(reuseIdentifier: Id.titleLabel.rawValue) { configuration in
-      configuration.set(\UILabel.yoga.percent.width, 100%)
-      configuration.set(\UILabel.text, props.title)
-      configuration.set(\UILabel.textColor, props.style.titleColor)
+    let title = UINode<UILabel>(reuseIdentifier: Id.titleLabel.rawValue) { spec in
+      spec.set(\UILabel.yoga.percent.width, 100%)
+      spec.set(\UILabel.text, props.title)
+      spec.set(\UILabel.textColor, props.style.titleColor)
       if state.isExpanded {
-        configuration.set(\UILabel.font, props.style.expandedTitleFont)
-        configuration.set(\UILabel.yoga.marginTop, props.style.heightWhenNormal)
-        configuration.set(\UILabel.yoga.marginBottom, unit * 3)
-        configuration.set(\UILabel.yoga.height, CGFloat.undefined)
-        configuration.set(\UILabel.yoga.maxWidth, configuration.canvasSize.width)
-        configuration.set(\UILabel.textAlignment, .left)
+        spec.set(\UILabel.font, props.style.expandedTitleFont)
+        spec.set(\UILabel.yoga.marginTop, props.style.heightWhenNormal)
+        spec.set(\UILabel.yoga.marginBottom, unit * 3)
+        spec.set(\UILabel.yoga.height, CGFloat.undefined)
+        spec.set(\UILabel.yoga.maxWidth, spec.canvasSize.width)
+        spec.set(\UILabel.textAlignment, .left)
         let progress = props.scrollProgress(currentHeight: state.height)
         let alpha = pow(progress, 3)
-        configuration.set(\UILabel.alpha, min(1, alpha))
+        spec.set(\UILabel.alpha, min(1, alpha))
       } else {
-        configuration.set(\UILabel.font, props.style.titleFont)
-        configuration.set(\UILabel.yoga.marginTop, 0)
-        configuration.set(\UILabel.yoga.marginBottom, 0)
-        configuration.set(\UILabel.yoga.height, props.style.heightWhenNormal)
-        configuration.set(\UILabel.yoga.maxWidth, 0.5 * configuration.canvasSize.width)
-        configuration.set(\UILabel.textAlignment, .center)
-        configuration.set(\UILabel.alpha, 1)
+        spec.set(\UILabel.font, props.style.titleFont)
+        spec.set(\UILabel.yoga.marginTop, 0)
+        spec.set(\UILabel.yoga.marginBottom, 0)
+        spec.set(\UILabel.yoga.height, props.style.heightWhenNormal)
+        spec.set(\UILabel.yoga.maxWidth, 0.5 * spec.canvasSize.width)
+        spec.set(\UILabel.textAlignment, .center)
+        spec.set(\UILabel.alpha, 1)
       }
     }
     let container = UINode<UIView>(reuseIdentifier: Id.title.rawValue, create: makeTitleContainer)

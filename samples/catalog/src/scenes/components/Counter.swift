@@ -17,18 +17,18 @@ struct StylesheetCounter {
       let buttonStyle = UIStyle.make(namespace, "button")
 
       return UINode<UIView>(styles: [wrapperStyle]).children([
-        UINode<UILabel>(styles: [labelStyle], configure: configureLabel),
+        UINode<UILabel>(styles: [labelStyle], layoutSpec: configureLabel),
         UINode<UIButton>(styles: buttonStyle.withModifiers(["even": state.even]),
-                         configure: configureButton)
+                         layoutSpec: configureButton)
       ])
     }
 
-    private func configureLabel(configuration: UINode<UILabel>.Configuration) {
+    private func configureLabel(configuration: UINode<UILabel>.LayoutSpec) {
       let text = self.state.even ? "Even" : "Odd"
       configuration.set(\UILabel.text, "\(text): \(self.state.counter)")
     }
 
-    private func configureButton(configuration: UINode<UIButton>.Configuration) {
+    private func configureButton(configuration: UINode<UIButton>.LayoutSpec) {
       configuration.set(\UIButton.text, "Increase")
       configuration.view.onTap { _ in
         self.state.counter += 1

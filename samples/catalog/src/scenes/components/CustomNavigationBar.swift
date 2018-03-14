@@ -23,16 +23,16 @@ struct Track {
 
     // Override the title fragment (the body of the navigtion bar).
     override func renderTitle() -> UINodeProtocol {
-      let main = UINode<UIView>(styles: S.TrackNavigationBar_main.style) { configuration in
-        configuration.view.yoga.percent.width = 50%
-        configuration.view.yoga.percent.height = 100%
+      let main = UINode<UIView>(styles: S.TrackNavigationBar_main.style) { spec in
+        spec.view.yoga.percent.width = 50%
+        spec.view.yoga.percent.height = 100%
       }
-      let circle = UINode<UILabel>(styles: S.TrackNavigationBar_circle.style) { configuration in
-        let s = min(configuration.canvasSize.width/2, self.state.height) - 8
-        configuration.view.yoga.width = s
-        configuration.view.yoga.height = s
-        configuration.view.cornerRadius = s/2
-        configuration.view.alpha =
+      let circle = UINode<UILabel>(styles: S.TrackNavigationBar_circle.style) { spec in
+        let s = min(spec.canvasSize.width/2, self.state.height) - 8
+        spec.view.yoga.width = s
+        spec.view.yoga.height = s
+        spec.view.cornerRadius = s/2
+        spec.view.alpha =
           pow(self.props.scrollProgress(currentHeight: self.state.height), 4)
 
         // The mm:ss format string.
@@ -42,17 +42,17 @@ struct Track {
           let e = userInfo.elaspedTime
           elapsedTimeString = String(format: "%02d:%02d", e/60, e%60)
         }
-        configuration.view.text = elapsedTimeString
+        spec.view.text = elapsedTimeString
       }
-      let button = UINode<UIButton>(styles: S.TrackNavigationBar_button.style) { configuration in
-        configuration.view.yoga.position = .absolute
-        configuration.view.yoga.top = self.state.height - 16
-        configuration.view.onTap { [weak self] _ in  self?.didTapPlayButton() }
+      let button = UINode<UIButton>(styles: S.TrackNavigationBar_button.style) { spec in
+        spec.view.yoga.position = .absolute
+        spec.view.yoga.top = self.state.height - 16
+        spec.view.onTap { [weak self] _ in  self?.didTapPlayButton() }
 
         // Button label.
         guard let userInfo = self.props.userInfo(as: UserInfo.self) else { return }
         let title = userInfo.elaspedTime >= 0 ? "STOP" : "PLAY"
-        configuration.view.setTitle(title, for: .normal)
+        spec.view.setTitle(title, for: .normal)
       }
       return main.children([
         circle,
@@ -109,13 +109,13 @@ struct Track {
       let props = self.props
       let wrapper = UINode<UIView>(styles: S.Track_wrapper.style)
       wrapper.children([
-        UINode<UIImageView>(styles: S.Track_cover.style) { configuration in
-          configuration.set(\UIImageView.image, props.cover)
+        UINode<UIImageView>(styles: S.Track_cover.style) { spec in
+          spec.set(\UIImageView.image, props.cover)
         },
-        UINode<UILabel>(styles: S.Track_title.style) { configuration in
-          configuration.set(\UILabel.text, props.title)
+        UINode<UILabel>(styles: S.Track_title.style) { spec in
+          spec.set(\UILabel.text, props.title)
         }
-        ])
+      ])
       return wrapper
     }
   }

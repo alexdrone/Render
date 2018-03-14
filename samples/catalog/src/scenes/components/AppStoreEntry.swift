@@ -18,27 +18,27 @@ struct AppStoreEntry {
     /// Builds the node hierarchy for this component.
     override func render(context: UIContextProtocol) -> UINodeProtocol {
 
-      return UINode<UIView>(configure: configureMainView).children([
+      return UINode<UIView>(layoutSpec: configureMainView).children([
         // The main content view.
-        UINode<UIImageView>(configure: configureContentView).children([
+        UINode<UIImageView>(layoutSpec: configureContentView).children([
           // An dark overlay.
-          UINode<UIView>(configure: configureOverlay),
+          UINode<UIView>(layoutSpec: configureOverlay),
           // Lays out the icon and the title.
-          UINode<UIView>(configure: configureRowContainer).children([
+          UINode<UIView>(layoutSpec: configureRowContainer).children([
             makePolygon(),
             makeLabel(text: "\(props.title)#\(state.counter)",
-                      configure: configureLabel),
+                      layoutSpec: configureLabel),
             ]),
           // Entry description (shown when the component is expanded).
-          UINode<UIView>(configure: configureDescriptionContainer).children([
+          UINode<UIView>(layoutSpec: configureDescriptionContainer).children([
             makeLabel(text: props.desc,
-                      configure: configureDescriptionLabel),
+                      layoutSpec: configureDescriptionLabel),
             makeButton(text: "Increase",
                        onTouchUpInside: { [weak self] in self?.onIncrease() })
             ]),
           // Touch overlay that covers the whole component.
           makeTapRecognizer(onTouchUpInside: { [weak self] in self?.onToggleExpand() },
-                            configure: configureTappableView),
+                            layoutSpec: configureTappableView),
           ])
       ])
     }
@@ -57,93 +57,93 @@ struct AppStoreEntry {
 
     // MARK: - Containers
 
-    private func configureMainView(configuration: UINode<UIView>.Configuration) {
-      configuration.set(\UIView.backgroundColor, S.Palette.primary.color)
+    private func configureMainView(spec: UINode<UIView>.LayoutSpec) {
+      spec.set(\UIView.backgroundColor, S.Palette.primary.color)
     }
 
     // The main content view with the entry background image.
-    private func configureContentView(configuration: UINode<UIImageView>.Configuration) {
+    private func configureContentView(spec: UINode<UIImageView>.LayoutSpec) {
       let margin: CGFloat = state.expanded ? 0 : 8
       let height: CGFloat = state.expanded ? 256 : 128
       let radius: CGFloat = state.expanded ? 0 : 8
-      configuration.set(\UIImageView.image, props.image)
-      configuration.set(\UIImageView.contentMode, .scaleAspectFill)
-      configuration.set(\UIImageView.yoga.width, configuration.canvasSize.width - margin*2)
-      configuration.set(\UIImageView.yoga.height, height)
-      configuration.set(\UIImageView.yoga.margin, margin)
+      spec.set(\UIImageView.image, props.image)
+      spec.set(\UIImageView.contentMode, .scaleAspectFill)
+      spec.set(\UIImageView.yoga.width, spec.canvasSize.width - margin*2)
+      spec.set(\UIImageView.yoga.height, height)
+      spec.set(\UIImageView.yoga.margin, margin)
       // The corner radius is being animated on change.
-      configuration.set(\UIImageView.cornerRadius, radius, animator: defaultAnimator())
-      configuration.set(\UIImageView.isUserInteractionEnabled, true)
+      spec.set(\UIImageView.cornerRadius, radius, animator: defaultAnimator())
+      spec.set(\UIImageView.isUserInteractionEnabled, true)
     }
 
     // Wrapper around the icon and the title.
-    private func configureRowContainer(configuration: UINode<UIView>.Configuration) {
-      configuration.set(\UIView.backgroundColor, .clear)
+    private func configureRowContainer(spec: UINode<UIView>.LayoutSpec) {
+      spec.set(\UIView.backgroundColor, .clear)
       // The container takes all of the parent's width and 80% of the height.
-      configuration.set(\UIView.yoga.percent.width, 100%)
-      configuration.set(\UIView.yoga.percent.height, 80%)
-      configuration.set(\UIView.yoga.padding, 4)
+      spec.set(\UIView.yoga.percent.width, 100%)
+      spec.set(\UIView.yoga.percent.height, 80%)
+      spec.set(\UIView.yoga.padding, 4)
       // Lays out the children horizontally.
-      configuration.set(\UIView.yoga.flexDirection, .row)
+      spec.set(\UIView.yoga.flexDirection, .row)
     }
 
     // MARK: - Description
 
     // The dark banner at the bottom of the component showing the entry description.
-    private func configureDescriptionContainer(configuration: UINode<UIView>.Configuration) {
+    private func configureDescriptionContainer(spec: UINode<UIView>.LayoutSpec) {
       // The container takes all of the parent's width and 20% of the height.
-      configuration.set(\UIView.yoga.percent.width, 100%)
-      configuration.set(\UIView.yoga.percent.height, 20%)
-      configuration.set(\UIView.yoga.padding, S.Margin.xsmall.cgFloat)
-      configuration.set(\UIView.yoga.justifyContent, .center)
-      configuration.set(\UIView.yoga.flexDirection, .row)
-      configuration.set(\UIView.backgroundColor, S.Palette.text.color)
+      spec.set(\UIView.yoga.percent.width, 100%)
+      spec.set(\UIView.yoga.percent.height, 20%)
+      spec.set(\UIView.yoga.padding, S.Margin.xsmall.cgFloat)
+      spec.set(\UIView.yoga.justifyContent, .center)
+      spec.set(\UIView.yoga.flexDirection, .row)
+      spec.set(\UIView.backgroundColor, S.Palette.text.color)
       // The alpha is animated on change.
-      configuration.set(\UIView.alpha, !state.expanded ? 0 : 1, animator: defaultAnimator())
+      spec.set(\UIView.alpha, !state.expanded ? 0 : 1, animator: defaultAnimator())
     }
 
     // The description text.
-    private func configureDescriptionLabel(configuration: UINode<UILabel>.Configuration) {
-      configuration.set(\UILabel.font, S.Typography.small.font)
-      configuration.set(\UILabel.textColor, S.Palette.white.color)
+    private func configureDescriptionLabel(spec: UINode<UILabel>.LayoutSpec) {
+      spec.set(\UILabel.font, S.Typography.small.font)
+      spec.set(\UILabel.textColor, S.Palette.white.color)
       // The alpha is animated on change.
-      configuration.set(\UILabel.alpha, !state.expanded ? 0 : 1, animator: defaultAnimator())
-      configuration.set(\UILabel.yoga.flexGrow, 1)
-      configuration.set(\UILabel.yoga.flexShrink, 1)
+      spec.set(\UILabel.alpha, !state.expanded ? 0 : 1, animator: defaultAnimator())
+      spec.set(\UILabel.yoga.flexGrow, 1)
+      spec.set(\UILabel.yoga.flexShrink, 1)
     }
 
     // MARK: - Title
 
     // The main title.
-    private func configureLabel(configuration: UINode<UILabel>.Configuration) {
+    private func configureLabel(spec: UINode<UILabel>.LayoutSpec) {
       let font: UIFont = state.expanded ? S.Typography.mediumBold.font : S.Typography.medium.font
-      configuration.set(\UILabel.yoga.height, 32)
-      configuration.set(\UILabel.yoga.width, 256)
-      configuration.set(\UILabel.font, font)
-      configuration.set(\UILabel.textColor, S.Palette.white.color)
+      spec.set(\UILabel.yoga.height, 32)
+      spec.set(\UILabel.yoga.width, 256)
+      spec.set(\UILabel.font, font)
+      spec.set(\UILabel.textColor, S.Palette.white.color)
     }
 
     // MARK: - Overlays
 
     // Overlay that darkens the background image.
-    private func configureOverlay(configuration: UINode<UIView>.Configuration) {
+    private func configureOverlay(spec: UINode<UIView>.LayoutSpec) {
       let alpha: CGFloat = state.expanded ? 0.2 : 0.5
       let bkg = UIColor.black.withAlphaComponent(alpha)
-      configuration.set(\UIView.backgroundColor, bkg, animator: defaultAnimator())
-      configureAbsoluteOverlay(configuration: configuration)
+      spec.set(\UIView.backgroundColor, bkg, animator: defaultAnimator())
+      configureAbsoluteOverlay(spec: spec)
     }
 
     // Touch overlay that covers the whole component.
-    private func configureTappableView(configuration: UINode<UIView>.Configuration) {
-      configureAbsoluteOverlay(configuration: configuration)
-      configuration.set(\UIView.yoga.percent.height, 80%)
+    private func configureTappableView(spec: UINode<UIView>.LayoutSpec) {
+      configureAbsoluteOverlay(spec: spec)
+      spec.set(\UIView.yoga.percent.height, 80%)
     }
 
     // The overlays have position '.absolute' in order to cover all of the parent's space.
-    private func configureAbsoluteOverlay(configuration: UINode<UIView>.Configuration) {
-      configuration.set(\UIView.yoga.percent.width, 100%)
-      configuration.set(\UIView.yoga.percent.height, 100%)
-      configuration.set(\UIView.yoga.position, .absolute)
+    private func configureAbsoluteOverlay(spec: UINode<UIView>.LayoutSpec) {
+      spec.set(\UIView.yoga.percent.width, 100%)
+      spec.set(\UIView.yoga.percent.height, 100%)
+      spec.set(\UIView.yoga.position, .absolute)
     }
 
     // MARK: - Animator

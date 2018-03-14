@@ -77,7 +77,7 @@ public protocol UINodeProtocol: Disposable {
 
 public class UINode<V: UIView>: UINodeProtocol {
 
-  public struct Configuration {
+  public struct LayoutSpec {
     /// The target node for this layout pass.
     public internal(set) var node: UINode<V>
     /// The concrete backing view.
@@ -100,7 +100,7 @@ public class UINode<V: UIView>: UINodeProtocol {
   }
 
   public typealias CreationClosure = () -> V
-  public typealias ConfigurationClosure = (Configuration) -> Void
+  public typealias LayoutSpecClosure = (LayoutSpec) -> Void
 
   public var reuseIdentifier: String
   public fileprivate(set) var renderedView: UIView? = nil
@@ -123,7 +123,7 @@ public class UINode<V: UIView>: UINodeProtocol {
   // Private.
 
   public var createClosure: CreationClosure
-  public var configClosure: ConfigurationClosure = { _ in }
+  public var layoutSpec: LayoutSpecClosure = { _ in }
   // 'true' whenever view just got created and added to the view hierarchy.
   private var shouldInvokeDidMount: Bool = false
   // The target object for the view binding method.
@@ -140,7 +140,7 @@ public class UINode<V: UIView>: UINodeProtocol {
   /// - parameter reuseIdentifier: Mandatory if the node has a custom creation closure.
   /// - parameter key: A unique key for the node (necessary if the component is stateful).
   /// - parameter create: Custom view initialization closure.
-  /// - parameter configure: This closure is invoked whenever the 'layout' method is invoked.
+  /// - parameter layoutSpec: This closure is invoked whenever the 'layout' method is invoked.
   /// Configure your backing view by using the *UILayout* object (e.g.):
   /// ```
   /// ... { layout in
@@ -159,7 +159,7 @@ public class UINode<V: UIView>: UINodeProtocol {
               key: String? = nil,
               create: (() -> V)? = nil,
               styles: [UIStyleProtocol] = [],
-              configure: ConfigurationClosure? = nil) {
+              layoutSpec: LayoutSpecClosure? = nil) {
     self.reuseIdentifier = UINodeReuseIdentifierMake(type: V.self, identifier: reuseIdentifier)
     self._debugType =  String(describing: V.self)
     self.createClosure = create ??  { V() }
@@ -168,13 +168,13 @@ public class UINode<V: UIView>: UINodeProtocol {
     }
     self.key = key
     self.styles = styles
-    if let configure = configure {
-      self.configClosure = configure
+    if let layoutSpec = layoutSpec {
+      self.layoutSpec = layoutSpec
     }
   }
 
-  open func configure(_ configClosure: @escaping ConfigurationClosure) {
-    self.configClosure = configClosure
+  open func configureLayoutSpec(_ layoutSpec: @escaping LayoutSpecClosure) {
+    self.layoutSpec = layoutSpec
   }
 
   /// Sets the subnodes of this node.
@@ -212,8 +212,8 @@ public class UINode<V: UIView>: UINodeProtocol {
     view.renderContext.storeOldGeometryRecursively()
     UIStyle.applyStyles(styles, to: view)
 
-    let viewConfiguration = Configuration(node: self, view: renderedView, size: bounds)
-    configClosure(viewConfiguration)
+    let viewConfiguration = LayoutSpec(node: self, view: renderedView, size: bounds)
+    layoutSpec(viewConfiguration)
     overrides?(view)
 
     // Configure the children recursively.
@@ -465,7 +465,7 @@ public class UINode<V: UIView>: UINodeProtocol {
     for child in children { child.dispose() }
     // Clears the closures.
     createClosure = { V() }
-    configClosure = { _ in }
+    layoutSpec = { _ in }
     overrides = nil
     // Resets all the targets of the target view.
     renderedView?.resetAllTargets()
