@@ -45,14 +45,14 @@ class SimpleCounterViewController: UIComponentViewController<SimpleCounterCompon
 
   override func buildRootComponent() -> SimpleCounterComponent1 {
     // We can create a new component using the ViewController's context.
-    return context.transientComponent(SimpleCounterComponent1.self)
+    return context.component(SimpleCounterComponent.self)
   }
 }
 ```
 
 Voilà! We have our first component rendered on screen.
 
-<img src="docs/s1.png" width=320>
+<img src="docs/gs1.png" width=320>
 
 #### Adding a state to your component
 
@@ -68,8 +68,7 @@ class CounterState: UIState {
 Now we can change the class declaration to associate our component to the newly created state type, and change the state whenever the user interacts with the component.
 
 ```swift
-
-class SimpleCounterComponent2: UIComponent<CounterState, UINilProps> {
+class SimpleCounterComponent: UIComponent<CounterState, UINilProps> {
   [...]
   private func containerLayoutSpec(_ spec: UINode<UIView>.LayoutSpec) {
     [...]
@@ -81,7 +80,54 @@ class SimpleCounterComponent2: UIComponent<CounterState, UINilProps> {
       self?.setNeedsRender()
     }
   }
+  
+  private func labelLayoutSpec(_ spec: UINode<UILabel>.LayoutSpec) {
+    [...]
+    // The label now shows the state counter.
+    spec.set(\UILabel.text, "Number of taps: \(state.counter)")
+  }
 }
 ```
 
-<img src="docs/s2.gif" width=320>
+<img src="docs/gs2.gif" width=320>
+
+#### Passing props to your component
+
+It's very common for your component to display data coming from a model, or more generally, from some state that is not internal to the component.
+In **Render** we use props for that.
+
+Let's imagine that we want to customise the prompt of our component.
+
+```swift
+class CounterProps: UIProps {
+  var format: String =  "Number of taps: %d"
+}
+```
+
+We then associate our component class to the newly defined props type.
+
+```swift
+class SimpleCounterComponent: UIComponent<CounterState, CounterProps> {
+  [...]
+  private func labelLayoutSpec(_ spec: UINode<UILabel>.LayoutSpec) {
+    [...]
+    spec.set(\UILabel.text, String(format: props.format, state.counter))
+  }
+}
+```
+
+Now the only thing left to do is to pass down the desired prop data to the component in you ViewController. 
+
+```swift
+class SimpleCounterViewController: UIComponentViewController<SimpleCounterComponent> {
+
+  override func buildRootComponent() -> SimpleCounterComponent1 {
+    let component = context.component(SimpleCounterComponent.self)
+    // Component props are used to pass data from your model to your component.
+    component.props.format = "How heavy is your neutrino? %d eV/c2."
+    return component
+  }
+}
+```
+
+<img src="docs/gs3.png" width=320>
