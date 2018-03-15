@@ -64,3 +64,10 @@ sudo curl "https://raw.githubusercontent.com/alexdrone/Render/master/tools/rende
 
 ### [Getting started](getting_started.md)
 How to create a new component with a **state** and **props**, install it in a `UIViewController` and use the stylesheet.
+
+
+# Credits:
+* [facebook/yoga](https://github.com/facebook/yoga) used as layout engine.
+* [yaml/libyaml](https://github.com/yaml/libyaml) used to parse the YAML stylesheet.
+* [nicklockwood/Expression](https://github.com/nicklockwood/Expression) for real-time evaluation of expressions inside the yaml stylesheet.
+
