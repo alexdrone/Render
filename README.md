@@ -115,5 +115,5 @@ class SimpleCounterViewController: UIComponentViewController<SimpleCounterCompon
 
 Voilà! We have our first component rendered on screen.
 
-<img src="docs/s1" width=160>
+<img src="docs/s1.png" width=320>
 
