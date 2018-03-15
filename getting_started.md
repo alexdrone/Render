@@ -38,7 +38,7 @@ class SimpleCounterComponent: UIComponent<UINilState, UINilProps> {
 
 Now that we have our component, we need a `ViewController` to manage its life-cycle.
 
-We use `UIComponentViewController`*, a specialised subclass of `UIViewController` for semplicity sake, but components can be virtually installed in any view hierarchy.
+We use `UIComponentViewController`, a specialised subclass of `UIViewController` for simplicity's sake, but components can be virtually installed in any view hierarchy.
 
 ```swift
 class SimpleCounterViewController: UIComponentViewController<SimpleCounterComponent> {
