@@ -59,3 +59,44 @@ sudo chown -R $(whoami) /usr/local/bin &&
 sudo curl "https://raw.githubusercontent.com/alexdrone/Render/master/tools/render-generate" > render-generate && mv render-generate /usr/local/bin/render-generate && chmod +x /usr/local/bin/render-generate &&
 sudo curl "https://raw.githubusercontent.com/alexdrone/Render/master/tools/render-watch.sh" > render-watch && mv render-watch /usr/local/bin/render-watch && chmod +x /usr/local/bin/render-watch
 ```
+
+## Getting started
+
+We're going to start with a very simple component to get familiar with **Render**'s programming model.
+
+```swift
+
+class SimpleCounterComponent: UIComponent<UINilState, UINilProps> {
+
+  /// Define your component hierarchy in the *render* method.
+  override func render(context: UIContextProtocol) -> UINodeProtocol {
+  
+    let container = UINode<UIView>(layoutSpec: containerLayoutSpec)
+    let label = UINode<UILabel>(layoutSpec: labelLayoutSpec)
+    
+    return container.children([
+      label,
+    ])
+  }
+
+  private func containerLayoutSpec(_ spec: UINode<UIView>.LayoutSpec) {
+    // *spec* is a proxy to the rendered view and can be used to configure the backing view for
+    // your node...
+    spec.set(\UIView.backgroundColor, .blue)
+
+    // ...if necessary you can access to the view directly e.g.
+    spec.view.backgroundColor = .blue
+
+    // Render uses facebook/yoga to compute view layouts.
+    spec.set(\UIView.yoga.width, spec.canvasSize.width)
+  }
+
+  private func labelLayoutSpec(_ spec: UINode<UILabel>.LayoutSpec) {
+    spec.set(\UILabel.textColor, .white)
+    spec.set(\UILabel.yoga.margin, 32)
+    spec.set(\UILabel.text, "Number of taps: 0")
+  }
+}
+
+```
+
