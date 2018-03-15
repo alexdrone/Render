@@ -62,10 +62,11 @@ sudo curl "https://raw.githubusercontent.com/alexdrone/Render/master/tools/rende
 
 ## Getting started
 
+#### A very simple component
+
 We're going to start with a very simple component to get familiar with **Render**'s programming model.
 
 ```swift
-
 class SimpleCounterComponent: UIComponent<UINilState, UINilProps> {
 
   /// Define your component hierarchy in the *render* method.
@@ -97,6 +98,22 @@ class SimpleCounterComponent: UIComponent<UINilState, UINilProps> {
     spec.set(\UILabel.text, "Number of taps: 0")
   }
 }
-
 ```
+
+Now that we have our component, we need a *ViewController* to manage its life-cycle.
+We use *UIComponentViewController*, a specialised subclass of *UIViewController* for semplicity sake, but components can be virtually installed in any view hierarchy.
+
+```swift
+class SimpleCounterViewController: UIComponentViewController<SimpleCounterComponent> {
+
+  override func buildRootComponent() -> SimpleCounterComponent1 {
+    // We can create a new component using the ViewController's context.
+    return context.transientComponent(SimpleCounterComponent1.self)
+  }
+}
+```
+
+Voilà! We have our first component rendered on screen.
+
+<img src="docs/s1" width=160>
 
