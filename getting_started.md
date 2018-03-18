@@ -119,7 +119,7 @@ class SimpleCounterViewController: UIComponentViewController<SimpleCounterCompon
 
 <img src="docs/gs2.gif" width=320>
 
-#### Passing props to your component
+#### Exposing the component properties
 
 It's very common for your component to display data coming from a model, or more generally, from some state that is not internal to the component.
 In **Render** we use props for that.
@@ -159,3 +159,4 @@ class SimpleCounterViewController: UIComponentViewController<SimpleCounterCompon
 ```
 
 <img src="docs/gs3.png" width=320>
+
