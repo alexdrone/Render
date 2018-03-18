@@ -1,13 +1,28 @@
 ## Getting started
 
-We're going to start with a very simple component to get familiar with **Render**'s programming model.
+We are going to start with a very simple component to get familiar with **Render**'s programming model.
+
+In order to do so let's subclass `UIComponent`.
 
 ```swift
 class SimpleCounterComponent: UIComponent<UINilState, UINilProps> {
 
-  /// Define your component hierarchy in the *render* method.
+ override func render(context: UIContextProtocol) -> UINodeProtocol {
+   // Your component hierarchy goes here.
+ }
+}
+```
+
+`UINilState` and `UINilProps` are two special types that mark the component as *stateless* and with no external properties while `render(context:)` is the main entry point for your component definition.
+
+```swift
+class SimpleCounterComponent: UIComponent<UINilState, UINilProps> {
+
   override func render(context: UIContextProtocol) -> UINodeProtocol {
-  
+    
+    // *UINode<T>* is a proxy object for a backing view of type T.
+    // It knows how to layout and configure the view and how to position it in 
+    // the view hierararchy.
     let container = UINode<UIView>(layoutSpec: containerLayoutSpec)
     let label = UINode<UILabel>(layoutSpec: labelLayoutSpec)
     
