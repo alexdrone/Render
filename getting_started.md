@@ -38,14 +38,16 @@ class SimpleCounterComponent: UIComponent<UINilState, UINilProps> {
 
 Now that we have our component, we need a `ViewController` to manage its life-cycle.
 
-We use `UIComponentViewController`, a specialised subclass of `UIViewController` for simplicity's sake, but components can be virtually installed in any view hierarchy.
+We use `UIComponentViewController` for simplicity's sake, but components can be virtually installed in any view hierarchy.
+
+Components always need to be constructed from a context.
+In this case we use can use the `transientComponent` factory method (that doesn't require a unique key for your component) because our component is stateless.
 
 ```swift
 class SimpleCounterViewController: UIComponentViewController<SimpleCounterComponent> {
 
   override func buildRootComponent() -> SimpleCounterComponent1 {
-    // We can create a new component using the ViewController's context.
-    return context.component(SimpleCounterComponent.self)
+    return context.transientComponent(SimpleCounterComponent.self)
   }
 }
 ```
@@ -85,6 +87,17 @@ class SimpleCounterComponent: UIComponent<CounterState, UINilProps> {
     [...]
     // The label now shows the state counter.
     spec.set(\UILabel.text, "Number of taps: \(state.counter)")
+  }
+}
+```
+
+The last touch is swapping the `transientComponent(_:)` factory method with `component(_:,key:)` since our component is now stateful.
+
+```swift
+class SimpleCounterViewController: UIComponentViewController<SimpleCounterComponent> {
+
+  override func buildRootComponent() -> SimpleCounterComponent1 {
+    return context.component(SimpleCounterComponent.self, key: "counter")
   }
 }
 ```
