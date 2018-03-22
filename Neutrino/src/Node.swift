@@ -211,13 +211,25 @@ public class UINode<V: UIView>: UINodeProtocol {
     }
     view.renderContext.storeOldGeometryRecursively()
 
+    let spec = LayoutSpec(node: self, view: renderedView, size: bounds)
+
     // optimisation: applies the stylesheet-defined styles separately in order to merge
     // together is a single computed style.
     // - note: Non-UIStylesheetProtocol compliant styles are skipped.
     UIStylesheetApplyStyles(styles, to: view)
 
-    let viewConfiguration = LayoutSpec(node: self, view: renderedView, size: bounds)
-    layoutSpec(viewConfiguration)
+    // Applies *UIStyle* subclasses.
+    for style in styles.flatMap({ $0 as? UIStyle }) {
+      if let specStyle = style as? UILayoutSpecStyle<V> {
+        specStyle.layoutSpec = spec
+        specStyle.apply(to: view)
+        specStyle.reset()
+      } else {
+        style.apply(to: view)
+      }
+    }
+
+    layoutSpec(spec)
     overrides?(view)
 
     // Configure the children recursively.
