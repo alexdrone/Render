@@ -5,20 +5,25 @@ import RenderNeutrino
 
 class SimpleCounterViewController1: UIComponentViewController<SimpleCounterComponent1> {
 
+  override func viewDidLoad() {
+    styleNavigationBarComponent(title: "Getting Started I")
+    super.viewDidLoad()
+  }
+
   override func buildRootComponent() -> SimpleCounterComponent1 {
     // We can create a new component using the ViewController's context.
     return context.transientComponent(SimpleCounterComponent1.self)
-  }
-
-  override func viewDidLoad() {
-    super.viewDidLoad()
-    view.backgroundColor = .white
   }
 }
 
 // MARK: - SimpleCounterViewController2
 
 class SimpleCounterViewController2: UIComponentViewController<SimpleCounterComponent2> {
+
+  override func viewDidLoad() {
+    styleNavigationBarComponent(title: "Getting Started II")
+    super.viewDidLoad()
+  }
 
   override func buildRootComponent() -> SimpleCounterComponent2 {
     // The component is now stateful, and we cannot construct it by calling *transientComponent*.
@@ -33,6 +38,11 @@ class SimpleCounterViewController2: UIComponentViewController<SimpleCounterCompo
 
 class SimpleCounterViewController3: UIComponentViewController<SimpleCounterComponent3> {
 
+  override func viewDidLoad() {
+    styleNavigationBarComponent(title: "Getting Started III")
+    super.viewDidLoad()
+  }
+
   override func buildRootComponent() -> SimpleCounterComponent3 {
     let component = context.component(SimpleCounterComponent3.self)
     // Component props are used to pass data from your model to your component.
@@ -45,6 +55,11 @@ class SimpleCounterViewController3: UIComponentViewController<SimpleCounterCompo
 
 class SimpleCounterViewController4: UIComponentViewController<SimpleCounterComponent4> {
 
+  override func viewDidLoad() {
+    styleNavigationBarComponent(title: "Getting Started IV")
+    super.viewDidLoad()
+  }
+
   override func buildRootComponent() -> SimpleCounterComponent4 {
     return context.component(SimpleCounterComponent4.self)
   }
@@ -52,10 +67,15 @@ class SimpleCounterViewController4: UIComponentViewController<SimpleCounterCompo
 
 // MARK: - SimpleCounterViewController5
 
-class SimpleCounterViewController5: UIComponentViewController<SimpleCounterComponent1> {
+class SimpleCounterViewController5: UIComponentViewController<SimpleCounterComponent5> {
 
-  override func buildRootComponent() -> SimpleCounterComponent1 {
-    return context.component(SimpleCounterComponent1.self)
+  override func viewDidLoad() {
+    styleNavigationBarComponent(title: "Getting Started V")
+    super.viewDidLoad()
+  }
+
+  override func buildRootComponent() -> SimpleCounterComponent5 {
+    return context.component(SimpleCounterComponent5.self)
   }
 }
 

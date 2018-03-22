@@ -28,24 +28,24 @@ class IndexViewController: UITableComponentViewController {
         subtitle: "A simple component that render itself using styles.",
         onCellSelected: presentStylesheetCounterExample),
       Index.CellProps(
-        title: "Simple Counter 1",
-        subtitle: "",
+        title: "Getting Started I",
+        subtitle: "Simple stateless component.",
         onCellSelected: presentSimpleCounterExample1),
       Index.CellProps(
-        title: "Simple Counter 2",
-        subtitle: "",
+        title: "Getting Started II",
+        subtitle: "A stateful counter.",
         onCellSelected: presentSimpleCounterExample2),
       Index.CellProps(
-        title: "Simple Counter 3",
-        subtitle: "",
+        title: "Getting Started III",
+        subtitle: "A stateful counter with props externally injected.",
         onCellSelected: presentSimpleCounterExample3),
       Index.CellProps(
-        title: "Simple Counter 4",
-        subtitle: "",
+        title: "Getting Started IV",
+        subtitle: "Introducing styles.",
         onCellSelected: presentSimpleCounterExample4),
       Index.CellProps(
-        title: "Simple Counter 5",
-        subtitle: "",
+        title: "Getting Started V",
+        subtitle: "YAML Stylesheet and hot reload.",
         onCellSelected: presentSimpleCounterExample5),
     ]
   }()
