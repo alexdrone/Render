@@ -188,7 +188,9 @@ open class UIComponent<S: UIStateProtocol, P: UIPropsProtocol>: NSObject, UIComp
     }
     guard parent == nil, canvasView != nil else { return }
     self.setNeedsRender()
+    #if RENDER_MOD_STYLESHEET
     try? UIStylesheetManager.default.load(file: nil)
+    #endif
   }
 
   public func setNeedsRender(options: [UIComponentRenderOption] = []) {
@@ -203,13 +205,13 @@ open class UIComponent<S: UIStateProtocol, P: UIPropsProtocol>: NSObject, UIComp
       return
     }
     guard let context = context, let view = canvasView else {
-      warn("Attempting to render a component without a canvas view and/or a context.")
       return
     }
     // Updates the context's screen state.
     context._screenStateFactory.bounds = renderSize()
+    #if RENDER_MOD_STYLESHEET
     UIStylesheetManager.default.canvasSize = renderSize()
-
+    #endif
     // Rendering is suspended for this context for the time being.
     // 'resumeFromSuspendedRenderingIfNecessary' will automatically be called when the render
     // context will be resumed.

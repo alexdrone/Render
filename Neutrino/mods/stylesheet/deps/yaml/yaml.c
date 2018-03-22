@@ -1,4 +1,4 @@
-
+//#ifdef RENDER_MOD_STYLESHEET
 #include "yaml.h"
 
 #if HAVE_CONFIG_H
@@ -9921,3 +9921,4 @@ yaml_emitter_flush(yaml_emitter_t *emitter)
   }
 }
 
+//#endif /* #ifdef RENDER_MOD_STYLESHEET */

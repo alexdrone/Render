@@ -1,3 +1,4 @@
+#if RENDER_MOD_STYLESHEET
 import UIKit
 
 // MARK: - UIStylesheet
@@ -858,4 +859,4 @@ extension UIStyleProtocol {
     return identifiers
   }
 }
-
+#endif

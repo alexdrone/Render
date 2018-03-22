@@ -41,48 +41,6 @@ extension YGValue : ExpressibleByIntegerLiteral, ExpressibleByFloatLiteral {
   }
 }
 
-// MARK: - UIStylesheetRepresentableEnum Yoga Compliancy
-
-extension YGAlign: UIStylesheetRepresentableEnum {
-  public init?(rawValue: Int) { self.init(rawValue: Int32(rawValue)) }
-  public static func expressionConstants() -> [String : Double] { return [:] }
-}
-
-extension YGDirection: UIStylesheetRepresentableEnum {
-  public init?(rawValue: Int) { self.init(rawValue: Int32(rawValue)) }
-  public static func expressionConstants() -> [String : Double] { return [:] }
-}
-
-extension YGFlexDirection: UIStylesheetRepresentableEnum {
-  public init?(rawValue: Int) { self.init(rawValue: Int32(rawValue)) }
-  public static func expressionConstants() -> [String : Double] { return [:] }
-}
-
-extension YGJustify: UIStylesheetRepresentableEnum {
-  public init?(rawValue: Int) { self.init(rawValue: Int32(rawValue)) }
-  public static func expressionConstants() -> [String : Double] { return [:] }
-}
-
-extension YGPositionType: UIStylesheetRepresentableEnum {
-  public init?(rawValue: Int) { self.init(rawValue: Int32(rawValue)) }
-  public static func expressionConstants() -> [String : Double] { return [:] }
-}
-
-extension YGWrap: UIStylesheetRepresentableEnum {
-  public init?(rawValue: Int) { self.init(rawValue: Int32(rawValue)) }
-  public static func expressionConstants() -> [String : Double] { return [:] }
-}
-
-extension YGOverflow: UIStylesheetRepresentableEnum {
-  public init?(rawValue: Int) { self.init(rawValue: Int32(rawValue)) }
-  public static func expressionConstants() -> [String : Double] { return [:] }
-}
-
-extension YGDisplay: UIStylesheetRepresentableEnum {
-  public init?(rawValue: Int) { self.init(rawValue: Int32(rawValue)) }
-  public static func expressionConstants() -> [String : Double] { return [:] }
-}
-
 public protocol UIPostRendering {
   /// content-size calculation for the scrollview should be applied after the layout.
   /// This is called after the scroll view is rendered.
@@ -585,3 +543,47 @@ public extension UIView {
     }
   }
 }
+
+// MARK: - UIStylesheetRepresentableEnum Yoga Compliancy
+
+#if RENDER_MOD_STYLESHEET
+extension YGAlign: UIStylesheetRepresentableEnum {
+  public init?(rawValue: Int) { self.init(rawValue: Int32(rawValue)) }
+  public static func expressionConstants() -> [String : Double] { return [:] }
+}
+
+extension YGDirection: UIStylesheetRepresentableEnum {
+  public init?(rawValue: Int) { self.init(rawValue: Int32(rawValue)) }
+  public static func expressionConstants() -> [String : Double] { return [:] }
+}
+
+extension YGFlexDirection: UIStylesheetRepresentableEnum {
+  public init?(rawValue: Int) { self.init(rawValue: Int32(rawValue)) }
+  public static func expressionConstants() -> [String : Double] { return [:] }
+}
+
+extension YGJustify: UIStylesheetRepresentableEnum {
+  public init?(rawValue: Int) { self.init(rawValue: Int32(rawValue)) }
+  public static func expressionConstants() -> [String : Double] { return [:] }
+}
+
+extension YGPositionType: UIStylesheetRepresentableEnum {
+  public init?(rawValue: Int) { self.init(rawValue: Int32(rawValue)) }
+  public static func expressionConstants() -> [String : Double] { return [:] }
+}
+
+extension YGWrap: UIStylesheetRepresentableEnum {
+  public init?(rawValue: Int) { self.init(rawValue: Int32(rawValue)) }
+  public static func expressionConstants() -> [String : Double] { return [:] }
+}
+
+extension YGOverflow: UIStylesheetRepresentableEnum {
+  public init?(rawValue: Int) { self.init(rawValue: Int32(rawValue)) }
+  public static func expressionConstants() -> [String : Double] { return [:] }
+}
+
+extension YGDisplay: UIStylesheetRepresentableEnum {
+  public init?(rawValue: Int) { self.init(rawValue: Int32(rawValue)) }
+  public static func expressionConstants() -> [String : Double] { return [:] }
+}
+#endif

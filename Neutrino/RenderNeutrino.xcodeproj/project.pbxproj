@@ -192,8 +192,8 @@
 		16108B9A1FDC80DE00CD9E9A /* mods */ = {
 			isa = PBXGroup;
 			children = (
-				16F7B55A1F9A322C00583082 /* Inspector.swift */,
-				16108B9D1FDDD1A700CD9E9A /* Stylesheet.swift */,
+				169CCA5B2063F5F7004595E8 /* inspector */,
+				169CCA5A2063F5C6004595E8 /* stylesheet */,
 			);
 			path = mods;
 			sourceTree = "<group>";
@@ -204,7 +204,6 @@
 				16E0CDB81FB84CD300BFF470 /* ComponentTests.swift */,
 				1648A1EB1FB505F400245AFA /* ContextTests.swift */,
 				161260851FB4E92F00524869 /* NodeTests.swift */,
-				16108B9F1FDDD1BC00CD9E9A /* StylesheetTests.swift */,
 				161260871FB4E92F00524869 /* Info.plist */,
 			);
 			path = tests;
@@ -227,6 +226,58 @@
 				16108B9B1FDC82B000CD9E9A /* Expression.swift */,
 			);
 			path = expression;
+			sourceTree = "<group>";
+		};
+		169CCA5A2063F5C6004595E8 /* stylesheet */ = {
+			isa = PBXGroup;
+			children = (
+				169CCA5C2063F615004595E8 /* deps */,
+				169CCA5D2063F61E004595E8 /* src */,
+				169CCA5F2063F655004595E8 /* tests */,
+			);
+			path = stylesheet;
+			sourceTree = "<group>";
+		};
+		169CCA5B2063F5F7004595E8 /* inspector */ = {
+			isa = PBXGroup;
+			children = (
+				169CCA5E2063F63A004595E8 /* src */,
+			);
+			path = inspector;
+			sourceTree = "<group>";
+		};
+		169CCA5C2063F615004595E8 /* deps */ = {
+			isa = PBXGroup;
+			children = (
+				16D5F6BD2011FB320003CDF7 /* generate */,
+				1665D6651FE959E800955782 /* expression */,
+				160627A71FE91BC9007779DD /* yaml */,
+			);
+			path = deps;
+			sourceTree = "<group>";
+		};
+		169CCA5D2063F61E004595E8 /* src */ = {
+			isa = PBXGroup;
+			children = (
+				16108B9D1FDDD1A700CD9E9A /* Stylesheet.swift */,
+			);
+			path = src;
+			sourceTree = "<group>";
+		};
+		169CCA5E2063F63A004595E8 /* src */ = {
+			isa = PBXGroup;
+			children = (
+				16F7B55A1F9A322C00583082 /* Inspector.swift */,
+			);
+			path = src;
+			sourceTree = "<group>";
+		};
+		169CCA5F2063F655004595E8 /* tests */ = {
+			isa = PBXGroup;
+			children = (
+				16108B9F1FDDD1BC00CD9E9A /* StylesheetTests.swift */,
+			);
+			path = tests;
 			sourceTree = "<group>";
 		};
 		16D5F6BD2011FB320003CDF7 /* generate */ = {
@@ -281,10 +332,7 @@
 		16F36BF31F8E2BEE00A04BE6 /* deps */ = {
 			isa = PBXGroup;
 			children = (
-				16D5F6BD2011FB320003CDF7 /* generate */,
-				1665D6651FE959E800955782 /* expression */,
 				160627AF1FE9322B007779DD /* yoga */,
-				160627A71FE91BC9007779DD /* yaml */,
 			);
 			path = deps;
 			sourceTree = "<group>";
@@ -512,6 +560,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = io.render.Tests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG RENDER_MOD_STYLESHEET RENGER_MOD_INSPECTOR";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -662,6 +711,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = io.alexdrone.renderneutrino;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG RENDER_MOD_STYLESHEET RENDER_MOD_INSPECTOR";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -688,6 +738,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = io.alexdrone.renderneutrino;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = RENDER_MOD_STYLESHEET;
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALID_ARCHS = "arm64 armv7 armv7s x86_64 i386";
@@ -708,6 +759,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG RENDER_MOD_STYLESHEET";
 				SWIFT_OBJC_BRIDGING_HEADER = "generate/generate-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
@@ -727,6 +779,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = RENDER_MOD_STYLESHEET;
 				SWIFT_OBJC_BRIDGING_HEADER = "generate/generate-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 				VALIDATE_PRODUCT = NO;

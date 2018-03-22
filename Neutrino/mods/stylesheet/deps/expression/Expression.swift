@@ -1,3 +1,4 @@
+#if RENDER_MOD_STYLESHEET
 //
 //  Expression.swift
 //  Expression
@@ -1816,3 +1817,4 @@ extension ImplicitlyUnwrappedOptional: _Optional {
   fileprivate var value: Any? { return self }
   static var nullValue: Any { return none as Any }
 }
+#endif

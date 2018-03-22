@@ -1,3 +1,4 @@
+#if RENDER_MOD_STYLESHEET
 import Foundation
 
 final class YAMLConstructor {
@@ -2133,3 +2134,4 @@ extension YAMLError {
     return (YAMLMark(line: line + 1, column: column + 1), contents)
   }
 }
+#endif
