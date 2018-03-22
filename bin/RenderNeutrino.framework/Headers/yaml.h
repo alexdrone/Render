@@ -1,3 +1,4 @@
+//#ifdef RENDER_MOD_STYLESHEET
 /**
  * @file yaml.h
  * @brief Public interface for libyaml.
@@ -1970,6 +1971,4 @@ extern "C" {
 #endif
 
 #endif /* #ifndef YAML_H */
-
-
-
+//#endif /* #ifdef RENDER_MOD_STYLESHEET */
