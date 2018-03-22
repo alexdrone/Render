@@ -210,7 +210,11 @@ public class UINode<V: UIView>: UINodeProtocol {
       return
     }
     view.renderContext.storeOldGeometryRecursively()
-    UIStyle.applyStyles(styles, to: view)
+
+    // optimisation: applies the stylesheet-defined styles separately in order to merge
+    // together is a single computed style.
+    // - note: Non-UIStylesheetProtocol compliant styles are skipped.
+    UIStylesheetApplyStyles(styles, to: view)
 
     let viewConfiguration = LayoutSpec(node: self, view: renderedView, size: bounds)
     layoutSpec(viewConfiguration)

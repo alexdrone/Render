@@ -11,7 +11,7 @@
 		160627AC1FE91C25007779DD /* yaml.c in Sources */ = {isa = PBXBuildFile; fileRef = 160627AA1FE91C25007779DD /* yaml.c */; };
 		160627AD1FE91C25007779DD /* yaml.h in Headers */ = {isa = PBXBuildFile; fileRef = 160627AB1FE91C25007779DD /* yaml.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		16108B9C1FDC82B000CD9E9A /* Expression.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16108B9B1FDC82B000CD9E9A /* Expression.swift */; };
-		16108B9E1FDDD1A700CD9E9A /* StylesheetManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16108B9D1FDDD1A700CD9E9A /* StylesheetManager.swift */; };
+		16108B9E1FDDD1A700CD9E9A /* Stylesheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16108B9D1FDDD1A700CD9E9A /* Stylesheet.swift */; };
 		16108BA11FDDD1C700CD9E9A /* StylesheetTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16108B9F1FDDD1BC00CD9E9A /* StylesheetTests.swift */; };
 		161260861FB4E92F00524869 /* NodeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 161260851FB4E92F00524869 /* NodeTests.swift */; };
 		161260881FB4E92F00524869 /* RenderNeutrino.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16F36BE21F8E197A00A04BE6 /* RenderNeutrino.framework */; };
@@ -47,7 +47,7 @@
 		16F36BF01F8E1A4700A04BE6 /* State.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F36BEF1F8E1A4700A04BE6 /* State.swift */; };
 		16F36BF21F8E2B2800A04BE6 /* YGExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F36BF11F8E2B2800A04BE6 /* YGExtensions.swift */; };
 		16F36C191F8E4BA600A04BE6 /* KeyPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F36C181F8E4BA600A04BE6 /* KeyPath.swift */; };
-		16F7B55B1F9A322C00583082 /* RenderInspectorHook.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F7B55A1F9A322C00583082 /* RenderInspectorHook.swift */; };
+		16F7B55B1F9A322C00583082 /* Inspector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F7B55A1F9A322C00583082 /* Inspector.swift */; };
 		16FB4C782010D78400DDA3D6 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 16FB4C772010D78400DDA3D6 /* main.m */; };
 		16FB4C7E2010D7A000DDA3D6 /* Generator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16FB4C7D2010D7A000DDA3D6 /* Generator.swift */; };
 		16FB4C7F2010D7BD00DDA3D6 /* yaml.c in Sources */ = {isa = PBXBuildFile; fileRef = 160627AA1FE91C25007779DD /* yaml.c */; };
@@ -82,7 +82,7 @@
 		160627AA1FE91C25007779DD /* yaml.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = yaml.c; sourceTree = "<group>"; };
 		160627AB1FE91C25007779DD /* yaml.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = yaml.h; sourceTree = "<group>"; };
 		16108B9B1FDC82B000CD9E9A /* Expression.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Expression.swift; sourceTree = "<group>"; };
-		16108B9D1FDDD1A700CD9E9A /* StylesheetManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StylesheetManager.swift; sourceTree = "<group>"; };
+		16108B9D1FDDD1A700CD9E9A /* Stylesheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stylesheet.swift; sourceTree = "<group>"; };
 		16108B9F1FDDD1BC00CD9E9A /* StylesheetTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StylesheetTests.swift; sourceTree = "<group>"; };
 		161260831FB4E92E00524869 /* Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		161260851FB4E92F00524869 /* NodeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NodeTests.swift; sourceTree = "<group>"; };
@@ -121,7 +121,7 @@
 		16F36BEF1F8E1A4700A04BE6 /* State.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = State.swift; sourceTree = "<group>"; };
 		16F36BF11F8E2B2800A04BE6 /* YGExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YGExtensions.swift; sourceTree = "<group>"; };
 		16F36C181F8E4BA600A04BE6 /* KeyPath.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyPath.swift; sourceTree = "<group>"; };
-		16F7B55A1F9A322C00583082 /* RenderInspectorHook.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenderInspectorHook.swift; sourceTree = "<group>"; };
+		16F7B55A1F9A322C00583082 /* Inspector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Inspector.swift; sourceTree = "<group>"; };
 		16FB4C752010D78400DDA3D6 /* generate */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = generate; sourceTree = BUILT_PRODUCTS_DIR; };
 		16FB4C772010D78400DDA3D6 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		16FB4C7C2010D79F00DDA3D6 /* generate-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "generate-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -189,13 +189,13 @@
 			path = yoga;
 			sourceTree = "<group>";
 		};
-		16108B9A1FDC80DE00CD9E9A /* stylesheet */ = {
+		16108B9A1FDC80DE00CD9E9A /* mods */ = {
 			isa = PBXGroup;
 			children = (
-				16D9F3311FE6CD7F00ADAB3D /* Style.swift */,
-				16108B9D1FDDD1A700CD9E9A /* StylesheetManager.swift */,
+				16F7B55A1F9A322C00583082 /* Inspector.swift */,
+				16108B9D1FDDD1A700CD9E9A /* Stylesheet.swift */,
 			);
-			path = stylesheet;
+			path = mods;
 			sourceTree = "<group>";
 		};
 		161260841FB4E92E00524869 /* tests */ = {
@@ -243,9 +243,8 @@
 				16F36BE61F8E197A00A04BE6 /* Info.plist */,
 				16F36BE51F8E197A00A04BE6 /* RenderNeutrino.h */,
 				16F36BF31F8E2BEE00A04BE6 /* deps */,
+				16108B9A1FDC80DE00CD9E9A /* mods */,
 				16F36BE41F8E197A00A04BE6 /* src */,
-				16108B9A1FDC80DE00CD9E9A /* stylesheet */,
-				16458EE71FF2910B003FE6EE /* vcs */,
 				161260841FB4E92E00524869 /* tests */,
 				16FB4C762010D78400DDA3D6 /* generate */,
 				16F36BE31F8E197A00A04BE6 /* Products */,
@@ -273,6 +272,8 @@
 				16CEC0151F9A125C003D3D21 /* Props.swift */,
 				16F36BEF1F8E1A4700A04BE6 /* State.swift */,
 				16FD2DA91FB100A1005C2F9F /* Geometry.swift */,
+				16D9F3311FE6CD7F00ADAB3D /* Style.swift */,
+				16458EE71FF2910B003FE6EE /* vcs */,
 			);
 			path = src;
 			sourceTree = "<group>";
@@ -284,7 +285,6 @@
 				1665D6651FE959E800955782 /* expression */,
 				160627AF1FE9322B007779DD /* yoga */,
 				160627A71FE91BC9007779DD /* yaml */,
-				16F7B55A1F9A322C00583082 /* RenderInspectorHook.swift */,
 			);
 			path = deps;
 			sourceTree = "<group>";
@@ -460,7 +460,7 @@
 				16DBD6852031C38200333CA5 /* BaseViewController.swift in Sources */,
 				160627AC1FE91C25007779DD /* yaml.c in Sources */,
 				16F36C191F8E4BA600A04BE6 /* KeyPath.swift in Sources */,
-				16F7B55B1F9A322C00583082 /* RenderInspectorHook.swift in Sources */,
+				16F7B55B1F9A322C00583082 /* Inspector.swift in Sources */,
 				160627A91FE91BE3007779DD /* YamlBridge.swift in Sources */,
 				16D9F3321FE6CD7F00ADAB3D /* Style.swift in Sources */,
 				167070241FB8C232008DFC5B /* ViewController.swift in Sources */,
@@ -474,7 +474,7 @@
 				165300BD1FD6D44C00A7BAB0 /* Debug.swift in Sources */,
 				16AA95F81FA3319E00EAC136 /* IGListCollectionViewLayout.mm in Sources */,
 				16CEC0161F9A125C003D3D21 /* Props.swift in Sources */,
-				16108B9E1FDDD1A700CD9E9A /* StylesheetManager.swift in Sources */,
+				16108B9E1FDDD1A700CD9E9A /* Stylesheet.swift in Sources */,
 				16AA95F11FA3310600EAC136 /* Yoga.c in Sources */,
 				16BCC3DA20272E4300500E3E /* NavigationBar.swift in Sources */,
 				16AA95EA1FA3310600EAC136 /* YGLayout.m in Sources */,
