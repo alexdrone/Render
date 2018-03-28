@@ -1,6 +1,6 @@
 ## Getting started
 
-We are going to start with a very simple component to get familiar with **Render**'s programming model.
+We start with a very simple component to get familiar with **Render**'s programming model.
 
 In order to do so let's subclass `UIComponent`.
 
@@ -74,7 +74,7 @@ Voilà! We have our first component rendered on screen.
 #### Adding a state to your component
 
 Nothing happens when we tap on our component.
-We want to change that, and to do so we need to introduce a state in the component:
+We want to change that, and in order do so we need to introduce a state in the component:
 
 ```swift
 class CounterState: UIState {
@@ -159,4 +159,43 @@ class SimpleCounterViewController: UIComponentViewController<SimpleCounterCompon
 ```
 
 <img src="docs/gs3.png" width=320>
+
+#### Styles 
+
+**Render** allows you to define styles for your nodes - this is a great way to have fine grain code reuse in your app UI.
+
+```swift
+// *UIStyle* is used to configure and style your view instance at render time
+static let specContainerStyle = UILayoutSpecStyle<UIView> { spec in
+  spec.set(\UIView.backgroundColor, .red)
+  spec.set(\UIView.yoga.width, spec.canvasSize.width)
+  spec.set(\UIView.yoga.justifyContent, .center)
+}
+static let specLabelStyle = UILayoutSpecStyle<UILabel> { spec in
+  spec.set(\UILabel.textColor, .white)
+  spec.set(\UILabel.font, UIFont.systemFont(ofSize: 12, weight: .bold))
+  spec.set(\UILabel.yoga.margin, 32)
+}
+```
+
+Then we can change our component to make use of the newly defined styles.
+
+```swift
+class SimpleCounterComponent4: UIComponent<CounterState, CounterProps> {
+
+  /// Builds the node hierarchy for this component.
+  override func render(context: UIContextProtocol) -> UINodeProtocol {
+    let container = UINode<UIView>(styles: [specContainerStyle],
+                                   layoutSpec: containerLayoutSpec)
+    let label = UINode<UILabel>(styles: [specLabelStyle],
+                                layoutSpec: labelLayoutSpec)
+    return container.children([
+      label,
+    ])
+  }
+  [...]
+}
+```
+
+
 
