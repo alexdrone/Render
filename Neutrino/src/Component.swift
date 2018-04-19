@@ -412,3 +412,6 @@ public typealias UIPureComponent = UIComponent<UINilState, UINilProps>
 
 /// A component without any *state* but with *props* configured from the outside.
 open class UIStatelessComponent<P: UIPropsProtocol>: UIComponent<UINilState, P> { }
+
+/// A component without a *state* but without any *props* configured from the outside.
+open class UIProplessComponent<S: UIStateProtocol>: UIComponent<S, UINilProps> { }
