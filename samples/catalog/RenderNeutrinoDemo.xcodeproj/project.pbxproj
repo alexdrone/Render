@@ -169,9 +169,19 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		166F93FD20890A7F0084D5ED /* common */ = {
+			isa = PBXGroup;
+			children = (
+				168D6D472052B54D00AF908F /* Fps.swift */,
+				16B66F151FEBEFAB00840140 /* Shared.swift */,
+			);
+			path = common;
+			sourceTree = "<group>";
+		};
 		1670701C1FB8C170008DFC5B /* scenes */ = {
 			isa = PBXGroup;
 			children = (
+				166F93FD20890A7F0084D5ED /* common */,
 				16D24C431FD5703F000BADB9 /* viewcontrollers */,
 				16BFC4D21FC5C24A00A37FD4 /* components */,
 			);
@@ -244,10 +254,8 @@
 				16A38D391FC0E897000E43E9 /* AppStoreEntry.swift */,
 				1614561B1FE5D44C00B9E091 /* Counter.swift */,
 				168B947D205969F400C9DD4A /* SimpleCounter.swift */,
-				16B66F151FEBEFAB00840140 /* Shared.swift */,
 				16C921C31FEEDA7D009F6138 /* FacebookPost.swift */,
 				1624E6C0205029E900EBFC8D /* CustomNavigationBar.swift */,
-				168D6D472052B54D00AF908F /* Fps.swift */,
 			);
 			path = components;
 			sourceTree = "<group>";
