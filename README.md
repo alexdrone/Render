@@ -62,8 +62,14 @@ sudo curl "https://raw.githubusercontent.com/alexdrone/Render/master/tools/rende
 
 # Documentation:
 
-### [Getting started](getting_started.md)
-How to create a new component with a **state** and **props**, install it in a `UIViewController` and use the stylesheet.
+#### [Getting started](getting_started.md)
+#### [Components life-cycle](getting_started.md)
+#### [TableViews and CollectionViews](tableviews.md)
+#### [Animations](animations.md)
+#### [Advanced features](advanced_features.md)
+#### [Internals](internals.md)
+#### [Mod: Stylesheet and Hot-Reload](mod_stylesheet.md)
+#### [Mod: Inspector](mod_inspector.md)
 
 
 # Credits:
