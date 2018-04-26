@@ -69,7 +69,7 @@ class SimpleCounterViewController: UIComponentViewController<SimpleCounterCompon
 
 Voilà! We have our first component rendered on screen.
 
-<img src="docs/gs1.png" width=320>
+<img src="assets/gs1.png" width=320>
 
 #### Adding a state to your component
 
@@ -117,7 +117,7 @@ class SimpleCounterViewController: UIComponentViewController<SimpleCounterCompon
 }
 ```
 
-<img src="docs/gs2.gif" width=320>
+<img src="assets/gs2.gif" width=320>
 
 #### Exposing the component properties
 
@@ -158,7 +158,7 @@ class SimpleCounterViewController: UIComponentViewController<SimpleCounterCompon
 }
 ```
 
-<img src="docs/gs3.png" width=320>
+<img src="assets/gs3.png" width=320>
 
 #### Styles 
 
