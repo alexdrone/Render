@@ -62,14 +62,14 @@ sudo curl "https://raw.githubusercontent.com/alexdrone/Render/master/tools/rende
 
 # Documentation:
 
-#### [Getting started](getting_started.md)
-#### [Components life-cycle](getting_started.md)
-#### [TableViews and CollectionViews](tableviews.md)
-#### [Animations](animations.md)
-#### [Advanced features](advanced_features.md)
-#### [Internals](internals.md)
-#### [Mod: Stylesheet and Hot-Reload](mod_stylesheet.md)
-#### [Mod: Inspector](mod_inspector.md)
+#### [Getting started](docs/getting_started.md)
+#### [Components life-cycle](docs/getting_started.md)
+#### [TableViews and CollectionViews](docs/tableviews.md)
+#### [Animations](docs/animations.md)
+#### [Advanced features](docs/advanced_features.md)
+#### [Internals](docs/internals.md)
+#### [Mod: Stylesheet and Hot-Reload](docs/mod_stylesheet.md)
+#### [Mod: Inspector](docs/mod_inspector.md)
 
 
 # Credits:
