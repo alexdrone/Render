@@ -63,7 +63,7 @@ sudo curl "https://raw.githubusercontent.com/alexdrone/Render/master/tools/rende
 # Documentation:
 
 #### [Getting started](docs/getting_started.md)
-#### [Components life-cycle](docs/getting_started.md)
+#### [Components life-cycle](docs/components_lifecycle.md)
 #### [TableViews and CollectionViews](docs/tableviews.md)
 #### [Layouts](docs/layouts.md)
 #### [Animations](docs/animations.md)
