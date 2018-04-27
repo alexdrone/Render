@@ -48,18 +48,13 @@ After you have your component instance, the next step is to installing it to you
 This is done through setting the component `canvasView`.
 
 ```swift
-
 let context = UIContext()
-
-override func viewDidLoad() {
-  super.viewDidLoad()
-  // Create your component instance.
-  let component = context.component(MyStatefulComponent.self, key: "root")
-  // Install the component in the view hierarchy.
-  component.setCanvas(view: view, options: UIComponentCanvasOption.defaults())
-  // Render the component.
-  component.setNeedsRender()
-}
+// Create your component instance.
+let component = context.component(MyStatefulComponent.self, key: "root")
+// Install the component in the view hierarchy.
+component.setCanvas(view: view, options: UIComponentCanvasOption.defaults())
+// Render the component.
+component.setNeedsRender()
 ```
 
 It is strongly recommended to use `UIComponentViewController` and `UIComponentTableViewController` as base class for your ViewControllers.
@@ -75,3 +70,7 @@ class MyViewController: UIComponentViewController<MyRootComponent> {
   }
 }
 ```
+
+### Component rendering
+
+The most important method of your component class is `render(context:)`.
