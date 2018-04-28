@@ -8,7 +8,7 @@ Components can also have an associated internal state which is private and fully
 
 ### Creating a component class
 
-Every component must subclass `UIComponent<UIStateType, UIPropsType>`.
+Every component must subclass `UIComponent<UIStateProtocol, UIPropsProtocol>`.
 
 If you desire to have a *stateless* component you can use the special `UINilState` type as generic parameter of your class.
 
@@ -74,3 +74,46 @@ class MyViewController: UIComponentViewController<MyRootComponent> {
 ### Component rendering
 
 The most important method of your component class is `render(context:)`.
+This should return a view hierarchy description by using nodes.
+
+```swift
+class MyStatefulComponent: UIComponent<MyState, MyProps> {
+	
+  override func render(context: UIContext) -> UINodeProtocol {
+    let container = UINode<UIView> { spec in
+      spec.configure(\.yoga.width, spec.canvasSize.width)
+      spec.configure(\.yoga.heigh, spec.canvasSize.height/2)
+    }
+    let label = UINode<UILabel> { spec
+      spec.configure(\.text, "foo")
+    }
+    return container.children([label])
+  }
+}
+```
+
+Components can be reused in a very granular fashion.
+
+```swift
+class MyLabelProps: UIProps { 
+  var title: String = ""
+}
+
+class MyLabelComponent: UIStatelessComponent<MyLabelProps> {
+
+  override func render(context: UIContext) -> UINodeProtocol {
+	return UINode<UILabel> { spec in spec.configure(\.text, self.props.title) }
+  }
+}
+
+class MyStatefulComponent: UIComponent<MyState, MyProps> {
+	
+  override func render(context: UIContext) -> UINodeProtocol {
+    let container = ...
+   
+    let label = childComponent(MyLabelProps.self, props: MyLabelProps(title: "foo")).asNode()
+    return container.children([label])
+  }
+}
+```
+

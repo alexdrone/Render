@@ -75,7 +75,12 @@ sudo curl "https://raw.githubusercontent.com/alexdrone/Render/master/tools/rende
 
 
 # Credits:
-* [facebook/yoga](https://github.com/facebook/yoga) used as layout engine.
-* [yaml/libyaml](https://github.com/yaml/libyaml) used to parse the YAML stylesheet.
-* [nicklockwood/Expression](https://github.com/nicklockwood/Expression) for real-time evaluation of expressions inside the yaml stylesheet.
+Layout engine:
+
+* [facebook/yoga](https://github.com/facebook/yoga)
+
+In the Stylesheet Mod:
+
+* [yaml/libyaml](https://github.com/yaml/libyaml)
+* [nicklockwood/Expression](https://github.com/nicklockwood/Expression)
 
