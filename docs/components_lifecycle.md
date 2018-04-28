@@ -117,3 +117,30 @@ class MyStatefulComponent: UIComponent<MyState, MyProps> {
 }
 ```
 
+`UINode<UIViewType>` is an abstraction around views of any sort that knows how to build, configure and layout the view when necessary.
+
+Every time `setNeedsRender(options:)` is called, a new tree is constructed, compared to the existing tree and only the required changes to the actual view hierarchy are performed. Also the layout is re-computed based on the nodes' flexbox attributes. 
+
+### [Props vs State](https://github.com/uberVU/react-guide/edit/master/props-vs-state.md)
+
+> What's the exact difference between _props_ and _state_?
+
+It's fairly easy to understand how they work—especially when seen in context—but it's also a bit difficult to grasp them conceptually. It's confusing at first because they both have abstract terms and their values look the same, but they also have very different _roles._ 
+
+You could say _props_ + _state_ is the input data for the `render()` function of a Component, so we need to zoom in and see what each data type represents and where does it come from.
+
+#### _props_
+
+_props_ are a Component's **configuration,** its _options_ if you may. They are received from above and **immutable** as far as the Component receiving them is concerned.
+
+A Component cannot change its _props,_ but it is responsible for putting together the _props_ of its child Components.
+
+
+#### _state_
+
+The _state_ starts with a default value when a Component mounts and then **suffers from mutations in time (mostly generated from user events).** It's a representation of one point in time—a snapshot.
+
+A Component manages its own _state_ internally, but—besides setting an initial state—has no business fiddling with the _state_ of its children. You could say the state is **private.**
+
+### More on UINodes
+
