@@ -102,7 +102,7 @@ class MyLabelProps: UIProps {
 class MyLabelComponent: UIStatelessComponent<MyLabelProps> {
 
   override func render(context: UIContext) -> UINodeProtocol {
-	return UINode<UILabel> { spec in spec.configure(\.text, self.props.title) }
+    return UINode<UILabel> { spec in spec.configure(\.text, self.props.title) }
   }
 }
 
