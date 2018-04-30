@@ -4,10 +4,8 @@
 
 Render is a declarative library for building efficient UIs on iOS inspired by [React](https://github.com/facebook/react).
 
-[Render 4.* (stable) project page](https://github.com/alexdrone/Render/tree/classic)
 
-*Render Neutrino* is the new version of Render, re-built from the ground up.
-The documentation is in progress.
+*Render Neutrino* is the new version of Render, re-built from the ground up ([4.*  release here](https://github.com/alexdrone/Render/tree/classic))
 
 * **Declarative:** Render uses a declarative API to define UI components. You simply describe the layout for your UI based on a set of inputs and the framework takes care of the rest (*diff* and *reconciliation* from virtual view hierarchy to the actual one under the hood).
 * **Flexbox layout:** Render includes the robust and battle-tested Facebook's [Yoga](https://facebook.github.io/yoga/) as default layout engine.
@@ -32,6 +30,8 @@ Add the following to your [Podfile](https://guides.cocoapods.org/using/the-podfi
 pod 'RenderNeutrino'
 ```
 
+* Remember to set `use_frameworks!` in your **Podfile** to tell Cocoapods to use Frameworks instead of Static Libraries. 
+
 If you are using **Carthage**:
 
 
@@ -41,7 +41,7 @@ Add the following line to your `Cartfile`:
 github "alexdrone/Render" "master"    
 ```
 
-Manually:
+**Manually**:
 
 ```
 cd {PROJECT_ROOT_DIRECTORY}
@@ -64,12 +64,12 @@ sudo curl "https://raw.githubusercontent.com/alexdrone/Render/master/tools/rende
 
 #### [Getting started](docs/getting_started.md)
 #### [Components life-cycle](docs/components_lifecycle.md)
-#### [TableViews and CollectionViews](docs/tableviews.md)
+#### [TableViews and CollectionViews *(doc in progress)*](docs/tableviews.md)
 #### [Layouts](https://yogalayout.com/playground)
-#### [Animations](docs/animations.md)
-#### [Component-based Navigation bar](docs/navigation_bar.md)
-#### [Mod: Stylesheet and Hot-Reload](docs/mod_stylesheet.md)
-#### [Mod: Inspector](docs/mod_inspector.md)
+#### [Animations *(doc in progress)*](docs/animations.md)
+#### [Component-based Navigation bar *(doc in progress)*](docs/navigation_bar.md)
+#### [Mod: Stylesheet and Hot-Reload *(doc in progress)*](docs/mod_stylesheet.md)
+#### [Mod: Inspector *(doc in progress)*](docs/mod_inspector.md)
 
 
 # Credits:
