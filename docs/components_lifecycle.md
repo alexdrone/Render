@@ -25,12 +25,12 @@ class MyStatefulComponent: UIComponent<MyState, MyProps> { }
 
 ```
 
-### Instanting a component
+### Instantiating a component
 
 Components in **Render** are always instantiated from a `UIContext`, and this is generally owned by a ViewController.
 
 When a component is *stateless*, you can instantiate a component instance by calling `transientComponent(_:props:parent)` in `UIContext`.
-Components are lightweight objects and the cost of instanting one is totally neglectable.
+Components are lightweight objects and the cost of instantiate one is totally neglectable.
 
 ```swift
 let component = context.transientComponent(MyStatelessComponent.self, props: MyProps(), parent: nil)
@@ -155,14 +155,14 @@ _state_ is optional. Since _state_ increases complexity and reduces predictabili
 
  `UINode` is a lightweight is the smallest building block in Render.Every component returns a tree of nodes and Render infra in charge of reconciliate the changes and evert call of `setNeedsRender(options:)` .
  
-#### Node configuiration
+#### Node configuration
 
-The `layoutSpec` closure (set at node construciton time) is executed every time the component is re-rendered.
+The `layoutSpec` closure (set at node construction time) is executed every time the component is re-rendered.
  
 ```swift
 let node = UINode<UILabel> { spec in 
   spec.set(\.backgroundColor, .black)
-  // ...this is analogou
+  // ...this is analogous
   sepc.view.backgroundColor = .black 
   
   // Flexbox properties
@@ -214,7 +214,7 @@ let node = UINode<UIButton>(reuseIdentifier: "roundedRectButton",
 
 Every node exposes these 2 properties and even if it could be confusing at first, their role is very different.
 
-* **reuseIdentifier** - Mainly for performance optimisation reasons only - it's a way to flag a way for optimal reuse. **Mandatory** when your node has a custom creation closure.
+* **reuseIdentifier** - Mainly for performance optimization reasons only - it's a way to flag a way for optimal reuse. **Mandatory** when your node has a custom creation closure.
 * **key** - Used to give the node a unique identity for state storing purposes - every child component must be constructed with a unique key. [usually used in lists.](https://facebook.github.io/react/docs/lists-and-keys.html)
 
 ### Lightweight Integration with UIKit
