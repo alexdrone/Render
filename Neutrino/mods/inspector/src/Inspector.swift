@@ -3,7 +3,7 @@ import UIKit
 extension UIComponent {
   /// ⌘ + R to reload the component.
   func hookHotReload() {
-    #if (arch(i386) || arch(x86_64)) && (os(iOS) || os(tvOS))
+    #if targetEnvironment(simulator)
       KeyCommands.register(input: "r", modifierFlags: .command) { [weak self] in
         print("⌘ + R Reloading...")
         self?.forceComponentReload()
@@ -81,7 +81,7 @@ extension UINodeProtocol {
 // MARK: - KeyCommands
 // forked from: Augustyniak/KeyCommands by Rafal Augustyniak
 
-#if (arch(i386) || arch(x86_64)) && (os(iOS) || os(tvOS))
+#if targetEnvironment(simulator)
   public typealias KeyModifierFlags  = UIKeyModifierFlags
 
   struct KeyActionableCommand {

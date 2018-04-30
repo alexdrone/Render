@@ -59,14 +59,14 @@ public protocol UIContextProtocol: Disposable {
   // *Internal only* true is suspendComponentRendering has been called on this context.
   var _isRenderSuspended: Bool { get }
   /// *Internal only* Associate a parent context.
-  weak var _parentContext: UIContextProtocol? { get set }
+  var _parentContext: UIContextProtocol? { get set }
   // *Internal only* The canvas view in which the component will be rendered in.
-  weak var _canvasView: UIView? { get set }
+  var _canvasView: UIView? { get set }
   // *Internal only*.
   var _screenStateFactory: UIScreenStateFactory { get }
   // *Internal only*.
   // This is not 'nil' if the context has been intiialized from a *UITableComponentViewController*.
-  weak var _associatedTableViewController: UITableComponentViewController? { get set }
+  var _associatedTableViewController: UITableComponentViewController? { get set }
 }
 
 public protocol UIContextDelegate: class {
@@ -185,7 +185,7 @@ public class UIContext: UIContextProtocol {
       disposedWarning()
       return
     }
-    for delegate in delegates.flatMap({ $0.delegate }) {
+    for delegate in delegates.compactMap({ $0.delegate }) {
       delegate.setNeedRenderInvoked(on: self, component: component)
     }
   }

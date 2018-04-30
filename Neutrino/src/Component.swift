@@ -2,17 +2,17 @@ import UIKit
 
 public protocol UIComponentProtocol: UINodeDelegateProtocol, Disposable {
   /// The component-tree context.
-  weak var context: UIContextProtocol? { get }
+  var context: UIContextProtocol? { get }
   /// A unique key for the component (necessary if the component is stateful).
   var key: String? { get }
   /// The root node (built as a result of the 'render' method).
   var root: UINodeProtocol { get }
   /// *Optional* node delegate.
-  weak var delegate: UINodeDelegateProtocol? { get set }
+  var delegate: UINodeDelegateProtocol? { get set }
   /// The component parent (nil for root components).
-  weak var parent: UIComponentProtocol? { get }
+  var parent: UIComponentProtocol? { get }
   /// *IThe view in which the component is going to be rendered.
-  weak var canvasView: UIView? { get }
+  var canvasView: UIView? { get }
   /// Set the canvas view for this component.
   /// - parameter view: The view in which the component is going to be rendered.
   /// - parameter useBoundsAsCanvasSize: if 'true' the canvas size will return the view bounds.

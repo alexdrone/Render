@@ -20,11 +20,11 @@ public protocol UINodeProtocol: Disposable {
   /// Backing view for this node.
   var renderedView: UIView? { get }
   /// *Optional* delegate.
-  weak var delegate: UINodeDelegateProtocol? { get set }
+  var delegate: UINodeDelegateProtocol? { get set }
   /// The parent node (if this is not the root node in the hierarchy).
-  weak var parent: UINodeProtocol? { get set }
+  var parent: UINodeProtocol? { get set }
   /// The component that manages this subtree (if applicable).
-  weak var associatedComponent: UIComponentProtocol? { get set }
+  var associatedComponent: UIComponentProtocol? { get set }
   /// A unique key for the component/node (necessary if the component is stateful).
   var key: String? { get set }
   /// The reuse identifier for this node is its hierarchy.
@@ -221,7 +221,7 @@ public class UINode<V: UIView>: UINodeProtocol {
     #endif
 
     // Applies *UIStyle* subclasses.
-    for style in styles.flatMap({ $0 as? UIStyle }) {
+    for style in styles.compactMap({ $0 as? UIStyle }) {
       if let specStyle = style as? UILayoutSpecStyle<V> {
         specStyle.layoutSpec = spec
         specStyle.apply(to: view)

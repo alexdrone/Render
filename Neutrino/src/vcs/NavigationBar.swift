@@ -205,7 +205,7 @@ open class UINavigationBarComponent: UIComponent<UINavigationBarState, UINavigat
     // The bar button item is skipped if 'disabled' is true.
     left = props.leftButtonItem.disabled ? UINilNode.nil : left
     // Right nodes.
-    let items: [UINodeProtocol] = props.rightButtonItems.flatMap { item in
+    let items: [UINodeProtocol] = props.rightButtonItems.compactMap { item in
       // The bar button item is skipped if 'disabled' is true.
       if item.disabled { return nil }
       if let node = item.customNode { return node(props, state) }

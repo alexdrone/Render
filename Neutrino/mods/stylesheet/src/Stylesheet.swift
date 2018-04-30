@@ -56,7 +56,7 @@ public class UIStylesheetManager {
   }
 
   private func resolve(file: String) -> String {
-    #if (arch(i386) || arch(x86_64)) && os(iOS)
+    #if targetEnvironment(simulator)
       if let content = loadFileFromRemoteServer(file) {
         return content
       } else if let content = loadFileFromBundle(file) {

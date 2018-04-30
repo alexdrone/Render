@@ -1813,8 +1813,4 @@ extension Optional: _Optional {
   static var nullValue: Any { return none as Any }
 }
 
-extension ImplicitlyUnwrappedOptional: _Optional {
-  fileprivate var value: Any? { return self }
-  static var nullValue: Any { return none as Any }
-}
 #endif
