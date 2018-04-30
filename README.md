@@ -68,8 +68,6 @@ sudo curl "https://raw.githubusercontent.com/alexdrone/Render/master/tools/rende
 #### [Layouts](docs/layouts.md)
 #### [Animations](docs/animations.md)
 #### [Component-based Navigation bar](docs/navigation_bar.md)
-#### [Advanced features](docs/advanced_features.md)
-#### [Internals](docs/internals.md)
 #### [Mod: Stylesheet and Hot-Reload](docs/mod_stylesheet.md)
 #### [Mod: Inspector](docs/mod_inspector.md)
 
