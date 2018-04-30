@@ -1,4 +1,4 @@
-# Render Neutrino [![Swift](https://img.shields.io/badge/swift-4.1orange.svg?style=flat)](#) [![Platform](https://img.shields.io/badge/platform-iOS-lightgrey.svg?style=flat)](#) [![License](https://img.shields.io/badge/license-MIT-blue.svg?style=flat)](https://opensource.org/licenses/MIT)
+# Render Neutrino [![Swift](https://img.shields.io/badge/swift-4_1orange.svg?style=flat)](#) [![Platform](https://img.shields.io/badge/platform-iOS-lightgrey.svg?style=flat)](#) [![License](https://img.shields.io/badge/license-MIT-blue.svg?style=flat)](https://opensource.org/licenses/MIT)
 
 <img src="docs/assets/logo_new.png" width=150 alt="Render" align=right />
 
