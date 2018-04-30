@@ -65,7 +65,7 @@ sudo curl "https://raw.githubusercontent.com/alexdrone/Render/master/tools/rende
 #### [Getting started](docs/getting_started.md)
 #### [Components life-cycle](docs/components_lifecycle.md)
 #### [TableViews and CollectionViews](docs/tableviews.md)
-#### [Layouts](docs/layouts.md)
+#### [Layouts](https://yogalayout.com/playground)
 #### [Animations](docs/animations.md)
 #### [Component-based Navigation bar](docs/navigation_bar.md)
 #### [Mod: Stylesheet and Hot-Reload](docs/mod_stylesheet.md)
