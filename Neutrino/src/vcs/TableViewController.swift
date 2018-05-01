@@ -183,6 +183,21 @@ open class UITableComponentViewController: UIBaseViewController,
     navigationBarDidScroll(scrollView)
   }
 
+  // MARK: - Highlight and Selection
+
+  /// Updates the 'isHighlighted' status for the props passed as argument and re-render the
+  /// visible components
+  /// Call this in *tableView(_ tableView: UITableView, didHighlightRowAt indexPath: IndexPath)*.
+  public func didHighlightRowAt(props: [UITableCellProps], indexPath: IndexPath) {
+    for (row, prop) in props.enumerated() { prop.isHighlighted = row == indexPath.row }
+    setNeedsRenderVisibleComponents()
+  }
+
+  /// Call this in *tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath)*.
+  public func didSelectRowAt(props: [UITableCellProps], indexPath: IndexPath) {
+    props[indexPath.row].onCellSelected?()
+  }
+
   // MARK: -
 
   /// The cell is about to be reused.
