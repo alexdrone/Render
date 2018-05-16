@@ -81,6 +81,7 @@ open class UISceneTransition: NSObject, UIViewControllerAnimatedTransitioning {
   public func toVc(context: UIViewControllerContextTransitioning?) -> UIViewController? {
     let vc = context?.viewController(forKey: .to)
     let _ = vc?.loadViewIfNeeded()
+    vc?.view.frame.origin.y += UIApplication.shared.statusBarFrame.size.height
     if let cvc = vc as? UIBaseViewController {
       cvc.render()
     }

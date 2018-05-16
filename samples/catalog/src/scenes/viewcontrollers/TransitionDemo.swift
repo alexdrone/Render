@@ -3,10 +3,13 @@ import RenderNeutrino
 
 // MARK: - VCs
 
-class TransitionFromDemoViewController: UIComponentViewController<TransitionFromComponent>, UIViewControllerTransitioningDelegate, UINavigationControllerDelegate {
+class TransitionFromDemoViewController:
+  UIComponentViewController<TransitionFromComponent>,
+  UIViewControllerTransitioningDelegate,
+  UINavigationControllerDelegate {
 
   override func viewDidLoad() {
-    styleNavigationBarComponent(title: "TRANSITION")
+    styleNavigationBarComponent(title: "From")
     super.viewDidLoad()
   }
 
@@ -37,7 +40,7 @@ class TransitionToDemoViewController: UIComponentViewController<TransitionToComp
   override func buildRootComponent() -> TransitionToComponent {
     let props = TransitionDemoProps()
     props.onTapAction = {
-      self.dismiss(animated: true, completion: nil)
+      self.dismiss(animated: false, completion: nil)
     }
     return context.transientComponent(TransitionToComponent.self, props: props)
   }
@@ -70,7 +73,7 @@ class TransitionFromComponent: UIStatelessComponent<TransitionDemoProps> {
     let title = UINode<UILabel> { spec in
       spec.view.textColor = .white
       spec.view.font = UIFont.boldSystemFont(ofSize: 20)
-      spec.view.text = "Transition"
+      spec.view.text = "From"
       spec.view.yoga.margin = 8
       spec.view.makeTransitionable(key: "title", mode: .copy)
     }
@@ -96,7 +99,7 @@ class TransitionToComponent: UIStatelessComponent<TransitionDemoProps> {
     let title = UINode<UILabel> { spec in
       spec.view.textColor = .white
       spec.view.font = UIFont.boldSystemFont(ofSize: 32)
-      spec.view.text = "Transition"
+      spec.view.text = "To"
       spec.view.yoga.margin = 8
       spec.view.makeTransitionable(key: "title", mode: .copy)
     }
@@ -108,6 +111,10 @@ class TransitionToComponent: UIStatelessComponent<TransitionDemoProps> {
 
 class Transition: UISceneTransition {
 
+  override func transitionDuration(context: UIViewControllerContextTransitioning?) -> TimeInterval {
+    return 2
+  }
+
   override func transition(context: UIViewControllerContextTransitioning?) {
     super.transition(context: context)
     setupAutoTransition(context: context)
@@ -116,26 +123,45 @@ class Transition: UISceneTransition {
     let navigationBar = fromNavigationBarSnapshot(context: context)
     let duration = transitionDuration(context: context)
 
-    UIView.animate(withDuration: duration, animations: {
+    UIView.animate(withDuration: duration/2,
+                   delay: 0,
+                   usingSpringWithDamping: 0.5,
+                   initialSpringVelocity: 0, options: [], animations: {
       navigationBar.frame.origin.y -= navigationBar.frame.size.height
       for target in targets {
         guard let from = target.0.view else { return }
         guard let to = target.1.view else { return }
-        from.frame = to.frame
 
         switch target.0.key {
         case "image":
           from.cornerRadius = 0
+          from.frame = to.frame
         case "title":
-          guard let from = from as? UILabel, let to = to as? UILabel else { break }
           from.alpha = 0
-          to.alpha = 1
         default:
           break
         }
       }
-    }) { _ in
-      self.completeTransition(context: context)
+    }) { (_) in
+      UIView.animate(withDuration: duration/2,
+                     delay: 0,
+                     usingSpringWithDamping: 0.9,
+                     initialSpringVelocity: 0,
+                     options: [],
+                     animations: {
+
+        for target in targets {
+          guard let to = target.1.view else { return }
+          switch target.0.key {
+          case "title":
+            to.alpha = 1
+          default:
+            break
+          }
+        }
+      }, completion: { (_) in
+        self.completeTransition(context: context)
+      })
     }
   }
 }
