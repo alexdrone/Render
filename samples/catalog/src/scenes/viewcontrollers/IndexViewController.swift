@@ -47,6 +47,10 @@ class IndexViewController: UITableComponentViewController {
         title: "Getting Started V",
         subtitle: "YAML Stylesheet and hot reload.",
         onCellSelected: presentSimpleCounterExample5),
+      Index.CellProps(
+        title: "View Controller transition demo",
+        subtitle: "Transition between two scenes using components.",
+        onCellSelected: presentTransitionDemo),
     ]
   }()
 
@@ -124,6 +128,10 @@ class IndexViewController: UITableComponentViewController {
 
   private func presentSimpleCounterExample5() {
     navigationController?.pushViewController(SimpleCounterViewController5(), animated: true)
+  }
+
+  private func presentTransitionDemo() {
+    navigationController?.pushViewController(TransitionFromDemoViewController(), animated: true)
   }
 }
 

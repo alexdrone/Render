@@ -44,6 +44,7 @@
 		16AEE51F1F9D2758004798A8 /* RenderInspector.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16AEE51E1F9D2748004798A8 /* RenderInspector.framework */; };
 		16AEE5201F9D2758004798A8 /* RenderInspector.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 16AEE51E1F9D2748004798A8 /* RenderInspector.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		16B66F161FEBEFAB00840140 /* Shared.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16B66F151FEBEFAB00840140 /* Shared.swift */; };
+		16C2FB7820A4844800B64EC8 /* TransitionDemo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16C2FB7720A4844800B64EC8 /* TransitionDemo.swift */; };
 		16C921C41FEEDA7D009F6138 /* FacebookPost.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16C921C31FEEDA7D009F6138 /* FacebookPost.swift */; };
 		16C921C71FEEDB49009F6138 /* Random.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16C921C61FEEDB49009F6138 /* Random.swift */; };
 		16C921C91FEEF7A9009F6138 /* SinglePostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16C921C81FEEF7A9009F6138 /* SinglePostViewController.swift */; };
@@ -137,6 +138,7 @@
 		16A38D391FC0E897000E43E9 /* AppStoreEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStoreEntry.swift; sourceTree = "<group>"; };
 		16AEE5191F9D2748004798A8 /* RenderInspector.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RenderInspector.xcodeproj; path = ../../inspector/ios/RenderInspector.xcodeproj; sourceTree = "<group>"; };
 		16B66F151FEBEFAB00840140 /* Shared.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shared.swift; sourceTree = "<group>"; };
+		16C2FB7720A4844800B64EC8 /* TransitionDemo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransitionDemo.swift; sourceTree = "<group>"; };
 		16C921C31FEEDA7D009F6138 /* FacebookPost.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FacebookPost.swift; sourceTree = "<group>"; };
 		16C921C61FEEDB49009F6138 /* Random.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Random.swift; sourceTree = "<group>"; };
 		16C921C81FEEF7A9009F6138 /* SinglePostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SinglePostViewController.swift; sourceTree = "<group>"; };
@@ -270,6 +272,7 @@
 				16458EE41FF25919003FE6EE /* FeedTableViewController.swift */,
 				1624E6BC2050290000EBFC8D /* CustomNavigationBarViewController.swift */,
 				168B948120596DD500C9DD4A /* SimpleCounterViewController.swift */,
+				16C2FB7720A4844800B64EC8 /* TransitionDemo.swift */,
 			);
 			path = viewcontrollers;
 			sourceTree = "<group>";
@@ -457,6 +460,7 @@
 				16A38D3A1FC0E897000E43E9 /* AppStoreEntry.swift in Sources */,
 				168B947E205969F400C9DD4A /* SimpleCounter.swift in Sources */,
 				168D6D482052B54D00AF908F /* Fps.swift in Sources */,
+				16C2FB7820A4844800B64EC8 /* TransitionDemo.swift in Sources */,
 				1614561C1FE5D44C00B9E091 /* Counter.swift in Sources */,
 				167070221FB8C1D7008DFC5B /* IndexViewController.swift in Sources */,
 			);

@@ -81,7 +81,7 @@ final class Inspector: InspectorType {
       self.children = children
     }
   }
-  #if (arch(i386) || arch(x86_64)) && os(iOS)
+  #if targetEnvironment(simulator)
   /// The console / debug server is instantiated only in the simulator for the time being.
   static let shared: InspectorType = Inspector()
   #else
@@ -102,7 +102,7 @@ final class Inspector: InspectorType {
   private var timer: Timer?
   private var serverStarted: Bool = false
   private var isDirty: Bool = false
-  #if (arch(i386) || arch(x86_64)) && os(iOS)
+  #if targetEnvironment(simulator)
   private var server: HttpServer?
   #endif
 
@@ -132,7 +132,7 @@ final class Inspector: InspectorType {
 
   /// Starts the server on localhost:8080/inspect.
   public func startServer() {
-    #if (arch(i386) || arch(x86_64)) && os(iOS)
+    #if targetEnvironment(simulator)
     serverStarted = true
     let server = HttpServer()
     server["/inspect"] = { [weak self] _ in
@@ -170,7 +170,7 @@ final class Inspector: InspectorType {
 
   /// Starts the polling timer.
   private func startTimer() {
-    #if (arch(i386) || arch(x86_64)) && os(iOS)
+    #if targetEnvironment(simulator)
     guard serverStarted else { return }
     timer = Timer.scheduledTimer(timeInterval: 2,
                                  target: self,
@@ -187,7 +187,7 @@ final class Inspector: InspectorType {
 
   /// Check it the console is dirty and in that case asks components to dump their description.
   @objc private dynamic func timerDidFire(timer: Timer) {
-    #if (arch(i386) || arch(x86_64)) && os(iOS)
+    #if targetEnvironment(simulator)
     assert(Thread.isMainThread)
     guard isDirty else {
       return

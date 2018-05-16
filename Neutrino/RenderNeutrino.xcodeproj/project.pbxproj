@@ -36,6 +36,7 @@
 		16AA95F71FA3319B00EAC136 /* IGListCollectionViewLayout.h in Headers */ = {isa = PBXBuildFile; fileRef = 16AA95F61FA3319900EAC136 /* IGListCollectionViewLayout.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		16AA95F81FA3319E00EAC136 /* IGListCollectionViewLayout.mm in Sources */ = {isa = PBXBuildFile; fileRef = 16AA95F51FA3319900EAC136 /* IGListCollectionViewLayout.mm */; };
 		16BCC3DA20272E4300500E3E /* NavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16BCC3D920272E4300500E3E /* NavigationBar.swift */; };
+		16C2FB7620A3491B00B64EC8 /* ViewControllerTransitions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16C2FB7520A3491B00B64EC8 /* ViewControllerTransitions.swift */; };
 		16CEC0161F9A125C003D3D21 /* Props.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16CEC0151F9A125C003D3D21 /* Props.swift */; };
 		16D9F3321FE6CD7F00ADAB3D /* Style.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D9F3311FE6CD7F00ADAB3D /* Style.swift */; };
 		16DBD6852031C38200333CA5 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16DBD6842031C38200333CA5 /* BaseViewController.swift */; };
@@ -108,6 +109,7 @@
 		16AA95F51FA3319900EAC136 /* IGListCollectionViewLayout.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = IGListCollectionViewLayout.mm; sourceTree = "<group>"; };
 		16AA95F61FA3319900EAC136 /* IGListCollectionViewLayout.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IGListCollectionViewLayout.h; sourceTree = "<group>"; };
 		16BCC3D920272E4300500E3E /* NavigationBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationBar.swift; sourceTree = "<group>"; };
+		16C2FB7520A3491B00B64EC8 /* ViewControllerTransitions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerTransitions.swift; sourceTree = "<group>"; };
 		16CEC0151F9A125C003D3D21 /* Props.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Props.swift; sourceTree = "<group>"; };
 		16D9F3311FE6CD7F00ADAB3D /* Style.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Style.swift; sourceTree = "<group>"; };
 		16DBD6842031C38200333CA5 /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
@@ -213,9 +215,10 @@
 			isa = PBXGroup;
 			children = (
 				16DBD6842031C38200333CA5 /* BaseViewController.swift */,
-				167070231FB8C232008DFC5B /* ViewController.swift */,
-				16458EE81FF29133003FE6EE /* TableViewController.swift */,
 				16BCC3D920272E4300500E3E /* NavigationBar.swift */,
+				16458EE81FF29133003FE6EE /* TableViewController.swift */,
+				167070231FB8C232008DFC5B /* ViewController.swift */,
+				16C2FB7520A3491B00B64EC8 /* ViewControllerTransitions.swift */,
 			);
 			path = vcs;
 			sourceTree = "<group>";
@@ -504,6 +507,7 @@
 				16AA95E61FA3310600EAC136 /* UIView+Yoga.m in Sources */,
 				16DDA95D1F9799D200CDBCF5 /* Component.swift in Sources */,
 				16FD2DAA1FB100A1005C2F9F /* Geometry.swift in Sources */,
+				16C2FB7620A3491B00B64EC8 /* ViewControllerTransitions.swift in Sources */,
 				16DDA95F1F98C6CC00CDBCF5 /* Context.swift in Sources */,
 				16DBD6852031C38200333CA5 /* BaseViewController.swift in Sources */,
 				160627AC1FE91C25007779DD /* yaml.c in Sources */,

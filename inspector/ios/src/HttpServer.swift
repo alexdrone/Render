@@ -1,7 +1,7 @@
 // Forked from httpswift/swifter.
 // See LICENSE file for details.
 
-#if (arch(i386) || arch(x86_64)) && os(iOS)
+#if targetEnvironment(simulator)
 import Foundation
 import Dispatch
 
@@ -972,7 +972,7 @@ var border: String? = nil
 var valign: String? = nil
 var vspace: String? = nil
 var onload: String? = nil
-var target: String? = nil
+var view: String? = nil
 var prompt: String? = nil
 var onfocus: String? = nil
 var enctype: String? = nil
@@ -1288,7 +1288,7 @@ private func evaluate(_ node: String, _ attrs: [String: String?] = [:], _ c: Clo
     let stackvalign = valign
     let stackvspace = vspace
     let stackonload = onload
-    let stacktarget = target
+    let stacktarget = view
     let stackprompt = prompt
     let stackonfocus = onfocus
     let stackenctype = enctype
@@ -1411,7 +1411,7 @@ private func evaluate(_ node: String, _ attrs: [String: String?] = [:], _ c: Clo
     valign = nil
     vspace = nil
     onload = nil
-    target = nil
+    view = nil
     prompt = nil
     onfocus = nil
     enctype = nil
@@ -1540,7 +1540,7 @@ private func evaluate(_ node: String, _ attrs: [String: String?] = [:], _ c: Clo
     if let valign = valign { mergedAttributes["valign"] = valign }
     if let vspace = vspace { mergedAttributes["vspace"] = vspace }
     if let onload = onload { mergedAttributes["onload"] = onload }
-    if let target = target { mergedAttributes["target"] = target }
+    if let view = view { mergedAttributes["target"] = view }
     if let prompt = prompt { mergedAttributes["prompt"] = prompt }
     if let onfocus = onfocus { mergedAttributes["onfocus"] = onfocus }
     if let enctype = enctype { mergedAttributes["enctype"] = enctype }
@@ -1678,7 +1678,7 @@ private func evaluate(_ node: String, _ attrs: [String: String?] = [:], _ c: Clo
     valign = stackvalign
     vspace = stackvspace
     onload = stackonload
-    target = stacktarget
+    view = stacktarget
     prompt = stackprompt
     onfocus = stackonfocus
     enctype = stackenctype
@@ -1746,7 +1746,7 @@ private func evaluate(_ node: String, _ attrs: [String: String?] = [:], _ c: Clo
     struct sf_hdtr { }
 
     private func sendfileImpl(_ source: UnsafeMutablePointer<FILE>,
-                              _ target: Int32,
+                              _ view: Int32,
                               _: off_t,
                               _: UnsafeMutablePointer<off_t>,
                               _: UnsafeMutablePointer<sf_hdtr>,
@@ -1759,7 +1759,7 @@ private func evaluate(_ node: String, _ attrs: [String: String?] = [:], _ c: Clo
             }
             var writeCounter = 0
             while writeCounter < readResult {
-                let writeResult = write(target, &buffer + writeCounter, readResult - writeCounter)
+                let writeResult = write(view, &buffer + writeCounter, readResult - writeCounter)
                 guard writeResult > 0 else {
                     return Int32(writeResult)
                 }

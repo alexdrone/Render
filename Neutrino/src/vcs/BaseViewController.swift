@@ -170,3 +170,28 @@ open class UIBaseViewController: UIViewController,
     navigationController?.isNavigationBarHidden = navigationBarManager.wasNavigationBarHidden
   }
 }
+
+extension UIBaseViewController: UISceneViewControllerTransitioning {
+  /// Returns the view used for view controller transitioning.
+  open func transitionTargetView() -> UIView {
+    return canvasView
+  }
+
+  /// Returns the snapshotted navigation bar.
+  open func transitionNavigationBar() -> UIView {
+    if navigationBarManager.component != nil {
+      let view = navigationBarManager.view.snapshotView(afterScreenUpdates: true) ?? UIView()
+      view.frame.origin.y = navigationBarManager.view.frame.origin.y
+      return view
+    }
+    guard let nv = navigationController else { return UIView() }
+    return nv.navigationBar.snapshotView(afterScreenUpdates: true) ?? UIView()
+  }
+}
+
+public protocol UIViewControllerProtocol: class {
+  /// The view controller view.
+  var view: UIView! { get }
+}
+
+extension UIViewController: UIViewControllerProtocol { }
