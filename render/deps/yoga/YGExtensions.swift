@@ -546,7 +546,7 @@ public extension UIView {
 
 // MARK: - UIStylesheetRepresentableEnum Yoga Compliancy
 
-#if RENDER_MOD_STYLESHEET
+//#if RENDER_MOD_STYLESHEET
 extension YGAlign: UIStylesheetRepresentableEnum {
   public init?(rawValue: Int) { self.init(rawValue: Int32(rawValue)) }
   public static func expressionConstants() -> [String : Double] { return [:] }
@@ -586,4 +586,4 @@ extension YGDisplay: UIStylesheetRepresentableEnum {
   public init?(rawValue: Int) { self.init(rawValue: Int32(rawValue)) }
   public static func expressionConstants() -> [String : Double] { return [:] }
 }
-#endif
+//#endif

@@ -7,46 +7,54 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BF_215080001974 = {isa = PBXBuildFile; fileRef = FR_177833167596 /* Generate.app */; };
+		BF_236530803875 /* yaml.c in Sources */ = {isa = PBXBuildFile; fileRef = FR_556301275878 /* yaml.c */; };
 		BF_256983535816 /* RenderGenerator.xcodeproj in Resources */ = {isa = PBXBuildFile; fileRef = FR_317736015557 /* RenderGenerator.xcodeproj */; };
+		BF_310792349063 /* YamlBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = FR_933807318172 /* YamlBridge.swift */; };
 		BF_335775835661 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = FR_480799439686 /* main.m */; };
-		BF_416828976063 /* Expression.swift in Sources */ = {isa = PBXBuildFile; fileRef = FR_425880937605 /* Expression.swift */; };
-		BF_490909105962 /* yaml.c in Sources */ = {isa = PBXBuildFile; fileRef = FR_346983774922 /* yaml.c */; };
-		BF_544929903025 /* YamlBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = FR_141959788183 /* YamlBridge.swift */; };
-		BF_716401337742 /* Stylesheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = FR_189045967209 /* Stylesheet.swift */; };
+		BF_363564832658 = {isa = PBXBuildFile; fileRef = FR_478289318415 /* generate-Bridging-Header.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		BF_591643137315 = {isa = PBXBuildFile; fileRef = "FR_556301275878-1" /* yaml.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		BF_671550068759 /* Expression.swift in Sources */ = {isa = PBXBuildFile; fileRef = FR_683553803112 /* Expression.swift */; };
+		BF_725108045610 /* Stylesheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = FR_133347361936 /* Stylesheet.swift */; };
 		BF_836829270434 /* project.yml in Resources */ = {isa = PBXBuildFile; fileRef = FR_495697334861 /* project.yml */; };
 		BF_868517708304 /* Generator.swift in Sources */ = {isa = PBXBuildFile; fileRef = FR_149958878509 /* Generator.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		FR_141959788183 /* YamlBridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YamlBridge.swift; sourceTree = "<group>"; };
+		FR_133347361936 /* Stylesheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stylesheet.swift; sourceTree = "<group>"; };
 		FR_149958878509 /* Generator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Generator.swift; sourceTree = "<group>"; };
 		FR_177833167596 /* Generate.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Generate.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		FR_189045967209 /* Stylesheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stylesheet.swift; sourceTree = "<group>"; };
 		FR_317736015557 /* RenderGenerator.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = RenderGenerator.xcodeproj; sourceTree = "<group>"; };
-		FR_346983774922 /* yaml.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = yaml.c; sourceTree = "<group>"; };
-		"FR_346983774922-1" /* yaml.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = yaml.h; sourceTree = "<group>"; };
-		FR_425880937605 /* Expression.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Expression.swift; sourceTree = "<group>"; };
 		FR_478289318415 /* generate-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "generate-Bridging-Header.h"; sourceTree = "<group>"; };
 		FR_480799439686 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		FR_495697334861 /* project.yml */ = {isa = PBXFileReference; lastKnownFileType = text; path = project.yml; sourceTree = "<group>"; };
+		FR_495697334861 /* project.yml */ = {isa = PBXFileReference; path = project.yml; sourceTree = "<group>"; };
+		FR_556301275878 /* yaml.c */ = {isa = PBXFileReference; path = yaml.c; sourceTree = "<group>"; };
+		"FR_556301275878-1" /* yaml.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = yaml.h; sourceTree = "<group>"; };
+		FR_683553803112 /* Expression.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Expression.swift; sourceTree = "<group>"; };
+		FR_933807318172 /* YamlBridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YamlBridge.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
-		16FB710A20C01E8A007063B2 /* Products */ = {
-			isa = PBXGroup;
-			name = Products;
-			sourceTree = "<group>";
-		};
-		G_3749247897501 /* deps */ = {
+		G_4468881525684 /* stylesheet */ = {
 			isa = PBXGroup;
 			children = (
-				FR_425880937605 /* Expression.swift */,
-				FR_141959788183 /* YamlBridge.swift */,
-				FR_346983774922 /* yaml.c */,
-				"FR_346983774922-1" /* yaml.h */,
+				G_5397929258686 /* deps */,
+				G_7369865585091 /* src */,
+			);
+			name = stylesheet;
+			path = /Users/alexusbergo/Desktop/github/Render/render/mods/stylesheet;
+			sourceTree = "<group>";
+		};
+		G_5397929258686 /* deps */ = {
+			isa = PBXGroup;
+			children = (
+				FR_683553803112 /* Expression.swift */,
+				FR_933807318172 /* YamlBridge.swift */,
+				FR_556301275878 /* yaml.c */,
+				"FR_556301275878-1" /* yaml.h */,
 			);
 			name = deps;
-			path = /Users/alexusbergo/Desktop/github/Render/mods/stylesheet/deps;
+			path = /Users/alexusbergo/Desktop/github/Render/render/mods/stylesheet/deps;
 			sourceTree = "<group>";
 		};
 		G_6395565836970 /* generate */ = {
@@ -62,23 +70,23 @@
 			path = /Users/alexusbergo/Desktop/github/Render/tools/src/generate;
 			sourceTree = "<group>";
 		};
-		G_6715499641121 /* src */ = {
+		G_7369865585091 /* src */ = {
 			isa = PBXGroup;
 			children = (
-				FR_189045967209 /* Stylesheet.swift */,
+				FR_133347361936 /* Stylesheet.swift */,
 			);
 			name = src;
-			path = /Users/alexusbergo/Desktop/github/Render/mods/stylesheet/src;
+			path = /Users/alexusbergo/Desktop/github/Render/render/mods/stylesheet/src;
 			sourceTree = "<group>";
 		};
 		G_8448771205358 = {
 			isa = PBXGroup;
 			children = (
 				G_8620238527590 /* Products */,
-				G_3749247897501 /* deps */,
+				G_5397929258686 /* deps */,
 				G_6395565836970 /* generate */,
-				G_6715499641121 /* src */,
-				G_9075542490564 /* stylesheet */,
+				G_7369865585091 /* src */,
+				G_4468881525684 /* stylesheet */,
 			);
 			sourceTree = "<group>";
 		};
@@ -88,14 +96,6 @@
 				FR_177833167596 /* Generate.app */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		G_9075542490564 /* stylesheet */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = stylesheet;
-			path = /Users/alexusbergo/Desktop/github/Render/mods/stylesheet;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -129,17 +129,8 @@
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
-			knownRegions = (
-				en,
-			);
 			mainGroup = G_8448771205358;
 			projectDirPath = "";
-			projectReferences = (
-				{
-					ProductGroup = 16FB710A20C01E8A007063B2 /* Products */;
-					ProjectRef = FR_317736015557 /* RenderGenerator.xcodeproj */;
-				},
-			);
 			projectRoot = "";
 			targets = (
 				NT_177833167596 /* Generate */,
@@ -164,12 +155,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BF_416828976063 /* Expression.swift in Sources */,
+				BF_671550068759 /* Expression.swift in Sources */,
 				BF_868517708304 /* Generator.swift in Sources */,
-				BF_716401337742 /* Stylesheet.swift in Sources */,
-				BF_544929903025 /* YamlBridge.swift in Sources */,
+				BF_725108045610 /* Stylesheet.swift in Sources */,
+				BF_310792349063 /* YamlBridge.swift in Sources */,
 				BF_335775835661 /* main.m in Sources */,
-				BF_490909105962 /* yaml.c in Sources */,
+				BF_236530803875 /* yaml.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

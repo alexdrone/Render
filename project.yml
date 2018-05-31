@@ -10,31 +10,22 @@ targets:
     type: framework
     sources: 
       - render/
-      - mods/
     headers: 
       - render/RenderNeutrino.h
       - render/deps/yoga/
-      - mods/deps/yaml/yaml.h
+      - render/mods/deps/yaml/yaml.h
     settings:
       base:
         INFOPLIST_FILE: render/Info.plist
         PRODUCT_BUNDLE_IDENTIFIER: io.alexdrone.render
         PLATFORM: platform $platform
         SWIFT_WHOLE_MODULE_OPTIMIZATION: YES
+        RENDER_MOD_INSPECTOR: YES
+        RENDER_MOD_STYLESHEET: YES
+        OTHERCFLAGS: -DRENDER_MOD_INSPECTOR -DRENDER_MOD_STYLESHEET
       configFiles:
         Debug: configs/Debug.xcconfig
         Release: configs/Release.xcconfig
-  Generate:
-    platform: macOS
-    type: application
-    sources: 
-      - tools/src/generate/
-      - mods/stylesheet/
-    headers: 
-      - tools/src/generate/generate-Bridging-Header.h
-    settings:
-      base:
-        SWIFT_OBJC_BRIDGING_HEADER: tools/src/generate/generate-Bridging-Header.h
   Test:
     platform: iOS
     type: bundle.unit-test
@@ -48,8 +39,5 @@ targets:
       gatherCoverageData: true
       environmentVariables:
         - variable: TEST
-          value: YES
-          isEnabled: true
-        - variable: RENDER_MOD_STYLESHEET
           value: YES
           isEnabled: true

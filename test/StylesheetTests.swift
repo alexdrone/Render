@@ -1,7 +1,7 @@
 import XCTest
 import UIKit
 @testable import RenderNeutrino
-#if RENDER_MOD_STYLESHEET
+//#if RENDER_MOD_STYLESHEET
 class StylesheetTests: XCTestCase {
 
   let test: String = "Test"
@@ -160,5 +160,5 @@ View:
   width_percentage: 100
   customNonApplicableProperty: 42
 """
-#endif
+//#endif
 

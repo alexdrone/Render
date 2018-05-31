@@ -21,6 +21,8 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		16016AB620C0706E003B434A /* RenderNeutrino.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16016AB320C0705C003B434A /* RenderNeutrino.framework */; };
+		16016AB720C0706E003B434A /* RenderNeutrino.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 16016AB320C0705C003B434A /* RenderNeutrino.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		160307581FE6810200044D00 /* counter.yaml in Resources */ = {isa = PBXBuildFile; fileRef = 160307571FE6810200044D00 /* counter.yaml */; };
 		161456111FE5C89600B9E091 /* stylesheet.yaml in Resources */ = {isa = PBXBuildFile; fileRef = 161456101FE5C89600B9E091 /* stylesheet.yaml */; };
 		1614561C1FE5D44C00B9E091 /* Counter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1614561B1FE5D44C00B9E091 /* Counter.swift */; };
@@ -51,26 +53,26 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		16FB711420C02142007063B2 /* PBXContainerItemProxy */ = {
+		16016AB220C0705C003B434A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 16FB710E20C02142007063B2 /* Render.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = FR_177833167596;
-			remoteInfo = Generate;
-		};
-		16FB711620C02142007063B2 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 16FB710E20C02142007063B2 /* Render.xcodeproj */;
+			containerPortal = 16016AAD20C0705C003B434A /* Render.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = FR_699701780932;
 			remoteInfo = RenderNeutrino;
 		};
-		16FB711820C02142007063B2 /* PBXContainerItemProxy */ = {
+		16016AB420C0705C003B434A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 16FB710E20C02142007063B2 /* Render.xcodeproj */;
+			containerPortal = 16016AAD20C0705C003B434A /* Render.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = FR_479945003232;
 			remoteInfo = Test;
+		};
+		16016AB820C0706E003B434A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 16016AAD20C0705C003B434A /* Render.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = NT_699701780932;
+			remoteInfo = RenderNeutrino;
 		};
 		16FB711E20C021EB007063B2 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -88,6 +90,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				16016AB720C0706E003B434A /* RenderNeutrino.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -95,6 +98,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		16016AAD20C0705C003B434A /* Render.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Render.xcodeproj; path = ../../Render.xcodeproj; sourceTree = "<group>"; };
 		160307571FE6810200044D00 /* counter.yaml */ = {isa = PBXFileReference; lastKnownFileType = text; path = counter.yaml; sourceTree = "<group>"; };
 		161456101FE5C89600B9E091 /* stylesheet.yaml */ = {isa = PBXFileReference; lastKnownFileType = text; path = stylesheet.yaml; sourceTree = "<group>"; };
 		1614561B1FE5D44C00B9E091 /* Counter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Counter.swift; sourceTree = "<group>"; };
@@ -124,7 +128,6 @@
 		16D24C441FD5705E000BADB9 /* AppStoreEntryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStoreEntryViewController.swift; sourceTree = "<group>"; };
 		16D5F6CA2011FDEF0003CDF7 /* S.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = S.generated.swift; sourceTree = "<group>"; };
 		16ED28021FD5A74900D5E222 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
-		16FB710E20C02142007063B2 /* Render.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Render.xcodeproj; path = ../../Render.xcodeproj; sourceTree = "<group>"; };
 		16FB711A20C021EB007063B2 /* RenderInspector.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RenderInspector.xcodeproj; path = ../../tools/src/inspector/ios/RenderInspector.xcodeproj; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -133,12 +136,22 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				16016AB620C0706E003B434A /* RenderNeutrino.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		16016AAE20C0705C003B434A /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				16016AB320C0705C003B434A /* RenderNeutrino.framework */,
+				16016AB520C0705C003B434A /* Test.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		166F93FD20890A7F0084D5ED /* common */ = {
 			isa = PBXGroup;
 			children = (
@@ -161,8 +174,8 @@
 		168FA6CA1F8F856D00A12585 = {
 			isa = PBXGroup;
 			children = (
+				16016AAD20C0705C003B434A /* Render.xcodeproj */,
 				16FB711A20C021EB007063B2 /* RenderInspector.xcodeproj */,
-				16FB710E20C02142007063B2 /* Render.xcodeproj */,
 				168FA6D51F8F856D00A12585 /* src */,
 				168FA6D41F8F856D00A12585 /* Products */,
 				169DC8E61F93A4A000625FA6 /* Frameworks */,
@@ -248,16 +261,6 @@
 			path = components;
 			sourceTree = "<group>";
 		};
-		16FB710F20C02142007063B2 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				16FB711520C02142007063B2 /* Generate.app */,
-				16FB711720C02142007063B2 /* RenderNeutrino.framework */,
-				16FB711920C02142007063B2 /* Test.xctest */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		16FB711B20C021EB007063B2 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -282,6 +285,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				16016AB920C0706E003B434A /* PBXTargetDependency */,
 			);
 			name = RenderNeutrinoDemo;
 			productName = PureDemo;
@@ -321,8 +325,8 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = 16FB710F20C02142007063B2 /* Products */;
-					ProjectRef = 16FB710E20C02142007063B2 /* Render.xcodeproj */;
+					ProductGroup = 16016AAE20C0705C003B434A /* Products */;
+					ProjectRef = 16016AAD20C0705C003B434A /* Render.xcodeproj */;
 				},
 				{
 					ProductGroup = 16FB711B20C021EB007063B2 /* Products */;
@@ -338,25 +342,18 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		16FB711520C02142007063B2 /* Generate.app */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.application;
-			path = Generate.app;
-			remoteRef = 16FB711420C02142007063B2 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		16FB711720C02142007063B2 /* RenderNeutrino.framework */ = {
+		16016AB320C0705C003B434A /* RenderNeutrino.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
 			path = RenderNeutrino.framework;
-			remoteRef = 16FB711620C02142007063B2 /* PBXContainerItemProxy */;
+			remoteRef = 16016AB220C0705C003B434A /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		16FB711920C02142007063B2 /* Test.xctest */ = {
+		16016AB520C0705C003B434A /* Test.xctest */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
 			path = Test.xctest;
-			remoteRef = 16FB711820C02142007063B2 /* PBXContainerItemProxy */;
+			remoteRef = 16016AB420C0705C003B434A /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		16FB711F20C021EB007063B2 /* RenderInspector.framework */ = {
@@ -443,6 +440,14 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		16016AB920C0706E003B434A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = RenderNeutrino;
+			targetProxy = 16016AB820C0706E003B434A /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		168FA6DF1F8F856D00A12585 /* LaunchScreen.storyboard */ = {

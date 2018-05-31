@@ -5,9 +5,9 @@ targets:
     type: application
     sources: 
       - .
-      - ../../../mods/stylesheet/
+      - ../../../render/mods/stylesheet/
     headers: 
-      - ../../../mods/stylesheet/deps/yaml.h
+      - ../../../render/mods/stylesheet/deps/yaml.h
       - ./generate-Bridging-Header.h
     settings:
       base:

@@ -1,8 +1,9 @@
 Pod::Spec.new do |s|
   s.name             = "RenderNeutrino"
-  s.version          = "5.2"
+  s.version          = "5.3"
   s.summary          = "Render is a declarative library for building efficient UIs on iOS inspired by React."
   s.description      = <<-DESC
+  s.platform         = :ios
   Render is a declarative library for building efficient UIs on iOS inspired by React.
 
   * Declarative: Render uses a declarative API to define UI components. You simply describe the layout for your UI based on a set of inputs and the framework takes care of the rest (diff and reconciliation from virtual view hierarchy to the actual one under the hood).
@@ -17,7 +18,9 @@ Pod::Spec.new do |s|
   s.source           = { :git => "https://github.com/alexdrone/Render.git", :tag => s.version.to_s }
   s.social_media_url = 'https://twitter.com/alexdrone'
   s.ios.deployment_target = '10.0'
-  s.source_files = 'render/**/*.{swift,h,m}'
-
-
+  s.source_files = 'render/**/*', 'mods/inspector/**/*'
+  s.ios.public_header_files = ['render/**/*.{h}']
+  s.frameworks = 'UIKit'
+  s.module_name = "RenderNeutrino"
+  s.compiler_flags = ""
 end

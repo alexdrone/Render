@@ -216,9 +216,9 @@ public class UINode<V: UIView>: UINodeProtocol {
     // optimisation: applies the stylesheet-defined styles separately in order to merge
     // together is a single computed style.
     // - note: Non-UIStylesheetProtocol compliant styles are skipped.
-    #if RENDER_MOD_STYLESHEET
+    //#if RENDER_MOD_STYLESHEET
     UIStylesheetApplyStyles(styles, to: view)
-    #endif
+    //#endif
 
     // Applies *UIStyle* subclasses.
     for style in styles.compactMap({ $0 as? UIStyle }) {

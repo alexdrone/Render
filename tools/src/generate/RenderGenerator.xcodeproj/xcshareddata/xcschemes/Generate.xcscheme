@@ -39,6 +39,8 @@
             ReferencedContainer = "container:RenderGenerator.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
+      <CommandLineArguments>
+      </CommandLineArguments>
       <EnvironmentVariables>
          <EnvironmentVariable
             key = "RENDER_MOD_STYLESHEET"
@@ -69,10 +71,12 @@
             ReferencedContainer = "container:RenderGenerator.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
+      <CommandLineArguments>
+      </CommandLineArguments>
       <EnvironmentVariables>
          <EnvironmentVariable
             key = "RENDER_MOD_STYLESHEET"
-            value = "1"
+            value = "YES"
             isEnabled = "YES">
          </EnvironmentVariable>
       </EnvironmentVariables>
@@ -95,6 +99,8 @@
             ReferencedContainer = "container:RenderGenerator.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
+      <CommandLineArguments>
+      </CommandLineArguments>
       <EnvironmentVariables>
          <EnvironmentVariable
             key = "RENDER_MOD_STYLESHEET"
