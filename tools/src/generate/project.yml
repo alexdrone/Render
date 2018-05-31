@@ -1,0 +1,20 @@
+name: RenderGenerator
+targets:
+  Generate:
+    platform: macOS
+    type: application
+    sources: 
+      - .
+      - ../../../mods/stylesheet/
+    headers: 
+      - ../../../mods/stylesheet/deps/yaml.h
+      - ./generate-Bridging-Header.h
+    settings:
+      base:
+        SWIFT_OBJC_BRIDGING_HEADER: ./generate-Bridging-Header.h
+    scheme:
+      gatherCoverageData: true
+      environmentVariables:
+        - variable: RENDER_MOD_STYLESHEET
+          value: YES
+          isEnabled: true

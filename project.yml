@@ -1,0 +1,55 @@
+name: Render
+options:
+  deploymentTarget:
+    iOS: 10.0
+  usesTabs: false
+  indentWidth: 2
+targets:
+  RenderNeutrino: &base
+    platform: iOS
+    type: framework
+    sources: 
+      - render/
+      - mods/
+    headers: 
+      - render/RenderNeutrino.h
+      - render/deps/yoga/
+      - mods/deps/yaml/yaml.h
+    settings:
+      base:
+        INFOPLIST_FILE: render/Info.plist
+        PRODUCT_BUNDLE_IDENTIFIER: io.alexdrone.render
+        PLATFORM: platform $platform
+        SWIFT_WHOLE_MODULE_OPTIMIZATION: YES
+      configFiles:
+        Debug: configs/Debug.xcconfig
+        Release: configs/Release.xcconfig
+  Generate:
+    platform: macOS
+    type: application
+    sources: 
+      - tools/src/generate/
+      - mods/stylesheet/
+    headers: 
+      - tools/src/generate/generate-Bridging-Header.h
+    settings:
+      base:
+        SWIFT_OBJC_BRIDGING_HEADER: tools/src/generate/generate-Bridging-Header.h
+  Test:
+    platform: iOS
+    type: bundle.unit-test
+    sources:
+      - test
+    dependencies:
+      - target: RenderNeutrino
+    scheme:
+      testTargets:
+        - Test
+      gatherCoverageData: true
+      environmentVariables:
+        - variable: TEST
+          value: YES
+          isEnabled: true
+        - variable: RENDER_MOD_STYLESHEET
+          value: YES
+          isEnabled: true

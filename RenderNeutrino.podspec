@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = "RenderNeutrino"
-  s.version          = "5.1"
+  s.version          = "5.2"
   s.summary          = "Render is a declarative library for building efficient UIs on iOS inspired by React."
   s.description      = <<-DESC
   Render is a declarative library for building efficient UIs on iOS inspired by React.
@@ -17,6 +17,7 @@ Pod::Spec.new do |s|
   s.source           = { :git => "https://github.com/alexdrone/Render.git", :tag => s.version.to_s }
   s.social_media_url = 'https://twitter.com/alexdrone'
   s.ios.deployment_target = '10.0'
-  s.ios.vendored_frameworks = 'bin/RenderNeutrino.framework'
+  s.source_files = 'render/**/*.{swift,h,m}'
+
 
 end
