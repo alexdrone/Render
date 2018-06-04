@@ -1,0 +1,11 @@
+framework module RenderInspector {
+  umbrella header "RenderInspector.h"
+
+  export *
+  module * { export * }
+}
+
+module RenderInspector.Swift {
+    header "RenderInspector-Swift.h"
+    requires objc
+}

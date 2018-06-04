@@ -39,8 +39,6 @@
             ReferencedContainer = "container:RenderGenerator.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
-      <CommandLineArguments>
-      </CommandLineArguments>
       <EnvironmentVariables>
          <EnvironmentVariable
             key = "RENDER_MOD_STYLESHEET"
@@ -52,7 +50,7 @@
       </AdditionalOptions>
    </TestAction>
    <LaunchAction
-      buildConfiguration = "Debug"
+      buildConfiguration = "Release"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       launchStyle = "0"
@@ -71,8 +69,6 @@
             ReferencedContainer = "container:RenderGenerator.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
-      <CommandLineArguments>
-      </CommandLineArguments>
       <EnvironmentVariables>
          <EnvironmentVariable
             key = "RENDER_MOD_STYLESHEET"
@@ -99,8 +95,6 @@
             ReferencedContainer = "container:RenderGenerator.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
-      <CommandLineArguments>
-      </CommandLineArguments>
       <EnvironmentVariables>
          <EnvironmentVariable
             key = "RENDER_MOD_STYLESHEET"

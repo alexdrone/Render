@@ -50,6 +50,8 @@
 		16D24C451FD5705E000BADB9 /* AppStoreEntryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D24C441FD5705E000BADB9 /* AppStoreEntryViewController.swift */; };
 		16D5F6CB2011FDEF0003CDF7 /* S.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D5F6CA2011FDEF0003CDF7 /* S.generated.swift */; };
 		16ED28041FD5A74900D5E222 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 16ED28021FD5A74900D5E222 /* Default-568h@2x.png */; };
+		16F7AD6A20C55B8B006C56D4 /* RenderInspector.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16F7AD6920C55B36006C56D4 /* RenderInspector.framework */; };
+		16F7AD6B20C55B8B006C56D4 /* RenderInspector.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 16F7AD6920C55B36006C56D4 /* RenderInspector.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -74,11 +76,18 @@
 			remoteGlobalIDString = NT_699701780932;
 			remoteInfo = RenderNeutrino;
 		};
-		16FB711E20C021EB007063B2 /* PBXContainerItemProxy */ = {
+		16F7AD6820C55B36006C56D4 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 16FB711A20C021EB007063B2 /* RenderInspector.xcodeproj */;
+			containerPortal = 16F7AD6420C55B36006C56D4 /* RenderInspector.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = 16B89BBE1F9D2513001CF649;
+			remoteGlobalIDString = FR_115395668841;
+			remoteInfo = RenderInspector;
+		};
+		16F7AD6C20C55B8B006C56D4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 16F7AD6420C55B36006C56D4 /* RenderInspector.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = NT_115395668841;
 			remoteInfo = RenderInspector;
 		};
 /* End PBXContainerItemProxy section */
@@ -90,6 +99,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				16F7AD6B20C55B8B006C56D4 /* RenderInspector.framework in Embed Frameworks */,
 				16016AB720C0706E003B434A /* RenderNeutrino.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
@@ -128,7 +138,7 @@
 		16D24C441FD5705E000BADB9 /* AppStoreEntryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStoreEntryViewController.swift; sourceTree = "<group>"; };
 		16D5F6CA2011FDEF0003CDF7 /* S.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = S.generated.swift; sourceTree = "<group>"; };
 		16ED28021FD5A74900D5E222 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
-		16FB711A20C021EB007063B2 /* RenderInspector.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RenderInspector.xcodeproj; path = ../../tools/src/inspector/ios/RenderInspector.xcodeproj; sourceTree = "<group>"; };
+		16F7AD6420C55B36006C56D4 /* RenderInspector.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RenderInspector.xcodeproj; path = ../../tools/src/inspector/RenderInspector.xcodeproj; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -136,6 +146,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				16F7AD6A20C55B8B006C56D4 /* RenderInspector.framework in Frameworks */,
 				16016AB620C0706E003B434A /* RenderNeutrino.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -174,8 +185,8 @@
 		168FA6CA1F8F856D00A12585 = {
 			isa = PBXGroup;
 			children = (
+				16F7AD6420C55B36006C56D4 /* RenderInspector.xcodeproj */,
 				16016AAD20C0705C003B434A /* Render.xcodeproj */,
-				16FB711A20C021EB007063B2 /* RenderInspector.xcodeproj */,
 				168FA6D51F8F856D00A12585 /* src */,
 				168FA6D41F8F856D00A12585 /* Products */,
 				169DC8E61F93A4A000625FA6 /* Frameworks */,
@@ -261,10 +272,10 @@
 			path = components;
 			sourceTree = "<group>";
 		};
-		16FB711B20C021EB007063B2 /* Products */ = {
+		16F7AD6520C55B36006C56D4 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				16FB711F20C021EB007063B2 /* RenderInspector.framework */,
+				16F7AD6920C55B36006C56D4 /* RenderInspector.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -286,6 +297,7 @@
 			);
 			dependencies = (
 				16016AB920C0706E003B434A /* PBXTargetDependency */,
+				16F7AD6D20C55B8B006C56D4 /* PBXTargetDependency */,
 			);
 			name = RenderNeutrinoDemo;
 			productName = PureDemo;
@@ -329,8 +341,8 @@
 					ProjectRef = 16016AAD20C0705C003B434A /* Render.xcodeproj */;
 				},
 				{
-					ProductGroup = 16FB711B20C021EB007063B2 /* Products */;
-					ProjectRef = 16FB711A20C021EB007063B2 /* RenderInspector.xcodeproj */;
+					ProductGroup = 16F7AD6520C55B36006C56D4 /* Products */;
+					ProjectRef = 16F7AD6420C55B36006C56D4 /* RenderInspector.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -356,11 +368,11 @@
 			remoteRef = 16016AB420C0705C003B434A /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		16FB711F20C021EB007063B2 /* RenderInspector.framework */ = {
+		16F7AD6920C55B36006C56D4 /* RenderInspector.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
 			path = RenderInspector.framework;
-			remoteRef = 16FB711E20C021EB007063B2 /* PBXContainerItemProxy */;
+			remoteRef = 16F7AD6820C55B36006C56D4 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -446,6 +458,11 @@
 			isa = PBXTargetDependency;
 			name = RenderNeutrino;
 			targetProxy = 16016AB820C0706E003B434A /* PBXContainerItemProxy */;
+		};
+		16F7AD6D20C55B8B006C56D4 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = RenderInspector;
+			targetProxy = 16F7AD6C20C55B8B006C56D4 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
