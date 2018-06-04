@@ -1,0 +1,26 @@
+swift_version_from_config = '4'
+
+original_apple_library = apple_library
+def apple_library(
+  name,
+  swift_version = swift_version_from_config,
+  **kwargs
+):
+  original_apple_library(
+    name=name,
+    swift_version=swift_version,
+    **kwargs
+  )
+
+# TODO: Is this really required?
+original_apple_test = apple_test
+def apple_test(
+  name,
+  swift_version = swift_version_from_config,
+  **kwargs
+):
+  original_apple_test(
+    name=name,
+    swift_version=swift_version,
+    **kwargs
+  )
