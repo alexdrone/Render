@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = "RenderNeutrino"
-  s.version          = "5.3"
+  s.version          = "5.4"
   s.summary          = "Render is a declarative library for building efficient UIs on iOS inspired by React."
   s.description      = <<-DESC
   s.platform         = :ios
