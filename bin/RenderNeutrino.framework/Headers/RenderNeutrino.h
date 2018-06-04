@@ -1,11 +1,3 @@
-//
-//  RenderNeutrino.h
-//  RenderNeutrino
-//
-//  Created by Alex Usbergo on 2017-10-11.
-//  Copyright © 2017 Alex Usbergo. All rights reserved.
-//
-
 #import <UIKit/UIKit.h>
 #import <RenderNeutrino/UIView+Yoga.h>
 #import <RenderNeutrino/YGEnums.h>
@@ -22,7 +14,5 @@ FOUNDATION_EXPORT double RenderPureVersionNumber;
 
 //! Project version string for RenderNeutrino.
 FOUNDATION_EXPORT const unsigned char RenderPureVersionString[];
-
-// In this header, you should import all the public headers of your framework using statements like #import <RenderNeutrino/PublicHeader.h>
 
 

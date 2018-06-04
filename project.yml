@@ -8,9 +8,9 @@ targets:
   RenderNeutrino: &base
     platform: iOS
     type: framework
-    sources: 
+    sources:
       - render/
-    headers: 
+    headers:
       - render/RenderNeutrino.h
       - render/deps/yoga/
       - render/mods/deps/yaml/yaml.h
@@ -20,12 +20,15 @@ targets:
         PRODUCT_BUNDLE_IDENTIFIER: io.alexdrone.render
         PLATFORM: platform $platform
         SWIFT_WHOLE_MODULE_OPTIMIZATION: YES
-        RENDER_MOD_INSPECTOR: YES
-        RENDER_MOD_STYLESHEET: YES
-        OTHERCFLAGS: -DRENDER_MOD_INSPECTOR -DRENDER_MOD_STYLESHEET
+        GCC_GENERATE_DEBUGGING_SYMBOLS: YES
+        GCC_DEBUGGING_SYMBOLS: full,
+        DEBUG_INFORMATION_FORMAT: dwarf-with-dsym
       configFiles:
         Debug: configs/Debug.xcconfig
         Release: configs/Release.xcconfig
+    postbuildScripts:
+      - name: Dist
+      - script: PRODUCT="${BUILT_PRODUCTS_DIR}/${TARGET_NAME}"; cp -R "${PRODUCT}.framework" ./bin; cp -R "${PRODUCT}.framework.dSYM" ./bin; cd ./bin; zip -r dist.zip RenderNeutrino.framework.dSYM RenderNeutrino.framework;
   Test:
     platform: iOS
     type: bundle.unit-test
