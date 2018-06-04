@@ -15,12 +15,15 @@ targets:
     settings:
       base:
         INFOPLIST_FILE: inspector/Info.plist
-        PRODUCT_BUNDLE_IDENTIFIER: io.alexdrone.render
+        PRODUCT_BUNDLE_IDENTIFIER: io.render.inspector
         PLATFORM: platform $platform
         SWIFT_WHOLE_MODULE_OPTIMIZATION: YES
         GCC_GENERATE_DEBUGGING_SYMBOLS: YES
         GCC_DEBUGGING_SYMBOLS: full,
         DEBUG_INFORMATION_FORMAT: dwarf-with-dsym
+        ONLY_ACTIVE_ARCH: NO
+        VALID_ARCHS: arm64 armv7 armv7s i386 x86_64
+        SWIFT_OPTIMIZATION_LEVEL: -Owholemodule
       configFiles:
         Debug: configs/Debug.xcconfig
         Release: configs/Release.xcconfig

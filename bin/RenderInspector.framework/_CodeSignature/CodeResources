@@ -16,13 +16,21 @@
 		<data>
 		Esweqs/GJmIK+q7bql9KE7yMols=
 		</data>
+		<key>Modules/RenderInspector.swiftmodule/i386.swiftdoc</key>
+		<data>
+		0Jp0O7Dw9AqgL8kU0UmtNRlHuBs=
+		</data>
+		<key>Modules/RenderInspector.swiftmodule/i386.swiftmodule</key>
+		<data>
+		fj/oMVlH0FHdOZg9VFGzs+q0VUk=
+		</data>
 		<key>Modules/RenderInspector.swiftmodule/x86_64.swiftdoc</key>
 		<data>
 		TP+jX9wHqSc8kZQCUtZ5b18Cf7w=
 		</data>
 		<key>Modules/RenderInspector.swiftmodule/x86_64.swiftmodule</key>
 		<data>
-		+1uxGoZuBpltNCnFYYEGJpBoUWk=
+		0pDV0zRKoX28yvb4EZPs2ZgmmAg=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -53,6 +61,28 @@
 			9nHz1/2ZnXaxDpyCCF84HUp1GTFSVmTWsaoW1sn3Luc=
 			</data>
 		</dict>
+		<key>Modules/RenderInspector.swiftmodule/i386.swiftdoc</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			0Jp0O7Dw9AqgL8kU0UmtNRlHuBs=
+			</data>
+			<key>hash2</key>
+			<data>
+			Pj+o1P7Ja8BsKGViMzGpikxhSpiAvobdnbILBOYn44E=
+			</data>
+		</dict>
+		<key>Modules/RenderInspector.swiftmodule/i386.swiftmodule</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			fj/oMVlH0FHdOZg9VFGzs+q0VUk=
+			</data>
+			<key>hash2</key>
+			<data>
+			emw2hv0t8wcXJNLFRI17q85DV+Z3uZpxXzGtw5ZZ5ZA=
+			</data>
+		</dict>
 		<key>Modules/RenderInspector.swiftmodule/x86_64.swiftdoc</key>
 		<dict>
 			<key>hash</key>
@@ -68,11 +98,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			+1uxGoZuBpltNCnFYYEGJpBoUWk=
+			0pDV0zRKoX28yvb4EZPs2ZgmmAg=
 			</data>
 			<key>hash2</key>
 			<data>
-			fy0bz/hEfgsiIrfTZd2dBqdFlgu+yR8KxqlrfAJ41fA=
+			NYKXGu8KFtrCIQttyVlEwW9c4tYsYOH/jl3aDGQv/Ww=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>

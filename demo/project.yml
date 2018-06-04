@@ -1,0 +1,17 @@
+name: RenderCatalog
+options:
+  bundleIdPrefix: io.alexdrone.RenderCatalog
+targets:
+  RenderCatalog:
+    type: application
+    platform: iOS
+    deploymentTarget: "10.0"
+    sources: src/
+    dependencies:
+      - framework: ../bin/RenderNeutrino.framework
+      - framework: ../bin/RenderInspector.framework
+    settings:
+      base:
+        INFOPLIST_FILE: src/Info.plist
+        FRAMEWORK_SEARCH_PATHS: ../bin/
+        INFOPLIST_PREPROCESS: YES

@@ -10,7 +10,7 @@
 		</data>
 		<key>Headers/RenderNeutrino-Swift.h</key>
 		<data>
-		2jmj7l5rSw0yVb/vlWAYkK/YBwk=
+		UocgbaooHgOe4mbYiDLhiY8Anlg=
 		</data>
 		<key>Headers/RenderNeutrino.h</key>
 		<data>
@@ -56,13 +56,21 @@
 		<data>
 		gJHoIh5Sif2md4WNL9MIQ8x2Pj0=
 		</data>
+		<key>Modules/RenderNeutrino.swiftmodule/i386.swiftdoc</key>
+		<data>
+		FUcCVv451zyugYUkoyX2tgznWSQ=
+		</data>
+		<key>Modules/RenderNeutrino.swiftmodule/i386.swiftmodule</key>
+		<data>
+		siZ1+aCL898WWVy3pyRRjmpfvJQ=
+		</data>
 		<key>Modules/RenderNeutrino.swiftmodule/x86_64.swiftdoc</key>
 		<data>
 		7aiBaVFYwL+5/mE05f7ScZLw1Pc=
 		</data>
 		<key>Modules/RenderNeutrino.swiftmodule/x86_64.swiftmodule</key>
 		<data>
-		pP2tjr5ctYHZ9xZ/XFAyHCwUAK8=
+		NaTDC2Hi0D5F20wv6LtZzyjOFhg=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -86,11 +94,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			2jmj7l5rSw0yVb/vlWAYkK/YBwk=
+			UocgbaooHgOe4mbYiDLhiY8Anlg=
 			</data>
 			<key>hash2</key>
 			<data>
-			47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=
+			y9pnuCkPaZ+cfKKwUfZjCy3+2K1RjzERPdd9xVF6pQM=
 			</data>
 		</dict>
 		<key>Headers/RenderNeutrino.h</key>
@@ -203,6 +211,28 @@
 			OQIF5ergmz2uAw/u900rYcTR0evRWj45TNK4lviOMr8=
 			</data>
 		</dict>
+		<key>Modules/RenderNeutrino.swiftmodule/i386.swiftdoc</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			FUcCVv451zyugYUkoyX2tgznWSQ=
+			</data>
+			<key>hash2</key>
+			<data>
+			X5QC+KtdB0CLwWt4hBNok3cShMJpZmkWhGQ5rfJL6fA=
+			</data>
+		</dict>
+		<key>Modules/RenderNeutrino.swiftmodule/i386.swiftmodule</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			siZ1+aCL898WWVy3pyRRjmpfvJQ=
+			</data>
+			<key>hash2</key>
+			<data>
+			Yz5Wnj+uRiQtvRAVZz6ywCHMefITytiYM26qv/nHo54=
+			</data>
+		</dict>
 		<key>Modules/RenderNeutrino.swiftmodule/x86_64.swiftdoc</key>
 		<dict>
 			<key>hash</key>
@@ -218,11 +248,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			pP2tjr5ctYHZ9xZ/XFAyHCwUAK8=
+			NaTDC2Hi0D5F20wv6LtZzyjOFhg=
 			</data>
 			<key>hash2</key>
 			<data>
-			8aDX4iu/IXA9lvSIA4F5mY1y6oG8DzIYoHewT+UzRN8=
+			sl1m01wpAakDwhSc/TB3SAT5r6gqbnpuB26w5DTce68=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>

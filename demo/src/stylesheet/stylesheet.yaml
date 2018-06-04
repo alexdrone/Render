@@ -1,0 +1,29 @@
+Palette:
+  primaryAccent: &_primaryAccent "#151416"
+  primary: &_primary "#252427"
+  primaryText: &_primaryText "#37353a"
+  secondary: &_secondary "#302e31"
+  accent: &_accent "#41403c"
+  accentText: &_accentText "#56554e"
+  text: &_text "#0d1b1e"
+  white: &_white "#eaeaea"
+
+Typography:
+  extraSmallBold: &_extraSmallBold font(system,10,bold)
+  smallBold: &_smallBold font(system,12,bold)
+  small: &_small font(system,12,regular)
+  medium: &_medium font(system,16,regular)
+  mediumBold: &_mediumBold font(system,16,bold)
+
+Margin:
+  xsmall: 2
+  small: 4
+  medium: 8
+  large: 16
+
+import:
+  - components/counter.yaml
+  - components/post.yaml
+  - components/track.yaml
+  - components/simplecounter.yaml
+
