@@ -35,8 +35,6 @@
 		BF_557116620637 /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FR_407264690487 /* TableViewController.swift */; };
 		BF_578438420187 /* ContextTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FR_371490353764 /* ContextTests.swift */; };
 		BF_579381017942 /* Yoga.h in Headers */ = {isa = PBXBuildFile; fileRef = FR_275342356738 /* Yoga.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		BF_579407411024 = {isa = PBXBuildFile; fileRef = FR_479945003232 /* Test.xctest */; };
-		BF_592562283138 = {isa = PBXBuildFile; fileRef = FR_699701780932 /* RenderNeutrino.framework */; };
 		BF_594884445968 /* YGPercentLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = "FR_584536161622-1" /* YGPercentLayout.m */; };
 		BF_600094276189 /* UIView+Yoga.m in Sources */ = {isa = PBXBuildFile; fileRef = FR_594577630522 /* UIView+Yoga.m */; };
 		BF_606331023895 /* ViewControllerTransitions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FR_578786004173 /* ViewControllerTransitions.swift */; };
@@ -71,21 +69,21 @@
 		FR_158534509235 /* YGLayout+Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "YGLayout+Private.h"; sourceTree = "<group>"; };
 		FR_186172487891 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		FR_252848279705 /* Stylesheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stylesheet.swift; sourceTree = "<group>"; };
-		FR_275342356736 /* Yoga.c */ = {isa = PBXFileReference; path = Yoga.c; sourceTree = "<group>"; };
+		FR_275342356736 /* Yoga.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = Yoga.c; sourceTree = "<group>"; };
 		FR_275342356738 /* Yoga.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Yoga.h; sourceTree = "<group>"; };
 		FR_281829024519 /* IGListCollectionViewLayout.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IGListCollectionViewLayout.h; sourceTree = "<group>"; };
 		FR_285540450273 /* Context.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Context.swift; sourceTree = "<group>"; };
-		FR_286350938122 /* YGEnums.c */ = {isa = PBXFileReference; path = YGEnums.c; sourceTree = "<group>"; };
+		FR_286350938122 /* YGEnums.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = YGEnums.c; sourceTree = "<group>"; };
 		FR_286350938182 /* YGEnums.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YGEnums.h; sourceTree = "<group>"; };
 		FR_311136529580 /* YamlBridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YamlBridge.swift; sourceTree = "<group>"; };
-		FR_312648333574 /* YGNodeList.c */ = {isa = PBXFileReference; path = YGNodeList.c; sourceTree = "<group>"; };
+		FR_312648333574 /* YGNodeList.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = YGNodeList.c; sourceTree = "<group>"; };
 		FR_312648333735 /* YGNodeList.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YGNodeList.h; sourceTree = "<group>"; };
 		FR_341471119220 /* NavigationBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationBar.swift; sourceTree = "<group>"; };
 		FR_356489276377 /* Inspector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Inspector.swift; sourceTree = "<group>"; };
 		FR_371490353764 /* ContextTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContextTests.swift; sourceTree = "<group>"; };
 		FR_375489759311 /* YGMacros.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YGMacros.h; sourceTree = "<group>"; };
 		FR_407264690487 /* TableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewController.swift; sourceTree = "<group>"; };
-		FR_473753437359 /* IGListCollectionViewLayout.mm */ = {isa = PBXFileReference; path = IGListCollectionViewLayout.mm; sourceTree = "<group>"; };
+		FR_473753437359 /* IGListCollectionViewLayout.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = IGListCollectionViewLayout.mm; sourceTree = "<group>"; };
 		FR_479945003232 /* Test.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = Test.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		FR_493811752375 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FR_496796634774 /* Component.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Component.swift; sourceTree = "<group>"; };
@@ -101,7 +99,7 @@
 		FR_621473682166 /* RenderNeutrino.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RenderNeutrino.h; sourceTree = "<group>"; };
 		FR_631122443326 /* StylesheetTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StylesheetTests.swift; sourceTree = "<group>"; };
 		FR_655237554988 /* Node.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Node.swift; sourceTree = "<group>"; };
-		FR_659407974422 /* yaml.c */ = {isa = PBXFileReference; path = yaml.c; sourceTree = "<group>"; };
+		FR_659407974422 /* yaml.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = yaml.c; sourceTree = "<group>"; };
 		"FR_659407974422-1" /* yaml.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = yaml.h; sourceTree = "<group>"; };
 		FR_699701780932 /* RenderNeutrino.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = RenderNeutrino.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FR_710837021641 /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
@@ -357,6 +355,9 @@
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
 			mainGroup = G_8448771205358;
 			projectDirPath = "";
 			projectRoot = "";

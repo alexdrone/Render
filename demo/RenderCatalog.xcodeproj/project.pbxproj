@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		161BFFDE20C5D5050050043A /* RenderInspector.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 161BFFDA20C5D4DA0050043A /* RenderInspector.framework */; };
+		161BFFDF20C5D5050050043A /* RenderInspector.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 161BFFDA20C5D4DA0050043A /* RenderInspector.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		161BFFE420C5D50A0050043A /* RenderNeutrino.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 161BFFCC20C5D4C90050043A /* RenderNeutrino.framework */; };
+		161BFFE520C5D50A0050043A /* RenderNeutrino.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 161BFFCC20C5D4C90050043A /* RenderNeutrino.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		161BFFE920C5D6550050043A /* Transition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 161BFFE820C5D6550050043A /* Transition.swift */; };
 		BF_131930766980 /* CustomNavigationBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FR_683568823648 /* CustomNavigationBarViewController.swift */; };
 		BF_169857128924 /* IndexViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FR_470260923585 /* IndexViewController.swift */; };
 		BF_184925074330 /* Fps.swift in Sources */ = {isa = PBXBuildFile; fileRef = FR_704033062578 /* Fps.swift */; };
@@ -17,8 +22,6 @@
 		BF_256362821235 /* counter.yaml in Resources */ = {isa = PBXBuildFile; fileRef = FR_124993056784 /* counter.yaml */; };
 		BF_266817845390 /* AppStoreEntryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FR_526934815012 /* AppStoreEntryViewController.swift */; };
 		BF_268308416075 /* Counter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FR_239605705680 /* Counter.swift */; };
-		BF_269935109248 /* RenderNeutrino.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FR_505521542851 /* RenderNeutrino.framework */; };
-		"BF_269935109248-1" /* RenderNeutrino.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = FR_505521542851 /* RenderNeutrino.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		BF_363246860495 /* StylesheetCounterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FR_862165924226 /* StylesheetCounterViewController.swift */; };
 		BF_363894791201 /* stylesheet.yaml in Resources */ = {isa = PBXBuildFile; fileRef = FR_312986845120 /* stylesheet.yaml */; };
 		BF_425362884447 /* FeedTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FR_367311132164 /* FeedTableViewController.swift */; };
@@ -27,9 +30,6 @@
 		BF_548895302724 /* SimpleCounterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FR_789827441295 /* SimpleCounterViewController.swift */; };
 		BF_566748625224 /* Index.swift in Sources */ = {isa = PBXBuildFile; fileRef = FR_317116376244 /* Index.swift */; };
 		BF_574251219103 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FR_424222847793 /* Assets.xcassets */; };
-		BF_587101778806 = {isa = PBXBuildFile; fileRef = FR_172965231173 /* RenderCatalog.app */; };
-		BF_612905522555 /* RenderInspector.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FR_191860360425 /* RenderInspector.framework */; };
-		"BF_612905522555-1" /* RenderInspector.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = FR_191860360425 /* RenderInspector.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		BF_687969282453 /* track.yaml in Resources */ = {isa = PBXBuildFile; fileRef = FR_843976053877 /* track.yaml */; };
 		BF_796159198434 /* CustomNavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = FR_834746799252 /* CustomNavigationBar.swift */; };
 		BF_798631901811 /* FacebookPost.swift in Sources */ = {isa = PBXBuildFile; fileRef = FR_533102815339 /* FacebookPost.swift */; };
@@ -40,6 +40,44 @@
 		BF_917786313219 /* simplecounter.yaml in Resources */ = {isa = PBXBuildFile; fileRef = FR_439536341755 /* simplecounter.yaml */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		161BFFCB20C5D4C90050043A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 161BFFC620C5D4C80050043A /* Render.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = FR_699701780932;
+			remoteInfo = RenderNeutrino;
+		};
+		161BFFCD20C5D4C90050043A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 161BFFC620C5D4C80050043A /* Render.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = FR_479945003232;
+			remoteInfo = Test;
+		};
+		161BFFD920C5D4DA0050043A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 161BFFD520C5D4DA0050043A /* RenderInspector.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = FR_115395668841;
+			remoteInfo = RenderInspector;
+		};
+		161BFFE020C5D5050050043A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 161BFFD520C5D4DA0050043A /* RenderInspector.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = NT_115395668841;
+			remoteInfo = RenderInspector;
+		};
+		161BFFE620C5D50A0050043A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 161BFFC620C5D4C80050043A /* Render.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = NT_699701780932;
+			remoteInfo = RenderNeutrino;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXCopyFilesBuildPhase section */
 		CFBP_3642946365 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
@@ -47,32 +85,33 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				"BF_269935109248-1" /* RenderNeutrino.framework in CopyFiles */,
-				"BF_612905522555-1" /* RenderInspector.framework in CopyFiles */,
+				161BFFE520C5D50A0050043A /* RenderNeutrino.framework in CopyFiles */,
+				161BFFDF20C5D5050050043A /* RenderInspector.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		FR_124993056784 /* counter.yaml */ = {isa = PBXFileReference; path = counter.yaml; sourceTree = "<group>"; };
+		161BFFC620C5D4C80050043A /* Render.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Render.xcodeproj; path = ../Render.xcodeproj; sourceTree = "<group>"; };
+		161BFFD520C5D4DA0050043A /* RenderInspector.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RenderInspector.xcodeproj; path = ../tools/src/inspector/RenderInspector.xcodeproj; sourceTree = "<group>"; };
+		161BFFE820C5D6550050043A /* Transition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transition.swift; sourceTree = "<group>"; };
+		FR_124993056784 /* counter.yaml */ = {isa = PBXFileReference; lastKnownFileType = text; path = counter.yaml; sourceTree = "<group>"; };
 		FR_160759243113 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		FR_172965231173 /* RenderCatalog.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = RenderCatalog.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		FR_191860360425 /* RenderInspector.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RenderInspector.framework; path = ../bin/RenderInspector.framework; sourceTree = "<group>"; };
-		FR_221332576788 /* post.yaml */ = {isa = PBXFileReference; path = post.yaml; sourceTree = "<group>"; };
+		FR_172965231173 /* RenderCatalog.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RenderCatalog.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		FR_221332576788 /* post.yaml */ = {isa = PBXFileReference; lastKnownFileType = text; path = post.yaml; sourceTree = "<group>"; };
 		FR_221347590542 /* TransitionDemo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransitionDemo.swift; sourceTree = "<group>"; };
 		FR_226473954669 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		FR_239605705680 /* Counter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Counter.swift; sourceTree = "<group>"; };
-		FR_312986845120 /* stylesheet.yaml */ = {isa = PBXFileReference; path = stylesheet.yaml; sourceTree = "<group>"; };
+		FR_312986845120 /* stylesheet.yaml */ = {isa = PBXFileReference; lastKnownFileType = text; path = stylesheet.yaml; sourceTree = "<group>"; };
 		FR_317116376244 /* Index.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Index.swift; sourceTree = "<group>"; };
 		FR_323658980827 /* SimpleCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleCounter.swift; sourceTree = "<group>"; };
 		FR_337600039455 /* AppStoreEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStoreEntry.swift; sourceTree = "<group>"; };
 		FR_367311132164 /* FeedTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedTableViewController.swift; sourceTree = "<group>"; };
 		FR_424222847793 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		FR_439536341755 /* simplecounter.yaml */ = {isa = PBXFileReference; path = simplecounter.yaml; sourceTree = "<group>"; };
+		FR_439536341755 /* simplecounter.yaml */ = {isa = PBXFileReference; lastKnownFileType = text; path = simplecounter.yaml; sourceTree = "<group>"; };
 		FR_456968685412 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FR_470260923585 /* IndexViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndexViewController.swift; sourceTree = "<group>"; };
-		FR_505521542851 /* RenderNeutrino.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RenderNeutrino.framework; path = ../bin/RenderNeutrino.framework; sourceTree = "<group>"; };
 		FR_523441024908 /* Shared.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shared.swift; sourceTree = "<group>"; };
 		FR_526934815012 /* AppStoreEntryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStoreEntryViewController.swift; sourceTree = "<group>"; };
 		FR_533102815339 /* FacebookPost.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FacebookPost.swift; sourceTree = "<group>"; };
@@ -81,7 +120,7 @@
 		FR_704033062578 /* Fps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fps.swift; sourceTree = "<group>"; };
 		FR_789827441295 /* SimpleCounterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleCounterViewController.swift; sourceTree = "<group>"; };
 		FR_834746799252 /* CustomNavigationBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomNavigationBar.swift; sourceTree = "<group>"; };
-		FR_843976053877 /* track.yaml */ = {isa = PBXFileReference; path = track.yaml; sourceTree = "<group>"; };
+		FR_843976053877 /* track.yaml */ = {isa = PBXFileReference; lastKnownFileType = text; path = track.yaml; sourceTree = "<group>"; };
 		FR_862165924226 /* StylesheetCounterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StylesheetCounterViewController.swift; sourceTree = "<group>"; };
 		FR_883217212053 /* S.generated.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = S.generated.swift; sourceTree = "<group>"; };
 		FR_890466402669 /* Random.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Random.swift; sourceTree = "<group>"; };
@@ -92,19 +131,36 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BF_269935109248 /* RenderNeutrino.framework in Frameworks */,
-				BF_612905522555 /* RenderInspector.framework in Frameworks */,
+				161BFFE420C5D50A0050043A /* RenderNeutrino.framework in Frameworks */,
+				161BFFDE20C5D5050050043A /* RenderInspector.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		161BFFC720C5D4C80050043A /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				161BFFCC20C5D4C90050043A /* RenderNeutrino.framework */,
+				161BFFCE20C5D4C90050043A /* Test.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		161BFFD620C5D4DA0050043A /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				161BFFDA20C5D4DA0050043A /* RenderInspector.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		G_1952740716080 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				FR_191860360425 /* RenderInspector.framework */,
-				FR_505521542851 /* RenderNeutrino.framework */,
+				161BFFD520C5D4DA0050043A /* RenderInspector.xcodeproj */,
+				161BFFC620C5D4C80050043A /* Render.xcodeproj */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -154,6 +210,7 @@
 				FR_533102815339 /* FacebookPost.swift */,
 				FR_317116376244 /* Index.swift */,
 				FR_323658980827 /* SimpleCounter.swift */,
+				161BFFE820C5D6550050043A /* Transition.swift */,
 			);
 			path = components;
 			sourceTree = "<group>";
@@ -215,6 +272,8 @@
 			buildRules = (
 			);
 			dependencies = (
+				161BFFE120C5D5050050043A /* PBXTargetDependency */,
+				161BFFE720C5D50A0050043A /* PBXTargetDependency */,
 			);
 			name = RenderCatalog;
 			productName = RenderCatalog;
@@ -238,12 +297,46 @@
 			);
 			mainGroup = G_8448771205358;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 161BFFC720C5D4C80050043A /* Products */;
+					ProjectRef = 161BFFC620C5D4C80050043A /* Render.xcodeproj */;
+				},
+				{
+					ProductGroup = 161BFFD620C5D4DA0050043A /* Products */;
+					ProjectRef = 161BFFD520C5D4DA0050043A /* RenderInspector.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				NT_172965231173 /* RenderCatalog */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		161BFFCC20C5D4C90050043A /* RenderNeutrino.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = RenderNeutrino.framework;
+			remoteRef = 161BFFCB20C5D4C90050043A /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		161BFFCE20C5D4C90050043A /* Test.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = Test.xctest;
+			remoteRef = 161BFFCD20C5D4C90050043A /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		161BFFDA20C5D4DA0050043A /* RenderInspector.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = RenderInspector.framework;
+			remoteRef = 161BFFD920C5D4DA0050043A /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		RBP_17296523117 /* Resources */ = {
@@ -277,6 +370,7 @@
 				BF_425362884447 /* FeedTableViewController.swift in Sources */,
 				BF_184925074330 /* Fps.swift in Sources */,
 				BF_566748625224 /* Index.swift in Sources */,
+				161BFFE920C5D6550050043A /* Transition.swift in Sources */,
 				BF_169857128924 /* IndexViewController.swift in Sources */,
 				BF_209943700757 /* Random.swift in Sources */,
 				BF_189312076695 /* S.generated.swift in Sources */,
@@ -290,6 +384,19 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		161BFFE120C5D5050050043A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = RenderInspector;
+			targetProxy = 161BFFE020C5D5050050043A /* PBXContainerItemProxy */;
+		};
+		161BFFE720C5D50A0050043A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = RenderNeutrino;
+			targetProxy = 161BFFE620C5D50A0050043A /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		VG_226473954669 /* LaunchScreen.storyboard */ = {

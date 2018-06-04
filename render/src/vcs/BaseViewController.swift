@@ -46,6 +46,9 @@ open class UIBaseViewController: UIViewController,
   /// Whether this was the first invokation of layout subviews.
   /// - note: This is used to have a preliminary render call to the component hierarchy.
   public var firstViewDidLayoutSubviewsInvokation: Bool = true
+  /// The view that is currently focused and will take part to the upcoming ViewController
+  /// transition, if *nil* the canvas view is returned.
+  public weak var currentTransitionTargetView: UIView?
 
   /// Returns a newly initialized view controller with the nib file in the specified bundle.
   public override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
@@ -174,7 +177,7 @@ open class UIBaseViewController: UIViewController,
 extension UIBaseViewController: UISceneViewControllerTransitioning {
   /// Returns the view used for view controller transitioning.
   open func transitionTargetView() -> UIView {
-    return canvasView
+    return currentTransitionTargetView ?? canvasView
   }
 
   /// Returns the snapshotted navigation bar.

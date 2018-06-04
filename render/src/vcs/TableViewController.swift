@@ -195,6 +195,7 @@ open class UITableComponentViewController: UIBaseViewController,
 
   /// Call this in *tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath)*.
   public func didSelectRowAt(props: [UITableCellProps], indexPath: IndexPath) {
+    currentTransitionTargetView = tableView.cellForRow(at: indexPath)
     props[indexPath.row].onCellSelected?()
   }
 
