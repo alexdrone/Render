@@ -13,6 +13,7 @@
 		161BFFE520C5D50A0050043A /* RenderNeutrino.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 161BFFCC20C5D4C90050043A /* RenderNeutrino.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		161BFFE920C5D6550050043A /* Transition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 161BFFE820C5D6550050043A /* Transition.swift */; };
 		16F0074B20C6982F00AA7D13 /* GettingStartedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F0074A20C6982F00AA7D13 /* GettingStartedViewController.swift */; };
+		16F0074E20C6AF2300AA7D13 /* NavigationBarAppearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F0074D20C6AF2300AA7D13 /* NavigationBarAppearance.swift */; };
 		BF_131930766980 /* CustomNavigationBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FR_683568823648 /* CustomNavigationBarViewController.swift */; };
 		BF_169857128924 /* IndexViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FR_470260923585 /* IndexViewController.swift */; };
 		BF_184925074330 /* Fps.swift in Sources */ = {isa = PBXBuildFile; fileRef = FR_704033062578 /* Fps.swift */; };
@@ -98,6 +99,7 @@
 		161BFFD520C5D4DA0050043A /* RenderInspector.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RenderInspector.xcodeproj; path = ../tools/src/inspector/RenderInspector.xcodeproj; sourceTree = "<group>"; };
 		161BFFE820C5D6550050043A /* Transition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transition.swift; sourceTree = "<group>"; };
 		16F0074A20C6982F00AA7D13 /* GettingStartedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GettingStartedViewController.swift; sourceTree = "<group>"; };
+		16F0074D20C6AF2300AA7D13 /* NavigationBarAppearance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationBarAppearance.swift; sourceTree = "<group>"; };
 		FR_124993056784 /* counter.yaml */ = {isa = PBXFileReference; lastKnownFileType = text; path = counter.yaml; sourceTree = "<group>"; };
 		FR_160759243113 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FR_172965231173 /* RenderCatalog.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RenderCatalog.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -229,6 +231,7 @@
 				FR_572139600192 /* SinglePostViewController.swift */,
 				FR_862165924226 /* StylesheetCounterViewController.swift */,
 				FR_221347590542 /* TransitionDemo.swift */,
+				16F0074D20C6AF2300AA7D13 /* NavigationBarAppearance.swift */,
 			);
 			path = vcs;
 			sourceTree = "<group>";
@@ -290,6 +293,11 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0930;
+				TargetAttributes = {
+					NT_172965231173 = {
+						DevelopmentTeam = 9Z67YL2L6Z;
+					};
+				};
 			};
 			buildConfigurationList = CL_172965231173 /* Build configuration list for PBXProject "RenderCatalog" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -366,6 +374,7 @@
 				BF_860543052156 /* AppDelegate.swift in Sources */,
 				BF_877098826798 /* AppStoreEntry.swift in Sources */,
 				BF_266817845390 /* AppStoreEntryViewController.swift in Sources */,
+				16F0074E20C6AF2300AA7D13 /* NavigationBarAppearance.swift in Sources */,
 				16F0074B20C6982F00AA7D13 /* GettingStartedViewController.swift in Sources */,
 				BF_268308416075 /* Counter.swift in Sources */,
 				BF_796159198434 /* CustomNavigationBar.swift in Sources */,
@@ -420,6 +429,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = 9Z67YL2L6Z;
 				FRAMEWORK_SEARCH_PATHS = ../bin/;
 				INFOPLIST_FILE = src/Info.plist;
 				INFOPLIST_PREPROCESS = YES;
@@ -495,6 +505,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = 9Z67YL2L6Z;
 				FRAMEWORK_SEARCH_PATHS = ../bin/;
 				INFOPLIST_FILE = src/Info.plist;
 				INFOPLIST_PREPROCESS = YES;

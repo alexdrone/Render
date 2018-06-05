@@ -76,7 +76,6 @@ open class UITableComponentViewController: UIBaseViewController,
   /// - note: This triggers reload data to be called on the 'tableView'.
   open override func render(options: [UIComponentRenderOption] = []) {
     super.render()
-    cellDescriptors = renderCellDescriptors()
     reloadData()
   }
 
@@ -84,6 +83,7 @@ open class UITableComponentViewController: UIBaseViewController,
   /// Call this method to reload all the data that is used to construct the table, including cells,
   /// section headers and footers, index arrays, and so on.
   open func reloadData() {
+    cellDescriptors = renderCellDescriptors()
     tableView.reloadData()
   }
 
@@ -116,6 +116,7 @@ open class UITableComponentViewController: UIBaseViewController,
 
   /// Called to notify the view controller that its view has just laid out its subviews.
   open override func viewDidLayoutSubviews() {
+    super.viewDidLayoutSubviews()
     proxyTableView.frame = tableView.bounds
   }
 
@@ -125,7 +126,7 @@ open class UITableComponentViewController: UIBaseViewController,
     super.viewWillTransition(to: size, with: coordinator)
     coordinator.animate(alongsideTransition: { _ in
     }) { [weak self] _ in
-      self?.tableView.reloadData()
+      self?.reloadData()
     }
   }
 
