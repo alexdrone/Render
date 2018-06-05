@@ -178,7 +178,7 @@ internal class FPSStatusBarViewController: UIViewController, FPSCounterDelegate 
   }
 
   func fpsCounter(_ counter: FPSCounter, didUpdateFramesPerSecond fps: Int) {
-    let ms = 1000 / max(fps, 1)
+    _ = 1000 / max(fps, 1)
     label.text = "\(fps) FPS"
 
     if fps >= 45 {

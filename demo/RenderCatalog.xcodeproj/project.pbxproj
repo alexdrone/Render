@@ -12,6 +12,7 @@
 		161BFFE420C5D50A0050043A /* RenderNeutrino.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 161BFFCC20C5D4C90050043A /* RenderNeutrino.framework */; };
 		161BFFE520C5D50A0050043A /* RenderNeutrino.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 161BFFCC20C5D4C90050043A /* RenderNeutrino.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		161BFFE920C5D6550050043A /* Transition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 161BFFE820C5D6550050043A /* Transition.swift */; };
+		16F0074B20C6982F00AA7D13 /* GettingStartedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F0074A20C6982F00AA7D13 /* GettingStartedViewController.swift */; };
 		BF_131930766980 /* CustomNavigationBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FR_683568823648 /* CustomNavigationBarViewController.swift */; };
 		BF_169857128924 /* IndexViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FR_470260923585 /* IndexViewController.swift */; };
 		BF_184925074330 /* Fps.swift in Sources */ = {isa = PBXBuildFile; fileRef = FR_704033062578 /* Fps.swift */; };
@@ -33,8 +34,8 @@
 		BF_687969282453 /* track.yaml in Resources */ = {isa = PBXBuildFile; fileRef = FR_843976053877 /* track.yaml */; };
 		BF_796159198434 /* CustomNavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = FR_834746799252 /* CustomNavigationBar.swift */; };
 		BF_798631901811 /* FacebookPost.swift in Sources */ = {isa = PBXBuildFile; fileRef = FR_533102815339 /* FacebookPost.swift */; };
-		BF_838261594587 /* SimpleCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FR_323658980827 /* SimpleCounter.swift */; };
-		BF_841901776129 /* Shared.swift in Sources */ = {isa = PBXBuildFile; fileRef = FR_523441024908 /* Shared.swift */; };
+		BF_838261594587 /* GettingStarted.swift in Sources */ = {isa = PBXBuildFile; fileRef = FR_323658980827 /* GettingStarted.swift */; };
+		BF_841901776129 /* Polygon.swift in Sources */ = {isa = PBXBuildFile; fileRef = FR_523441024908 /* Polygon.swift */; };
 		BF_860543052156 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FR_160759243113 /* AppDelegate.swift */; };
 		BF_877098826798 /* AppStoreEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = FR_337600039455 /* AppStoreEntry.swift */; };
 		BF_917786313219 /* simplecounter.yaml in Resources */ = {isa = PBXBuildFile; fileRef = FR_439536341755 /* simplecounter.yaml */; };
@@ -96,6 +97,7 @@
 		161BFFC620C5D4C80050043A /* Render.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Render.xcodeproj; path = ../Render.xcodeproj; sourceTree = "<group>"; };
 		161BFFD520C5D4DA0050043A /* RenderInspector.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RenderInspector.xcodeproj; path = ../tools/src/inspector/RenderInspector.xcodeproj; sourceTree = "<group>"; };
 		161BFFE820C5D6550050043A /* Transition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transition.swift; sourceTree = "<group>"; };
+		16F0074A20C6982F00AA7D13 /* GettingStartedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GettingStartedViewController.swift; sourceTree = "<group>"; };
 		FR_124993056784 /* counter.yaml */ = {isa = PBXFileReference; lastKnownFileType = text; path = counter.yaml; sourceTree = "<group>"; };
 		FR_160759243113 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FR_172965231173 /* RenderCatalog.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RenderCatalog.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -105,14 +107,14 @@
 		FR_239605705680 /* Counter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Counter.swift; sourceTree = "<group>"; };
 		FR_312986845120 /* stylesheet.yaml */ = {isa = PBXFileReference; lastKnownFileType = text; path = stylesheet.yaml; sourceTree = "<group>"; };
 		FR_317116376244 /* Index.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Index.swift; sourceTree = "<group>"; };
-		FR_323658980827 /* SimpleCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleCounter.swift; sourceTree = "<group>"; };
+		FR_323658980827 /* GettingStarted.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GettingStarted.swift; sourceTree = "<group>"; };
 		FR_337600039455 /* AppStoreEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStoreEntry.swift; sourceTree = "<group>"; };
 		FR_367311132164 /* FeedTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedTableViewController.swift; sourceTree = "<group>"; };
 		FR_424222847793 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		FR_439536341755 /* simplecounter.yaml */ = {isa = PBXFileReference; lastKnownFileType = text; path = simplecounter.yaml; sourceTree = "<group>"; };
 		FR_456968685412 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FR_470260923585 /* IndexViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndexViewController.swift; sourceTree = "<group>"; };
-		FR_523441024908 /* Shared.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shared.swift; sourceTree = "<group>"; };
+		FR_523441024908 /* Polygon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Polygon.swift; sourceTree = "<group>"; };
 		FR_526934815012 /* AppStoreEntryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStoreEntryViewController.swift; sourceTree = "<group>"; };
 		FR_533102815339 /* FacebookPost.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FacebookPost.swift; sourceTree = "<group>"; };
 		FR_572139600192 /* SinglePostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SinglePostViewController.swift; sourceTree = "<group>"; };
@@ -209,7 +211,7 @@
 				FR_834746799252 /* CustomNavigationBar.swift */,
 				FR_533102815339 /* FacebookPost.swift */,
 				FR_317116376244 /* Index.swift */,
-				FR_323658980827 /* SimpleCounter.swift */,
+				FR_323658980827 /* GettingStarted.swift */,
 				161BFFE820C5D6550050043A /* Transition.swift */,
 			);
 			path = components;
@@ -221,6 +223,7 @@
 				FR_526934815012 /* AppStoreEntryViewController.swift */,
 				FR_683568823648 /* CustomNavigationBarViewController.swift */,
 				FR_367311132164 /* FeedTableViewController.swift */,
+				16F0074A20C6982F00AA7D13 /* GettingStartedViewController.swift */,
 				FR_470260923585 /* IndexViewController.swift */,
 				FR_789827441295 /* SimpleCounterViewController.swift */,
 				FR_572139600192 /* SinglePostViewController.swift */,
@@ -235,7 +238,7 @@
 			children = (
 				FR_704033062578 /* Fps.swift */,
 				FR_890466402669 /* Random.swift */,
-				FR_523441024908 /* Shared.swift */,
+				FR_523441024908 /* Polygon.swift */,
 			);
 			path = etc;
 			sourceTree = "<group>";
@@ -363,6 +366,7 @@
 				BF_860543052156 /* AppDelegate.swift in Sources */,
 				BF_877098826798 /* AppStoreEntry.swift in Sources */,
 				BF_266817845390 /* AppStoreEntryViewController.swift in Sources */,
+				16F0074B20C6982F00AA7D13 /* GettingStartedViewController.swift in Sources */,
 				BF_268308416075 /* Counter.swift in Sources */,
 				BF_796159198434 /* CustomNavigationBar.swift in Sources */,
 				BF_131930766980 /* CustomNavigationBarViewController.swift in Sources */,
@@ -374,8 +378,8 @@
 				BF_169857128924 /* IndexViewController.swift in Sources */,
 				BF_209943700757 /* Random.swift in Sources */,
 				BF_189312076695 /* S.generated.swift in Sources */,
-				BF_841901776129 /* Shared.swift in Sources */,
-				BF_838261594587 /* SimpleCounter.swift in Sources */,
+				BF_841901776129 /* Polygon.swift in Sources */,
+				BF_838261594587 /* GettingStarted.swift in Sources */,
 				BF_548895302724 /* SimpleCounterViewController.swift in Sources */,
 				BF_434401385517 /* SinglePostViewController.swift in Sources */,
 				BF_363246860495 /* StylesheetCounterViewController.swift in Sources */,

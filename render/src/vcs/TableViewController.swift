@@ -11,6 +11,11 @@ open class UITableComponentViewController: UIBaseViewController,
   /// Fades in the content of the cell when the scroll reveals it.
   /// - note: Defaul is 'true'.
   public var shouldApplyScrollRevealTransition: Bool = false
+  /// Used to populate the table view withouth overriding *tableView:_:cellForRowAt*.
+  /// - note: This is a simple declarative approach to table definition that can be used for
+  /// simple lists (with a single section) - override *tableView:_:cellForRowAt* for more custom
+  /// behaviours.
+  public var cellDescriptors: [UIComponentCellDescriptor] = []
 
   // Private.
   private let proxyTableView: UIView = UIView()
@@ -60,9 +65,18 @@ open class UITableComponentViewController: UIBaseViewController,
   open func setNeedRenderInvoked(on context: UIContextProtocol, component: UIComponentProtocol) {
   }
 
+  /// Used to populate the table view withouth overriding *tableView:_:cellForRowAt*.
+  /// - note: This is a simple declarative approach to table definition that can be used for
+  /// simple lists (with a single section) - override *tableView:_:cellForRowAt* for more custom
+  /// behaviours.
+  open func renderCellDescriptors() -> [UIComponentCellDescriptor] {
+    return []
+  }
+
   /// - note: This triggers reload data to be called on the 'tableView'.
   open override func render(options: [UIComponentRenderOption] = []) {
     super.render()
+    cellDescriptors = renderCellDescriptors()
     reloadData()
   }
 
@@ -116,14 +130,25 @@ open class UITableComponentViewController: UIBaseViewController,
   }
 
   /// Tells the data source to return the number of rows in a given section of a table view.
+  /// - note: Must be overriden if
   @objc open func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return 0
+    return cellDescriptors.count
   }
 
   /// Asks the data source for a cell to insert in a particular location of the table view.
+  /// If you wish to use a *UIComponentTableViewCell* a typical implementation of this method would
+  /// be as follow:
+  ///
+  ///    let component = context.component(MyComponent.self, ...)
+  ///    return dequeueCell(forComponent: component)
+  ///
+  /// - note: Override this method if you don't want to rely on the *cellDescriptors* property.
   @objc open func tableView(_ tableView: UITableView,
                             cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-    return UITableViewCell()
+    guard cellDescriptors.count > indexPath.row,
+      let component = cellDescriptors[indexPath.row].component else { return UITableViewCell() }
+    let id = cellDescriptors[indexPath.row].reuseIdentifier
+    return dequeueCell(component: component, withReuseIdentifier: id)
   }
 
   // MARK: - UITableViewDataSource Helper
@@ -136,12 +161,19 @@ open class UITableComponentViewController: UIBaseViewController,
     return cell
   }
 
-  /// Shorthand for *dequeueCell(withReuseIdentifier:)*
-  public func dequeueCell<T:UIComponentProtocol>(forComponent component: T) -> UITableComponentCell{
-    let cell = dequeueCell(withReuseIdentifier: String(describing: type(of: component)))
+  /// Dequeues a *UITableComponentCell* for the component passed as argument.
+  public func dequeueCell(component: UIComponentProtocol,
+                          withReuseIdentifier id: String) -> UITableComponentCell {
+    let cell = dequeueCell(withReuseIdentifier: id)
     component.delegate = self
     cell.install(component: component, width: tableView.bounds.size.width)
     return cell
+  }
+
+  /// Shorthand for *dequeueCell(component:withReuseIdentifier:)*
+  public func dequeueCell<T:UIComponentProtocol>(forComponent component: T) -> UITableComponentCell{
+    return dequeueCell(component: component,
+                       withReuseIdentifier: String(describing: type(of: component)))
   }
 
   public func defaultKey(forIndexPath indexPath: IndexPath) -> String {
@@ -376,4 +408,20 @@ public class UITableComponentCell: UITableViewCell {
 extension UIComponent {
   /// 'true' if this component is being used in a tableview or a collection view.
   var isEmbeddedInCell: Bool { return self.context is UICellContext }
+}
+
+// MARK: - Cell Descriptor
+
+final public class UIComponentCellDescriptor {
+  /// The component that must be installed in the cell.
+  public private(set) weak var component: UIComponentProtocol?
+  /// The cell reuse identifier (optional, automatically inferred).
+  public let reuseIdentifier: String
+
+  public init<T: UIComponentProtocol>(component: T,
+                                      reuseIdentifier: String? = nil) {
+    let id = reuseIdentifier ?? String(describing: type(of: component))
+    self.reuseIdentifier = id
+    self.component = component
+  }
 }
