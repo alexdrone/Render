@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		16253DD520C9A7F400E34D51 /* BackwardsCompatibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16253DD420C9A7F400E34D51 /* BackwardsCompatibility.swift */; };
 		BF_100451147478 /* YamlBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = FR_311136529580 /* YamlBridge.swift */; };
 		BF_111358888711 /* YGPercentLayout.h in Headers */ = {isa = PBXBuildFile; fileRef = FR_584536161622 /* YGPercentLayout.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BF_114241843021 /* NavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = FR_341471119220 /* NavigationBar.swift */; };
@@ -64,6 +65,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		16253DD420C9A7F400E34D51 /* BackwardsCompatibility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackwardsCompatibility.swift; sourceTree = "<group>"; };
 		FR_108333899125 /* KeyPath.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyPath.swift; sourceTree = "<group>"; };
 		FR_155113108316 /* RenderNeutrino-Swift.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "RenderNeutrino-Swift.h"; sourceTree = "<group>"; };
 		FR_158534509235 /* YGLayout+Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "YGLayout+Private.h"; sourceTree = "<group>"; };
@@ -232,6 +234,7 @@
 			isa = PBXGroup;
 			children = (
 				G_6893859073568 /* yoga */,
+				16253DD420C9A7F400E34D51 /* BackwardsCompatibility.swift */,
 			);
 			path = deps;
 			sourceTree = "<group>";
@@ -408,6 +411,7 @@
 				BF_784257326017 /* Expression.swift in Sources */,
 				BF_354030057635 /* Geometry.swift in Sources */,
 				BF_398648952227 /* IGListCollectionViewLayout.mm in Sources */,
+				16253DD520C9A7F400E34D51 /* BackwardsCompatibility.swift in Sources */,
 				BF_363282377240 /* Inspector.swift in Sources */,
 				BF_159706317339 /* KeyPath.swift in Sources */,
 				BF_114241843021 /* NavigationBar.swift in Sources */,
