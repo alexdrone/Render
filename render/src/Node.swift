@@ -36,6 +36,13 @@ public protocol UINodeProtocol: Disposable {
   /// An additional configuration closure meant to override some of the original configuration
   /// of the node.
   var overrides: ((UIView) -> Void)? { get set }
+  /// The desired update preferences for this node (typically passed down from the component),
+  /// used to infer the 'shouldUpdate' property.
+  var updateMode: UINodeUpdateMode { get set }
+  /// Let Render know if this node is not affected by the current change in state or props.
+  /// The default behavior is to re-render on every state change, and in the vast majority of cases
+  /// you should rely on the default behavior.
+  var shouldUpdate: Bool { get }
   /// Re-applies the configuration closure for this node and compute its layout.
   func layout(in bounds: CGSize, options: [UINodeOption])
   /// Mount the component in the view hierarchy by running the *reconciliation algorithm*.
@@ -115,7 +122,20 @@ public class UINode<V: UIView>: UINodeProtocol {
   public var index: Int = 0
   public var unmanagedChildren: [UINodeProtocol] = []
   public var overrides: ((UIView) -> Void)? = nil
-
+  public var updateMode: UINodeUpdateMode = .inherit
+  // Whether this node should render or not at this render cycle.
+  public var shouldUpdate: Bool {
+    guard !firstUpdateInvokation else { return true }
+    switch updateMode {
+    case .update:
+      return true
+    case .ignore:
+      return false
+    case .inherit:
+      guard let parent = parent else { return true }
+      return parent.shouldUpdate
+    }
+  }
   /// Whether this object has been disposed or not.
   /// Once an object is disposed it cannot be used any longer.
   public var isDisposed: Bool = false
@@ -130,6 +150,10 @@ public class UINode<V: UIView>: UINodeProtocol {
   private weak var bindTarget: AnyObject?
   // Optional associated style.
   private var styles: [UIStyleProtocol] = []
+  // Whether this is the first time the node is being rendered.
+  private var firstUpdateInvokation: Bool {
+    return renderedView?.renderContext.isNewlyCreated ?? true
+  }
 
   // Internal.
 
@@ -200,62 +224,66 @@ public class UINode<V: UIView>: UINodeProtocol {
       disposedWarning()
       return
     }
-
+    // Builds the backing view (if necessary).
     _constructView()
     willLayout(options: options)
-
     let view = requireRenderedView()
+    // Stores the should update status.
+    let shouldUpdateNode = shouldUpdate
     guard let renderedView = view as? V else {
       print("Unexpected error: View/State/Prop type mismatch.")
       return
     }
     view.renderContext.storeOldGeometryRecursively()
 
-    let spec = LayoutSpec(node: self, view: renderedView, size: bounds)
+    if shouldUpdateNode {
+      let spec = LayoutSpec(node: self, view: renderedView, size: bounds)
+      // optimisation: applies the stylesheet-defined styles separately in order to merge
+      // together is a single computed style.
+      // - note: Non-UIStylesheetProtocol compliant styles are skipped.
+      //#if RENDER_MOD_STYLESHEET
+      UIStylesheetApplyStyles(styles, to: view)
+      //#endif
 
-    // optimisation: applies the stylesheet-defined styles separately in order to merge
-    // together is a single computed style.
-    // - note: Non-UIStylesheetProtocol compliant styles are skipped.
-    //#if RENDER_MOD_STYLESHEET
-    UIStylesheetApplyStyles(styles, to: view)
-    //#endif
-
-    // Applies *UIStyle* subclasses.
-    for style in styles.compactMap({ $0 as? UIStyle }) {
-      if let specStyle = style as? UILayoutSpecStyle<V> {
-        specStyle.layoutSpec = spec
-        specStyle.apply(to: view)
-        specStyle.reset()
-      } else {
-        style.apply(to: view)
+      // Applies *UIStyle* subclasses.
+      for style in styles.compactMap({ $0 as? UIStyle }) {
+        if let specStyle = style as? UILayoutSpecStyle<V> {
+          specStyle.layoutSpec = spec
+          specStyle.apply(to: view)
+          specStyle.reset()
+        } else {
+          style.apply(to: view)
+        }
       }
-    }
 
-    layoutSpec(spec)
-    overrides?(view)
+      layoutSpec(spec)
+      overrides?(view)
+    }
 
     // Configure the children recursively.
     for child in children {
       child._setup(in: bounds, options: options)
     }
 
-    let config = view.renderContext
-    let oldConfigurationKeys = Set(config.appliedConfiguration.keys)
-    let newConfigurationKeys = Set(viewProperties.keys)
+    if shouldUpdateNode {
+      let config = view.renderContext
+      let oldConfigurationKeys = Set(config.appliedConfiguration.keys)
+      let newConfigurationKeys = Set(viewProperties.keys)
 
-    let configurationToRestore = oldConfigurationKeys.filter { propKey in
-      !newConfigurationKeys.contains(propKey)
-    }
-    for propKey in configurationToRestore {
-      config.appliedConfiguration[propKey]?.restore(view: view)
-    }
-    for propKey in newConfigurationKeys {
-      viewProperties[propKey]?.assign(view: view)
-    }
+      let configurationToRestore = oldConfigurationKeys.filter { propKey in
+        !newConfigurationKeys.contains(propKey)
+      }
+      for propKey in configurationToRestore {
+        config.appliedConfiguration[propKey]?.restore(view: view)
+      }
+      for propKey in newConfigurationKeys {
+        viewProperties[propKey]?.assign(view: view)
+      }
 
-    if view.yoga.isEnabled, view.yoga.isLeaf, view.yoga.isIncludedInLayout {
-      view.frame.size = CGSize.zero
-      view.yoga.markDirty()
+      if view.yoga.isEnabled, view.yoga.isLeaf, view.yoga.isIncludedInLayout {
+        view.frame.size = CGSize.zero
+        view.yoga.markDirty()
+      }
     }
     didLayout(options: options)
   }
@@ -544,4 +572,15 @@ func debugReconcileTime(_ label: String, startTime: CFAbsoluteTime, threshold: C
   if timeElapsed > threshold  {
     print(String(format: "\(label) (%2f) ms.", arguments: [timeElapsed]))
   }
+}
+
+// MARK: - UINodeShouldUpdateOption
+
+public enum UINodeUpdateMode: Int {
+  /// Tells the node that should be updated when a call to *render* is invoked.
+  case update
+  /// Applies the same behaviour as the parent node.
+  case inherit
+  /// Prevent any update to the node.
+  case ignore
 }

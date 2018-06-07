@@ -13,6 +13,11 @@ public protocol UIComponentProtocol: UINodeDelegateProtocol, Disposable {
   var parent: UIComponentProtocol? { get }
   /// *IThe view in which the component is going to be rendered.
   var canvasView: UIView? { get }
+  /// Wheter a component’s output is not affected by the current change in state or props.
+  /// The default behavior is to re-render on every state change, and in the vast majority of cases
+  /// you should rely on the default behavior.
+  /// Returning false does not prevent child components from re-rendering when their state changes.
+  var shouldUpdate: Bool { get }
   /// Set the canvas view for this component.
   /// - parameter view: The view in which the component is going to be rendered.
   /// - parameter useBoundsAsCanvasSize: if 'true' the canvas size will return the view bounds.
@@ -76,6 +81,7 @@ open class UIComponent<S: UIStateProtocol, P: UIPropsProtocol>: NSObject, UIComp
   public var root: UINodeProtocol = UINilNode.nil {
     didSet {
       root.associatedComponent = self
+      root.updateMode = shouldUpdate ? .update : .ignore
       setKey(node: root)
     }
   }
@@ -123,8 +129,10 @@ open class UIComponent<S: UIStateProtocol, P: UIPropsProtocol>: NSObject, UIComp
   /// The bounding rect for the the layout computation.
   /// It can exceed the size of the canvas.
   public var renderSize: () -> CGSize = {
-    return CGSize(width: UIScreen.main.bounds.size.width, height: CGFloat.max)
+    return CGSize(width:
+      UIScreen.main.bounds.size.width, height: CGFloat.max)
   }
+  open var shouldUpdate: Bool { return true }
 
   private var boundsObserver: UIContextViewBoundsObserver? = nil
   private var setNeedsRenderCalledDuringSuspension: Bool = false
