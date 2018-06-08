@@ -35,8 +35,10 @@ NS_SWIFT_NAME(configureLayout(block:));
 
 @end
 
+typedef struct __attribute__((objc_boxable)) YGValue YGValue;
 extern UIView * _Nullable YGBuild(NSString *className);
 extern void YGSet(UIView *view, NSDictionary *properties, NSDictionary *animators);
+extern void YGSetValue(UIView *view, NSString *keyPath, id value);
 extern NSString *YGReplaceKeyIfNecessary(NSString *key);
 extern NSArray *YGUIKitSymbols(void);
 

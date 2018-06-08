@@ -179,7 +179,7 @@ open class UINavigationBarComponent: UIComponent<UINavigationBarState, UINavigat
     // Build the left bar button item.
     func makeLeftButton() -> UIButton {
       let button = UIButton(type: .custom)
-      button.setImage(props.leftButtonItem.icon, for: .normal)
+      button.setImage(props.leftButtonItem.icon, for: UIControl.State.normal)
       button.accessibilityLabel = props.leftButtonItem.accessibilityLabel
       button.yoga.width = props.style.heightWhenNormal
       button.yoga.percent.height = 100%
@@ -195,7 +195,7 @@ open class UINavigationBarComponent: UIComponent<UINavigationBarState, UINavigat
       button.yoga.percent.height = 100%
       button.yoga.marginRight = unit * 4
       button.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: UIFont.Weight.regular)
-      button.setTitleColor(props.style.tintColor, for: .normal)
+      button.setTitleColor(props.style.tintColor, for: UIControl.State.normal)
       return button
     }
     // Left node.
@@ -211,9 +211,9 @@ open class UINavigationBarComponent: UIComponent<UINavigationBarState, UINavigat
       if let node = item.customNode { return node(props, state) }
       return UINode<UIButton>(reuseIdentifier: Id.rightBarButton.rawValue, create: makeRightButton){
         $0.view.onTap { _ in item.onSelected() }
-        $0.view.setImage(item.icon, for: .normal)
+        $0.view.setImage(item.icon, for: UIControl.State.normal)
         $0.view.accessibilityLabel = item.accessibilityLabel
-        $0.view.setTitle(item.title, for: .normal)
+        $0.view.setTitle(item.title, for: UIControl.State.normal)
       }
     }
     let right = UINode<UIView>().children(items)
@@ -249,7 +249,7 @@ open class UINavigationBarComponent: UIComponent<UINavigationBarState, UINavigat
     // The title label changes its position and appearance according to the navigation bar
     // state.
     let title = UINode<UILabel>(reuseIdentifier: Id.titleLabel.rawValue) { spec in
-      spec.set(\UILabel.yoga.percent.width, 100%)
+      spec.view.yoga.percent.width = 100%
       spec.set(\UILabel.text, props.title)
       spec.set(\UILabel.textColor, props.style.titleColor)
       if state.isExpanded {

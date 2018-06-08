@@ -202,6 +202,8 @@ extension UIView {
   typealias ContentMode = UIViewContentMode
   typealias AutoresizingMask = UIViewAutoresizing
   typealias TintAdjustmentMode = UIViewTintAdjustmentMode
+  typealias AnimationCurve = UIViewAnimationCurve
+  typealias AnimationOptions = UIViewAnimationOptions
 
   static let noIntrinsicMetric = UIViewNoIntrinsicMetric
 
@@ -214,7 +216,6 @@ extension UIViewController {
   @nonobjc func addChild(_ child: UIViewController) {
     addChildViewController(child)
   }
-
   @nonobjc func removeFromParent() {
     removeFromParentViewController()
   }
@@ -265,14 +266,14 @@ extension UITabBarItem {
   typealias SystemItem = UITabBarSystemItem
 }
 
-extension UITableView {
+public extension UITableView {
   typealias Style = UITableViewStyle
 
   static let automaticDimension = UITableViewAutomaticDimension
 }
 
 extension UITableViewCell {
-  typealias CellStyle = UITableViewCellStyle
+  public typealias CellStyle = UITableViewCellStyle
   typealias AccessoryType = UITableViewCellAccessoryType
   typealias FocusStyle = UITableViewCellFocusStyle
   typealias SelectionStyle = UITableViewCellSelectionStyle
@@ -302,6 +303,10 @@ extension UIStackView {
   typealias Distribution = UIStackViewDistribution
 }
 
+extension UISwipeGestureRecognizer {
+  typealias Direction = UISwipeGestureRecognizerDirection
+}
+
 extension UIWebView {
   typealias PaginationMode = UIWebPaginationMode
   typealias PaginationBreakingMode = UIWebPaginationBreakingMode
@@ -309,6 +314,11 @@ extension UIWebView {
 
 extension UIAlertController {
   typealias Style = UIAlertControllerStyle
+}
+
+extension UIImage {
+  typealias Orientation = UIImageOrientation
+  typealias ResizingMode = UIImageResizingMode
 }
 
 extension UIImagePickerController {

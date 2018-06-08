@@ -129,13 +129,13 @@ extension UIView {
   }
 }
 
-public extension UIView {
-  public func onGestureRecognizer<T: UIGestureRecognizer>(
+extension UIView {
+  func onGestureRecognizer<T: UIGestureRecognizer>(
     type: T.Type,
     key: NSString,
     numberOfTapsRequired: Int = 1,
     numberOfTouchesRequired: Int = 1,
-    direction: UISwipeGestureRecognizerDirection = .down,
+    direction: UISwipeGestureRecognizer.Direction = UISwipeGestureRecognizer.Direction.down,
     _ handler: @escaping (UIGestureRecognizer) -> Void) {
 
     let wrapper = WeakGestureRecognizer()
@@ -184,28 +184,28 @@ public extension UIView {
   public func onSwipeLeft(_ handler: @escaping (UIGestureRecognizer) -> Void) {
     onGestureRecognizer(type: UISwipeGestureRecognizer.self,
                         key: "\(#function)" as NSString,
-                        direction: .left,
+                        direction: UISwipeGestureRecognizer.Direction.left,
                         handler)
   }
 
   public func onSwipeRight(_ handler: @escaping (UIGestureRecognizer) -> Void) {
     onGestureRecognizer(type: UISwipeGestureRecognizer.self,
                         key: "\(#function)" as NSString,
-                        direction: .right,
+                        direction: UISwipeGestureRecognizer.Direction.right,
                         handler)
   }
 
   public func onSwipeUp(_ handler: @escaping (UIGestureRecognizer) -> Void) {
     onGestureRecognizer(type: UISwipeGestureRecognizer.self,
                         key: "\(#function)" as NSString,
-                        direction: .up,
+                        direction: UISwipeGestureRecognizer.Direction.up,
                         handler)
   }
 
   public func onSwipeDown(_ handler: @escaping (UIGestureRecognizer) -> Void) {
     onGestureRecognizer(type: UISwipeGestureRecognizer.self,
                         key: "\(#function)" as NSString,
-                        direction: .down,
+                        direction: UISwipeGestureRecognizer.Direction.down,
                         handler)
   }
 

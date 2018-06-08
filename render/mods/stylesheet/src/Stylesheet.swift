@@ -186,7 +186,7 @@ public class UIStylesheetRule: CustomStringConvertible {
   /// The key for this value.
   var key: String
   /// The value type.
-  var type: ValueType!
+  var type: ValueType?
   /// The computed value.
   var store: Any?
   /// Whether ther store is of type *ConditionalStoreType*.
@@ -233,6 +233,7 @@ public class UIStylesheetRule: CustomStringConvertible {
   }
   /// Object representation for the *rhs* value of this rule.
   public var object: AnyObject? {
+    guard let type = type else { return NSObject() }
     switch type {
     case .bool, .number, .expression:
       return nsNumber
@@ -260,7 +261,7 @@ public class UIStylesheetRule: CustomStringConvertible {
     /// There's a type mismatch between the desired type and the type currently associated to this
     /// rule.
     guard self.type == type else {
-      warn("type mismatch – wanted \(type), found \(self.type).")
+      warn("type mismatch – wanted \(type), found \(String(describing: self.type)).")
       return `default`
     }
     /// The rule is a map {EXPR: VALUE}.
@@ -481,7 +482,7 @@ public class UIStylesheetRule: CustomStringConvertible {
       }
       //let animator = UIViewPropertyAnimator(duration: 1, curve: .easeIn, animations: nil)
       let duration: TimeInterval = parse(numberFromString: args[0]).doubleValue
-      var curve: UIViewAnimationCurve = .linear
+      var curve: UIView.AnimationCurve = .linear
       var damping: CGFloat = CGFloat.nan
       switch args[1] {
       case "easeInOut": curve = .easeInOut
@@ -522,7 +523,7 @@ public class UIStylesheetRule: CustomStringConvertible {
 
   /// A textual representation of this instance.
   public var description: String {
-    return type.rawValue
+    return type?.rawValue ?? "undefined"
   }
 }
 
@@ -610,9 +611,9 @@ public struct UIStylesheetExpression {
       UIStylesheetExpression.exportedConstantsInitialised = true
       NSTextAlignment.export()
       NSLineBreakMode.export()
-      UIImageOrientation.export()
-      UIImageResizingMode.export()
-      UIViewContentMode.export()
+      UIImage.Orientation.export()
+      UIImage.ResizingMode.export()
+      UIView.ContentMode.export()
     }
     return Expression(string,
                       options: [Expression.Options.boolSymbols, Expression.Options.pureSymbols],
@@ -668,47 +669,47 @@ extension NSLineBreakMode: UIStylesheetRepresentableEnum {
   }
 }
 
-extension UIImageOrientation: UIStylesheetRepresentableEnum {
+extension UIImage.Orientation: UIStylesheetRepresentableEnum {
   public static func expressionConstants() -> [String : Double] {
     let namespace = "UIImageOrientation"
     return [
-      "\(namespace).up": Double(UIImageOrientation.up.rawValue),
-      "\(namespace).down": Double(UIImageOrientation.down.rawValue),
-      "\(namespace).left": Double(UIImageOrientation.left.rawValue),
-      "\(namespace).right": Double(UIImageOrientation.right.rawValue),
-      "\(namespace).upMirrored": Double(UIImageOrientation.upMirrored.rawValue),
-      "\(namespace).downMirrored": Double(UIImageOrientation.downMirrored.rawValue),
-      "\(namespace).leftMirrored": Double(UIImageOrientation.leftMirrored.rawValue),
-      "\(namespace).rightMirrored": Double(UIImageOrientation.rightMirrored.rawValue)]
+      "\(namespace).up": Double(UIImage.Orientation.up.rawValue),
+      "\(namespace).down": Double(UIImage.Orientation.down.rawValue),
+      "\(namespace).left": Double(UIImage.Orientation.left.rawValue),
+      "\(namespace).right": Double(UIImage.Orientation.right.rawValue),
+      "\(namespace).upMirrored": Double(UIImage.Orientation.upMirrored.rawValue),
+      "\(namespace).downMirrored": Double(UIImage.Orientation.downMirrored.rawValue),
+      "\(namespace).leftMirrored": Double(UIImage.Orientation.leftMirrored.rawValue),
+      "\(namespace).rightMirrored": Double(UIImage.Orientation.rightMirrored.rawValue)]
   }
 }
 
-extension UIImageResizingMode: UIStylesheetRepresentableEnum {
+extension UIImage.ResizingMode: UIStylesheetRepresentableEnum {
   public static func expressionConstants() -> [String : Double] {
     let namespace = "UIImageResizingMode"
     return [
-      "\(namespace).title": Double(UIImageResizingMode.tile.rawValue),
-      "\(namespace).stretch": Double(UIImageResizingMode.stretch.rawValue)]
+      "\(namespace).title": Double(UIImage.ResizingMode.tile.rawValue),
+      "\(namespace).stretch": Double(UIImage.ResizingMode.stretch.rawValue)]
   }
 }
 
-extension UIViewContentMode: UIStylesheetRepresentableEnum {
+extension UIView.ContentMode: UIStylesheetRepresentableEnum {
   public static func expressionConstants() -> [String : Double] {
     let namespace = "UIViewContentMode"
     return [
-      "\(namespace).scaleToFill": Double(UIViewContentMode.scaleToFill.rawValue),
-      "\(namespace).scaleAspectFit": Double(UIViewContentMode.scaleAspectFit.rawValue),
-      "\(namespace).scaleAspectFill": Double(UIViewContentMode.scaleAspectFill.rawValue),
-      "\(namespace).redraw": Double(UIViewContentMode.redraw.rawValue),
-      "\(namespace).center": Double(UIViewContentMode.center.rawValue),
-      "\(namespace).top": Double(UIViewContentMode.top.rawValue),
-      "\(namespace).bottom": Double(UIViewContentMode.bottom.rawValue),
-      "\(namespace).left": Double(UIViewContentMode.left.rawValue),
-      "\(namespace).right": Double(UIViewContentMode.right.rawValue),
-      "\(namespace).topLeft": Double(UIViewContentMode.topLeft.rawValue),
-      "\(namespace).topRight": Double(UIViewContentMode.topRight.rawValue),
-      "\(namespace).bottomLeft": Double(UIViewContentMode.bottomLeft.rawValue),
-      "\(namespace).bottomRight": Double(UIViewContentMode.bottomRight.rawValue)]
+      "\(namespace).scaleToFill": Double(UIView.ContentMode.scaleToFill.rawValue),
+      "\(namespace).scaleAspectFit": Double(UIView.ContentMode.scaleAspectFit.rawValue),
+      "\(namespace).scaleAspectFill": Double(UIView.ContentMode.scaleAspectFill.rawValue),
+      "\(namespace).redraw": Double(UIView.ContentMode.redraw.rawValue),
+      "\(namespace).center": Double(UIView.ContentMode.center.rawValue),
+      "\(namespace).top": Double(UIView.ContentMode.top.rawValue),
+      "\(namespace).bottom": Double(UIView.ContentMode.bottom.rawValue),
+      "\(namespace).left": Double(UIView.ContentMode.left.rawValue),
+      "\(namespace).right": Double(UIView.ContentMode.right.rawValue),
+      "\(namespace).topLeft": Double(UIView.ContentMode.topLeft.rawValue),
+      "\(namespace).topRight": Double(UIView.ContentMode.topRight.rawValue),
+      "\(namespace).bottomLeft": Double(UIView.ContentMode.bottomLeft.rawValue),
+      "\(namespace).bottomRight": Double(UIView.ContentMode.bottomRight.rawValue)]
   }
 }
 

@@ -62,6 +62,10 @@ void YGSet(UIView *view, NSDictionary *properties, NSDictionary *animators) {
   }
 }
 
+void YGSetValue(UIView *view, NSString *keyPath, id value) {
+  YGSet(view, @{keyPath: value}, @{});
+}
+
 static NSArray *UIKitSymbols = nil;
 NSArray *YGUIKitSymbols() {
   if (UIKitSymbols == nil) UIKitSymbols = @[

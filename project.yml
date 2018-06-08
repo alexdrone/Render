@@ -9,7 +9,9 @@ targets:
     platform: iOS
     type: framework
     sources:
-      - render/
+      - path: render/
+        excludes: 
+          - render/RenderNeutrino-Swift.h
     headers:
       - render/RenderNeutrino.h
       - render/deps/yoga/
@@ -23,8 +25,9 @@ targets:
         GCC_DEBUGGING_SYMBOLS: full,
         DEBUG_INFORMATION_FORMAT: dwarf-with-dsym
         ONLY_ACTIVE_ARCH: NO
-        VALID_ARCHS: arm64 armv7 armv7s i386 x86_64
         SWIFT_OPTIMIZATION_LEVEL: -Owholemodule
+        # 3.0, 4.0 and 4,1 supported
+        SWIFT_VERSION: 4.2
       configFiles:
         Debug: configs/Debug.xcconfig
         Release: configs/Release.xcconfig

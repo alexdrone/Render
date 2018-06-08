@@ -80,8 +80,8 @@ struct AppStoreEntry {
     private func configureRowContainer(spec: UINode<UIView>.LayoutSpec) {
       spec.set(\UIView.backgroundColor, .clear)
       // The container takes all of the parent's width and 80% of the height.
-      spec.set(\UIView.yoga.percent.width, 100%)
-      spec.set(\UIView.yoga.percent.height, 80%)
+      spec.view.yoga.percent.width = 100%
+      spec.view.yoga.percent.height = 100%
       spec.set(\UIView.yoga.padding, 4)
       // Lays out the children horizontally.
       spec.set(\UIView.yoga.flexDirection, .row)
@@ -92,8 +92,8 @@ struct AppStoreEntry {
     // The dark banner at the bottom of the component showing the entry description.
     private func configureDescriptionContainer(spec: UINode<UIView>.LayoutSpec) {
       // The container takes all of the parent's width and 20% of the height.
-      spec.set(\UIView.yoga.percent.width, 100%)
-      spec.set(\UIView.yoga.percent.height, 20%)
+      spec.view.yoga.percent.width = 100%
+      spec.view.yoga.percent.height = 20%
       spec.set(\UIView.yoga.padding, S.Margin.xsmall.cgFloat)
       spec.set(\UIView.yoga.justifyContent, .center)
       spec.set(\UIView.yoga.flexDirection, .row)
@@ -136,13 +136,13 @@ struct AppStoreEntry {
     // Touch overlay that covers the whole component.
     private func configureTappableView(spec: UINode<UIView>.LayoutSpec) {
       configureAbsoluteOverlay(spec: spec)
-      spec.set(\UIView.yoga.percent.height, 80%)
+      spec.view.yoga.percent.width = 80%
     }
 
     // The overlays have position '.absolute' in order to cover all of the parent's space.
     private func configureAbsoluteOverlay(spec: UINode<UIView>.LayoutSpec) {
-      spec.set(\UIView.yoga.percent.width, 100%)
-      spec.set(\UIView.yoga.percent.height, 100%)
+      spec.view.yoga.percent.width = 100%
+      spec.view.yoga.percent.height = 100%
       spec.set(\UIView.yoga.position, .absolute)
     }
 

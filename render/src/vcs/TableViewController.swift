@@ -110,7 +110,7 @@ open class UITableComponentViewController: UIBaseViewController,
     } else {
       tableView.estimatedRowHeight = 64
     }
-    tableView.rowHeight = UITableViewAutomaticDimension
+    tableView.rowHeight = UITableView.automaticDimension
     tableView.separatorStyle = .none
   }
 
@@ -248,7 +248,7 @@ open class UITableComponentViewController: UIBaseViewController,
       view.alpha = 0
       UIView.animate(withDuration: 0.3,
                      delay: 0,
-                     options: [.allowUserInteraction, .beginFromCurrentState],
+                     options: [UIView.AnimationOptions.allowUserInteraction, UIView.AnimationOptions.beginFromCurrentState],
                      animations: { view.alpha = alpha },
                      completion: { _ in view.alpha = alpha })
     }
@@ -356,7 +356,7 @@ public class UITableComponentCell: UITableViewCell {
   /// *Internal only*
   public weak var delegate: UITableComponentCellDelegate?
 
-  public override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+  public override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
     super.init(style: style, reuseIdentifier: reuseIdentifier)
     selectionStyle = .none
   }

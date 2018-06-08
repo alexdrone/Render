@@ -218,7 +218,7 @@ public extension UIView {
   func resetAllTargets() {
     if let control = self as? UIControl {
       for target in control.allTargets {
-        control.removeTarget(target, action: nil, for: .allEvents)
+        control.removeTarget(target, action: nil, for: UIControl.Event.allEvents)
       }
     }
   }

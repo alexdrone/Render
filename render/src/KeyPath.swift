@@ -30,7 +30,7 @@ public protocol UIViewKeyPathProtocol {
 
       self.applyClosure = { [weak self] (view: V) in
         let value = value()
-        if NSObjectProtocolEqual(lhs: value, rhs: view[keyPath: keyPath]) { return }
+        if NSObjectProtocolEqual(lhs: value, rhs: getKeyPath(keyPath, view: view)) { return }
         self?.apply(view: view, keyPath: keyPath, value: value)
       }
       self.removeClosure = { [weak self] (view: V) in
@@ -49,11 +49,11 @@ public protocol UIViewKeyPathProtocol {
       view.renderContext.initialConfiguration.storeInitialValue(keyPath: keyPath)
       if let animator = animator {
         animator.addAnimations {
-          view[keyPath: keyPath] = value
+          setKeyPath(keyPath, view: view, value: value)
         }
         animator.startAnimation()
       } else {
-        view[keyPath: keyPath] = value
+        setKeyPath(keyPath, view: view, value: value)
       }
     }
 
@@ -61,7 +61,7 @@ public protocol UIViewKeyPathProtocol {
       guard let value = view.renderContext.initialConfiguration.initialValue(keyPath: keyPath) else{
         return
       }
-      view[keyPath: keyPath] = value
+      setKeyPath(keyPath, view: view, value: value)
     }
 
     /// Apply the computed property value to the view.
@@ -170,7 +170,9 @@ extension AnyKeyPath {
     guard let view = view, view.hasNode else {
       return
     }
-    UIView.animate(withDuration: 0.16, delay: delay, options: .curveEaseInOut, animations: {
+    UIView.animate(withDuration: 0.16, delay: delay,
+                   options: UIView.AnimationOptions.curveEaseInOut,
+                   animations: {
       view.renderContext.applyTransformationsToNewlyCreatedViews()
     }, completion: nil)
   }
@@ -194,9 +196,12 @@ extension AnyKeyPath {
       return nil
     }
     guard let value = initialValues[keyPath.identifier] as? P else {
-      let value = view[keyPath: keyPath]
-      initialValues[keyPath.identifier] = value
-      return value
+      if let value = getKeyPath(keyPath, view: view) {
+        initialValues[keyPath.identifier] = value
+        return value
+      } else {
+        return nil
+      }
     }
     return value
   }
@@ -224,3 +229,21 @@ extension AnyKeyPath {
   }
 }
 
+ @inline(__always) func setKeyPath<V, T>(_ keyPath: ReferenceWritableKeyPath<V, T>,
+                                         view: V,
+                                         value: T) {
+//  if let kvcString = keyPath._kvcKeyPathString, let object = view as? UIView {
+//    YGSetValue(object, kvcString, value)
+//  } else {
+    view[keyPath: keyPath] = value
+//  }
+ }
+
+ @inline(__always) func getKeyPath<V, T>(_ keyPath: ReferenceWritableKeyPath<V, T>,
+                                         view: V) -> T? {
+//  if let kvcString = keyPath._kvcKeyPathString, let object = view as? UIView {
+//    return object.value(forKeyPath: kvcString) as? T
+//  } else {
+    return view[keyPath: keyPath]
+//  }
+ }

@@ -22,8 +22,8 @@ targets:
         GCC_DEBUGGING_SYMBOLS: full,
         DEBUG_INFORMATION_FORMAT: dwarf-with-dsym
         ONLY_ACTIVE_ARCH: NO
-        VALID_ARCHS: arm64 armv7 armv7s i386 x86_64
         SWIFT_OPTIMIZATION_LEVEL: -Owholemodule
+        SWIFT_VERSION: 4.2
       configFiles:
         Debug: configs/Debug.xcconfig
         Release: configs/Release.xcconfig

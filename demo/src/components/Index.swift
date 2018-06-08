@@ -13,6 +13,10 @@ struct Index {
         makePolygon(),
         UINode<UIView> { config in
           // Ensure the label container is center aligned.
+
+//            config.view.yoga.justifyContent = .center
+//            config.view.yoga.flexGrow = 1
+//            config.view.yoga.flexShrink = 1
           config.set(\UIView.yoga.justifyContent, .center)
           config.set(\UIView.yoga.flexGrow, 1)
           config.set(\UIView.yoga.flexShrink, 1)
@@ -27,6 +31,11 @@ struct Index {
       let animator = UIViewPropertyAnimator(duration: 0.6, curve: .easeIn, animations: nil)
       let bkg = props.isHighlighted ? S.Palette.primaryAccent.color : S.Palette.primary.color
       /// Animates the background color when the cell is selected.
+
+//      spec.view.yoga.flexDirection = .row
+//      spec.view.yoga.width = spec.canvasSize.width
+//      spec.view.yoga.padding = S.Margin.medium.cgFloat
+//      spec.view.backgroundColor = bkg //animator: animator
       spec.set(\UIView.yoga.flexDirection, .row)
       spec.set(\UIView.yoga.width, spec.canvasSize.width)
       spec.set(\UIView.yoga.padding, S.Margin.medium.cgFloat)
@@ -39,6 +48,11 @@ struct Index {
 
     private func label(text: String, bold: Bool = false) -> UINode<UILabel> {
       return UINode<UILabel> { spec in
+//        spec.view.text = text
+//        spec.view.numberOfLines = 0
+//        spec.view.font = S.Typography.small.font
+//        spec.view.textColor = S.Palette.white.color
+//        spec.view.yoga.margin = S.Margin.xsmall.cgFloat
         spec.set(\UILabel.text, text)
         spec.set(\UILabel.numberOfLines, 0)
         spec.set(\UILabel.font, S.Typography.small.font)

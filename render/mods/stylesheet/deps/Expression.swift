@@ -1772,7 +1772,7 @@ private extension AnyExpression {
     if isNil(anyValue) {
       return nil
     }
-    throw AnyExpression.Error.message("Return type mismatch: \(type(of: anyValue)) is not compatible with \(T.self)")
+    throw AnyExpression.Error.message("mismatch: \(type(of: anyValue)) and not \(T.self)")
   }
 
   // Unwraps a potentially optional value or throws if nil
