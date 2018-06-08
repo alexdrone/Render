@@ -1,5 +1,4 @@
 // Forked from schibsted/layout/master/Layout/Utilities.swift
-// Copyright © 2017 Schibsted. All rights reserved.
 //
 // MIT License
 //
