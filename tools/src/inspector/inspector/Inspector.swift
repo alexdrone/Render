@@ -108,13 +108,20 @@ final class Inspector: InspectorType {
 
   private init() {
     let center = NotificationCenter.default
+    #if swift(>=4.2)
+    let willEnterForegroundNotification = UIApplication.willEnterForegroundNotification
+    let didEnterBackgroundNotification = UIApplication.didEnterBackgroundNotification
+    #else
+    let willEnterForegroundNotification = NSNotification.Name.UIApplicationWillEnterForeground
+    let didEnterBackgroundNotification = NSNotification.Name.UIApplicationDidEnterBackground
+    #endif
     center.addObserver(self,
                        selector: #selector(willEnterForeground),
-                       name: NSNotification.Name.UIApplicationWillEnterForeground,
+                       name: willEnterForegroundNotification,
                        object: nil)
     center.addObserver(self,
                        selector: #selector(didEnterBackground),
-                       name: NSNotification.Name.UIApplicationDidEnterBackground,
+                       name: didEnterBackgroundNotification,
                        object: nil)
     center.addObserver(self,
                        selector: #selector(markDirty),

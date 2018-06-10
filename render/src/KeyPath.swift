@@ -4,7 +4,7 @@
 
 public protocol UIViewKeyPathProtocol {
   /// A unique identifier for the keyPath that is being assigned.
-  var keyPathIdentifier: Int { get }
+  var keyPathIdentifier: String { get }
   /// Apply the computed property value to the view.
   func assign(view: UIView)
   /// Restore the property original value.
@@ -14,7 +14,7 @@ public protocol UIViewKeyPathProtocol {
  public extension UINode {
   public final class UIViewKeyPathValue: UIViewKeyPathProtocol {
     /// A unique identifier for the keyPath being assigned.
-    public let keyPathIdentifier: Int
+    public let keyPathIdentifier: String
     /// The [property] application closure.
     private var applyClosure: ((V) -> Void)? = nil
     /// The [property] removal closure.
@@ -83,7 +83,13 @@ public protocol UIViewKeyPathProtocol {
 
 extension AnyKeyPath {
   /// Returns a unique identifier for the keyPath.
-  public var identifier: Int { return hashValue }
+  public var identifier: String {
+    guard let path = _kvcKeyPathString else {
+      print("warning: Trying to set a non-KVC compliant key \(self)")
+      return String(describing: self)
+    }
+    return path
+  }
 }
 
 @objc public final class UIRenderConfigurationContainer: NSObject {
@@ -91,7 +97,7 @@ extension AnyKeyPath {
   public weak var node: UINodeProtocol?
   public weak var view: UIView?
   /// The current mutated properties.
-  let appliedConfiguration: [Int: UIViewKeyPathProtocol] = [:]
+  let appliedConfiguration: [String: UIViewKeyPathProtocol] = [:]
   /// The initial value for the propeties that are currenly assigned.
   public let initialConfiguration: UIViewPropertyInitalContainer
   /// Whether the view has been created at the last render pass.
@@ -182,7 +188,7 @@ extension AnyKeyPath {
 
 @objc public final class UIViewPropertyInitalContainer: NSObject {
   weak var view: UIView?
-  @nonobjc var initialValues: [Int: Any] = [:]
+  @nonobjc var initialValues: [String: Any] = [:]
 
   /// Initialize the container with its associated view.
   init(view: UIView) {
@@ -232,18 +238,10 @@ extension AnyKeyPath {
  @inline(__always) func setKeyPath<V, T>(_ keyPath: ReferenceWritableKeyPath<V, T>,
                                          view: V,
                                          value: T) {
-//  if let kvcString = keyPath._kvcKeyPathString, let object = view as? UIView {
-//    YGSetValue(object, kvcString, value)
-//  } else {
     view[keyPath: keyPath] = value
-//  }
  }
 
  @inline(__always) func getKeyPath<V, T>(_ keyPath: ReferenceWritableKeyPath<V, T>,
                                          view: V) -> T? {
-//  if let kvcString = keyPath._kvcKeyPathString, let object = view as? UIView {
-//    return object.value(forKeyPath: kvcString) as? T
-//  } else {
     return view[keyPath: keyPath]
-//  }
  }

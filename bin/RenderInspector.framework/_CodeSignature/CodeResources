@@ -6,7 +6,7 @@
 	<dict>
 		<key>Headers/RenderInspector-Swift.h</key>
 		<data>
-		Ww/pMRgd8g7EauhBmUULCw54454=
+		BD18FD/EgETZAMZfdpSC/wwMogk=
 		</data>
 		<key>Headers/RenderInspector.h</key>
 		<data>
@@ -14,23 +14,23 @@
 		</data>
 		<key>Info.plist</key>
 		<data>
-		a81TflpLeXcOGb8YyZ6QDB98chg=
+		m2zCVLp16+M4Fo5+Oaca7zLkE3o=
 		</data>
 		<key>Modules/RenderInspector.swiftmodule/i386.swiftdoc</key>
 		<data>
-		0Jp0O7Dw9AqgL8kU0UmtNRlHuBs=
+		ihyJARJBYwPiibYtHk0zZsYdedQ=
 		</data>
 		<key>Modules/RenderInspector.swiftmodule/i386.swiftmodule</key>
 		<data>
-		ltYO/oR/etxxCnnfEkGZQ4aOFU8=
+		LsUNvc7x4AZ3FVF8E6Wh1HFuIN4=
 		</data>
 		<key>Modules/RenderInspector.swiftmodule/x86_64.swiftdoc</key>
 		<data>
-		TP+jX9wHqSc8kZQCUtZ5b18Cf7w=
+		K+3QOlby1NcRryifFqSETXwjvoQ=
 		</data>
 		<key>Modules/RenderInspector.swiftmodule/x86_64.swiftmodule</key>
 		<data>
-		Af7Oxf3Rh/fDrHP8TFyDhitNfYM=
+		9pTiPYjGTomdMiNnMbG+cehm4aQ=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -43,11 +43,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			Ww/pMRgd8g7EauhBmUULCw54454=
+			BD18FD/EgETZAMZfdpSC/wwMogk=
 			</data>
 			<key>hash2</key>
 			<data>
-			GEg3+ZScbLkWPNvn+UexvmBfct9DlAXy9iEU9iLJ52A=
+			zI8eUZDymSWMQqRuESpHH3UEzRfGhNTWCu1Fe9HgGYg=
 			</data>
 		</dict>
 		<key>Headers/RenderInspector.h</key>
@@ -65,44 +65,44 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			0Jp0O7Dw9AqgL8kU0UmtNRlHuBs=
+			ihyJARJBYwPiibYtHk0zZsYdedQ=
 			</data>
 			<key>hash2</key>
 			<data>
-			Pj+o1P7Ja8BsKGViMzGpikxhSpiAvobdnbILBOYn44E=
+			8g5P56wQ0/S3+d1fUHEpVZYqxHRSqVZAN+s9BbUkCVs=
 			</data>
 		</dict>
 		<key>Modules/RenderInspector.swiftmodule/i386.swiftmodule</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			ltYO/oR/etxxCnnfEkGZQ4aOFU8=
+			LsUNvc7x4AZ3FVF8E6Wh1HFuIN4=
 			</data>
 			<key>hash2</key>
 			<data>
-			dmWdnZccLZqakoNQVr0B4qBdxyBZDR6z0kLvjsIdVdw=
+			i7inGz3IwdWiCmIsE6LCjlz5LhQ6E1iOlZHpPAYilMM=
 			</data>
 		</dict>
 		<key>Modules/RenderInspector.swiftmodule/x86_64.swiftdoc</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			TP+jX9wHqSc8kZQCUtZ5b18Cf7w=
+			K+3QOlby1NcRryifFqSETXwjvoQ=
 			</data>
 			<key>hash2</key>
 			<data>
-			lIHErBs1xqstfNdpjUYwzkDFdb53yEl8sZCMsCADSpU=
+			lUfZN8oj3Pn5ucv51CDR37iSmY4TveNphu/8c7SipyE=
 			</data>
 		</dict>
 		<key>Modules/RenderInspector.swiftmodule/x86_64.swiftmodule</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			Af7Oxf3Rh/fDrHP8TFyDhitNfYM=
+			9pTiPYjGTomdMiNnMbG+cehm4aQ=
 			</data>
 			<key>hash2</key>
 			<data>
-			/rFyFxs6gR/Y9k6P1sA49dKxi73vJ27Ism27y3iOdJg=
+			8aVFmLSfmVfy3IR0VeB1Cw+iiK8rid/e8S9d59j+tR8=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>

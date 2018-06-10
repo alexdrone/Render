@@ -101,7 +101,7 @@ public class UINode<V: UIView>: UINodeProtocol {
     public func set<T>(_ keyPath: ReferenceWritableKeyPath<V, T>,
                        _ value: T,
                        animator: UIViewPropertyAnimator? = nil) {
-      node.viewProperties[keyPath.hashValue] =
+      node.viewProperties[keyPath.identifier] =
           UIViewKeyPathValue(keyPath: keyPath, value: value, animator: animator)
     }
   }
@@ -158,7 +158,7 @@ public class UINode<V: UIView>: UINodeProtocol {
   // Internal.
 
   // The properties for this node.
-  var viewProperties: [Int: UIViewKeyPathValue] = [:]
+  var viewProperties: [String: UIViewKeyPathValue] = [:]
 
   /// Creates a new immutable UI description node.
   /// - parameter reuseIdentifier: Mandatory if the node has a custom creation closure.
