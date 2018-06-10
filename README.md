@@ -50,16 +50,6 @@ curl "https://raw.githubusercontent.com/alexdrone/Render/master/bin/dist.zip" > 
 
 Drag `RenderNeutrino.framework` in your project and add it as an embedded binary.
 
-### Installing the Tool-chain
-
-(Needs admin privileges)
-
-```
-sudo chown -R $(whoami) /usr/local/bin &&
-sudo curl "https://raw.githubusercontent.com/alexdrone/Render/master/tools/render-generate" > render-generate && mv render-generate /usr/local/bin/render-generate && chmod +x /usr/local/bin/render-generate &&
-sudo curl "https://raw.githubusercontent.com/alexdrone/Render/master/tools/render-watch.sh" > render-watch && mv render-watch /usr/local/bin/render-watch && chmod +x /usr/local/bin/render-watch
-```
-
 # Documentation:
 
 #### [Getting started](docs/getting_started.md)
