@@ -10,8 +10,6 @@ targets:
     type: framework
     sources:
       - path: render/
-        excludes: 
-          - render/RenderNeutrino-Swift.h
     headers:
       - render/RenderNeutrino.h
       - render/deps/yoga/

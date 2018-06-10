@@ -12,6 +12,7 @@
 		BF_114241843021 /* NavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = FR_341471119220 /* NavigationBar.swift */; };
 		BF_119195089178 /* RenderNeutrino.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FR_699701780932 /* RenderNeutrino.framework */; };
 		BF_130318008309 /* UIView+Yoga.h in Headers */ = {isa = PBXBuildFile; fileRef = FR_594577632133 /* UIView+Yoga.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		BF_145689485922 /* RenderNeutrino-Swift.h in Headers */ = {isa = PBXBuildFile; fileRef = FR_155113108316 /* RenderNeutrino-Swift.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BF_159706317339 /* KeyPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = FR_108333899125 /* KeyPath.swift */; };
 		BF_162887300272 /* Context.swift in Sources */ = {isa = PBXBuildFile; fileRef = FR_285540450273 /* Context.swift */; };
 		BF_209873044719 /* State.swift in Sources */ = {isa = PBXBuildFile; fileRef = FR_874814771617 /* State.swift */; };
@@ -67,6 +68,7 @@
 
 /* Begin PBXFileReference section */
 		FR_108333899125 /* KeyPath.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyPath.swift; sourceTree = "<group>"; };
+		FR_155113108316 /* RenderNeutrino-Swift.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "RenderNeutrino-Swift.h"; sourceTree = "<group>"; };
 		FR_158534509235 /* YGLayout+Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "YGLayout+Private.h"; sourceTree = "<group>"; };
 		FR_186172487891 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		FR_252848279705 /* Stylesheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stylesheet.swift; sourceTree = "<group>"; };
@@ -191,6 +193,7 @@
 				G_7194754941508 /* mods */,
 				G_4105162032161 /* src */,
 				FR_525521535926 /* Info.plist */,
+				FR_155113108316 /* RenderNeutrino-Swift.h */,
 				FR_621473682166 /* RenderNeutrino.h */,
 			);
 			path = render;
@@ -294,6 +297,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BF_462836686627 /* IGListCollectionViewLayout.h in Headers */,
+				BF_145689485922 /* RenderNeutrino-Swift.h in Headers */,
 				BF_555278485876 /* RenderNeutrino.h in Headers */,
 				BF_130318008309 /* UIView+Yoga.h in Headers */,
 				BF_703901964368 /* YGEnums.h in Headers */,
