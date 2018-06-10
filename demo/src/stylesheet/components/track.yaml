@@ -1,42 +1,41 @@
-
-TrackPalette:
-  white: &_track_white "#FFFFFF"
-  gray: &_track_gray "##F2F3F5"
-  green: &_track_green "#03BB4F"
-  black: &_track_black "#181818"
-  lightBlack: &_track_light_black "#2D2D2D"
-Track.wrapper:
+trackPalette:
+  white: &_trackwhite "#FFFFFF"
+  gray: &_trackgray "##F2F3F5"
+  green: &_trackgreen "#03BB4F"
+  black: &_trackblack "#181818"
+  lightBlack: &_tracklight_black "#2D2D2D"
+trackWrapper:
   width: ${canvasSize.width}
-  backgroundColor: *_track_black
+  backgroundColor: *_trackblack
   height: 74
   flexDirection: ${row}
   alignItems: ${center}
-Track.cover:
+trackCover:
   height: 46
   width: 46
   cornerRadius: 23
   marginLeft: 8
-Track.title:
+trackTitle:
   width: ${canvasSize.width - 120}
   margin: 8
   font: font(system,12,regular)
-  textColor: *_track_white
+  textColor: *_trackwhite
   numberOfLines: 2
-TrackNavigationBar.main:
+trackNavigationBarMain:
   justifyContent: ${center}
   alignSelf: ${center}
   alignItems: ${center}
-TrackNavigationBar.circle:
+trackNavigationBarCircle:
   backgroundColor: "#41403c"
   font: font(system,26,bold)
-  textColor: *_track_white
+  textColor: *_trackwhite
   textAlignment: ${NSTextAlignment.center}
-TrackNavigationBar.button:
+trackNavigationBarButton:
   width: 84
   height: 36
   position: ${absolute}
   cornerRadius: 18
-  backgroundColorImage: *_track_green
+  backgroundColorImage: *_trackgreen
   font: font(system,11,bold)
   borderWidth: 4
-  borderColor: *_track_black
+  borderColor: *_trackblack

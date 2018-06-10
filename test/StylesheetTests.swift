@@ -135,7 +135,7 @@ Bar:
 """
 
 enum FooStylesheet: String, UIStylesheetProtocol {
-  static let styleIdentifier: String = "Foo"
+  static let id: String = "Foo"
   case bar, baz, bax
 }
 
@@ -147,7 +147,7 @@ Foo:
 """
 
 enum ViewStylesheet: String, UIStylesheetProtocol {
-  static let styleIdentifier: String = "View"
+  static let id: String = "View"
   case customNonApplicableProperty
 }
 

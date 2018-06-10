@@ -1,8 +1,8 @@
-Counter.wrapper:
+counterWrapper:
   backgroundColor: "#323031"
   justifyContent: ${center}
   width: ${canvasSize.width}
-Counter.button:
+counterButton:
   animator: &_animator animator(0.2,easeIn)
   backgroundColorImage: "#084C61"
   font: *_smallBold
@@ -14,9 +14,7 @@ Counter.button:
   depthPreset: 2
   cornerRadius: 12
   animator-cornerRadius: *_animator
-Counter.button.even:
-  backgroundColorImage: "#DB3A34"
-Counter.label:
+counterLabel:
   font: *_small
   color: *_white
   textAlignment: ${NSTextAlignment.center}

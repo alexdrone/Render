@@ -11,10 +11,10 @@ struct StylesheetCounter {
 
   class Component: UIComponent<State, UINilProps> {
     override func render(context: UIContextProtocol) -> UINodeProtocol {
-
-      return UINode<UIView>(styles: ["Counter.wrapper"]).children([
-        UINode<UILabel>(styles: ["Counter.label"], layoutSpec: configureLabel),
-        UINode<UIButton>(styles: "Counter.button".withModifiers(["even": state.even]),
+      let node =  UINode<UIView>(styles: [S.style.counterWrapper])
+      return node.children([
+        UINode<UILabel>(styles: [S.style.counterLabel], layoutSpec: configureLabel),
+        UINode<UIButton>(styles: [S.style.counterButton],
                          layoutSpec: configureButton)
       ])
     }

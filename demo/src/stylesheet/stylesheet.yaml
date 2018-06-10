@@ -1,4 +1,4 @@
-Palette:
+palette:
   primaryAccent: &_primaryAccent "#151416"
   primary: &_primary "#252427"
   primaryText: &_primaryText "#37353a"
@@ -8,14 +8,14 @@ Palette:
   text: &_text "#0d1b1e"
   white: &_white "#eaeaea"
 
-Typography:
+typography:
   extraSmallBold: &_extraSmallBold font(system,10,bold)
   smallBold: &_smallBold font(system,12,bold)
   small: &_small font(system,12,regular)
   medium: &_medium font(system,16,regular)
   mediumBold: &_mediumBold font(system,16,bold)
 
-Margin:
+margin:
   xsmall: 2
   small: 4
   medium: 8

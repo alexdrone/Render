@@ -1,74 +1,74 @@
 
-FacebookPalette:
+fbPalette:
   white: &_facebook_white "#FFFFFF"
   blue: &_facebook_blue "#4A6DA7"
   lightGray: &_facebook_lightGray "##F2F3F5"
   gray: &_facebook_gray "#616770"
   black: &_facebook_black "#141823"
 
-FacebookTypography:
+fbTypography:
   title: &_facebook_title font(system,14,bold)
   caption: &_facebook_caption font(system,12,regular)
   text: &_facebook_text font(system,13,regular)
   button: &_facebook_button font(system,13,bold)
   small: &_facebook_small font(system,11,regular)
 
-Post.wrapper:
+postWrapper:
   width: ${canvasSize.width}
   backgroundColor: *_facebook_white
-Post.header:
+postHeader:
   flexDirection: ${row}
   alignItems: ${center}
   padding: 12
-Post.avatar:
+postAvatar:
   width: 40
   height: 40
   cornerRadius: 20
-Post.headerTextWrapper:
+postHeaderTextWrapper:
   flexDirection: ${column}
   marginLeft: 8
   flexGrow: 1
   flexShrink: 1
-Post.authorName:
+postAuthorName:
   font: *_facebook_title
   textColor: *_facebook_blue
-Post.caption:
+postCaption:
   font: *_facebook_caption
   textColor: *_facebook_gray
-Post.body:
+postBody:
   font: *_facebook_text
   textColor: *_facebook_black
   numberOfLines: 0
   margin: 12
-Post.image:
+postImage:
   width: ${canvasSize.width}
   height: ${canvasSize.width/2}
   clipsToBounds: true
   contentMode: ${UIViewContentMode.scaleAspectFill}
-Post.image.expanded:
+postImage_expanded:
   height: ${canvasSize.width}
-Post.stats:
+postStats:
   height: 44
   flexDirection: ${row}
-Post.statsLabel: &_Post_statsLabel
+postStatsLabel: &_postStatsLabel
   font: *_facebook_caption
   textColor: *_facebook_gray
   margin: 4
-Post.numberOfLikes:
-  <<: *_Post_statsLabel
-Post.numberOfComments:
-  <<: *_Post_statsLabel
+postNumberOfLikes:
+  <<: *_postStatsLabel
+postNumberOfComments:
+  <<: *_postStatsLabel
   textColor: *_facebook_blue
-Post.commentsSpinner:
+postCommentsSpinner:
   margin: 4
   font: *_facebook_caption
   textColor: *_facebook_blue
   justifyContent: ${center}
   textAlignment: ${NSTextAlignment.center}
-Post.commentsWrapper:
+postCommentsWrapper:
   width: ${canvasSize.width}
   backgroundColor: *_facebook_lightGray
-Post.comment:
+postComment:
   backgroundColor: *_facebook_white
   padding: 2
   paddingLeft: 4
@@ -76,24 +76,24 @@ Post.comment:
   margin: 8
   cornerRadius: 14
   minHeight: 32
-Post.commentLabel:
+postCommentLabel:
   textColor: *_facebook_black
   font: *_facebook_small
   margin: 4
   numberOfLines: 0
-Post.commentAuthor:
+postCommentAuthor:
   textColor: *_facebook_blue
   font: *_facebook_small
   margin: 4
   numberOfLines: 0
-Post.feedHeader:
+postFeedHeader:
   backgroundColor:  *_facebook_blue
   width: ${canvasSize.width}
-  height: &_Post_feedHeader_height 44
-Post.feedHeaderLabel:
+  height: &_postFeedHeader_height 44
+postFeedHeaderLabel:
   textColor: *_facebook_white
   font: *_facebook_button
   textAlignment: ${NSTextAlignment.center}
   alignSelf: ${center}
-  height: *_Post_feedHeader_height
+  height: *_postFeedHeader_height
 

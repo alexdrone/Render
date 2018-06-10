@@ -17,7 +17,6 @@
 		BF_131930766980 /* CustomNavigationBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FR_683568823648 /* CustomNavigationBarViewController.swift */; };
 		BF_169857128924 /* IndexViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FR_470260923585 /* IndexViewController.swift */; };
 		BF_184925074330 /* Fps.swift in Sources */ = {isa = PBXBuildFile; fileRef = FR_704033062578 /* Fps.swift */; };
-		BF_189312076695 /* S.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = FR_883217212053 /* S.generated.swift */; };
 		BF_204682057333 /* TransitionDemo.swift in Sources */ = {isa = PBXBuildFile; fileRef = FR_221347590542 /* TransitionDemo.swift */; };
 		BF_209943700757 /* Random.swift in Sources */ = {isa = PBXBuildFile; fileRef = FR_890466402669 /* Random.swift */; };
 		BF_217982797616 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = VG_226473954669 /* LaunchScreen.storyboard */; };
@@ -126,7 +125,6 @@
 		FR_834746799252 /* CustomNavigationBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomNavigationBar.swift; sourceTree = "<group>"; };
 		FR_843976053877 /* track.yaml */ = {isa = PBXFileReference; lastKnownFileType = text; path = track.yaml; sourceTree = "<group>"; };
 		FR_862165924226 /* StylesheetCounterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StylesheetCounterViewController.swift; sourceTree = "<group>"; };
-		FR_883217212053 /* S.generated.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = S.generated.swift; sourceTree = "<group>"; };
 		FR_890466402669 /* Random.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Random.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -173,7 +171,6 @@
 			isa = PBXGroup;
 			children = (
 				G_3838248854729 /* components */,
-				FR_883217212053 /* S.generated.swift */,
 				FR_312986845120 /* stylesheet.yaml */,
 			);
 			path = stylesheet;
@@ -386,7 +383,6 @@
 				161BFFE920C5D6550050043A /* Transition.swift in Sources */,
 				BF_169857128924 /* IndexViewController.swift in Sources */,
 				BF_209943700757 /* Random.swift in Sources */,
-				BF_189312076695 /* S.generated.swift in Sources */,
 				BF_841901776129 /* Polygon.swift in Sources */,
 				BF_838261594587 /* GettingStarted.swift in Sources */,
 				BF_548895302724 /* SimpleCounterViewController.swift in Sources */,

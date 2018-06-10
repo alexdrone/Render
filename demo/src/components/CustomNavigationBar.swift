@@ -15,19 +15,19 @@ struct Track {
     /// global appearance properties.
     override func overrideStyle(_ style: UINavigationBarDefaultStyle) {
       var style = UINavigationBarDefaultStyle.default
-      style.backgroundColor = S.TrackPalette.lightBlack.color
+      style.backgroundColor = S.prop.trackPalette_lightBlack.color
       style.heightWhenExpanded = 232
-      style.tintColor = S.TrackPalette.green.color
+      style.tintColor = S.prop.trackPalette_green.color
       props.style = style
     }
 
     // Override the title fragment (the body of the navigtion bar).
     override func renderTitle() -> UINodeProtocol {
-      let main = UINode<UIView>(styles: S.TrackNavigationBar_main.style) { spec in
+      let main = UINode<UIView>(styles: [S.style.trackNavigationBarMain]) { spec in
         spec.view.yoga.percent.width = 50%
         spec.view.yoga.percent.height = 100%
       }
-      let circle = UINode<UILabel>(styles: S.TrackNavigationBar_circle.style) { spec in
+      let circle = UINode<UILabel>(styles: [S.style.trackNavigationBarCircle]) { spec in
         let s = min(spec.canvasSize.width/2, self.state.height) - 8
         spec.view.yoga.width = s
         spec.view.yoga.height = s
@@ -44,7 +44,7 @@ struct Track {
         }
         spec.view.text = elapsedTimeString
       }
-      let button = UINode<UIButton>(styles: S.TrackNavigationBar_button.style) { spec in
+      let button = UINode<UIButton>(styles: [S.style.trackNavigationBarButton]) { spec in
         spec.view.yoga.position = .absolute
         spec.view.yoga.top = self.state.height - 16
         spec.view.onTap { [weak self] _ in  self?.didTapPlayButton() }
@@ -107,12 +107,12 @@ struct Track {
     /// Builds the node hierarchy for this component.
     override func render(context: UIContextProtocol) -> UINodeProtocol {
       let props = self.props
-      let wrapper = UINode<UIView>(styles: S.Track_wrapper.style)
+      let wrapper = UINode<UIView>(styles: [S.style.trackWrapper])
       wrapper.children([
-        UINode<UIImageView>(styles: S.Track_cover.style) { spec in
+        UINode<UIImageView>(styles: [S.style.trackCover]) { spec in
           spec.set(\UIImageView.image, props.cover)
         },
-        UINode<UILabel>(styles: S.Track_title.style) { spec in
+        UINode<UILabel>(styles: [S.style.trackTitle]) { spec in
           spec.set(\UILabel.text, props.title)
         }
       ])

@@ -4,7 +4,7 @@ import UIKit
 
 open class UIStyle: UIStyleProtocol {
   static var notApplicableStyleIdentifier: String = "__UIStyleNotApplicableStyleIdentifier"
-  public let styleIdentifier: String = UIStyle.notApplicableStyleIdentifier
+  public let id: String = UIStyle.notApplicableStyleIdentifier
 
   public init() { }
 
@@ -36,9 +36,9 @@ open class UILayoutSpecStyle<V: UIView>: UIStyle {
 // MARK: - UIStyleProtocol
 
 public protocol UIStyleProtocol {
-  /// The full path for this style {NAMESPACE.STYLE(.MODIFIER)?}.
+  /// The full path for this style {NAMESPACE_STYLE(_MODIFIER)?}.
   /// - note: Not necessary for *UIStyle* subclasses.
-  var styleIdentifier: String { get }
+  var id: String { get }
   /// Applies this style to the view passed as argument.
   /// - note: Non KVC-compliant keys are skipped if this is a style generated from a stylesheet.
   func apply(to view: UIView)

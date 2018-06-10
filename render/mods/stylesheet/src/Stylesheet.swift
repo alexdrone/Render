@@ -3,12 +3,44 @@ import UIKit
 
 // MARK: - UIStylesheet
 
+/// Shorthand to access the default global stylesheet.
+public let S = UIStylesheet()
+
+
 public struct UIStylesheet {
   /// Returns the stylesheet rule for the given path (e.g. Palette.black).
   /// - note: You can access to the associated value bu
   static func get(style: String, name: String) -> UIStylesheetRule? {
     return UIStylesheetManager.default.rule(style: style, name: name)
   }
+
+  #if swift(>=4.2)
+  /// Stylesheet rules dynamic lookup.
+  public let prop = RuleDynamicLookup()
+  /// Stylesheet styles dynamic lookup.
+  public let style = StyleDynamicLookup()
+
+  @dynamicMemberLookup public struct RuleDynamicLookup {
+    public subscript(dynamicMember member: String) -> UIStylesheetRule {
+      let manager = UIStylesheetManager.default
+      var components = member.split(separator: "_")
+      switch components.count {
+      case 2, 3:
+        let style = String(components.remove(at: 0))
+        let name = components.joined(separator: "_")
+        return manager.rule(style: style, name: name)!
+      default:
+        fatalError("error: Malformed stylesheet rule \(member). syntax: S.Style_rule_modifier")
+      }
+    }
+  }
+
+  @dynamicMemberLookup public struct StyleDynamicLookup {
+    public subscript(dynamicMember member: String) -> UIStyleProtocol {
+     return member.replacingOccurrences(of: "_", with: ".")
+    }
+  }
+  #endif
 }
 
 // MARK: - UIStylesheetManager
@@ -719,20 +751,20 @@ public protocol UIStylesheetProtocol: UIStyleProtocol {
   /// The name of the stylesheet rule.
   var rawValue: String { get }
   /// The style name.
-  static var styleIdentifier: String { get }
+  static var id: String { get }
 }
 
 public extension UIStylesheetProtocol {
   /// The style name.
-  public var styleIdentifier: String {
-    return Self.styleIdentifier
+  public var id: String {
+    return Self.id
   }
   /// Returns the rule associated to this stylesheet enum.
   public var rule: UIStylesheetRule {
     guard let rule = UIStylesheetManager.default.rule(
-      style: Self.styleIdentifier,
+      style: Self.id,
       name: rawValue) else {
-        fatalError("Unable to resolve rule \(Self.styleIdentifier).\(rawValue).")
+        fatalError("Unable to resolve rule \(Self.id).\(rawValue).")
     }
     return rule
   }
@@ -748,7 +780,7 @@ public extension UIStylesheetProtocol {
   public var bool: Bool {
     return rule.bool
   }
-  /// Convenience getter for *UIStylesheetRule.font*.
+  /// Convenience getter for *UIStylesheetrule.typography*.
   public var font: UIFont {
     return rule.font
   }
@@ -775,13 +807,13 @@ public extension UIStylesheetProtocol {
   }
   /// Applies the stylesheet to the view passed as argument.
   public static func apply(to view: UIView) {
-    UIStylesheetApplyStyle(name: Self.styleIdentifier, to: view)
+    UIStylesheetApplyStyle(name: Self.id, to: view)
   }
 }
 
 extension String: UIStyleProtocol {
   /// The full path for the style {NAMESPACE.STYLE(.MODIFIER)?}.
-  public var styleIdentifier: String {
+  public var id: String {
     return self
   }
   /// Applies this style to the view passed as argument.
@@ -813,14 +845,14 @@ func UIStylesheetMakeStylesheetIdentifier(_ namespace: String,
 /// Merges the styles together and applies the to the view passed as argument.
 func UIStylesheetApplyStyles(_ array: [UIStyleProtocol], to view: UIView) {
   // Filters out the 'nil' styles.
-  let styles = array.filter { $0.styleIdentifier != UIStyle.notApplicableStyleIdentifier }
+  let styles = array.filter { $0.id != UIStyle.notApplicableStyleIdentifier }
   var bridgeDictionary: [String: Any] = [:]
   var bridgeTransitions: [String: UIViewPropertyAnimator] = [:]
   for style in styles {
-    for (key, value) in UIStylesheetManager.default.defs[style.styleIdentifier] ?? [:] {
+    for (key, value) in UIStylesheetManager.default.defs[style.id] ?? [:] {
       bridgeDictionary[key] = value.object
     }
-    for (key, value) in UIStylesheetManager.default.animators[style.styleIdentifier] ?? [:] {
+    for (key, value) in UIStylesheetManager.default.animators[style.id] ?? [:] {
       bridgeTransitions[key] = value
     }
   }
@@ -829,6 +861,7 @@ func UIStylesheetApplyStyles(_ array: [UIStyleProtocol], to view: UIView) {
 
 // MARK: - UIStyleProtocol
 
+/// DEPRECATED
 extension UIStyleProtocol {
   /// Whether this is an instance of *UINilStyle*.
   var isNil: Bool {
@@ -840,7 +873,7 @@ extension UIStyleProtocol {
   /// - note: If the condition passed as argument is false *UINilStyle* is returned.
   public func byApplyingModifier(named name: String,
                                  when condition: Bool = true) -> UIStyleProtocol {
-    return condition ? "\(styleIdentifier).\(name)" : UINilStyle.nil
+    return condition ? "\(id)_\(name)" : UINilStyle.nil
   }
   /// Returns this style if the conditioned passed as argument is 'true', *UINilStyle* otherwise.
   public func when(_ condition: Bool) -> UIStyleProtocol {
@@ -849,6 +882,7 @@ extension UIStyleProtocol {
 
   /// Returns an array with this style plus all of the modifiers that satisfy the associated
   /// conditions.
+  /// DEPRECATED
   public func withModifiers(_ modifiers: [String: Bool]) -> [UIStyleProtocol] {
     var identifiers: [UIStyleProtocol] = [self]
     for (modifier, condition) in modifiers {

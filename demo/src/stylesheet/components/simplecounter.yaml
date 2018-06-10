@@ -1,14 +1,11 @@
-
-MyPalette:
+simplePalette:
   background: &_my_palette_background "#4A6DA7"
   text: &_my_palette_text "#FFFFFF"
-
-Simple.container:
+simpleContainer:
   backgroundColor: *_my_palette_background
   width: ${canvasSize.width}
   justifyContent: ${center}
-
-Simple.label:
+simpleLabel:
   font: font(system, 12, bold)
   textColor: *_my_palette_text
   margin: 32
