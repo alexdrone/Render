@@ -3,8 +3,10 @@ import UIKit
 
 // MARK: - UIStylesheet
 
+#if swift(>=4.2)
 /// Shorthand to access the default global stylesheet.
 public let S = UIStylesheet().style
+#endif
 
 public struct UIStylesheet {
   /// Returns the stylesheet rule for the given path (e.g. Palette.black).
