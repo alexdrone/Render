@@ -65,16 +65,10 @@ class StylesheetTests: XCTestCase {
   func testEnum() {
     XCTAssert(parser.rule(style: test, name: "enum")?.enum(NSTextAlignment.self) == .right)
   }
-  func testAccessFromStylesheetEnum() {
-    try! UIStylesheetManager.default.load(yaml: fooDefs)
-    XCTAssert(FooStylesheet.bar.cgFloat == 42)
-    XCTAssert(FooStylesheet.baz.cgFloat == 42)
-    XCTAssert(FooStylesheet.bax.bool)
-  }
   func testApplyStyleseetToView() {
     try! UIStylesheetManager.default.load(yaml: viewDefs)
     let view = UIView()
-    ViewStylesheet.apply(to: view)
+    UIStylesheetApplyStyle(name: "View", to: view)
     let value = view.backgroundColor
     XCTAssert(value!.cgColor.components![0] == 1)
     XCTAssert(value!.cgColor.components![1] == 0)
@@ -134,23 +128,12 @@ Bar:
   bar: 2
 """
 
-enum FooStylesheet: String, UIStylesheetProtocol {
-  static let id: String = "Foo"
-  case bar, baz, bax
-}
-
 let fooDefs = """
 Foo:
   bar: 42
   baz: ${41+1}
   bax: true
 """
-
-enum ViewStylesheet: String, UIStylesheetProtocol {
-  static let id: String = "View"
-  case customNonApplicableProperty
-}
-
 let viewDefs = """
 View:
   backgroundColor: color(#ff0000)
