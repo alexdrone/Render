@@ -4,8 +4,7 @@ import UIKit
 // MARK: - UIStylesheet
 
 /// Shorthand to access the default global stylesheet.
-public let S = UIStylesheet()
-
+public let S = UIStylesheet().style
 
 public struct UIStylesheet {
   /// Returns the stylesheet rule for the given path (e.g. Palette.black).
@@ -15,29 +14,33 @@ public struct UIStylesheet {
   }
 
   #if swift(>=4.2)
-  /// Stylesheet rules dynamic lookup.
-  public let prop = RuleDynamicLookup()
   /// Stylesheet styles dynamic lookup.
   public let style = StyleDynamicLookup()
 
-  @dynamicMemberLookup public struct RuleDynamicLookup {
+  @dynamicMemberLookup public struct RuleDynamicLookup: UIStyleProtocol {
+    /// The style name.
+    public let id: String
+    /// Builds a dynamic lookup with the given style.
+    init(id: String) {
+      self.id = id
+    }
+    /// Applies this style to the view passed as argument.
+    public func apply(to view: UIView) {
+      UIStylesheetApplyStyle(name: id, to: view)
+    }
+
     public subscript(dynamicMember member: String) -> UIStylesheetRule {
       let manager = UIStylesheetManager.default
-      var components = member.split(separator: "_")
-      switch components.count {
-      case 2, 3:
-        let style = String(components.remove(at: 0))
-        let name = components.joined(separator: "_")
-        return manager.rule(style: style, name: name)!
-      default:
-        fatalError("error: Malformed stylesheet rule \(member). syntax: S.Style_rule_modifier")
+      guard let rule = manager.rule(style: id, name: member) else {
+        fatalError("error: \(id) does not declare \(member) as a property.")
       }
+      return rule
     }
   }
 
-  @dynamicMemberLookup public struct StyleDynamicLookup {
-    public subscript(dynamicMember member: String) -> UIStyleProtocol {
-     return member.replacingOccurrences(of: "_", with: ".")
+  @dynamicMemberLookup public struct StyleDynamicLookup  {
+    public subscript(dynamicMember member: String) -> RuleDynamicLookup {
+     return RuleDynamicLookup(id: member)
     }
   }
   #endif
@@ -812,7 +815,7 @@ public extension UIStylesheetProtocol {
 }
 
 extension String: UIStyleProtocol {
-  /// The full path for the style {NAMESPACE.STYLE(.MODIFIER)?}.
+  /// The style name.
   public var id: String {
     return self
   }
@@ -858,40 +861,3 @@ func UIStylesheetApplyStyles(_ array: [UIStyleProtocol], to view: UIView) {
   }
   YGSet(view, bridgeDictionary, bridgeTransitions)
 }
-
-// MARK: - UIStyleProtocol
-
-/// DEPRECATED
-extension UIStyleProtocol {
-  /// Whether this is an instance of *UINilStyle*.
-  var isNil: Bool {
-    return self is UINilStyle
-  }
-
-  /// Returns the identifier for this style with the desired modifier (analogous to a pseudo
-  /// selector in CSS).
-  /// - note: If the condition passed as argument is false *UINilStyle* is returned.
-  public func byApplyingModifier(named name: String,
-                                 when condition: Bool = true) -> UIStyleProtocol {
-    return condition ? "\(id)_\(name)" : UINilStyle.nil
-  }
-  /// Returns this style if the conditioned passed as argument is 'true', *UINilStyle* otherwise.
-  public func when(_ condition: Bool) -> UIStyleProtocol {
-    return condition ? self : UINilStyle.nil
-  }
-
-  /// Returns an array with this style plus all of the modifiers that satisfy the associated
-  /// conditions.
-  /// DEPRECATED
-  public func withModifiers(_ modifiers: [String: Bool]) -> [UIStyleProtocol] {
-    var identifiers: [UIStyleProtocol] = [self]
-    for (modifier, condition) in modifiers {
-      let style = self.byApplyingModifier(named: modifier, when: condition)
-      if !style.isNil {
-        identifiers.append(style)
-      }
-    }
-    return identifiers
-  }
-}
-//#endif

@@ -1,18 +1,15 @@
-
 fbPalette:
   white: &_facebook_white "#FFFFFF"
   blue: &_facebook_blue "#4A6DA7"
   lightGray: &_facebook_lightGray "##F2F3F5"
   gray: &_facebook_gray "#616770"
   black: &_facebook_black "#141823"
-
 fbTypography:
   title: &_facebook_title font(system,14,bold)
   caption: &_facebook_caption font(system,12,regular)
   text: &_facebook_text font(system,13,regular)
   button: &_facebook_button font(system,13,bold)
   small: &_facebook_small font(system,11,regular)
-
 postWrapper:
   width: ${canvasSize.width}
   backgroundColor: *_facebook_white

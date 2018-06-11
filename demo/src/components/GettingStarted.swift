@@ -192,9 +192,9 @@ class SimpleCounterComponent5: UIComponent<CounterState, CounterProps> {
 
   /// Builds the node hierarchy for this component.
   override func render(context: UIContextProtocol) -> UINodeProtocol {
-    let container = UINode<UIView>(styles: [S.style.simpleContainer],
+    let container = UINode<UIView>(styles: [S.simpleContainer],
                                    layoutSpec: containerLayoutSpec)
-    let label = UINode<UILabel>(styles: [S.style.simpleLabel],
+    let label = UINode<UILabel>(styles: [S.simpleLabel],
                                 layoutSpec: labelLayoutSpec)
     return container.children([
       label,
@@ -206,8 +206,8 @@ class SimpleCounterComponent5: UIComponent<CounterState, CounterProps> {
 
     // The view is configured automatically by picking up properties from the stylesheet.
     // I can still access the stylesheet properties programmatically like so:
-    let _ = S.prop.simplePalette_background.color
-    let _ = S.prop.simpleLabel_margin.cgFloat
+    let _ = S.simplePalette.background.color
+    let _ = S.simpleLabel.margin.cgFloat
 
     spec.view.onTap { [weak self] _ in
       self?.state.counter += 1

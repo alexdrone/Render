@@ -33,7 +33,7 @@ class TransitionFromDemoViewController: UIComponentViewController<TransitionFrom
 
 class TransitionToDemoViewController: UIComponentViewController<TransitionToComponent> {
   override func viewDidLoad() {
-    view.backgroundColor = S.prop.palette_primary.color
+    view.backgroundColor = S.palette.primary.color
     canvasView.backgroundColor = view.backgroundColor
     super.viewDidLoad()
   }

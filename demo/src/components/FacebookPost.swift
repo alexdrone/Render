@@ -39,8 +39,8 @@ struct Post {
     /// Builds the node hierarchy for this component.
     override func render(context: UIContextProtocol) -> UINodeProtocol {
       // Styles.
-      return UINode<UIView>(reuseIdentifier: S.style.postWrapper.id,
-                            styles: [S.style.postWrapper]).children([
+      return UINode<UIView>(reuseIdentifier: S.postWrapper.id,
+                            styles: [S.postWrapper]).children([
         makeHeaderFragment(),
         makeBodyFragment(),
         makeAttachmentFragment(),
@@ -52,14 +52,14 @@ struct Post {
     /// Returns the author avatar and fullname fragment.
     private func makeHeaderFragment() -> UINode<UIView> {
       let props = self.props
-      let header = UINode<UIView>(reuseIdentifier: S.style.postHeader.id,
-                                  styles: [S.style.postHeader])
-      let headerTextWrapper = UINode<UIView>(styles: [S.style.postHeaderTextWrapper])
+      let header = UINode<UIView>(reuseIdentifier: S.postHeader.id,
+                                  styles: [S.postHeader])
+      let headerTextWrapper = UINode<UIView>(styles: [S.postHeaderTextWrapper])
       return header.children([
-        UINode<UIImageView>(styles: [S.style.postAvatar]){ $0.set(\UIImageView.image, props.avatar)},
+        UINode<UIImageView>(styles: [S.postAvatar]){ $0.set(\UIImageView.image, props.avatar)},
         headerTextWrapper.children([
-          UINode<UILabel>(styles: [S.style.postAuthorName]) { $0.set(\UILabel.text, props.author) },
-          UINode<UILabel>(styles: [S.style.postCaption]) { $0.set(\UILabel.text, "Just now") },
+          UINode<UILabel>(styles: [S.postAuthorName]) { $0.set(\UILabel.text, props.author) },
+          UINode<UILabel>(styles: [S.postCaption]) { $0.set(\UILabel.text, "Just now") },
         ])
       ])
     }
@@ -67,15 +67,13 @@ struct Post {
     // The post body text fragment.
     private func makeBodyFragment() -> UINodeProtocol {
       let props = self.props
-      return UINode<UILabel>(styles: [S.style.postBody]) { $0.set(\UILabel.text, props.text) }
+      return UINode<UILabel>(styles: [S.postBody]) { $0.set(\UILabel.text, props.text) }
     }
 
     // The post attachment.
     private func makeAttachmentFragment() -> UINodeProtocol {
       let props = self.props
-      let styles = S.style.postImage.id.withModifiers([
-        "expanded": state.attachmentExpanded])
-
+      let styles = [S.postImage, S.postImage_expanded.when(state.attachmentExpanded)]
       return UINode<UIImageView>(styles: styles) {
         $0.set(\UIImageView.image, props.attachment)
         $0.set(\UIImageView.isUserInteractionEnabled, true)
@@ -90,18 +88,18 @@ struct Post {
     // The section with the number of comments and likes for this post.
     private func makeStatsFragment() -> UINodeProtocol {
       let props = self.props
-      let wrapper = UINode<UIView>(reuseIdentifier: S.style.postStats.id,
-                                   styles: [S.style.postStats]) {
+      let wrapper = UINode<UIView>(reuseIdentifier: S.postStats.id,
+                                   styles: [S.postStats]) {
         $0.view.onTap { [weak self] _ in
           guard let `self` = self, props.fetchStatus == .notFetched else { return }
           props.delegate?.fetchComments(component: self, post: props)
         }
       }
       return wrapper.children([
-        UINode<UILabel>(styles: [S.style.postNumberOfLikes]) {
+        UINode<UILabel>(styles: [S.postNumberOfLikes]) {
           $0.set(\UILabel.text, "\(props.numberOfLikes) Likes")
         },
-        UINode<UILabel>(styles: [S.style.postNumberOfComments]) {
+        UINode<UILabel>(styles: [S.postNumberOfComments]) {
           $0.set(\UILabel.text, "\(props.numberOfComments) Comment")
         },
       ])
@@ -115,12 +113,12 @@ struct Post {
       case .notFetched:
         return UINilNode.nil
       case .fetching:
-        return UINode<UILabel>(styles: [S.style.postCommentsSpinner]) {
+        return UINode<UILabel>(styles: [S.postCommentsSpinner]) {
           $0.set(\UILabel.text, "Loading...")
         }
       case .fetched:
-        let wrapper = UINode<UIView>(reuseIdentifier: S.style.postCommentsWrapper.id,
-                                     styles: [S.style.postCommentsWrapper])
+        let wrapper = UINode<UIView>(reuseIdentifier: S.postCommentsWrapper.id,
+                                     styles: [S.postCommentsWrapper])
         wrapper.children(props.comments.map {
           context.transientComponent(CommentComponent.self,
                                      props: $0,
@@ -139,10 +137,10 @@ struct Post {
     /// Builds the node hierarchy for this component.
     override func render(context: UIContextProtocol) -> UINodeProtocol {
       let props = self.props
-      return UINode<UIView>(reuseIdentifier: S.style.postComment.id,
-                            styles: [S.style.postComment]).children([
-        UINode<UILabel>(styles: [S.style.postCommentAuthor]) { $0.set(\UILabel.text, props.author) },
-        UINode<UILabel>(styles: [S.style.postCommentLabel]) { $0.set(\UILabel.text, props.text) }
+      return UINode<UIView>(reuseIdentifier: S.postComment.id,
+                            styles: [S.postComment]).children([
+        UINode<UILabel>(styles: [S.postCommentAuthor]) { $0.set(\UILabel.text, props.author) },
+        UINode<UILabel>(styles: [S.postCommentLabel]) { $0.set(\UILabel.text, props.text) }
       ])
     }
   }
@@ -150,10 +148,9 @@ struct Post {
   class FeedHeaderComponent: UIComponent<UINilState, UINilProps> {
     /// Builds the node hierarchy for this component.
     override func render(context: UIContextProtocol) -> UINodeProtocol {
-      return UINode<UIView>(styles: [S.style.postFeedHeader]).children([
-        UINode<UILabel>(styles: [S.style.postFeedHeaderLabel]) { $0.set(\UILabel.text, "Feed") },
+      return UINode<UIView>(styles: [S.postFeedHeader]).children([
+        UINode<UILabel>(styles: [S.postFeedHeaderLabel]) { $0.set(\UILabel.text, "Feed") },
       ])
     }
   }
-
 }

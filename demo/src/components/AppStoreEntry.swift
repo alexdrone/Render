@@ -58,7 +58,7 @@ struct AppStoreEntry {
     // MARK: - Containers
 
     private func configureMainView(spec: UINode<UIView>.LayoutSpec) {
-      spec.set(\UIView.backgroundColor, S.prop.palette_primary.color)
+      spec.set(\UIView.backgroundColor, S.palette.primary.color)
     }
 
     // The main content view with the entry background image.
@@ -94,18 +94,18 @@ struct AppStoreEntry {
       // The container takes all of the parent's width and 20% of the height.
       spec.view.yoga.percent.width = 100%
       spec.view.yoga.percent.height = 20%
-      spec.set(\UIView.yoga.padding, S.prop.margin_xsmall.cgFloat)
+      spec.set(\UIView.yoga.padding, S.margin.xsmall.cgFloat)
       spec.set(\UIView.yoga.justifyContent, .center)
       spec.set(\UIView.yoga.flexDirection, .row)
-      spec.set(\UIView.backgroundColor, S.prop.palette_text.color)
+      spec.set(\UIView.backgroundColor, S.palette.text.color)
       // The alpha is animated on change.
       spec.set(\UIView.alpha, !state.expanded ? 0 : 1, animator: defaultAnimator())
     }
 
     // The description text.
     private func configureDescriptionLabel(spec: UINode<UILabel>.LayoutSpec) {
-      spec.set(\UILabel.font, S.prop.typography_small.font)
-      spec.set(\UILabel.textColor, S.prop.palette_white.color)
+      spec.set(\UILabel.font, S.typography.small.font)
+      spec.set(\UILabel.textColor, S.palette.white.color)
       // The alpha is animated on change.
       spec.set(\UILabel.alpha, !state.expanded ? 0 : 1, animator: defaultAnimator())
       spec.set(\UILabel.yoga.flexGrow, 1)
@@ -117,11 +117,11 @@ struct AppStoreEntry {
     // The main title.
     private func configureLabel(spec: UINode<UILabel>.LayoutSpec) {
       let font: UIFont = state.expanded ?
-        S.prop.typography_mediumBold.font : S.prop.typography_medium.font
+        S.typography.mediumBold.font : S.typography.medium.font
       spec.set(\UILabel.yoga.height, 32)
       spec.set(\UILabel.yoga.width, 256)
       spec.set(\UILabel.font, font)
-      spec.set(\UILabel.textColor, S.prop.palette_white.color)
+      spec.set(\UILabel.textColor, S.palette.white.color)
     }
 
     // MARK: - Overlays
@@ -162,7 +162,7 @@ fileprivate func makeLabel(text: String,
   return UINode<UILabel> { config in
     config.set(\UILabel.text, text)
     config.set(\UILabel.numberOfLines, 0)
-    config.set(\UILabel.textColor, S.prop.palette_white.color)
+    config.set(\UILabel.textColor, S.palette.white.color)
     layoutSpec?(config)
   }
 }
@@ -173,12 +173,12 @@ fileprivate func makeButton(reuseIdentifier: String = "button",
                             layoutSpec: UINode<UIButton>.LayoutSpecClosure?=nil) -> UINode<UIButton> {
   func makeButton() -> UIButton {
     let view = UIButton()
-    view.backgroundColorImage = S.prop.palette_white.color
-    view.textColor = S.prop.palette_primary.color
+    view.backgroundColorImage = S.palette.white.color
+    view.textColor = S.palette.primary.color
     view.depthPreset = .depth1
     view.cornerRadius = 2
-    view.yoga.padding = S.prop.margin_small.cgFloat
-    view.titleLabel?.font = S.prop.typography_smallBold.font
+    view.yoga.padding = S.margin.small.cgFloat
+    view.titleLabel?.font = S.typography.smallBold.font
     return view
   }
   return UINode<UIButton>(reuseIdentifier: reuseIdentifier, create: makeButton) { config in

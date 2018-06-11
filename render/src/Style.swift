@@ -44,6 +44,17 @@ public protocol UIStyleProtocol {
   func apply(to view: UIView)
 }
 
+extension UIStyleProtocol {
+  /// Whether this is an instance of *UINilStyle*.
+  var isNil: Bool {
+    return self is UINilStyle
+  }
+  /// Returns this style if the conditioned passed as argument is 'true', *UINilStyle* otherwise.
+  public func when(_ condition: Bool) -> UIStyleProtocol {
+    return condition ? self : UINilStyle.nil
+  }
+}
+
 public class UINilStyle: UIStyle {
   public static let `nil` = UINilStyle()
   /// No operation.
