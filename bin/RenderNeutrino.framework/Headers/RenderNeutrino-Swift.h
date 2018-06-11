@@ -212,8 +212,6 @@ typedef SWIFT_ENUM(NSInteger, ShapePreset, closed) {
   ShapePresetCircle = 2,
 };
 
-
-
 @class NSBundle;
 @class NSCoder;
 @class UIGestureRecognizer;

@@ -10,6 +10,8 @@ public protocol UISceneViewControllerTransitioning: UIViewControllerProtocol {
 open class UISceneTransition: NSObject, UIViewControllerAnimatedTransitioning {
   /// The main stage view for the transition.
   public lazy var stageView = UIView()
+  /// View that is applied by default in oder to cover the status bar area.
+  public lazy var statusBarProtectionView = UIView()
   /// Returns all of the 'UITansitionTarget' associated to the 'from' ViewController.
   private var fromTargets: [UITransitionTarget]?
   /// Returns all of the 'UITansitionTarget' associated to the 'to' ViewController.
@@ -102,6 +104,12 @@ open class UISceneTransition: NSObject, UIViewControllerAnimatedTransitioning {
     stageView.frame = containerView.bounds
     stageView.backgroundColor = vc?.view.backgroundColor ?? .black
     containerView.addSubview(stageView)
+
+    statusBarProtectionView.backgroundColor =
+      fromNavigationBar?.backgroundColor ?? (vc?.view.backgroundColor ?? .black)
+    statusBarProtectionView.frame.size.width = stageView.frame.size.width
+    statusBarProtectionView.frame.size.height = UIApplication.shared.statusBarFrame.size.height
+    containerView.addSubview(statusBarProtectionView)
   }
   /// Must be called on animation completion in *transition(context:)* in order to clean up the
   /// stage view and add the target view controller to the window.

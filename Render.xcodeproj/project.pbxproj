@@ -36,7 +36,7 @@
 		BF_579381017942 /* Yoga.h in Headers */ = {isa = PBXBuildFile; fileRef = FR_275342356738 /* Yoga.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BF_594884445968 /* YGPercentLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = "FR_584536161622-1" /* YGPercentLayout.m */; };
 		BF_600094276189 /* UIView+Yoga.m in Sources */ = {isa = PBXBuildFile; fileRef = FR_594577630522 /* UIView+Yoga.m */; };
-		BF_606331023895 /* ViewControllerTransitions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FR_578786004173 /* ViewControllerTransitions.swift */; };
+		BF_606331023895 /* SceneTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = FR_578786004173 /* SceneTransition.swift */; };
 		BF_634094137492 /* BackwardsCompatibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = FR_447415629330 /* BackwardsCompatibility.swift */; };
 		BF_669968029346 /* YGLayout.h in Headers */ = {isa = PBXBuildFile; fileRef = FR_873857240235 /* YGLayout.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BF_676515190407 /* YGExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FR_863461519028 /* YGExtensions.swift */; };
@@ -91,7 +91,7 @@
 		FR_501683707958 /* Style.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Style.swift; sourceTree = "<group>"; };
 		FR_525521535926 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FR_531199305419 /* Props.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Props.swift; sourceTree = "<group>"; };
-		FR_578786004173 /* ViewControllerTransitions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerTransitions.swift; sourceTree = "<group>"; };
+		FR_578786004173 /* SceneTransition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneTransition.swift; sourceTree = "<group>"; };
 		FR_584536161622 /* YGPercentLayout.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YGPercentLayout.h; sourceTree = "<group>"; };
 		"FR_584536161622-1" /* YGPercentLayout.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YGPercentLayout.m; sourceTree = "<group>"; };
 		FR_594577630522 /* UIView+Yoga.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIView+Yoga.m"; sourceTree = "<group>"; };
@@ -148,7 +148,7 @@
 				FR_341471119220 /* NavigationBar.swift */,
 				FR_407264690487 /* TableViewController.swift */,
 				FR_186172487891 /* ViewController.swift */,
-				FR_578786004173 /* ViewControllerTransitions.swift */,
+				FR_578786004173 /* SceneTransition.swift */,
 			);
 			path = vcs;
 			sourceTree = "<group>";
@@ -419,7 +419,7 @@
 				BF_557116620637 /* TableViewController.swift in Sources */,
 				BF_600094276189 /* UIView+Yoga.m in Sources */,
 				BF_222288255420 /* ViewController.swift in Sources */,
-				BF_606331023895 /* ViewControllerTransitions.swift in Sources */,
+				BF_606331023895 /* SceneTransition.swift in Sources */,
 				BF_224222219659 /* YGEnums.c in Sources */,
 				BF_676515190407 /* YGExtensions.swift in Sources */,
 				BF_678875975098 /* YGLayout.m in Sources */,

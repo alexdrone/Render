@@ -52,7 +52,7 @@ class TransitionToDemoViewController: UIComponentViewController<TransitionToComp
 class Transition: UISceneTransition {
 
   override func transitionDuration(context: UIViewControllerContextTransitioning?) -> TimeInterval {
-    return 2
+    return 1
   }
 
   override func transition(context: UIViewControllerContextTransitioning?) {
