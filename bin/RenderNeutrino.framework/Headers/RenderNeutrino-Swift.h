@@ -289,7 +289,7 @@ SWIFT_CLASS("_TtC14RenderNeutrino20UITableComponentCell")
 @class UIView;
 
 SWIFT_CLASS("_TtC14RenderNeutrino30UITableComponentViewController")
-@interface UITableComponentViewController : UIBaseViewController <UITableViewDataSource, UITableViewDelegate>
+@interface UITableComponentViewController : UIBaseViewController <UITableViewDataSource, UITableViewDataSourcePrefetching, UITableViewDelegate>
 - (nonnull instancetype)initWithNibName:(NSString * _Nullable)nibNameOrNil bundle:(NSBundle * _Nullable)nibBundleOrNil OBJC_DESIGNATED_INITIALIZER;
 - (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)aDecoder OBJC_DESIGNATED_INITIALIZER;
 /// Called after the controller’s view is loaded into memory.
@@ -310,6 +310,7 @@ SWIFT_CLASS("_TtC14RenderNeutrino30UITableComponentViewController")
 /// note:
 /// Override this method if you don’t want to rely on the <em>cellDescriptors</em> property.
 - (UITableViewCell * _Nonnull)tableView:(UITableView * _Nonnull)tableView cellForRowAtIndexPath:(NSIndexPath * _Nonnull)indexPath SWIFT_WARN_UNUSED_RESULT;
+- (void)tableView:(UITableView * _Nonnull)tableView prefetchRowsAtIndexPaths:(NSArray<NSIndexPath *> * _Nonnull)prefetchRowsAt;
 /// Asks the delegate for a view object to display in the header of the specified section of
 /// the table view.
 - (UIView * _Nullable)tableView:(UITableView * _Nonnull)tableView viewForHeaderInSection:(NSInteger)section SWIFT_WARN_UNUSED_RESULT;

@@ -19,7 +19,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
       fatalError("Unable to find stylesheet file.")
     }
     // FPS counter.
-    //FPSCounter.showInStatusBar(UIApplication.shared)
+    FPSCounter.showInStatusBar(UIApplication.shared)
 
     // Override point for customization after application launch.
     window = UIWindow(frame: UIScreen.main.bounds)

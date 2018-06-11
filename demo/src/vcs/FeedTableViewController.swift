@@ -4,7 +4,7 @@ import RenderNeutrino
 class FeedTableViewController: UITableComponentViewController, PostComponentDelegate {
   /// The model props to pass down to the component.
   lazy var posts: [Post.PostProps] = {
-    var posts: [Post.PostProps] = Array(0...100).map { _ in
+    var posts: [Post.PostProps] = Array(0...50).map { _ in
       let post = Post.PostProps()
       post.delegate = self
       return post

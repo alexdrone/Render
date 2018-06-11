@@ -3,6 +3,7 @@ import UIKit
 open class UITableComponentViewController: UIBaseViewController,
                                            UITableViewDelegate,
                                            UITableViewDataSource,
+                                           UITableViewDataSourcePrefetching,
                                            UINodeDelegateProtocol,
                                            UITableComponentCellDelegate,
                                            UIContextDelegate {
@@ -55,6 +56,7 @@ open class UITableComponentViewController: UIBaseViewController,
     let tableView = UITableView()
     tableView.delegate = self
     tableView.dataSource = self
+    tableView.prefetchDataSource = self
     tableView.contentInset = UIEdgeInsets.zero
     tableView.translatesAutoresizingMaskIntoConstraints = false
     return tableView
@@ -150,6 +152,12 @@ open class UITableComponentViewController: UIBaseViewController,
       let component = cellDescriptors[indexPath.row].component else { return UITableViewCell() }
     let id = cellDescriptors[indexPath.row].reuseIdentifier
     return dequeueCell(component: component, withReuseIdentifier: id)
+  }
+
+  @objc open func tableView(_ tableView: UITableView, prefetchRowsAt: [IndexPath]) {
+    for indexPath in prefetchRowsAt where cellDescriptors.count > indexPath.row {
+      let _ = cellDescriptors[indexPath.row].component?.asNode()
+    }
   }
 
   // MARK: - UITableViewDataSource Helper

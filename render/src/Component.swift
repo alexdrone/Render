@@ -213,6 +213,7 @@ open class UIComponent<S: UIStateProtocol, P: UIPropsProtocol>: NSObject, UIComp
       return
     }
     guard let context = context, let view = canvasView else {
+      self.root = UINilNode.nil
       return
     }
     // Updates the context's screen state.
@@ -323,6 +324,9 @@ open class UIComponent<S: UIStateProtocol, P: UIPropsProtocol>: NSObject, UIComp
   public func asNode() -> UINodeProtocol {
     guard let context = context else {
       fatalError("Attempting to render a component without a valid context.")
+    }
+    if root !== UINilNode.nil {
+      return root
     }
     let node = render(context: context)
     self.root = node
