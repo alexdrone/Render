@@ -1,0 +1,6 @@
+framework module CoreRenderObjC {
+  umbrella header "CoreRenderObjC.h"
+
+  export *
+  module * { export * }
+}

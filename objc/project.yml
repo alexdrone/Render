@@ -1,0 +1,43 @@
+name: CoreRenderObjC
+options:
+  deploymentTarget:
+    iOS: 10.0
+  usesTabs: false
+  indentWidth: 2
+targets:
+  CoreRenderObjC: &base
+    platform: iOS
+    type: framework
+    sources:
+      - path: src/
+    headers:
+      - src/CoreRenderObjC.h
+      - src/deps/yoga/
+      - src/
+    settings:
+      base:
+        INFOPLIST_FILE: src/Info.plist
+        PRODUCT_BUNDLE_IDENTIFIER: io.render.neutrino
+        PLATFORM: platform $platform
+        GCC_GENERATE_DEBUGGING_SYMBOLS: YES
+        GCC_DEBUGGING_SYMBOLS: full,
+        DEBUG_INFORMATION_FORMAT: dwarf-with-dsym
+        ONLY_ACTIVE_ARCH: NO
+        SWIFT_OPTIMIZATION_LEVEL: -Owholemodule
+        # 3.0, 4.0 and 4,1 supported
+        SWIFT_VERSION: 4.2
+  Test:
+    platform: iOS
+    type: bundle.unit-test
+    sources:
+      - test
+    dependencies:
+      - target: CoreRenderObjC
+    scheme:
+      testTargets:
+        - Test
+      gatherCoverageData: true
+      environmentVariables:
+        - variable: TEST
+          value: YES
+          isEnabled: true
