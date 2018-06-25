@@ -194,10 +194,10 @@
   if (options & CRNodeLayoutOptionsSizeContainerViewToFit) {
     auto superview = _renderedView.superview;
     UIEdgeInsets insets;
-//    insets.left = CR_NORMALIZE(_renderedView.yoga.marginLeft);
-//    insets.right = CR_NORMALIZE(_renderedView.yoga.marginRight);
-//    insets.top = CR_NORMALIZE(_renderedView.yoga.marginTop);
-//    insets.bottom = CR_NORMALIZE(_renderedView.yoga.marginBottom);
+    insets.left = CR_NORMALIZE(_renderedView.yoga.marginLeft);
+    insets.right = CR_NORMALIZE(_renderedView.yoga.marginRight);
+    insets.top = CR_NORMALIZE(_renderedView.yoga.marginTop);
+    insets.bottom = CR_NORMALIZE(_renderedView.yoga.marginBottom);
     auto rect = CGRectInset(_renderedView.bounds,
                             -(insets.left + insets.right),
                             -(insets.top + insets.bottom));

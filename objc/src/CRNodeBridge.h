@@ -4,6 +4,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @class CRNode;
 
+NS_SWIFT_NAME(NodeBridge)
 @interface CRNodeBridge : NSObject
 /// Whether the view has been created at the last render pass.
 @property (nonatomic) BOOL isNewlyCreated;

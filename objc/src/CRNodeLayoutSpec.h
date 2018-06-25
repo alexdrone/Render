@@ -2,6 +2,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+NS_SWIFT_NAME(LayoutSpec)
 @interface CRNodeLayoutSpec<__covariant V: UIView *> : NSObject
 /// Backing view for this node.
 @property (nonatomic, readonly, nullable, weak) V view;
@@ -22,6 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
+NS_SWIFT_NAME(LayoutSpecProperty)
 @interface CRNodeLayoutSpecProperty : NSObject
 /// The target keyPath in the node view.
 @property (nonatomic, readonly) NSString *keyPath;

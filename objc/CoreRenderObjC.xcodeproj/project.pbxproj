@@ -7,14 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		161CF40D20E109A200D569B7 /* CRSwiftInteropTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 161CF40A20E1099E00D569B7 /* CRSwiftInteropTests.swift */; };
+		161CF40F20E10B1100D569B7 /* CRSwiftBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 161CF40E20E10B1100D569B7 /* CRSwiftBridge.swift */; };
 		BF_129101617351 /* CRUmbrellaHeader.h in Headers */ = {isa = PBXBuildFile; fileRef = FR_192531073524 /* CRUmbrellaHeader.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BF_160483333546 /* CRMacros.h in Headers */ = {isa = PBXBuildFile; fileRef = FR_766493304644 /* CRMacros.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		BF_352740215136 = {isa = PBXBuildFile; fileRef = FR_986821503402 /* CoreRenderObjC.framework */; };
 		BF_408658699193 /* YGLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = "FR_866360935786-1" /* YGLayout.m */; };
 		BF_432321454116 /* CRNodeLayoutSpec.h in Headers */ = {isa = PBXBuildFile; fileRef = FR_849819399313 /* CRNodeLayoutSpec.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BF_440583613751 /* CRContext.mm in Sources */ = {isa = PBXBuildFile; fileRef = FR_431251200163 /* CRContext.mm */; };
 		BF_481467684889 /* CRNodeLayoutSpec.mm in Sources */ = {isa = PBXBuildFile; fileRef = FR_154129109600 /* CRNodeLayoutSpec.mm */; };
-		BF_579407411024 = {isa = PBXBuildFile; fileRef = FR_479945003232 /* Test.xctest */; };
 		BF_582634011886 /* CRNodeBridge.h in Headers */ = {isa = PBXBuildFile; fileRef = FR_229333217053 /* CRNodeBridge.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BF_620636750337 /* YGLayout.h in Headers */ = {isa = PBXBuildFile; fileRef = FR_866360935786 /* YGLayout.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BF_628308163754 /* CoreRenderObjC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FR_986821503402 /* CoreRenderObjC.framework */; };
@@ -41,16 +41,18 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		161CF40A20E1099E00D569B7 /* CRSwiftInteropTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CRSwiftInteropTests.swift; sourceTree = "<group>"; };
+		161CF40E20E10B1100D569B7 /* CRSwiftBridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CRSwiftBridge.swift; sourceTree = "<group>"; };
 		FR_103086332183 /* UIView+CRNode.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIView+CRNode.h"; sourceTree = "<group>"; };
-		FR_154129109600 /* CRNodeLayoutSpec.mm */ = {isa = PBXFileReference; path = CRNodeLayoutSpec.mm; sourceTree = "<group>"; };
+		FR_154129109600 /* CRNodeLayoutSpec.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = CRNodeLayoutSpec.mm; sourceTree = "<group>"; };
 		FR_192531073524 /* CRUmbrellaHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CRUmbrellaHeader.h; sourceTree = "<group>"; };
 		FR_229333217053 /* CRNodeBridge.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CRNodeBridge.h; sourceTree = "<group>"; };
-		FR_266875401349 /* CRNodeBridge.mm */ = {isa = PBXFileReference; path = CRNodeBridge.mm; sourceTree = "<group>"; };
-		FR_431251200163 /* CRContext.mm */ = {isa = PBXFileReference; path = CRContext.mm; sourceTree = "<group>"; };
-		FR_439634733832 /* UIView+CRNode.mm */ = {isa = PBXFileReference; path = "UIView+CRNode.mm"; sourceTree = "<group>"; };
+		FR_266875401349 /* CRNodeBridge.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = CRNodeBridge.mm; sourceTree = "<group>"; };
+		FR_431251200163 /* CRContext.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = CRContext.mm; sourceTree = "<group>"; };
+		FR_439634733832 /* UIView+CRNode.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = "UIView+CRNode.mm"; sourceTree = "<group>"; };
 		FR_441077196049 /* CRNode.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CRNode.h; sourceTree = "<group>"; };
 		FR_456968685412 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		FR_479945003232 /* Test.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = Test.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		FR_479945003232 /* Test.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Test.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		FR_615238287789 /* CRContext.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CRContext.h; sourceTree = "<group>"; };
 		FR_633785660067 /* CRNodeTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CRNodeTests.m; sourceTree = "<group>"; };
 		FR_766493304644 /* CRMacros.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CRMacros.h; sourceTree = "<group>"; };
@@ -58,9 +60,9 @@
 		FR_849819399313 /* CRNodeLayoutSpec.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CRNodeLayoutSpec.h; sourceTree = "<group>"; };
 		FR_866360935786 /* YGLayout.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YGLayout.h; sourceTree = "<group>"; };
 		"FR_866360935786-1" /* YGLayout.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YGLayout.m; sourceTree = "<group>"; };
-		FR_882987497637 /* CRNode.mm */ = {isa = PBXFileReference; path = CRNode.mm; sourceTree = "<group>"; };
+		FR_882987497637 /* CRNode.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = CRNode.mm; sourceTree = "<group>"; };
 		FR_986821503402 /* CoreRenderObjC.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CoreRenderObjC.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		FR_992392398074 /* Yoga.c */ = {isa = PBXFileReference; path = Yoga.c; sourceTree = "<group>"; };
+		FR_992392398074 /* Yoga.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = Yoga.c; sourceTree = "<group>"; };
 		"FR_992392398074-1" /* Yoga.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Yoga.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -105,6 +107,7 @@
 				FR_456968685412 /* Info.plist */,
 				FR_103086332183 /* UIView+CRNode.h */,
 				FR_439634733832 /* UIView+CRNode.mm */,
+				161CF40E20E10B1100D569B7 /* CRSwiftBridge.swift */,
 			);
 			path = src;
 			sourceTree = "<group>";
@@ -113,6 +116,7 @@
 			isa = PBXGroup;
 			children = (
 				FR_633785660067 /* CRNodeTests.m */,
+				161CF40A20E1099E00D569B7 /* CRSwiftInteropTests.swift */,
 			);
 			path = test;
 			sourceTree = "<group>";
@@ -200,11 +204,19 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0930;
+				TargetAttributes = {
+					NT_986821503402 = {
+						LastSwiftMigration = 1000;
+					};
+				};
 			};
 			buildConfigurationList = CL_986821503402 /* Build configuration list for PBXProject "CoreRenderObjC" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
 			mainGroup = G_8448771205358;
 			projectDirPath = "";
 			projectRoot = "";
@@ -220,6 +232,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				161CF40D20E109A200D569B7 /* CRSwiftInteropTests.swift in Sources */,
 				BF_874188233624 /* CRNodeTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -233,6 +246,7 @@
 				BF_696361087706 /* CRNodeBridge.mm in Sources */,
 				BF_481467684889 /* CRNodeLayoutSpec.mm in Sources */,
 				BF_913015669741 /* UIView+CRNode.mm in Sources */,
+				161CF40F20E10B1100D569B7 /* CRSwiftBridge.swift in Sources */,
 				BF_408658699193 /* YGLayout.m in Sources */,
 				BF_897300234831 /* Yoga.c in Sources */,
 			);
@@ -252,6 +266,7 @@
 		BC_347931411381 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				SDKROOT = iphoneos;
@@ -262,6 +277,7 @@
 		BC_365431781871 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
@@ -290,6 +306,7 @@
 		BC_425674256604 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
@@ -308,7 +325,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = io.render.neutrino;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
-				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
@@ -377,6 +395,7 @@
 		BC_848069791313 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				SDKROOT = iphoneos;

@@ -2,6 +2,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+NS_SWIFT_NAME(NodeLayoutOptions)
 typedef NS_OPTIONS(NSUInteger, CRNodeLayoutOptions) {
   CRNodeLayoutOptionsNone = 1 << 0,
   CRNodeLayoutOptionsSizeContainerViewToFit = 1 << 1
@@ -11,6 +12,7 @@ typedef NS_OPTIONS(NSUInteger, CRNodeLayoutOptions) {
 @class CRContext;
 @class CRNodeLayoutSpec<__covariant V: UIView *>;
 
+NS_SWIFT_NAME(NodeDelegate)
 @protocol CRNodeDelegate <NSObject>
 @optional
 /// The root node for this hierarchy is being configured and layed out.
@@ -22,6 +24,7 @@ typedef NS_OPTIONS(NSUInteger, CRNodeLayoutOptions) {
 - (void)rootNodeDidMount:(CRNode *)node;
 @end
 
+NS_SWIFT_NAME(Node)
 @interface CRNode<__covariant V: UIView *> : NSObject
 /// The context associated with this node hierarchy.
 @property(nonatomic, readonly, nullable) CRContext *context;
