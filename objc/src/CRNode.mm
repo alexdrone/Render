@@ -86,7 +86,7 @@
   return _mutableChildren;
 }
 
-- (instancetype)appendChilden:(NSArray<CRNode *> *)children {
+- (instancetype)appendChildren:(NSArray<CRNode *> *)children {
   CR_ASSERT_ON_MAIN_THREAD;
   auto lastIndex = _mutableChildren.lastObject.index;
   foreach(child, children) {

@@ -45,8 +45,6 @@ public protocol UIComponentProtocol: UINodeDelegateProtocol, Disposable {
 public enum UIComponentCanvasOption: Int {
   // The canvas size will return the view bounds.
   case useBoundsAsCanvasSize
-  /// Triggers 'setNeedsRender' whenever the canvas view changes its bounds.
-  case renderOnCanvasSizeChange
   /// If the component can overflow in the horizontal axis.
   case flexibleWidth
   /// If the component can overflow in the vertical axis.
@@ -134,7 +132,6 @@ open class UIComponent<S: UIStateProtocol, P: UIPropsProtocol>: NSObject, UIComp
   }
   open var shouldUpdate: Bool { return true }
 
-  private var boundsObserver: UIContextViewBoundsObserver? = nil
   private var setNeedsRenderCalledDuringSuspension: Bool = false
 
   /// Never construct your component directly but do it through the *UIContext* factory methods.
@@ -163,7 +160,6 @@ open class UIComponent<S: UIStateProtocol, P: UIPropsProtocol>: NSObject, UIComp
       disposedWarning()
       return
     }
-
     canvasView = view
     context?._canvasView = canvasView
     if options.contains(.useBoundsAsCanvasSize) {
@@ -177,12 +173,6 @@ open class UIComponent<S: UIStateProtocol, P: UIPropsProtocol>: NSObject, UIComp
         size.height = options.contains(.flexibleHeight) ? CGFloat.max : size.height
         size.width = options.contains(.flexibleWidth) ? CGFloat.max : size.width
         return size
-      }
-    }
-    boundsObserver = nil
-    if options.contains(.renderOnCanvasSizeChange) {
-      boundsObserver = UIContextViewBoundsObserver(view: view) { [weak self] _ in
-        self?.setNeedsRender()
       }
     }
   }
@@ -207,7 +197,6 @@ open class UIComponent<S: UIStateProtocol, P: UIPropsProtocol>: NSObject, UIComp
       disposedWarning()
       return
     }
-
     guard parent == nil else {
       parent?.setNeedsRender(options: options)
       return
@@ -228,7 +217,6 @@ open class UIComponent<S: UIStateProtocol, P: UIPropsProtocol>: NSObject, UIComp
       setNeedsRenderCalledDuringSuspension = true
       return
     }
-
     var layoutAnimator: UIViewPropertyAnimator? = nil
     var propagateToParentContext: Bool = false
     for option in options {
@@ -241,7 +229,6 @@ open class UIComponent<S: UIStateProtocol, P: UIPropsProtocol>: NSObject, UIComp
         context._preventTableUpdates = true
       }
     }
-
     // *Optional* the property animator that is going to be used for frame changes in the component
     // subtree. This field is auotmatically reset to 'nil' at the end of every 'render' pass.
     if let layoutAnimator = layoutAnimator {
@@ -251,13 +238,11 @@ open class UIComponent<S: UIStateProtocol, P: UIPropsProtocol>: NSObject, UIComp
     root.reconcile(in: view, size: renderSize(), options: [])
 
     context.didRenderRootComponent(self)
-
     //context.flushObsoleteState(validKeys: root._retrieveKeysRecursively())
     inspectorMarkDirty()
 
     // Reset the animatable frame changes to default.
     context.layoutAnimator = nil
-
     if propagateToParentContext, let tableViewController = context._associatedTableViewController {
       tableViewController.reloadData()
     }
@@ -274,7 +259,6 @@ open class UIComponent<S: UIStateProtocol, P: UIPropsProtocol>: NSObject, UIComp
       disposedWarning()
       return
     }
-
     guard setNeedsRenderCalledDuringSuspension else {
       return
     }
@@ -288,7 +272,6 @@ open class UIComponent<S: UIStateProtocol, P: UIPropsProtocol>: NSObject, UIComp
       disposedWarning()
       return
     }
-
     if let key = key, node.key == nil {
       node.key = key
     }
@@ -382,38 +365,10 @@ open class UIComponent<S: UIStateProtocol, P: UIPropsProtocol>: NSObject, UIComp
     context = nil
     delegate = nil
     parent = nil
-    boundsObserver = nil
     canvasView = nil
     // Disposes the root node.
     root.dispose()
     NotificationCenter.default.removeObserver(self)
-  }
-}
-
-// MARK: - UIContextViewBoundsObserver
-
-private final class UIContextViewBoundsObserver: NSObject {
-  // The observed canvas view.
-  private weak var view: UIView?
-  // The callback that is going to be invoked whenever the observed view changes its bounds.
-  private let callback: (CGSize) -> Void
-  // KVO observation token.
-  private var token: NSKeyValueObservation?
-  // The last recorded size.
-  private var size = CGSize.zero
-
-  init(view: UIView, callback: @escaping (CGSize) -> Void) {
-    self.view = view
-    self.callback = callback
-    super.init()
-    self.token = view.observe(\UIView.bounds,
-                              options: [.initial, .new, .old]) { [weak self] (view, change) in
-      let oldSize = self?.size ?? CGSize.zero
-      if view.bounds.size != oldSize {
-        self?.size = view.bounds.size
-        self?.callback(view.bounds.size)
-      }
-    }
   }
 }
 

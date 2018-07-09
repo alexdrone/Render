@@ -1,5 +1,22 @@
 import UIKit
 
+/// Convenience type-erased protocol.
+public protocol NodeProtocol: class { }
+
+/// Conformance of *CRNode*.
+extension Node: NodeProtocol { }
+
+/// Swift-only extensions.
+public extension NodeProtocol {
+  /// Adds the nodes as children of this node.
+  @discardableResult public func append(children: [NodeProtocol]) -> Node<UIView> {
+    let node = self as! Node<UIView>
+    let children = children.compactMap { $0 as? Node<UIView> }
+    node.appendChildren(children)
+    return node
+  }
+}
+
 /// Creates a new *CRNode*.
 /// - parameter reuseIdentifer: The reuse identifier for this node is its hierarchy.
 /// Identifiers help Render understand which items have changed.
@@ -35,9 +52,8 @@ public func makeNode<V: UIView>(type: V.Type,
                  layoutSpec: layoutSpec)
 }
 
-
 @inline(__always)
-public func set<V: UIView, T>(spec: LayoutSpec<V>,
+public func set<V: UIView, T>(_ spec: LayoutSpec<V>,
                               keyPath: ReferenceWritableKeyPath<V, T>,
                               value: T,
                               animator: UIViewPropertyAnimator? = nil) {

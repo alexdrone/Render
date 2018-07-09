@@ -1,0 +1,21 @@
+import { Packager } from "./packager";
+export declare class AppInfo {
+    private readonly info;
+    readonly description: string;
+    readonly version: string;
+    readonly buildNumber: string | undefined;
+    readonly buildVersion: string;
+    readonly productName: string;
+    readonly productFilename: string;
+    constructor(info: Packager, buildVersion?: string | null);
+    readonly channel: string | null;
+    readonly versionInWeirdWindowsForm: string;
+    private readonly notNullDevMetadata;
+    readonly companyName: string | null;
+    readonly id: string;
+    readonly macBundleIdentifier: string;
+    readonly name: string;
+    readonly sanitizedName: string;
+    readonly copyright: string;
+    computePackageUrl(): Promise<string | null>;
+}

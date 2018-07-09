@@ -1,0 +1,7 @@
+directories:
+  output: dist
+  buildResources: build
+appId: io.render.inspector
+mac:
+  category: development
+electronVersion: 2.0.2

@@ -1,0 +1,65 @@
+/// <reference types="node" />
+import { Arch, DebugLogger, TmpDir } from "builder-util";
+import { CancellationToken } from "builder-util-runtime";
+import { EventEmitter } from "events";
+import { Lazy } from "lazy-val";
+import { AppInfo } from "./appInfo";
+import { AfterPackContext, Configuration } from "./configuration";
+import { Platform, SourceRepositoryInfo, Target } from "./core";
+import { Framework } from "./Framework";
+import { Metadata } from "./options/metadata";
+import { ArtifactCreated, PackagerOptions } from "./packagerApi";
+import { PlatformPackager } from "./platformPackager";
+import { Dependency } from "./util/packageDependencies";
+export declare class Packager {
+    readonly cancellationToken: CancellationToken;
+    readonly projectDir: string;
+    private _appDir;
+    readonly appDir: string;
+    private _metadata;
+    readonly metadata: Metadata;
+    private _isPrepackedAppAsar;
+    readonly isPrepackedAppAsar: boolean;
+    private _devMetadata;
+    readonly devMetadata: Metadata | null;
+    private _configuration;
+    readonly config: Configuration;
+    isTwoPackageJsonProjectLayoutUsed: boolean;
+    readonly eventEmitter: EventEmitter;
+    _appInfo: AppInfo | null;
+    readonly appInfo: AppInfo;
+    readonly tempDirManager: TmpDir;
+    private _repositoryInfo;
+    private readonly afterPackHandlers;
+    private readonly afterSignHandlers;
+    readonly options: PackagerOptions;
+    readonly debugLogger: DebugLogger;
+    readonly repositoryInfo: Promise<SourceRepositoryInfo | null>;
+    private _productionDeps;
+    readonly productionDeps: Lazy<Array<Dependency>>;
+    private _electronDownloader;
+    electronDownloader: (options: any) => Promise<any>;
+    stageDirPathCustomizer: (target: Target, packager: PlatformPackager<any>, arch: Arch) => string;
+    private _buildResourcesDir;
+    readonly buildResourcesDir: string;
+    readonly relativeBuildResourcesDirname: string;
+    private _framework;
+    readonly framework: Framework;
+    constructor(options: PackagerOptions, cancellationToken?: CancellationToken);
+    addAfterPackHandler(handler: (context: AfterPackContext) => Promise<any> | null): void;
+    addAfterSignHandler(handler: (context: AfterPackContext) => Promise<any> | null): void;
+    artifactCreated(handler: (event: ArtifactCreated) => void): Packager;
+    dispatchArtifactCreated(event: ArtifactCreated): void;
+    build(): Promise<BuildResult>;
+    _build(configuration: Configuration, metadata: Metadata, devMetadata: Metadata | null, repositoryInfo?: SourceRepositoryInfo): Promise<BuildResult>;
+    private readProjectMetadataIfTwoPackageStructureOrPrepacked(appPackageFile);
+    private doBuild(outDir);
+    private createHelper(platform);
+    private installAppDependencies(platform, arch);
+    afterPack(context: AfterPackContext): Promise<any>;
+    afterSign(context: AfterPackContext): Promise<any>;
+}
+export interface BuildResult {
+    readonly outDir: string;
+    readonly platformToTargets: Map<Platform, Map<string, Target>>;
+}

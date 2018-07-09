@@ -1,17 +1,17 @@
-name: CoreRenderObjC
+name: CoreRender
 options:
   deploymentTarget:
     iOS: 10.0
   usesTabs: false
   indentWidth: 2
 targets:
-  CoreRenderObjC: &base
+  CoreRender: &base
     platform: iOS
     type: framework
     sources:
       - path: src/
     headers:
-      - src/CoreRenderObjC.h
+      - src/CoreRender.h
       - src/deps/yoga/
       - src/
     settings:
@@ -32,7 +32,7 @@ targets:
     sources:
       - test
     dependencies:
-      - target: CoreRenderObjC
+      - target: CoreRender
     scheme:
       testTargets:
         - Test

@@ -90,10 +90,6 @@
   CR_ASSERT_ON_MAIN_THREAD;
   if (!_view.cr_hasNode) return;
 
-  if (![_view respondsToSelector:NSSelectorFromString(keyPath)]) {
-    NSLog(@"warning: No keyPath %@ found in %@.", keyPath, _view.class);
-    return;
-  }
   const id currentValue = [_view valueForKeyPath:keyPath];
   if (!_initialPropertyValues[keyPath]) {
     _initialPropertyValues[keyPath] = currentValue;

@@ -71,7 +71,7 @@ NS_SWIFT_NAME(Node)
 #pragma mark Setup
 
 /// Adds the nodes as children of this node.
-- (instancetype)appendChilden:(NSArray<CRNode *> *)children;
+- (instancetype)appendChildren:(NSArray<CRNode *> *)children;
 
 /// Register the context for the root node of this node hierarchy.
 - (void)registerInContext:(CRContext *)context;

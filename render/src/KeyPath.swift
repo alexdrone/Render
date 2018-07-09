@@ -11,7 +11,8 @@ public protocol UIViewKeyPathProtocol {
   func restore(view: UIView)
 }
 
- public extension UINode {
+public extension UINode {
+
   public final class UIViewKeyPathValue: UIViewKeyPathProtocol {
     /// A unique identifier for the keyPath being assigned.
     public let keyPathIdentifier: String
@@ -94,6 +95,7 @@ extension AnyKeyPath {
   public var hashIdentifier: Int {
     if let path = _kvcKeyPathString { return path.hashValue }
     // *hashValue* is broken in iOS12
+    // so we rely on the fact the KeyPath objects are unique.
     #if swift(>=4.2)
     return Unmanaged.passUnretained(self).toOpaque().hashValue
     #else
@@ -125,9 +127,7 @@ extension AnyKeyPath {
   }
 
   func storeOldGeometryRecursively() {
-    guard let view = view, view.hasNode else {
-      return
-    }
+    guard let view = view, view.hasNode else { return }
     oldFrame = view.frame
     for subview in view.subviews {
       subview.renderContext.storeOldGeometryRecursively()
@@ -135,9 +135,7 @@ extension AnyKeyPath {
   }
 
   func applyOldGeometryRecursively() {
-    guard let view = view, view.hasNode else {
-      return
-    }
+    guard let view = view, view.hasNode else { return }
     guard !(isNewlyCreated && oldFrame == CGRect.zero) else {
       view.alpha = 0
       return
@@ -149,9 +147,7 @@ extension AnyKeyPath {
   }
 
   func storeNewGeometryRecursively() {
-    guard let view = view, view.hasNode else {
-      return
-    }
+    guard let view = view, view.hasNode else { return }
     newFrame = view.frame
     targetAlpha = view.alpha
     for subview in view.subviews {
@@ -160,9 +156,7 @@ extension AnyKeyPath {
   }
 
   func applyNewGeometryRecursively() {
-    guard let view = view, view.hasNode else {
-      return
-    }
+    guard let view = view, view.hasNode else { return }
     view.frame = newFrame
 
     for subview in view.subviews {
@@ -171,9 +165,7 @@ extension AnyKeyPath {
   }
 
   private func applyTransformationsToNewlyCreatedViews() {
-    guard let view = view, view.hasNode else {
-      return
-    }
+    guard let view = view, view.hasNode else { return }
     if fabs(view.alpha - targetAlpha) > CGFloat.epsilon {
       view.alpha = targetAlpha
     }
@@ -183,9 +175,7 @@ extension AnyKeyPath {
   }
 
   func fadeInNewlyCreatedViews(delay: TimeInterval = 0) {
-    guard let view = view, view.hasNode else {
-      return
-    }
+    guard let view = view, view.hasNode else { return }
     UIView.animate(withDuration: 0.16, delay: delay,
                    options: UIView.AnimationOptions.curveEaseInOut,
                    animations: {
@@ -208,9 +198,7 @@ extension AnyKeyPath {
 
   /// Returns (and caches) the initial value for the view.
   @nonobjc func initialValue<V: UIView, P>(keyPath: ReferenceWritableKeyPath<V, P>) -> P? {
-    guard let view: V = castView() else {
-      return nil
-    }
+    guard let view: V = castView() else { return nil }
     guard let value = initialValues[keyPath.identifier] as? P else {
       if let value = getKeyPath(keyPath, view: view) {
         initialValues[keyPath.identifier] = value

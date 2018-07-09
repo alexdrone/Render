@@ -235,7 +235,6 @@ public class UINode<V: UIView>: UINodeProtocol {
       return
     }
     view.renderContext.storeOldGeometryRecursively()
-
     if shouldUpdateNode {
       let spec = LayoutSpec(node: self, view: renderedView, size: bounds)
       // optimisation: applies the stylesheet-defined styles separately in order to merge
@@ -255,7 +254,6 @@ public class UINode<V: UIView>: UINodeProtocol {
           style.apply(to: view)
         }
       }
-
       layoutSpec(spec)
       overrides?(view)
     }
@@ -269,7 +267,6 @@ public class UINode<V: UIView>: UINodeProtocol {
       let config = view.renderContext
       let oldConfigurationKeys = Set(config.appliedConfiguration.keys)
       let newConfigurationKeys = Set(viewProperties.keys)
-
       let configurationToRestore = oldConfigurationKeys.filter { propKey in
         !newConfigurationKeys.contains(propKey)
       }
@@ -279,7 +276,6 @@ public class UINode<V: UIView>: UINodeProtocol {
       for propKey in newConfigurationKeys {
         viewProperties[propKey]?.assign(view: view)
       }
-
       if view.yoga.isEnabled, view.yoga.isLeaf, view.yoga.isIncludedInLayout {
         view.frame.size = CGSize.zero
         view.yoga.markDirty()
@@ -295,22 +291,17 @@ public class UINode<V: UIView>: UINodeProtocol {
       disposedWarning()
       return
     }
-
     _setup(in: bounds, options: options)
-
     let view = requireRenderedView()
     viewProperties = [:]
-
     func computeLayout() {
       // Compute the flexbox layout for the node.
       view.bounds.size = bounds
       view.yoga.applyLayout(preservingOrigin: false)
       view.bounds.size = view.yoga.intrinsicSize
-
       view.yoga.applyLayout(preservingOrigin: false)
       view.frame.normalize()
     }
-
     computeLayout()
     animateLayoutChangesIfNecessary()
   }
@@ -441,12 +432,10 @@ public class UINode<V: UIView>: UINodeProtocol {
       disposedWarning()
       return
     }
-
     guard let view = view ?? renderedView?.superview else {
       return
     }
     let size = size ?? view.bounds.size
-
     let startTime = CFAbsoluteTimeGetCurrent()
     _reconcile(node: self, size: size, view: view.subviews.first, parent: view)
     layout(in: size, options: options)
@@ -468,7 +457,6 @@ public class UINode<V: UIView>: UINodeProtocol {
       disposedWarning()
       return
     }
-
     bindTarget = target
     bindIfNecessary = { [weak self] (view: UIView) in
       guard let object = self?.bindTarget as? O, let view = view as? V else {

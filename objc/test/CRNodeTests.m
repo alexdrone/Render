@@ -1,5 +1,5 @@
 #import <XCTest/XCTest.h>
-#import <CoreRenderObjC/CoreRenderObjC.h>
+#import <CoreRender/CoreRender.h>
 
 @interface CRNodeTests : XCTestCase
 @property (nonatomic, weak) UILabel *testOutlet;
@@ -54,7 +54,7 @@
     [spec set:CR_KEYPATH(spec.view, backgroundColor) value:UIColor.redColor];
     [spec set:CR_KEYPATH(spec.view, yoga.padding) value:@42];
   }];
-  [node appendChilden:@[
+  [node appendChildren:@[
      [self buildLabelNode],
      [self buildLabelNode],
      [self buildLabelNode]
