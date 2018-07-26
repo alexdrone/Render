@@ -26,19 +26,23 @@ struct AppStoreEntry {
           // Lays out the icon and the title.
           UINode<UIView>(layoutSpec: configureRowContainer).children([
             makePolygon(),
-            makeLabel(text: "\(props.title)#\(state.counter)",
-                      layoutSpec: configureLabel),
+            makeLabel(
+              text: "\(props.title)#\(state.counter)",
+              layoutSpec: configureLabel),
             ]),
           // Entry description (shown when the component is expanded).
           UINode<UIView>(layoutSpec: configureDescriptionContainer).children([
-            makeLabel(text: props.desc,
-                      layoutSpec: configureDescriptionLabel),
-            makeButton(text: "Increase",
-                       onTouchUpInside: { [weak self] in self?.onIncrease() })
+            makeLabel(
+              text: props.desc,
+              layoutSpec: configureDescriptionLabel),
+            makeButton(
+              text: "Increase",
+              onTouchUpInside: { [weak self] in self?.onIncrease() })
             ]),
           // Touch overlay that covers the whole component.
-          makeTapRecognizer(onTouchUpInside: { [weak self] in self?.onToggleExpand() },
-                            layoutSpec: configureTappableView),
+          makeTapRecognizer(
+            onTouchUpInside: { [weak self] in self?.onToggleExpand() },
+            layoutSpec: configureTappableView),
           ])
       ])
     }
@@ -157,8 +161,10 @@ struct AppStoreEntry {
 
 // MARK: - Private
 
-fileprivate func makeLabel(text: String,
-                           layoutSpec: UINode<UILabel>.LayoutSpecClosure?=nil) -> UINode<UILabel> {
+fileprivate func makeLabel(
+  text: String,
+  layoutSpec: UINode<UILabel>.LayoutSpecClosure? = nil
+) -> UINode<UILabel> {
   return UINode<UILabel> { config in
     config.set(\UILabel.text, text)
     config.set(\UILabel.numberOfLines, 0)
@@ -167,10 +173,12 @@ fileprivate func makeLabel(text: String,
   }
 }
 
-fileprivate func makeButton(reuseIdentifier: String = "button",
-                            text: String,
-                            onTouchUpInside: @escaping () -> Void = { },
-                            layoutSpec: UINode<UIButton>.LayoutSpecClosure?=nil) -> UINode<UIButton> {
+fileprivate func makeButton(
+  reuseIdentifier: String = "button",
+  text: String,
+  onTouchUpInside: @escaping () -> Void = { },
+  layoutSpec: UINode<UIButton>.LayoutSpecClosure? = nil
+) -> UINode<UIButton> {
   func makeButton() -> UIButton {
     let view = UIButton()
     view.backgroundColorImage = S.palette.white.color
@@ -187,9 +195,11 @@ fileprivate func makeButton(reuseIdentifier: String = "button",
   }
 }
 
-fileprivate func makeTapRecognizer(reuseIdentifier: String = "tapRecognizer",
-                                   onTouchUpInside: @escaping () -> Void = { },
-                                   layoutSpec: UINode<UIView>.LayoutSpecClosure?=nil)->UINode<UIView> {
+fileprivate func makeTapRecognizer(
+  reuseIdentifier: String = "tapRecognizer",
+  onTouchUpInside: @escaping () -> Void = { },
+  layoutSpec: UINode<UIView>.LayoutSpecClosure? = nil
+)->UINode<UIView> {
   return UINode<UIView>(reuseIdentifier: reuseIdentifier) { config in
     config.view.onTap { _ in onTouchUpInside() }
     layoutSpec?(config)

@@ -163,10 +163,12 @@ class SimpleCounterComponent4: UIComponent<CounterState, CounterProps> {
 
   /// Builds the node hierarchy for this component.
   override func render(context: UIContextProtocol) -> UINodeProtocol {
-    let container = UINode<UIView>(styles: [Style.specContainer],
-                                   layoutSpec: containerLayoutSpec)
-    let label = UINode<UILabel>(styles: [Style.specLabel],
-                                layoutSpec: labelLayoutSpec)
+    let container = UINode<UIView>(
+      styles: [Style.specContainer],
+      layoutSpec: containerLayoutSpec)
+    let label = UINode<UILabel>(
+      styles: [Style.specLabel],
+      layoutSpec: labelLayoutSpec)
     return container.children([
       label,
     ])
@@ -192,10 +194,12 @@ class SimpleCounterComponent5: UIComponent<CounterState, CounterProps> {
 
   /// Builds the node hierarchy for this component.
   override func render(context: UIContextProtocol) -> UINodeProtocol {
-    let container = UINode<UIView>(styles: [S.simpleContainer],
-                                   layoutSpec: containerLayoutSpec)
-    let label = UINode<UILabel>(styles: [S.simpleLabel],
-                                layoutSpec: labelLayoutSpec)
+    let container = UINode<UIView>(
+      styles: [S.simpleContainer],
+      layoutSpec: containerLayoutSpec)
+    let label = UINode<UILabel>(
+      styles: [S.simpleLabel],
+      layoutSpec: labelLayoutSpec)
     return container.children([
       label,
       ])

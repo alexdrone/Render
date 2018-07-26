@@ -12,17 +12,19 @@ public protocol UIContextProtocol: Disposable {
   /// - parameter key: The unique key associated with this component.
   /// - parameter props: Configurations and callbacks passed down to the component.
   /// - parameter parent: Optional if the component is not the root node.
-  func component<S, P, C: UIComponent<S, P>>(_ type: C.Type,
-                                             key: String,
-                                             props: P,
-                                             parent: UIComponentProtocol?) -> C
+  func component<S, P, C: UIComponent<S, P>>(
+    _ type: C.Type,
+    key: String,
+    props: P,
+    parent: UIComponentProtocol?) -> C
   /// Creates a new volatile stateless component.
   /// - parameter type: The desired *UIComponent* subclass.
   /// - parameter props: Configurations and callbacks passed down to the component.
   /// - parameter parent: Optional if the component is not the root node.
-  func transientComponent<S, P, C: UIComponent<S, P>>(_ type: C.Type,
-                                                      props: P,
-                                                      parent: UIComponentProtocol?) -> C
+  func transientComponent<S, P, C: UIComponent<S, P>>(
+    _ type: C.Type,
+    props: P,
+    parent: UIComponentProtocol?) -> C
   /// Prevents any calls to 'setNeedRender' to trigger the component relayout.
   /// Useful when a manual manipulation of the view hierarchy is ongoing (e.g. interactable
   /// animation).
@@ -132,10 +134,12 @@ public class UIContext: UIContextProtocol {
     return pool.state(key: key)
   }
 
-  public func component<S, P, C: UIComponent<S, P>>(_ type: C.Type,
-                                                    key: String = string(fromType: C.self),
-                                                    props: P = P(),
-                                                    parent: UIComponentProtocol? = nil) -> C {
+  public func component<S, P, C: UIComponent<S, P>>(
+    _ type: C.Type,
+    key: String = string(fromType: C.self),
+    props: P = P(),
+    parent: UIComponentProtocol? = nil
+  ) -> C {
     assert(Thread.isMainThread)
     _componentInitFromContext = true
     let result: C = pool.component(key: key, construct: C(context: self, key: key))
@@ -145,9 +149,11 @@ public class UIContext: UIContextProtocol {
     return result
   }
 
-  public func transientComponent<S, P, C: UIComponent<S, P>>(_ type: C.Type,
-                                                             props: P = P(),
-                                                             parent: UIComponentProtocol?=nil) -> C{
+  public func transientComponent<S, P, C: UIComponent<S, P>>(
+    _ type: C.Type,
+    props: P = P(),
+    parent: UIComponentProtocol? = nil
+  ) -> C{
     assert(Thread.isMainThread)
     _componentInitFromContext = true
     let result: C = C(context: self, key: nil)

@@ -39,8 +39,9 @@ struct Post {
     /// Builds the node hierarchy for this component.
     override func render(context: UIContextProtocol) -> UINodeProtocol {
       // Styles.
-      return UINode<UIView>(reuseIdentifier: S.postWrapper.id,
-                            styles: [S.postWrapper]).children([
+      return UINode<UIView>(
+        reuseIdentifier: S.postWrapper.id,
+        styles: [S.postWrapper]).children([
         makeHeaderFragment(),
         makeBodyFragment(),
         makeAttachmentFragment(),
@@ -52,8 +53,9 @@ struct Post {
     /// Returns the author avatar and fullname fragment.
     private func makeHeaderFragment() -> UINode<UIView> {
       let props = self.props
-      let header = UINode<UIView>(reuseIdentifier: S.postHeader.id,
-                                  styles: [S.postHeader])
+      let header = UINode<UIView>(
+        reuseIdentifier: S.postHeader.id,
+        styles: [S.postHeader])
       let headerTextWrapper = UINode<UIView>(styles: [S.postHeaderTextWrapper])
       return header.children([
         UINode<UIImageView>(styles: [S.postAvatar]){ $0.set(\UIImageView.image, props.avatar)},
@@ -88,8 +90,9 @@ struct Post {
     // The section with the number of comments and likes for this post.
     private func makeStatsFragment() -> UINodeProtocol {
       let props = self.props
-      let wrapper = UINode<UIView>(reuseIdentifier: S.postStats.id,
-                                   styles: [S.postStats]) {
+      let wrapper = UINode<UIView>(
+        reuseIdentifier: S.postStats.id,
+        styles: [S.postStats]) {
         $0.view.onTap { [weak self] _ in
           guard let `self` = self, props.fetchStatus == .notFetched else { return }
           props.delegate?.fetchComments(component: self, post: props)
@@ -117,12 +120,14 @@ struct Post {
           $0.set(\UILabel.text, "Loading...")
         }
       case .fetched:
-        let wrapper = UINode<UIView>(reuseIdentifier: S.postCommentsWrapper.id,
-                                     styles: [S.postCommentsWrapper])
+        let wrapper = UINode<UIView>(
+          reuseIdentifier: S.postCommentsWrapper.id,
+          styles: [S.postCommentsWrapper])
         wrapper.children(props.comments.map {
-          context.transientComponent(CommentComponent.self,
-                                     props: $0,
-                                     parent: self).asNode()
+          context.transientComponent(
+            CommentComponent.self,
+            props: $0,
+            parent: self).asNode()
         })
         return wrapper
       }
@@ -137,8 +142,9 @@ struct Post {
     /// Builds the node hierarchy for this component.
     override func render(context: UIContextProtocol) -> UINodeProtocol {
       let props = self.props
-      return UINode<UIView>(reuseIdentifier: S.postComment.id,
-                            styles: [S.postComment]).children([
+      return UINode<UIView>(
+        reuseIdentifier: S.postComment.id,
+        styles: [S.postComment]).children([
         UINode<UILabel>(styles: [S.postCommentAuthor]) { $0.set(\UILabel.text, props.author) },
         UINode<UILabel>(styles: [S.postCommentLabel]) { $0.set(\UILabel.text, props.text) }
       ])

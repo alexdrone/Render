@@ -289,8 +289,10 @@ public class UIStylesheetRule: CustomStringConvertible {
 
   /// Returns the rule value as the desired return type.
   /// - note: The enum type should be backed by an integer store.
-  public func `enum`<T: UIStylesheetRepresentableEnum>(_ type: T.Type,
-                                                       default: T = T.init(rawValue: 0)!) -> T {
+  public func `enum`<T: UIStylesheetRepresentableEnum>(
+    _ type: T.Type,
+    default: T = T.init(rawValue: 0)!
+  ) -> T {
     return T.init(rawValue: integer) ?? `default`
   }
 

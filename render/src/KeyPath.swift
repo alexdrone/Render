@@ -176,9 +176,10 @@ extension AnyKeyPath {
 
   func fadeInNewlyCreatedViews(delay: TimeInterval = 0) {
     guard let view = view, view.hasNode else { return }
-    UIView.animate(withDuration: 0.16, delay: delay,
-                   options: UIView.AnimationOptions.curveEaseInOut,
-                   animations: {
+    UIView.animate(
+      withDuration: 0.16, delay: delay,
+      options: UIView.AnimationOptions.curveEaseInOut,
+      animations: {
       view.renderContext.applyTransformationsToNewlyCreatedViews()
     }, completion: nil)
   }

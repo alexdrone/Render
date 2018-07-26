@@ -30,8 +30,10 @@ open class UIComponentViewController<C: UIComponentProtocol>: UIBaseViewControll
   /// Notifies the container that the size of its view is about to change.
   /// - note: if *shouldRenderAlongsideSizeTransitionAnimation* is 'true' than the component is
   /// going to be rendered alongside the orientation change transition.
-  override open func viewWillTransition(to size: CGSize,
-                                        with coordinator: UIViewControllerTransitionCoordinator) {
+  override open func viewWillTransition(
+    to size: CGSize,
+    with coordinator: UIViewControllerTransitionCoordinator
+  ) -> Void {
     super.viewWillTransition(to: size, with: coordinator)
 
     let renderAlongside = shouldRenderAlongsideSizeTransitionAnimation

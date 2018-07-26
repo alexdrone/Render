@@ -164,15 +164,16 @@ public class UIScreenStateFactory {
         safeAreaSize.height -= safeAreaInsets.top + safeAreaInsets.bottom
       }
     }
-    return State(idiom: Idiom.current(),
-                 orientation: Orientation.current(),
-                 horizontalSizeClass: SizeClass.horizontalSizeClass(for: canvasViewProvider()),
-                 verticalSizeClass: SizeClass.verticalSizeClass(for: canvasViewProvider()),
-                 screenSize: native,
-                 canvasSize: canvasViewProvider()?.bounds.size ?? native,
-                 renderSize: bounds,
-                 safeAreaSize: safeAreaSize,
-                 safeAreaInsets: safeAreaInsets)
+    return State(
+      idiom: Idiom.current(),
+      orientation: Orientation.current(),
+      horizontalSizeClass: SizeClass.horizontalSizeClass(for: canvasViewProvider()),
+      verticalSizeClass: SizeClass.verticalSizeClass(for: canvasViewProvider()),
+      screenSize: native,
+      canvasSize: canvasViewProvider()?.bounds.size ?? native,
+      renderSize: bounds,
+      safeAreaSize: safeAreaSize,
+      safeAreaInsets: safeAreaInsets)
   }
 }
 

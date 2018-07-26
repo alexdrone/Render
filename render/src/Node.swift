@@ -98,9 +98,11 @@ public class UINode<V: UIView>: UINodeProtocol {
       self.canvasSize = size
     }
 
-    public func set<T>(_ keyPath: ReferenceWritableKeyPath<V, T>,
-                       _ value: T,
-                       animator: UIViewPropertyAnimator? = nil) {
+    public func set<T>(
+      _ keyPath: ReferenceWritableKeyPath<V, T>,
+      _ value: T,
+      animator: UIViewPropertyAnimator? = nil
+    ) -> Void {
       node.viewProperties[keyPath.identifier] =
           UIViewKeyPathValue(keyPath: keyPath, value: value, animator: animator)
     }
@@ -179,11 +181,13 @@ public class UINode<V: UIView>: UINodeProtocol {
   ///   layout.view.backgroundColor = .green
   ///   layout.view.setTitle("FOO", for: .normal)
   /// ```
-  public init(reuseIdentifier: String? = nil,
-              key: String? = nil,
-              create: (() -> V)? = nil,
-              styles: [UIStyleProtocol] = [],
-              layoutSpec: LayoutSpecClosure? = nil) {
+  public init(
+    reuseIdentifier: String? = nil,
+    key: String? = nil,
+    create: (() -> V)? = nil,
+    styles: [UIStyleProtocol] = [],
+    layoutSpec: LayoutSpecClosure? = nil
+  ) {
     self.reuseIdentifier = UINodeReuseIdentifierMake(type: V.self, identifier: reuseIdentifier)
     self._debugType =  String(describing: V.self)
     self.createClosure = create ??  { V() }
@@ -262,7 +266,6 @@ public class UINode<V: UIView>: UINodeProtocol {
     for child in children {
       child._setup(in: bounds, options: options)
     }
-
     if shouldUpdateNode {
       let config = view.renderContext
       let oldConfigurationKeys = Set(config.appliedConfiguration.keys)
@@ -348,7 +351,6 @@ public class UINode<V: UIView>: UINodeProtocol {
       delegate?.nodeDidLayout(self, view: view)
       associatedComponent?.nodeDidLayout(self, view: view)
     }
-
     /// The view has been newly created.
     if shouldInvokeDidMount {
       shouldInvokeDidMount = false
@@ -364,7 +366,6 @@ public class UINode<V: UIView>: UINodeProtocol {
       disposedWarning()
       return
     }
-
     defer {
       bindIfNecessary(renderedView!)
     }
@@ -396,12 +397,10 @@ public class UINode<V: UIView>: UINodeProtocol {
       node.renderedView!.renderContext.isNewlyCreated = true
       parent.insertSubview(node.renderedView!, at: node.index)
     }
-
     // Gets all of the existing subviews.
     var oldSubviews = view?.subviews.filter { view in
       return view.hasNode
     }
-
     for subnode in node.children {
       // Look for a candidate view matching the node.
       let candidateView = oldSubviews?.filter { view in
@@ -439,7 +438,6 @@ public class UINode<V: UIView>: UINodeProtocol {
     let startTime = CFAbsoluteTimeGetCurrent()
     _reconcile(node: self, size: size, view: view.subviews.first, parent: view)
     layout(in: size, options: options)
-
     debugReconcileTime("\(Swift.type(of: self)).reconcile", startTime: startTime)
   }
 
@@ -450,8 +448,10 @@ public class UINode<V: UIView>: UINodeProtocol {
   /// - parameter target: The target object for the binding.
   /// - parameter keyPath: The property path in the target object.
   /// - note: Declare the property in your target as *weak* in order to prevent retain ciclyes.
-  public func bindView<O: AnyObject, V>(target: O,
-                                        keyPath: ReferenceWritableKeyPath<O, V>) {
+  public func bindView<O: AnyObject, V>(
+    target: O,
+    keyPath: ReferenceWritableKeyPath<O, V>
+  ) -> Void {
     assert(Thread.isMainThread)
     guard !isDisposed else {
       disposedWarning()

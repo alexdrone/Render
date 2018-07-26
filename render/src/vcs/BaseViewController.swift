@@ -1,8 +1,9 @@
 import UIKit
 
-open class UIBaseViewController: UIViewController,
-                                 UIGestureRecognizerDelegate,
-                                 UICustomNavigationBarProtocol {
+open class UIBaseViewController:
+  UIViewController,
+  UIGestureRecognizerDelegate,
+  UICustomNavigationBarProtocol {
   /// The context for the component hierarchy that is going to be instantiated from the controller.
   /// - note: This can be passed as argument of the view controller constructor.
   public var context: UIContext

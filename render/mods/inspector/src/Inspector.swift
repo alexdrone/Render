@@ -100,9 +100,10 @@ extension UINodeProtocol {
 
   public enum KeyCommands {
     private static var __once: () = {
-      exchangeImplementations(class: UIApplication.self,
-                              originalSelector: #selector(getter: UIResponder.keyCommands),
-                              swizzledSelector: #selector(UIApplication.KYC_keyCommands));
+      exchangeImplementations(
+        class: UIApplication.self,
+        originalSelector: #selector(getter: UIResponder.keyCommands),
+        swizzledSelector: #selector(UIApplication.KYC_keyCommands));
     }()
     fileprivate struct Static {
       static var token: Int = 0
@@ -117,10 +118,11 @@ extension UINodeProtocol {
                                 modifierFlags: KeyModifierFlags,
                                 action: @escaping () -> ()) {
       _ = KeyCommands.__once
-      let keyCommand = UIKeyCommand(input: input,
-                                    modifierFlags: modifierFlags,
-                                    action: #selector(UIApplication.KYC_handleKeyCommand(_:)),
-                                    discoverabilityTitle: "")
+      let keyCommand = UIKeyCommand(
+        input: input,
+        modifierFlags: modifierFlags,
+        action: #selector(UIApplication.KYC_handleKeyCommand(_:)),
+        discoverabilityTitle: "")
       let actionableKeyCommand = KeyActionableCommand(keyCommand: keyCommand, actionBlock: action)
       let index = KeyCommandsRegister.sharedInstance.actionableKeyCommands.index(
         where: { return $0 == actionableKeyCommand })
@@ -155,24 +157,28 @@ extension UINodeProtocol {
     }
   }
 
-  func exchangeImplementations(class classs: AnyClass,
-                               originalSelector: Selector,
-                               swizzledSelector: Selector ){
+  func exchangeImplementations(
+    class classs: AnyClass,
+    originalSelector: Selector,
+    swizzledSelector: Selector
+  ) -> Void {
     let originalMethod = class_getInstanceMethod(classs, originalSelector)
     let originalMethodImplementation = method_getImplementation(originalMethod!)
     let originalMethodTypeEncoding = method_getTypeEncoding(originalMethod!)
     let swizzledMethod = class_getInstanceMethod(classs, swizzledSelector)
     let swizzledMethodImplementation = method_getImplementation(swizzledMethod!)
     let swizzledMethodTypeEncoding = method_getTypeEncoding(swizzledMethod!)
-    let didAddMethod = class_addMethod(classs,
-                                       originalSelector,
-                                       swizzledMethodImplementation,
-                                       swizzledMethodTypeEncoding)
+    let didAddMethod = class_addMethod(
+      classs,
+      originalSelector,
+      swizzledMethodImplementation,
+      swizzledMethodTypeEncoding)
     if didAddMethod {
-      class_replaceMethod(classs,
-                          swizzledSelector,
-                          originalMethodImplementation,
-                          originalMethodTypeEncoding)
+      class_replaceMethod(
+        classs,
+        swizzledSelector,
+        originalMethodImplementation,
+        originalMethodTypeEncoding)
     } else {
       method_exchangeImplementations(originalMethod!, swizzledMethod!)
     }
@@ -182,9 +188,10 @@ extension UINodeProtocol {
   public typealias KeyModifierFlags = Int
 
   public enum KeyCommands {
-    public static func register(input: String,
-                                modifierFlags: KeyModifierFlags,
-                                action: () -> ()) {}
+    public static func register(
+      input: String,
+      modifierFlags: KeyModifierFlags,
+      action: () -> ()) {}
     public static func unregister(input: String, modifierFlags: KeyModifierFlags) {}
   }
 #endif

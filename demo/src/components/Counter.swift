@@ -14,8 +14,9 @@ struct StylesheetCounter {
       let node =  UINode<UIView>(styles: [S.counterWrapper])
       return node.children([
         UINode<UILabel>(styles: [S.counterLabel], layoutSpec: configureLabel),
-        UINode<UIButton>(styles: [S.counterButton],
-                         layoutSpec: configureButton)
+        UINode<UIButton>(
+          styles: [S.counterButton],
+          layoutSpec: configureButton)
       ])
     }
 

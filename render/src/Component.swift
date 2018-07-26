@@ -51,8 +51,9 @@ public enum UIComponentCanvasOption: Int {
   case flexibleHeight
   /// Default canvas option.
   public static func defaults() -> [UIComponentCanvasOption] {
-    return [.useBoundsAsCanvasSize,
-            .flexibleHeight]
+    return [
+      .useBoundsAsCanvasSize,
+      .flexibleHeight]
   }
 }
 
@@ -153,8 +154,10 @@ open class UIComponent<S: UIStateProtocol, P: UIPropsProtocol>: NSObject, UIComp
   /// Once an object is disposed it cannot be used any longer.
   public var isDisposed: Bool = false
 
-  public func setCanvas(view: UIView,
-                        options: [UIComponentCanvasOption] = UIComponentCanvasOption.defaults()) {
+  public func setCanvas(
+    view: UIView,
+    options: [UIComponentCanvasOption] = UIComponentCanvasOption.defaults()
+  ) -> Void {
     assert(Thread.isMainThread)
     guard !isDisposed else {
       disposedWarning()
@@ -321,9 +324,11 @@ open class UIComponent<S: UIStateProtocol, P: UIPropsProtocol>: NSObject, UIComp
   /// - parameter type: The desired *UIComponent* subclass.
   /// - parameter key: The unique key ('nil' for a transient component).
   /// - parameter props: Configurations and callbacks passed down to the component.
-  public func childComponent<S, P, C: UIComponent<S, P>>(_ type: C.Type,
-                                                         key: String? = nil,
-                                                         props: P = P()) -> C {
+  public func childComponent<S, P, C: UIComponent<S, P>>(
+    _ type: C.Type,
+    key: String? = nil,
+    props: P = P()
+  ) -> C {
     guard let context = context else {
       fatalError("Attempting to create a component without a valid context.")
     }

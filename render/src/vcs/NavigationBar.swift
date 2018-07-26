@@ -23,10 +23,12 @@ open class UINavigationBarProps: UIProps {
     public var disabled: Bool = false
 
     /// Creates a new bar button.
-    public init(icon: UIImage,
-                title: String? = nil,
-                accessibilityLabel: String? = nil,
-                onSelected: @escaping () -> Void) {
+    public init(
+      icon: UIImage,
+      title: String? = nil,
+      accessibilityLabel: String? = nil,
+      onSelected: @escaping () -> Void
+    ) {
       self.icon = icon
       self.title = title
       self.accessibilityLabel = accessibilityLabel
@@ -83,10 +85,11 @@ open class UINavigationBarProps: UIProps {
 
   /// Extracts the system back button image from a navigation bar.
   private func makeDefaultBackButtonImage() -> UIImage {
-    let image = UIImage.yg_image(from: "←",
-                                 color: style.tintColor,
-                                 font: UIFont.systemFont(ofSize: 22, weight: UIFont.Weight.bold),
-                                 size: CGSize(width: 22, height: 26))
+    let image = UIImage.yg_image(
+      from: "←",
+      color: style.tintColor,
+      font: UIFont.systemFont(ofSize: 22, weight: UIFont.Weight.bold),
+      size: CGSize(width: 22, height: 26))
     return image
   }
 }
