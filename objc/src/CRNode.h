@@ -24,7 +24,7 @@ NS_SWIFT_NAME(NodeDelegate)
 - (void)rootNodeDidMount:(CRNode *)node;
 @end
 
-NS_SWIFT_NAME(Node)
+NS_SWIFT_NAME(ConcreteNode)
 @interface CRNode<__covariant V: UIView *> : NSObject
 /// The context associated with this node hierarchy.
 @property(nonatomic, readonly, nullable) CRContext *context;
@@ -32,7 +32,7 @@ NS_SWIFT_NAME(Node)
 /// Identifiers help Render understand which items have changed.
 /// A custom *reuseIdentifier* is mandatory if the node has a custom creation closure.
 @property(nonatomic, readonly) NSString *reuseIdentifier;
-/// A unique key for the component/node (necessary if the associated component is stateful).
+/// A unique key for the component/node (necessary if the associated controller is stateful).
 @property(nonatomic, readonly, nullable) NSString *key;
 /// This component is the n-th children.
 @property(nonatomic, readonly) NSUInteger index;
@@ -46,27 +46,37 @@ NS_SWIFT_NAME(Node)
 @property(nonatomic, readonly, nullable) V renderedView;
 /// The layout delegate for this node.
 @property(nonatomic, nullable, weak) id<CRNodeDelegate> delegate;
+/// The associated controller.
+@property(nonatomic, nullable) Class controllerType;
 
 #pragma mark Constructors
 
 - (instancetype)initWithType:(Class)type
+                  controller:(nullable Class)controllerType
              reuseIdentifier:(nullable NSString *)reuseIdentifier
                          key:(nullable NSString *)key
           viewInitialization:(UIView *(^_Nullable)(void))viewInitialization
                   layoutSpec:(void (^)(CRNodeLayoutSpec<V> *))layoutSpec;
 
 + (instancetype)nodeWithType:(Class)type
+                  controller:(nullable Class)controllerType
              reuseIdentifier:(NSString *)reuseIdentifier
                          key:(nullable NSString *)key
           viewInitialization:(UIView *(^_Nullable)(void))viewInitialization
                   layoutSpec:(void (^)(CRNodeLayoutSpec<V> *))layoutSpec;
 
 + (instancetype)nodeWithType:(Class)type
+                  controller:(nullable Class)controllerType
                          key:(nullable NSString *)key
                   layoutSpec:(void (^)(CRNodeLayoutSpec<V> *))layoutSpec;
 
 + (instancetype)nodeWithType:(Class)type
+                  controller:(nullable Class)controllerType
                   layoutSpec:(void (^)(CRNodeLayoutSpec<V> *))layoutSpec;
+
++ (instancetype)nodeWithType:(Class)type
+                  layoutSpec:(void (^)(CRNodeLayoutSpec<V> *))layoutSpec;
+
 
 #pragma mark Setup
 

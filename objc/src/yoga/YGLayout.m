@@ -90,14 +90,12 @@ static YGConfigRef globalConfig;
 @synthesize isIncludedInLayout=_isIncludedInLayout;
 @synthesize node=_node;
 
-+ (void)initialize
-{
++ (void)initialize {
   globalConfig = YGConfigNew();
   YGConfigSetExperimentalFeatureEnabled(globalConfig, YGExperimentalFeatureWebFlexBasis, true);
 }
 
-- (instancetype)initWithView:(UIView*)view
-{
+- (instancetype)initWithView:(UIView*)view {
   if (self = [super init]) {
     _view = view;
     _node = YGNodeNewWithConfig(globalConfig);
@@ -105,32 +103,26 @@ static YGConfigRef globalConfig;
     _isEnabled = NO;
     _isIncludedInLayout = YES;
   }
-
   return self;
 }
 
-- (void)dealloc
-{
+- (void)dealloc {
   YGNodeFree(self.node);
 }
 
-- (void)flex
-{
+- (void)flex {
   self.flexGrow = 1;
   self.flexShrink = 1;
 }
 
-- (BOOL)isDirty
-{
+- (BOOL)isDirty {
   return YGNodeIsDirty(self.node);
 }
 
-- (void)markDirty
-{
+- (void)markDirty {
   if (self.isDirty || !self.isLeaf) {
     return;
   }
-
   // Yoga is not happy if we try to mark a node as "dirty" before we have set
   // the measure function. Since we already know that this is a leaf,
   // this *should* be fine. Forgive me Hack Gods.
@@ -138,17 +130,14 @@ static YGConfigRef globalConfig;
   if (YGNodeGetMeasureFunc(node) == NULL) {
     YGNodeSetMeasureFunc(node, YGMeasureView);
   }
-
   YGNodeMarkDirty(node);
 }
 
-- (NSUInteger)numberOfChildren
-{
+- (NSUInteger)numberOfChildren {
   return YGNodeGetChildCount(self.node);
 }
 
-- (BOOL)isLeaf
-{
+- (BOOL)isLeaf {
   NSAssert([NSThread isMainThread], @"This method must be called on the main thread.");
   if (self.isEnabled) {
     for (UIView *subview in self.view.subviews) {
@@ -158,19 +147,16 @@ static YGConfigRef globalConfig;
       }
     }
   }
-
   return YES;
 }
 
 #pragma mark - Style
 
-- (YGPositionType)position
-{
+- (YGPositionType)position {
   return YGNodeStyleGetPositionType(self.node);
 }
 
-- (void)setPosition:(YGPositionType)position
-{
+- (void)setPosition:(YGPositionType)position {
   YGNodeStyleSetPositionType(self.node, position);
 }
 
@@ -215,26 +201,22 @@ YG_PROPERTY(CGFloat, aspectRatio, AspectRatio)
 
 #pragma mark - Layout and Sizing
 
-- (YGDirection)resolvedDirection
-{
+- (YGDirection)resolvedDirection {
   return YGNodeLayoutGetDirection(self.node);
 }
 
-- (void)applyLayout
-{
+- (void)applyLayout {
   [self calculateLayoutWithSize:self.view.bounds.size];
   YGApplyLayoutToViewHierarchy(self.view, NO);
 }
 
-- (void)applyLayoutPreservingOrigin:(BOOL)preserveOrigin
-{
+- (void)applyLayoutPreservingOrigin:(BOOL)preserveOrigin {
   [self calculateLayoutWithSize:self.view.bounds.size];
   YGApplyLayoutToViewHierarchy(self.view, preserveOrigin);
 }
 
 - (void)applyLayoutPreservingOrigin:(BOOL)preserveOrigin
-               dimensionFlexibility:(YGDimensionFlexibility)dimensionFlexibility
-{
+               dimensionFlexibility:(YGDimensionFlexibility)dimensionFlexibility {
   CGSize size = self.view.bounds.size;
   if (dimensionFlexibility & YGDimensionFlexibilityFlexibleWidth) {
     size.width = YGUndefined;
@@ -246,8 +228,7 @@ YG_PROPERTY(CGFloat, aspectRatio, AspectRatio)
   YGApplyLayoutToViewHierarchy(self.view, preserveOrigin);
 }
 
-- (CGSize)intrinsicSize
-{
+- (CGSize)intrinsicSize {
   const CGSize constrainedSize = {
     .width = YGUndefined,
     .height = YGUndefined,
@@ -257,8 +238,7 @@ YG_PROPERTY(CGFloat, aspectRatio, AspectRatio)
 
 #pragma mark - Private
 
-- (CGSize)calculateLayoutWithSize:(CGSize)size
-{
+- (CGSize)calculateLayoutWithSize:(CGSize)size {
   NSAssert([NSThread isMainThread], @"Yoga calculation must be done on main.");
   YGAttachNodesFromViewHierachy(self.view);
   const YGNodeRef node = self.node;
@@ -277,8 +257,7 @@ static YGSize YGMeasureView(YGNodeRef node,
                             float width,
                             YGMeasureMode widthMode,
                             float height,
-                            YGMeasureMode heightMode)
-{
+                            YGMeasureMode heightMode) {
   const CGFloat constrainedWidth = (widthMode == YGMeasureModeUndefined) ? CGFLOAT_MAX : width;
   const CGFloat constrainedHeight = (heightMode == YGMeasureModeUndefined) ? CGFLOAT_MAX: height;
   UIView *view = (__bridge UIView*) YGNodeGetContext(node);
@@ -294,8 +273,7 @@ static YGSize YGMeasureView(YGNodeRef node,
 
 static CGFloat YGSanitizeMeasurement(CGFloat constrainedSize,
                                      CGFloat measuredSize,
-                                     YGMeasureMode measureMode)
-{
+                                     YGMeasureMode measureMode) {
   CGFloat result;
   if (measureMode == YGMeasureModeExactly) {
     result = constrainedSize;
@@ -308,8 +286,7 @@ static CGFloat YGSanitizeMeasurement(CGFloat constrainedSize,
   return result;
 }
 
-static BOOL YGNodeHasExactSameChildren(const YGNodeRef node, NSArray<UIView *> *subviews)
-{
+static BOOL YGNodeHasExactSameChildren(const YGNodeRef node, NSArray<UIView *> *subviews) {
   if (YGNodeGetChildCount(node) != subviews.count) {
     return NO;
   }
@@ -321,8 +298,7 @@ static BOOL YGNodeHasExactSameChildren(const YGNodeRef node, NSArray<UIView *> *
   return YES;
 }
 
-static void YGAttachNodesFromViewHierachy(UIView *const view)
-{
+static void YGAttachNodesFromViewHierachy(UIView *const view) {
   YGLayout *const yoga = view.yoga;
   const YGNodeRef node = yoga.node;
   // Only leaf nodes should have a measure function
@@ -350,8 +326,7 @@ static void YGAttachNodesFromViewHierachy(UIView *const view)
   }
 }
 
-static void YGRemoveAllChildren(const YGNodeRef node)
-{
+static void YGRemoveAllChildren(const YGNodeRef node) {
   if (node == NULL) {
     return;
   }
@@ -360,8 +335,7 @@ static void YGRemoveAllChildren(const YGNodeRef node)
   }
 }
 
-static CGFloat YGRoundPixelValue(CGFloat value)
-{
+static CGFloat YGRoundPixelValue(CGFloat value) {
   static CGFloat scale;
   static dispatch_once_t onceToken;
   dispatch_once(&onceToken, ^(){
@@ -370,8 +344,7 @@ static CGFloat YGRoundPixelValue(CGFloat value)
   return roundf(value * scale) / scale;
 }
 
-static void YGApplyLayoutToViewHierarchy(UIView *view, BOOL preserveOrigin)
-{
+static void YGApplyLayoutToViewHierarchy(UIView *view, BOOL preserveOrigin) {
   NSCAssert([NSThread isMainThread], @"Framesetting should only be done on the main thread.");
   const YGLayout *yoga = view.yoga;
   if (!yoga.isIncludedInLayout) {
@@ -414,8 +387,7 @@ static const void *kYGYogaAssociatedKey = &kYGYogaAssociatedKey;
 
 @implementation UIView (YogaKit)
 
-- (YGLayout *)yoga
-{
+- (YGLayout *)yoga {
   YGLayout *yoga = objc_getAssociatedObject(self, kYGYogaAssociatedKey);
   if (!yoga) {
     yoga = [[YGLayout alloc] initWithView:self];
@@ -424,13 +396,11 @@ static const void *kYGYogaAssociatedKey = &kYGYogaAssociatedKey;
   return yoga;
 }
 
-- (BOOL)isYogaEnabled
-{
+- (BOOL)isYogaEnabled {
   return objc_getAssociatedObject(self, kYGYogaAssociatedKey) != nil;
 }
 
-- (void)configureLayoutWithBlock:(YGLayoutConfigurationBlock)block
-{
+- (void)configureLayoutWithBlock:(YGLayoutConfigurationBlock)block {
   if (block != nil) {
     block(self.yoga);
   }
@@ -442,13 +412,11 @@ static const void *kYGYogaAssociatedKey = &kYGYogaAssociatedKey;
 
 @implementation UIView (YGAdditions)
 
-- (CGFloat)cornerRadius
-{
+- (CGFloat)cornerRadius {
   return self.layer.cornerRadius;
 }
 
-- (void)setCornerRadius:(CGFloat)cornerRadius
-{
+- (void)setCornerRadius:(CGFloat)cornerRadius {
   self.clipsToBounds = YES;
   self.layer.cornerRadius = cornerRadius;
 }
@@ -457,58 +425,47 @@ static const void *kYGYogaAssociatedKey = &kYGYogaAssociatedKey;
   return self.layer.borderWidth;
 }
 
-- (void)setBorderWidth:(CGFloat)borderWidth
-{
+- (void)setBorderWidth:(CGFloat)borderWidth {
   self.layer.borderWidth = borderWidth;
 }
 
-- (UIColor*)borderColor
-{
+- (UIColor*)borderColor {
   return [UIColor colorWithCGColor:self.layer.borderColor];
 }
 
-- (void)setBorderColor:(UIColor*)borderColor
-{
+- (void)setBorderColor:(UIColor*)borderColor {
   self.layer.borderColor = borderColor.CGColor;
 }
 
-- (CGFloat)shadowOpacity
-{
+- (CGFloat)shadowOpacity {
   return self.layer.shadowOpacity;
 }
 
-- (void)setShadowOpacity:(CGFloat)shadowOpacity
-{
+- (void)setShadowOpacity:(CGFloat)shadowOpacity {
   self.layer.shadowOpacity = shadowOpacity;
 }
 
-- (CGFloat)shadowRadius
-{
+- (CGFloat)shadowRadius {
   return self.layer.shadowRadius;
 }
 
-- (void)setShadowRadius:(CGFloat)shadowRadius
-{
+- (void)setShadowRadius:(CGFloat)shadowRadius {
   self.layer.shadowRadius = shadowRadius;
 }
 
-- (CGSize)shadowOffset
-{
+- (CGSize)shadowOffset {
   return self.layer.shadowOffset;
 }
 
-- (void)setShadowOffset:(CGSize)shadowOffset
-{
+- (void)setShadowOffset:(CGSize)shadowOffset {
   self.layer.shadowOffset = shadowOffset;
 }
 
-- (UIColor*)shadowColor
-{
+- (UIColor*)shadowColor {
   return [UIColor colorWithCGColor:self.layer.shadowColor];
 }
 
-- (void)setShadowColor:(UIColor*)shadowColor
-{
+- (void)setShadowColor:(UIColor*)shadowColor {
   self.layer.shadowColor = shadowColor.CGColor;
 }
 
@@ -518,159 +475,128 @@ static const void *kYGYogaAssociatedKey = &kYGYogaAssociatedKey;
 
 @implementation UIButton (YGAdditions)
 
-- (NSString*)text
-{
+- (NSString*)text {
   return [self titleForState:UIControlStateNormal];
 }
 
-- (void)setText:(NSString*)text
-{
+- (void)setText:(NSString*)text {
   [self setTitle:text forState:UIControlStateNormal];
 }
 
-- (NSString*)highlightedText
-{
+- (NSString*)highlightedText {
   return [self titleForState:UIControlStateHighlighted];
 }
 
-- (void)setHighlightedText:(NSString*)highlightedText
-{
+- (void)setHighlightedText:(NSString*)highlightedText {
   [self setTitle:highlightedText forState:UIControlStateHighlighted];
 }
 
-- (NSString*)selectedText
-{
+- (NSString*)selectedText {
   return [self titleForState:UIControlStateSelected];
 }
 
--  (void)setSelectedText:(NSString*)selectedText
-{
+-  (void)setSelectedText:(NSString*)selectedText {
   [self setTitle:selectedText forState:UIControlStateSelected];
 }
 
-- (NSString*)disabledText
-{
+- (NSString*)disabledText {
   return [self titleForState:UIControlStateDisabled];
 }
 
-- (void)setDisabledText:(NSString*)disabledText
-{
+- (void)setDisabledText:(NSString*)disabledText {
   [self setTitle:disabledText forState:UIControlStateDisabled];
 }
 
-- (UIColor*)textColor
-{
+- (UIColor*)textColor {
   return [self titleColorForState:UIControlStateNormal];
 }
 
-- (void)setTextColor:(UIColor*)textColor
-{
+- (void)setTextColor:(UIColor*)textColor {
   [self setTitleColor:textColor forState:UIControlStateNormal];
 }
 
-- (UIColor*)highlightedTextColor
-{
+- (UIColor*)highlightedTextColor {
   return [self titleColorForState:UIControlStateHighlighted];
 }
 
-- (void)setHighlightedTextColor:(UIColor*)highlightedTextColor
-{
+- (void)setHighlightedTextColor:(UIColor*)highlightedTextColor {
   [self setTitleColor:highlightedTextColor forState:UIControlStateHighlighted];
 }
 
-- (UIColor*)selectedTextColor
-{
+- (UIColor*)selectedTextColor {
   return [self titleColorForState:UIControlStateSelected];
 }
 
-- (void)setSelectedTextColor:(UIColor*)selectedTextColor
-{
+- (void)setSelectedTextColor:(UIColor*)selectedTextColor {
   [self setTitleColor:selectedTextColor forState:UIControlStateSelected];
 }
 
-- (UIColor*)disabledTextColor
-{
+- (UIColor*)disabledTextColor {
   return [self titleColorForState:UIControlStateDisabled];
 }
 
-- (void)setDisabledTextColor:(UIColor*)disabledTextColor
-{
+- (void)setDisabledTextColor:(UIColor*)disabledTextColor {
   [self setTitleColor:disabledTextColor forState:UIControlStateDisabled];
 }
 
-- (UIColor *)backgroundColorImage
-{
+- (UIColor *)backgroundColorImage {
   return nil;
 }
 
-- (void)setBackgroundColorImage:(UIColor*)backgroundColor
-{
+- (void)setBackgroundColorImage:(UIColor*)backgroundColor {
   UIImage *image = [UIImage yg_imageWithColor:backgroundColor];
   self.backgroundImage = image;
 }
 
-- (UIImage*)backgroundImage
-{
+- (UIImage*)backgroundImage {
   return [self backgroundImageForState:UIControlStateNormal];
 }
 
-- (void)setBackgroundImage:(UIImage*)backgroundImage
-{
+- (void)setBackgroundImage:(UIImage*)backgroundImage {
   [self setBackgroundImage:backgroundImage forState:UIControlStateNormal];
 }
 
-- (UIImage*)highlightedBackgroundImage
-{
+- (UIImage*)highlightedBackgroundImage {
   return [self backgroundImageForState:UIControlStateHighlighted];
 }
 
-- (void)setHighlightedBackgroundImage:(UIImage*)highlightedBackgroundImage
-{
+- (void)setHighlightedBackgroundImage:(UIImage*)highlightedBackgroundImage {
   [self setBackgroundImage:highlightedBackgroundImage forState:UIControlStateHighlighted];
 }
 
-- (UIImage*)selectedBackgroundImage
-{
+- (UIImage*)selectedBackgroundImage {
   return [self backgroundImageForState:UIControlStateSelected];
 }
 
-- (void)setSelectedBackgroundImage:(UIImage*)selectedBackgroundImage
-{
+- (void)setSelectedBackgroundImage:(UIImage*)selectedBackgroundImage {
   [self setBackgroundImage:selectedBackgroundImage forState:UIControlStateSelected];
 }
 
-- (UIImage*)disabledBackgroundImage
-{
+- (UIImage*)disabledBackgroundImage {
   return [self backgroundImageForState:UIControlStateDisabled];
 }
 
-- (void)setDisabledBackgroundImage:(UIImage*)disabledBackgroundImage
-{
+- (void)setDisabledBackgroundImage:(UIImage*)disabledBackgroundImage {
   [self setBackgroundImage:disabledBackgroundImage forState:UIControlStateDisabled];
 }
 
-- (UIImage*)image
-{
+- (UIImage*)image {
   return [self imageForState:UIControlStateNormal];
 }
 
-- (void)setImage:(UIImage*)image
-{
+- (void)setImage:(UIImage*)image {
   [self setImage:image forState:UIControlStateNormal];
 }
 
-- (UIImage*)highlightedImage
-{
+- (UIImage*)highlightedImage {
   return [self imageForState:UIControlStateHighlighted];
 }
 
-- (void)setHighlightedImage:(UIImage*)highlightedImage
-{
+- (void)setHighlightedImage:(UIImage*)highlightedImage {
   [self setImage:highlightedImage forState:UIControlStateHighlighted];
 }
 
-- (UIImage*)selectedImage
-{
+- (UIImage*)selectedImage {
   return [self imageForState:UIControlStateSelected];
 }
 
@@ -678,13 +604,11 @@ static const void *kYGYogaAssociatedKey = &kYGYogaAssociatedKey;
   [self setImage:selectedImage forState:UIControlStateSelected];
 }
 
-- (UIImage*)disabledImage
-{
+- (UIImage*)disabledImage {
   return [self imageForState:UIControlStateDisabled];
 }
 
-- (void)setDisabledImage:(UIImage*)disabledImage
-{
+- (void)setDisabledImage:(UIImage*)disabledImage {
   [self setImage:disabledImage forState:UIControlStateDisabled];
 }
 
@@ -694,13 +618,11 @@ static const void *kYGYogaAssociatedKey = &kYGYogaAssociatedKey;
 
 @implementation UIImage (YGAdditions)
 
-+ (UIImage*)yg_imageWithColor:(UIColor*)color
-{
++ (UIImage*)yg_imageWithColor:(UIColor*)color {
   return [self yg_imageWithColor:color size:(CGSize){1,1}];
 }
 
-+ (UIImage*)yg_imageWithColor:(UIColor*)color size:(CGSize)size
-{
++ (UIImage*)yg_imageWithColor:(UIColor*)color size:(CGSize)size {
   CGRect rect = (CGRect){CGPointZero, size};
   UIGraphicsBeginImageContextWithOptions(size, NO, UIScreen.mainScreen.scale);
   CGContextRef context = UIGraphicsGetCurrentContext();
@@ -714,8 +636,7 @@ static const void *kYGYogaAssociatedKey = &kYGYogaAssociatedKey;
 + (UIImage*)yg_imageFromString:(NSString *)string
                          color:(UIColor*)color
                           font:(UIFont *)font
-                          size:(CGSize)size
-{
+                          size:(CGSize)size {
   UIGraphicsBeginImageContextWithOptions(size, NO, 0);
 
   NSDictionary *attributes = @{NSFontAttributeName: font,
@@ -732,8 +653,7 @@ static const void *kYGYogaAssociatedKey = &kYGYogaAssociatedKey;
 
 @implementation UIViewController (YGAdditions)
 
-- (BOOL)isModal
-{
+- (BOOL)isModal {
   if ([self presentingViewController])
     return YES;
   if (
@@ -747,8 +667,7 @@ static const void *kYGYogaAssociatedKey = &kYGYogaAssociatedKey;
 
 @end
 
-UIViewController * _Nullable UIGetTopmostViewController()
-{
+UIViewController * _Nullable UIGetTopmostViewController() {
   UIViewController *baseVC = UIApplication.sharedApplication.keyWindow.rootViewController;
   if ([baseVC isKindOfClass:[UINavigationController class]]) {
     return ((UINavigationController *)baseVC).visibleViewController;

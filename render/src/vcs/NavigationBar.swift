@@ -461,7 +461,7 @@ public struct UINavigationBarDefaultStyle {
   /// The font applied to the button items.
   public var buttonFont: UIFont = UIFont.systemFont(ofSize: 16, weight: UIFont.Weight.regular)
   /// The shadow applied when the navigation bar is expanded.
-  public var depthWhenExpanded: DepthPreset = .none
+  public var depthWhenExpanded: UIDepthPreset = .none
   /// The shadow applied when the navigation bar is in its default mode.
-  public var depthWhenNormal: DepthPreset = .depth2
+  public var depthWhenNormal: UIDepthPreset = .depth2
 }

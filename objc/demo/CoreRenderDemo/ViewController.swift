@@ -2,7 +2,7 @@ import UIKit
 import CoreRender
 
 class ViewController: UIViewController {
-  private var node: Node<UIView>?
+  private var node: ConcreteNode<UIView>?
   private var count = 0
 
   override func viewDidLoad() {
@@ -13,10 +13,10 @@ class ViewController: UIViewController {
 
   func render() {
     count += 1
-    node = makeNode(type: UIView.self) { spec in
+    node = Node(type: UIView.self) { spec in
       set(spec, keyPath: \UIView.yoga.width, value: spec.size.width)
     }
-    let wrapper = makeNode(type: UIView.self) { spec in
+    let wrapper = Node(type: UIView.self) { spec in
       set(spec, keyPath: \UIView.backgroundColor, value: .lightGray)
       set(spec, keyPath: \UIView.cornerRadius, value: 5)
       set(spec, keyPath: \UIView.yoga.margin, value: 20)
@@ -24,7 +24,7 @@ class ViewController: UIViewController {
     }
     node?.append(children: [wrapper])
 
-    let label = makeNode(type: UILabel.self) { spec in
+    let label = Node(type: UILabel.self) { spec in
       set(spec, keyPath: \UILabel.text, value: "Hello")
     }
     if count % 2 == 0 {

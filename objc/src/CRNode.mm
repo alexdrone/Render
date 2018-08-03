@@ -9,6 +9,12 @@
 @property (nonatomic, copy, nonnull) void (^layoutSpec)(CRNodeLayoutSpec *);
 @end
 
+void CRIllegalControllerTypeException(NSString *reason) {
+  @throw [NSException exceptionWithName:@"IllegalControllerTypeException"
+                                 reason:reason
+                               userInfo:nil];
+}
+
 @implementation CRNode {
   NSMutableArray<CRNode *> *_mutableChildren;
   __weak CRContext *_context;
@@ -20,12 +26,28 @@
 #pragma mark - Initializer
 
 - (instancetype)initWithType:(Class)type
+                  controller:(Class)controllerType
              reuseIdentifier:(NSString *)reuseIdentifier
                          key:(NSString *)key
           viewInitialization:(UIView *(^_Nullable)(void))viewInitialization
                   layoutSpec:(void (^)(CRNodeLayoutSpec<UIView *> *))layoutSpec {
   if (self = [super init]) {
     _reuseIdentifier = CR_NIL_COALESCING(reuseIdentifier, NSStringFromClass(type));
+    if (controllerType) {
+      if([controllerType isSubclassOfClass:CRController.class]) {
+        if (key) {
+          if ([controllerType isStateless])
+            CRIllegalControllerTypeException(@"Nodes with key require a statefui controller.");
+          _controllerType = controllerType;
+        } else {
+          if (![controllerType isStateless])
+            CRIllegalControllerTypeException(@"Nodes without key require a stateless controller.");
+          _controllerType = controllerType;
+        }
+      } else {
+        CRIllegalControllerTypeException(@"Must be a subclass of CRController.");
+      }
+    }
     _key = key;
     _viewType = type;
     _mutableChildren = [[NSMutableArray alloc] init];
@@ -38,11 +60,13 @@
 #pragma mark - Convenience Initializer
 
 + (instancetype)nodeWithType:(Class)type
+                  controller:(Class)controllerType
              reuseIdentifier:(NSString *)reuseIdentifier
                          key:(nullable NSString *)key
           viewInitialization:(UIView *(^_Nullable)(void))viewInitialization
                   layoutSpec:(void (^)(CRNodeLayoutSpec<UIView *> *))layoutSpec {
   return [[CRNode alloc] initWithType:type
+                           controller:controllerType
                       reuseIdentifier:reuseIdentifier
                                   key:key
                    viewInitialization:viewInitialization
@@ -50,9 +74,11 @@
 }
 
 + (instancetype)nodeWithType:(Class)type
+                  controller:(Class)controllerType
                          key:(nullable NSString *)key
                   layoutSpec:(void (^)(CRNodeLayoutSpec<UIView *> *))layoutSpec {
   return [[CRNode alloc] initWithType:type
+                           controller:controllerType
                       reuseIdentifier:nil
                                   key:key
                    viewInitialization:nil
@@ -60,8 +86,20 @@
 }
 
 + (instancetype)nodeWithType:(Class)type
+                  controller:(Class)controllerType
                   layoutSpec:(void (^)(CRNodeLayoutSpec<UIView *> *))layoutSpec {
   return [[CRNode alloc] initWithType:type
+                           controller:controllerType
+                      reuseIdentifier:nil
+                                  key:nil
+                   viewInitialization:nil
+                           layoutSpec:layoutSpec];
+}
+
++ (instancetype)nodeWithType:(Class)type
+                  layoutSpec:(void (^)(CRNodeLayoutSpec<UIView *> *))layoutSpec {
+  return [[CRNode alloc] initWithType:type
+                           controller:nil
                       reuseIdentifier:nil
                                   key:nil
                    viewInitialization:nil

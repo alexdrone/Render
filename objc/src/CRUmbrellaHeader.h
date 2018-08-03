@@ -4,6 +4,7 @@
 #import <UIKit/UIKit.h>
 #import "YGLayout.h"
 #import "CRContext.h"
+#import "CRController.h"
 #import "CRNode.h"
 #import "CRNodeBridge.h"
 #import "CRNodeLayoutSpec.h"

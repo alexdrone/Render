@@ -3246,7 +3246,7 @@ static void YGNodelayoutImpl(const YGNodeRef node,
   }
 }
 
-uint32_t gDepth = 0;
+uint32_t gUIDepth = 0;
 bool gPrintTree = false;
 bool gPrintChanges = false;
 bool gPrintSkips = false;
@@ -3405,7 +3405,7 @@ bool YGLayoutNodeInternal(const YGNodeRef node,
                           const YGConfigRef config) {
   YGLayout *layout = &node->layout;
 
-  gDepth++;
+  gUIDepth++;
 
   const bool needToVisitNode =
   (node->isDirty && layout->generationCount != gCurrentGenerationCount) ||
@@ -3498,7 +3498,7 @@ bool YGLayoutNodeInternal(const YGNodeRef node,
     layout->measuredDimensions[YGDimensionHeight] = cachedResults->computedHeight;
 
     if (gPrintChanges && gPrintSkips) {
-      printf("%s%d.{[skipped] ", YGSpacer(gDepth), gDepth);
+      printf("%s%d.{[skipped] ", YGSpacer(gUIDepth), gUIDepth);
       if (node->print) {
         node->print(node);
       }
@@ -3513,7 +3513,7 @@ bool YGLayoutNodeInternal(const YGNodeRef node,
     }
   } else {
     if (gPrintChanges) {
-      printf("%s%d.{%s", YGSpacer(gDepth), gDepth, needToVisitNode ? "*" : "");
+      printf("%s%d.{%s", YGSpacer(gUIDepth), gUIDepth, needToVisitNode ? "*" : "");
       if (node->print) {
         node->print(node);
       }
@@ -3537,7 +3537,7 @@ bool YGLayoutNodeInternal(const YGNodeRef node,
                      config);
 
     if (gPrintChanges) {
-      printf("%s%d.}%s", YGSpacer(gDepth), gDepth, needToVisitNode ? "*" : "");
+      printf("%s%d.}%s", YGSpacer(gUIDepth), gUIDepth, needToVisitNode ? "*" : "");
       if (node->print) {
         node->print(node);
       }
@@ -3585,7 +3585,7 @@ bool YGLayoutNodeInternal(const YGNodeRef node,
     node->isDirty = false;
   }
 
-  gDepth--;
+  gUIDepth--;
   layout->generationCount = gCurrentGenerationCount;
   return (needToVisitNode || cachedResults == NULL);
 }

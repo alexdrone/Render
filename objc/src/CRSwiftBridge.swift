@@ -1,17 +1,18 @@
 import UIKit
 
-/// Convenience type-erased protocol.
+// Convenience type-erased protocols.
 public protocol NodeProtocol: class { }
+public protocol ControllerProtocol: class {}
 
-/// Conformance of *CRNode*.
-extension Node: NodeProtocol { }
+extension ConcreteNode: NodeProtocol { }
+extension Controller: ControllerProtocol { }
 
 /// Swift-only extensions.
 public extension NodeProtocol {
   /// Adds the nodes as children of this node.
-  @discardableResult public func append(children: [NodeProtocol]) -> Node<UIView> {
-    let node = self as! Node<UIView>
-    let children = children.compactMap { $0 as? Node<UIView> }
+  @discardableResult public func append(children: [NodeProtocol]) -> ConcreteNode<UIView> {
+    let node = self as! ConcreteNode<UIView>
+    let children = children.compactMap { $0 as? ConcreteNode<UIView> }
     node.appendChildren(children)
     return node
   }
@@ -40,23 +41,30 @@ public extension NodeProtocol {
 ///   spec.view.setTitle("FOO", for: .normal)
 /// ```
 @inline(__always)
-public func makeNode<V: UIView>(type: V.Type,
-                                reuseIdentifier: String? = nil,
-                                key: String? = nil,
-                                create: (() -> V)? = nil,
-                                layoutSpec: @escaping (LayoutSpec<V>) -> Void) -> Node<V> {
-  return Node<V>(type: V.self,
-                 reuseIdentifier: reuseIdentifier,
-                 key: key,
-                 viewInitialization: create,
-                 layoutSpec: layoutSpec)
+public func Node<V: UIView> (
+  type: V.Type,
+  controller: AnyClass? = nil,
+  reuseIdentifier: String? = nil,
+  key: String? = nil,
+  create: (() -> V)? = nil,
+  layoutSpec: @escaping (LayoutSpec<V>) -> Void
+) -> ConcreteNode<V> {
+  return ConcreteNode<V>(
+    type: V.self,
+    controller: controller,
+    reuseIdentifier: reuseIdentifier,
+    key: key,
+    viewInitialization: create,
+    layoutSpec: layoutSpec)
 }
 
 @inline(__always)
-public func set<V: UIView, T>(_ spec: LayoutSpec<V>,
-                              keyPath: ReferenceWritableKeyPath<V, T>,
-                              value: T,
-                              animator: UIViewPropertyAnimator? = nil) {
+public func set<V: UIView, T>(
+  _ spec: LayoutSpec<V>,
+  keyPath: ReferenceWritableKeyPath<V, T>,
+  value: T,
+  animator: UIViewPropertyAnimator? = nil
+) -> Void {
   guard let kvc = keyPath._kvcKeyPathString else {
     print("\(keyPath) is not a KVC property.")
     return

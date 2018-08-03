@@ -259,11 +259,11 @@ extension Offset {
   }
 }
 
-@objc public enum DepthPreset: Int {
+@objc public enum UIDepthPreset: Int {
   case none, depth1, depth2, depth3, depth4, depth5
 }
 
-public struct Depth {
+public struct UIDepth {
   public var offset: Offset
   public var opacity: Float
   public var radius: CGFloat
@@ -274,9 +274,9 @@ public struct Depth {
   }
 
   /// Preset.
-  public var preset = DepthPreset.none {
+  public var preset = UIDepthPreset.none {
     didSet {
-      let depth = DepthPresetToValue(preset: preset)
+      let depth = UIDepthPresetToValue(preset: preset)
       offset = depth.offset
       opacity = depth.opacity
       radius = depth.radius
@@ -289,39 +289,39 @@ public struct Depth {
     self.radius = radius
   }
 
-   /// Initializer that takes in a DepthPreset.
-   /// - Parameter preset: DepthPreset.
-  public init(preset: DepthPreset) {
+   /// Initializer that takes in a UIDepthPreset.
+   /// - Parameter preset: UIDepthPreset.
+  public init(preset: UIDepthPreset) {
     self.init()
     self.preset = preset
   }
 
-   /// Static constructor for Depth with values of 0.
-   /// - Returns: A Depth struct with values of 0.
-  static var zero: Depth {
-    return Depth()
+   /// Static constructor for UIDepth with values of 0.
+   /// - Returns: A UIDepth struct with values of 0.
+  static var zero: UIDepth {
+    return UIDepth()
   }
 }
 
-/// Converts the DepthPreset enum to a Depth value.
-public func DepthPresetToValue(preset: DepthPreset) -> Depth {
+/// Converts the UIDepthPreset enum to a UIDepth value.
+public func UIDepthPresetToValue(preset: UIDepthPreset) -> UIDepth {
   switch preset {
   case .none:
     return .zero
   case .depth1:
-    return Depth(offset: Offset(horizontal: 0, vertical: 0.5), opacity: 0.3, radius: 0.5)
+    return UIDepth(offset: Offset(horizontal: 0, vertical: 0.5), opacity: 0.3, radius: 0.5)
   case .depth2:
-    return Depth(offset: Offset(horizontal: 0, vertical: 1), opacity: 0.3, radius: 1)
+    return UIDepth(offset: Offset(horizontal: 0, vertical: 1), opacity: 0.3, radius: 1)
   case .depth3:
-    return Depth(offset: Offset(horizontal: 0, vertical: 2), opacity: 0.3, radius: 2)
+    return UIDepth(offset: Offset(horizontal: 0, vertical: 2), opacity: 0.3, radius: 2)
   case .depth4:
-    return Depth(offset: Offset(horizontal: 0, vertical: 4), opacity: 0.3, radius: 4)
+    return UIDepth(offset: Offset(horizontal: 0, vertical: 4), opacity: 0.3, radius: 4)
   case .depth5:
-    return Depth(offset: Offset(horizontal: 0, vertical: 8), opacity: 0.3, radius: 8)
+    return UIDepth(offset: Offset(horizontal: 0, vertical: 8), opacity: 0.3, radius: 8)
   }
 }
 
-@objc public enum ShapePreset: Int {
+@objc public enum UIShapePreset: Int {
   case none, square, circle
 }
 
@@ -330,13 +330,13 @@ fileprivate class ContainerLayer {
   fileprivate weak var layer: CALayer?
 
   /// A preset property to set the shape.
-  fileprivate var shapePreset = ShapePreset.none {
+  fileprivate var shapePreset = UIShapePreset.none {
     didSet {
       layer?.layoutShape()
     }
   }
-  /// A preset value for Depth.
-  fileprivate var depthPreset: DepthPreset {
+  /// A preset value for UIDepth.
+  fileprivate var depthPreset: UIDepthPreset {
     get {
       return depth.preset
     }
@@ -346,7 +346,7 @@ fileprivate class ContainerLayer {
   }
 
   /// Grid reference.
-  fileprivate var depth = Depth.zero {
+  fileprivate var depth = UIDepth.zero {
     didSet {
       guard let v = layer else {
         return
@@ -388,21 +388,21 @@ extension CALayer {
   /// A property that manages the overall shape for the object. If either the
   /// width or height property is set, the other will be automatically adjusted
   /// to maintain the shape of the object.
-  open var shapePreset: ShapePreset {
+  open var shapePreset: UIShapePreset {
     get { return containerLayer.shapePreset }
     set(value) {
       containerLayer.shapePreset = value
     }
   }
-  /// A preset value for Depth.
-  open var depthPreset: DepthPreset {
+  /// A preset value for UIDepth.
+  open var depthPreset: UIDepthPreset {
     get { return depth.preset }
     set(value) {
       depth.preset = value
     }
   }
   /// Grid reference.
-  open var depth: Depth {
+  open var depth: UIDepth {
     get { return containerLayer.depth }
     set(value) {
       containerLayer.depth = value
@@ -450,17 +450,17 @@ extension UIView {
    /// A property that manages the overall shape for the object. If either the
    /// width or height property is set, the other will be automatically adjusted
    /// to maintain the shape of the object.
-   @objc open var shapePreset: ShapePreset {
+   @objc open var shapePreset: UIShapePreset {
     get { return layer.shapePreset }
     set(value) { layer.shapePreset = value }
   }
-  /// A preset value for Depth.
-  @objc open var depthPreset: DepthPreset {
+  /// A preset value for UIDepth.
+  @objc open var depthPreset: UIDepthPreset {
     get { return layer.depthPreset }
     set(value) { layer.depthPreset = value }
   }
-  /// Depth reference.
-  open var depth: Depth {
+  /// UIDepth reference.
+  open var depth: UIDepth {
     get { return layer.depth }
     set(value) { layer.depth = value }
   }

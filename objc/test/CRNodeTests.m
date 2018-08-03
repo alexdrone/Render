@@ -5,6 +5,18 @@
 @property (nonatomic, weak) UILabel *testOutlet;
 @end
 
+@interface TestController : CRController
+@end
+
+@implementation TestController
+@end
+
+@interface TestStatelessController : CRStatelessController
+@end
+
+@implementation TestStatelessController
+@end
+
 @implementation CRNodeTests
 
 - (CRNode *)buildLabelNode {
@@ -77,6 +89,81 @@
 
   XCTAssert(fabs(CGRectGetMaxY(sv[0].frame) - sv[1].frame.origin.y) <= 1.0);
   XCTAssert(fabs(CGRectGetMaxY(sv[1].frame) - sv[2].frame.origin.y) <= 1.0);
+}
+
+- (void)testThrowExeptionWhenIllegalControllerTypeIsPassedAsArgument {
+  BOOL test = NO;
+  CRNode *node = nil;
+  @try {
+    node = [CRNode nodeWithType:UIView.self
+                     controller:TestStatelessController.self
+                     layoutSpec:^(CRNodeLayoutSpec *spec) {}];
+    test = YES;
+  }
+  @catch(NSException *e) {
+    test = NO;
+  }
+  XCTAssertTrue(test);
+  XCTAssertNotNil(node);
+
+  test = NO;
+  node = nil;
+  @try {
+    node = [CRNode nodeWithType:UIView.self
+                     controller:TestController.self
+                            key:@"1"
+                     layoutSpec:^(CRNodeLayoutSpec *spec) {}];
+    test = YES;
+  }
+  @catch(NSException *e) {
+    test = NO;
+  }
+  XCTAssertTrue(test);
+  XCTAssertNotNil(node);
+
+  test = NO;
+  node = nil;
+  @try {
+    node = [CRNode nodeWithType:UIView.self
+                     controller:TestController.self
+                     layoutSpec:^(CRNodeLayoutSpec *spec) {}];
+    test = YES;
+  }
+  @catch(NSException *e) {
+    test = NO;
+  }
+  XCTAssertFalse(test);
+  XCTAssertNil(node);
+
+  test = NO;
+  node = nil;
+  @try {
+    node = [CRNode nodeWithType:UIView.self
+                     controller:TestStatelessController.self
+                            key:@"1"
+                     layoutSpec:^(CRNodeLayoutSpec *spec) {}];
+    test = YES;
+  }
+  @catch(NSException *e) {
+    test = NO;
+  }
+  XCTAssertFalse(test);
+  XCTAssertNil(node);
+
+  test = NO;
+  node = nil;
+  @try {
+    node = [CRNode nodeWithType:UIView.self
+                     controller:NSObject.self
+                            key:@"1"
+                     layoutSpec:^(CRNodeLayoutSpec *spec) {}];
+    test = YES;
+  }
+  @catch(NSException *e) {
+    test = NO;
+  }
+  XCTAssertFalse(test);
+  XCTAssertNil(node);
 }
 
 @end
