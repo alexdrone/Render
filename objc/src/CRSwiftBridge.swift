@@ -3,9 +3,11 @@ import UIKit
 // Convenience type-erased protocols.
 public protocol NodeProtocol: class { }
 public protocol ControllerProtocol: class {}
+@objc public protocol PropsProtocol: class {}
 
 extension ConcreteNode: NodeProtocol { }
 extension Controller: ControllerProtocol { }
+extension Props: PropsProtocol { }
 
 /// Swift-only extensions.
 public extension NodeProtocol {
@@ -43,7 +45,7 @@ public extension NodeProtocol {
 @inline(__always)
 public func Node<V: UIView> (
   type: V.Type,
-  controller: AnyClass? = nil,
+  props: PropsProtocol? = nil,
   reuseIdentifier: String? = nil,
   key: String? = nil,
   create: (() -> V)? = nil,
@@ -51,7 +53,7 @@ public func Node<V: UIView> (
 ) -> ConcreteNode<V> {
   return ConcreteNode<V>(
     type: V.self,
-    controller: controller,
+    props: props as? Props,
     reuseIdentifier: reuseIdentifier,
     key: key,
     viewInitialization: create,

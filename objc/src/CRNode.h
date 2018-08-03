@@ -46,32 +46,38 @@ NS_SWIFT_NAME(ConcreteNode)
 @property(nonatomic, readonly, nullable) V renderedView;
 /// The layout delegate for this node.
 @property(nonatomic, nullable, weak) id<CRNodeDelegate> delegate;
-/// The associated controller.
-@property(nonatomic, nullable) Class controllerType;
+/// The type of the associated controller.
+@property(nonatomic, nullable, readonly) Class controllerType;
+/// Returns the associated controller.
+/// @note: @c nil if this node hierarchy is not registered to any @c CRContext, or if
+/// @c controllerType is @c nil.
+@property(nonatomic, nullable, readonly) __kindof CRController *controller;
+/// Represents the properties that are externally injected into the controller.
+@property(nonatomic, nullable, readonly) __kindof CRProps *props;
 
 #pragma mark Constructors
 
 - (instancetype)initWithType:(Class)type
-                  controller:(nullable Class)controllerType
+                       props:(nullable CRProps *)props
              reuseIdentifier:(nullable NSString *)reuseIdentifier
                          key:(nullable NSString *)key
           viewInitialization:(UIView *(^_Nullable)(void))viewInitialization
                   layoutSpec:(void (^)(CRNodeLayoutSpec<V> *))layoutSpec;
 
 + (instancetype)nodeWithType:(Class)type
-                  controller:(nullable Class)controllerType
+                       props:(nullable CRProps *)props
              reuseIdentifier:(NSString *)reuseIdentifier
                          key:(nullable NSString *)key
           viewInitialization:(UIView *(^_Nullable)(void))viewInitialization
                   layoutSpec:(void (^)(CRNodeLayoutSpec<V> *))layoutSpec;
 
 + (instancetype)nodeWithType:(Class)type
-                  controller:(nullable Class)controllerType
+                       props:(nullable CRProps *)props
                          key:(nullable NSString *)key
                   layoutSpec:(void (^)(CRNodeLayoutSpec<V> *))layoutSpec;
 
 + (instancetype)nodeWithType:(Class)type
-                  controller:(nullable Class)controllerType
+                       props:(nullable CRProps *)props
                   layoutSpec:(void (^)(CRNodeLayoutSpec<V> *))layoutSpec;
 
 + (instancetype)nodeWithType:(Class)type

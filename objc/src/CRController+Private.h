@@ -1,14 +1,14 @@
-#ifndef CRController_Private_h
-#define CRController_Private_h
+#import <Foundation/Foundation.h>
 
-@interface CRController ()
+NS_ASSUME_NONNULL_BEGIN
+
+@interface CRController <P, S> ()
 // Private setter modifiers
 @property(nonatomic, readwrite) NSString *key;
-
 /// @note: Never call the init method manually - controllers are dynamically constructed,
 /// disposed and reused by @c CRContext.
 - (instancetype)initWithKey:(NSString*)key;
 
 @end
 
-#endif /* CRController_Private_h */
+NS_ASSUME_NONNULL_END

@@ -26,13 +26,15 @@ void CRIllegalControllerTypeException(NSString *reason) {
 #pragma mark - Initializer
 
 - (instancetype)initWithType:(Class)type
-                  controller:(Class)controllerType
+                       props:(nullable CRProps *)props
              reuseIdentifier:(NSString *)reuseIdentifier
                          key:(NSString *)key
           viewInitialization:(UIView *(^_Nullable)(void))viewInitialization
                   layoutSpec:(void (^)(CRNodeLayoutSpec<UIView *> *))layoutSpec {
   if (self = [super init]) {
     _reuseIdentifier = CR_NIL_COALESCING(reuseIdentifier, NSStringFromClass(type));
+    _props = props;
+    const auto controllerType = [_props controllerType];
     if (controllerType) {
       if([controllerType isSubclassOfClass:CRController.class]) {
         if (key) {
@@ -60,13 +62,13 @@ void CRIllegalControllerTypeException(NSString *reason) {
 #pragma mark - Convenience Initializer
 
 + (instancetype)nodeWithType:(Class)type
-                  controller:(Class)controllerType
+                       props:(nullable CRProps *)props
              reuseIdentifier:(NSString *)reuseIdentifier
                          key:(nullable NSString *)key
           viewInitialization:(UIView *(^_Nullable)(void))viewInitialization
                   layoutSpec:(void (^)(CRNodeLayoutSpec<UIView *> *))layoutSpec {
   return [[CRNode alloc] initWithType:type
-                           controller:controllerType
+                                props:props
                       reuseIdentifier:reuseIdentifier
                                   key:key
                    viewInitialization:viewInitialization
@@ -74,11 +76,11 @@ void CRIllegalControllerTypeException(NSString *reason) {
 }
 
 + (instancetype)nodeWithType:(Class)type
-                  controller:(Class)controllerType
+                       props:(nullable CRProps *)props
                          key:(nullable NSString *)key
                   layoutSpec:(void (^)(CRNodeLayoutSpec<UIView *> *))layoutSpec {
   return [[CRNode alloc] initWithType:type
-                           controller:controllerType
+                                props:props
                       reuseIdentifier:nil
                                   key:key
                    viewInitialization:nil
@@ -86,10 +88,10 @@ void CRIllegalControllerTypeException(NSString *reason) {
 }
 
 + (instancetype)nodeWithType:(Class)type
-                  controller:(Class)controllerType
+                       props:(nullable CRProps *)props
                   layoutSpec:(void (^)(CRNodeLayoutSpec<UIView *> *))layoutSpec {
   return [[CRNode alloc] initWithType:type
-                           controller:controllerType
+                                props:props
                       reuseIdentifier:nil
                                   key:nil
                    viewInitialization:nil
@@ -99,7 +101,7 @@ void CRIllegalControllerTypeException(NSString *reason) {
 + (instancetype)nodeWithType:(Class)type
                   layoutSpec:(void (^)(CRNodeLayoutSpec<UIView *> *))layoutSpec {
   return [[CRNode alloc] initWithType:type
-                           controller:nil
+                                props:nil
                       reuseIdentifier:nil
                                   key:nil
                    viewInitialization:nil
@@ -116,6 +118,13 @@ void CRIllegalControllerTypeException(NSString *reason) {
 - (CRContext *)context {
   if (_context != nil) return _context;
   return _parent.context;
+}
+
+- (__kindof CRController *)controller {
+  if (!_controllerType || !_context) return nil;
+  return _key != nil
+    ? [_context controllerOfType:_controllerType withKey:_key]
+    : [_context controllerOfType:_controllerType];
 }
 
 #pragma mark - Children

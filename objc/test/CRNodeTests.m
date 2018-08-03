@@ -5,16 +5,16 @@
 @property (nonatomic, weak) UILabel *testOutlet;
 @end
 
+@interface TestProps : CRProps
+@end
+
 @interface TestController : CRController
 @end
 
-@implementation TestController
+@interface TestStatelessProps : CRProps
 @end
 
 @interface TestStatelessController : CRStatelessController
-@end
-
-@implementation TestStatelessController
 @end
 
 @implementation CRNodeTests
@@ -96,7 +96,7 @@
   CRNode *node = nil;
   @try {
     node = [CRNode nodeWithType:UIView.self
-                     controller:TestStatelessController.self
+                          props:[[TestStatelessProps alloc] init]
                      layoutSpec:^(CRNodeLayoutSpec *spec) {}];
     test = YES;
   }
@@ -110,7 +110,7 @@
   node = nil;
   @try {
     node = [CRNode nodeWithType:UIView.self
-                     controller:TestController.self
+                          props:[[TestProps alloc] init]
                             key:@"1"
                      layoutSpec:^(CRNodeLayoutSpec *spec) {}];
     test = YES;
@@ -125,7 +125,7 @@
   node = nil;
   @try {
     node = [CRNode nodeWithType:UIView.self
-                     controller:TestController.self
+                          props:[[TestProps alloc] init]
                      layoutSpec:^(CRNodeLayoutSpec *spec) {}];
     test = YES;
   }
@@ -139,7 +139,7 @@
   node = nil;
   @try {
     node = [CRNode nodeWithType:UIView.self
-                     controller:TestStatelessController.self
+                          props:[[TestStatelessProps alloc] init]
                             key:@"1"
                      layoutSpec:^(CRNodeLayoutSpec *spec) {}];
     test = YES;
@@ -154,7 +154,7 @@
   node = nil;
   @try {
     node = [CRNode nodeWithType:UIView.self
-                     controller:NSObject.self
+                          props:nil
                             key:@"1"
                      layoutSpec:^(CRNodeLayoutSpec *spec) {}];
     test = YES;
@@ -162,8 +162,22 @@
   @catch(NSException *e) {
     test = NO;
   }
-  XCTAssertFalse(test);
-  XCTAssertNil(node);
+  XCTAssertTrue(test);
+  XCTAssertNotNil(node);
 }
 
+@end
+
+@implementation TestProps
+- (Class)controllerType { return TestController.self; }
+@end
+
+@implementation TestController
+@end
+
+@implementation TestStatelessProps
+- (Class)controllerType { return TestStatelessController.self; }
+@end
+
+@implementation TestStatelessController
 @end

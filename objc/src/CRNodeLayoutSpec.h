@@ -10,6 +10,13 @@ NS_SWIFT_NAME(LayoutSpec)
 @property (nonatomic, readonly, nullable, weak) CRNode *node;
 /// The context for this node hierarchy.
 @property (nonatomic, readonly, nullable, weak) CRContext *context;
+/// The controller managing this node subtree.
+@property (nonatomic, readonly, nullable, weak) __kindof CRController *controller;
+/// The props passed down to this node.
+@property (nonatomic, readonly, nullable, weak) __kindof CRProps *props;
+/// The current state of the controller.
+@property (nonatomic, readonly, nullable, weak) __kindof CRState *state;
+
 /// The boundaries of this node.
 @property (nonatomic, readonly) CGSize size;
 
