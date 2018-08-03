@@ -58,39 +58,34 @@ NS_SWIFT_NAME(ConcreteNode)
 #pragma mark Constructors
 
 - (instancetype)initWithType:(Class)type
-                       props:(nullable CRProps *)props
              reuseIdentifier:(nullable NSString *)reuseIdentifier
                          key:(nullable NSString *)key
           viewInitialization:(UIView *(^_Nullable)(void))viewInitialization
                   layoutSpec:(void (^)(CRNodeLayoutSpec<V> *))layoutSpec;
 
 + (instancetype)nodeWithType:(Class)type
-                       props:(nullable CRProps *)props
              reuseIdentifier:(NSString *)reuseIdentifier
                          key:(nullable NSString *)key
           viewInitialization:(UIView *(^_Nullable)(void))viewInitialization
                   layoutSpec:(void (^)(CRNodeLayoutSpec<V> *))layoutSpec;
 
 + (instancetype)nodeWithType:(Class)type
-                       props:(nullable CRProps *)props
                          key:(nullable NSString *)key
                   layoutSpec:(void (^)(CRNodeLayoutSpec<V> *))layoutSpec;
 
 + (instancetype)nodeWithType:(Class)type
-                       props:(nullable CRProps *)props
                   layoutSpec:(void (^)(CRNodeLayoutSpec<V> *))layoutSpec;
-
-+ (instancetype)nodeWithType:(Class)type
-                  layoutSpec:(void (^)(CRNodeLayoutSpec<V> *))layoutSpec;
-
 
 #pragma mark Setup
 
 /// Adds the nodes as children of this node.
 - (instancetype)appendChildren:(NSArray<CRNode *> *)children;
 
+/// Bind this node to the @c CRController class passed as argument.
+- (instancetype)bindController:(Class)controllerType withProps:(nullable CRProps *)props;
+
 /// Register the context for the root node of this node hierarchy.
-- (void)registerInContext:(CRContext *)context;
+- (void)buildNodeHierarchyInContext:(CRContext *)context;
 
 #pragma mark Render
 

@@ -26,30 +26,12 @@ void CRIllegalControllerTypeException(NSString *reason) {
 #pragma mark - Initializer
 
 - (instancetype)initWithType:(Class)type
-                       props:(nullable CRProps *)props
              reuseIdentifier:(NSString *)reuseIdentifier
                          key:(NSString *)key
           viewInitialization:(UIView *(^_Nullable)(void))viewInitialization
                   layoutSpec:(void (^)(CRNodeLayoutSpec<UIView *> *))layoutSpec {
   if (self = [super init]) {
     _reuseIdentifier = CR_NIL_COALESCING(reuseIdentifier, NSStringFromClass(type));
-    _props = props;
-    const auto controllerType = [_props controllerType];
-    if (controllerType) {
-      if([controllerType isSubclassOfClass:CRController.class]) {
-        if (key) {
-          if ([controllerType isStateless])
-            CRIllegalControllerTypeException(@"Nodes with key require a statefui controller.");
-          _controllerType = controllerType;
-        } else {
-          if (![controllerType isStateless])
-            CRIllegalControllerTypeException(@"Nodes without key require a stateless controller.");
-          _controllerType = controllerType;
-        }
-      } else {
-        CRIllegalControllerTypeException(@"Must be a subclass of CRController.");
-      }
-    }
     _key = key;
     _viewType = type;
     _mutableChildren = [[NSMutableArray alloc] init];
@@ -62,13 +44,11 @@ void CRIllegalControllerTypeException(NSString *reason) {
 #pragma mark - Convenience Initializer
 
 + (instancetype)nodeWithType:(Class)type
-                       props:(nullable CRProps *)props
              reuseIdentifier:(NSString *)reuseIdentifier
                          key:(nullable NSString *)key
           viewInitialization:(UIView *(^_Nullable)(void))viewInitialization
                   layoutSpec:(void (^)(CRNodeLayoutSpec<UIView *> *))layoutSpec {
   return [[CRNode alloc] initWithType:type
-                                props:props
                       reuseIdentifier:reuseIdentifier
                                   key:key
                    viewInitialization:viewInitialization
@@ -76,11 +56,9 @@ void CRIllegalControllerTypeException(NSString *reason) {
 }
 
 + (instancetype)nodeWithType:(Class)type
-                       props:(nullable CRProps *)props
                          key:(nullable NSString *)key
                   layoutSpec:(void (^)(CRNodeLayoutSpec<UIView *> *))layoutSpec {
   return [[CRNode alloc] initWithType:type
-                                props:props
                       reuseIdentifier:nil
                                   key:key
                    viewInitialization:nil
@@ -88,20 +66,8 @@ void CRIllegalControllerTypeException(NSString *reason) {
 }
 
 + (instancetype)nodeWithType:(Class)type
-                       props:(nullable CRProps *)props
                   layoutSpec:(void (^)(CRNodeLayoutSpec<UIView *> *))layoutSpec {
   return [[CRNode alloc] initWithType:type
-                                props:props
-                      reuseIdentifier:nil
-                                  key:nil
-                   viewInitialization:nil
-                           layoutSpec:layoutSpec];
-}
-
-+ (instancetype)nodeWithType:(Class)type
-                  layoutSpec:(void (^)(CRNodeLayoutSpec<UIView *> *))layoutSpec {
-  return [[CRNode alloc] initWithType:type
-                                props:nil
                       reuseIdentifier:nil
                                   key:nil
                    viewInitialization:nil
@@ -110,9 +76,20 @@ void CRIllegalControllerTypeException(NSString *reason) {
 
 #pragma mark - Context
 
-- (void)registerInContext:(CRContext *)context {
-  if (!_parent) _context = context;
-  else [_parent registerInContext:context];
+- (void)buildNodeHierarchyInContext:(CRContext *)context {
+  CR_ASSERT_ON_MAIN_THREAD;
+  if (!_parent) {
+    _context = context;
+    [self _recursivelyConfigureControllersInNodeHierarchy];
+  }
+  else [_parent buildNodeHierarchyInContext:context];
+}
+
+- (void)_recursivelyConfigureControllersInNodeHierarchy {
+  self.controller.props = self.props;
+  foreach(child, _mutableChildren) {
+    [child _recursivelyConfigureControllersInNodeHierarchy];
+  }
 }
 
 - (CRContext *)context {
@@ -139,6 +116,27 @@ void CRIllegalControllerTypeException(NSString *reason) {
   foreach(child, children) {
     child.index = lastIndex++;
     [_mutableChildren addObject:child];
+  }
+  return self;
+}
+
+- (instancetype)bindController:(Class)controllerType withProps:(CRProps *)props {
+  CR_ASSERT_ON_MAIN_THREAD;
+  _props = props;
+  if (controllerType) {
+    if([controllerType isSubclassOfClass:CRController.class]) {
+      if (_key) {
+        if ([controllerType isStateless])
+          CRIllegalControllerTypeException(@"Nodes with key require a statefui controller.");
+        _controllerType = controllerType;
+      } else {
+        if (![controllerType isStateless])
+          CRIllegalControllerTypeException(@"Nodes without key require a stateless controller.");
+        _controllerType = controllerType;
+      }
+    } else {
+      CRIllegalControllerTypeException(@"Must be a subclass of CRController.");
+    }
   }
   return self;
 }

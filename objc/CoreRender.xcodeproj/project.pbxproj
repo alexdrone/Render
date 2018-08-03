@@ -57,7 +57,7 @@
 		FR_439634733832 /* UIView+CRNode.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = "UIView+CRNode.mm"; sourceTree = "<group>"; };
 		FR_441077196049 /* CRNode.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CRNode.h; sourceTree = "<group>"; };
 		FR_456968685412 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		FR_479945003232 /* Test.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = Test.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		FR_479945003232 /* Test.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Test.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		FR_615238287789 /* CRContext.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CRContext.h; sourceTree = "<group>"; };
 		FR_633785660067 /* CRNodeTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CRNodeTests.m; sourceTree = "<group>"; };
 		FR_764490391420 /* CoreRender.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CoreRender.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -215,6 +215,11 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0930;
+				TargetAttributes = {
+					NT_479945003232 = {
+						LastSwiftMigration = 1000;
+					};
+				};
 			};
 			buildConfigurationList = CL_764490391420 /* Build configuration list for PBXProject "CoreRender" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -332,6 +337,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				SDKROOT = iphoneos;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -401,6 +407,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				SDKROOT = iphoneos;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;

@@ -43,21 +43,25 @@ public extension NodeProtocol {
 ///   spec.view.setTitle("FOO", for: .normal)
 /// ```
 @inline(__always)
-public func Node<V: UIView> (
+public func Node<V: UIView, P: Props, S: State> (
   type: V.Type,
-  props: PropsProtocol? = nil,
+  controller: Controller<P, S>.Type? = nil,
+  props: P? = nil,
   reuseIdentifier: String? = nil,
   key: String? = nil,
   create: (() -> V)? = nil,
   layoutSpec: @escaping (LayoutSpec<V>) -> Void
 ) -> ConcreteNode<V> {
-  return ConcreteNode<V>(
+  let node = ConcreteNode<V>(
     type: V.self,
-    props: props as? Props,
     reuseIdentifier: reuseIdentifier,
     key: key,
     viewInitialization: create,
     layoutSpec: layoutSpec)
+  if let controller = controller {
+    node.bindController(controller, with: props)
+  }
+  return node
 }
 
 @inline(__always)

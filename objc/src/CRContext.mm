@@ -16,9 +16,10 @@
 - (__kindof CRController*)controllerOfType:(Class)type withKey:(NSString *)key {
   CR_ASSERT_ON_MAIN_THREAD;
   if (![type isSubclassOfClass:CRController.self]) return nil;
-  const auto container = [self containerForType:type];
+  const auto container = [self _containerForType:type];
   if (const auto controller = container[key]) return controller;
   const auto controller = [[CRController alloc] initWithKey:key];
+  controller.context = self;
   container[key] = controller;
   return controller;
 }
@@ -29,7 +30,7 @@
   return [self controllerOfType:type withKey:CRControllerStatelessKey];
 }
 
-- (NSMutableDictionary<NSString*, CRController*> *)containerForType:(Class)type {
+- (NSMutableDictionary<NSString*, CRController*> *)_containerForType:(Class)type {
   const auto str = NSStringFromClass(type);
   if (const auto container = _controllers[str]) return container;
   const auto container = [[NSMutableDictionary<NSString*, CRController*> alloc] init];

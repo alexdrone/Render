@@ -56,7 +56,7 @@
   [node reconcileInView:view
       constrainedToSize:CGSizeMake(320, CR_CGFLOAT_FLEXIBLE)
             withOptions:CRNodeLayoutOptionsSizeContainerViewToFit];
-  [node registerInContext:context];
+  [node buildNodeHierarchyInContext:context];
   XCTAssert(view.subviews.count == 1);
   [self assertLabelDidLayout:view.subviews.firstObject];
 }
@@ -73,7 +73,7 @@
   ]];
   const auto containerView = [[UIView alloc] init];
   const auto context = [[CRContext alloc] init];
-  [node registerInContext:context];
+  [node buildNodeHierarchyInContext:context];
 
   [node reconcileInView:containerView
       constrainedToSize:CGSizeMake(320, CR_CGFLOAT_FLEXIBLE)
@@ -96,8 +96,8 @@
   CRNode *node = nil;
   @try {
     node = [CRNode nodeWithType:UIView.self
-                          props:[[TestStatelessProps alloc] init]
                      layoutSpec:^(CRNodeLayoutSpec *spec) {}];
+    [node bindController:TestStatelessController.class withProps:[[TestStatelessProps alloc] init]];
     test = YES;
   }
   @catch(NSException *e) {
@@ -110,9 +110,9 @@
   node = nil;
   @try {
     node = [CRNode nodeWithType:UIView.self
-                          props:[[TestProps alloc] init]
                             key:@"1"
                      layoutSpec:^(CRNodeLayoutSpec *spec) {}];
+    [node bindController:TestController.class withProps:[[TestProps alloc] init]];
     test = YES;
   }
   @catch(NSException *e) {
@@ -125,36 +125,33 @@
   node = nil;
   @try {
     node = [CRNode nodeWithType:UIView.self
-                          props:[[TestProps alloc] init]
                      layoutSpec:^(CRNodeLayoutSpec *spec) {}];
+    [node bindController:TestController.class withProps:[[TestProps alloc] init]];
     test = YES;
   }
   @catch(NSException *e) {
     test = NO;
   }
   XCTAssertFalse(test);
-  XCTAssertNil(node);
 
   test = NO;
   node = nil;
   @try {
     node = [CRNode nodeWithType:UIView.self
-                          props:[[TestStatelessProps alloc] init]
                             key:@"1"
                      layoutSpec:^(CRNodeLayoutSpec *spec) {}];
+    [node bindController:TestStatelessController.class withProps:[[TestStatelessProps alloc] init]];
     test = YES;
   }
   @catch(NSException *e) {
     test = NO;
   }
   XCTAssertFalse(test);
-  XCTAssertNil(node);
 
   test = NO;
   node = nil;
   @try {
     node = [CRNode nodeWithType:UIView.self
-                          props:nil
                             key:@"1"
                      layoutSpec:^(CRNodeLayoutSpec *spec) {}];
     test = YES;
@@ -163,7 +160,6 @@
     test = NO;
   }
   XCTAssertTrue(test);
-  XCTAssertNotNil(node);
 }
 
 @end

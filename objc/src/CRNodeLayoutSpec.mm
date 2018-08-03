@@ -23,8 +23,7 @@
     _view = node.renderedView;
     _context = node.context;
     _controller = node.controller;
-    _props = _controller.props;
-    NSAssert(_props.controllerType == _controller.class, @"");
+    _props = node.props;
     _state = _controller.state;
     _size = size;
   }

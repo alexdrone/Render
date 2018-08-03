@@ -1,6 +1,7 @@
 #import <Foundation/Foundation.h>
 
 NS_ASSUME_NONNULL_BEGIN
+@class CRContext;
 
 extern NSString *CRControllerStatelessKey;
 
@@ -8,9 +9,6 @@ extern NSString *CRControllerStatelessKey;
 /// This may contains *arguments*, *model objects*, *delegates* or *injectable services*.
 NS_SWIFT_NAME(Props)
 @interface CRProps : NSObject
-/// The class of the controller associated to this.
-/// @note: Subclasses must override this class property.
-@property(nonatomic, readonly) Class controllerType;
 @end
 
 /// Represents the internal state of a controller.
@@ -22,6 +20,8 @@ NS_SWIFT_NAME(State)
 
 NS_SWIFT_NAME(Controller)
 @interface CRController<__covariant P: CRProps *, __covariant S: CRState *> : NSObject
+/// The context associated with this controller.
+@property(nonatomic, readonly, nullable, weak) CRContext *context;
 /// Whether this controller is stateful or not.
 /// Transient controllers can be reused for several UI nodes at the same time and can be disposed
 /// and rebuilt at any given time.

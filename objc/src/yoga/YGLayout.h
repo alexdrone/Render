@@ -237,6 +237,6 @@ NS_SWIFT_NAME(configureLayout(block:));
 - (BOOL)isModal;
 @end
 
-extern UIViewController * _Nullable UIGetTopmostViewController(void);
+extern UIViewController *UIGetTopmostViewController(void);
 
 NS_ASSUME_NONNULL_END

@@ -7,22 +7,6 @@ NSString *CRIllegalControllerTypeExceptionName = @"IllegalControllerType";
 #pragma mark - Props & State
 
 @implementation CRProps
-- (Class)controllerType {
-  [NSException raise:CRIllegalControllerTypeExceptionName
-              format:@"Subclasses must return the desired CRController subclass."];
-  return nil;
-}
-
-- (instancetype)init {
-  if (self = [super init]) {
-    if (![self.controllerType isSubclassOfClass:CRController.self]) {
-      [NSException raise:CRIllegalControllerTypeExceptionName
-                  format:@"controllerType must be a subclass of CRController."];
-    }
-  }
-  return self;
-}
-
 @end
 
 @implementation CRState
@@ -56,6 +40,9 @@ NSString *CRIllegalControllerTypeExceptionName = @"IllegalControllerType";
 @end
 
 #pragma mark - StatelessController
+
+@implementation CRNullState
+@end
 
 @implementation CRStatelessController
 
