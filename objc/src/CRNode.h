@@ -85,18 +85,21 @@ NS_SWIFT_NAME(ConcreteNode)
 - (instancetype)bindController:(Class)controllerType withProps:(nullable CRProps *)props;
 
 /// Register the context for the root node of this node hierarchy.
-- (void)buildNodeHierarchyInContext:(CRContext *)context;
+- (void)registerNodeHierarchyInContext:(CRContext *)context;
 
 #pragma mark Render
 
 /// Reconcile the view hierarchy with the one in the container view passed as argument.
 /// @note: This method also performs layout and configuration.
-- (void)reconcileInView:(UIView *)view
+- (void)reconcileInView:(nullable UIView *)view
       constrainedToSize:(CGSize)size
             withOptions:(CRNodeLayoutOptions)options;
 
 /// Layout and configure the views.
 - (void)layoutConstrainedToSize:(CGSize)size withOptions:(CRNodeLayoutOptions)options;
+
+/// Tells the node that the node/view hierarchy must be reconciled.
+- (void)setNeedsReconcile;
 
 #pragma mark Querying
 

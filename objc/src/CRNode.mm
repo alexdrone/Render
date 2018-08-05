@@ -1,4 +1,5 @@
 #import "CRUmbrellaHeader.h"
+#import "CRController+Private.h"
 
 @interface CRNode ()
 @property(nonatomic, readwrite) NSUInteger index;
@@ -76,17 +77,18 @@ void CRIllegalControllerTypeException(NSString *reason) {
 
 #pragma mark - Context
 
-- (void)buildNodeHierarchyInContext:(CRContext *)context {
+- (void)registerNodeHierarchyInContext:(CRContext *)context {
   CR_ASSERT_ON_MAIN_THREAD;
   if (!_parent) {
     _context = context;
     [self _recursivelyConfigureControllersInNodeHierarchy];
   }
-  else [_parent buildNodeHierarchyInContext:context];
+  else [_parent registerNodeHierarchyInContext:context];
 }
 
 - (void)_recursivelyConfigureControllersInNodeHierarchy {
   self.controller.props = self.props;
+  self.controller.node = self;
   foreach(child, _mutableChildren) {
     [child _recursivelyConfigureControllersInNodeHierarchy];
   }
@@ -232,6 +234,9 @@ void CRIllegalControllerTypeException(NSString *reason) {
 
 - (void)layoutConstrainedToSize:(CGSize)size withOptions:(CRNodeLayoutOptions)options {
   CR_ASSERT_ON_MAIN_THREAD
+  if (_parent != nil)
+    return [_parent layoutConstrainedToSize:size withOptions:options];
+
   [self _configureConstrainedToSize:size withOptions:options];
   [self _computeFlexboxLayoutConstrainedToSize:size];
   [self _animateLayoutChangesIfNecessary];
@@ -304,6 +309,9 @@ void CRIllegalControllerTypeException(NSString *reason) {
       constrainedToSize:(CGSize)size
             withOptions:(CRNodeLayoutOptions)options {
   CR_ASSERT_ON_MAIN_THREAD
+  if (_parent != nil)
+    return [_parent reconcileInView:view constrainedToSize:size withOptions:options];
+
   const auto containerView = CR_NIL_COALESCING(view, _renderedView.superview);
   const auto bounds = CGSizeEqualToSize(size, CGSizeZero) ? containerView.bounds.size : size;
   [self _reconcileNode:self
@@ -318,6 +326,14 @@ void CRIllegalControllerTypeException(NSString *reason) {
     _flags.shouldInvokeDidMount = NO;
     [self.delegate rootNodeDidMount:self];
   }
+}
+
+- (void)setNeedsReconcile {
+  CR_ASSERT_ON_MAIN_THREAD
+  if (_parent != nil)
+    return [_parent setNeedsReconcile];
+
+  [self reconcileInView:nil constrainedToSize:CGSizeZero withOptions:CRNodeLayoutOptionsNone];
 }
 
 @end

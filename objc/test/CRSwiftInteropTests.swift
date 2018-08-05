@@ -17,7 +17,10 @@ class CRSwiftInteropTests: XCTestCase {
   }
 
   func testNodeWithAController() {
-    let node = Node(type: UIView.self, controller: FooController.self, props: FooProps()) { spec in }
+    let node = Node(type: UIView.self, controller: FooController.self, props: FooProps()) { spec in
+
+
+    }
     XCTAssertNotNil(node)
   }
 }

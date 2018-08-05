@@ -6,6 +6,7 @@ NS_ASSUME_NONNULL_BEGIN
 // Private setter modifiers
 @property(nonatomic, readwrite) NSString *key;
 @property(nonatomic, readwrite, nullable, weak) CRContext *context;
+@property(nonatomic, readwrite, nullable, weak) CRNode *node;
 
 /// @note: Never call the init method manually - controllers are dynamically constructed,
 /// disposed and reused by @c CRContext.

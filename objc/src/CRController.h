@@ -2,6 +2,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 @class CRContext;
+@class CRNode;
 
 extern NSString *CRControllerStatelessKey;
 
@@ -26,6 +27,7 @@ NS_SWIFT_NAME(Controller)
 /// Transient controllers can be reused for several UI nodes at the same time and can be disposed
 /// and rebuilt at any given time.
 @property(class, nonatomic, readonly, getter=isStateless) BOOL stateless;
+
 /// The key for this controller.
 /// If this controller is @c transient the value of this property is @c CRControllerStatelessKey.
 @property(nonatomic, readonly) NSString *key;
@@ -33,6 +35,8 @@ NS_SWIFT_NAME(Controller)
 @property(nonatomic, readwrite) P props;
 /// The current controller state.
 @property(nonatomic, readwrite) S state;
+/// The UI node assigned to this controller.
+@property(nonatomic, readonly, nullable, weak) CRNode *node;
 
 /// Controllers are instantiated from @c CRContext.
 - (instancetype)init NS_UNAVAILABLE;

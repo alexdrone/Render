@@ -56,7 +56,7 @@
   [node reconcileInView:view
       constrainedToSize:CGSizeMake(320, CR_CGFLOAT_FLEXIBLE)
             withOptions:CRNodeLayoutOptionsSizeContainerViewToFit];
-  [node buildNodeHierarchyInContext:context];
+  [node registerNodeHierarchyInContext:context];
   XCTAssert(view.subviews.count == 1);
   [self assertLabelDidLayout:view.subviews.firstObject];
 }
@@ -73,7 +73,7 @@
   ]];
   const auto containerView = [[UIView alloc] init];
   const auto context = [[CRContext alloc] init];
-  [node buildNodeHierarchyInContext:context];
+  [node registerNodeHierarchyInContext:context];
 
   [node reconcileInView:containerView
       constrainedToSize:CGSizeMake(320, CR_CGFLOAT_FLEXIBLE)
