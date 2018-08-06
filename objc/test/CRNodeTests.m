@@ -5,16 +5,10 @@
 @property (nonatomic, weak) UILabel *testOutlet;
 @end
 
-@interface TestProps : CRProps
+@interface TestController : CRController<CRNullProps *, CRNullState *>
 @end
 
-@interface TestController : CRController
-@end
-
-@interface TestStatelessProps : CRProps
-@end
-
-@interface TestStatelessController : CRStatelessController
+@interface TestStatelessController : CRStatelessController<CRNullProps *>
 @end
 
 @implementation CRNodeTests
@@ -97,7 +91,9 @@
   @try {
     node = [CRNode nodeWithType:UIView.self
                      layoutSpec:^(CRNodeLayoutSpec *spec) {}];
-    [node bindController:TestStatelessController.class withProps:[[TestStatelessProps alloc] init]];
+    [node bindController:TestStatelessController.class
+            initialState:CRNullState.null
+                   props:CRNullProps.null];
     test = YES;
   }
   @catch(NSException *e) {
@@ -112,7 +108,9 @@
     node = [CRNode nodeWithType:UIView.self
                             key:@"1"
                      layoutSpec:^(CRNodeLayoutSpec *spec) {}];
-    [node bindController:TestController.class withProps:[[TestProps alloc] init]];
+    [node bindController:TestController.class
+            initialState:CRNullState.null
+                   props:CRNullProps.null];
     test = YES;
   }
   @catch(NSException *e) {
@@ -126,7 +124,9 @@
   @try {
     node = [CRNode nodeWithType:UIView.self
                      layoutSpec:^(CRNodeLayoutSpec *spec) {}];
-    [node bindController:TestController.class withProps:[[TestProps alloc] init]];
+    [node bindController:TestController.class
+            initialState:CRNullState.null
+                   props:CRNullProps.null];
     test = YES;
   }
   @catch(NSException *e) {
@@ -140,7 +140,9 @@
     node = [CRNode nodeWithType:UIView.self
                             key:@"1"
                      layoutSpec:^(CRNodeLayoutSpec *spec) {}];
-    [node bindController:TestStatelessController.class withProps:[[TestStatelessProps alloc] init]];
+    [node bindController:TestStatelessController.class
+            initialState:CRNullState.null
+                   props:CRNullProps.null];
     test = YES;
   }
   @catch(NSException *e) {
@@ -164,15 +166,7 @@
 
 @end
 
-@implementation TestProps
-- (Class)controllerType { return TestController.self; }
-@end
-
 @implementation TestController
-@end
-
-@implementation TestStatelessProps
-- (Class)controllerType { return TestStatelessController.self; }
 @end
 
 @implementation TestStatelessController

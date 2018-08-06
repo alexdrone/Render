@@ -42,6 +42,29 @@ NSString *CRIllegalControllerTypeExceptionName = @"IllegalControllerType";
 #pragma mark - StatelessController
 
 @implementation CRNullState
+
++ (CRNullState *)null {
+  static CRNullState *shared;
+  static dispatch_once_t onceToken;
+  dispatch_once(&onceToken, ^(){
+    shared = [[CRNullState alloc] init];
+  });
+  return shared;
+}
+
+@end
+
+@implementation CRNullProps
+
++ (CRNullProps *)null {
+  static CRNullProps  *shared;
+  static dispatch_once_t onceToken;
+  dispatch_once(&onceToken, ^(){
+    shared = [[CRNullProps alloc] init];
+  });
+  return shared;
+}
+
 @end
 
 @implementation CRStatelessController

@@ -3,6 +3,7 @@
 
 @interface CRNode ()
 @property(nonatomic, readwrite) NSUInteger index;
+@property(nonatomic, readwrite, nullable, weak) CRNode *parent;
 @property(nonatomic, readwrite, nullable) __kindof UIView *renderedView;
 /// The view initialization block.
 @property (nonatomic, copy) UIView * (^viewInitialization)(void);
@@ -88,6 +89,7 @@ void CRIllegalControllerTypeException(NSString *reason) {
 
 - (void)_recursivelyConfigureControllersInNodeHierarchy {
   self.controller.props = self.props;
+  self.controller.state = CR_NIL_COALESCING(self.controller.state, self.initialState);
   self.controller.node = self;
   foreach(child, _mutableChildren) {
     [child _recursivelyConfigureControllersInNodeHierarchy];
@@ -100,10 +102,13 @@ void CRIllegalControllerTypeException(NSString *reason) {
 }
 
 - (__kindof CRController *)controller {
-  if (!_controllerType || !_context) return nil;
+  const auto context = self.context;
+  if (!context) return nil;
+  if (!_controllerType)
+    return _parent.controller;
   return _key != nil
-    ? [_context controllerOfType:_controllerType withKey:_key]
-    : [_context controllerOfType:_controllerType];
+    ? [context controllerOfType:_controllerType withKey:_key]
+    : [context controllerOfType:_controllerType];
 }
 
 #pragma mark - Children
@@ -117,14 +122,18 @@ void CRIllegalControllerTypeException(NSString *reason) {
   auto lastIndex = _mutableChildren.lastObject.index;
   foreach(child, children) {
     child.index = lastIndex++;
+    child.parent = self;
     [_mutableChildren addObject:child];
   }
   return self;
 }
 
-- (instancetype)bindController:(Class)controllerType withProps:(CRProps *)props {
+- (instancetype)bindController:(Class)controllerType
+                  initialState:(CRState *)state
+                         props:(CRProps *)props {
   CR_ASSERT_ON_MAIN_THREAD;
   _props = props;
+  _initialState = state;
   if (controllerType) {
     if([controllerType isSubclassOfClass:CRController.class]) {
       if (_key) {

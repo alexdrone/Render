@@ -48,9 +48,18 @@ NS_SWIFT_NAME(Controller)
 
 @end
 
+#pragma mark - Stateless Controllers
+
 /// Represents a null empty state - used to model @c CRStatelessController.
 NS_SWIFT_NAME(NullState)
 @interface CRNullState: CRState
+@property(class, nonatomic, readonly) CRNullState *null;
+@end
+
+/// No props object.
+NS_SWIFT_NAME(NullProps)
+@interface CRNullProps: CRProps
+@property(class, nonatomic, readonly) CRNullProps *null;
 @end
 
 NS_SWIFT_NAME(StatelessController)

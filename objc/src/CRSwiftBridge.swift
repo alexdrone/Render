@@ -59,7 +59,7 @@ public func Node<V: UIView, P: Props, S: State> (
     viewInitialization: create,
     layoutSpec: layoutSpec)
   if let controller = controller {
-    node.bindController(controller, with: props)
+    node.bindController(controller, initialState: S(), props: props ?? P())
   }
   return node
 }

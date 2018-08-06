@@ -14,6 +14,7 @@
 		16405DBA20F36F50006071CC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 16405DB820F36F50006071CC /* LaunchScreen.storyboard */; };
 		16405DE020F37035006071CC /* CoreRender.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16405DDA20F37015006071CC /* CoreRender.framework */; };
 		16405DE120F37035006071CC /* CoreRender.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 16405DDA20F37015006071CC /* CoreRender.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		1690793A211770A400EE8147 /* CounterExample.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16907939211770A400EE8147 /* CounterExample.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -63,6 +64,7 @@
 		16405DB920F36F50006071CC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		16405DBB20F36F50006071CC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		16405DD420F37015006071CC /* CoreRender.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CoreRender.xcodeproj; path = ../CoreRender.xcodeproj; sourceTree = "<group>"; };
+		16907939211770A400EE8147 /* CounterExample.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CounterExample.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,6 +101,7 @@
 			children = (
 				16405DAF20F36F4F006071CC /* AppDelegate.swift */,
 				16405DB120F36F4F006071CC /* ViewController.swift */,
+				16907939211770A400EE8147 /* CounterExample.swift */,
 				16405DB320F36F4F006071CC /* Main.storyboard */,
 				16405DB620F36F50006071CC /* Assets.xcassets */,
 				16405DB820F36F50006071CC /* LaunchScreen.storyboard */,
@@ -213,6 +216,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				16405DB220F36F4F006071CC /* ViewController.swift in Sources */,
+				1690793A211770A400EE8147 /* CounterExample.swift in Sources */,
 				16405DB020F36F4F006071CC /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

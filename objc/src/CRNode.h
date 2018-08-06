@@ -11,6 +11,8 @@ typedef NS_OPTIONS(NSUInteger, CRNodeLayoutOptions) {
 @class CRNode;
 @class CRContext;
 @class CRNodeLayoutSpec<__covariant V: UIView *>;
+@class CRState;
+@class CRProps;
 
 NS_SWIFT_NAME(NodeDelegate)
 @protocol CRNodeDelegate <NSObject>
@@ -54,6 +56,8 @@ NS_SWIFT_NAME(ConcreteNode)
 @property(nonatomic, nullable, readonly) __kindof CRController *controller;
 /// Represents the properties that are externally injected into the controller.
 @property(nonatomic, nullable, readonly) __kindof CRProps *props;
+/// The initial state (if the controller doesn't have one already).
+@property(nonatomic, nullable, readonly) __kindof CRState *initialState;
 
 #pragma mark Constructors
 
@@ -82,7 +86,9 @@ NS_SWIFT_NAME(ConcreteNode)
 - (instancetype)appendChildren:(NSArray<CRNode *> *)children;
 
 /// Bind this node to the @c CRController class passed as argument.
-- (instancetype)bindController:(Class)controllerType withProps:(nullable CRProps *)props;
+- (instancetype)bindController:(Class)controllerType
+                  initialState:(CRState *)state
+                         props:(CRProps *)props;
 
 /// Register the context for the root node of this node hierarchy.
 - (void)registerNodeHierarchyInContext:(CRContext *)context;
