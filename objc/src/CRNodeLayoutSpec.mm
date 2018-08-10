@@ -23,7 +23,7 @@
     _view = node.renderedView;
     _context = node.context;
     _controller = node.controller;
-    _props = CR_NIL_COALESCING(_controller.props, node.props);
+    _props = _controller.props;
     _state = _controller.state;
     _size = size;
   }

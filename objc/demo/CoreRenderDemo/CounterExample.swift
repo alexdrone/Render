@@ -24,6 +24,19 @@ class CounterViewController: UIViewController {
   }
 }
 
+class CounterController: Controller<NullProps, CounterState>, ControllerProtocol {
+  typealias PropsType = NullProps
+  typealias StateType = CounterState
+
+  @objc dynamic func incrementCounter() {
+    self.state.count += 1
+    print("count: \(self.state.count)")
+    self.node?.setNeedsReconcile()
+  }
+
+}
+
+
 // MARK: - Node
 
 func counterNode() -> ConcreteNode<UIView> {
@@ -37,9 +50,13 @@ func counterNode() -> ConcreteNode<UIView> {
     set(spec, keyPath: \UIView.yoga.padding, value: 20)
   }
   let label = Node(type: UIButton.self) { spec in
-    guard
-      let state = spec.state as? CounterState,
-      let controller = spec.controller as? CounterController else { return }
+    guard let (controller, props, state) = controllerForNodeSubtree(
+      layoutSpec: spec,
+      type: CounterController.self)
+    else {
+      return
+    }
+
     spec.view?.setTitle("Count: \(state.count)", for: .normal)
     spec.view?.addTarget(
       controller,
@@ -60,13 +77,5 @@ class CounterState: State {
 
 // MARK: - Controller
 
-class CounterController: Controller<NullProps, CounterState> {
-
-
-  @objc dynamic func incrementCounter() {
-    self.state.count += 1
-  }
-
-}
 
 

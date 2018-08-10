@@ -18,7 +18,7 @@
   if (![type isSubclassOfClass:CRController.self]) return nil;
   const auto container = [self _containerForType:type];
   if (const auto controller = container[key]) return controller;
-  const auto controller = [[CRController alloc] initWithKey:key];
+  const auto controller = CR_DYNAMIC_CAST(CRController, [[type alloc] initWithKey:key]);
   controller.context = self;
   container[key] = controller;
   return controller;

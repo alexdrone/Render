@@ -1,18 +1,41 @@
 import UIKit
 
 // Convenience type-erased protocols.
-public protocol NodeProtocol: class { }
-public protocol ControllerProtocol: class {}
-@objc public protocol PropsProtocol: class {}
+@objc public protocol AnyNode: class {}
+@objc public protocol AnyController: class {}
+@objc public protocol AnyProps: class {}
+@objc public protocol AnyState: class {}
 
-extension ConcreteNode: NodeProtocol { }
-extension Controller: ControllerProtocol { }
-extension Props: PropsProtocol { }
+/// Swift-only compliance protocol.
+public protocol ControllerProtocol: AnyController {
+  /// The type of the props that will be passed down to this controller.
+  associatedtype PropsType: AnyProps
+  /// The type of its internal state
+  associatedtype StateType: AnyState
+}
 
-/// Swift-only extensions.
-public extension NodeProtocol {
+public func controllerForNodeSubtree<C: ControllerProtocol, V: UIView>(
+  layoutSpec: LayoutSpec<V>,
+  type: C.Type
+) -> (C, C.PropsType, C.StateType)? {
+  guard
+    let controller = layoutSpec.controller as? C,
+    let props = layoutSpec.props as? C.PropsType,
+    let state = layoutSpec.state as? C.StateType
+  else {
+    return nil
+  }
+  return (controller, props, state)
+}
+
+extension ConcreteNode: AnyNode { }
+extension Controller: AnyController {}
+extension Props: AnyProps { }
+extension State: AnyState { }
+
+public extension AnyNode {
   /// Adds the nodes as children of this node.
-  @discardableResult public func append(children: [NodeProtocol]) -> ConcreteNode<UIView> {
+  @discardableResult public func append(children: [AnyNode]) -> ConcreteNode<UIView> {
     let node = self as! ConcreteNode<UIView>
     let children = children.compactMap { $0 as? ConcreteNode<UIView> }
     node.appendChildren(children)
@@ -64,6 +87,11 @@ public func Node<V: UIView, P: Props, S: State> (
   return node
 }
 
+/// Sets the value of a desired keypath using typesafe writable reference keypaths.
+/// - parameter spec: The *LayoutSpec* object that is currently handling the view configuration.
+/// - parameter keyPath: The target keypath.
+/// - parameter value: The new desired value.
+/// - parameter animator: Optional property animator for this change.
 @inline(__always)
 public func set<V: UIView, T>(
   _ spec: LayoutSpec<V>,
