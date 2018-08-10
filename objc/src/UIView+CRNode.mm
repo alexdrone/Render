@@ -22,7 +22,7 @@
 
 - (void)cr_resetAllTargets {
   CR_ASSERT_ON_MAIN_THREAD;
-  const auto control = CR_DYNAMIC_CAST(UIControl, self)
+  const auto control = CR_DYNAMIC_CAST(UIControl, self);
   foreach(target, control.allTargets) {
     [control removeTarget:target action:nil forControlEvents:UIControlEventAllEvents];
   }

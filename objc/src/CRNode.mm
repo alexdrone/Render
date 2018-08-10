@@ -88,7 +88,7 @@ void CRIllegalControllerTypeException(NSString *reason) {
 }
 
 - (void)_recursivelyConfigureControllersInNodeHierarchy {
-  self.controller.props = CR_NIL_COALESCING(self.controller.props, self.props)
+  self.controller.props = CR_NIL_COALESCING(self.controller.props, self.props);
   self.controller.state = CR_NIL_COALESCING(self.controller.state, self.initialState);
   self.controller.node = self;
   foreach(child, _mutableChildren) {
@@ -242,7 +242,7 @@ void CRIllegalControllerTypeException(NSString *reason) {
 }
 
 - (void)layoutConstrainedToSize:(CGSize)size withOptions:(CRNodeLayoutOptions)options {
-  CR_ASSERT_ON_MAIN_THREAD
+  CR_ASSERT_ON_MAIN_THREAD;
   if (_parent != nil)
     return [_parent layoutConstrainedToSize:size withOptions:options];
 
@@ -317,7 +317,7 @@ void CRIllegalControllerTypeException(NSString *reason) {
 - (void)reconcileInView:(UIView *)view
       constrainedToSize:(CGSize)size
             withOptions:(CRNodeLayoutOptions)options {
-  CR_ASSERT_ON_MAIN_THREAD
+  CR_ASSERT_ON_MAIN_THREAD;
   if (_parent != nil)
     return [_parent reconcileInView:view constrainedToSize:size withOptions:options];
 
@@ -338,7 +338,7 @@ void CRIllegalControllerTypeException(NSString *reason) {
 }
 
 - (void)setNeedsReconcile {
-  CR_ASSERT_ON_MAIN_THREAD
+  CR_ASSERT_ON_MAIN_THREAD;
   if (_parent != nil)
     return [_parent setNeedsReconcile];
 

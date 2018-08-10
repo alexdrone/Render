@@ -28,11 +28,11 @@ if (!(VAR)) { \
 return; \
 }
 
-#define CR_NIL_COALESCING(VALUE, DEFAULT) VALUE != nil ? VALUE : DEFAULT;
+#define CR_NIL_COALESCING(VALUE, DEFAULT) VALUE != nil ? VALUE : DEFAULT
 
-#define CR_DYNAMIC_CAST(TYPE, VALUE) ([VALUE isKindOfClass:TYPE.class] ? (TYPE *)VALUE : nil);
+#define CR_DYNAMIC_CAST(TYPE, VALUE) ([VALUE isKindOfClass:TYPE.class] ? (TYPE *)VALUE : nil)
 
-#define CR_ASSERT_ON_MAIN_THREAD NSAssert(NSThread.isMainThread, @"%@ called off the main thread.", NSStringFromSelector(_cmd));;
+#define CR_ASSERT_ON_MAIN_THREAD NSAssert(NSThread.isMainThread, @"%@ called off the main thread.", NSStringFromSelector(_cmd))
 
 typedef struct __attribute__((objc_boxable)) CGPoint CGPoint;
 typedef struct __attribute__((objc_boxable)) CGSize CGSize;

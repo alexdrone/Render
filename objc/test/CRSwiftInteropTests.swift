@@ -2,7 +2,10 @@ import XCTest
 import UIKit
 @testable import CoreRender
 
-class FooController: StatelessController<FooProps> { }
+class FooController: StatelessController<FooProps>, ControllerProtocol {
+  typealias StateType = NullState
+  typealias PropsType = FooProps
+}
 class FooProps: Props { }
 class BarProps: Props { }
 
@@ -18,8 +21,12 @@ class CRSwiftInteropTests: XCTestCase {
 
   func testNodeWithAController() {
     let node = Node(type: UIView.self, controller: FooController.self, props: FooProps()) { spec in
-
-
+      guard let (_, _, _) = controller(
+        layoutSpec: spec,
+        type: FooController.self)
+      else {
+        fatalError()
+      }
     }
     XCTAssertNotNil(node)
   }

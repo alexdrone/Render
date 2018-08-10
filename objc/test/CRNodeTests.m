@@ -164,6 +164,45 @@
   XCTAssertTrue(test);
 }
 
+- (void)testThatControllerIsPassedDownToNodeSubtree {
+  __block auto expectRootNodeHasController = NO;
+  __block auto expectRooNodeHasState = NO;
+  __block auto expectRootNodeHasProps = NO;
+  __block auto expectLeafNodeHasController = NO;
+  __block auto expectLeafNodeHasState = NO;
+  __block auto expectLeafNodeHasProps = NO;
+  const auto root = [CRNode nodeWithType:UIView.class
+                                     key:@"foo"
+                              layoutSpec:^(CRNodeLayoutSpec *spec) {
+    expectRootNodeHasController = CR_DYNAMIC_CAST(TestController, spec.controller);
+    expectRooNodeHasState = CR_DYNAMIC_CAST(CRNullState, spec.state);
+    expectRootNodeHasProps = CR_DYNAMIC_CAST(CRNullProps, spec.props);
+  }];
+  [root bindController:TestController.class initialState:CRNullState.null props:CRNullProps.null];
+
+  const auto leaf = [CRNode nodeWithType:UIView.class
+                              layoutSpec:^(CRNodeLayoutSpec *spec) {
+    expectLeafNodeHasController = CR_DYNAMIC_CAST(TestController, spec.controller);
+    expectLeafNodeHasState = CR_DYNAMIC_CAST(CRNullState, spec.state);
+    expectLeafNodeHasProps = CR_DYNAMIC_CAST(CRNullProps, spec.props);
+  }];
+  [root appendChildren:@[leaf]];
+
+  const auto context = [[CRContext alloc] init];
+  [root registerNodeHierarchyInContext:context];
+
+  const auto view = [[UIView alloc] init];
+  [root reconcileInView:view
+      constrainedToSize:CGSizeMake(320, CR_CGFLOAT_FLEXIBLE)
+            withOptions:CRNodeLayoutOptionsSizeContainerViewToFit];
+  XCTAssertTrue(expectRootNodeHasController);
+  XCTAssertTrue(expectRooNodeHasState);
+  XCTAssertTrue(expectRootNodeHasProps);
+  XCTAssertTrue(expectLeafNodeHasController);
+  XCTAssertTrue(expectLeafNodeHasState);
+  XCTAssertTrue(expectLeafNodeHasProps);
+}
+
 @end
 
 @implementation TestController

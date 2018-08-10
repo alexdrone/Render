@@ -14,7 +14,7 @@ public protocol ControllerProtocol: AnyController {
   associatedtype StateType: AnyState
 }
 
-public func controllerForNodeSubtree<C: ControllerProtocol, V: UIView>(
+public func controller<C: ControllerProtocol, V: UIView>(
   layoutSpec: LayoutSpec<V>,
   type: C.Type
 ) -> (C, C.PropsType, C.StateType)? {

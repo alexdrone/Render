@@ -50,13 +50,13 @@ func counterNode() -> ConcreteNode<UIView> {
     set(spec, keyPath: \UIView.yoga.padding, value: 20)
   }
   let label = Node(type: UIButton.self) { spec in
-    guard let (controller, props, state) = controllerForNodeSubtree(
+    guard let (controller, _, state) = controller(
       layoutSpec: spec,
       type: CounterController.self)
     else {
       return
     }
-
+    spec.view?.cr_resetAllTargets()
     spec.view?.setTitle("Count: \(state.count)", for: .normal)
     spec.view?.addTarget(
       controller,
