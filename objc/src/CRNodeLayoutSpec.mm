@@ -22,16 +22,35 @@
     _node = node;
     _view = node.renderedView;
     _context = node.context;
-    _controller = node.controller;
-    _props = _controller.props;
-    _state = _controller.state;
     _size = size;
   }
   return self;
 }
 
+- (__kindof CRController *)controllerOfType:(Class)controllerType {
+  if (![controllerType isSubclassOfClass:CRController.class]) return nil;
+
+  auto controller = (CRController *)nil;
+  auto node = self.node;
+  auto context = self.context;
+  NSAssert(node, @"Called when *node* is nil.");
+  NSAssert(context, @"Called when *context* is nil.");
+  while (node) {
+    if (node.controllerType == controllerType) {
+      controller = node.controller;
+      break;
+    }
+    node = node.parent;
+  }
+  return controller;
+}
+
 - (void)restore {
   [_view.cr_nodeBridge restore];
+}
+
+- (void)resetAllTargets {
+  [_view cr_resetAllTargets];
 }
 
 @end

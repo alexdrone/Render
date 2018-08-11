@@ -55,7 +55,7 @@ NS_SWIFT_NAME(ConcreteNode)
 /// @c controllerType is @c nil.
 @property(nonatomic, nullable, readonly) __kindof CRController *controller;
 /// Represents the properties that are externally injected into the controller.
-@property(nonatomic, nullable, readonly) __kindof CRProps *props;
+@property(nonatomic, nullable, readonly) __kindof CRProps *volatileProps;
 /// The initial state (if the controller doesn't have one already).
 @property(nonatomic, nullable, readonly) __kindof CRState *initialState;
 

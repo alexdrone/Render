@@ -14,20 +14,6 @@ public protocol ControllerProtocol: AnyController {
   associatedtype StateType: AnyState
 }
 
-public func controller<C: ControllerProtocol, V: UIView>(
-  layoutSpec: LayoutSpec<V>,
-  type: C.Type
-) -> (C, C.PropsType, C.StateType)? {
-  guard
-    let controller = layoutSpec.controller as? C,
-    let props = layoutSpec.props as? C.PropsType,
-    let state = layoutSpec.state as? C.StateType
-  else {
-    return nil
-  }
-  return (controller, props, state)
-}
-
 extension ConcreteNode: AnyNode { }
 extension Controller: AnyController {}
 extension Props: AnyProps { }

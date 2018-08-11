@@ -38,4 +38,10 @@
   return container;
 }
 
+- (CRNode *)buildNodeHiearchy:(__attribute__((noescape)) CRNode *(^)(void))nodeHierarchy {
+  const auto node = nodeHierarchy();
+  [node registerNodeHierarchyInContext:self];
+  return node;
+}
+
 @end

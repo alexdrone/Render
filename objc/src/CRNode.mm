@@ -88,7 +88,7 @@ void CRIllegalControllerTypeException(NSString *reason) {
 }
 
 - (void)_recursivelyConfigureControllersInNodeHierarchy {
-  self.controller.props = CR_NIL_COALESCING(self.controller.props, self.props);
+  self.controller.props = CR_NIL_COALESCING(self.controller.props, self.volatileProps);
   self.controller.state = CR_NIL_COALESCING(self.controller.state, self.initialState);
   self.controller.node = self;
   foreach(child, _mutableChildren) {
@@ -132,7 +132,7 @@ void CRIllegalControllerTypeException(NSString *reason) {
                   initialState:(CRState *)state
                          props:(CRProps *)props {
   CR_ASSERT_ON_MAIN_THREAD;
-  _props = props;
+  _volatileProps = props;
   _initialState = state;
   if (controllerType) {
     if([controllerType isSubclassOfClass:CRController.class]) {

@@ -174,17 +174,20 @@
   const auto root = [CRNode nodeWithType:UIView.class
                                      key:@"foo"
                               layoutSpec:^(CRNodeLayoutSpec *spec) {
-    expectRootNodeHasController = CR_DYNAMIC_CAST(TestController, spec.controller);
-    expectRooNodeHasState = CR_DYNAMIC_CAST(CRNullState, spec.state);
-    expectRootNodeHasProps = CR_DYNAMIC_CAST(CRNullProps, spec.props);
+
+    const auto controller = [spec controllerOfType:TestController.class];
+    expectRootNodeHasController = CR_DYNAMIC_CAST(TestController, controller);
+    expectRooNodeHasState = CR_DYNAMIC_CAST(CRNullState, controller.state);
+    expectRootNodeHasProps = CR_DYNAMIC_CAST(CRNullProps, controller.props);
   }];
   [root bindController:TestController.class initialState:CRNullState.null props:CRNullProps.null];
 
   const auto leaf = [CRNode nodeWithType:UIView.class
                               layoutSpec:^(CRNodeLayoutSpec *spec) {
-    expectLeafNodeHasController = CR_DYNAMIC_CAST(TestController, spec.controller);
-    expectLeafNodeHasState = CR_DYNAMIC_CAST(CRNullState, spec.state);
-    expectLeafNodeHasProps = CR_DYNAMIC_CAST(CRNullProps, spec.props);
+    const auto controller = [spec controllerOfType:TestController.class];
+    expectLeafNodeHasController = CR_DYNAMIC_CAST(TestController, controller);
+    expectLeafNodeHasState = CR_DYNAMIC_CAST(CRNullState, controller.state);
+    expectLeafNodeHasProps = CR_DYNAMIC_CAST(CRNullProps, controller.props);
   }];
   [root appendChildren:@[leaf]];
 

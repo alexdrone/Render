@@ -10,12 +10,6 @@ NS_SWIFT_NAME(LayoutSpec)
 @property (nonatomic, readonly, nullable, weak) CRNode *node;
 /// The context for this node hierarchy.
 @property (nonatomic, readonly, nullable, weak) CRContext *context;
-/// The controller managing this node subtree.
-@property (nonatomic, readonly, nullable, weak) __kindof CRController *controller;
-/// The props passed down to this node.
-@property (nonatomic, readonly, nullable, weak) __kindof CRProps *props;
-/// The current state of the controller.
-@property (nonatomic, readonly, nullable, weak) __kindof CRState *state;
 
 /// The boundaries of this node.
 @property (nonatomic, readonly) CGSize size;
@@ -27,6 +21,11 @@ NS_SWIFT_NAME(LayoutSpec)
 
 /// Restore the view to its initial state.
 - (void)restore;
+/// Reset all of the view action targets.
+/// @note: Applicate to @c UIControl views only.
+- (void)resetAllTargets;
+/// Returns the the first controller of type @c controllerType in the current subtree.
+- (nullable __kindof CRController *)controllerOfType:(Class)controllerType;
 
 @end
 
