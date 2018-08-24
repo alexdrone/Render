@@ -21,9 +21,11 @@ NS_SWIFT_NAME(LayoutSpec)
 
 /// Restore the view to its initial state.
 - (void)restore;
+
 /// Reset all of the view action targets.
 /// @note: Applicate to @c UIControl views only.
 - (void)resetAllTargets;
+
 /// Returns the the first controller of type @c controllerType in the current subtree.
 - (nullable __kindof CRController *)controllerOfType:(Class)controllerType;
 

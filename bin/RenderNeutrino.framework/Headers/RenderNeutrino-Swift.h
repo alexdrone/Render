@@ -193,24 +193,9 @@ typedef unsigned int swift_uint4  __attribute__((__ext_vector_type__(4)));
 @property (nonatomic) BOOL isShadowPathAutoSizing;
 @end
 
-typedef SWIFT_ENUM(NSInteger, DepthPreset, closed) {
-  DepthPresetNone = 0,
-  DepthPresetDepth1 = 1,
-  DepthPresetDepth2 = 2,
-  DepthPresetDepth3 = 3,
-  DepthPresetDepth4 = 4,
-  DepthPresetDepth5 = 5,
-};
 
 
 
-
-
-typedef SWIFT_ENUM(NSInteger, ShapePreset, closed) {
-  ShapePresetNone = 0,
-  ShapePresetSquare = 1,
-  ShapePresetCircle = 2,
-};
 
 
 
@@ -248,6 +233,15 @@ SWIFT_CLASS("_TtC14RenderNeutrino20UIBaseViewController")
 
 
 
+typedef SWIFT_ENUM(NSInteger, UIDepthPreset, closed) {
+  UIDepthPresetNone = 0,
+  UIDepthPresetDepth1 = 1,
+  UIDepthPresetDepth2 = 2,
+  UIDepthPresetDepth3 = 3,
+  UIDepthPresetDepth4 = 4,
+  UIDepthPresetDepth5 = 5,
+};
+
 
 
 
@@ -272,6 +266,12 @@ SWIFT_CLASS("_TtC14RenderNeutrino17UISceneTransition")
 @end
 
 
+
+typedef SWIFT_ENUM(NSInteger, UIShapePreset, closed) {
+  UIShapePresetNone = 0,
+  UIShapePresetSquare = 1,
+  UIShapePresetCircle = 2,
+};
 
 
 SWIFT_CLASS("_TtC14RenderNeutrino20UITableComponentCell")
@@ -345,9 +345,9 @@ SWIFT_CLASS("_TtC14RenderNeutrino30UITableComponentViewController")
 /// A property that manages the overall shape for the object. If either the
 /// width or height property is set, the other will be automatically adjusted
 /// to maintain the shape of the object.
-@property (nonatomic) enum ShapePreset shapePreset;
-/// A preset value for Depth.
-@property (nonatomic) enum DepthPreset depthPreset;
+@property (nonatomic) enum UIShapePreset shapePreset;
+/// A preset value for UIDepth.
+@property (nonatomic) enum UIDepthPreset depthPreset;
 /// Enables automatic shadowPath sizing.
 @property (nonatomic) BOOL isShadowPathAutoSizing;
 @end

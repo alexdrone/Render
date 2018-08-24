@@ -20,19 +20,25 @@ NS_SWIFT_NAME(NodeBridge)
 /// Stores the current (now considered old in the current run-loop) geometry for the associated
 /// view and all of its subviews recursively.
 - (void)storeViewSubTreeOldGeometry;
+
 /// Applies the stored old geometry to this view subtree.
 - (void)applyViewSubTreeOldGeometry;
+
 /// Stores the geometry for the associated view after the node has rendered at the end of the
 /// current run-loop.
 - (void)storeViewSubTreeNewGeometry;
+
 /// Applies the stored new geometry to this view subtree.
 - (void)applyViewSubTreeNewGeometry;
+
 /// Transition in all of the newly created view in the view hierarchy.
 - (void)fadeInNewlyCreatedViewsInViewSubTreeWithDelay:(NSTimeInterval)delay;
+
 /// Set the property at the given keyPath.nil
 - (void)setPropertyWithKeyPath:(NSString *)keyPath
                          value:(id)value
                       animator:(nullable UIViewPropertyAnimator *)animator;
+
 /// Restore the view to its initial state.
 - (void)restore;
 

@@ -23,9 +23,11 @@ public extension UINode {
     /// An optional animator for the property.
     private var animator: UIViewPropertyAnimator?
 
-    init<T>(keyPath: ReferenceWritableKeyPath<V, T>,
-            value: @escaping () -> T,
-            animator: UIViewPropertyAnimator? = nil) {
+    init<T>(
+      keyPath: ReferenceWritableKeyPath<V, T>,
+      value: @escaping () -> T,
+      animator: UIViewPropertyAnimator? = nil
+    ) {
       self.keyPathIdentifier = keyPath.identifier
       self.animator = animator
 
@@ -39,9 +41,11 @@ public extension UINode {
       }
     }
 
-    public convenience init<T>(keyPath: ReferenceWritableKeyPath<V, T>,
-                               value: T,
-                               animator: UIViewPropertyAnimator? = nil) {
+    public convenience init<T>(
+      keyPath: ReferenceWritableKeyPath<V, T>,
+      value: T,
+      animator: UIViewPropertyAnimator? = nil
+    ) {
       self.init(keyPath: keyPath, value: { value }, animator: animator)
     }
 
@@ -234,9 +238,11 @@ extension AnyKeyPath {
   }
 }
 
- @inline(__always) func setKeyPath<V, T>(_ keyPath: ReferenceWritableKeyPath<V, T>,
-                                         view: V,
-                                         value: T) {
+ @inline(__always) func setKeyPath<V, T>(
+   _ keyPath: ReferenceWritableKeyPath<V, T>,
+    view: V,
+   value: T
+  ) -> Void {
     view[keyPath: keyPath] = value
  }
 

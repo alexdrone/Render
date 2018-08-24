@@ -42,6 +42,8 @@ NS_SWIFT_NAME(ConcreteNode)
 @property(nonatomic, readonly) NSArray<CRNode *> *children;
 /// The parent node (if this is not the root node in the hierarchy).
 @property(nonatomic, readonly, nullable, weak) CRNode *parent;
+/// Returns the root node for this node hierarchy.
+@property(nonatomic, readonly) CRNode *root;
 /// The type of the associated backing view.
 @property(nonatomic, readonly) Class viewType;
 /// Backing view for this node.

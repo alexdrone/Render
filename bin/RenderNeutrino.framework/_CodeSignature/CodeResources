@@ -62,7 +62,7 @@
 		</data>
 		<key>Modules/RenderNeutrino.swiftmodule/i386.swiftmodule</key>
 		<data>
-		IIjlOGtFg/+yJNhgLn4H51ti/RY=
+		1TIcIGTK60k95ycAoU6fWAE/GIU=
 		</data>
 		<key>Modules/RenderNeutrino.swiftmodule/x86_64.swiftdoc</key>
 		<data>
@@ -70,7 +70,7 @@
 		</data>
 		<key>Modules/RenderNeutrino.swiftmodule/x86_64.swiftmodule</key>
 		<data>
-		kSEuWauuqvrOjNUz4NEY7owMkyc=
+		VqNS0lr6Jk2f8k2s9M+7Cyrsn7E=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -226,11 +226,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			IIjlOGtFg/+yJNhgLn4H51ti/RY=
+			1TIcIGTK60k95ycAoU6fWAE/GIU=
 			</data>
 			<key>hash2</key>
 			<data>
-			UScwkluxh+BNuRzBuBeg5jSZKy4O1qkGbnIr+VnMlWA=
+			nJS4jVZ1+tQtff19obJ16h7d87SCo3Cbbr7eoEJZFmQ=
 			</data>
 		</dict>
 		<key>Modules/RenderNeutrino.swiftmodule/x86_64.swiftdoc</key>
@@ -248,11 +248,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			kSEuWauuqvrOjNUz4NEY7owMkyc=
+			VqNS0lr6Jk2f8k2s9M+7Cyrsn7E=
 			</data>
 			<key>hash2</key>
 			<data>
-			aI3D0qOrCbhMUOQ9NQ9iDPl9vqHzBnhUZSl90BIzdxA=
+			7e6qAIpQtUCRsOSxMYhS2YjTuyJQUBTb6kNCIPuMlXE=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>

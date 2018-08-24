@@ -97,8 +97,13 @@ void CRIllegalControllerTypeException(NSString *reason) {
 }
 
 - (CRContext *)context {
-  if (_context != nil) return _context;
+  if (_context) return _context;
   return _parent.context;
+}
+
+- (CRNode *)root {
+  if (!_parent) return self;
+  return _parent.root;
 }
 
 - (__kindof CRController *)controller {

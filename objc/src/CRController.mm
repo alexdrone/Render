@@ -37,6 +37,11 @@ NSString *CRIllegalControllerTypeExceptionName = @"IllegalControllerType";
   // Override in subclasses.
 }
 
+- (void)setNeedsReconcile {
+  CR_ASSERT_ON_MAIN_THREAD;
+  [self.node setNeedsReconcile];
+}
+
 @end
 
 #pragma mark - StatelessController

@@ -27,7 +27,6 @@ NS_SWIFT_NAME(Controller)
 /// Transient controllers can be reused for several UI nodes at the same time and can be disposed
 /// and rebuilt at any given time.
 @property(class, nonatomic, readonly, getter=isStateless) BOOL stateless;
-
 /// The key for this controller.
 /// If this controller is @c transient the value of this property is @c CRControllerStatelessKey.
 @property(nonatomic, readonly) NSString *key;
@@ -40,11 +39,16 @@ NS_SWIFT_NAME(Controller)
 
 /// Controllers are instantiated from @c CRContext.
 - (instancetype)init NS_UNAVAILABLE;
+
 /// Called whenever the controller is constructed.
 - (void)onInit;
+
 /// The UI node  associated to this controller has just been added to the view hierarchy.
 /// @note: This is similiar to @c viewDidAppear on @c UIViewController.
 - (void)onMount;
+
+/// Calls @c reconcileInView:constrainedToSize:withOptions: on the root node of this hierarchy.
+- (void)setNeedsReconcile;
 
 @end
 

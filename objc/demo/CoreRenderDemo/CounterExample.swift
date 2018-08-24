@@ -29,11 +29,9 @@ class CounterController: Controller<NullProps, CounterState> {
   @objc dynamic func incrementCounter() {
     self.state.count += 1
     print("count: \(self.state.count)")
-    self.node?.setNeedsReconcile()
+    self.setNeedsReconcile()
   }
-
 }
-
 
 // MARK: - Node
 

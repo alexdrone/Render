@@ -2,13 +2,14 @@
 #import "CRController+Private.h"
 
 @implementation CRContext {
-  // The controllers identity map.
   NSMutableDictionary<NSString*, NSMutableDictionary<NSString*, CRController*>*> *_controllers;
+  NSPointerArray *_delegates;
 }
 
 - (instancetype)init {
   if (self = [super init]) {
     _controllers = @{}.mutableCopy;
+    _delegates = [NSPointerArray weakObjectsPointerArray];
   }
   return self;
 }
@@ -42,6 +43,27 @@
   const auto node = nodeHierarchy();
   [node registerNodeHierarchyInContext:self];
   return node;
+}
+
+- (void)addDelegate:(id<CRContextDelegate>)delegate {
+  CR_ASSERT_ON_MAIN_THREAD;
+  [_delegates compact];
+  for (NSUInteger i = 0; i < _delegates.count; i++)
+    if ([_delegates pointerAtIndex:i] == (__bridge void *)(delegate)) return;
+  [_delegates addPointer:(__bridge void *)delegate];
+}
+
+- (void)removeDelegate:(id<CRContextDelegate>)delegate {
+  CR_ASSERT_ON_MAIN_THREAD;
+  [_delegates compact];
+  NSUInteger removeIdx = NSNotFound;
+  for (NSUInteger i = 0; i < _delegates.count; i++)
+    if ([_delegates pointerAtIndex:i] == (__bridge void *)(delegate)) {
+      removeIdx = i;
+      break;
+    }
+  if (removeIdx != NSNotFound)
+    [_delegates removePointerAtIndex:removeIdx];
 }
 
 @end
