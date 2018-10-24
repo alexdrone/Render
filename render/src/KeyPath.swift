@@ -90,8 +90,7 @@ extension AnyKeyPath {
   /// Returns a unique identifier for the keyPath.
   public var identifier: String {
     guard let path = _kvcKeyPathString else {
-      print("warning: Trying to set a non-KVC compliant key \(self)")
-      return String(describing: self)
+      return String(hashValue)
     }
     return path
   }
