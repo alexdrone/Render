@@ -3,6 +3,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @class CRNode;
+@class CRContext;
 
 @interface CRController <P, S>()
 // Private setter modifiers
