@@ -10,7 +10,7 @@ typedef NS_OPTIONS(NSUInteger, CRNodeLayoutOptions) {
 
 @class CRNode;
 @class CRContext;
-@class CRNodeLayoutSpec<__covariant V: UIView *>;
+@class CRNodeLayoutSpec<__covariant V : UIView *>;
 @class CRState;
 @class CRProps;
 
@@ -27,7 +27,7 @@ NS_SWIFT_NAME(NodeDelegate)
 @end
 
 NS_SWIFT_NAME(ConcreteNode)
-@interface CRNode<__covariant V: UIView *> : NSObject
+@interface CRNode<__covariant V : UIView *> : NSObject
 /// The context associated with this node hierarchy.
 @property(nonatomic, readonly, nullable) CRContext *context;
 /// The reuse identifier for this node is its hierarchy.
@@ -66,21 +66,20 @@ NS_SWIFT_NAME(ConcreteNode)
 - (instancetype)initWithType:(Class)type
              reuseIdentifier:(nullable NSString *)reuseIdentifier
                          key:(nullable NSString *)key
-          viewInitialization:(UIView *(^_Nullable)(void))viewInitialization
+          viewInitialization:(UIView * (^_Nullable)(void))viewInitialization
                   layoutSpec:(void (^)(CRNodeLayoutSpec<V> *))layoutSpec;
 
 + (instancetype)nodeWithType:(Class)type
              reuseIdentifier:(NSString *)reuseIdentifier
                          key:(nullable NSString *)key
-          viewInitialization:(UIView *(^_Nullable)(void))viewInitialization
+          viewInitialization:(UIView * (^_Nullable)(void))viewInitialization
                   layoutSpec:(void (^)(CRNodeLayoutSpec<V> *))layoutSpec;
 
 + (instancetype)nodeWithType:(Class)type
                          key:(nullable NSString *)key
                   layoutSpec:(void (^)(CRNodeLayoutSpec<V> *))layoutSpec;
 
-+ (instancetype)nodeWithType:(Class)type
-                  layoutSpec:(void (^)(CRNodeLayoutSpec<V> *))layoutSpec;
++ (instancetype)nodeWithType:(Class)type layoutSpec:(void (^)(CRNodeLayoutSpec<V> *))layoutSpec;
 
 #pragma mark Setup
 

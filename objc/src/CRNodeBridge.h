@@ -7,15 +7,15 @@ NS_ASSUME_NONNULL_BEGIN
 NS_SWIFT_NAME(NodeBridge)
 @interface CRNodeBridge : NSObject
 /// Whether the view has been created at the last render pass.
-@property (nonatomic) BOOL isNewlyCreated;
+@property(nonatomic) BOOL isNewlyCreated;
 /// The node associated to this view.
-@property (nonatomic, nullable, weak) CRNode *node;
+@property(nonatomic, nullable, weak) CRNode *node;
 /// The bridged view.
-@property (nonatomic, nullable, weak) UIView *view;
+@property(nonatomic, nullable, weak) UIView *view;
 /// Layout animator for this subtree.
-@property (nonatomic, nullable) UIViewPropertyAnimator *layoutAnimator;
+@property(nonatomic, nullable) UIViewPropertyAnimator *layoutAnimator;
 
-- (instancetype)initWithView:(UIView*)view;
+- (instancetype)initWithView:(UIView *)view;
 
 /// Stores the current (now considered old in the current run-loop) geometry for the associated
 /// view and all of its subviews recursively.

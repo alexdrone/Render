@@ -20,7 +20,7 @@ NS_SWIFT_NAME(State)
 @end
 
 NS_SWIFT_NAME(Controller)
-@interface CRController<__covariant P: CRProps *, __covariant S: CRState *> : NSObject
+@interface CRController<__covariant P : CRProps *, __covariant S : CRState *> : NSObject
 /// The context associated with this controller.
 @property(nonatomic, readonly, nullable, weak) CRContext *context;
 /// Whether this controller is stateful or not.
@@ -56,19 +56,18 @@ NS_SWIFT_NAME(Controller)
 
 /// Represents a null empty state - used to model @c CRStatelessController.
 NS_SWIFT_NAME(NullState)
-@interface CRNullState: CRState
+@interface CRNullState : CRState
 @property(class, nonatomic, readonly) CRNullState *null;
 @end
 
 /// No props object.
 NS_SWIFT_NAME(NullProps)
-@interface CRNullProps: CRProps
+@interface CRNullProps : CRProps
 @property(class, nonatomic, readonly) CRNullProps *null;
 @end
 
 NS_SWIFT_NAME(StatelessController)
-@interface CRStatelessController<__covariant P: CRProps *> : CRController<P, CRNullState*>
+@interface CRStatelessController<__covariant P : CRProps *> : CRController <P, CRNullState *>
 @end
 
 NS_ASSUME_NONNULL_END
-

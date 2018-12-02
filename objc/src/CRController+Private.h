@@ -4,7 +4,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @class CRNode;
 
-@interface CRController <P, S> ()
+@interface CRController <P, S>()
 // Private setter modifiers
 @property(nonatomic, readwrite) NSString *key;
 @property(nonatomic, readwrite, nullable, weak) CRContext *context;
@@ -12,7 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// @note: Never call the init method manually - controllers are dynamically constructed,
 /// disposed and reused by @c CRContext.
-- (instancetype)initWithKey:(NSString*)key;
+- (instancetype)initWithKey:(NSString *)key;
 
 @end
 

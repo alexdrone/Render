@@ -13,17 +13,17 @@
 }
 
 - (CRNodeBridge *)cr_nodeBridge {
-  auto bridge = CR_DYNAMIC_CAST(CRNodeBridge,
-                                objc_getAssociatedObject(self, @selector(cr_nodeBridge)));
+  auto bridge =
+      CR_DYNAMIC_CAST(CRNodeBridge, objc_getAssociatedObject(self, @selector(cr_nodeBridge)));
   const auto ret = CR_NIL_COALESCING(bridge, [[CRNodeBridge alloc] initWithView:self]);
   if (ret != bridge) self.cr_nodeBridge = ret;
   return ret;
 }
 
 - (void)cr_resetAllTargets {
-  CR_ASSERT_ON_MAIN_THREAD;
+  CR_ASSERT_ON_MAIN_THREAD();
   const auto control = CR_DYNAMIC_CAST(UIControl, self);
-  foreach(target, control.allTargets) {
+  CR_FOREACH(target, control.allTargets) {
     [control removeTarget:target action:nil forControlEvents:UIControlEventAllEvents];
   }
 }

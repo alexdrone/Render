@@ -7,9 +7,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface UIView (CRNode)
 /// Whether this view has a node currently associated to it or not.
-@property (nonatomic, readonly) BOOL cr_hasNode;
+@property(nonatomic, readonly) BOOL cr_hasNode;
 /// Transient node configuration for this view.
-@property (nonatomic) CRNodeBridge *cr_nodeBridge;
+@property(nonatomic) CRNodeBridge *cr_nodeBridge;
 /// Remove all of the registered targets if this view is a subclass of *UIControl*.
 - (void)cr_resetAllTargets;
 

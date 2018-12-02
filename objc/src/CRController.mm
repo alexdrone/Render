@@ -1,5 +1,5 @@
-#import "CRUmbrellaHeader.h"
 #import "CRController+Private.h"
+#import "CRUmbrellaHeader.h"
 
 NSString *CRControllerStatelessKey = @"_CRControllerStatelessKey";
 NSString *CRIllegalControllerTypeExceptionName = @"IllegalControllerType";
@@ -38,7 +38,7 @@ NSString *CRIllegalControllerTypeExceptionName = @"IllegalControllerType";
 }
 
 - (void)setNeedsReconcile {
-  CR_ASSERT_ON_MAIN_THREAD;
+  CR_ASSERT_ON_MAIN_THREAD();
   [self.node setNeedsReconcile];
 }
 
@@ -51,7 +51,7 @@ NSString *CRIllegalControllerTypeExceptionName = @"IllegalControllerType";
 + (CRNullState *)null {
   static CRNullState *shared;
   static dispatch_once_t onceToken;
-  dispatch_once(&onceToken, ^(){
+  dispatch_once(&onceToken, ^() {
     shared = [[CRNullState alloc] init];
   });
   return shared;
@@ -62,9 +62,9 @@ NSString *CRIllegalControllerTypeExceptionName = @"IllegalControllerType";
 @implementation CRNullProps
 
 + (CRNullProps *)null {
-  static CRNullProps  *shared;
+  static CRNullProps *shared;
   static dispatch_once_t onceToken;
-  dispatch_once(&onceToken, ^(){
+  dispatch_once(&onceToken, ^() {
     shared = [[CRNullProps alloc] init];
   });
   return shared;

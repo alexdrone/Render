@@ -9,7 +9,7 @@
 }
 
 - (void)set:(NSString *)keyPath value:(id)value animator:(UIViewPropertyAnimator *)animator {
-  CR_ASSERT_ON_MAIN_THREAD;
+  CR_ASSERT_ON_MAIN_THREAD();
   const auto property = [[CRNodeLayoutSpecProperty alloc] initWithKeyPath:keyPath
                                                                     value:value
                                                                  animator:animator];
@@ -17,7 +17,7 @@
   [_view.cr_nodeBridge setPropertyWithKeyPath:keyPath value:value animator:animator];
 }
 
-- (instancetype)initWithNode:(CRNode*)node constrainedToSize:(CGSize)size {
+- (instancetype)initWithNode:(CRNode *)node constrainedToSize:(CGSize)size {
   if (self = [super init]) {
     _node = node;
     _view = node.renderedView;

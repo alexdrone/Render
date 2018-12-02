@@ -23,20 +23,20 @@
   if (!_view.cr_hasNode) return;
   _oldGeometry = _view.frame;
 
-  foreach(subview, _view.subviews) {
+  CR_FOREACH(subview, _view.subviews) {
     if (!subview.cr_hasNode) continue;
     [subview.cr_nodeBridge storeViewSubTreeOldGeometry];
   }
 }
 
 - (void)applyViewSubTreeOldGeometry {
-  CR_ASSERT_ON_MAIN_THREAD;
+  CR_ASSERT_ON_MAIN_THREAD();
   if (!_view.cr_hasNode) return;
   if (!(_isNewlyCreated && CGRectEqualToRect(_oldGeometry, CGRectZero))) {
     _view.alpha = 0;
   } else {
     _view.frame = _oldGeometry;
-    foreach(subview, _view.subviews) {
+    CR_FOREACH(subview, _view.subviews) {
       if (!subview.cr_hasNode) continue;
       [subview.cr_nodeBridge applyViewSubTreeOldGeometry];
     }
@@ -48,46 +48,49 @@
   _newGeometry = _view.frame;
   _targetAlpha = _view.alpha;
 
-  foreach(subview, _view.subviews) {
+  CR_FOREACH(subview, _view.subviews) {
     if (!subview.cr_hasNode) continue;
     [subview.cr_nodeBridge storeViewSubTreeNewGeometry];
   }
 }
 
 - (void)applyViewSubTreeNewGeometry {
-  CR_ASSERT_ON_MAIN_THREAD;
+  CR_ASSERT_ON_MAIN_THREAD();
   if (!_view.cr_hasNode) return;
   _view.frame = _newGeometry;
-  foreach(subview, _view.subviews) {
+  CR_FOREACH(subview, _view.subviews) {
     if (!subview.cr_hasNode) continue;
     [subview.cr_nodeBridge applyViewSubTreeNewGeometry];
   }
 }
 
 - (void)fadeInNewlyCreatedViewsInViewSubTreeWithDelay:(NSTimeInterval)delay {
-  CR_ASSERT_ON_MAIN_THREAD;
+  CR_ASSERT_ON_MAIN_THREAD();
   static const auto duration = 0.16;
-  const auto options = UIViewAnimationOptionBeginFromCurrentState|UIViewAnimationOptionCurveEaseOut;
+  const auto options =
+      UIViewAnimationOptionBeginFromCurrentState | UIViewAnimationOptionCurveEaseOut;
 
   CR_WEAKIFY(self);
-  [UIView animateWithDuration:duration delay:delay options:options animations:^{
-    CR_STRONGIFY_AND_RETURN_IF_NIL(self);
-    [self _restoreAlphaRecursively];
-  } completion:nil];
+  [UIView animateWithDuration:duration
+                        delay:delay
+                      options:options
+                   animations:^{
+                     CR_STRONGIFY_AND_RETURN_IF_NIL(self);
+                     [self _restoreAlphaRecursively];
+                   }
+                   completion:nil];
 }
 
 - (void)_restoreAlphaRecursively {
   if (!_view.cr_hasNode) return;
   if (fabs(_view.alpha - _targetAlpha) > FLT_EPSILON) _view.alpha = _targetAlpha;
-  foreach(subview, _view.subviews) {
-    [subview.cr_nodeBridge _restoreAlphaRecursively];
-  }
+  CR_FOREACH(subview, _view.subviews) { [subview.cr_nodeBridge _restoreAlphaRecursively]; }
 }
 
 - (void)setPropertyWithKeyPath:(NSString *)keyPath
                          value:(id)value
                       animator:(UIViewPropertyAnimator *)animator {
-  CR_ASSERT_ON_MAIN_THREAD;
+  CR_ASSERT_ON_MAIN_THREAD();
   if (!_view.cr_hasNode) return;
 
   const id currentValue = [_view valueForKeyPath:keyPath];
@@ -108,7 +111,7 @@
 }
 
 - (void)restore {
-  foreach(keyPath, _initialPropertyValues) {
+  CR_FOREACH(keyPath, _initialPropertyValues) {
     const id value = _initialPropertyValues[keyPath];
     [self setPropertyWithKeyPath:keyPath value:value animator:nil];
   }

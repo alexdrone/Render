@@ -1,8 +1,8 @@
-#import "CRUmbrellaHeader.h"
 #import "CRController+Private.h"
+#import "CRUmbrellaHeader.h"
 
 @implementation CRContext {
-  NSMutableDictionary<NSString*, NSMutableDictionary<NSString*, CRController*>*> *_controllers;
+  NSMutableDictionary<NSString *, NSMutableDictionary<NSString *, CRController *> *> *_controllers;
   NSPointerArray *_delegates;
 }
 
@@ -14,8 +14,8 @@
   return self;
 }
 
-- (__kindof CRController*)controllerOfType:(Class)type withKey:(NSString *)key {
-  CR_ASSERT_ON_MAIN_THREAD;
+- (__kindof CRController *)controllerOfType:(Class)type withKey:(NSString *)key {
+  CR_ASSERT_ON_MAIN_THREAD();
   if (![type isSubclassOfClass:CRController.self]) return nil;
   const auto container = [self _containerForType:type];
   if (const auto controller = container[key]) return controller;
@@ -26,27 +26,27 @@
 }
 
 - (__kindof CRStatelessController *)controllerOfType:(Class)type {
-  CR_ASSERT_ON_MAIN_THREAD;
+  CR_ASSERT_ON_MAIN_THREAD();
   if (![type isStateless]) return nil;
   return [self controllerOfType:type withKey:CRControllerStatelessKey];
 }
 
-- (NSMutableDictionary<NSString*, CRController*> *)_containerForType:(Class)type {
+- (NSMutableDictionary<NSString *, CRController *> *)_containerForType:(Class)type {
   const auto str = NSStringFromClass(type);
   if (const auto container = _controllers[str]) return container;
-  const auto container = [[NSMutableDictionary<NSString*, CRController*> alloc] init];
+  const auto container = [[NSMutableDictionary<NSString *, CRController *> alloc] init];
   _controllers[str] = container;
   return container;
 }
 
-- (CRNode *)buildNodeHiearchy:(__attribute__((noescape)) CRNode *(^)(void))nodeHierarchy {
+- (CRNode *)buildNodeHiearchy:(__attribute__((noescape))CRNode * (^)(void))nodeHierarchy {
   const auto node = nodeHierarchy();
   [node registerNodeHierarchyInContext:self];
   return node;
 }
 
 - (void)addDelegate:(id<CRContextDelegate>)delegate {
-  CR_ASSERT_ON_MAIN_THREAD;
+  CR_ASSERT_ON_MAIN_THREAD();
   [_delegates compact];
   for (NSUInteger i = 0; i < _delegates.count; i++)
     if ([_delegates pointerAtIndex:i] == (__bridge void *)(delegate)) return;
@@ -54,7 +54,7 @@
 }
 
 - (void)removeDelegate:(id<CRContextDelegate>)delegate {
-  CR_ASSERT_ON_MAIN_THREAD;
+  CR_ASSERT_ON_MAIN_THREAD();
   [_delegates compact];
   NSUInteger removeIdx = NSNotFound;
   for (NSUInteger i = 0; i < _delegates.count; i++)
@@ -62,8 +62,7 @@
       removeIdx = i;
       break;
     }
-  if (removeIdx != NSNotFound)
-    [_delegates removePointerAtIndex:removeIdx];
+  if (removeIdx != NSNotFound) [_delegates removePointerAtIndex:removeIdx];
 }
 
 @end

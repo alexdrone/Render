@@ -51,8 +51,7 @@ public extension AnyNode {
 ///   spec.view.backgroundColor = .green
 ///   spec.view.setTitle("FOO", for: .normal)
 /// ```
-@inline(__always)
-public func Node<V: UIView, P: Props, S: State> (
+@inline(__always) public func Node<V: UIView, P: Props, S: State> (
   type: V.Type,
   controller: Controller<P, S>.Type? = nil,
   props: P? = nil,
@@ -78,8 +77,7 @@ public func Node<V: UIView, P: Props, S: State> (
 /// - parameter keyPath: The target keypath.
 /// - parameter value: The new desired value.
 /// - parameter animator: Optional property animator for this change.
-@inline(__always)
-public func set<V: UIView, T>(
+@inline(__always) public func set<V: UIView, T>(
   _ spec: LayoutSpec<V>,
   keyPath: ReferenceWritableKeyPath<V, T>,
   value: T,
