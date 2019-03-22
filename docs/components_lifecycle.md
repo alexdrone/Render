@@ -163,12 +163,12 @@ The `layoutSpec` closure (set at node construction time) is executed every time 
 let node = UINode<UILabel> { spec in 
   spec.set(\.backgroundColor, .black)
   // ...this is analogous
-  sepc.view.backgroundColor = .black 
+  spec.view.backgroundColor = .black 
   
   // Flexbox properties
   spec.set(\.yoga.width, spec.canvasWidth/2)
   spec.set(\.yoga.height, 32)
-  sepc.set(\.yoga.margin, 8)
+  spec.set(\.yoga.margin, 8)
 } 
 ```
 
