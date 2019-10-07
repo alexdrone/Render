@@ -3,40 +3,52 @@ import UIKit
 public protocol UIComponentProtocol: UINodeDelegateProtocol, Disposable {
   /// The component-tree context.
   var context: UIContextProtocol? { get }
+
   /// A unique key for the component (necessary if the component is stateful).
   var key: String? { get }
+
   /// The root node (built as a result of the 'render' method).
   var root: UINodeProtocol { get }
+
   /// *Optional* node delegate.
   var delegate: UINodeDelegateProtocol? { get set }
+
   /// The component parent (nil for root components).
   var parent: UIComponentProtocol? { get }
+
   /// *IThe view in which the component is going to be rendered.
   var canvasView: UIView? { get }
+
   /// Wheter a component’s output is not affected by the current change in state or props.
   /// The default behavior is to re-render on every state change, and in the vast majority of cases
   /// you should rely on the default behavior.
   /// Returning false does not prevent child components from re-rendering when their state changes.
   var shouldUpdate: Bool { get }
+
   /// Set the canvas view for this component.
   /// - parameter view: The view in which the component is going to be rendered.
   /// - parameter useBoundsAsCanvasSize: if 'true' the canvas size will return the view bounds.
   /// - parameter renderOnCanvasSizeChange: if 'true' the components will automatically
   /// trigger 'setNeedsRender' whenever the canvas view changes its bounds.
   func setCanvas(view: UIView, options: [UIComponentCanvasOption])
+
   /// Mark the component for rendering.
   func setNeedsRender(options: [UIComponentRenderOption])
+
   /// Trigger a render pass if the component was set dirty after 'suspendComponentRendering'
   /// has been invoked on the context.
   /// - note: In most scenarios you don't have to manually call this method - the context will
   /// automatically resume rendering on invalidated components when the suspension is terminated.
   func resumeFromSuspendedRenderingIfNecessary()
+
   /// Type-erased state associated to this component.
   /// - note: *Internal only.*
   var anyState: UIStateProtocol { get }
+
   /// Type-erased props associated to this component.
   /// - note: *Internal only.*
   var anyProp: UIPropsProtocol { get }
+
   /// Builds the component node.
   /// - note: Use this function to insert the node as a child of a pre-existent node hierarchy.
   func asNode() -> UINodeProtocol
@@ -45,21 +57,26 @@ public protocol UIComponentProtocol: UINodeDelegateProtocol, Disposable {
 public enum UIComponentCanvasOption: Int {
   // The canvas size will return the view bounds.
   case useBoundsAsCanvasSize
+
   /// If the component can overflow in the horizontal axis.
   case flexibleWidth
+
   /// If the component can overflow in the vertical axis.
   case flexibleHeight
+
   /// Default canvas option.
   public static func defaults() -> [UIComponentCanvasOption] {
     return [
       .useBoundsAsCanvasSize,
-      .flexibleHeight]
+      .flexibleHeight
+    ]
   }
 }
 
 public enum UIComponentRenderOption {
   /// Provide an animator that will transition the frame change caused by the new computed layout.
   case animateLayoutChanges(animator: UIViewPropertyAnimator)
+
   /// Useful whenever a component in an inner context (e.g. a component embedded in a cell)
   /// wants to trigger a re-render from the top down on the parent context.
   /// This also trigger a 'reloadData' if the component is embedded in a
@@ -67,6 +84,7 @@ public enum UIComponentRenderOption {
   /// - note: Nested context are pretty rare and adopted for performance optimisation reasons only.
   /// Creating your own nested contexts is discouraged.
   case propagateToParentContext
+
   /// Prevent *beginUpdates()* and *endUpdates()* to be called on the table view on this instance
   /// of render.
   case preventTableUpdates
@@ -84,8 +102,10 @@ open class UIComponent<S: UIStateProtocol, P: UIPropsProtocol>: NSObject, UIComp
       setKey(node: root)
     }
   }
+
   /// The component pa rent (nil for root components).
   public weak var parent: UIComponentProtocol?
+
   /// The state associated with this component.
   /// A state is always associated to a unique component key and it's a unique instance living
   /// in the context identity map.
@@ -111,26 +131,35 @@ open class UIComponent<S: UIStateProtocol, P: UIPropsProtocol>: NSObject, UIComp
       context?.pool.store(key: key, state: state)
     }
   }
+
   /// Use props to pass data & event handlers down to your child components.
   open var props: P = P()
+
   public var anyProp: UIPropsProtocol { return props }
   public var anyState: UIStateProtocol { return state }
+
   /// A unique key for the component (necessary if the component is stateful).
   public let key: String?
+
   /// Forwards node layout method callbacks.
   public weak var delegate: UINodeDelegateProtocol?
+
   public weak var context: UIContextProtocol?
+
   public private(set) weak var canvasView: UIView? {
     didSet {
       assert(parent == nil, "Unable to set a canvas view on a non-root component.")
     }
   }
+
   /// The bounding rect for the the layout computation.
   /// It can exceed the size of the canvas.
   public var renderSize: () -> CGSize = {
-    return CGSize(width:
-      UIScreen.main.bounds.size.width, height: CGFloat.max)
+    return CGSize(
+      width:
+        UIScreen.main.bounds.size.width, height: CGFloat.max)
   }
+
   open var shouldUpdate: Bool { return true }
 
   private var setNeedsRenderCalledDuringSuspension: Bool = false
@@ -157,7 +186,7 @@ open class UIComponent<S: UIStateProtocol, P: UIPropsProtocol>: NSObject, UIComp
   public func setCanvas(
     view: UIView,
     options: [UIComponentCanvasOption] = UIComponentCanvasOption.defaults()
-  ) -> Void {
+  ) {
     assert(Thread.isMainThread)
     guard !isDisposed else {
       disposedWarning()
@@ -279,10 +308,8 @@ open class UIComponent<S: UIStateProtocol, P: UIPropsProtocol>: NSObject, UIComp
       node.key = key
     }
     #if DEBUG
-    node._debugPropDescription =
-      props.reflectionDescription()
-    node._debugStateDescription =
-      state.reflectionDescription()
+      node._debugPropDescription = props.reflectionDescription()
+      node._debugStateDescription = state.reflectionDescription()
     #endif
   }
 
@@ -383,7 +410,7 @@ open class UIComponent<S: UIStateProtocol, P: UIPropsProtocol>: NSObject, UIComp
 public typealias UIPureComponent = UIComponent<UINilState, UINilProps>
 
 /// A component without any *state* but with *props* configured from the outside.
-open class UIStatelessComponent<P: UIPropsProtocol>: UIComponent<UINilState, P> { }
+open class UIStatelessComponent<P: UIPropsProtocol>: UIComponent<UINilState, P> {}
 
 /// A component without a *state* but without any *props* configured from the outside.
-open class UIProplessComponent<S: UIStateProtocol>: UIComponent<S, UINilProps> { }
+open class UIProplessComponent<S: UIStateProtocol>: UIComponent<S, UINilProps> {}

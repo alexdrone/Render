@@ -10,16 +10,17 @@ import UIKit
 public protocol ControllerProtocol: AnyController {
   /// The type of the props that will be passed down to this controller.
   associatedtype PropsType: AnyProps
+
   /// The type of its internal state
   associatedtype StateType: AnyState
 }
 
-extension ConcreteNode: AnyNode { }
+extension ConcreteNode: AnyNode {}
 extension Controller: AnyController {}
-extension Props: AnyProps { }
-extension State: AnyState { }
+extension Props: AnyProps {}
+extension State: AnyState {}
 
-public extension AnyNode {
+extension AnyNode {
   /// Adds the nodes as children of this node.
   @discardableResult public func append(children: [AnyNode]) -> ConcreteNode<UIView> {
     let node = self as! ConcreteNode<UIView>
@@ -51,7 +52,7 @@ public extension AnyNode {
 ///   spec.view.backgroundColor = .green
 ///   spec.view.setTitle("FOO", for: .normal)
 /// ```
-@inline(__always) public func Node<V: UIView, P: Props, S: State> (
+@inline(__always) public func Node<V: UIView, P: Props, S: State>(
   type: V.Type,
   controller: Controller<P, S>.Type? = nil,
   props: P? = nil,
@@ -82,12 +83,12 @@ public extension AnyNode {
   keyPath: ReferenceWritableKeyPath<V, T>,
   value: T,
   animator: UIViewPropertyAnimator? = nil
-) -> Void {
+) {
   guard let kvc = keyPath._kvcKeyPathString else {
     print("\(keyPath) is not a KVC property.")
     return
   }
-  spec.set(kvc, value: value, animator: animator);
+  spec.set(kvc, value: value, animator: animator)
 }
 
 public typealias LayoutOptions = CRNodeLayoutOptions

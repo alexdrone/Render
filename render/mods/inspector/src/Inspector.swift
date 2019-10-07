@@ -17,7 +17,7 @@ extension UIComponent {
   func hookInspectorIfAvailable() {
     let injectionRequest = Notification.Name("INJECTION_BUNDLE_NOTIFICATION")
     let inspectorRequest = Notification.Name("RENDER_INSPECTOR_REQUEST")
-    let inspectorResponse =  Notification.Name("RENDER_INSPECTOR_RESPONSE")
+    let inspectorResponse = Notification.Name("RENDER_INSPECTOR_RESPONSE")
     let center = NotificationCenter.default
     center.addObserver(forName: injectionRequest, object: nil, queue: nil) { [weak self] _ in
       self?.setNeedsRender()
@@ -28,7 +28,8 @@ extension UIComponent {
       }
       let addressPrefix = self.isEmbeddedInCell ? (self.key ?? "n/a") : ""
       if let description = self.root.inspectorDescription(addressPrefix: addressPrefix),
-        !(self.root is UINilNode)  {
+        !(self.root is UINilNode)
+      {
         NotificationCenter.default.post(name: inspectorResponse, object: description)
       }
     }
@@ -50,8 +51,8 @@ extension UINodeProtocol {
     }
     func escape(_ string: String) -> String {
       var result = string
-      for c in [("<", "&lt;"), (">", "&gt;"), ("&", "&amp;"), ("\"", "&quot;"), ("Optional","")] {
-        result = result.replacingOccurrences(of: c.0, with:  c.1)
+      for c in [("<", "&lt;"), (">", "&gt;"), ("&", "&amp;"), ("\"", "&quot;"), ("Optional", "")] {
+        result = result.replacingOccurrences(of: c.0, with: c.1)
       }
       return result
     }
@@ -63,8 +64,9 @@ extension UINodeProtocol {
       return result
     }
     let childrenDescription = (children + unmanagedChildren).filter {
-      !($0 is UINilNode) }.map {
-        $0.inspectorDescription(addressPrefix: addressPrefix)
+      !($0 is UINilNode)
+    }.map {
+      $0.inspectorDescription(addressPrefix: addressPrefix)
     }
     return [
       "id": escapeReuseIdentifier(reuseIdentifier),
@@ -74,7 +76,8 @@ extension UINodeProtocol {
       "frame": "\(renderedView?.frame ?? CGRect.zero)",
       "state": escape(_debugStateDescription),
       "props": escape(_debugPropDescription),
-      "children": childrenDescription]
+      "children": childrenDescription
+    ]
   }
 }
 
@@ -82,11 +85,11 @@ extension UINodeProtocol {
 // forked from: Augustyniak/KeyCommands by Rafal Augustyniak
 
 #if targetEnvironment(simulator)
-  public typealias KeyModifierFlags  = UIKeyModifierFlags
+  public typealias KeyModifierFlags = UIKeyModifierFlags
 
   struct KeyActionableCommand {
     fileprivate let keyCommand: UIKeyCommand
-    fileprivate let actionBlock: () -> ()
+    fileprivate let actionBlock: () -> Void
 
     func matches(_ input: String, modifierFlags: UIKeyModifierFlags) -> Bool {
       return keyCommand.input == input && keyCommand.modifierFlags == modifierFlags
@@ -102,10 +105,11 @@ extension UINodeProtocol {
     private static var __once: () = {
       exchangeImplementations(
         class: UIApplication.self,
-        originalSelector: #selector(getter: UIResponder.keyCommands),
-        swizzledSelector: #selector(UIApplication.KYC_keyCommands));
+        originalSelector: #selector(getter:UIResponder.keyCommands),
+        swizzledSelector: #selector(UIApplication.KYC_keyCommands))
     }()
-    fileprivate struct Static {
+
+    fileprivate enum Static {
       static var token: Int = 0
     }
 
@@ -114,9 +118,11 @@ extension UINodeProtocol {
       fileprivate var actionableKeyCommands = [KeyActionableCommand]()
     }
 
-    public static func register(input: String,
-                                modifierFlags: KeyModifierFlags,
-                                action: @escaping () -> ()) {
+    public static func register(
+      input: String,
+      modifierFlags: KeyModifierFlags,
+      action: @escaping () -> Void
+    ) {
       _ = KeyCommands.__once
       let keyCommand = UIKeyCommand(
         input: input,
@@ -161,7 +167,7 @@ extension UINodeProtocol {
     class classs: AnyClass,
     originalSelector: Selector,
     swizzledSelector: Selector
-  ) -> Void {
+  ) {
     let originalMethod = class_getInstanceMethod(classs, originalSelector)
     let originalMethodImplementation = method_getImplementation(originalMethod!)
     let originalMethodTypeEncoding = method_getTypeEncoding(originalMethod!)
@@ -191,8 +197,9 @@ extension UINodeProtocol {
     public static func register(
       input: String,
       modifierFlags: KeyModifierFlags,
-      action: () -> ()) {}
+      action: () -> Void
+    ) {}
+
     public static func unregister(input: String, modifierFlags: KeyModifierFlags) {}
   }
 #endif
-

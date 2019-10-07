@@ -1,18 +1,21 @@
-import XCTest
 import UIKit
+import XCTest
+
 @testable import RenderNeutrino
 
 class ContextTests: XCTestCase {
 
-  class Sa: UIState { }
-  class Sb: UIState { }
+  class Sa: UIState {}
+  class Sb: UIState {}
+
   class Ca: UIComponent<Sa, UINilProps> {
     override func render(context: UIContextProtocol) -> UINodeProtocol {
-      return UINode<UIView>() { _ in }
+      return UINode<UIView> { _ in }
     }
   }
-  class Cb: UIComponent<Sb, UINilProps> { }
-  class Cc: UIComponent<UINilState, UINilProps> { }
+
+  class Cb: UIComponent<Sb, UINilProps> {}
+  class Cc: UIComponent<UINilState, UINilProps> {}
 
   func testUniquenessOfStateObjects() {
     let context = UIContext()
@@ -66,6 +69,7 @@ class ContextTests: XCTestCase {
 
   class Delegate: UIContextDelegate {
     var lastInvokedTarget: UIComponentProtocol? = nil
+
     func setNeedRenderInvoked(on context: UIContextProtocol, component: UIComponentProtocol) {
       lastInvokedTarget = component
     }

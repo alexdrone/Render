@@ -6,9 +6,11 @@ public protocol UINodeDelegateProtocol: class {
   /// The backing view of *node* just got rendered and added to the view hierarchy.
   /// - parameter view: The view that just got installed in the view hierarchy.
   func nodeDidMount(_ node: UINodeProtocol, view: UIView)
+
   /// The backing view of *node* is about to be layed out.
   /// - parameter view: The view that is about to be configured and layed out.
   func nodeWillLayout(_ node: UINodeProtocol, view: UIView)
+
   /// The backing view of *node* just got layed out.
   /// - parameter view: The view that has just been configured and layed out.
   func nodeDidLayout(_ node: UINodeProtocol, view: UIView)
@@ -19,38 +21,50 @@ public protocol UINodeDelegateProtocol: class {
 public protocol UINodeProtocol: Disposable {
   /// Backing view for this node.
   var renderedView: UIView? { get }
+
   /// *Optional* delegate.
   var delegate: UINodeDelegateProtocol? { get set }
+
   /// The parent node (if this is not the root node in the hierarchy).
   var parent: UINodeProtocol? { get set }
+
   /// The component that manages this subtree (if applicable).
   var associatedComponent: UIComponentProtocol? { get set }
+
   /// A unique key for the component/node (necessary if the component is stateful).
   var key: String? { get set }
+
   /// The reuse identifier for this node is its hierarchy.
   /// Identifiers help Render understand which items have changed.
   /// A custom *reuseIdentifier* is mandatory if the node has a custom creation closure.
   var reuseIdentifier: String { get set }
+
   /// The subnodes of this node.
   var children: [UINodeProtocol] { get }
+
   /// An additional configuration closure meant to override some of the original configuration
   /// of the node.
   var overrides: ((UIView) -> Void)? { get set }
+
   /// The desired update preferences for this node (typically passed down from the component),
   /// used to infer the 'shouldUpdate' property.
   var updateMode: UINodeUpdateMode { get set }
+
   /// Let Render know if this node is not affected by the current change in state or props.
   /// The default behavior is to re-render on every state change, and in the vast majority of cases
   /// you should rely on the default behavior.
   var shouldUpdate: Bool { get }
+
   /// Re-applies the configuration closure for this node and compute its layout.
   func layout(in bounds: CGSize, options: [UINodeOption])
+
   /// Mount the component in the view hierarchy by running the *reconciliation algorithm*.
   /// This means that only the required changes to the view hierarchy are going to be applied.
   func reconcile(in view: UIView?, size: CGSize?, options: [UINodeOption])
+
   /// Returns the node with the key matching the function argument.
   func nodeWithKey(_ key: String) -> UINodeProtocol?
-  
+
   // Internal.
 
   /// Component that builds components in non-traditional fashion (e.g. table/collection views)
@@ -58,25 +72,32 @@ public protocol UINodeProtocol: Disposable {
   /// at every render pass.
   /// - note: *Internal use only*.
   var unmanagedChildren: [UINodeProtocol] { get set }
+
   /// This component is the n-th children.
   /// - note: *Internal use only*.
   var index: Int { get set }
+
   /// String representation of the underlying view type.
   /// - note: *Internal use only*.
   var _debugType: String { get }
+
   /// String representation of the current state.
   /// - note: *Internal use only*.
   var _debugStateDescription: String { get set }
+
   /// String representation of the current props.
   /// - note: *Internal use only*.
   var _debugPropDescription: String { get set }
+
   /// Asks the node to build the backing view for this node.
   /// - note: *Internal use only*.
   func _constructView(with reusableView: UIView?)
+
   /// Configure the backing view of this node by running the configuration closure provided in the
   /// init method.
   /// - note: *Internal use only*.
   func _setup(in bounds: CGSize, options: [UINodeOption])
+
   /// Returns all of the keys found in this subtree.
   func _retrieveKeysRecursively() -> Set<String>
 }
@@ -87,8 +108,10 @@ public class UINode<V: UIView>: UINodeProtocol {
   public struct LayoutSpec {
     /// The target node for this layout pass.
     public internal(set) var node: UINode<V>
+
     /// The concrete backing view.
     public internal(set) var view: V
+
     /// The canvas size for the root componens.
     public internal(set) var canvasSize: CGSize
 
@@ -102,9 +125,9 @@ public class UINode<V: UIView>: UINodeProtocol {
       _ keyPath: ReferenceWritableKeyPath<V, T>,
       _ value: T,
       animator: UIViewPropertyAnimator? = nil
-    ) -> Void {
-      node.viewProperties[keyPath.identifier] =
-          UIViewKeyPathValue(keyPath: keyPath, value: value, animator: animator)
+    ) {
+      node.viewProperties[keyPath.identifier]
+        = UIViewKeyPathValue(keyPath: keyPath, value: value, animator: animator)
     }
   }
 
@@ -125,6 +148,7 @@ public class UINode<V: UIView>: UINodeProtocol {
   public var unmanagedChildren: [UINodeProtocol] = []
   public var overrides: ((UIView) -> Void)? = nil
   public var updateMode: UINodeUpdateMode = .inherit
+
   // Whether this node should render or not at this render cycle.
   public var shouldUpdate: Bool {
     guard !firstUpdateInvokation else { return true }
@@ -138,6 +162,7 @@ public class UINode<V: UIView>: UINodeProtocol {
       return parent.shouldUpdate
     }
   }
+
   /// Whether this object has been disposed or not.
   /// Once an object is disposed it cannot be used any longer.
   public var isDisposed: Bool = false
@@ -145,13 +170,18 @@ public class UINode<V: UIView>: UINodeProtocol {
   // Private.
 
   public var createClosure: CreationClosure
+
   public var layoutSpec: LayoutSpecClosure = { _ in }
+
   // 'true' whenever view just got created and added to the view hierarchy.
   private var shouldInvokeDidMount: Bool = false
+
   // The target object for the view binding method.
   private weak var bindTarget: AnyObject?
+
   // Optional associated style.
   private var styles: [UIStyleProtocol] = []
+
   // Whether this is the first time the node is being rendered.
   private var firstUpdateInvokation: Bool {
     return renderedView?.renderContext.isNewlyCreated ?? true
@@ -189,8 +219,8 @@ public class UINode<V: UIView>: UINodeProtocol {
     layoutSpec: LayoutSpecClosure? = nil
   ) {
     self.reuseIdentifier = UINodeReuseIdentifierMake(type: V.self, identifier: reuseIdentifier)
-    self._debugType =  String(describing: V.self)
-    self.createClosure = create ??  { V() }
+    self._debugType = String(describing: V.self)
+    self.createClosure = create ?? { V() }
     if create != nil && reuseIdentifier == _debugType {
       fatalError("Always specify a reuse identifier whenever a custom create closure is provided.")
     }
@@ -340,7 +370,7 @@ public class UINode<V: UIView>: UINodeProtocol {
     }
   }
 
-  private func didLayout( options: [UINodeOption]) {
+  private func didLayout(options: [UINodeOption]) {
     let view = requireRenderedView()
     // Apply some view-specific configuration (e.g. content insets for scrollviews).
     if let UIPostRenderingView = view as? UIPostRendering {
@@ -407,9 +437,10 @@ public class UINode<V: UIView>: UINodeProtocol {
         return view.tag == subnode.reuseIdentifier.hashValue
       }.first
       // Pops the candidate view from the collection.
-      oldSubviews = oldSubviews?.filter {
-        view in view !== candidateView
-      }
+      oldSubviews
+        = oldSubviews?.filter {
+          view in view !== candidateView
+        }
       // Recursively reconcile the subnode.
       _reconcile(node: subnode, size: size, view: candidateView, parent: node.renderedView!)
     }
@@ -451,7 +482,7 @@ public class UINode<V: UIView>: UINodeProtocol {
   public func bindView<O: AnyObject, V>(
     target: O,
     keyPath: ReferenceWritableKeyPath<O, V>
-  ) -> Void {
+  ) {
     assert(Thread.isMainThread)
     guard !isDisposed else {
       disposedWarning()
@@ -537,7 +568,7 @@ public class UINilNode: UINode<UIView> {
 
   public override var reuseIdentifier: String {
     get { return "NilNode" }
-    set { }
+    set {}
   }
 
   private init() {
@@ -553,11 +584,12 @@ public enum UINodeOption: Int {
   case preventDelegateCallbacks
 }
 
-func debugReconcileTime(_ label: String, startTime: CFAbsoluteTime, threshold: CFAbsoluteTime = 16){
+func debugReconcileTime(_ label: String, startTime: CFAbsoluteTime, threshold: CFAbsoluteTime = 16)
+{
   let timeElapsed = (CFAbsoluteTimeGetCurrent() - startTime) * 1000
   // - note: 60fps means you need to render a frame every ~16ms to not drop any frames.
   // This is even more important when used inside a cell.
-  if timeElapsed > threshold  {
+  if timeElapsed > threshold {
     print(String(format: "\(label) (%2f) ms.", arguments: [timeElapsed]))
   }
 }
@@ -567,8 +599,10 @@ func debugReconcileTime(_ label: String, startTime: CFAbsoluteTime, threshold: C
 public enum UINodeUpdateMode: Int {
   /// Tells the node that should be updated when a call to *render* is invoked.
   case update
+
   /// Applies the same behaviour as the parent node.
   case inherit
+
   /// Prevent any update to the node.
   case ignore
 }

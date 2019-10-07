@@ -3,9 +3,11 @@ import Foundation
 
 final class YAMLConstructor {
   typealias Map = [YAMLTag.Name: (YAMLNode) -> Any?]
+
   init(_ map: Map) {
     methodMap = map
   }
+
   func any(from node: YAMLNode) -> Any {
     if let method = methodMap[node.tag.name], let result = method(node) {
       return result
@@ -19,11 +21,13 @@ final class YAMLConstructor {
       return [Any].construct_seq(from: node)
     }
   }
+
   private let methodMap: Map
 }
 
 extension YAMLConstructor {
   static let `default` = YAMLConstructor(defaultMap)
+
   // We can not write extension of map because that is alias of specialized dictionary
   static let defaultMap: Map = [
     // Failsafe Schema
@@ -41,8 +45,8 @@ extension YAMLConstructor {
     .omap: [Any].construct_omap,
     .pairs: [Any].construct_pairs,
     .set: Set<AnyHashable>.construct_set,
-    .timestamp: Date.construct
-    // .value is supported in `String.construct` and `[AnyHashable: Any].construct`.
+    .timestamp: Date.construct,
+      // .value is supported in `String.construct` and `[AnyHashable: Any].construct`.
   ]
 }
 
@@ -55,7 +59,7 @@ protocol YAMLScalarConstructible {
 
 extension Bool: YAMLScalarConstructible {
   static func construct(from node: YAMLNode) -> Bool? {
-    assert(node.isScalar) // swiftlint:disable:next force_unwrapping
+    assert(node.isScalar)  // swiftlint:disable:next force_unwrapping
     switch node.scalar!.string.lowercased() {
     case "true", "yes", "on":
       return true
@@ -69,7 +73,7 @@ extension Bool: YAMLScalarConstructible {
 
 extension Data: YAMLScalarConstructible {
   static func construct(from node: YAMLNode) -> Data? {
-    assert(node.isScalar) // swiftlint:disable:next force_unwrapping
+    assert(node.isScalar)  // swiftlint:disable:next force_unwrapping
     let data = Data(base64Encoded: node.scalar!.string, options: .ignoreUnknownCharacters)
     return data
   }
@@ -77,12 +81,13 @@ extension Data: YAMLScalarConstructible {
 
 extension Date: YAMLScalarConstructible {
   static func construct(from node: YAMLNode) -> Date? {
-    assert(node.isScalar) // swiftlint:disable:next force_unwrapping
+    assert(node.isScalar)  // swiftlint:disable:next force_unwrapping
     let scalar = node.scalar!.string
     let range = NSRange(location: 0, length: scalar.utf16.count)
     guard let result = timestampPattern.firstMatch(in: scalar, options: [], range: range),
-      result.range.location != NSNotFound else {
-        return nil
+      result.range.location != NSNotFound
+    else {
+      return nil
     }
     #if os(Linux) || swift(>=4.0)
       let components = (1..<result.numberOfRanges).map {
@@ -101,44 +106,47 @@ extension Date: YAMLScalarConstructible {
     datecomponents.hour = components[3].flatMap { Int($0) }
     datecomponents.minute = components[4].flatMap { Int($0) }
     datecomponents.second = components[5].flatMap { Int($0) }
-    datecomponents.nanosecond = components[6].flatMap {
-      let length = $0.count
-      let nanosecond: Int?
-      if length < 9 {
-        nanosecond = Int($0 + String(repeating: "0", count: 9 - length))
-      } else {
-        nanosecond = Int($0[..<$0.index($0.startIndex, offsetBy: 9)])
+    datecomponents.nanosecond
+      = components[6].flatMap {
+        let length = $0.count
+        let nanosecond: Int?
+        if length < 9 {
+          nanosecond = Int($0 + String(repeating: "0", count: 9 - length))
+        } else {
+          nanosecond = Int($0[..<$0.index($0.startIndex, offsetBy: 9)])
+        }
+        return nanosecond
       }
-      return nanosecond
-    }
-    datecomponents.timeZone = {
-      var seconds = 0
-      if let hourInSecond = components[9].flatMap({ Int($0) }).map({ $0 * 60 * 60 }) {
-        seconds += hourInSecond
-      }
-      if let minuteInSecond = components[10].flatMap({ Int($0) }).map({ $0 * 60 }) {
-        seconds += minuteInSecond
-      }
-      if components[8] == "-" { // sign
-        seconds *= -1
-      }
-      return TimeZone(secondsFromGMT: seconds)
-    }()
+    datecomponents.timeZone
+      = {
+        var seconds = 0
+        if let hourInSecond = components[9].flatMap({ Int($0) }).map({ $0 * 60 * 60 }) {
+          seconds += hourInSecond
+        }
+        if let minuteInSecond = components[10].flatMap({ Int($0) }).map({ $0 * 60 }) {
+          seconds += minuteInSecond
+        }
+        if components[8] == "-" {  // sign
+          seconds *= -1
+        }
+        return TimeZone(secondsFromGMT: seconds)
+      }()
     // Using `DateComponents.date` causes `NSUnimplemented()` crash on Linux at swift-3.0.2-RELEASE
     return NSCalendar(identifier: .gregorian)?.date(from: datecomponents)
   }
 
-  private static let timestampPattern: NSRegularExpression = pattern([
-    "^([0-9][0-9][0-9][0-9])",          // year
-    "-([0-9][0-9]?)",                   // month
-    "-([0-9][0-9]?)",                   // day
-    "(?:(?:[Tt]|[ \\t]+)",
-    "([0-9][0-9]?)",                    // hour
-    ":([0-9][0-9])",                    // minute
-    ":([0-9][0-9])",                    // second
-    "(?:\\.([0-9]*))?",                 // fraction
-    "(?:[ \\t]*(Z|([-+])([0-9][0-9]?)", // tz_sign, tz_hour
-    "(?::([0-9][0-9]))?))?)?$"          // tz_minute
+  private static let timestampPattern: NSRegularExpression = pattern(
+    [
+      "^([0-9][0-9][0-9][0-9])",  // year
+      "-([0-9][0-9]?)",  // month
+      "-([0-9][0-9]?)",  // day
+      "(?:(?:[Tt]|[ \\t]+)",
+      "([0-9][0-9]?)",  // hour
+      ":([0-9][0-9])",  // minute
+      ":([0-9][0-9])",  // second
+      "(?:\\.([0-9]*))?",  // fraction
+      "(?:[ \\t]*(Z|([-+])([0-9][0-9]?)",  // tz_sign, tz_hour
+      "(?::([0-9][0-9]))?))?)?$",  // tz_minute
     ].joined()
   )
 }
@@ -147,7 +155,7 @@ extension Double: YAMLScalarConstructible {}
 extension Float: YAMLScalarConstructible {}
 extension YAMLScalarConstructible where Self: FloatingPoint & SexagesimalConvertible {
   static func construct(from node: YAMLNode) -> Self? {
-    assert(node.isScalar) // swiftlint:disable:next force_unwrapping
+    assert(node.isScalar)  // swiftlint:disable:next force_unwrapping
     var scalar = node.scalar!.string
     switch scalar {
     case ".inf", ".Inf", ".INF", "+.inf", "+.Inf", "+.INF":
@@ -168,7 +176,7 @@ extension YAMLScalarConstructible where Self: FloatingPoint & SexagesimalConvert
 
 extension FixedWidthInteger where Self: SexagesimalConvertible {
   fileprivate static func _construct(from node: YAMLNode) -> Self? {
-    assert(node.isScalar) // swiftlint:disable:next force_unwrapping
+    assert(node.isScalar)  // swiftlint:disable:next force_unwrapping
     let scalarWithSign = node.scalar!.string.replacingOccurrences(of: "_", with: "")
     if scalarWithSign == "0" {
       return 0
@@ -181,7 +189,7 @@ extension FixedWidthInteger where Self: SexagesimalConvertible {
       ("0x", 16),
       ("0b", 2),
       ("0o", 8),
-      ("0", 8)
+      ("0", 8),
     ]
     let scalar = scalarWithSign.substring(from: hasSign ? 1 : 0)
     for (prefix, radix) in prefixToRadix where scalar.hasPrefix(prefix) {
@@ -218,14 +226,14 @@ extension String: YAMLScalarConstructible {
         return _construct(from: value)
       }
     }
-    assert(node.isScalar) // swiftlint:disable:next force_unwrapping
+    assert(node.isScalar)  // swiftlint:disable:next force_unwrapping
     return node.scalar!.string
   }
 }
 
 // MARK: - Types that can't conform to ScalarConstructible
 
-extension NSNull/*: ScalarConstructible*/ {
+extension NSNull /*: ScalarConstructible*/ {
   static func construct(from node: YAMLNode) -> NSNull? {
     guard let string = node.scalar?.string else { return nil }
     switch string {
@@ -245,7 +253,7 @@ extension Dictionary {
   }
 
   fileprivate static func _construct_mapping(from node: YAMLNode) -> [AnyHashable: Any] {
-    assert(node.isMapping) // swiftlint:disable:next force_unwrapping
+    assert(node.isMapping)  // swiftlint:disable:next force_unwrapping
     let mapping = flatten_mapping(node).mapping!
     var dictionary = [AnyHashable: Any](minimumCapacity: mapping.count)
     mapping.forEach {
@@ -256,7 +264,7 @@ extension Dictionary {
   }
 
   private static func flatten_mapping(_ node: YAMLNode) -> YAMLNode {
-    assert(node.isMapping) // swiftlint:disable:next force_unwrapping
+    assert(node.isMapping)  // swiftlint:disable:next force_unwrapping
     let mapping = node.mapping!
     var pairs = Array(mapping)
     var merge = [(key: YAMLNode, value: YAMLNode)]()
@@ -273,14 +281,14 @@ extension Dictionary {
           }
         case let .sequence(sequence):
           let submerge = sequence
-            .filter { $0.isMapping } // TODO: Should raise error on other than mapping
+            .filter { $0.isMapping }  // TODO: Should raise error on other than mapping
             .compactMap { flatten_mapping($0).mapping }
             .reversed()
           submerge.forEach {
             merge.append(contentsOf: $0)
           }
         default:
-          break // TODO: Should raise error on other than mapping or sequence
+          break  // TODO: Should raise error on other than mapping or sequence
         }
       } else if pair.key.tag.name == .value {
         pair.key.tag.name = .str
@@ -296,7 +304,7 @@ extension Dictionary {
 extension Set {
   static func construct_set(from node: YAMLNode) -> Set<AnyHashable>? {
     // TODO: YAML supports Hashable elements other than str.
-    assert(node.isMapping) // swiftlint:disable:next force_unwrapping
+    assert(node.isMapping)  // swiftlint:disable:next force_unwrapping
     return Set<AnyHashable>(node.mapping!.map({ String._construct(from: $0.key) as AnyHashable }))
     // Explicitly declaring the generic parameter as `<AnyHashable>` above is required,
     // because this is inside extension of `Set` and Swift 3.0.2 can't infer the type without that.
@@ -312,7 +320,7 @@ extension Array {
 
   static func construct_omap(from node: YAMLNode) -> [(Any, Any)] {
     // Note: we do not check for duplicate keys.
-    assert(node.isSequence) // swiftlint:disable:next force_unwrapping
+    assert(node.isSequence)  // swiftlint:disable:next force_unwrapping
     return node.sequence!.compactMap { subnode -> (Any, Any)? in
       // TODO: Should raise error if subnode is not mapping or mapping.count != 1
       guard let (key, value) = subnode.mapping?.first else { return nil }
@@ -322,7 +330,7 @@ extension Array {
 
   static func construct_pairs(from node: YAMLNode) -> [(Any, Any)] {
     // Note: we do not check for duplicate keys.
-    assert(node.isSequence) // swiftlint:disable:next force_unwrapping
+    assert(node.isSequence)  // swiftlint:disable:next force_unwrapping
     return node.sequence!.compactMap { subnode -> (Any, Any)? in
       // TODO: Should raise error if subnode is not mapping or mapping.count != 1
       guard let (key, value) = subnode.mapping?.first else { return nil }
@@ -331,21 +339,22 @@ extension Array {
   }
 }
 
-fileprivate extension String {
-  func substring(with range: NSRange) -> Substring? {
+extension String {
+  fileprivate func substring(with range: NSRange) -> Substring? {
     guard range.location != NSNotFound else { return nil }
     let utf16lowerBound = utf16.index(utf16.startIndex, offsetBy: range.location)
     let utf16upperBound = utf16.index(utf16lowerBound, offsetBy: range.length)
     guard let lowerBound = utf16lowerBound.samePosition(in: self),
-      let upperBound = utf16upperBound.samePosition(in: self) else {
-        fatalError("unreachable")
+      let upperBound = utf16upperBound.samePosition(in: self)
+    else {
+      fatalError("unreachable")
     }
     return self[lowerBound..<upperBound]
   }
 }
 
-fileprivate extension String {
-  func substring(from offset: Int) -> Substring {
+extension String {
+  fileprivate func substring(from offset: Int) -> Substring {
     let index = self.index(startIndex, offsetBy: offset)
     return self[index...]
   }
@@ -381,8 +390,8 @@ extension Float: SexagesimalConvertible {}
 extension Int: SexagesimalConvertible {}
 extension UInt: SexagesimalConvertible {}
 
-fileprivate extension String {
-  func sexagesimal<T>() -> T where T: SexagesimalConvertible {
+extension String {
+  fileprivate func sexagesimal<T>() -> T where T: SexagesimalConvertible {
     assert(contains(":"))
     var scalar = self
     let sign: T
@@ -405,16 +414,17 @@ fileprivate extension String {
   }
 }
 
-fileprivate extension Substring {
+extension Substring {
   #if os(Linux)
-  func hasPrefix(_ prefix: String) -> Bool {
-  return String(self).hasPrefix(prefix)
-  }
-  func components(separatedBy separator: String) -> [String] {
-  return String(self).components(separatedBy: separator)
-  }
+    fileprivate func hasPrefix(_ prefix: String) -> Bool {
+      return String(self).hasPrefix(prefix)
+    }
+    fileprivate func components(separatedBy separator: String) -> [String] {
+      return String(self).components(separatedBy: separator)
+    }
   #endif
-  func substring(from offset: Int) -> Substring {
+
+  fileprivate func substring(from offset: Int) -> Substring {
     if offset == 0 { return self }
     let index = self.index(startIndex, offsetBy: offset)
     return self[index...]
@@ -446,14 +456,14 @@ extension UInt8: YAMLScalarConstructible {}
 
 extension Decimal: YAMLScalarConstructible {
   static func construct(from node: YAMLNode) -> Decimal? {
-    assert(node.isScalar) // swiftlint:disable:next force_unwrapping
+    assert(node.isScalar)  // swiftlint:disable:next force_unwrapping
     return Decimal(string: node.scalar!.string)
   }
 }
 
 extension URL: YAMLScalarConstructible {
   static func construct(from node: YAMLNode) -> URL? {
-    assert(node.isScalar) // swiftlint:disable:next force_unwrapping
+    assert(node.isScalar)  // swiftlint:disable:next force_unwrapping
     return URL(string: node.scalar!.string)
   }
 }
@@ -480,23 +490,24 @@ struct _YAMLCodingKey: CodingKey {
   static let `super` = _YAMLCodingKey(stringValue: "super")!
 }
 
-private extension YAMLNode {
-  static let null = YAMLNode("null", YAMLTag(.null))
-  static let unused = YAMLNode("", .unused)
+extension YAMLNode {
+  fileprivate static let null = YAMLNode("null", YAMLTag(.null))
+  fileprivate static let unused = YAMLNode("", .unused)
 }
 
-private extension YAMLTag {
-  static let unused = YAMLTag(.unused)
+extension YAMLTag {
+  fileprivate static let unused = YAMLTag(.unused)
 }
 
-private extension YAMLTag.Name {
-  static let unused: YAMLTag.Name = "tag:yams.encoder:unused"
+extension YAMLTag.Name {
+  fileprivate static let unused: YAMLTag.Name = "tag:yams.encoder:unused"
 }
 
 /// The pointer position
 struct YAMLMark {
   /// line start from 1
   let line: Int
+
   /// column start from 1. libYAML counts columns in `UnicodeScalar`.
   let column: Int
 }
@@ -510,14 +521,15 @@ extension YAMLMark {
   /// Returns snippet string pointed by YAMLMark instance from YAML String
   func snippet(from yaml: String) -> String {
     let contents = yaml.substring(at: line - 1)
-    let columnIndex = contents.unicodeScalars
-      .index(contents.unicodeScalars.startIndex,
-             offsetBy: column - 1,
-             limitedBy: contents.unicodeScalars.endIndex)?
+    let columnIndex
+      = contents.unicodeScalars
+      .index(
+        contents.unicodeScalars.startIndex,
+        offsetBy: column - 1,
+        limitedBy: contents.unicodeScalars.endIndex)?
       .samePosition(in: contents.utf16) ?? contents.utf16.endIndex
     let columnInUTF16 = contents.utf16.distance(from: contents.utf16.startIndex, to: columnIndex)
-    return contents.endingWithNewLine +
-      String(repeating: " ", count: columnInUTF16) + "^"
+    return contents.endingWithNewLine + String(repeating: " ", count: columnInUTF16) + "^"
   }
 }
 
@@ -532,9 +544,11 @@ extension YAMLNode {
     self = .scalar(.init(string, tag, style))
   }
 
-  init(_ pairs: [(YAMLNode, YAMLNode)],
-              _ tag: YAMLTag = .implicit,
-              _ style: Mapping.Style = .any) {
+  init(
+    _ pairs: [(YAMLNode, YAMLNode)],
+    _ tag: YAMLTag = .implicit,
+    _ style: Mapping.Style = .any
+  ) {
     self = .mapping(.init(pairs, tag, style))
   }
 
@@ -632,7 +646,7 @@ extension YAMLNode {
         mapping[node] = newValue
         self = .mapping(mapping)
       case .sequence(var sequence):
-        guard let index = node.int, sequence.indices ~= index else { return}
+        guard let index = node.int, sequence.indices ~= index else { return }
         sequence[index] = newValue
         self = .sequence(sequence)
       }
@@ -781,29 +795,37 @@ extension YAMLNode {
         tag = .implicit
       }
     }
+
     var tag: YAMLTag
     var style: Style
     var mark: YAMLMark?
 
-    enum Style: UInt32 { // swiftlint:disable:this nesting
+    enum Style: UInt32 {  // swiftlint:disable:this nesting
       /// Let the emitter choose the style.
       case any = 0
+
       /// The plain scalar style.
       case plain
+
       /// The single-quoted scalar style.
       case singleQuoted
+
       /// The double-quoted scalar style.
       case doubleQuoted
+
       /// The literal scalar style.
       case literal
+
       /// The folded scalar style.
       case folded
     }
 
-    init(_ string: String,
-                _ tag: YAMLTag = .implicit,
-                _ style: Style = .any,
-                _ mark: YAMLMark? = nil) {
+    init(
+      _ string: String,
+      _ tag: YAMLTag = .implicit,
+      _ style: Style = .any,
+      _ mark: YAMLMark? = nil
+    ) {
       self.string = string
       self.tag = tag
       self.style = style
@@ -840,11 +862,11 @@ extension YAMLNode.Scalar: Equatable {
 
 extension YAMLNode.Scalar: YAMLTagResolvable {
   static let defaultYAMLTagName = YAMLTag.Name.str
+
   func resolveYAMLTag(using resolver: YAMLResolver) -> YAMLTag.Name {
     return tag.name == .implicit ? resolver.resolveYAMLTag(from: string) : tag.name
   }
 }
-
 
 extension YAMLNode {
   struct Mapping {
@@ -853,19 +875,23 @@ extension YAMLNode {
     var style: Style
     var mark: YAMLMark?
 
-    enum Style: UInt32 { // swiftlint:disable:this nesting
+    enum Style: UInt32 {  // swiftlint:disable:this nesting
       /// Let the emitter choose the style.
       case any
+
       /// The block mapping style.
       case block
+
       /// The flow mapping style.
       case flow
     }
 
-    init(_ pairs: [(YAMLNode, YAMLNode)],
-                _ tag: YAMLTag = .implicit,
-                _ style: Style = .any,
-                _ mark: YAMLMark? = nil) {
+    init(
+      _ pairs: [(YAMLNode, YAMLNode)],
+      _ tag: YAMLTag = .implicit,
+      _ style: Style = .any,
+      _ mark: YAMLMark? = nil
+    ) {
       self.pairs = pairs.map { Pair($0.0, $0.1) }
       self.tag = tag
       self.style = style
@@ -1010,7 +1036,6 @@ private struct Pair<Value: Comparable & Equatable>: Comparable, Equatable {
   }
 }
 
-
 extension YAMLNode {
   struct Sequence {
     fileprivate var nodes: [YAMLNode]
@@ -1018,19 +1043,23 @@ extension YAMLNode {
     var style: Style
     var mark: YAMLMark?
 
-    enum Style: UInt32 { // swiftlint:disable:this nesting
+    enum Style: UInt32 {  // swiftlint:disable:this nesting
       /// Let the emitter choose the style.
       case any
+
       /// The block sequence style.
       case block
+
       /// The flow sequence style.
       case flow
     }
 
-    init(_ nodes: [YAMLNode],
-                _ tag: YAMLTag = .implicit,
-                _ style: Style = .any,
-                _ mark: YAMLMark? = nil) {
+    init(
+      _ nodes: [YAMLNode],
+      _ tag: YAMLTag = .implicit,
+      _ style: Style = .any,
+      _ mark: YAMLMark? = nil
+    ) {
       self.nodes = nodes
       self.tag = tag
       self.style = style
@@ -1141,8 +1170,8 @@ extension YAMLNode.Sequence: RangeReplaceableCollection {
   }
 
   mutating func replaceSubrange<C>(_ subrange: Range<Index>, with newElements: C)
-    where C: Collection, C.Iterator.Element == YAMLNode {
-      nodes.replaceSubrange(subrange, with: newElements)
+  where C: Collection, C.Iterator.Element == YAMLNode {
+    nodes.replaceSubrange(subrange, with: newElements)
   }
 }
 
@@ -1150,35 +1179,43 @@ extension YAMLNode.Sequence: YAMLTagResolvable {
   static let defaultYAMLTagName = YAMLTag.Name.seq
 }
 
-
 /// Parse all YAML documents in a String
-func load_all(yaml: String,
-                     _ resolver: YAMLResolver = .default,
-                     _ constructor: YAMLConstructor = .default) throws -> YamlSequence<Any> {
+func load_all(
+  yaml: String,
+  _ resolver: YAMLResolver = .default,
+  _ constructor: YAMLConstructor = .default
+) throws -> YamlSequence<Any> {
   let parser = try YAMLParser(yaml: yaml, resolver: resolver, constructor: constructor)
   return YamlSequence { try parser.nextRoot()?.any }
 }
 
 /// Parse the first YAML document in a String
-func load(yaml: String,
-                 _ resolver: YAMLResolver = .default,
-                 _ constructor: YAMLConstructor = .default) throws -> Any? {
+func load(
+  yaml: String,
+  _ resolver: YAMLResolver = .default,
+  _ constructor: YAMLConstructor = .default
+) throws -> Any? {
   return try YAMLParser(yaml: yaml, resolver: resolver, constructor: constructor).singleRoot()?.any
 }
 
 /// Parse all YAML documents in a String
-func compose_all(yaml: String,
-                        _ resolver: YAMLResolver = .default,
-                        _ constructor: YAMLConstructor = .default)
-  throws -> YamlSequence<YAMLNode> {
+func compose_all(
+  yaml: String,
+  _ resolver: YAMLResolver = .default,
+  _ constructor: YAMLConstructor = .default
+)
+  throws -> YamlSequence<YAMLNode>
+{
   let parser = try YAMLParser(yaml: yaml, resolver: resolver, constructor: constructor)
   return YamlSequence(parser.nextRoot)
 }
 
 /// Parse the first YAML document in a String
-func compose(yaml: String,
-                    _ resolver: YAMLResolver = .default,
-                    _ constructor: YAMLConstructor = .default) throws -> YAMLNode? {
+func compose(
+  yaml: String,
+  _ resolver: YAMLResolver = .default,
+  _ constructor: YAMLConstructor = .default
+) throws -> YAMLNode? {
   return try YAMLParser(yaml: yaml, resolver: resolver, constructor: constructor).singleRoot()
 }
 
@@ -1205,13 +1242,16 @@ struct YamlSequence<T>: Sequence, IteratorProtocol {
 final class YAMLParser {
   // MARK: public
   let yaml: String
+
   let resolver: YAMLResolver
   let constructor: YAMLConstructor
 
   /// Set up YAMLParser.
-  init(yaml string: String,
-              resolver: YAMLResolver = .default,
-              constructor: YAMLConstructor = .default) throws {
+  init(
+    yaml string: String,
+    resolver: YAMLResolver = .default,
+    constructor: YAMLConstructor = .default
+  ) throws {
     yaml = string
     self.resolver = resolver
     self.constructor = constructor
@@ -1227,15 +1267,17 @@ final class YAMLParser {
     #else
       // use native endian
       let isLittleEndian = 1 == 1.littleEndian
-      yaml_parser_set_encoding(&parser, isLittleEndian
-        ? YAML_UTF16LE_ENCODING : YAML_UTF16BE_ENCODING)
+      yaml_parser_set_encoding(
+        &parser,
+        isLittleEndian
+          ? YAML_UTF16LE_ENCODING : YAML_UTF16BE_ENCODING)
       let encoding: String.Encoding = isLittleEndian ? .utf16LittleEndian : .utf16BigEndian
       data = yaml.data(using: encoding)!
       data.withUnsafeBytes { bytes in
         yaml_parser_set_input_string(&parser, bytes, data.count)
       }
     #endif
-    try parse() // Drop YAML_STREAM_START_EVENT
+    try parse()  // Drop YAML_STREAM_START_EVENT
   }
 
   deinit {
@@ -1254,8 +1296,9 @@ final class YAMLParser {
     let event = try parse()
     if event.type != YAML_STREAM_END_EVENT {
       throw YAMLError.composer(
-        context: YAMLError.Context(text: "expected a single document in the stream",
-                                   mark: YAMLMark(line: 1, column: 1)),
+        context: YAMLError.Context(
+          text: "expected a single document in the stream",
+          mark: YAMLMark(line: 1, column: 1)),
         problem: "but found another document", event.startYAMLMark,
         yaml: yaml
       )
@@ -1265,11 +1308,13 @@ final class YAMLParser {
 
   // MARK: private
   fileprivate var anchors = [String: YAMLNode]()
+
   fileprivate var parser = yaml_parser_t()
+
   #if USE_UTF8
-  private let utf8CString: ContiguousArray<CChar>
+    private let utf8CString: ContiguousArray<CChar>
   #else
-  private let data: Data
+    private let data: Data
   #endif
 }
 
@@ -1281,7 +1326,7 @@ extension YAMLParser {
 
   fileprivate func loadDocument() throws -> YAMLNode {
     let node = try loadYAMLNode(from: parse())
-    try parse() // Drop YAML_DOCUMENT_END_EVENT
+    try parse()  // Drop YAML_DOCUMENT_END_EVENT
     return node
   }
 
@@ -1314,9 +1359,10 @@ extension YAMLParser {
       fatalError("unreachable")
     }
     guard let node = anchors[alias] else {
-      throw YAMLError.composer(context: nil,
-                               problem: "found undefined alias", event.startYAMLMark,
-                               yaml: yaml)
+      throw YAMLError.composer(
+        context: nil,
+        problem: "found undefined alias", event.startYAMLMark,
+        yaml: yaml)
     }
     return node
   }
@@ -1337,9 +1383,11 @@ extension YAMLParser {
       array.append(try loadYAMLNode(from: event))
       event = try parse()
     }
-    let node = YAMLNode.sequence(.init(array,
-                                       tag(firstYAMLEvent.sequenceYAMLTag),
-                                       event.sequenceStyle, event.startYAMLMark))
+    let node = YAMLNode.sequence(
+      .init(
+        array,
+        tag(firstYAMLEvent.sequenceYAMLTag),
+        event.sequenceStyle, event.startYAMLMark))
     if let anchor = firstYAMLEvent.sequenceAnchor {
       anchors[anchor] = node
     }
@@ -1356,9 +1404,11 @@ extension YAMLParser {
       pairs.append((key, value))
       event = try parse()
     }
-    let node = YAMLNode.mapping(.init(pairs,
-                                      tag(firstYAMLEvent.mappingYAMLTag),
-                                      event.mappingStyle, event.startYAMLMark))
+    let node = YAMLNode.mapping(
+      .init(
+        pairs,
+        tag(firstYAMLEvent.mappingYAMLTag),
+        event.mappingStyle, event.startYAMLMark))
     if let anchor = firstYAMLEvent.mappingAnchor {
       anchors[anchor] = node
     }
@@ -1389,21 +1439,26 @@ private class YAMLEvent {
   var scalarAnchor: String? {
     return string(from: event.data.scalar.anchor)
   }
+
   var scalarStyle: YAMLNode.Scalar.Style {
     // swiftlint:disable:next force_unwrapping
     return YAMLNode.Scalar.Style(rawValue: event.data.scalar.style.rawValue)!
   }
+
   var scalarYAMLTag: String? {
     guard event.data.scalar.plain_implicit == 0,
-      event.data.scalar.quoted_implicit == 0 else {
-        return nil
+      event.data.scalar.quoted_implicit == 0
+    else {
+      return nil
     }
     return string(from: event.data.scalar.tag)
   }
+
   var scalarValue: String {
     // scalar may contain NULL characters
-    let buffer = UnsafeBufferPointer(start: event.data.scalar.value,
-                                     count: event.data.scalar.length)
+    let buffer = UnsafeBufferPointer(
+      start: event.data.scalar.value,
+      count: event.data.scalar.length)
     // libYAML converts scalar characters into UTF8 if input is other than YAML_UTF8_ENCODING
     return String(bytes: buffer, encoding: .utf8)!
   }
@@ -1412,10 +1467,12 @@ private class YAMLEvent {
   var sequenceAnchor: String? {
     return string(from: event.data.sequence_start.anchor)
   }
+
   var sequenceStyle: YAMLNode.Sequence.Style {
     // swiftlint:disable:next force_unwrapping
     return YAMLNode.Sequence.Style(rawValue: event.data.sequence_start.style.rawValue)!
   }
+
   var sequenceYAMLTag: String? {
     return event.data.sequence_start.implicit != 0
       ? nil : string(from: event.data.sequence_start.tag)
@@ -1425,10 +1482,12 @@ private class YAMLEvent {
   var mappingAnchor: String? {
     return string(from: event.data.scalar.anchor)
   }
+
   var mappingStyle: YAMLNode.Mapping.Style {
     // swiftlint:disable:next force_unwrapping
     return YAMLNode.Mapping.Style(rawValue: event.data.mapping_start.style.rawValue)!
   }
+
   var mappingYAMLTag: String? {
     return event.data.mapping_start.implicit != 0
       ? nil : string(from: event.data.sequence_start.tag)
@@ -1442,7 +1501,6 @@ private class YAMLEvent {
 private func string(from pointer: UnsafePointer<UInt8>!) -> String? {
   return String.decodeCString(pointer, as: UTF8.self, repairingInvalidCodeUnits: true)?.result
 }
-
 
 extension YAMLNode {
   /// initialize `YAMLNode` with instance of `YAMLNodeRepresentable`
@@ -1518,7 +1576,8 @@ extension Date: ScalarRepresentable {
       return iso8601Formatter.string(from: self)
     #else
       if nanosecond != 0 {
-        return iso8601WithFractionalSecondFormatter.string(from: self)
+        return
+          iso8601WithFractionalSecondFormatter.string(from: self)
           .trimmingCharacters(in: characterSetZero) + "Z"
       } else {
         return iso8601Formatter.string(from: self)
@@ -1530,8 +1589,8 @@ extension Date: ScalarRepresentable {
     let calendar = Calendar(identifier: .gregorian)
     let nanosecond = calendar.component(.nanosecond, from: self)
     if nanosecond != 0 {
-      return iso8601WithoutZFormatter.string(from: self) +
-        String(format: ".%09d", nanosecond).trimmingCharacters(in: characterSetZero) + "Z"
+      return iso8601WithoutZFormatter.string(from: self)
+        + String(format: ".%09d", nanosecond).trimmingCharacters(in: characterSetZero) + "Z"
     } else {
       return iso8601Formatter.string(from: self)
     }
@@ -1567,15 +1626,17 @@ private let iso8601WithFractionalSecondFormatter: DateFormatter = {
 
 extension Double: ScalarRepresentable {
   func represented() throws -> YAMLNode {
-    return YAMLNode(doubleFormatter.string(for: self)!
-      .replacingOccurrences(of: "+-", with: "-"), YAMLTag(.float))
+    return YAMLNode(
+      doubleFormatter.string(for: self)!
+        .replacingOccurrences(of: "+-", with: "-"), YAMLTag(.float))
   }
 }
 
 extension Float: ScalarRepresentable {
   func represented() throws -> YAMLNode {
-    return YAMLNode(floatFormatter.string(for: self)!
-      .replacingOccurrences(of: "+-", with: "-"), YAMLTag(.float))
+    return YAMLNode(
+      floatFormatter.string(for: self)!
+        .replacingOccurrences(of: "+-", with: "-"), YAMLTag(.float))
   }
 }
 
@@ -1742,49 +1803,67 @@ final class YAMLResolver {
 
 extension YAMLResolver {
   static let basic = YAMLResolver()
+
   static let `default` = YAMLResolver([
-    .bool, .int, .float, .merge, .null, .timestamp, .value])
+    .bool, .int, .float, .merge, .null, .timestamp, .value
+  ])
 }
 
 extension YAMLResolver.Rule {
   // swiftlint:disable:next force_try
-  static let bool = try! YAMLResolver.Rule(.bool, """
-      ^(?:yes|Yes|YES|no|No|NO\
-      |true|True|TRUE|false|False|FALSE\
-      |on|On|ON|off|Off|OFF)$
-      """)
+  static let bool = try! YAMLResolver.Rule(
+    .bool,
+    """
+    ^(?:yes|Yes|YES|no|No|NO\
+    |true|True|TRUE|false|False|FALSE\
+    |on|On|ON|off|Off|OFF)$
+    """)
+
   // swiftlint:disable:next force_try
-  static let int = try! YAMLResolver.Rule(.int, """
-      ^(?:[-+]?0b[0-1_]+\
-      |[-+]?0o?[0-7_]+\
-      |[-+]?(?:0|[1-9][0-9_]*)\
-      |[-+]?0x[0-9a-fA-F_]+\
-      |[-+]?[1-9][0-9_]*(?::[0-5]?[0-9])+)$
-      """)
+  static let int = try! YAMLResolver.Rule(
+    .int,
+    """
+    ^(?:[-+]?0b[0-1_]+\
+    |[-+]?0o?[0-7_]+\
+    |[-+]?(?:0|[1-9][0-9_]*)\
+    |[-+]?0x[0-9a-fA-F_]+\
+    |[-+]?[1-9][0-9_]*(?::[0-5]?[0-9])+)$
+    """)
+
   // swiftlint:disable:next force_try
-  static let float = try! YAMLResolver.Rule(.float, """
-      ^(?:[-+]?(?:[0-9][0-9_]*)(?:\\.[0-9_]*)?(?:[eE][-+]?[0-9]+)?\
-      |\\.[0-9_]+(?:[eE][-+][0-9]+)?\
-      |[-+]?[0-9][0-9_]*(?::[0-5]?[0-9])+\\.[0-9_]*\
-      |[-+]?\\.(?:inf|Inf|INF)\
-      |\\.(?:nan|NaN|NAN))$
-      """)
+  static let float = try! YAMLResolver.Rule(
+    .float,
+    """
+    ^(?:[-+]?(?:[0-9][0-9_]*)(?:\\.[0-9_]*)?(?:[eE][-+]?[0-9]+)?\
+    |\\.[0-9_]+(?:[eE][-+][0-9]+)?\
+    |[-+]?[0-9][0-9_]*(?::[0-5]?[0-9])+\\.[0-9_]*\
+    |[-+]?\\.(?:inf|Inf|INF)\
+    |\\.(?:nan|NaN|NAN))$
+    """)
+
   // swiftlint:disable:next force_try
   static let merge = try! YAMLResolver.Rule(.merge, "^(?:<<)$")
+
   // swiftlint:disable:next force_try
-  static let null = try! YAMLResolver.Rule(.null, """
-      ^(?:~\
-      |null|Null|NULL\
-      |)$
-      """)
+  static let null = try! YAMLResolver.Rule(
+    .null,
+    """
+    ^(?:~\
+    |null|Null|NULL\
+    |)$
+    """)
+
   // swiftlint:disable:next force_try
-  static let timestamp = try! YAMLResolver.Rule(.timestamp, """
-      ^(?:[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]\
-      |[0-9][0-9][0-9][0-9]-[0-9][0-9]?-[0-9][0-9]?\
-      (?:[Tt]|[ \\t]+)[0-9][0-9]?\
-      :[0-9][0-9]:[0-9][0-9](?:\\.[0-9]*)?\
-      (?:[ \\t]*(?:Z|[-+][0-9][0-9]?(?::[0-9][0-9])?))?)$
-      """)
+  static let timestamp = try! YAMLResolver.Rule(
+    .timestamp,
+    """
+    ^(?:[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]\
+    |[0-9][0-9][0-9][0-9]-[0-9][0-9]?-[0-9][0-9]?\
+    (?:[Tt]|[ \\t]+)[0-9][0-9]?\
+    :[0-9][0-9]:[0-9][0-9](?:\\.[0-9]*)?\
+    (?:[ \\t]*(?:Z|[-+][0-9][0-9]?(?::[0-9][0-9])?))?)$
+    """)
+
   // swiftlint:disable:next force_try
   static let value = try! YAMLResolver.Rule(.value, "^(?:=)$")
 }
@@ -1812,17 +1891,21 @@ extension String {
 
   /// line number, column and contents at utf8 offset.
   func utf8LineNumberColumnAndContents(at offset: Int) -> LineNumberColumnAndContents? {
-    guard let index = utf8
-      .index(utf8.startIndex, offsetBy: offset, limitedBy: utf8.endIndex)?
-      .samePosition(in: self) else { return nil }
+    guard
+      let index = utf8
+        .index(utf8.startIndex, offsetBy: offset, limitedBy: utf8.endIndex)?
+        .samePosition(in: self)
+    else { return nil }
     return lineNumberColumnAndContents(at: index)
   }
 
   /// line number, column and contents at utf16 offset.
   func utf16LineNumberColumnAndContents(at offset: Int) -> LineNumberColumnAndContents? {
-    guard let index = utf16
-      .index(utf16.startIndex, offsetBy: offset, limitedBy: utf16.endIndex)?
-      .samePosition(in: self) else { return nil }
+    guard
+      let index = utf16
+        .index(utf16.startIndex, offsetBy: offset, limitedBy: utf16.endIndex)?
+        .samePosition(in: self)
+    else { return nil }
     return lineNumberColumnAndContents(at: index)
   }
 
@@ -1830,14 +1913,18 @@ extension String {
   func lineNumberColumnAndContents(at index: Index) -> LineNumberColumnAndContents {
     assert((startIndex..<endIndex).contains(index))
     var number = 0
-    var outStartIndex = startIndex, outEndIndex = startIndex, outContentsEndIndex = startIndex
-    getLineStart(&outStartIndex, end: &outEndIndex, contentsEnd: &outContentsEndIndex,
-                 for: startIndex..<startIndex)
+    var outStartIndex = startIndex
+    var outEndIndex = startIndex
+    var outContentsEndIndex = startIndex
+    getLineStart(
+      &outStartIndex, end: &outEndIndex, contentsEnd: &outContentsEndIndex,
+      for: startIndex..<startIndex)
     while outEndIndex <= index && outEndIndex < endIndex {
       number += 1
       let range: Range = outEndIndex..<outEndIndex
-      getLineStart(&outStartIndex, end: &outEndIndex, contentsEnd: &outContentsEndIndex,
-                   for: range)
+      getLineStart(
+        &outStartIndex, end: &outEndIndex, contentsEnd: &outContentsEndIndex,
+        for: range)
     }
     let utf16StartIndex = outStartIndex.samePosition(in: utf16)!
     let utf16Index = index.samePosition(in: utf16)!
@@ -1851,14 +1938,18 @@ extension String {
   /// substring indicated by line number.
   func substring(at line: Int) -> String {
     var number = 0
-    var outStartIndex = startIndex, outEndIndex = startIndex, outContentsEndIndex = startIndex
-    getLineStart(&outStartIndex, end: &outEndIndex, contentsEnd: &outContentsEndIndex,
-                 for: startIndex..<startIndex)
+    var outStartIndex = startIndex
+    var outEndIndex = startIndex
+    var outContentsEndIndex = startIndex
+    getLineStart(
+      &outStartIndex, end: &outEndIndex, contentsEnd: &outContentsEndIndex,
+      for: startIndex..<startIndex)
     while number < line && outEndIndex < endIndex {
       number += 1
       let range: Range = outEndIndex..<outEndIndex
-      getLineStart(&outStartIndex, end: &outEndIndex, contentsEnd: &outContentsEndIndex,
-                   for: range)
+      getLineStart(
+        &outStartIndex, end: &outEndIndex, contentsEnd: &outContentsEndIndex,
+        for: range)
     }
     return String(self[outStartIndex..<outEndIndex])
   }
@@ -1876,6 +1967,7 @@ extension String {
 final class YAMLTag {
   struct Name: RawRepresentable {
     let rawValue: String
+
     init(rawValue: String) {
       self.rawValue = rawValue
     }
@@ -1887,11 +1979,14 @@ final class YAMLTag {
 
   // internal
   let constructor: YAMLConstructor
+
   var name: Name
 
-  init(_ name: Name,
-              _ resolver: YAMLResolver = .default,
-              _ constructor: YAMLConstructor = .default) {
+  init(
+    _ name: Name,
+    _ resolver: YAMLResolver = .default,
+    _ constructor: YAMLConstructor = .default
+  ) {
     self.resolver = resolver
     self.constructor = constructor
     self.name = name
@@ -1947,42 +2042,57 @@ extension YAMLTag.Name {
   // Special
   /// YAMLTag should be resolved by value.
   static let implicit: YAMLTag.Name = ""
+
   /// YAMLTag should not be resolved by value, and be resolved as .str, .seq or .map.
   static let nonSpecific: YAMLTag.Name = "!"
 
   // Failsafe Schema
   /// "tag:yaml.org,2002:str" <http://yaml.org/type/str.html>
   static let str: YAMLTag.Name = "tag:yaml.org,2002:str"
+
   /// "tag:yaml.org,2002:seq" <http://yaml.org/type/seq.html>
-  static let seq: YAMLTag.Name  = "tag:yaml.org,2002:seq"
+  static let seq: YAMLTag.Name = "tag:yaml.org,2002:seq"
+
   /// "tag:yaml.org,2002:map" <http://yaml.org/type/map.html>
-  static let map: YAMLTag.Name  = "tag:yaml.org,2002:map"
+  static let map: YAMLTag.Name = "tag:yaml.org,2002:map"
+
   // JSON Schema
   /// "tag:yaml.org,2002:bool" <http://yaml.org/type/bool.html>
-  static let bool: YAMLTag.Name  = "tag:yaml.org,2002:bool"
+  static let bool: YAMLTag.Name = "tag:yaml.org,2002:bool"
+
   /// "tag:yaml.org,2002:float" <http://yaml.org/type/float.html>
-  static let float: YAMLTag.Name  =  "tag:yaml.org,2002:float"
+  static let float: YAMLTag.Name = "tag:yaml.org,2002:float"
+
   /// "tag:yaml.org,2002:null" <http://yaml.org/type/null.html>
-  static let null: YAMLTag.Name  = "tag:yaml.org,2002:null"
+  static let null: YAMLTag.Name = "tag:yaml.org,2002:null"
+
   /// "tag:yaml.org,2002:int" <http://yaml.org/type/int.html>
-  static let int: YAMLTag.Name  = "tag:yaml.org,2002:int"
+  static let int: YAMLTag.Name = "tag:yaml.org,2002:int"
+
   // http://yaml.org/type/index.html
   /// "tag:yaml.org,2002:binary" <http://yaml.org/type/binary.html>
-  static let binary: YAMLTag.Name  = "tag:yaml.org,2002:binary"
+  static let binary: YAMLTag.Name = "tag:yaml.org,2002:binary"
+
   /// "tag:yaml.org,2002:merge" <http://yaml.org/type/merge.html>
-  static let merge: YAMLTag.Name  = "tag:yaml.org,2002:merge"
+  static let merge: YAMLTag.Name = "tag:yaml.org,2002:merge"
+
   /// "tag:yaml.org,2002:omap" <http://yaml.org/type/omap.html>
-  static let omap: YAMLTag.Name  = "tag:yaml.org,2002:omap"
+  static let omap: YAMLTag.Name = "tag:yaml.org,2002:omap"
+
   /// "tag:yaml.org,2002:pairs" <http://yaml.org/type/pairs.html>
-  static let pairs: YAMLTag.Name  = "tag:yaml.org,2002:pairs"
+  static let pairs: YAMLTag.Name = "tag:yaml.org,2002:pairs"
+
   /// "tag:yaml.org,2002:set". <http://yaml.org/type/set.html>
-  static let set: YAMLTag.Name  = "tag:yaml.org,2002:set"
+  static let set: YAMLTag.Name = "tag:yaml.org,2002:set"
+
   /// "tag:yaml.org,2002:timestamp" <http://yaml.org/type/timestamp.html>
-  static let timestamp: YAMLTag.Name  = "tag:yaml.org,2002:timestamp"
+  static let timestamp: YAMLTag.Name = "tag:yaml.org,2002:timestamp"
+
   /// "tag:yaml.org,2002:value" <http://yaml.org/type/value.html>
-  static let value: YAMLTag.Name  = "tag:yaml.org,2002:value"
+  static let value: YAMLTag.Name = "tag:yaml.org,2002:value"
+
   /// "tag:yaml.org,2002:yaml" <http://yaml.org/type/yaml.html> We don't support this.
-  static let yaml: YAMLTag.Name  = "tag:yaml.org,2002:yaml"
+  static let yaml: YAMLTag.Name = "tag:yaml.org,2002:yaml"
 }
 
 protocol YAMLTagResolvable {
@@ -2034,8 +2144,10 @@ enum YAMLError: Swift.Error {
   struct Context: CustomStringConvertible {
     /// error context
     let text: String
+
     /// context position
     let mark: YAMLMark
+
     /// A textual representation of this instance.
     var description: String {
       return text + " in line \(mark.line), column \(mark.column)\n"
@@ -2061,22 +2173,30 @@ extension YAMLError {
     case YAML_MEMORY_ERROR:
       self = .memory
     case YAML_READER_ERROR:
-      self = .reader(problem: String(cString: parser.problem),
-                     byteOffset: parser.problem_offset,
-                     value: parser.problem_value,
-                     yaml: yaml)
+      self
+        = .reader(
+          problem: String(cString: parser.problem),
+          byteOffset: parser.problem_offset,
+          value: parser.problem_value,
+          yaml: yaml)
     case YAML_SCANNER_ERROR:
-      self = .scanner(context: context(from: parser),
-                      problem: String(cString: parser.problem), problemYAMLMark(from: parser),
-                      yaml: yaml)
+      self
+        = .scanner(
+          context: context(from: parser),
+          problem: String(cString: parser.problem), problemYAMLMark(from: parser),
+          yaml: yaml)
     case YAML_PARSER_ERROR:
-      self = .parser(context: context(from: parser),
-                     problem: String(cString: parser.problem), problemYAMLMark(from: parser),
-                     yaml: yaml)
+      self
+        = .parser(
+          context: context(from: parser),
+          problem: String(cString: parser.problem), problemYAMLMark(from: parser),
+          yaml: yaml)
     case YAML_COMPOSER_ERROR:
-      self = .composer(context: context(from: parser),
-                       problem: String(cString: parser.problem), problemYAMLMark(from: parser),
-                       yaml: yaml)
+      self
+        = .composer(
+          context: context(from: parser),
+          problem: String(cString: parser.problem), problemYAMLMark(from: parser),
+          yaml: yaml)
     default:
       fatalError("YAMLParser has unknown error: \(parser.error)!")
     }
@@ -2104,7 +2224,7 @@ extension YAMLError: CustomStringConvertible {
       return "Memory error"
     case let .reader(problem, byteOffset, value, yaml):
       guard let (mark, contents) = markAndSnippet(from: yaml, byteOffset)
-        else { return "\(problem) at byte offset: \(byteOffset), value: \(value)" }
+      else { return "\(problem) at byte offset: \(byteOffset), value: \(value)" }
       return "\(mark): error: reader: \(problem):\n" + contents.endingWithNewLine
         + String(repeating: " ", count: mark.column - 1) + "^"
     case let .scanner(context, problem, mark, yaml):
@@ -2126,10 +2246,10 @@ extension YAMLError {
   fileprivate func markAndSnippet(from yaml: String, _ byteOffset: Int) -> (YAMLMark, String)? {
     #if USE_UTF8
       guard let (line, column, contents) = yaml.utf8LineNumberColumnAndContents(at: byteOffset)
-        else { return nil }
+      else { return nil }
     #else
       guard let (line, column, contents) = yaml.utf16LineNumberColumnAndContents(at: byteOffset / 2)
-        else { return nil }
+      else { return nil }
     #endif
     return (YAMLMark(line: line + 1, column: column + 1), contents)
   }

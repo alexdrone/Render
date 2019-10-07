@@ -1,5 +1,5 @@
-import UIKit
 import CoreRender
+import UIKit
 
 class ViewController: UIViewController {
   private var node: ConcreteNode<UIView>?
@@ -13,9 +13,10 @@ class ViewController: UIViewController {
 
   func render() {
     count += 1
-    node = Node(type: UIView.self) { spec in
-      set(spec, keyPath: \UIView.yoga.width, value: spec.size.width)
-    }
+    node
+      = Node(type: UIView.self) { spec in
+        set(spec, keyPath: \UIView.yoga.width, value: spec.size.width)
+      }
     let wrapper = Node(type: UIView.self) { spec in
       set(spec, keyPath: \UIView.backgroundColor, value: .lightGray)
       set(spec, keyPath: \UIView.cornerRadius, value: 5)
@@ -39,7 +40,4 @@ class ViewController: UIViewController {
     render()
   }
 
-
-
 }
-

@@ -1,5 +1,5 @@
-import UIKit
 import CoreRender
+import UIKit
 
 // MARK: - ViewController
 
@@ -14,9 +14,10 @@ class CounterViewController: UIViewController {
   }
 
   func render() {
-    node = context.buildNodeHiearchy {
-      counterNode()
-    }
+    node
+      = context.buildNodeHiearchy {
+        counterNode()
+      }
     node?.reconcile(in: view, constrainedTo: view.bounds.size, with: [])
   }
 
@@ -48,7 +49,7 @@ func counterNode() -> ConcreteNode<UIView> {
   let label = Node(type: UIButton.self) { spec in
     guard let controller = spec.controller(ofType: CounterController.self) else { return }
     guard let state = controller.state as? CounterState else { return }
-    
+
     spec.resetAllTargets()
     spec.view?.setTitle("Count: \(state.count)", for: .normal)
     spec.view?.addTarget(
@@ -65,10 +66,7 @@ func counterNode() -> ConcreteNode<UIView> {
 // MARK: - State
 
 class CounterState: State {
-  var count = 0;
+  var count = 0
 }
 
 // MARK: - Controller
-
-
-

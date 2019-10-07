@@ -1,5 +1,6 @@
-import XCTest
 import UIKit
+import XCTest
+
 @testable import RenderNeutrino
 
 class ComponentTests: XCTestCase {
@@ -9,7 +10,9 @@ class ComponentTests: XCTestCase {
       return makeNode()
     }
   }
-  class Sb: UIState { }
+
+  class Sb: UIState {}
+
   class Cb: UIComponent<Sb, UINilProps> {
     override func render(context: UIContextProtocol) -> UINodeProtocol {
       return makeNode()

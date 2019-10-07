@@ -1,5 +1,5 @@
-import UIKit
 import RenderNeutrino
+import UIKit
 
 class GettingStartedViewController: UITableComponentViewController {
 
@@ -25,12 +25,12 @@ class GettingStartedViewController: UITableComponentViewController {
         title: "Getting Started V",
         subtitle: "YAML Stylesheet and hot reload.",
         onCellSelected: presentSimpleCounterExample5),
-      ]
+    ]
   }()
 
   override func renderCellDescriptors() -> [UIComponentCellDescriptor] {
     return indexProps.enumerated().compactMap { (index: Int, props: Index.CellProps) in
-      let cmp =  context.component(Index.Cell.self, key: "\(index)", props: props, parent: nil)
+      let cmp = context.component(Index.Cell.self, key: "\(index)", props: props, parent: nil)
       return UIComponentCellDescriptor(component: cmp)
     }
   }
@@ -75,4 +75,3 @@ class GettingStartedViewController: UITableComponentViewController {
     navigationController?.pushViewController(TransitionFromDemoViewController(), animated: true)
   }
 }
-

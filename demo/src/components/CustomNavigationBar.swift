@@ -1,6 +1,6 @@
 import RenderNeutrino
 
-struct Track {
+enum Track {
 
   class NavigationBar: UINavigationBarComponent {
     // Example of additional payload.
@@ -32,8 +32,7 @@ struct Track {
         spec.view.yoga.width = s
         spec.view.yoga.height = s
         spec.view.cornerRadius = s/2
-        spec.view.alpha =
-          pow(self.props.scrollProgress(currentHeight: self.state.height), 4)
+        spec.view.alpha = pow(self.props.scrollProgress(currentHeight: self.state.height), 4)
 
         // The mm:ss format string.
         guard let userInfo = self.props.userInfo(as: UserInfo.self) else { return }
@@ -47,7 +46,7 @@ struct Track {
       let button = UINode<UIButton>(styles: [S.trackNavigationBarButton]) { spec in
         spec.view.yoga.position = .absolute
         spec.view.yoga.top = self.state.height - 16
-        spec.view.onTap { [weak self] _ in  self?.didTapPlayButton() }
+        spec.view.onTap { [weak self] _ in self?.didTapPlayButton() }
 
         // Button label.
         guard let userInfo = self.props.userInfo(as: UserInfo.self) else { return }
@@ -56,7 +55,7 @@ struct Track {
       }
       return main.children([
         circle,
-        button
+        button,
       ])
     }
 
@@ -75,10 +74,11 @@ struct Track {
         return
       }
       // Schedule a timer.
-      userInfo.timer = Timer(timeInterval: 1, repeats: true) { [weak self]_ in
-        userInfo.elaspedTime += 1
-        self?.setNeedsRender()
-      }
+      userInfo.timer
+        = Timer(timeInterval: 1, repeats: true) { [weak self] _ in
+          userInfo.elaspedTime += 1
+          self?.setNeedsRender()
+        }
 
       guard let timer = userInfo.timer else { return }
       RunLoop.main.add(timer, forMode: RunLoopMode.commonModes)
@@ -96,9 +96,11 @@ struct Track {
   /// Model for one the dummy track cells.
   class TrackProps: UIProps {
     var id: String = NSUUID().uuidString.lowercased()
+
     lazy var title: String = {
       return "unknown artist\n" + "track " + self.id.replacingOccurrences(of: "-", with: "")
     }()
+
     var cover: UIImage? = Random.image()
   }
 
@@ -114,7 +116,7 @@ struct Track {
         },
         UINode<UILabel>(styles: [S.trackTitle]) { spec in
           spec.set(\UILabel.text, props.title)
-        }
+        },
       ])
       return wrapper
     }

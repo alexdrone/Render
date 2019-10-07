@@ -1,11 +1,12 @@
-import UIKit
 import RenderNeutrino
+import UIKit
 
 // MARK: - FromViewController
 
 class TransitionFromDemoViewController: UIComponentViewController<TransitionFromComponent>,
   UIViewControllerTransitioningDelegate,
-  UINavigationControllerDelegate {
+  UINavigationControllerDelegate
+{
 
   override func viewDidLoad() {
     styleNavigationBarComponent(title: "From")
@@ -22,9 +23,11 @@ class TransitionFromDemoViewController: UIComponentViewController<TransitionFrom
     return context.transientComponent(TransitionFromComponent.self, props: props)
   }
 
-  func animationController(forPresented presented: UIViewController,
-                           presenting: UIViewController,
-                           source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+  func animationController(
+    forPresented presented: UIViewController,
+    presenting: UIViewController,
+    source: UIViewController
+  ) -> UIViewControllerAnimatedTransitioning? {
     return Transition()
   }
 }
@@ -63,45 +66,50 @@ class Transition: UISceneTransition {
     let navigationBar = fromNavigationBarSnapshot(context: context)
     let duration = transitionDuration(context: context)
 
-    UIView.animate(withDuration: duration/2,
-                   delay: 0,
-                   usingSpringWithDamping: 0.5,
-                   initialSpringVelocity: 0, options: [], animations: {
-      navigationBar.frame.origin.y -= navigationBar.frame.size.height
-      for target in targets {
-        guard let from = target.0.view else { return }
-        guard let to = target.1.view else { return }
-
-        switch target.0.key {
-        case "image":
-          from.cornerRadius = 0
-          from.frame = to.frame
-        case "title":
-          from.alpha = 0
-        default:
-          break
-        }
-      }
-    }) { (_) in
-      UIView.animate(withDuration: duration/2,
-                     delay: 0,
-                     usingSpringWithDamping: 0.9,
-                     initialSpringVelocity: 0,
-                     options: [],
-                     animations: {
-
+    UIView.animate(
+      withDuration: duration/2,
+      delay: 0,
+      usingSpringWithDamping: 0.5,
+      initialSpringVelocity: 0, options: [],
+      animations: {
+        navigationBar.frame.origin.y -= navigationBar.frame.size.height
         for target in targets {
+          guard let from = target.0.view else { return }
           guard let to = target.1.view else { return }
+
           switch target.0.key {
+          case "image":
+            from.cornerRadius = 0
+            from.frame = to.frame
           case "title":
-            to.alpha = 1
+            from.alpha = 0
           default:
             break
           }
         }
-      }, completion: { (_) in
-        self.completeTransition(context: context)
-      })
+      }
+    ) { (_) in
+      UIView.animate(
+        withDuration: duration/2,
+        delay: 0,
+        usingSpringWithDamping: 0.9,
+        initialSpringVelocity: 0,
+        options: [],
+        animations: {
+
+          for target in targets {
+            guard let to = target.1.view else { return }
+            switch target.0.key {
+            case "title":
+              to.alpha = 1
+            default:
+              break
+            }
+          }
+        },
+        completion: { (_) in
+          self.completeTransition(context: context)
+        })
     }
   }
 }

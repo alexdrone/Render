@@ -4,30 +4,35 @@ public protocol Disposable: class {
   /// Whether this object has been disposed or not.
   /// Once an object is disposed it cannot be used any longer.
   var isDisposed: Bool { get set }
+
   /// Dispose the object and makes it unusable.
   func dispose()
 }
 
-public extension Disposable {
+extension Disposable {
   /// Logs any access to a disposed object.
   public func disposedWarning() {
     if isDisposed {
       var ptr = self
       withUnsafePointer(to: &ptr) {
-        print(String(format: "⤬ DISPOSED access to (%p) of type %@.",
-                     arguments: [$0, String(describing:(type(of: self)))]))
+        print(
+          String(
+            format: "⤬ DISPOSED access to (%p) of type %@.",
+            arguments: [$0, String(describing: (type(of: self)))]))
       }
     }
   }
 }
 
-public struct DebugFlags {
+public enum DebugFlags {
   /// The allocation trace desired.
   public enum Allocation: Int {
     case context, component, vc
   }
+
   /// Logs to console the allocation of contextes and components.
   static var traceAllocations: [Allocation] = [.context]
+
   /// Turns on/off the hot reload in the simulator.
   static var isHotReloadInSimulatorEnabled: Bool = true
 

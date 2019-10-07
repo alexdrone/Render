@@ -1,5 +1,6 @@
-import XCTest
 import UIKit
+import XCTest
+
 @testable import RenderNeutrino
 
 class NodeTests: XCTestCase {
@@ -139,7 +140,7 @@ class NodeTests: XCTestCase {
   }
 }
 
-struct C {
+enum C {
   static let smallSize: CGFloat = 64
   static let defaultColor: UIColor = .red
 }

@@ -1,7 +1,7 @@
-import UIKit
 import RenderNeutrino
+import UIKit
 
-struct AppStoreEntry {
+enum AppStoreEntry {
 
   class State: UIState {
     var expanded: Bool = false
@@ -29,7 +29,7 @@ struct AppStoreEntry {
             makeLabel(
               text: "\(props.title)#\(state.counter)",
               layoutSpec: configureLabel),
-            ]),
+          ]),
           // Entry description (shown when the component is expanded).
           UINode<UIView>(layoutSpec: configureDescriptionContainer).children([
             makeLabel(
@@ -38,23 +38,23 @@ struct AppStoreEntry {
             makeButton(
               text: "Increase",
               onTouchUpInside: { [weak self] in self?.onIncrease() })
-            ]),
+          ]),
           // Touch overlay that covers the whole component.
           makeTapRecognizer(
             onTouchUpInside: { [weak self] in self?.onToggleExpand() },
             layoutSpec: configureTappableView),
-          ])
+        ]),
       ])
     }
 
     // Executed when the card is tapped.
-    private func onToggleExpand() -> Void {
+    private func onToggleExpand() {
       state.expanded = !state.expanded
       setNeedsRender(options: [.animateLayoutChanges(animator: self.defaultAnimator())])
     }
 
     // Executed when the 'Increase' button is tapped.
-    private func onIncrease() -> Void {
+    private func onIncrease() {
       state.counter += 1
       setNeedsRender()
     }
@@ -120,8 +120,7 @@ struct AppStoreEntry {
 
     // The main title.
     private func configureLabel(spec: UINode<UILabel>.LayoutSpec) {
-      let font: UIFont = state.expanded ?
-        S.typography.mediumBold.font : S.typography.medium.font
+      let font: UIFont = state.expanded ? S.typography.mediumBold.font : S.typography.medium.font
       spec.set(\UILabel.yoga.height, 32)
       spec.set(\UILabel.yoga.width, 256)
       spec.set(\UILabel.font, font)
@@ -176,7 +175,7 @@ fileprivate func makeLabel(
 fileprivate func makeButton(
   reuseIdentifier: String = "button",
   text: String,
-  onTouchUpInside: @escaping () -> Void = { },
+  onTouchUpInside: @escaping () -> Void = {},
   layoutSpec: UINode<UIButton>.LayoutSpecClosure? = nil
 ) -> UINode<UIButton> {
   func makeButton() -> UIButton {
@@ -197,9 +196,9 @@ fileprivate func makeButton(
 
 fileprivate func makeTapRecognizer(
   reuseIdentifier: String = "tapRecognizer",
-  onTouchUpInside: @escaping () -> Void = { },
+  onTouchUpInside: @escaping () -> Void = {},
   layoutSpec: UINode<UIView>.LayoutSpecClosure? = nil
-)->UINode<UIView> {
+) -> UINode<UIView> {
   return UINode<UIView>(reuseIdentifier: reuseIdentifier) { config in
     config.view.onTap { _ in onTouchUpInside() }
     layoutSpec?(config)

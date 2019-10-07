@@ -25,8 +25,8 @@
 // THE SOFTWARE.
 
 import Foundation
-import UIKit
 import QuartzCore
+import UIKit
 
 /// A class that tracks the current FPS of the running application.
 /// `FPSCounter` uses `CADisplayLink` updates to count the frames per second drawn.
@@ -44,6 +44,7 @@ public class FPSCounter: NSObject {
   internal class DisplayLinkDelegate: NSObject {
     /// A weak ref to the parent FPSCounter instance.
     weak var parentCounter: FPSCounter?
+
     /// Notify the parent FPSCounter of a CADisplayLink update.
     @objc func updateFromDisplayLink(_ displayLink: CADisplayLink) {
       self.parentCounter?.updateFromDisplayLink(displayLink)
@@ -58,10 +59,11 @@ public class FPSCounter: NSObject {
   /// `startTracking(inRunLoop:mode:)` method.
   public override init() {
     self.displayLinkDelegate = DisplayLinkDelegate()
-    self.displayLink = CADisplayLink(
-      target: self.displayLinkDelegate,
-      selector: #selector(DisplayLinkDelegate.updateFromDisplayLink(_:))
-    )
+    self.displayLink
+      = CADisplayLink(
+        target: self.displayLinkDelegate,
+        selector: #selector(DisplayLinkDelegate.updateFromDisplayLink(_:))
+      )
     super.init()
     self.displayLinkDelegate.parentCounter = self
   }
@@ -72,8 +74,10 @@ public class FPSCounter: NSObject {
 
   /// The delegate that should receive FPS updates.
   public weak var delegate: FPSCounterDelegate?
+
   /// Delay between FPS updates. Longer delays mean more averaged FPS numbers.
   public var notificationDelay: TimeInterval = 1.0
+
   private var runloop: RunLoop?
   private var mode: RunLoopMode?
 
@@ -82,8 +86,10 @@ public class FPSCounter: NSObject {
   /// Usually you'll want the main runloop (default), and either the common run loop modes
   /// (default), or the tracking mode (`UITrackingRunLoopMode`).
   /// When the counter is already tracking, it's stopped first.
-  public func startTracking(inRunLoop runloop: RunLoop = RunLoop.main,
-                            mode: RunLoopMode = RunLoopMode.commonModes) {
+  public func startTracking(
+    inRunLoop runloop: RunLoop = RunLoop.main,
+    mode: RunLoopMode = RunLoopMode.commonModes
+  ) {
     stopTracking()
     self.runloop = runloop
     self.mode = mode
@@ -161,7 +167,7 @@ internal class FPSStatusBarViewController: UIViewController, FPSCounterDelegate 
   override func loadView() {
     view = UIView(frame: CGRect(x: 0.0, y: 0.0, width: 100.0, height: 100.0))
     label.frame = self.view.bounds.insetBy(dx: 32.0, dy: 0.0)
-    label.autoresizingMask = [ .flexibleWidth, .flexibleHeight ]
+    label.autoresizingMask = [.flexibleWidth, .flexibleHeight]
     label.font = UIFont.boldSystemFont(ofSize: 10.0)
     label.textColor = .white
     view.addSubview(self.label)
@@ -170,10 +176,11 @@ internal class FPSStatusBarViewController: UIViewController, FPSCounterDelegate 
 
   @objc func updateStatusBarFrame(_ notification: Notification) {
     let application = notification.object as? UIApplication
-    let frame = CGRect(x: 0.0,
-                       y: 0.0,
-                       width: application?.keyWindow?.bounds.width ?? 0.0,
-                       height: 20.0)
+    let frame = CGRect(
+      x: 0.0,
+      y: 0.0,
+      width: application?.keyWindow?.bounds.width ?? 0.0,
+      height: 20.0)
     FPSStatusBarViewController.statusBarWindow.frame = frame
   }
 
@@ -182,11 +189,11 @@ internal class FPSStatusBarViewController: UIViewController, FPSCounterDelegate 
     label.text = "\(fps) FPS"
 
     if fps >= 45 {
-      view.backgroundColor = UIColor(red:0.55, green:0.76, blue:0.33, alpha:1.00)
+      view.backgroundColor = UIColor(red: 0.55, green: 0.76, blue: 0.33, alpha: 1.00)
     } else if fps >= 30 {
-      view.backgroundColor = UIColor(red:0.99, green:0.60, blue:0.17, alpha:1.00)
+      view.backgroundColor = UIColor(red: 0.99, green: 0.60, blue: 0.17, alpha: 1.00)
     } else {
-      view.backgroundColor = UIColor(red:0.99, green:0.35, blue:0.20, alpha:1.00)
+      view.backgroundColor = UIColor(red: 0.99, green: 0.35, blue: 0.20, alpha: 1.00)
     }
   }
 
@@ -198,11 +205,13 @@ internal class FPSStatusBarViewController: UIViewController, FPSCounterDelegate 
   }()
 }
 
-public extension FPSCounter {
+extension FPSCounter {
 
-  public class func showInStatusBar(_ application: UIApplication,
-                                    runloop: RunLoop? = nil,
-                                    mode: RunLoopMode? = nil) {
+  public class func showInStatusBar(
+    _ application: UIApplication,
+    runloop: RunLoop? = nil,
+    mode: RunLoopMode? = nil
+  ) {
     let window = FPSStatusBarViewController.statusBarWindow
     window.frame = application.statusBarFrame
     window.isHidden = false

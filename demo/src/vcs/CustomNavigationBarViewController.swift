@@ -1,10 +1,10 @@
-import UIKit
 import RenderNeutrino
+import UIKit
 
 class CustomNavigationBarViewController: UITableComponentViewController {
   /// The model props to pass down to the component.
   lazy var tracks: [Track.TrackProps] = {
-   return Array(0...100).map { _ in return Track.TrackProps() }
+    return Array(0...100).map { _ in return Track.TrackProps() }
   }()
 
   /// Tells the data source to return the number of rows in a given section of a table view.
@@ -12,12 +12,15 @@ class CustomNavigationBarViewController: UITableComponentViewController {
     return tracks.count
   }
 
-  override func tableView(_ tableView: UITableView,
-                          cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-    let component = context.component(Track.TrackComponent.self,
-                                      key: tracks[indexPath.row].id,
-                                      props: tracks[indexPath.row],
-                                      parent: nil)
+  override func tableView(
+    _ tableView: UITableView,
+    cellForRowAt indexPath: IndexPath
+  ) -> UITableViewCell {
+    let component = context.component(
+      Track.TrackComponent.self,
+      key: tracks[indexPath.row].id,
+      props: tracks[indexPath.row],
+      parent: nil)
     return dequeueCell(forComponent: component)
   }
 
@@ -31,5 +34,3 @@ class CustomNavigationBarViewController: UITableComponentViewController {
     super.viewDidLoad()
   }
 }
-
-

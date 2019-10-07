@@ -1,19 +1,21 @@
-import UIKit
 import RenderNeutrino
+import UIKit
 
 func makePolygon() -> UINode<UIPolygonView> {
   // By using the create closure instead of the configuration one, the view settings are
   // applied only once.
   // - note: You need to specify a custom 'reuseIdentifier.
-  return UINode<UIPolygonView>(reuseIdentifier: "polygon", create: {
-    let view = UIPolygonView()
-    view.foregroundColor = S.palette.white.color
-    view.yoga.width = 44
-    view.yoga.height = 44
-    view.yoga.marginRight = S.margin.medium.cgFloat
-    view.depthPreset = .depth1
-    return view
-  })
+  return UINode<UIPolygonView>(
+    reuseIdentifier: "polygon",
+    create: {
+      let view = UIPolygonView()
+      view.foregroundColor = S.palette.white.color
+      view.yoga.width = 44
+      view.yoga.height = 44
+      view.yoga.marginRight = S.margin.medium.cgFloat
+      view.depthPreset = .depth1
+      return view
+    })
 }
 
 // MARK: - UIBezierPath
@@ -40,9 +42,9 @@ extension UIBezierPath {
 
   private func polygonPoints(sides: Int, x: CGFloat, y: CGFloat, radius: CGFloat) -> [CGPoint] {
     let angle = degreesToRadians(360 / CGFloat(sides))
-    let cx = x // x origin
-    let cy = y // y origin
-    let r  = radius // radius of circle
+    let cx = x  // x origin
+    let cy = y  // y origin
+    let r = radius  // radius of circle
     var i = 0
     var points = [CGPoint]()
     while i < sides {
@@ -54,11 +56,13 @@ extension UIBezierPath {
     return points
   }
 
-  private func addPoint(prev: CGPoint,
-                        curr: CGPoint,
-                        next: CGPoint,
-                        cornerRadius: CGFloat,
-                        first: Bool) {
+  private func addPoint(
+    prev: CGPoint,
+    curr: CGPoint,
+    next: CGPoint,
+    cornerRadius: CGFloat,
+    first: Bool
+  ) {
     // prev <- curr
     var c2p = CGPoint(x: prev.x - curr.x, y: prev.y - curr.y)
     // next <- curr
@@ -90,35 +94,39 @@ extension UIBezierPath {
       let startAngle = atan2(c2p.x, -c2p.y)
       let endAngle = startAngle + (2 * θ)
       addLine(to: startPoint)
-      addArc(withCenter: centerPoint,
-             radius: adjustedCornerRadius,
-             startAngle: startAngle,
-             endAngle: endAngle,
-             clockwise: true)
+      addArc(
+        withCenter: centerPoint,
+        radius: adjustedCornerRadius,
+        startAngle: startAngle,
+        endAngle: endAngle,
+        clockwise: true)
     } else {
       move(to: endPoint)
     }
   }
 }
 
-public extension UIBezierPath {
-  @objc public convenience init(roundedRegularPolygon rect: CGRect,
-                                numberOfSides: Int,
-                                cornerRadius: CGFloat) {
+extension UIBezierPath {
+  @objc public convenience init(
+    roundedRegularPolygon rect: CGRect,
+    numberOfSides: Int,
+    cornerRadius: CGFloat
+  ) {
     guard numberOfSides > 2 else {
       self.init()
       return
     }
     self.init()
-    let points = polygonPoints(sides: numberOfSides,
-                               x: rect.width / 2,
-                               y: rect.height / 2,
-                               radius: min(rect.width, rect.height) / 2)
+    let points = polygonPoints(
+      sides: numberOfSides,
+      x: rect.width / 2,
+      y: rect.height / 2,
+      radius: min(rect.width, rect.height) / 2)
     self.addPointsAsRoundedPolygon(points: points, cornerRadius: cornerRadius)
   }
 }
 
-public extension UIBezierPath {
+extension UIBezierPath {
   @objc public func applyRotation(angle: CGFloat) {
     let bounds = self.cgPath.boundingBox
     let center = CGPoint(x: bounds.midX, y: bounds.midY)
@@ -175,20 +183,24 @@ public func radiansToDegrees(_ value: CGFloat) -> CGFloat {
   @objc @IBInspectable public var rotation: CGFloat = 0.0 {
     didSet { self.setNeedsDisplay() }
   }
+
   @objc @IBInspectable public var foregroundColor: UIColor = .black {
     didSet { self.setNeedsDisplay() }
   }
+
   @objc @IBInspectable public var scale: CGPoint = CGPoint(x: 1, y: 1) {
     didSet { self.setNeedsDisplay() }
   }
+
   @objc @IBInspectable public var numberOfSides: Int = 6 {
     didSet { self.setNeedsDisplay() }
   }
 
   override public func draw(_ rect: CGRect) {
-    let polygonPath = UIBezierPath(roundedRegularPolygon: rect,
-                                   numberOfSides: numberOfSides,
-                                   cornerRadius: cornerRadius)
+    let polygonPath = UIBezierPath(
+      roundedRegularPolygon: rect,
+      numberOfSides: numberOfSides,
+      cornerRadius: cornerRadius)
     polygonPath.applyRotation(angle: rotation)
     polygonPath.applyScale(scale: scale)
     polygonPath.close()
@@ -201,4 +213,3 @@ public func radiansToDegrees(_ value: CGFloat) -> CGFloat {
     clipsToBounds = true
   }
 }
-

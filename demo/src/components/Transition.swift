@@ -1,8 +1,8 @@
-import UIKit
 import RenderNeutrino
+import UIKit
 
 class TransitionDemoProps: UIProps {
-  var onTapAction: () -> (Void) = { }
+  var onTapAction: () -> (Void) = {}
 }
 
 // MARK: - From
@@ -47,7 +47,7 @@ class TransitionToComponent: UIStatelessComponent<TransitionDemoProps> {
         self?.props.onTapAction()
       }
     }
-    let image = UINode<UIView>() { spec in
+    let image = UINode<UIView> { spec in
       spec.view.yoga.width = 160
       spec.view.yoga.height = 160
       spec.view.backgroundColor = .red

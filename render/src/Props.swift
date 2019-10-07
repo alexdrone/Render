@@ -12,10 +12,10 @@ public protocol UIPropsProtocol: ReflectedStringConvertible {
 }
 
 open class UIProps: UIPropsProtocol {
-  public required init() { }
+  public required init() {}
 }
 
 public class UINilProps: UIPropsProtocol, Codable {
   public static let `nil` = UINilProps()
-  public required init() { }
+  public required init() {}
 }

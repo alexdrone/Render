@@ -1,7 +1,8 @@
 import UIKit
 
 open class UIComponentViewController<C: UIComponentProtocol>: UIBaseViewController,
-                                                              UINodeDelegateProtocol {
+  UINodeDelegateProtocol
+{
   /// The root component for this viewController.
   public var component: C!
 
@@ -33,7 +34,7 @@ open class UIComponentViewController<C: UIComponentProtocol>: UIBaseViewControll
   override open func viewWillTransition(
     to size: CGSize,
     with coordinator: UIViewControllerTransitionCoordinator
-  ) -> Void {
+  ) {
     super.viewWillTransition(to: size, with: coordinator)
 
     let renderAlongside = shouldRenderAlongsideSizeTransitionAnimation
@@ -53,13 +54,13 @@ open class UIComponentViewController<C: UIComponentProtocol>: UIBaseViewControll
   /// - parameter view: The view that just got installed in the view hierarchy.
   /// - note: Override this if you need specific post-render adjustments, or if you want to
   /// coordinate the setup of views that don't belong to the component view hierarchy.
-  open func nodeDidMount(_ node: UINodeProtocol, view: UIView) { }
+  open func nodeDidMount(_ node: UINodeProtocol, view: UIView) {}
 
   /// The backing view of *node* is about to be layed out.
   /// - parameter view: The view that is about to be configured and layed out.
   /// - note: Override this if you need specific post-render adjustments, or if you want to
   /// coordinate the setup of views that don't belong to the component view hierarchy.
-  open func nodeWillLayout(_ node: UINodeProtocol, view: UIView) {  }
+  open func nodeWillLayout(_ node: UINodeProtocol, view: UIView) {}
 
   /// The backing view of *node* just got layed out.
   /// - parameter view: The view that has just been configured and layed out.
@@ -75,7 +76,8 @@ open class UIComponentViewController<C: UIComponentProtocol>: UIBaseViewControll
   }
 }
 
-open class UIScrollableComponentViewController<C:UIComponentProtocol>: UIComponentViewController<C>{
+open class UIScrollableComponentViewController<C: UIComponentProtocol>: UIComponentViewController<C>
+{
   /// Returns a *UIScrollView* as its canvas view.
   open override func buildCanvasView() -> UIView {
     let view = UIScrollView()

@@ -1,5 +1,5 @@
-import UIKit
 import RenderNeutrino
+import UIKit
 
 class FeedTableViewController: UITableComponentViewController, PostComponentDelegate {
   /// The model props to pass down to the component.
@@ -17,24 +17,25 @@ class FeedTableViewController: UITableComponentViewController, PostComponentDele
     return posts.count
   }
 
-  override func tableView(_ tableView: UITableView,
-                          cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+  override func tableView(
+    _ tableView: UITableView,
+    cellForRowAt indexPath: IndexPath
+  ) -> UITableViewCell {
     let post = posts[indexPath.row]
-    let component = context.component(Post.PostComponent.self,
-                                      key: post.id,
-                                      props: post,
-                                      parent: nil)
+    let component = context.component(
+      Post.PostComponent.self,
+      key: post.id,
+      props: post,
+      parent: nil)
     return dequeueCell(forComponent: component)
   }
 
   /// If you'd like to have a section header, build one like so:
   /// - note: This is currently not supported when you have an expandable custom navigation bar.
-  /*
-  override func viewForHeader(inSection section: Int) -> UIView? {
-    return UIView().install(component: context.transientComponent(Post.FeedHeaderComponent.self),
-                            size: tableView.bounds.size)
-  }
-  */
+  // override func viewForHeader(inSection section: Int) -> UIView? {
+//    return UIView().install(component: context.transientComponent(Post.FeedHeaderComponent.self),
+//                            size: tableView.bounds.size)
+//  }
 
   /// Called after the controller's view is loaded into memory.
   override func viewDidLoad() {
@@ -43,8 +44,9 @@ class FeedTableViewController: UITableComponentViewController, PostComponentDele
     shouldApplyScrollRevealTransition = false
 
     // *tableHeaderView* and *tableFooterView* can be built from components too.
-    self.tableView.tableHeaderView = UIView().install(
-      component: context.transientComponent(Post.FeedHeaderComponent.self),
-      size: tableView.bounds.size)
+    self.tableView.tableHeaderView
+      = UIView().install(
+        component: context.transientComponent(Post.FeedHeaderComponent.self),
+        size: tableView.bounds.size)
   }
 }

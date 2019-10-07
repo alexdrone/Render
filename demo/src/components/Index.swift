@@ -1,9 +1,9 @@
-import UIKit
 import RenderNeutrino
+import UIKit
 
-struct Index {
+enum Index {
 
-  class CellProps: UITableCellProps { }
+  class CellProps: UITableCellProps {}
 
   class Cell: UIStatelessComponent<CellProps> {
     /// Builds the node hierarchy for this component.
@@ -17,16 +17,15 @@ struct Index {
           config.set(\UIView.yoga.flexGrow, 1)
           config.set(\UIView.yoga.flexShrink, 1)
         }.children([
-            label(text: props.title, bold: true),
-            label(text: props.subtitle),
-          ])
+          label(text: props.title, bold: true),
+          label(text: props.subtitle),
+        ]),
       ])
     }
 
     private func configureContentView(spec: UINode<UIView>.LayoutSpec) {
       let animator = UIViewPropertyAnimator(duration: 0.6, curve: .easeIn, animations: nil)
-      let bkg = props.isHighlighted ?
-        S.palette.primaryAccent.color : S.palette.primary.color
+      let bkg = props.isHighlighted ? S.palette.primaryAccent.color : S.palette.primary.color
       /// Animates the background color when the cell is selected.
       spec.set(\UIView.yoga.flexDirection, .row)
       spec.set(\UIView.yoga.width, spec.canvasSize.width)

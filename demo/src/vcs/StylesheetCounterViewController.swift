@@ -1,5 +1,5 @@
-import UIKit
 import RenderNeutrino
+import UIKit
 
 class StylesheetCounterViewController: UIComponentViewController<StylesheetCounter.Component> {
 
@@ -13,4 +13,3 @@ class StylesheetCounterViewController: UIComponentViewController<StylesheetCount
     shouldRenderAlongsideSizeTransitionAnimation = true
   }
 }
-

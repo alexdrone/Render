@@ -1,29 +1,29 @@
-import UIKit
 import ImageIO
+import UIKit
 
 // MARK: - YGPercentLayout Operator
 
 postfix operator %
 
 extension Int {
-  public static postfix func %(value: Int) -> YGValue {
+  public static postfix func % (value: Int) -> YGValue {
     return YGValue(value: Float(value), unit: .percent)
   }
 }
 
 extension Float {
-  public static postfix func %(value: Float) -> YGValue {
+  public static postfix func % (value: Float) -> YGValue {
     return YGValue(value: value, unit: .percent)
   }
 }
 
 extension CGFloat {
-  public static postfix func %(value: CGFloat) -> YGValue {
+  public static postfix func % (value: CGFloat) -> YGValue {
     return YGValue(value: Float(value), unit: .percent)
   }
 }
 
-extension YGValue : ExpressibleByIntegerLiteral, ExpressibleByFloatLiteral {
+extension YGValue: ExpressibleByIntegerLiteral, ExpressibleByFloatLiteral {
   public init(integerLiteral value: Int) {
     self = YGValue(value: Float(value), unit: .point)
   }
@@ -136,7 +136,8 @@ extension UIView {
     numberOfTapsRequired: Int = 1,
     numberOfTouchesRequired: Int = 1,
     direction: UISwipeGestureRecognizer.Direction = UISwipeGestureRecognizer.Direction.down,
-    _ handler: @escaping (UIGestureRecognizer) -> Void) {
+    _ handler: @escaping (UIGestureRecognizer) -> Void
+  ) {
 
     let wrapper = WeakGestureRecognizer()
     wrapper.handler = handler
@@ -152,7 +153,8 @@ extension UIView {
     }
     // Safely remove the old gesture recognizer.
     if let old = gestureRecognizerProxyDictionary.object(forKey: key) as? WeakGestureRecognizer,
-      let oldGesture = old.object {
+      let oldGesture = old.object
+    {
       old.handler = nil
       old.object = nil
       oldGesture.removeTarget(nil, action: nil)
@@ -163,74 +165,85 @@ extension UIView {
   }
 
   public func onTap(_ handler: @escaping (UIGestureRecognizer) -> Void) {
-    onGestureRecognizer(type: UITapGestureRecognizer.self,
-                        key: "\(#function)" as NSString,
-                        handler)
+    onGestureRecognizer(
+      type: UITapGestureRecognizer.self,
+      key: "\(#function)" as NSString,
+      handler)
   }
 
   public func onDoubleTap(_ handler: @escaping (UIGestureRecognizer) -> Void) {
-    onGestureRecognizer(type: UITapGestureRecognizer.self,
-                        key: "\(#function)" as NSString,
-                        numberOfTapsRequired: 2,
-                        handler)
+    onGestureRecognizer(
+      type: UITapGestureRecognizer.self,
+      key: "\(#function)" as NSString,
+      numberOfTapsRequired: 2,
+      handler)
   }
 
   public func onLongPress(_ handler: @escaping (UIGestureRecognizer) -> Void) {
-    onGestureRecognizer(type: UILongPressGestureRecognizer.self,
-                        key: "\(#function)" as NSString,
-                        handler)
+    onGestureRecognizer(
+      type: UILongPressGestureRecognizer.self,
+      key: "\(#function)" as NSString,
+      handler)
   }
 
   public func onSwipeLeft(_ handler: @escaping (UIGestureRecognizer) -> Void) {
-    onGestureRecognizer(type: UISwipeGestureRecognizer.self,
-                        key: "\(#function)" as NSString,
-                        direction: UISwipeGestureRecognizer.Direction.left,
-                        handler)
+    onGestureRecognizer(
+      type: UISwipeGestureRecognizer.self,
+      key: "\(#function)" as NSString,
+      direction: UISwipeGestureRecognizer.Direction.left,
+      handler)
   }
 
   public func onSwipeRight(_ handler: @escaping (UIGestureRecognizer) -> Void) {
-    onGestureRecognizer(type: UISwipeGestureRecognizer.self,
-                        key: "\(#function)" as NSString,
-                        direction: UISwipeGestureRecognizer.Direction.right,
-                        handler)
+    onGestureRecognizer(
+      type: UISwipeGestureRecognizer.self,
+      key: "\(#function)" as NSString,
+      direction: UISwipeGestureRecognizer.Direction.right,
+      handler)
   }
 
   public func onSwipeUp(_ handler: @escaping (UIGestureRecognizer) -> Void) {
-    onGestureRecognizer(type: UISwipeGestureRecognizer.self,
-                        key: "\(#function)" as NSString,
-                        direction: UISwipeGestureRecognizer.Direction.up,
-                        handler)
+    onGestureRecognizer(
+      type: UISwipeGestureRecognizer.self,
+      key: "\(#function)" as NSString,
+      direction: UISwipeGestureRecognizer.Direction.up,
+      handler)
   }
 
   public func onSwipeDown(_ handler: @escaping (UIGestureRecognizer) -> Void) {
-    onGestureRecognizer(type: UISwipeGestureRecognizer.self,
-                        key: "\(#function)" as NSString,
-                        direction: UISwipeGestureRecognizer.Direction.down,
-                        handler)
+    onGestureRecognizer(
+      type: UISwipeGestureRecognizer.self,
+      key: "\(#function)" as NSString,
+      direction: UISwipeGestureRecognizer.Direction.down,
+      handler)
   }
 
   public func onPan(_ handler: @escaping (UIGestureRecognizer) -> Void) {
-    onGestureRecognizer(type: UIPanGestureRecognizer.self,
-                        key: "\(#function)" as NSString,
-                        handler)
+    onGestureRecognizer(
+      type: UIPanGestureRecognizer.self,
+      key: "\(#function)" as NSString,
+      handler)
   }
 
   public func onPinch(_ handler: @escaping (UIGestureRecognizer) -> Void) {
-    onGestureRecognizer(type: UIPinchGestureRecognizer.self,
-                        key: "\(#function)" as NSString,
-                        handler)
+    onGestureRecognizer(
+      type: UIPinchGestureRecognizer.self,
+      key: "\(#function)" as NSString,
+      handler)
   }
 
   public func onRotate(_ handler: @escaping (UIGestureRecognizer) -> Void) {
-    onGestureRecognizer(type: UIRotationGestureRecognizer.self,
-                        key: "\(#function)" as NSString,
-                        handler)
+    onGestureRecognizer(
+      type: UIRotationGestureRecognizer.self,
+      key: "\(#function)" as NSString,
+      handler)
   }
 
   public func onScreenEdgePan(_ handler: @escaping (UIGestureRecognizer) -> Void) {
-    onGestureRecognizer(type: UIScreenEdgePanGestureRecognizer.self,
-                        key: "\(#function)" as NSString,
-                        handler)
+    onGestureRecognizer(
+      type: UIScreenEdgePanGestureRecognizer.self,
+      key: "\(#function)" as NSString,
+      handler)
   }
 }
 
@@ -289,15 +302,15 @@ public struct UIDepth {
     self.radius = radius
   }
 
-   /// Initializer that takes in a UIDepthPreset.
-   /// - Parameter preset: UIDepthPreset.
+  /// Initializer that takes in a UIDepthPreset.
+  /// - Parameter preset: UIDepthPreset.
   public init(preset: UIDepthPreset) {
     self.init()
     self.preset = preset
   }
 
-   /// Static constructor for UIDepth with values of 0.
-   /// - Returns: A UIDepth struct with values of 0.
+  /// Static constructor for UIDepth with values of 0.
+  /// - Returns: A UIDepth struct with values of 0.
   static var zero: UIDepth {
     return UIDepth()
   }
@@ -335,6 +348,7 @@ fileprivate class ContainerLayer {
       layer?.layoutShape()
     }
   }
+
   /// A preset value for UIDepth.
   fileprivate var depthPreset: UIDepthPreset {
     get {
@@ -357,6 +371,7 @@ fileprivate class ContainerLayer {
       v.layoutShadowPath()
     }
   }
+
   /// Enables automatic shadowPath sizing.
   fileprivate var isShadowPathAutoSizing = false
 
@@ -385,6 +400,7 @@ extension CALayer {
       objc_setAssociatedObject(self, &_containerLayerKey, value, nonatomic)
     }
   }
+
   /// A property that manages the overall shape for the object. If either the
   /// width or height property is set, the other will be automatically adjusted
   /// to maintain the shape of the object.
@@ -394,6 +410,7 @@ extension CALayer {
       containerLayer.shapePreset = value
     }
   }
+
   /// A preset value for UIDepth.
   open var depthPreset: UIDepthPreset {
     get { return depth.preset }
@@ -401,6 +418,7 @@ extension CALayer {
       depth.preset = value
     }
   }
+
   /// Grid reference.
   open var depth: UIDepth {
     get { return containerLayer.depth }
@@ -408,6 +426,7 @@ extension CALayer {
       containerLayer.depth = value
     }
   }
+
   /// Enables automatic shadowPath sizing.
   @IBInspectable open var isShadowPathAutoSizing: Bool {
     get { return containerLayer.isShadowPathAutoSizing }
@@ -433,6 +452,7 @@ extension CALayer {
     }
     cornerRadius = bounds.size.width / 2
   }
+
   /// Sets the shadow path.
   open func layoutShadowPath() {
     guard isShadowPathAutoSizing else {
@@ -447,23 +467,26 @@ extension CALayer {
 }
 
 extension UIView {
-   /// A property that manages the overall shape for the object. If either the
-   /// width or height property is set, the other will be automatically adjusted
-   /// to maintain the shape of the object.
-   @objc open var shapePreset: UIShapePreset {
+  /// A property that manages the overall shape for the object. If either the
+  /// width or height property is set, the other will be automatically adjusted
+  /// to maintain the shape of the object.
+  @objc open var shapePreset: UIShapePreset {
     get { return layer.shapePreset }
     set(value) { layer.shapePreset = value }
   }
+
   /// A preset value for UIDepth.
   @objc open var depthPreset: UIDepthPreset {
     get { return layer.depthPreset }
     set(value) { layer.depthPreset = value }
   }
+
   /// UIDepth reference.
   open var depth: UIDepth {
     get { return layer.depth }
     set(value) { layer.depth = value }
   }
+
   /// Enables automatic shadowPath sizing.
   @IBInspectable dynamic open var isShadowPathAutoSizing: Bool {
     get { return layer.isShadowPathAutoSizing }
@@ -476,10 +499,12 @@ extension UIView {
   internal func layoutShape() {
     layer.layoutShape()
   }
+
   /// Sets the shadow path.
   internal func layoutShadowPath() {
     layer.layoutShadowPath()
   }
+
   public func debugBoudingRect() {
     layer.borderColor = UIColor.red.cgColor
     layer.borderWidth = 2
@@ -488,8 +513,8 @@ extension UIView {
 
 // MARK: UIColor Hex Format
 
-public extension UIColor {
-  convenience init?(hex: String) {
+extension UIColor {
+  public convenience init?(hex: String) {
     var hexSanitized = hex.trimmingCharacters(in: .whitespacesAndNewlines)
     hexSanitized = hexSanitized.replacingOccurrences(of: "#", with: "")
     var rgb: UInt32 = 0
@@ -505,10 +530,10 @@ public extension UIColor {
       b = CGFloat(rgb & 0x0000FF) / 255.0
 
     } else if length == 8 {
-      r = CGFloat((rgb & 0xFF000000) >> 24) / 255.0
-      g = CGFloat((rgb & 0x00FF0000) >> 16) / 255.0
-      b = CGFloat((rgb & 0x0000FF00) >> 8) / 255.0
-      a = CGFloat(rgb & 0x000000FF) / 255.0
+      r = CGFloat((rgb & 0xFF00_0000) >> 24) / 255.0
+      g = CGFloat((rgb & 0x00FF_0000) >> 16) / 255.0
+      b = CGFloat((rgb & 0x0000_FF00) >> 8) / 255.0
+      a = CGFloat(rgb & 0x0000_00FF) / 255.0
     } else {
       return nil
     }
@@ -531,10 +556,10 @@ public protocol UILayoutGuideProvider {
 
 // MARK: UILayoutGuideProvider
 
-extension UIView: UILayoutGuideProvider { }
-extension UILayoutGuide: UILayoutGuideProvider { }
+extension UIView: UILayoutGuideProvider {}
+extension UILayoutGuide: UILayoutGuideProvider {}
 
-public extension UIView {
+extension UIView {
   public var compatibleSafeAreaLayoutGuide: UILayoutGuideProvider {
     if #available(iOS 11, *) {
       return safeAreaLayoutGuide
@@ -549,41 +574,41 @@ public extension UIView {
 //#if RENDER_MOD_STYLESHEET
 extension YGAlign: UIStylesheetRepresentableEnum {
   public init?(rawValue: Int) { self.init(rawValue: Int32(rawValue)) }
-  public static func expressionConstants() -> [String : Double] { return [:] }
+  public static func expressionConstants() -> [String: Double] { return [:] }
 }
 
 extension YGDirection: UIStylesheetRepresentableEnum {
   public init?(rawValue: Int) { self.init(rawValue: Int32(rawValue)) }
-  public static func expressionConstants() -> [String : Double] { return [:] }
+  public static func expressionConstants() -> [String: Double] { return [:] }
 }
 
 extension YGFlexDirection: UIStylesheetRepresentableEnum {
   public init?(rawValue: Int) { self.init(rawValue: Int32(rawValue)) }
-  public static func expressionConstants() -> [String : Double] { return [:] }
+  public static func expressionConstants() -> [String: Double] { return [:] }
 }
 
 extension YGJustify: UIStylesheetRepresentableEnum {
   public init?(rawValue: Int) { self.init(rawValue: Int32(rawValue)) }
-  public static func expressionConstants() -> [String : Double] { return [:] }
+  public static func expressionConstants() -> [String: Double] { return [:] }
 }
 
 extension YGPositionType: UIStylesheetRepresentableEnum {
   public init?(rawValue: Int) { self.init(rawValue: Int32(rawValue)) }
-  public static func expressionConstants() -> [String : Double] { return [:] }
+  public static func expressionConstants() -> [String: Double] { return [:] }
 }
 
 extension YGWrap: UIStylesheetRepresentableEnum {
   public init?(rawValue: Int) { self.init(rawValue: Int32(rawValue)) }
-  public static func expressionConstants() -> [String : Double] { return [:] }
+  public static func expressionConstants() -> [String: Double] { return [:] }
 }
 
 extension YGOverflow: UIStylesheetRepresentableEnum {
   public init?(rawValue: Int) { self.init(rawValue: Int32(rawValue)) }
-  public static func expressionConstants() -> [String : Double] { return [:] }
+  public static func expressionConstants() -> [String: Double] { return [:] }
 }
 
 extension YGDisplay: UIStylesheetRepresentableEnum {
   public init?(rawValue: Int) { self.init(rawValue: Int32(rawValue)) }
-  public static func expressionConstants() -> [String : Double] { return [:] }
+  public static func expressionConstants() -> [String: Double] { return [:] }
 }
 //#endif

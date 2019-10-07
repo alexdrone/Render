@@ -7,12 +7,15 @@ open class UITableComponentViewController:
   UITableViewDataSourcePrefetching,
   UINodeDelegateProtocol,
   UITableComponentCellDelegate,
-  UIContextDelegate {
+  UIContextDelegate
+{
   /// The canvas view for this ViewController.
   public var tableView: UITableView { return canvasView as! UITableView }
+
   /// Fades in the content of the cell when the scroll reveals it.
   /// - note: Defaul is 'true'.
   public var shouldApplyScrollRevealTransition: Bool = false
+
   /// Used to populate the table view withouth overriding *tableView:_:cellForRowAt*.
   /// - note: This is a simple declarative approach to table definition that can be used for
   /// simple lists (with a single section) - override *tableView:_:cellForRowAt* for more custom
@@ -21,6 +24,7 @@ open class UITableComponentViewController:
 
   // Private.
   private let proxyTableView: UIView = UIView()
+
   private var currentCellHeights: [Int: CGFloat] = [:]
   private var skippedNodesFromLayoutCallbacks = Set<Int>()
   private var shouldSkipAllLayoutCallbacks: Bool = false
@@ -96,7 +100,7 @@ open class UITableComponentViewController:
   open func setNeedsRenderVisibleComponents(
     options: [UIComponentRenderOption] = [],
     invalidateTableViewLayout: Bool = false
-  ) -> Void {
+  ) {
     let components = context.pool.allComponent().filter { $0.canvasView != nil }
     shouldSkipAllLayoutCallbacks = !invalidateTableViewLayout
     for component in components {
@@ -129,12 +133,12 @@ open class UITableComponentViewController:
   override open func viewWillTransition(
     to size: CGSize,
     with coordinator: UIViewControllerTransitionCoordinator
-  ) -> Void {
+  ) {
     super.viewWillTransition(to: size, with: coordinator)
     coordinator.animate(alongsideTransition: { _ in
-    }) { [weak self] _ in
-      self?.reloadData()
-    }
+      }) { [weak self] _ in
+        self?.reloadData()
+      }
   }
 
   /// Tells the data source to return the number of rows in a given section of a table view.
@@ -156,7 +160,8 @@ open class UITableComponentViewController:
     cellForRowAt indexPath: IndexPath
   ) -> UITableViewCell {
     guard cellDescriptors.count > indexPath.row,
-      let component = cellDescriptors[indexPath.row].component else { return UITableViewCell() }
+      let component = cellDescriptors[indexPath.row].component
+    else { return UITableViewCell() }
     let id = cellDescriptors[indexPath.row].reuseIdentifier
     return dequeueCell(component: component, withReuseIdentifier: id)
   }
@@ -171,8 +176,8 @@ open class UITableComponentViewController:
 
   /// Returns the *UITableComponentCell* for the identifier passed as argument.
   public func dequeueCell(withReuseIdentifier id: String) -> UITableComponentCell {
-    let cell = tableView.dequeueReusableCell(withIdentifier: id) as? UITableComponentCell ??
-      UITableComponentCell()
+    let cell = tableView.dequeueReusableCell(withIdentifier: id) as? UITableComponentCell
+      ?? UITableComponentCell()
     cell.delegate = self
     return cell
   }
@@ -189,9 +194,11 @@ open class UITableComponentViewController:
   }
 
   /// Shorthand for *dequeueCell(component:withReuseIdentifier:)*
-  public func dequeueCell<T:UIComponentProtocol>(forComponent component: T) -> UITableComponentCell{
-    return dequeueCell(component: component,
-                       withReuseIdentifier: String(describing: type(of: component)))
+  public func dequeueCell<T: UIComponentProtocol>(forComponent component: T) -> UITableComponentCell
+  {
+    return dequeueCell(
+      component: component,
+      withReuseIdentifier: String(describing: type(of: component)))
   }
 
   public func defaultKey(forIndexPath indexPath: IndexPath) -> String {
@@ -220,7 +227,7 @@ open class UITableComponentViewController:
   @objc open func tableView(
     _ tableView: UITableView,
     viewForHeaderInSection section: Int
-  ) -> UIView?{
+  ) -> UIView? {
     return viewForHeader(inSection: section)
   }
 
@@ -228,7 +235,7 @@ open class UITableComponentViewController:
   @objc open func tableView(
     _ tableView: UITableView,
     heightForHeaderInSection section: Int
-    ) -> CGFloat {
+  ) -> CGFloat {
     return viewForHeader(inSection: section)?.bounds.size.height ?? 0
   }
 
@@ -268,7 +275,8 @@ open class UITableComponentViewController:
       let alpha = view.alpha
       let options: UIView.AnimationOptions = [
         UIView.AnimationOptions.allowUserInteraction,
-        UIView.AnimationOptions.beginFromCurrentState]
+        UIView.AnimationOptions.beginFromCurrentState
+      ]
       view.alpha = 0
       UIView.animate(
         withDuration: 0.3,
@@ -326,13 +334,17 @@ open class UITableComponentViewController:
 // MARK: - UITableCellProps Baseclass
 
 open class UITableCellProps: UIPropsProtocol {
-  public required init() { }
+  public required init() {}
+
   /// Cell title.
   public var title = String()
+
   /// Cell subtitle.
   public var subtitle = String()
+
   /// Automatically set to 'true' whenever the cell is being highlighted.
   public var isHighlighted: Bool = false
+
   /// The closure that is going to be executed whenever the cell is selected.
   public var onCellSelected: (() -> Void)? = nil
 
@@ -350,7 +362,7 @@ public final class UICellContext: UIContext {
   /// Layout animator is not available for cells.
   public override var layoutAnimator: UIViewPropertyAnimator? {
     get { return nil }
-    set { }
+    set {}
   }
 
   public override var canvasSize: CGSize {
@@ -378,6 +390,7 @@ public protocol UITableComponentCellDelegate: class {
 public class UITableComponentCell: UITableViewCell {
   /// The node currently associated to this cell.
   public var component: UIComponentProtocol?
+
   /// *Internal only*
   public weak var delegate: UITableComponentCellDelegate?
 
@@ -442,6 +455,7 @@ extension UIComponent {
 final public class UIComponentCellDescriptor {
   /// The component that must be installed in the cell.
   public private(set) weak var component: UIComponentProtocol?
+
   /// The cell reuse identifier (optional, automatically inferred).
   public let reuseIdentifier: String
 

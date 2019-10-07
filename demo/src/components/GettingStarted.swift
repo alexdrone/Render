@@ -1,5 +1,5 @@
-import UIKit
 import RenderNeutrino
+import UIKit
 
 // MARK: - Example 1
 
@@ -53,7 +53,7 @@ class SimpleCounterComponent2: UIComponent<CounterState, UINilProps> {
 
     return container.children([
       label,
-      ])
+    ])
   }
 
   /// Defines the layout and view specification for the container node.
@@ -90,7 +90,7 @@ class SimpleCounterComponent2: UIComponent<CounterState, UINilProps> {
 // MARK: - Example 3
 
 class CounterProps: UIProps {
-  var format: String =  "Number of taps: %d"
+  var format: String = "Number of taps: %d"
 }
 
 class SimpleCounterComponent3: UIComponent<CounterState, CounterProps> {
@@ -102,7 +102,7 @@ class SimpleCounterComponent3: UIComponent<CounterState, CounterProps> {
 
     return container.children([
       label,
-      ])
+    ])
   }
 
   /// Defines the layout and view specification for the container node.
@@ -139,7 +139,7 @@ class SimpleCounterComponent3: UIComponent<CounterState, CounterProps> {
 // MARK: - Example 4
 
 // We can define a namespace for our style.
-struct Style {
+enum Style {
   struct Palette {
     static let background: UIColor = .red
     static let text: UIColor = .white
@@ -202,7 +202,7 @@ class SimpleCounterComponent5: UIComponent<CounterState, CounterProps> {
       layoutSpec: labelLayoutSpec)
     return container.children([
       label,
-      ])
+    ])
   }
 
   /// Defines the layout and view specification for the container node.

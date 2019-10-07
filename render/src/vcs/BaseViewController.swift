@@ -3,12 +3,15 @@ import UIKit
 open class UIBaseViewController:
   UIViewController,
   UIGestureRecognizerDelegate,
-  UICustomNavigationBarProtocol {
+  UICustomNavigationBarProtocol
+{
   /// The context for the component hierarchy that is going to be instantiated from the controller.
   /// - note: This can be passed as argument of the view controller constructor.
   public var context: UIContext
+
   /// The key that is going to be used for the root component.
   public var rootKey: String
+
   /// The target canvas view for the root component.
   /// This is the view that is going to be used from the component to render its view hierarchy.
   /// - note: This view is layed out using the safe area guide, if you want it to cover the whole
@@ -16,13 +19,16 @@ open class UIBaseViewController:
   public lazy var canvasView: UIView = {
     return buildCanvasView()
   }()
+
   /// Whether the canvas view should be inscribed in the safe area.
   /// The safe area guaide is the  layout guide representing the portion of your view that is
   /// unobscured by bars and other content.
   public var shouldUseSafeAreaLayoutGuide: Bool = true
+
   /// When this is 'true' the component will invoke *setNeedsRender* during the size transition
   /// animation (resulting in an animation).
   public var shouldRenderAlongsideSizeTransitionAnimation: Bool = true
+
   /// Manager for the custom (component-based) navigation bar.
   /// If you wish to use the component-based navigation bar in your ViewController, you simply have
   /// to assign your *UINavigationBarComponent* subclass to the manager's component. e.g.
@@ -44,9 +50,11 @@ open class UIBaseViewController:
   public lazy var navigationBarManager: UINavigationBarManager = {
     return UINavigationBarManager(context: context)
   }()
+
   /// Whether this was the first invokation of layout subviews.
   /// - note: This is used to have a preliminary render call to the component hierarchy.
   public var firstViewDidLayoutSubviewsInvokation: Bool = true
+
   /// The view that is currently focused and will take part to the upcoming ViewController
   /// transition, if *nil* the canvas view is returned.
   public weak var currentTransitionTargetView: UIView?
@@ -103,8 +111,8 @@ open class UIBaseViewController:
     }
 
     // Constraints.
-    navigationBarManager.heightConstraint =
-      navigationBarManager.view.heightAnchor.constraint(equalToConstant: 0)
+    navigationBarManager.heightConstraint
+      = navigationBarManager.view.heightAnchor.constraint(equalToConstant: 0)
     constraints = [
       navigationBarManager.view.topAnchor.constraint(equalTo: topAnchor),
       navigationBarManager.view.leftAnchor.constraint(equalTo: layoutGuide.leftAnchor),
@@ -122,7 +130,7 @@ open class UIBaseViewController:
 
     // Enables interactive pop gesture by default.
     navigationController?.interactivePopGestureRecognizer?.isEnabled = true
-    navigationController?.interactivePopGestureRecognizer?.delegate = self;
+    navigationController?.interactivePopGestureRecognizer?.delegate = self
   }
 
   /// Asks the delegate if a gesture recognizer should be required to fail by another
@@ -131,7 +139,8 @@ open class UIBaseViewController:
   /// interactive pop gesture recognizer.
   public func gestureRecognizer(
     _ gestureRecognizer: UIGestureRecognizer,
-    shouldBeRequiredToFailBy otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+    shouldBeRequiredToFailBy otherGestureRecognizer: UIGestureRecognizer
+  ) -> Bool {
     return true
   }
 
@@ -158,14 +167,14 @@ open class UIBaseViewController:
       navigationController?.isNavigationBarHidden = true
     }
     // Render on appearance transition required on iOS 10.
-    if #available(iOS 11.0, *) { /* nop */} else { render() }
+    if #available(iOS 11.0, *) { /* nop */  } else { render() }
   }
 
   /// Notifies the view controller that its view was added to a view hierarchy.
   open override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
     // Render on appearance transition required on iOS 10.
-    if #available(iOS 11.0, *) { /* nop */} else { render() }
+    if #available(iOS 11.0, *) { /* nop */  } else { render() }
   }
 
   /// Called when the view controller is disappearing from the stack.
@@ -198,4 +207,4 @@ public protocol UIViewControllerProtocol: class {
   var view: UIView! { get }
 }
 
-extension UIViewController: UIViewControllerProtocol { }
+extension UIViewController: UIViewControllerProtocol {}

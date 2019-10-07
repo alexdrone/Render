@@ -1,5 +1,5 @@
-import UIKit
 import RenderNeutrino
+import UIKit
 
 class IndexViewController: UITableComponentViewController {
 
@@ -24,8 +24,8 @@ class IndexViewController: UITableComponentViewController {
       Index.CellProps(
         title: "Appstore-like card without Stylesheet usage.",
         subtitle: """
-        A complex stateful component that doesn't rely on the stylesheet for node definitions
-        """,
+          A complex stateful component that doesn't rely on the stylesheet for node definitions
+          """,
         onCellSelected: presentAppStoreEntryComponentExample),
       Index.CellProps(
         title: "Stylesheet-based simple Counter",
@@ -40,7 +40,7 @@ class IndexViewController: UITableComponentViewController {
 
   override func renderCellDescriptors() -> [UIComponentCellDescriptor] {
     return indexProps.enumerated().compactMap { (index: Int, props: Index.CellProps) in
-      let cmp =  context.component(Index.Cell.self, key: "\(index)", props: props, parent: nil)
+      let cmp = context.component(Index.Cell.self, key: "\(index)", props: props, parent: nil)
       return UIComponentCellDescriptor(component: cmp)
     }
   }
@@ -86,8 +86,8 @@ class IndexViewController: UITableComponentViewController {
   private func presentGettingStarted() {
     navigationController?.pushViewController(GettingStartedViewController(), animated: true)
   }
+
   private func presentTransitionDemo() {
     navigationController?.pushViewController(TransitionFromDemoViewController(), animated: true)
   }
 }
-

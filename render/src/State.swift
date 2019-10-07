@@ -14,16 +14,16 @@ public protocol UIStateProtocol: class, ReflectedStringConvertible {
 
 public final class UINilState: UIStateProtocol, Codable {
   public static let `nil` = UINilState()
-  public init() { }
+  public init() {}
 }
 
 open class UIState: UIStateProtocol {
-  public required init() { }
+  public required init() {}
 }
 
 // MARK: - ReflectedStringConvertible
 
-public protocol ReflectedStringConvertible : CustomStringConvertible {}
+public protocol ReflectedStringConvertible: CustomStringConvertible {}
 extension ReflectedStringConvertible {
   /// Returns a representation of the state in the form:
   /// Type(prop1: 'value', prop2: 'value'..)
@@ -33,7 +33,7 @@ extension ReflectedStringConvertible {
     var first = true
     for (label, value) in mirror.children {
       if let label = label {
-        if first { first = false } else {  str += ", "  }
+        if first { first = false } else { str += ", " }
         str += "\(label): \(value)"
       }
     }

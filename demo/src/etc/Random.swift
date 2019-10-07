@@ -1,6 +1,6 @@
 import UIKit
 
-struct Random {
+enum Random {
 
   static func integer(min: Int, max: Int) -> Int {
     return min + Int(arc4random_uniform(UInt32(max - min + 1)))
@@ -110,10 +110,10 @@ struct Random {
       I am counting my calories, yet I really want dessert.
       If you like tuna and tomato sauce- try combining the two. It’s really not as bad as it sounds.
       """
-      let components = src.split(separator: ".").map {
-        String($0).replacingOccurrences(of: "\n", with: "")
-      }
-      return components[Random.integer(min: 0, max: components.count-1)]
+    let components = src.split(separator: ".").map {
+      String($0).replacingOccurrences(of: "\n", with: "")
+    }
+    return components[Random.integer(min: 0, max: components.count-1)]
   }
 
   static func name() -> String {

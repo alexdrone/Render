@@ -1,8 +1,7 @@
-import UIKit
 import RenderNeutrino
+import UIKit
 
-
-struct StylesheetCounter {
+enum StylesheetCounter {
 
   class State: UIState {
     var counter: Int = 0
@@ -11,12 +10,12 @@ struct StylesheetCounter {
 
   class Component: UIComponent<State, UINilProps> {
     override func render(context: UIContextProtocol) -> UINodeProtocol {
-      let node =  UINode<UIView>(styles: [S.counterWrapper])
+      let node = UINode<UIView>(styles: [S.counterWrapper])
       return node.children([
         UINode<UILabel>(styles: [S.counterLabel], layoutSpec: configureLabel),
         UINode<UIButton>(
           styles: [S.counterButton],
-          layoutSpec: configureButton)
+          layoutSpec: configureButton),
       ])
     }
 
