@@ -11,7 +11,7 @@ extension UIBaseViewController {
     let vc = self
     vc.navigationController?.navigationBar.isTranslucent = true
     vc.navigationController?.navigationBar.titleTextAttributes = [
-      NSAttributedStringKey.foregroundColor: S.palette.white.color
+      NSAttributedStringKey.foregroundColor: S.palette.white.color,
     ]
     vc.navigationController?.navigationBar.barTintColor = S.palette.primaryAccent.color
     vc.navigationController?.navigationBar.tintColor = S.palette.white.color

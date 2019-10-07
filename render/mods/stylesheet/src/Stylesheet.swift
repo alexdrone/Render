@@ -39,8 +39,7 @@ public enum UIStylesheet {
         return rule
       }
     }
-
-    @dynamicMemberLookup public struct StyleDynamicLookup {
+    public enum StyleDynamicLookup {
       public subscript(dynamicMember member: String) -> RuleDynamicLookup {
         return RuleDynamicLookup(id: member)
       }
@@ -513,7 +512,7 @@ public class UIStylesheetRule: CustomStringConvertible {
           "semibold": CGFloat(0.300000011920929),
           "bold": CGFloat(0.400000005960464),
           "heavy": CGFloat(0.560000002384186),
-          "black": CGFloat(0.620000004768372)
+          "black": CGFloat(0.620000004768372),
         ]
         let weight = UIFont.Weight(rawValue: weights[args[2]] ?? 0)
         return (.font, UIFont.systemFont(ofSize: size, weight: weight))
@@ -732,7 +731,7 @@ extension NSTextAlignment: UIStylesheetRepresentableEnum {
       "\(namespace).center": Double(NSTextAlignment.center.rawValue),
       "\(namespace).right": Double(NSTextAlignment.right.rawValue),
       "\(namespace).justified": Double(NSTextAlignment.justified.rawValue),
-      "\(namespace).natural": Double(NSTextAlignment.natural.rawValue)
+      "\(namespace).natural": Double(NSTextAlignment.natural.rawValue),
     ]
   }
 }
@@ -745,7 +744,7 @@ extension NSLineBreakMode: UIStylesheetRepresentableEnum {
       "\(namespace).byCharWrapping": Double(NSLineBreakMode.byCharWrapping.rawValue),
       "\(namespace).byClipping": Double(NSLineBreakMode.byClipping.rawValue),
       "\(namespace).byTruncatingHead": Double(NSLineBreakMode.byTruncatingHead.rawValue),
-      "\(namespace).byTruncatingMiddle": Double(NSLineBreakMode.byTruncatingMiddle.rawValue)
+      "\(namespace).byTruncatingMiddle": Double(NSLineBreakMode.byTruncatingMiddle.rawValue),
     ]
   }
 }
@@ -761,7 +760,7 @@ extension UIImage.Orientation: UIStylesheetRepresentableEnum {
       "\(namespace).upMirrored": Double(UIImage.Orientation.upMirrored.rawValue),
       "\(namespace).downMirrored": Double(UIImage.Orientation.downMirrored.rawValue),
       "\(namespace).leftMirrored": Double(UIImage.Orientation.leftMirrored.rawValue),
-      "\(namespace).rightMirrored": Double(UIImage.Orientation.rightMirrored.rawValue)
+      "\(namespace).rightMirrored": Double(UIImage.Orientation.rightMirrored.rawValue),
     ]
   }
 }
@@ -771,7 +770,7 @@ extension UIImage.ResizingMode: UIStylesheetRepresentableEnum {
     let namespace = "UIImageResizingMode"
     return [
       "\(namespace).title": Double(UIImage.ResizingMode.tile.rawValue),
-      "\(namespace).stretch": Double(UIImage.ResizingMode.stretch.rawValue)
+      "\(namespace).stretch": Double(UIImage.ResizingMode.stretch.rawValue),
     ]
   }
 }
@@ -792,7 +791,7 @@ extension UIView.ContentMode: UIStylesheetRepresentableEnum {
       "\(namespace).topLeft": Double(UIView.ContentMode.topLeft.rawValue),
       "\(namespace).topRight": Double(UIView.ContentMode.topRight.rawValue),
       "\(namespace).bottomLeft": Double(UIView.ContentMode.bottomLeft.rawValue),
-      "\(namespace).bottomRight": Double(UIView.ContentMode.bottomRight.rawValue)
+      "\(namespace).bottomRight": Double(UIView.ContentMode.bottomRight.rawValue),
     ]
   }
 }

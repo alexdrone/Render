@@ -140,7 +140,7 @@ class SimpleCounterComponent3: UIComponent<CounterState, CounterProps> {
 
 // We can define a namespace for our style.
 enum Style {
-  struct Palette {
+  enum Palette {
     static let background: UIColor = .red
     static let text: UIColor = .white
   }

@@ -4,8 +4,17 @@
 
 Render is a declarative library for building efficient UIs on iOS inspired by [React](https://github.com/facebook/react).
 
+### Disclaimer
 
-*Render Neutrino* is the new version of Render, re-built from the ground up ([4.*  release here](https://github.com/alexdrone/Render/tree/classic))
+*Render* is a pretty monolithic and opinionated library.
+
+I have recently been working on splitting *Render* into some smaller and more customizable modules:
+
+* [CoreRender](https://github.com/alexdrone/CoreRender) More granular APIs for vdom reconciliation and layout, written in ObjC++ (*fully Swift-compatible*).
+* [YAS](https://github.com/alexdrone/YAS) Stand-alone YAML-based stylesheet engine.
+
+
+### Introduction
 
 * **Declarative:** Render uses a declarative API to define UI components. You simply describe the layout for your UI based on a set of inputs and the framework takes care of the rest (*diff* and *reconciliation* from virtual view hierarchy to the actual one under the hood).
 * **Flexbox layout:** Render includes the robust and battle-tested Facebook's [Yoga](https://facebook.github.io/yoga/) as default layout engine.

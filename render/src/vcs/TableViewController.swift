@@ -275,7 +275,7 @@ open class UITableComponentViewController:
       let alpha = view.alpha
       let options: UIView.AnimationOptions = [
         UIView.AnimationOptions.allowUserInteraction,
-        UIView.AnimationOptions.beginFromCurrentState
+        UIView.AnimationOptions.beginFromCurrentState,
       ]
       view.alpha = 0
       UIView.animate(

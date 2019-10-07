@@ -2614,7 +2614,7 @@
       let headers = [
         "Upgrade": "WebSocket",
         "Connection": "Upgrade",
-        "Sec-WebSocket-Accept": secWebSocketAccept
+        "Sec-WebSocket-Accept": secWebSocketAccept,
       ]
       return HttpResponse.switchProtocols(headers, protocolSessionClosure)
     }

@@ -76,7 +76,7 @@ extension UINodeProtocol {
       "frame": "\(renderedView?.frame ?? CGRect.zero)",
       "state": escape(_debugStateDescription),
       "props": escape(_debugPropDescription),
-      "children": childrenDescription
+      "children": childrenDescription,
     ]
   }
 }

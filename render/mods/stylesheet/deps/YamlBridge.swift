@@ -1805,7 +1805,7 @@ extension YAMLResolver {
   static let basic = YAMLResolver()
 
   static let `default` = YAMLResolver([
-    .bool, .int, .float, .merge, .null, .timestamp, .value
+    .bool, .int, .float, .merge, .null, .timestamp, .value,
   ])
 }
 
