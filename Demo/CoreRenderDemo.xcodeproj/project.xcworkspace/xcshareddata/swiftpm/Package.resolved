@@ -1,0 +1,16 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "CoreRender",
+        "repositoryURL": "https://github.com/alexdrone/CoreRender",
+        "state": {
+          "branch": "master",
+          "revision": "f037c40be86d247577a3c7bde3264b5ea2140a20",
+          "version": null
+        }
+      }
+    ]
+  },
+  "version": 1
+}

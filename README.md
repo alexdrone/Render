@@ -1,83 +1,117 @@
-# Render Neutrino [![Swift](https://img.shields.io/badge/swift-4.*-orange.svg?style=flat)](#) [![Platform](https://img.shields.io/badge/platform-iOS-lightgrey.svg?style=flat)](#) [![License](https://img.shields.io/badge/license-MIT-blue.svg?style=flat)](https://opensource.org/licenses/MIT)
+# CoreRender [![Swift](https://img.shields.io/badge/swift-5.1-orange.svg?style=flat)](#) [![ObjC++](https://img.shields.io/badge/ObjC++-blue.svg?style=flat)](#) [![License](https://img.shields.io/badge/license-MIT-blue.svg?style=flat)](https://opensource.org/licenses/MIT)
 
-<img src="docs/assets/logo_new.png" width=150 alt="Render" align=right />
+<img src="docs/assets/logo_new.png" width=150 alt="CoreRender" align=right />
 
-Render is a declarative library for building efficient UIs on iOS inspired by [React](https://github.com/facebook/react).
-
-### Disclaimer
-
-*Render* is a pretty monolithic and opinionated library.
-
-I have recently been working on splitting *Render* into some smaller and more customizable modules:
-
-* [CoreRender](https://github.com/alexdrone/CoreRender) More granular APIs for vdom reconciliation and layout, written in ObjC++ (*fully Swift-compatible*).
-* [YAS](https://github.com/alexdrone/YAS) Stand-alone YAML-based stylesheet engine.
+CoreRender is a SwiftUI inspired API for UIKit (that is compatible with iOS 10+ and ObjC).
 
 
 ### Introduction
 
-* **Declarative:** Render uses a declarative API to define UI components. You simply describe the layout for your UI based on a set of inputs and the framework takes care of the rest (*diff* and *reconciliation* from virtual view hierarchy to the actual one under the hood).
-* **Flexbox layout:** Render includes the robust and battle-tested Facebook's [Yoga](https://facebook.github.io/yoga/) as default layout engine.
+* **Declarative:** CoreRender uses a declarative API to define UI components. You simply describe the layout for your UI based on a set of inputs and the framework takes care of the rest (*diff* and *reconciliation* from virtual view hierarchy to the actual one under the hood).
+* **Flexbox layout:** CoreRender includes the robust and battle-tested Facebook's [Yoga](https://facebook.github.io/yoga/) as default layout engine.
 * **Fine-grained recycling:** Any component such as a text or image can be recycled and reused anywhere in the UI.
 
-From [Why React matters](http://joshaber.github.io/2015/01/30/why-react-native-matters/):
+### TL;DR
 
->  [The framework] lets us write our UIs as pure function of their states.
->
->  Right now we write UIs by poking at them, manually mutating their properties when something changes, adding and removing views, etc. This is fragile and error-prone. [...]
->
-> [The framework] lets us describe our entire UI for a given state, and then it does the hard work of figuring out what needs to change. It abstracts all the fragile, error-prone code out away from us.
+Let's build the classic *Counter-Example*.
 
-### Installing the framework
+The DSL to define the vdom representation is similiar to SwiftUI.
 
-If you are using **CocoaPods**:
-
-
-Add the following to your [Podfile](https://guides.cocoapods.org/using/the-podfile.html):
-
-```ruby
-pod 'RenderNeutrino'
+```swift
+func makeCounterBodyFragment(context: Context, coordinator: CounterCoordinator) -> OpaqueNodeBuilder {
+  VStackNode {
+    LabelNode(text: "\(coordinator.state.count)")
+      .textColor(.darkText)
+      .background(.secondarySystemBackground)
+      .width(Const.size + 8 * CGFloat(coordinator.state.count))
+      .height(Const.size)
+      .margin(Const.margin)
+      .cornerRadius(Const.cornerRadius)
+    HStackNode {
+      ButtonNode()
+        .text("TAP HERE TO INCREASE COUNT")
+        .setTarget(coordinator, action: #selector(CounterCoordinator.increase), for: .touchUpInside)
+        .background(.systemTeal)
+        .padding(Const.margin * 2)
+        .cornerRadius(Const.cornerRadius)
+    }
+  }
+  .alignItems(.center)
+  .matchHostingViewWidth(withMargin: 0)
+}
 ```
 
-* Remember to set `use_frameworks!` in your **Podfile** to tell Cocoapods to use Frameworks instead of Static Libraries. 
+<img src="docs/assets/screen_2.png" width=320 alt="screen" />
 
-If you are using **Carthage**:
+`Label` and `Button` are just specialized versions of the `Node<V: UIView>` pure function.
+That means you could wrap any UIView subclass in a vdom node. e.g.
+```swift
 
-
-Add the following line to your `Cartfile`:
+Node(UIScrollView.self) {
+  Node(UILabel.self).withLayoutSpec { spec in 
+    // This is where you can have all sort of custom view configuration.
+  }
+  Node(UISwitch.self)
+}
 
 ```
-github "alexdrone/Render" "master"    
+The `withLayoutSpec` modifier allows to specify a custom configuration closure for your view.
+
+ `Coordinators`  are the only non-transient objects in CoreRender. They yeld the view internal state and 
+ they are able to manually access to the concrete view hierarchy (if one desires to do so).
+ 
+ By calling  `setNeedsReconcile`  the vdom is being recomputed and reconciled against the concrete view hiearchy.
+
+```swift
+class CounterCoordinator: Coordinator{
+  var count: UInt = 0
+
+  func incrementCounter() {
+    self.count += 1                      // Update the state.
+    setNeedsReconcile()                  // Trigger the reconciliation algorithm on the view hiearchy associated to this coordinator.
+  }
+}
 ```
 
-**Manually**:
+Finally,  `Components` are yet again transient value types that bind together a body fragment with a
+given coordinator.
+
+```swift
+class CounterViewCoordinator: UIViewController {
+  var hostingView: HostingView!
+  let context = Context()
+
+  override func loadView() {
+    hostingView = HostingView(context: context, with: [.useSafeAreaInsets]) { context in
+      Component<CounterCoordinator>(context: context) { context, coordinator in
+        makeCounterBodyFragment(context: context, coordinator: coordinator)
+      }.builder()
+    }
+    self.view = hostingView
+  }
+    
+  override func viewDidLayoutSubviews() {
+    hostingView.setNeedsLayout()
+  }
+}
+```
+
+Components can be nested in the node hierarchy.
+
+```swift
+
+func makeFragment(context: Context) {
+  Component<FooCoordinator>(context: context) { context, coordinator in
+    VStackNode {
+      LabelNode(text: "Foo")
+      Component<BarCoordinator>(context: context) { context, coordinator in
+        HStackNode {
+          LabelNode(text: "Bar")
+          LabelNode(text: "Baz")
+        }
+      }
+    }
+  }
+}
 
 ```
-cd {PROJECT_ROOT_DIRECTORY}
-curl "https://raw.githubusercontent.com/alexdrone/Render/master/bin/dist.zip" > render_neutrino_dist.zip && unzip render_neutrino_dist.zip
-```
-
-Drag `RenderNeutrino.framework` in your project and add it as an embedded binary.
-
-# Documentation:
-
-#### [Getting started](docs/getting_started.md)
-#### [Components life-cycle](docs/components_lifecycle.md)
-#### [TableViews and CollectionViews *(doc in progress)*](docs/tableviews.md)
-#### [Layouts](https://yogalayout.com/playground)
-#### [Animations *(doc in progress)*](docs/animations.md)
-#### [Component-based Navigation bar *(doc in progress)*](docs/navigation_bar.md)
-#### [Mod: Stylesheet and Hot-Reload *(doc in progress)*](docs/mod_stylesheet.md)
-#### [Mod: Inspector *(doc in progress)*](docs/mod_inspector.md)
-
-
-# Credits:
-Layout engine:
-
-* [facebook/yoga](https://github.com/facebook/yoga)
-
-In the Stylesheet Mod:
-
-* [yaml/libyaml](https://github.com/yaml/libyaml)
-* [nicklockwood/Expression](https://github.com/nicklockwood/Expression)
-
