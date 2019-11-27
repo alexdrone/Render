@@ -20,10 +20,10 @@ The DSL to define the vdom representation is similiar to SwiftUI.
 ```swift
 func makeCounterBodyFragment(context: Context, coordinator: CounterCoordinator) -> OpaqueNodeBuilder {
   VStackNode {
-    LabelNode(text: "\(coordinator.state.count)")
+    LabelNode(text: "\(coordinator.count)")
       .textColor(.darkText)
       .background(.secondarySystemBackground)
-      .width(Const.size + 8 * CGFloat(coordinator.state.count))
+      .width(Const.size + 8 * CGFloat(coordinator.count))
       .height(Const.size)
       .margin(Const.margin)
       .cornerRadius(Const.cornerRadius)
