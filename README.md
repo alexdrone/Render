@@ -19,25 +19,27 @@ The DSL to define the vdom representation is similiar to SwiftUI.
 
 ```swift
 func makeCounterBodyFragment(context: Context, coordinator: CounterCoordinator) -> OpaqueNodeBuilder {
-  VStackNode {
-    LabelNode(text: "\(coordinator.count)")
-      .textColor(.darkText)
-      .background(.secondarySystemBackground)
-      .width(Const.size + 8 * CGFloat(coordinator.count))
-      .height(Const.size)
-      .margin(Const.margin)
-      .cornerRadius(Const.cornerRadius)
-    HStackNode {
-      ButtonNode()
-        .text("TAP HERE TO INCREASE COUNT")
-        .setTarget(coordinator, action: #selector(CounterCoordinator.increase), for: .touchUpInside)
-        .background(.systemTeal)
-        .padding(Const.margin * 2)
+  Component<CounterCoordinator>(context: context) { context, coordinator in
+    VStackNode {
+      LabelNode(text: "\(coordinator.count)")
+        .textColor(.darkText)
+        .background(.secondarySystemBackground)
+        .width(Const.size + 8 * CGFloat(coordinator.count))
+        .height(Const.size)
+        .margin(Const.margin)
         .cornerRadius(Const.cornerRadius)
+      HStackNode {
+        ButtonNode()
+          .text("TAP HERE TO INCREASE COUNT")
+          .setTarget(coordinator, action: #selector(CounterCoordinator.increase), for: .touchUpInside)
+          .background(.systemTeal)
+          .padding(Const.margin * 2)
+          .cornerRadius(Const.cornerRadius)
+      }
     }
+    .alignItems(.center)
+    .matchHostingViewWidth(withMargin: 0)
   }
-  .alignItems(.center)
-  .matchHostingViewWidth(withMargin: 0)
 }
 ```
 
@@ -83,9 +85,7 @@ class CounterViewCoordinator: UIViewController {
 
   override func loadView() {
     hostingView = HostingView(context: context, with: [.useSafeAreaInsets]) { context in
-      Component<CounterCoordinator>(context: context) { context, coordinator in
-        makeCounterBodyFragment(context: context, coordinator: coordinator)
-      }.builder()
+      makeCounterBodyFragment(context: context, coordinator: coordinator)
     }
     self.view = hostingView
   }
