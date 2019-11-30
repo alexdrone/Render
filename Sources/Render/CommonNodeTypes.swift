@@ -1,6 +1,6 @@
 import Foundation
 import UIKit
-import CoreRenderObjC
+import CoreRender
 
 // MARK: - Common Nodes
 
@@ -46,9 +46,18 @@ public func LabelNode(
 
 public func ButtonNode(
   key: String,
+  target: Any? = nil,
+  action: Selector = #selector(Coordinator.onTouchUp(inside:)),
   @ContentBuilder builder: () -> ChildrenBuilder = ChildrenBuilder.default
 ) -> NodeBuilder<UIButton> {
-  Node(UIButton.self, builder: builder).withKey(key)
+  Node(UIButton.self, builder: builder)
+    .withKey(key)
+    .withReuseIdentifier(key)
+    .withViewInit { button in
+      let button = UIButton()
+      button.addTarget(target, action: action, for: .touchUpInside)
+      return button
+    }
 }
 
 public func EmptyNode() -> NullNodeBuilder {

@@ -1,4 +1,4 @@
-@import CoreRenderObjC;
+@import CoreRender;
 @import XCTest;
 
 @interface CRNodeTests : XCTestCase

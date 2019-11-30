@@ -1,6 +1,6 @@
 import Foundation
 import UIKit
-import CoreRenderObjC
+import CoreRender
 
 // MARK: - Component
 

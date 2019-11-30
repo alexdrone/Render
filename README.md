@@ -1,6 +1,6 @@
-# CoreRender [![Swift](https://img.shields.io/badge/swift-5.1-orange.svg?style=flat)](#) [![ObjC++](https://img.shields.io/badge/ObjC++-blue.svg?style=flat)](#) [![License](https://img.shields.io/badge/license-MIT-blue.svg?style=flat)](https://opensource.org/licenses/MIT)
+# Render [![Swift](https://img.shields.io/badge/swift-5.1-orange.svg?style=flat)](#) [![ObjC++](https://img.shields.io/badge/ObjC++-blue.svg?style=flat)](#) [![License](https://img.shields.io/badge/license-MIT-blue.svg?style=flat)](https://opensource.org/licenses/MIT)
 
-<img src="docs/assets/logo_new.png" width=150 alt="CoreRender" align=right />
+<img src="docs/assets/logo.png" width=150 alt="Render" align=right />
 
 CoreRender is a SwiftUI inspired API for UIKit (that is compatible with iOS 10+ and ObjC).
 

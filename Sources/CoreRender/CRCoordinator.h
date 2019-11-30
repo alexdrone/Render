@@ -37,6 +37,9 @@ NS_SWIFT_NAME(Coordinator)
 /// Overrides this method to manually configure the view hierarchy after it has been layed out.
 - (void)onLayout;
 
+/// Convenience method used as default target-action for buttons.
+- (void)onTouchUpInside:(__kindof UIView *)sender;
+
 /// Returns the view in the subtree of this node with the given @c key.
 - (nullable UIView *)viewWithKey:(NSString *)key;
 

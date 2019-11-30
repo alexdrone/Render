@@ -43,6 +43,10 @@ NSString *CRIllegalCoordinatorTypeExceptionName = @"IllegalCoordinatorType";
   [self.body setNeedsLayout];
 }
 
+- (void)onTouchUpInside:(__kindof UIView *)sender {
+  CR_ASSERT_ON_MAIN_THREAD();
+}
+
 - (void)onLayout {
   CR_ASSERT_ON_MAIN_THREAD();
 }
