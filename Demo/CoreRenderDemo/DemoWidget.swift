@@ -42,7 +42,7 @@ func makeDemoWidget(context: Context, coordinator: DemoWidgetCoordinator) -> Opa
     LabelNode(text: ">> TAP HERE TO SPIN THE BUTTON >>")
       .font(UIFont.systemFont(ofSize: 12, weight: .bold))
       .textAlignment(.center)
-      .textColor(.systemOrange)
+      .textColor(.systemRed)
       .height(Const.size)
       .margin(Const.margin)
       .userInteractionEnabled(true)
@@ -53,7 +53,7 @@ func makeDemoWidget(context: Context, coordinator: DemoWidgetCoordinator) -> Opa
       ButtonNode(key: Const.increaseButtonKey, target: coordinator)
         .text("TAP HERE TO INCREASE THE COUNTER")
         .font(UIFont.systemFont(ofSize: 12, weight: .bold))
-        .background(.systemTeal)
+        .background(.systemIndigo)
         .padding(Const.margin * 2)
         .cornerRadius(Const.cornerRadius)
       EmptyNode()
@@ -82,7 +82,7 @@ extension DemoWidgetCoordinator {
 
 // MARK: - Constants
 
-struct Const {
+private struct Const {
   static let increaseButtonKey = "button_increase"
   static let size: CGFloat = 48.0
   static let cornerRadius: CGFloat = 8.0
