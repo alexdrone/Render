@@ -157,6 +157,24 @@ public struct BlockProp<C: Coordinator, V> {
   }
 }
 
+// MARK: - State
+
+@propertyWrapper
+public struct State<T> {
+  let coordinator: Coordinator
+
+  /// Automatically triggers `setNeedsReconcile`.
+  var value: T {
+    didSet {
+      coordinator.setNeedsReconcile()
+    }
+  }
+
+  init(initialValue: T, coordinator: Coordinator) {
+    self.value = initialValue
+  }
+}
+
 // MARK: - Property setters
 
 /// Sets the value of a desired keypath using typesafe writable reference keypaths.

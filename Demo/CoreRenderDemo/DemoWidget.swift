@@ -8,6 +8,7 @@ class DemoWidgetCoordinator: Coordinator {
   var count: UInt = 0
   var isRotated: Bool = false
 
+
   func increase() {
     count += 1
     setNeedsReconcile()
