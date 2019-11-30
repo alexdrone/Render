@@ -115,3 +115,8 @@ func makeFragment(context: Context) {
 }
 
 ```
+
+# Credits:
+Layout engine:
+
+* [facebook/yoga](https://github.com/facebook/yoga)
