@@ -7,14 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		16216E7C2392D792009EDD08 /* Render in Frameworks */ = {isa = PBXBuildFile; productRef = 16216E7B2392D792009EDD08 /* Render */; };
+		16216E7E2392D792009EDD08 /* CoreRender in Frameworks */ = {isa = PBXBuildFile; productRef = 16216E7D2392D792009EDD08 /* CoreRender */; };
 		1622F3D223687938007C7E00 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1622F3D123687938007C7E00 /* AppDelegate.swift */; };
 		1622F3D623687938007C7E00 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1622F3D523687938007C7E00 /* ContentView.swift */; };
 		1622F3D82368793A007C7E00 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1622F3D72368793A007C7E00 /* Assets.xcassets */; };
 		1622F3DB2368793A007C7E00 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1622F3DA2368793A007C7E00 /* Preview Assets.xcassets */; };
 		1622F3DE2368793A007C7E00 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1622F3DC2368793A007C7E00 /* LaunchScreen.storyboard */; };
 		1622F3E623687988007C7E00 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1622F3E523687988007C7E00 /* ViewController.swift */; };
-		16E97B6223687B7E00CEFB67 /* CoreRenderObjC in Frameworks */ = {isa = PBXBuildFile; productRef = 16E97B6123687B7E00CEFB67 /* CoreRenderObjC */; };
-		16E97B6423687B7E00CEFB67 /* CoreRender in Frameworks */ = {isa = PBXBuildFile; productRef = 16E97B6323687B7E00CEFB67 /* CoreRender */; };
 		16E97B6623687C3D00CEFB67 /* DemoWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16E97B6523687C3D00CEFB67 /* DemoWidget.swift */; };
 /* End PBXBuildFile section */
 
@@ -35,8 +35,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				16E97B6223687B7E00CEFB67 /* CoreRenderObjC in Frameworks */,
-				16E97B6423687B7E00CEFB67 /* CoreRender in Frameworks */,
+				16216E7C2392D792009EDD08 /* Render in Frameworks */,
+				16216E7E2392D792009EDD08 /* CoreRender in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -99,8 +99,8 @@
 			);
 			name = CoreRenderDemo;
 			packageProductDependencies = (
-				16E97B6123687B7E00CEFB67 /* CoreRenderObjC */,
-				16E97B6323687B7E00CEFB67 /* CoreRender */,
+				16216E7B2392D792009EDD08 /* Render */,
+				16216E7D2392D792009EDD08 /* CoreRender */,
 			);
 			productName = CoreRenderDemo;
 			productReference = 1622F3CE23687938007C7E00 /* CoreRenderDemo.app */;
@@ -131,7 +131,7 @@
 			);
 			mainGroup = 1622F3C523687938007C7E00;
 			packageReferences = (
-				16E97B6023687B7E00CEFB67 /* XCRemoteSwiftPackageReference "CoreRender" */,
+				16216E7A2392D792009EDD08 /* XCRemoteSwiftPackageReference "Render" */,
 			);
 			productRefGroup = 1622F3CF23687938007C7E00 /* Products */;
 			projectDirPath = "";
@@ -359,9 +359,9 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		16E97B6023687B7E00CEFB67 /* XCRemoteSwiftPackageReference "CoreRender" */ = {
+		16216E7A2392D792009EDD08 /* XCRemoteSwiftPackageReference "Render" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/alexdrone/CoreRender";
+			repositoryURL = "https://github.com/alexdrone/Render";
 			requirement = {
 				branch = master;
 				kind = branch;
@@ -370,14 +370,14 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		16E97B6123687B7E00CEFB67 /* CoreRenderObjC */ = {
+		16216E7B2392D792009EDD08 /* Render */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 16E97B6023687B7E00CEFB67 /* XCRemoteSwiftPackageReference "CoreRender" */;
-			productName = CoreRenderObjC;
+			package = 16216E7A2392D792009EDD08 /* XCRemoteSwiftPackageReference "Render" */;
+			productName = Render;
 		};
-		16E97B6323687B7E00CEFB67 /* CoreRender */ = {
+		16216E7D2392D792009EDD08 /* CoreRender */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 16E97B6023687B7E00CEFB67 /* XCRemoteSwiftPackageReference "CoreRender" */;
+			package = 16216E7A2392D792009EDD08 /* XCRemoteSwiftPackageReference "Render" */;
 			productName = CoreRender;
 		};
 /* End XCSwiftPackageProductDependency section */

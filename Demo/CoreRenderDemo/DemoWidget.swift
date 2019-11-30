@@ -1,6 +1,6 @@
 import Foundation
 import CoreRender
-import CoreRenderObjC
+import Render
 
 // MARK: - Coordinator
 
@@ -8,7 +8,7 @@ class DemoWidgetCoordinator: Coordinator {
   var count: UInt = 0
   var isRotated: Bool = false
 
-  @objc dynamic func increase() {
+  func increase() {
     count += 1
     setNeedsReconcile()
   }
@@ -17,6 +17,12 @@ class DemoWidgetCoordinator: Coordinator {
     // Override this to manually override the layout of some of the views in the view hierarchy.
     // e.g.
     // view(withKey: Const.increaseButtonKey)?.frame = ...
+  }
+
+  override func onTouchUp(inside sender: UIView) {
+    if sender === view(withKey: Const.increaseButtonKey) {
+      self.increase()
+    }
   }
 }
 
@@ -44,11 +50,9 @@ func makeDemoWidget(context: Context, coordinator: DemoWidgetCoordinator) -> Opa
         coordinator.doSomeFunkyStuff()
     }
     HStackNode {
-      ButtonNode(key: Const.increaseButtonKey)
-        .text("TAP HERE TO INCREASE COUNT")
+      ButtonNode(key: Const.increaseButtonKey, target: coordinator)
+        .text("TAP HERE TO INCREASE THE COUNTER")
         .font(UIFont.systemFont(ofSize: 12, weight: .bold))
-        .setTarget(
-          coordinator, action: #selector(DemoWidgetCoordinator.increase), for: .touchUpInside)
         .background(.systemTeal)
         .padding(Const.margin * 2)
         .cornerRadius(Const.cornerRadius)

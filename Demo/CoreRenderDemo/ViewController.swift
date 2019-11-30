@@ -1,6 +1,6 @@
 import UIKit
 import CoreRender
-import CoreRenderObjC
+import Render
 
 class ViewCoordinator: UIViewController {
   var hostingView: HostingView!
