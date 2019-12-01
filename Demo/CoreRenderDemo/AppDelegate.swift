@@ -34,7 +34,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
-  var useSwiftUI = true
+  var useSwiftUI = false
   var window: UIWindow?
 
   func scene(

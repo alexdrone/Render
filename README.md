@@ -116,6 +116,38 @@ func makeFragment(context: Context) {
 
 ```
 
+### Use it with SwiftUI
+
+Render nodes can be nested inside SwiftUI bodies by using `CoreRenderBridgeView`:
+```swift
+
+struct ContentView: View {
+  var body: some View {
+    VStack {
+      Text("Hello From SwiftUI")
+      CoreRenderBridgeView { context in
+        VStackNode {
+          LabelNode(text: "Hello")
+          LabelNode(text: "From")
+          LabelNode(text: "CoreRender")
+        }
+          .alignItems(.center)
+          .background(UIColor.systemGroupedBackground)
+          .matchHostingViewWidth(withMargin: 0)
+      }
+      Text("Back to SwiftUI")
+    }
+  }
+}
+
+struct ContentView_Previews: PreviewProvider {
+  static var previews: some View {
+    ContentView()
+  }
+}
+
+```
+
 # Credits:
 Layout engine:
 
