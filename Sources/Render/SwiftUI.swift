@@ -1,12 +1,14 @@
+#if canImport(SwiftUI)
+import UIKit
 import SwiftUI
 import CoreRender
-import Render
 
 extension Context {
   /// The context used for SwiftUI bridged views.
   public static let swiftUISharedContext = Context()
 }
 
+@available(iOS 13.0, *)
 public struct CoreRenderBridgeView: UIViewRepresentable {
   /// The node hiearchy.
   public let buildBlock: (Context) -> OpaqueNodeBuilderConvertible
@@ -15,6 +17,7 @@ public struct CoreRenderBridgeView: UIViewRepresentable {
     self.buildBlock = buildBlock
   }
 
+  /// Creates a `UIView` instance to be presented.
   public func makeUIView(context: UIViewRepresentableContext<CoreRenderBridgeView>) -> HostingView {
     let hostingView = HostingView(context: CoreRender.Context.swiftUISharedContext, with: []) {
       context in self.buildBlock(context).builder()
@@ -22,6 +25,7 @@ public struct CoreRenderBridgeView: UIViewRepresentable {
     return hostingView
   }
 
+  /// Updates the presented `UIView` (and coordinator) to the latest configuration.
   public func updateUIView(
     _ uiView: HostingView,
     context: UIViewRepresentableContext<CoreRenderBridgeView>
@@ -30,22 +34,4 @@ public struct CoreRenderBridgeView: UIViewRepresentable {
   }
 }
 
-struct ContentView: View {
-    var body: some View {
-      VStack {
-        Text("Hello World")
-        CoreRenderBridgeView { context in
-          VStackNode {
-            LabelNode(text: "Hello World")
-            EmptyNode()
-          }
-        }
-      }
-    }
-}
-
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView()
-    }
-}
+#endif

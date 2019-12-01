@@ -39,4 +39,12 @@
   [_body layoutConstrainedToSize:self.bounds.size withOptions:_options];
 }
 
+- (CGSize)sizeThatFits:(CGSize)size {
+  [_body reconcileInView:self constrainedToSize:size withOptions:_options];
+}
+
+- (CGSize)intrinsicContentSize {
+  return [self sizeThatFits:(CGSize){.width = UIScreen.mainScreen.bounds.size.width, .height = CGFLOAT_MAX}];
+}
+
 @end

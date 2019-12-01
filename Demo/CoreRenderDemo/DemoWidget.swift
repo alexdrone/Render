@@ -5,9 +5,13 @@ import Render
 // MARK: - Coordinator
 
 class DemoWidgetCoordinator: Coordinator {
-  var count: UInt = 0
-  var isRotated: Bool = false
-
+  // Props.
+  var propCountStartValue: UInt = 0
+  // State.
+  private(set) var count: UInt = 0
+  private(set) var isRotated: Bool = false
+  // Synthesized.
+  var totalCount: UInt { propCountStartValue + count }
 
   func increase() {
     count += 1
@@ -31,12 +35,12 @@ class DemoWidgetCoordinator: Coordinator {
 
 func makeDemoWidget(context: Context, coordinator: DemoWidgetCoordinator) -> OpaqueNodeBuilder {
   VStackNode {
-    LabelNode(text: "\(coordinator.count)")
+    LabelNode(text: "\(coordinator.totalCount)")
       .font(UIFont.systemFont(ofSize: 24, weight: .black))
       .textAlignment(.center)
       .textColor(.darkText)
       .background(.secondarySystemBackground)
-      .width(Const.size + 8 * CGFloat(coordinator.count))
+      .width(Const.size + 8 * CGFloat(coordinator.totalCount))
       .height(Const.size)
       .margin(Const.margin)
       .cornerRadius(Const.cornerRadius)
