@@ -44,7 +44,7 @@
 }
 
 - (CGSize)intrinsicContentSize {
-  return [self sizeThatFits:(CGSize){.width = UIScreen.mainScreen.bounds.size.width, .height = CGFLOAT_MAX}];
+  return [self sizeThatFits:UIScreen.mainScreen.bounds.size];
 }
 
 @end
