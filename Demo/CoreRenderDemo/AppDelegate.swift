@@ -43,7 +43,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     options connectionOptions: UIScene.ConnectionOptions) {
     
     if (useSwiftUI) {
-      let contentView = ContentView()
+      let contentView = SwiftUIView()
       // Use a UIHostingCoordinator as window root view coordinator.
       if let windowScene = scene as? UIWindowScene {
           let window = UIWindow(windowScene: windowScene)

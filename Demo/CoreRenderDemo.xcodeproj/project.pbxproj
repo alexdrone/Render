@@ -10,23 +10,24 @@
 		16216E7C2392D792009EDD08 /* Render in Frameworks */ = {isa = PBXBuildFile; productRef = 16216E7B2392D792009EDD08 /* Render */; };
 		16216E7E2392D792009EDD08 /* CoreRender in Frameworks */ = {isa = PBXBuildFile; productRef = 16216E7D2392D792009EDD08 /* CoreRender */; };
 		1622F3D223687938007C7E00 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1622F3D123687938007C7E00 /* AppDelegate.swift */; };
-		1622F3D623687938007C7E00 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1622F3D523687938007C7E00 /* ContentView.swift */; };
 		1622F3D82368793A007C7E00 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1622F3D72368793A007C7E00 /* Assets.xcassets */; };
 		1622F3DB2368793A007C7E00 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1622F3DA2368793A007C7E00 /* Preview Assets.xcassets */; };
 		1622F3DE2368793A007C7E00 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1622F3DC2368793A007C7E00 /* LaunchScreen.storyboard */; };
 		1622F3E623687988007C7E00 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1622F3E523687988007C7E00 /* ViewController.swift */; };
+		16569BF523A3902E00DB15A1 /* SwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16569BF423A3902E00DB15A1 /* SwiftUIView.swift */; };
 		16E97B6623687C3D00CEFB67 /* DemoWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16E97B6523687C3D00CEFB67 /* DemoWidget.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		1622F3CE23687938007C7E00 /* CoreRenderDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CoreRenderDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1622F3D123687938007C7E00 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		1622F3D523687938007C7E00 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		1622F3D72368793A007C7E00 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1622F3DA2368793A007C7E00 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		1622F3DD2368793A007C7E00 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		1622F3DF2368793A007C7E00 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1622F3E523687988007C7E00 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		16569BEF23A38E6400DB15A1 /* CoreRenderDemo.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CoreRenderDemo.entitlements; sourceTree = "<group>"; };
+		16569BF423A3902E00DB15A1 /* SwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIView.swift; sourceTree = "<group>"; };
 		16E97B6523687C3D00CEFB67 /* DemoWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoWidget.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -62,9 +63,10 @@
 		1622F3D023687938007C7E00 /* CoreRenderDemo */ = {
 			isa = PBXGroup;
 			children = (
+				16569BEF23A38E6400DB15A1 /* CoreRenderDemo.entitlements */,
+				16569BF423A3902E00DB15A1 /* SwiftUIView.swift */,
 				1622F3D123687938007C7E00 /* AppDelegate.swift */,
 				16E97B6523687C3D00CEFB67 /* DemoWidget.swift */,
-				1622F3D523687938007C7E00 /* ContentView.swift */,
 				1622F3E523687988007C7E00 /* ViewController.swift */,
 				1622F3D72368793A007C7E00 /* Assets.xcassets */,
 				1622F3DC2368793A007C7E00 /* LaunchScreen.storyboard */,
@@ -163,7 +165,7 @@
 				1622F3D223687938007C7E00 /* AppDelegate.swift in Sources */,
 				1622F3E623687988007C7E00 /* ViewController.swift in Sources */,
 				16E97B6623687C3D00CEFB67 /* DemoWidget.swift in Sources */,
-				1622F3D623687938007C7E00 /* ContentView.swift in Sources */,
+				16569BF523A3902E00DB15A1 /* SwiftUIView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -299,7 +301,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = CoreRenderDemo/CoreRenderDemo.entitlements;
 				CODE_SIGN_STYLE = Automatic;
+				DERIVE_MACCATALYST_PRODUCT_BUNDLE_IDENTIFIER = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"CoreRenderDemo/Preview Content\"";
 				DEVELOPMENT_TEAM = 9Z67YL2L6Z;
 				ENABLE_PREVIEWS = YES;
@@ -310,6 +314,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = io.coreRender.CoreRenderDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTS_MACCATALYST = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -319,7 +324,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = CoreRenderDemo/CoreRenderDemo.entitlements;
 				CODE_SIGN_STYLE = Automatic;
+				DERIVE_MACCATALYST_PRODUCT_BUNDLE_IDENTIFIER = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"CoreRenderDemo/Preview Content\"";
 				DEVELOPMENT_TEAM = 9Z67YL2L6Z;
 				ENABLE_PREVIEWS = YES;
@@ -330,6 +337,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = io.coreRender.CoreRenderDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTS_MACCATALYST = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

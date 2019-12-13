@@ -25,9 +25,7 @@ class DemoWidgetCoordinator: Coordinator {
   }
 
   override func onTouchUp(inside sender: UIView) {
-    if sender === view(withKey: Const.increaseButtonKey) {
-      self.increase()
-    }
+    self.increase()
   }
 }
 
@@ -50,12 +48,8 @@ func makeDemoWidget(context: Context, coordinator: DemoWidgetCoordinator) -> Opa
       .textColor(.systemRed)
       .height(Const.size)
       .margin(Const.margin)
-      .userInteractionEnabled(true)
-      .onTouchUpInside { _ in
-        coordinator.doSomeFunkyStuff()
-    }
     HStackNode {
-      ButtonNode(key: Const.increaseButtonKey, target: coordinator)
+      ButtonNode(reuseIdentifier: Const.increaseButtonKey, target: coordinator)
         .text("TAP HERE TO INCREASE THE COUNTER")
         .font(UIFont.systemFont(ofSize: 12, weight: .bold))
         .background(.systemIndigo)
@@ -66,23 +60,6 @@ func makeDemoWidget(context: Context, coordinator: DemoWidgetCoordinator) -> Opa
   }
   .alignItems(.center)
   .matchHostingViewWidth(withMargin: 0)
-}
-
-// MARK: - Manual View Manipulation Example
-
-extension DemoWidgetCoordinator {
-  // Example of manual access to the underlying view hierarchy.
-  // Transitions can be performed in the node description as well, this is just an
-  // example of manual view hierarchy manipulation.
-  func doSomeFunkyStuff() {
-    let transform = isRotated
-      ? CGAffineTransform.identity
-      : CGAffineTransform.init(rotationAngle: .pi)
-    isRotated.toggle()
-    UIView.animate(withDuration: 1) {
-      self.view(withKey: Const.increaseButtonKey)?.transform = transform
-    }
-  }
 }
 
 // MARK: - Constants
