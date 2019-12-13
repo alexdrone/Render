@@ -21,9 +21,8 @@ struct ContentView: View {
             .font(UIFont.boldSystemFont(ofSize: 14))
             .padding(8)
         }
-          .alignItems(.center)
+          .alignItems(.flexEnd)
           .background(UIColor.systemGroupedBackground)
-          .matchHostingViewWidth(withMargin: 0)
       }
     }
   }
@@ -32,5 +31,7 @@ struct ContentView: View {
 struct ContentView_Previews: PreviewProvider {
   static var previews: some View {
     ContentView()
+      .previewLayout(.fixed(width: 320, height: 240))
+
   }
 }

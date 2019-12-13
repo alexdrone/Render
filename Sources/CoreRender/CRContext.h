@@ -45,6 +45,14 @@ NS_SWIFT_NAME(Context)
 
 /// Remove the object as delegate (if necessary).
 - (void)removeDelegate:(id<CRContextDelegate>)delegate;
+/// Make a new context-aware coordinator key.
+- (NSString *)makeCoordinatorKey:(NSString *)key;
+/// Tell the context that we're in the scope of the given coordinator.
+/// @note: This ensure that two different coordinators with the same key in two diferent
+/// locations in the hierarchy could exist.
+- (void)pushCoordinatorContext:(NSString *)key;
+/// Pop the current coordinato context.
+- (void)popCoordinatorContext;
 
 @end
 

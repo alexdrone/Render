@@ -11,12 +11,14 @@ NS_SWIFT_NAME(OpaqueNodeBuilder)
 /// @note: This is required if the node has a custom @c viewInit.
 - (instancetype)withReuseIdentifier:(NSString *)reuseIdentifier;
 /// Unique node key (required for stateful components).
-/// @note: This is required if @c coordinatorType or @c state is set.
-- (instancetype)withKey:(NSString *)key;
+/// @note: Internal only - Use the @c Component class to bind a node to a coordinator.
+- (instancetype)_withCoordinatorKey:(NSString *)key;
 /// The coordinator assigned to this node.
-- (instancetype)withCoordinator:(CRCoordinator *)coordinator;
+/// @note: Internal only - Use the @c Component class to bind a node to a coordinator.
+- (instancetype)_withCoordinator:(CRCoordinator *)coordinator;
 /// The coordinator type assigned to this node.
-- (instancetype)withCoordinatorDescriptor:(CRCoordinatorDescriptor *)descriptor;
+/// @note: Internal only - Use the @c Component class to bind a node to a coordinator.
+- (instancetype)_withCoordinatorDescriptor:(CRCoordinatorDescriptor *)descriptor;
 /// Defines the node configuration and layout.
 - (instancetype)withLayoutSpec:(void (^)(CRNodeLayoutSpec<UIView *> *))layoutSpec;
 /// Build the concrete node.

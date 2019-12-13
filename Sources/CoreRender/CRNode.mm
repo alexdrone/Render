@@ -47,7 +47,7 @@ void CRIllegalCoordinatorTypeException(NSString *reason) {
                   layoutSpec:(void (^)(CRNodeLayoutSpec<UIView *> *))layoutSpec {
   if (self = [super init]) {
     _reuseIdentifier = CR_NIL_COALESCING(reuseIdentifier, NSStringFromClass(type));
-    _key = key;
+    _coordinatorKey = key;
     _viewType = type;
     _mutableChildren = [[NSMutableArray alloc] init];
     self.viewInit = viewInit;
@@ -156,7 +156,7 @@ void CRIllegalCoordinatorTypeException(NSString *reason) {
 #pragma mark - Querying
 
 - (UIView *)viewWithKey:(NSString *)key {
-  if ([_key isEqualToString:key]) return _renderedView;
+  if ([_coordinatorKey isEqualToString:key]) return _renderedView;
   CR_FOREACH(child, _mutableChildren) {
     if (const auto view = [child viewWithKey:key]) return view;
   }
@@ -171,7 +171,7 @@ void CRIllegalCoordinatorTypeException(NSString *reason) {
 
 - (void)_viewsWithReuseIdentifier:(NSString *)reuseIdentifier
                         withArray:(NSMutableArray<UIView *> *)array {
-  if ([_key isEqualToString:reuseIdentifier] && _renderedView) {
+  if ([_coordinatorKey isEqualToString:reuseIdentifier] && _renderedView) {
     [array addObject:_renderedView];
   }
   CR_FOREACH(child, _mutableChildren) {

@@ -19,12 +19,16 @@ public struct Component<C: Coordinator>: OpaqueNodeBuilderConvertible {
 
   public init(
     context: Context,
-    key: String = NSStringFromClass(C.self),
+    key: String? = nil,
     props: [AnyProp] = [],
     body: @escaping (Context, C) -> OpaqueNodeBuilder
   ) {
+    var argKey: String! = key ?? NSStringFromClass(C.self)
+    if !argKey.contains("/") {
+      argKey = context.makeCoordinatorKey(argKey)
+    }
     self.context = context
-    self.key = key
+    self.key = argKey
     self.props = props
     self.body = body
   }
@@ -39,7 +43,7 @@ public struct Component<C: Coordinator>: OpaqueNodeBuilderConvertible {
 public func makeComponent<C: Coordinator>(
   type: C.Type,
   context: Context,
-  key: String = NSStringFromClass(C.self),
+  key: String,
   props: [AnyProp] = [],
   body: (Context, C) -> OpaqueNodeBuilder
 ) -> OpaqueNodeBuilder {
@@ -48,9 +52,12 @@ public func makeComponent<C: Coordinator>(
   for setter in props {
     setter.apply(coordinator: coordinator)
   }
-  return body(context, coordinator)
+  context.pushCoordinatorContext(key);
+  let result = body(context, coordinator)
     .withReuseIdentifier(reuseIdentifier)
-    .withCoordinator(coordinator)
+    ._(with: coordinator)
+  context.popCoordinatorContext()
+  return result;
 }
 
 // MARK: - OpaqueNodeBuilderConvertible

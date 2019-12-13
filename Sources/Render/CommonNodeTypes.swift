@@ -45,14 +45,13 @@ public func LabelNode(
 }
 
 public func ButtonNode(
-  key: String,
+  reuseIdentifier: String,
   target: Any? = nil,
   action: Selector = #selector(Coordinator.onTouchUp(inside:)),
   @ContentBuilder builder: () -> ChildrenBuilder = ChildrenBuilder.default
 ) -> NodeBuilder<UIButton> {
   Node(UIButton.self, builder: builder)
-    .withKey(key)
-    .withReuseIdentifier(key)
+    .withReuseIdentifier(reuseIdentifier)
     .withViewInit { button in
       let button = UIButton()
       button.addTarget(target, action: action, for: .touchUpInside)

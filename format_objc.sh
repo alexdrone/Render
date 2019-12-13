@@ -10,6 +10,6 @@ format() {
 }
 
 echo "Running clang-format..."
-cd Sources/CoreRenderObjC && format;
+cd Sources/CoreRender && format;
 cd ../../;
-cd Tests/CoreRenderObjCTests && format;
+cd Tests/CoreRenderTests && format;

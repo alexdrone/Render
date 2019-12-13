@@ -1,6 +1,6 @@
 import XCTest
-import CoreRenderObjC
 import CoreRender
+import Render
 
 class FooCoordinator: Coordinator {
   var count: Int = 0
@@ -20,7 +20,7 @@ class CRSwiftInteropTests: XCTestCase {
         LabelNode(text: "Foor")
         LabelNode(text: "Bar")
         Component<FooCoordinator>(context: context) { _, _ in
-          ButtonNode(key: "Hi")
+          ButtonNode(reuseIdentifier: "Hi")
         }
       }
     }

@@ -53,23 +53,23 @@ static CRNodeBuilder *CRBuild(Class type, void(NS_NOESCAPE ^ configure)(CRNodeBu
   return self;
 }
 
-- (instancetype)withKey:(NSString *)key {
+- (instancetype)_withCoordinatorKey:(NSString *)key {
   CR_ASSERT_ON_MAIN_THREAD();
   _key = key;
   return self;
 }
 
-- (instancetype)withCoordinatorDescriptor:(CRCoordinatorDescriptor *)descriptor {
+- (instancetype)_withCoordinatorDescriptor:(CRCoordinatorDescriptor *)descriptor {
   CR_ASSERT_ON_MAIN_THREAD();
   _coordinatorDescriptor = descriptor;
   return self;
 }
 
-- (instancetype)withCoordinator:(CRCoordinator *)coordinator {
+- (instancetype)_withCoordinator:(CRCoordinator *)coordinator {
   CR_ASSERT_ON_MAIN_THREAD();
   const auto descriptor =
       [[CRCoordinatorDescriptor alloc] initWithType:coordinator.class key:coordinator.key];
-  return [self withCoordinatorDescriptor:descriptor];
+  return [self _withCoordinatorDescriptor:descriptor];
 }
 
 - (instancetype)withViewInit:(UIView * (^)(NSString *))viewInit {
@@ -129,7 +129,7 @@ static CRNodeBuilder *CRBuild(Class type, void(NS_NOESCAPE ^ configure)(CRNodeBu
   NSAssert(NO, @"Called on abstract super class.");
 }
 
-- (instancetype)withKey:(NSString *)key {
+- (instancetype)_withCoordinatorKey:(NSString *)key {
   NSAssert(NO, @"Called on abstract super class.");
 }
 
@@ -137,11 +137,11 @@ static CRNodeBuilder *CRBuild(Class type, void(NS_NOESCAPE ^ configure)(CRNodeBu
   NSAssert(NO, @"Called on abstract super class.");
 }
 
-- (instancetype)withCoordinator:(CRCoordinator *)coordinator {
+- (instancetype)_withCoordinator:(CRCoordinator *)coordinator {
   NSAssert(NO, @"Called on abstract super class.");
 }
 
-- (instancetype)withCoordinatorDescriptor:(CRCoordinatorDescriptor *)descriptor {
+- (instancetype)_withCoordinatorDescriptor:(CRCoordinatorDescriptor *)descriptor {
   NSAssert(NO, @"Called on abstract super class.");
 }
 

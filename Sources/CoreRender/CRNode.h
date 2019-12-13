@@ -44,7 +44,7 @@ NS_SWIFT_NAME(ConcreteNode)
 /// A custom *reuseIdentifier* is mandatory if the node has a custom creation closure.
 @property(nonatomic, readonly) NSString *reuseIdentifier;
 /// A unique key for the component/node (necessary if the associated coordinator is stateful).
-@property(nonatomic, readonly, nullable) NSString *key;
+@property(nonatomic, readonly, nullable) NSString *coordinatorKey;
 /// This component is the n-th children.
 @property(nonatomic, readonly) NSUInteger index;
 /// The subnodes of this node.

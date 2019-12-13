@@ -30,12 +30,14 @@
   NSMutableDictionary<NSString *, NSMutableDictionary<NSString *, CRCoordinator *> *>
       *_coordinators;
   NSPointerArray *_delegates;
+  NSMutableArray *_coordinatorPath;
 }
 
 - (instancetype)init {
   if (self = [super init]) {
     _coordinators = @{}.mutableCopy;
     _delegates = [NSPointerArray weakObjectsPointerArray];
+    _coordinatorPath = @[].mutableCopy;
   }
   return self;
 }
@@ -80,6 +82,21 @@
       break;
     }
   if (removeIdx != NSNotFound) [_delegates removePointerAtIndex:removeIdx];
+}
+
+- (NSString *)makeCoordinatorKey:(NSString *)key {
+  return
+      [NSString stringWithFormat:@"%@/%@", [_coordinatorPath componentsJoinedByString:@"/"], key];
+}
+
+- (void)pushCoordinatorContext:(NSString *)key {
+  CR_ASSERT_ON_MAIN_THREAD();
+  [_coordinatorPath addObject:key];
+}
+
+- (void)popCoordinatorContext {
+  CR_ASSERT_ON_MAIN_THREAD();
+  [_coordinatorPath removeLastObject];
 }
 
 @end
